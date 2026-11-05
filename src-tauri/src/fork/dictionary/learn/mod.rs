@@ -170,20 +170,31 @@ fn run<R: Runtime>(
     }
 }
 
-/// Stores the suggestions and tells the Dictionary page. Returns how many
-/// were added.
+/// Stores the suggestions and tells the Dictionary page and the bar.
+/// Returns how many were added.
 #[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 fn save<R: Runtime>(app: &AppHandle<R>, found: &[diff::Correction]) -> usize {
     let Some(db) = app.try_state::<crate::fork::db::ForkDb>() else {
         return 0;
     };
     let now = crate::fork::context::now_ms();
-    match db.with_conn(|c| review::suggest(c, found, now)) {
+    match db.with_conn(|c| review::suggest_entries(c, found, now)) {
         Ok(added) => {
-            if added > 0 {
+            if !added.is_empty() {
                 super::notify_changed(app);
+                // The bar's "New word" note offers Add for each (it waits in
+                // Dictionary › Suggested either way).
+                crate::fork::pill::words_learned(
+                    added
+                        .iter()
+                        .map(|s| crate::fork::pill::model::LearnedWord {
+                            id: s.id,
+                            word: s.word.clone(),
+                        })
+                        .collect(),
+                );
             }
-            added
+            added.len()
         }
         Err(e) => {
             log::warn!("learn: could not save the suggestions: {e}");

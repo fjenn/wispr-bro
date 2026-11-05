@@ -221,6 +221,7 @@ pub fn fork_dictionary_accept<R: ForkRuntime>(
         .map_err(internal)?;
     if outcome.accepted > 0 {
         changed(&app);
+        crate::fork::pill::words_resolved(&ids);
     }
     Ok(outcome)
 }
@@ -239,6 +240,7 @@ pub fn fork_dictionary_reject<R: ForkRuntime>(
         .map_err(internal)?;
     if n > 0 {
         dictionary::notify_changed(&app);
+        crate::fork::pill::words_resolved(&ids);
     }
     Ok(n)
 }

@@ -18,7 +18,11 @@ import { forwardRef, type ReactNode } from "react";
 import { CircleHelp, HandHeart } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
-import { FOCUS_RING, Tag, Tooltip, Wordmark } from "../ui";
+import { Badge, FOCUS_RING, Tag, Tooltip, Wordmark } from "../ui";
+import {
+  useSuggestedCount,
+  useSuggestedCountLive,
+} from "../dictionary/useDictionary";
 import { HelpPopover } from "./HelpPopover";
 import { SupportMenu } from "./SupportMenu";
 import { navigate, useHubNav } from "./nav";
@@ -47,6 +51,8 @@ interface NavButtonProps {
   active?: boolean;
   collapsed: boolean;
   tag?: ReactNode;
+  /** Collapsed: a dot on the icon (something waits on that page). */
+  dot?: boolean;
   testId: string;
   onClick?: () => void;
 }
@@ -54,7 +60,16 @@ interface NavButtonProps {
 /** A sidebar button; forwards its ref so it can be a menu trigger. */
 const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(
   function NavButton(
-    { label, icon: Icon, active = false, collapsed, tag, testId, ...rest },
+    {
+      label,
+      icon: Icon,
+      active = false,
+      collapsed,
+      tag,
+      dot = false,
+      testId,
+      ...rest
+    },
     ref,
   ) {
     const button = (
@@ -67,7 +82,17 @@ const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(
         className={itemClass(active, collapsed)}
         {...rest}
       >
-        <Icon size={18} className="shrink-0" />
+        {collapsed && dot ? (
+          <span className="relative inline-flex shrink-0">
+            <Icon size={18} />
+            <span
+              data-testid={`${testId}-dot`}
+              className="absolute -end-0.5 -top-0.5 size-2 rounded-full bg-(--wb-accent) ring-2 ring-(--wb-bg)"
+            />
+          </span>
+        ) : (
+          <Icon size={18} className="shrink-0" />
+        )}
         {!collapsed && (
           <>
             <span className="min-w-0 flex-1 truncate text-start">{label}</span>
@@ -89,7 +114,11 @@ function PageButton({
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const active = useHubNav((s) => s.page === page.id);
-  const label = t(pageLabelKey(page.id));
+  const name = t(pageLabelKey(page.id));
+  // S-34: words auto-learn suggested wait on the Dictionary page.
+  const waiting = page.id === "dictionary" ? <SuggestedBadge /> : null;
+  const suggested = useSuggestedText(page.id === "dictionary");
+  const label = suggested && collapsed ? `${name}, ${suggested}` : name;
   const button = (
     <NavButton
       testId={`wb-nav-${page.id}`}
@@ -97,9 +126,12 @@ function PageButton({
       icon={page.icon}
       active={active}
       collapsed={collapsed}
+      dot={!!suggested}
       onClick={() => navigate(page.id)}
       tag={
-        page.tag ? (
+        waiting && suggested ? (
+          waiting
+        ) : page.tag ? (
           <Tag
             kind={page.tag}
             seenId={page.tag === "new" ? newTagId(page.id) : undefined}
@@ -114,6 +146,27 @@ function PageButton({
     </Tooltip>
   ) : (
     button
+  );
+}
+
+/** "Suggested words: 2" while auto-learn suggestions wait, else null. */
+function useSuggestedText(enabled: boolean): string | null {
+  const { t } = useTranslation(FORK_NAMESPACE);
+  const count = useSuggestedCount();
+  return enabled && count > 0 ? t("hub.sidebar.suggested", { count }) : null;
+}
+
+/** The waiting suggestions' count beside "Dictionary". */
+function SuggestedBadge() {
+  const count = useSuggestedCount();
+  const text = useSuggestedText(true);
+  if (!text) return null;
+  return (
+    <span title={text} aria-label={text} role="img">
+      <Badge tone="accent" testId="wb-nav-dictionary-badge">
+        {count > 99 ? "99+" : count}
+      </Badge>
+    </span>
   );
 }
 
@@ -155,6 +208,7 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
   const main = HUB_PAGES.filter((p) => p.group === "main");
   const bottom = HUB_PAGES.filter((p) => p.group === "bottom");
   const card = sidebarCard?.();
+  useSuggestedCountLive();
 
   return (
     <aside

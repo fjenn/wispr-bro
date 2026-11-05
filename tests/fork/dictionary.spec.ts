@@ -517,6 +517,39 @@ dictTest.describe("dictionary page", () => {
   );
 
   dictTest(
+    "S-34: the sidebar badge counts the words waiting for review",
+    async ({ page, ipc, hub, dict }) => {
+      const k8s = dict.seed(
+        { phrase: "Kubernetes", replacement: null },
+        { status: "suggested", source: "learn" },
+      );
+      const supa = dict.seed(
+        { phrase: "Supabase", replacement: null },
+        { status: "suggested", source: "learn" },
+      );
+      await openDictionary(page, ipc, hub, dict);
+      const badge = page.getByTestId("wb-nav-dictionary-badge");
+      await expect(badge).toHaveText("2");
+      await expect(
+        page.getByRole("img", { name: "Suggested words: 2" }),
+      ).toBeVisible();
+      // A word accepted from the bar's note: the change event carries counts.
+      // (The open page re-reads the list on the same event.)
+      await ipc.waitForListener("fork-dictionary-changed");
+      k8s.status = "active";
+      await ipc.emit("fork-dictionary-changed", {
+        counts: { words: 1, rules: 0, suggested: 1 },
+      });
+      await expect(badge).toHaveText("1");
+      supa.status = "active";
+      await ipc.emit("fork-dictionary-changed", {
+        counts: { words: 2, rules: 0, suggested: 0 },
+      });
+      await expect(badge).toHaveCount(0);
+    },
+  );
+
+  dictTest(
     "counts and rows update live; Refresh re-reads",
     async ({ page, ipc, hub, dict }) => {
       await openDictionary(page, ipc, hub, dict);

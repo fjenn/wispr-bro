@@ -477,7 +477,8 @@
     },
     "sidebar": {
       "collapse": "Zwiń pasek boczny",
-      "expand": "Rozwiń pasek boczny"
+      "expand": "Rozwiń pasek boczny",
+      "suggested": "Sugerowane słowa: {{count}}"
     },
     "header": {
       "toDark": "Przełącz na wygląd ciemny",
@@ -917,7 +918,8 @@
         "undo": "Przycisk Cofnij jest na pasku dyktowania przez 4 sekundy.",
         "diff": "Zmiany przekształcenia są gotowe do przejrzenia.",
         "secureInputWarning": "Bezpieczne wprowadzanie jest włączone. fn i Spacja nie mogą zablokować dyktowania. Esc lub przycisk zamykania nadal je anulują.",
-        "inserted": "Wstawiono tekst"
+        "inserted": "Wstawiono tekst",
+        "newWord": "Nowe słowo: {{word}}. Dodaj je z paska dyktowania albo później w Słowniku."
       },
       "message": {
         "no_speech": "Nie usłyszano mowy",
@@ -958,6 +960,10 @@
         "session_inactive": "Nie wklejono: przełączono użytkownika",
         "paste_failed": "Nie udało się wkleić tekstu",
         "disk_full": "Dysk pełny: nagrywanie zatrzymane"
+      },
+      "word": {
+        "added": "Dodano do Słownika",
+        "full": "Słownik jest pełny. Słowo zostaje w Sugerowanych."
       }
     },
     "share": {
@@ -1357,6 +1363,12 @@
     "shortcutDetail": {
       "permission": "Dostępność jest wyłączona",
       "stopped": "Nasłuchiwanie klawiatury zostało zatrzymane"
+    },
+    "word": {
+      "new": "Nowe słowo",
+      "add": "Dodaj",
+      "addLabel": "Dodaj {{word}} do Słownika",
+      "notNow": "Nie teraz"
     }
   },
   "transforms": {

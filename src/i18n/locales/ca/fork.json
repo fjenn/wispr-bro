@@ -475,7 +475,8 @@
     },
     "sidebar": {
       "collapse": "Replegar la barra lateral",
-      "expand": "Desplegar la barra lateral"
+      "expand": "Desplegar la barra lateral",
+      "suggested": "Paraules suggerides: {{count}}"
     },
     "header": {
       "toDark": "Canviar a l'aspecte fosc",
@@ -902,7 +903,8 @@
         "undo": "Desfer és a la barra de dictat durant 4 segons.",
         "diff": "Els canvis de la transformació estan a punt per revisar.",
         "secureInputWarning": "L'entrada segura està activada. fn i Espai no poden bloquejar el dictat. Esc o el botó de tancar encara el cancel·len.",
-        "inserted": "Text inserit"
+        "inserted": "Text inserit",
+        "newWord": "Paraula nova: {{word}}. Afegeix-la des de la barra de dictat o més tard al Diccionari."
       },
       "message": {
         "no_speech": "No s'ha sentit cap veu",
@@ -943,6 +945,10 @@
         "session_inactive": "No s'ha enganxat: has canviat d'usuari",
         "paste_failed": "No s'ha pogut enganxar el text",
         "disk_full": "Disc ple: l'enregistrament s'ha aturat"
+      },
+      "word": {
+        "added": "Afegida al Diccionari",
+        "full": "El Diccionari és ple. La paraula es queda a Suggerides."
       }
     },
     "share": {
@@ -1321,6 +1327,12 @@
     "shortcutDetail": {
       "permission": "L'accés d'Accessibilitat està desactivat",
       "stopped": "El detector del teclat s'ha aturat"
+    },
+    "word": {
+      "new": "Paraula nova",
+      "add": "Afegeix",
+      "addLabel": "Afegeix {{word}} al Diccionari",
+      "notNow": "Ara no"
     }
   },
   "transforms": {

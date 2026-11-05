@@ -81,3 +81,13 @@ export function LockIcon() {
     </svg>
   );
 }
+
+/** S-34: a new word was learned (a small four-point spark). */
+export function SparkIcon() {
+  return (
+    <svg {...common} strokeWidth={1.5}>
+      <path d="M8 2.5c.4 2.9 1.6 4.1 4.5 4.5-2.9.4-4.1 1.6-4.5 4.5-.4-2.9-1.6-4.1-4.5-4.5 2.9-.4 4.1-1.6 4.5-4.5z" />
+      <path d="M12.75 11.25v2.5M11.5 12.5h2.5" />
+    </svg>
+  );
+}

@@ -17,6 +17,10 @@
 //! - The resting bar shows only when nothing is active, setup has ended
 //!   (DEC-38), "Always show the bar" is on (DEC-14) and it is not hidden
 //!   for an hour.
+//! - The "New word" note (S-34 auto-learn) shows only while nothing else is
+//!   active and setup has ended: never during a take. Notes queue, one at
+//!   a time; a take or a message that replaces a note puts it back at the
+//!   front of the queue. Hovering the note pauses its countdown.
 
 use serde::{Deserialize, Serialize};
 use specta::Type;
@@ -46,6 +50,13 @@ pub const HIDE_GRACE_MS: Ms = 150;
 pub const COPIED_MS: Ms = 1_200;
 /// A message that stays until the user acts (setup problems with Retry).
 pub const STICKY: Ms = Ms::MAX;
+/// How long the "New word" note offers Add (its countdown; hover pauses it).
+pub const WORD_MS: Ms = 15_000;
+/// How long "Added to Dictionary" (or "Dictionary is full") shows after Add.
+pub const WORD_RESULT_MS: Ms = 1_800;
+/// Most notes waiting behind the one on screen; later words wait in
+/// Dictionary › Suggested only.
+pub const MAX_QUEUED_WORDS: usize = 3;
 
 /// What the active bar is doing (the web view's `state`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -64,6 +75,8 @@ pub enum PillPhase {
     Card,
     /// A transform's word-level before/after view (S-22).
     Diff,
+    /// S-34: auto-learn suggested a word; the note offers Add and ✕.
+    Word,
 }
 
 /// A message or an error after (or instead of) a take. The English copy is
@@ -296,6 +309,64 @@ pub enum PillWarning {
     SecureInput,
 }
 
+/// A word auto-learn suggested (S-34): its `dictionary_entries` row and the
+/// corrected spelling the note names.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct LearnedWord {
+    pub id: i64,
+    pub word: String,
+}
+
+/// What Add on the "New word" note did.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "snake_case")]
+pub enum WordResult {
+    /// The word is in the dictionary now.
+    Added,
+    /// The dictionary is full; the word still waits in Dictionary.
+    Full,
+}
+
+/// The "New word" note as the web view shows it.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct ForkPillWord {
+    pub id: i64,
+    pub word: String,
+    /// The countdown's time left when it last started or paused (ms).
+    pub remaining_ms: u32,
+    /// The countdown's full length (ms).
+    pub total_ms: u32,
+    /// The pointer is over the note: the countdown waits.
+    pub paused: bool,
+    /// After Add: the confirmation instead of the offer.
+    pub result: Option<WordResult>,
+}
+
+/// The note on screen (model side).
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct WordNote {
+    word: LearnedWord,
+    /// Time left when the countdown last started or paused.
+    remaining: Ms,
+    /// When the countdown last started; `None` while paused (hover).
+    since: Option<Ms>,
+    result: Option<WordResult>,
+}
+
+impl WordNote {
+    fn total(&self) -> Ms {
+        if self.result.is_some() {
+            WORD_RESULT_MS
+        } else {
+            WORD_MS
+        }
+    }
+
+    fn deadline(&self) -> Option<Ms> {
+        self.since.map(|s| s.saturating_add(self.remaining))
+    }
+}
+
 /// The speech model setup as the bar sees it (S-07a).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct SetupView {
@@ -378,6 +449,14 @@ pub enum Input {
     DiffRating(Option<i64>),
     /// S-02: the take runs under Secure Input; the holder's app name.
     SecureInput(Option<String>),
+    /// S-34: auto-learn suggested these words (one note each, queued).
+    WordsLearned(Vec<LearnedWord>),
+    /// The pointer entered (`true`) or left the note.
+    WordHover(bool),
+    /// Add on the note for word `id` did this.
+    WordResult(i64, WordResult),
+    /// These suggestions were accepted or rejected elsewhere (Dictionary).
+    WordsResolved(Vec<i64>),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
@@ -454,6 +533,8 @@ pub struct ActiveView {
     /// S-02: the app holding Secure Input (with the `secure_input`
     /// warning).
     pub holder: Option<String>,
+    /// S-34: the "New word" note.
+    pub word: Option<ForkPillWord>,
 }
 
 impl ActiveView {
@@ -485,6 +566,7 @@ enum Phase {
     SettingUp,
     Card,
     Diff,
+    Word,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -514,6 +596,9 @@ pub struct Model {
     diff: Option<ForkTransformDiff>,
     /// S-02: the Secure Input holder for the take's notice.
     holder: Option<String>,
+    /// S-34: the "New word" note on screen and the ones waiting.
+    note: Option<WordNote>,
+    words: std::collections::VecDeque<LearnedWord>,
 }
 
 impl Model {
@@ -529,8 +614,48 @@ impl Model {
     }
 
     fn set(&mut self, p: Phase) {
+        if self.phase == Phase::Word && p != Phase::Word {
+            // Replaced by a take or a message: shown again afterwards. Gone
+            // (✕, time out, after Add) when the bar rests.
+            if let Some(n) = self.note.take() {
+                if p != Phase::Idle && n.result.is_none() {
+                    self.words.push_front(n.word);
+                    self.words.truncate(MAX_QUEUED_WORDS + 1);
+                }
+            }
+        }
         self.phase = p;
         self.closing_until = None;
+    }
+
+    /// The next waiting word becomes the note, while nothing else shows.
+    fn show_next_word(&mut self, now: Ms) {
+        if self.phase() != Phase::Idle || !self.prefs.setup_done {
+            return;
+        }
+        if let Some(word) = self.words.pop_front() {
+            self.set(Phase::Word);
+            self.note = Some(WordNote {
+                word,
+                remaining: WORD_MS,
+                since: Some(now),
+                result: None,
+            });
+        }
+    }
+
+    /// The id of the word whose note is on screen (Add accepts it).
+    pub fn word_on_screen(&self) -> Option<i64> {
+        match (self.phase(), &self.note) {
+            (Phase::Word, Some(n)) if n.result.is_none() => Some(n.word.id),
+            _ => None,
+        }
+    }
+
+    /// The "New word" note is on screen (the controller watches the
+    /// pointer over it).
+    pub fn showing_word(&self) -> bool {
+        self.word_on_screen().is_some()
     }
 
     pub fn prefs(&self) -> Prefs {
@@ -638,13 +763,23 @@ impl Model {
     fn lingers(&self) -> bool {
         matches!(
             self.phase(),
-            Phase::Message | Phase::Idle | Phase::SettingUp | Phase::Card | Phase::Diff
+            Phase::Message
+                | Phase::Idle
+                | Phase::SettingUp
+                | Phase::Card
+                | Phase::Diff
+                | Phase::Word
         )
     }
 
     /// Applies one input at `now`.
     pub fn step(&mut self, now: Ms, input: Input) {
         self.expire(now);
+        self.apply(now, input);
+        self.show_next_word(now);
+    }
+
+    fn apply(&mut self, now: Ms, input: Input) {
         match input {
             Input::TakeStarted { locked } => match self.phase() {
                 // The engine and the coordinator both report a start.
@@ -670,7 +805,8 @@ impl Model {
                 | Phase::CleaningUp
                 | Phase::SettingUp
                 | Phase::Card
-                | Phase::Diff => {}
+                | Phase::Diff
+                | Phase::Word => {}
                 _ => {
                     self.set(Phase::Transcribing);
                     self.label_until = None;
@@ -789,7 +925,7 @@ impl Model {
             Input::Dismiss => {
                 if matches!(
                     self.phase(),
-                    Phase::Message | Phase::SettingUp | Phase::Card | Phase::Diff
+                    Phase::Message | Phase::SettingUp | Phase::Card | Phase::Diff | Phase::Word
                 ) {
                     self.go_idle();
                 }
@@ -857,6 +993,47 @@ impl Model {
                     self.copied_until = None;
                 }
             }
+            Input::WordsLearned(words) => {
+                for w in words {
+                    let known = self.words.iter().any(|q| q.id == w.id)
+                        || self.note.as_ref().is_some_and(|n| n.word.id == w.id);
+                    if !known && self.words.len() < MAX_QUEUED_WORDS {
+                        self.words.push_back(w);
+                    }
+                }
+            }
+            Input::WordHover(over) => {
+                if self.phase() != Phase::Word {
+                    return;
+                }
+                if let Some(n) = self.note.as_mut().filter(|n| n.result.is_none()) {
+                    match (over, n.since) {
+                        (true, Some(since)) => {
+                            n.remaining = n.remaining.saturating_sub(now.saturating_sub(since));
+                            n.since = None;
+                        }
+                        (false, None) => n.since = Some(now),
+                        _ => {}
+                    }
+                }
+            }
+            Input::WordResult(id, result) => {
+                if self.phase() != Phase::Word {
+                    return;
+                }
+                if let Some(n) = self.note.as_mut().filter(|n| n.word.id == id) {
+                    n.result = Some(result);
+                    n.remaining = WORD_RESULT_MS;
+                    n.since = Some(now);
+                }
+            }
+            Input::WordsResolved(ids) => {
+                self.words.retain(|w| !ids.contains(&w.id));
+                let on_screen = self.word_on_screen().is_some_and(|id| ids.contains(&id));
+                if on_screen {
+                    self.go_idle();
+                }
+            }
         }
     }
 
@@ -885,6 +1062,17 @@ impl Model {
                 }
             }
         }
+        if self
+            .note
+            .as_ref()
+            .and_then(WordNote::deadline)
+            .is_some_and(|t| now >= t)
+            && self.phase() == Phase::Word
+        {
+            // ✕ or no answer: the word keeps waiting in Dictionary.
+            self.go_idle();
+        }
+        self.show_next_word(now);
     }
 
     /// When something next times out.
@@ -895,6 +1083,7 @@ impl Model {
             self.warning.and_then(|(_, t)| t),
             self.closing_until,
             self.copied_until,
+            self.note.as_ref().and_then(WordNote::deadline),
         ]
         .into_iter()
         .flatten()
@@ -909,7 +1098,7 @@ impl Model {
         let label = self.label_until.is_some() && (self.mic.is_some() || self.sends);
         let warning = self.warning.map(|(w, _)| w);
         let active = match self.phase() {
-            Phase::Idle => None,
+            Phase::Idle | Phase::Word => None,
             Phase::Held | Phase::Locked => {
                 let locked = self.phase() == Phase::Locked;
                 let wide = label || warning.is_some();
@@ -946,6 +1135,7 @@ impl Model {
                     context: false,
                     diff: None,
                     holder: if notice { self.holder.clone() } else { None },
+                    word: None,
                 })
             }
             Phase::Transcribing | Phase::CleaningUp => Some(ActiveView {
@@ -967,6 +1157,7 @@ impl Model {
                 context: self.context,
                 diff: None,
                 holder: None,
+                word: None,
             }),
             Phase::Message => self.message.map(|(kind, _)| ActiveView {
                 phase: PillPhase::Message,
@@ -983,6 +1174,7 @@ impl Model {
                 context: false,
                 diff: None,
                 holder: None,
+                word: None,
             }),
             Phase::SettingUp => Some(ActiveView {
                 phase: PillPhase::SettingUp,
@@ -999,6 +1191,7 @@ impl Model {
                 context: false,
                 diff: None,
                 holder: None,
+                word: None,
             }),
             Phase::Card => self.card.as_ref().map(|card| ActiveView {
                 phase: PillPhase::Card,
@@ -1015,6 +1208,7 @@ impl Model {
                 context: false,
                 diff: None,
                 holder: None,
+                word: None,
             }),
             Phase::Diff => self.diff.as_ref().map(|diff| ActiveView {
                 phase: PillPhase::Diff,
@@ -1031,13 +1225,46 @@ impl Model {
                 context: false,
                 diff: Some(diff.clone()),
                 holder: None,
+                word: None,
             }),
         };
+        let active = active.or_else(|| self.word_view());
         let p = self.prefs;
         View {
             resting: active.is_none() && p.setup_done && p.always_visible && !p.hidden_for_now,
             active,
         }
+    }
+
+    fn word_view(&self) -> Option<ActiveView> {
+        if self.phase() != Phase::Word {
+            return None;
+        }
+        let n = self.note.as_ref()?;
+        Some(ActiveView {
+            phase: PillPhase::Word,
+            shape: Shape::Word,
+            mic: None,
+            message: None,
+            warning: None,
+            progress: None,
+            text: None,
+            card_reason: None,
+            more: 0,
+            copied: false,
+            sends_automatically: false,
+            context: false,
+            diff: None,
+            holder: None,
+            word: Some(ForkPillWord {
+                id: n.word.id,
+                word: n.word.word.clone(),
+                remaining_ms: u32::try_from(n.remaining).unwrap_or(u32::MAX),
+                total_ms: u32::try_from(n.total()).unwrap_or(u32::MAX),
+                paused: n.since.is_none(),
+                result: n.result,
+            }),
+        })
     }
 
     /// [`Model::expire`] then [`Model::view`].
@@ -1716,5 +1943,153 @@ mod tests {
             m.view_at(300).active.unwrap().warning,
             Some(PillWarning::MicLost)
         );
+    }
+
+    // S-34: the "New word" note.
+
+    fn lw(id: i64, word: &str) -> LearnedWord {
+        LearnedWord {
+            id,
+            word: word.into(),
+        }
+    }
+
+    fn note(m: &mut Model, now: Ms) -> Option<ForkPillWord> {
+        m.view_at(now).active.and_then(|a| a.word)
+    }
+
+    #[test]
+    fn a_learned_word_shows_for_fifteen_seconds_then_rests() {
+        let mut m = Model::new(ready());
+        m.step(1_000, Input::WordsLearned(vec![lw(7, "Kubernetes")]));
+        let a = view_of(&mut m, 1_000);
+        assert_eq!((a.phase, a.shape), (PillPhase::Word, Shape::Word));
+        let w = a.word.unwrap();
+        assert_eq!((w.id, w.word.as_str()), (7, "Kubernetes"));
+        assert_eq!((w.remaining_ms, w.total_ms), (15_000, 15_000));
+        assert!(!w.paused && w.result.is_none());
+        assert_eq!(m.word_on_screen(), Some(7));
+        assert_eq!(m.next_deadline(), Some(1_000 + WORD_MS));
+        // Handy's hide after a take never closes it.
+        m.step(2_000, Input::Hide);
+        m.step(2_000, Input::Cancelled);
+        assert!(note(&mut m, 2_000 + HIDE_GRACE_MS).is_some());
+        assert!(note(&mut m, 1_000 + WORD_MS - 1).is_some());
+        assert!(m.view_at(1_000 + WORD_MS).resting);
+    }
+
+    #[test]
+    fn hovering_pauses_the_countdown() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::WordsLearned(vec![lw(1, "Supabase")]));
+        m.step(5_000, Input::WordHover(true));
+        let w = note(&mut m, 5_000).unwrap();
+        assert!(w.paused);
+        assert_eq!(w.remaining_ms, 10_000);
+        assert_eq!(m.next_deadline(), None);
+        // A long hover never times it out.
+        assert!(note(&mut m, 60_000).is_some());
+        // Repeated reports change nothing.
+        m.step(60_000, Input::WordHover(true));
+        m.step(70_000, Input::WordHover(false));
+        m.step(70_500, Input::WordHover(false));
+        let w = note(&mut m, 70_500).unwrap();
+        assert!(!w.paused);
+        assert_eq!(w.remaining_ms, 10_000);
+        assert_eq!(m.next_deadline(), Some(80_000));
+        assert!(m.view_at(80_000).active.is_none());
+    }
+
+    #[test]
+    fn notes_queue_one_at_a_time_and_dismiss_shows_the_next() {
+        let mut m = Model::new(ready());
+        m.step(
+            0,
+            Input::WordsLearned(vec![lw(1, "Kubernetes"), lw(2, "Supabase")]),
+        );
+        // The same word again is not queued twice.
+        m.step(10, Input::WordsLearned(vec![lw(2, "Supabase"), lw(1, "x")]));
+        assert_eq!(note(&mut m, 10).unwrap().id, 1);
+        m.step(100, Input::Dismiss);
+        let w = note(&mut m, 100).unwrap();
+        assert_eq!((w.id, w.remaining_ms), (2, 15_000));
+        assert!(m.view_at(100 + WORD_MS).active.is_none());
+        // The queue is capped.
+        let many: Vec<_> = (10..20).map(|i| lw(i, "Word")).collect();
+        m.step(50_000, Input::WordsLearned(many));
+        let mut seen = vec![];
+        let mut t = 50_000;
+        while let Some(w) = note(&mut m, t) {
+            seen.push(w.id);
+            m.step(t, Input::Dismiss);
+            t += 1;
+        }
+        assert_eq!(seen, vec![10, 11, 12]);
+        assert_eq!(MAX_QUEUED_WORDS, 3);
+    }
+
+    #[test]
+    fn never_during_a_take_and_a_take_puts_the_note_back() {
+        let mut m = Model::new(ready());
+        m.step(0, Input::TakeStarted { locked: false });
+        m.step(100, Input::WordsLearned(vec![lw(1, "Kubernetes")]));
+        assert_eq!(phase(&mut m, 100), Some(PillPhase::Held));
+        m.step(1_000, Input::Stopped);
+        assert_eq!(phase(&mut m, 1_000), Some(PillPhase::Transcribing));
+        m.step(1_500, Input::Hide);
+        // After the take: the note.
+        assert_eq!(phase(&mut m, 1_500 + HIDE_GRACE_MS), Some(PillPhase::Word));
+        // A new take replaces it; it comes back, with its full time, after.
+        m.step(3_000, Input::TakeStarted { locked: true });
+        assert_eq!(phase(&mut m, 3_000), Some(PillPhase::Locked));
+        assert!(!m.showing_word());
+        m.step(4_000, Input::Stopped);
+        m.step(4_100, Input::Hide);
+        m.step(4_101, Input::Message(PillMessage::NoSpeech));
+        assert_eq!(phase(&mut m, 4_101), Some(PillPhase::Message));
+        let w = note(&mut m, 4_101 + INFO_MS).unwrap();
+        assert_eq!((w.id, w.remaining_ms), (1, WORD_MS as u32));
+    }
+
+    #[test]
+    fn not_before_setup_ends() {
+        let mut m = Model::new(Prefs::default());
+        m.step(0, Input::WordsLearned(vec![lw(1, "Kubernetes")]));
+        assert!(m.view_at(0).active.is_none());
+        m.step(10, Input::Prefs(ready()));
+        assert_eq!(phase(&mut m, 10), Some(PillPhase::Word));
+    }
+
+    #[test]
+    fn add_confirms_briefly_and_resolving_elsewhere_closes_the_note() {
+        let mut m = Model::new(ready());
+        m.step(
+            0,
+            Input::WordsLearned(vec![lw(1, "Kubernetes"), lw(2, "Supabase")]),
+        );
+        // A result for another word changes nothing.
+        m.step(500, Input::WordResult(9, WordResult::Added));
+        assert!(note(&mut m, 500).unwrap().result.is_none());
+        m.step(1_000, Input::WordResult(1, WordResult::Added));
+        let w = note(&mut m, 1_000).unwrap();
+        assert_eq!(w.result, Some(WordResult::Added));
+        assert_eq!((w.remaining_ms, w.total_ms), (1_800, 1_800));
+        assert_eq!(m.word_on_screen(), None);
+        // The confirmation is not paused by hover; its own Accept event
+        // (from the Dictionary command) does not close it.
+        m.step(1_100, Input::WordHover(true));
+        m.step(1_100, Input::WordsResolved(vec![1]));
+        assert!(!note(&mut m, 1_100).unwrap().paused);
+        // Then the next word.
+        assert_eq!(note(&mut m, 1_000 + WORD_RESULT_MS).unwrap().id, 2);
+        // Accepted or rejected on the Dictionary page: the note goes.
+        m.step(5_000, Input::WordsResolved(vec![2]));
+        assert!(m.view_at(5_000).active.is_none());
+        // A queued word resolved elsewhere never shows.
+        m.step(6_000, Input::TakeStarted { locked: false });
+        m.step(6_001, Input::WordsLearned(vec![lw(3, "PostHog")]));
+        m.step(6_002, Input::WordsResolved(vec![3]));
+        m.step(6_003, Input::Cancelled);
+        assert!(m.view_at(6_003).active.is_none());
     }
 }

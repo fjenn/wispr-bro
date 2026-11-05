@@ -475,7 +475,8 @@
     },
     "sidebar": {
       "collapse": "Masquer la barre latérale",
-      "expand": "Afficher la barre latérale"
+      "expand": "Afficher la barre latérale",
+      "suggested": "Mots suggérés : {{count}}"
     },
     "header": {
       "toDark": "Passer à l’apparence sombre",
@@ -902,7 +903,8 @@
         "undo": "Annuler reste disponible 4 secondes dans la barre de dictée.",
         "diff": "Les modifications de la transformation sont prêtes à être vérifiées.",
         "secureInputWarning": "La saisie sécurisée est activée. fn et Espace ne peuvent pas verrouiller la dictée. Échap ou le bouton Fermer permettent toujours d’annuler.",
-        "inserted": "Texte inséré"
+        "inserted": "Texte inséré",
+        "newWord": "Nouveau mot : {{word}}. Ajoutez-le depuis la barre de dictée ou plus tard dans le Dictionnaire."
       },
       "message": {
         "no_speech": "Aucune parole détectée",
@@ -943,6 +945,10 @@
         "session_inactive": "Non collé : vous avez changé d’utilisateur",
         "paste_failed": "Impossible de coller ce texte",
         "disk_full": "Disque plein : enregistrement arrêté"
+      },
+      "word": {
+        "added": "Ajouté au Dictionnaire",
+        "full": "Le Dictionnaire est plein. Le mot reste dans Suggérés."
       }
     },
     "share": {
@@ -1321,6 +1327,12 @@
     "shortcutDetail": {
       "permission": "L’accès Accessibilité est désactivé",
       "stopped": "L’écoute du clavier s’est arrêtée"
+    },
+    "word": {
+      "new": "Nouveau mot",
+      "add": "Ajouter",
+      "addLabel": "Ajouter {{word}} au Dictionnaire",
+      "notNow": "Plus tard"
     }
   },
   "transforms": {

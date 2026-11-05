@@ -473,7 +473,8 @@
     },
     "sidebar": {
       "collapse": "Seitenleiste ausblenden",
-      "expand": "Seitenleiste einblenden"
+      "expand": "Seitenleiste einblenden",
+      "suggested": "Vorgeschlagene Wörter: {{count}}"
     },
     "header": {
       "toDark": "Zum dunklen Erscheinungsbild wechseln",
@@ -887,7 +888,8 @@
         "undo": "„Rückgängig“ ist 4 Sekunden lang in der Diktatleiste verfügbar.",
         "diff": "Die Änderungen der Transformation können geprüft werden.",
         "secureInputWarning": "Sichere Eingabe ist aktiv. fn und Space können das Diktat nicht fixieren. Esc oder die Schließen-Taste brechen weiterhin ab.",
-        "inserted": "Text eingefügt"
+        "inserted": "Text eingefügt",
+        "newWord": "Neues Wort: {{word}}. Füge es über die Diktierleiste hinzu oder später im Wörterbuch."
       },
       "message": {
         "no_speech": "Keine Sprache erkannt",
@@ -928,6 +930,10 @@
         "session_inactive": "Nicht eingefügt: Du hast den Benutzer gewechselt",
         "paste_failed": "Text konnte nicht eingefügt werden",
         "disk_full": "Speicher voll: Aufnahme gestoppt"
+      },
+      "word": {
+        "added": "Zum Wörterbuch hinzugefügt",
+        "full": "Das Wörterbuch ist voll. Das Wort bleibt unter Vorgeschlagen."
       }
     },
     "share": {
@@ -1285,6 +1291,12 @@
     "shortcutDetail": {
       "permission": "Zugriff auf Bedienungshilfen ist aus",
       "stopped": "Die Tastaturerkennung wurde beendet"
+    },
+    "word": {
+      "new": "Neues Wort",
+      "add": "Hinzufügen",
+      "addLabel": "{{word}} zum Wörterbuch hinzufügen",
+      "notNow": "Nicht jetzt"
     }
   },
   "transforms": {

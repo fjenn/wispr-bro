@@ -471,7 +471,8 @@
     },
     "sidebar": {
       "collapse": "收合側邊欄",
-      "expand": "展開側邊欄"
+      "expand": "展開側邊欄",
+      "suggested": "建議的詞：{{count}}"
     },
     "header": {
       "toDark": "切換為深色外觀",
@@ -872,7 +873,8 @@
         "undo": "「還原」會在聽寫浮動列上顯示 4 秒。",
         "diff": "轉換變更已可供檢視。",
         "secureInputWarning": "安全輸入已開啟。fn 和空白鍵無法鎖定聽寫。按 Esc 或關閉按鈕仍可取消。",
-        "inserted": "已插入文字"
+        "inserted": "已插入文字",
+        "newWord": "新詞：{{word}}。可在聽寫列中加入，或稍後在字典中加入。"
       },
       "message": {
         "no_speech": "沒有聽到語音",
@@ -913,6 +915,10 @@
         "session_inactive": "未貼上：你切換了使用者",
         "paste_failed": "無法貼上這段文字",
         "disk_full": "磁碟已滿：錄音已停止"
+      },
+      "word": {
+        "added": "已加入字典",
+        "full": "字典已滿。這個詞會保留在「建議的」中。"
       }
     },
     "share": {
@@ -1249,6 +1255,12 @@
     "shortcutDetail": {
       "permission": "輔助使用權限已關閉",
       "stopped": "鍵盤偵聽已停止"
+    },
+    "word": {
+      "new": "新詞",
+      "add": "加入",
+      "addLabel": "將 {{word}} 加入字典",
+      "notNow": "稍後再說"
     }
   },
   "transforms": {

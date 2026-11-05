@@ -75,6 +75,7 @@ fn view(phase: PillPhase, message: Option<PillMessage>) -> ActiveView {
         context: false,
         diff: None,
         holder: None,
+        word: None,
     }
 }
 
@@ -185,6 +186,51 @@ fn voiceover_announces_each_change_once() {
     );
 }
 
+/// S-34: each "New word" note is spoken once, with its word; Add's
+/// confirmation too; pausing (hover) says nothing.
+#[test]
+fn voiceover_reads_each_new_word_note_once() {
+    use crate::fork::pill::accessibility::spoken;
+    let note = |id: i64, word: &str, paused: bool, result: Option<WordResult>| {
+        let mut v = view(PillPhase::Word, None);
+        v.shape = geometry::Shape::Word;
+        v.word = Some(ForkPillWord {
+            id,
+            word: word.into(),
+            remaining_ms: 15_000,
+            total_ms: 15_000,
+            paused,
+            result,
+        });
+        v
+    };
+    let a = note(1, "Kubernetes", false, None);
+    let (text, high) = spoken("en", None, Some(&a)).unwrap();
+    assert!(text.starts_with("New word: Kubernetes."), "{text}");
+    assert!(!high);
+    assert_eq!(
+        spoken("en", Some(&a), Some(&note(1, "Kubernetes", true, None))),
+        None
+    );
+    let added = note(1, "Kubernetes", false, Some(WordResult::Added));
+    assert_eq!(
+        spoken("en", Some(&a), Some(&added))
+            .map(|(t, _)| t)
+            .as_deref(),
+        Some("Added to Dictionary")
+    );
+    let next = note(2, "Supabase", false, None);
+    assert!(spoken("en", Some(&added), Some(&next))
+        .unwrap()
+        .0
+        .contains("Supabase"));
+    // Its wire names.
+    let v = serde_json::to_value(state_event(3, &added)).unwrap();
+    assert_eq!(v["phase"], "word");
+    assert_eq!(v["shape"], "word");
+    assert_eq!(v["word"]["result"], "added");
+}
+
 #[test]
 fn every_pill_string_exists_in_english() {
     let keys = crate::fork::i18n::english_keys();
@@ -205,6 +251,9 @@ fn every_pill_string_exists_in_english() {
         "rust.pill.announce.undo".into(),
         "rust.pill.announce.diff".into(),
         "rust.pill.announce.secureInputWarning".into(),
+        "rust.pill.announce.newWord".into(),
+        "rust.pill.word.added".into(),
+        "rust.pill.word.full".into(),
     ];
     use PillMessage::*;
     for m in [

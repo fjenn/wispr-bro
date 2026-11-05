@@ -21,7 +21,7 @@
 
 use tauri::{AppHandle, Runtime};
 
-use super::model::{ActiveView, PillMessage, PillPhase, PillTone, PillWarning};
+use super::model::{ActiveView, PillMessage, PillPhase, PillTone, PillWarning, WordResult};
 
 /// The card's text is cut here in an announcement; the full text stays on
 /// the card (VoiceOver reads it there) and in History.
@@ -34,6 +34,26 @@ pub fn announcement(
     after: Option<&ActiveView>,
 ) -> Option<(String, bool)> {
     let phase = |v: Option<&ActiveView>| v.map(|a| a.phase);
+    // S-34: each note, and Add's confirmation, is spoken once.
+    if let Some(w) = after
+        .filter(|a| a.phase == PillPhase::Word)
+        .and_then(|a| a.word.as_ref())
+    {
+        let id = |v: Option<&ActiveView>| {
+            v.filter(|a| a.phase == PillPhase::Word)
+                .and_then(|a| a.word.as_ref())
+                .map(|w| (w.id, w.result))
+        };
+        if id(before) == Some((w.id, w.result)) {
+            return None;
+        }
+        let key = match w.result {
+            None => "rust.pill.announce.newWord",
+            Some(WordResult::Added) => "rust.pill.word.added",
+            Some(WordResult::Full) => "rust.pill.word.full",
+        };
+        return Some((key.into(), false));
+    }
     if phase(before) == phase(after) && before.map(|a| a.message) == after.map(|a| a.message) {
         let warned = after.and_then(|a| a.warning);
         if warned.is_some() && before.and_then(|a| a.warning) != warned {
@@ -94,7 +114,10 @@ pub fn spoken(
     after: Option<&ActiveView>,
 ) -> Option<(String, bool)> {
     let (key, high) = announcement(before, after)?;
-    let mut text = crate::fork::i18n::t(locale, &key, &[]);
+    let word = after
+        .and_then(|a| a.word.as_ref())
+        .map_or("", |w| w.word.as_str());
+    let mut text = crate::fork::i18n::t(locale, &key, &[("word", word)]);
     if let Some(card) = after
         .filter(|a| a.phase == PillPhase::Card)
         .and_then(|a| a.text.as_deref())

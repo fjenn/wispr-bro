@@ -477,7 +477,8 @@
     },
     "sidebar": {
       "collapse": "Sbalit boční panel",
-      "expand": "Rozbalit boční panel"
+      "expand": "Rozbalit boční panel",
+      "suggested": "Navržená slova: {{count}}"
     },
     "header": {
       "toDark": "Přepnout na tmavý vzhled",
@@ -917,7 +918,8 @@
         "undo": "Odvolání je na liště diktování k dispozici 4 sekundy.",
         "diff": "Změny z transformace jsou připravené ke kontrole.",
         "secureInputWarning": "Je zapnutý zabezpečený vstup. Klávesy fn a Space nemohou zamknout diktování. Esc nebo tlačítko zavření ho stále zruší.",
-        "inserted": "Text vložen"
+        "inserted": "Text vložen",
+        "newWord": "Nové slovo: {{word}}. Přidejte ho z lišty diktování, nebo později ve Slovníku."
       },
       "message": {
         "no_speech": "Nezazněla žádná řeč",
@@ -958,6 +960,10 @@
         "session_inactive": "Nevloženo: přepnuli jste uživatele",
         "paste_failed": "Tento text se nepodařilo vložit",
         "disk_full": "Disk je plný: nahrávání se zastavilo"
+      },
+      "word": {
+        "added": "Přidáno do Slovníku",
+        "full": "Slovník je plný. Slovo zůstává v Návrzích."
       }
     },
     "share": {
@@ -1357,6 +1363,12 @@
     "shortcutDetail": {
       "permission": "Přístup ke Zpřístupnění je vypnutý",
       "stopped": "Sledování klávesnice se zastavilo"
+    },
+    "word": {
+      "new": "Nové slovo",
+      "add": "Přidat",
+      "addLabel": "Přidat {{word}} do Slovníku",
+      "notNow": "Teď ne"
     }
   },
   "transforms": {

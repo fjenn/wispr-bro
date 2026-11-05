@@ -471,7 +471,8 @@
     },
     "sidebar": {
       "collapse": "Thu gọn thanh bên",
-      "expand": "Mở rộng thanh bên"
+      "expand": "Mở rộng thanh bên",
+      "suggested": "Từ được gợi ý: {{count}}"
     },
     "header": {
       "toDark": "Chuyển sang giao diện tối",
@@ -872,7 +873,8 @@
         "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
         "diff": "Các thay đổi của chuyển đổi đã sẵn sàng để xem lại.",
         "secureInputWarning": "Secure Input đang bật. fn và Space không thể khóa đọc chính tả. Esc hoặc nút đóng vẫn có thể hủy.",
-        "inserted": "Đã chèn văn bản"
+        "inserted": "Đã chèn văn bản",
+        "newWord": "Từ mới: {{word}}. Hãy thêm từ thanh đọc chính tả, hoặc sau trong Từ điển."
       },
       "message": {
         "no_speech": "Không nghe thấy lời nói",
@@ -913,6 +915,10 @@
         "session_inactive": "Chưa dán: bạn đã chuyển người dùng",
         "paste_failed": "Không thể dán văn bản này",
         "disk_full": "Ổ đĩa đầy: đã dừng ghi âm"
+      },
+      "word": {
+        "added": "Đã thêm vào Từ điển",
+        "full": "Từ điển đã đầy. Từ này vẫn nằm trong Gợi ý."
       }
     },
     "share": {
@@ -1249,6 +1255,12 @@
     "shortcutDetail": {
       "permission": "Quyền Trợ năng đang tắt",
       "stopped": "Trình nghe bàn phím đã dừng"
+    },
+    "word": {
+      "new": "Từ mới",
+      "add": "Thêm",
+      "addLabel": "Thêm {{word}} vào Từ điển",
+      "notNow": "Để sau"
     }
   },
   "transforms": {

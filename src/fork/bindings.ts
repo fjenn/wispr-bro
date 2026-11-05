@@ -2182,7 +2182,31 @@ top: boolean;
  * curve, so the hand-over is seamless. `None` in tests and snapshots
  * without an appearance.
  */
-grown_at_unix_ms: number | null }
+grown_at_unix_ms: number | null; 
+/**
+ * S-34: the "New word" note.
+ */
+word: ForkPillWord | null }
+/**
+ * The "New word" note as the web view shows it.
+ */
+export type ForkPillWord = { id: number; word: string; 
+/**
+ * The countdown's time left when it last started or paused (ms).
+ */
+remaining_ms: number; 
+/**
+ * The countdown's full length (ms).
+ */
+total_ms: number; 
+/**
+ * The pointer is over the note: the countdown waits.
+ */
+paused: boolean; 
+/**
+ * After Add: the confirmation instead of the offer.
+ */
+result: WordResult | null }
 /**
  * Sample event: emitted by `fork_ping` after it replies, so the debug panel
  * (and the round-trip tests) can prove the event path works end to end.
@@ -3216,7 +3240,11 @@ export type PillPhase =
 /**
  * A transform's word-level before/after view (S-22).
  */
-"diff"
+"diff" | 
+/**
+ * S-34: auto-learn suggested a word; the note offers Add and ✕.
+ */
+"word"
 /**
  * Information or error (changes the colour and the VoiceOver priority).
  */
@@ -3248,7 +3276,11 @@ export type PillUiAction =
 /**
  * S-22 diff actions.
  */
-"copy_diff" | "configure_diff" | "retry_diff" | { rate_diff: { rating: number } }
+"copy_diff" | "configure_diff" | "retry_diff" | { rate_diff: { rating: number } } | 
+/**
+ * S-34: Add on the "New word" note: the word goes into the dictionary.
+ */
+"add_word"
 /**
  * A take is about to stop on its own (S-01 rule 8, DEC-32).
  */
@@ -3482,7 +3514,11 @@ export type Shape =
 /**
  * A transform's word diff and actions (S-22).
  */
-"diff"
+"diff" | 
+/**
+ * S-34: "New word: Kubernetes" with Add and ✕.
+ */
+"word"
 /**
  * Where the Share button is, in the web view's CSS pixels (top-left
  * origin), so the sheet opens next to it.
@@ -3931,6 +3967,18 @@ changes: number;
  * The full comparison exceeded its token or time budget.
  */
 degraded: boolean }
+/**
+ * What Add on the "New word" note did.
+ */
+export type WordResult = 
+/**
+ * The word is in the dictionary now.
+ */
+"added" | 
+/**
+ * The dictionary is full; the word still waits in Dictionary.
+ */
+"full"
 
 /** tauri-specta globals **/
 

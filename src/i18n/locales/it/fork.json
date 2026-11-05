@@ -475,7 +475,8 @@
     },
     "sidebar": {
       "collapse": "Comprimi barra laterale",
-      "expand": "Espandi barra laterale"
+      "expand": "Espandi barra laterale",
+      "suggested": "Parole suggerite: {{count}}"
     },
     "header": {
       "toDark": "Passa all’aspetto scuro",
@@ -902,7 +903,8 @@
         "undo": "Annulla resta sulla barra di dettatura per 4 secondi.",
         "diff": "Le modifiche della trasformazione sono pronte per la revisione.",
         "secureInputWarning": "L’inserimento sicuro è attivo. fn e Spazio non possono bloccare la dettatura. Esc o il pulsante di chiusura la annullano comunque.",
-        "inserted": "Testo inserito"
+        "inserted": "Testo inserito",
+        "newWord": "Nuova parola: {{word}}. Aggiungila dalla barra di dettatura o più tardi nel Dizionario."
       },
       "message": {
         "no_speech": "Nessuna voce rilevata",
@@ -943,6 +945,10 @@
         "session_inactive": "Non incollato: hai cambiato utente",
         "paste_failed": "Impossibile incollare questo testo",
         "disk_full": "Disco pieno: registrazione interrotta"
+      },
+      "word": {
+        "added": "Aggiunta al Dizionario",
+        "full": "Il Dizionario è pieno. La parola resta in Suggerite."
       }
     },
     "share": {
@@ -1321,6 +1327,12 @@
     "shortcutDetail": {
       "permission": "L’accesso ad Accessibilità è disattivato",
       "stopped": "Il rilevamento della tastiera si è interrotto"
+    },
+    "word": {
+      "new": "Nuova parola",
+      "add": "Aggiungi",
+      "addLabel": "Aggiungi {{word}} al Dizionario",
+      "notNow": "Non ora"
     }
   },
   "transforms": {

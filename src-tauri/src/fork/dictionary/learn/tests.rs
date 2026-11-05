@@ -584,3 +584,84 @@ fn only_the_word_pair_reaches_the_database() {
     assert!(dump.iter().any(|v| v == "Kubernetes"));
     assert!(dump.iter().any(|v| v == "Kubernetees"));
 }
+
+// ---------------------------------------------------------------------------
+// End to end: a dictation, the user's fix, a waiting word
+
+/// The whole learning path without AX: the watch sees the paste and the
+/// user's fix committed with Return, the diff finds the correction, and it
+/// waits in Dictionary › Suggested (with its `corrections` row) for the
+/// bar's note or the Dictionary page to accept it.
+#[test]
+fn a_fix_after_a_dictation_becomes_a_waiting_word() {
+    let pasted = "We moved the cluster to kubernetees last week.";
+    let mut s = Session::new(pasted).unwrap();
+    assert_eq!(s.observe(250, value(pasted), false), None);
+    assert_eq!(
+        s.observe(
+            1_000,
+            value("We moved the cluster to Kubernetes last week."),
+            false
+        ),
+        None
+    );
+    let Some(Outcome::Edited {
+        original, edited, ..
+    }) = s.observe(
+        1_250,
+        value("We moved the cluster to Kubernetes last week."),
+        true,
+    )
+    else {
+        panic!("the fix was not seen as an edit");
+    };
+    let found = corrections(&original, &edited);
+    assert_eq!(found, vec![c("kubernetees", "Kubernetes")]);
+
+    let (_d, db) = db();
+    let added = db
+        .with_conn(|conn| review::suggest_entries(conn, &found, 42))
+        .unwrap();
+    assert_eq!(added.len(), 1);
+    assert_eq!(added[0].word, "Kubernetes");
+    let waiting = suggested(&db);
+    assert_eq!(waiting.len(), 1);
+    assert_eq!(waiting[0].id, added[0].id);
+    assert_eq!(waiting[0].phrase, "Kubernetes");
+    assert_eq!(waiting[0].source, EntrySource::Learn);
+    let pairs: Vec<(String, String, String)> = db
+        .with_conn(|conn| {
+            let mut st = conn.prepare("SELECT from_text, to_text, source FROM corrections")?;
+            let rows = st
+                .query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)))?
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(rows)
+        })
+        .unwrap();
+    assert_eq!(
+        pairs,
+        vec![("kubernetees".into(), "Kubernetes".into(), "learn".into())]
+    );
+
+    // The note's Add accepts it into the dictionary.
+    let out = db
+        .with_conn(|conn| review::accept(conn, &[added[0].id], 43))
+        .unwrap();
+    assert_eq!(out.accepted, 1);
+    assert!(suggested(&db).is_empty());
+    assert_eq!(
+        db.with_conn(|c| store::active_words(c)).unwrap(),
+        vec!["Kubernetes".to_string()]
+    );
+}
+
+/// A replacement suggestion's note names the corrected spelling.
+#[test]
+fn a_replacement_suggestion_names_the_corrected_spelling() {
+    let (_d, db) = db();
+    let added = db
+        .with_conn(|conn| review::suggest_entries(conn, &[c("Siobhan", "Siobhán")], 1))
+        .unwrap();
+    assert_eq!(added.len(), 1);
+    assert_eq!(added[0].word, "Siobhán");
+}
