@@ -1809,8 +1809,7 @@
       "dictations_one": "у {{count, number}} диктуванні",
       "dictations_few": "у {{count, number}} диктуваннях",
       "dictations_many": "у {{count, number}} диктуваннях",
-      "dictations_other": "у {{count, number}} диктування",
-      "saved": "Заощаджено {{time}} порівняно з друком"
+      "dictations_other": "у {{count, number}} диктування"
     },
     "fixes": {
       "title": "Виправлення",
@@ -1903,6 +1902,13 @@
     "typing": {
       "take": "Пройти тест друку",
       "retake": "Пройти тест друку знову"
+    },
+    "saved": {
+      "title": "Заощаджено часу порівняно з друком",
+      "basisMeasured": "Мовлення {{speaking}} сл/хв проти друку {{typing}} сл/хв",
+      "basisAverage": "Мовлення {{speaking}} сл/хв проти середнього друку {{typing}} сл/хв",
+      "basisEstimateMeasured": "Мовлення близько {{speaking}} сл/хв проти друку {{typing}} сл/хв",
+      "basisEstimateAverage": "Мовлення близько {{speaking}} сл/хв проти середнього друку {{typing}} сл/хв"
     }
   },
   "history": {

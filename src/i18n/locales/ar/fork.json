@@ -1935,8 +1935,7 @@
       "dictations_two": "في {{count, number}} إملاءين",
       "dictations_few": "في {{count, number}} إملاءات",
       "dictations_many": "في {{count, number}} إملاءً",
-      "dictations_other": "في {{count, number}} إملاء",
-      "saved": "وفّرت {{time}} مقارنةً بالكتابة"
+      "dictations_other": "في {{count, number}} إملاء"
     },
     "fixes": {
       "title": "التصحيحات المُجراة",
@@ -2051,6 +2050,13 @@
     "typing": {
       "take": "إجراء اختبار الكتابة",
       "retake": "إعادة اختبار الكتابة"
+    },
+    "saved": {
+      "title": "الوقت الموفَّر مقارنةً بالكتابة",
+      "basisMeasured": "تحدث {{speaking}} كلمة في الدقيقة مقابل كتابة {{typing}} كلمة في الدقيقة",
+      "basisAverage": "تحدث {{speaking}} كلمة في الدقيقة مقابل كتابة عادية {{typing}} كلمة في الدقيقة",
+      "basisEstimateMeasured": "تحدث نحو {{speaking}} كلمة في الدقيقة مقابل كتابة {{typing}} كلمة في الدقيقة",
+      "basisEstimateAverage": "تحدث نحو {{speaking}} كلمة في الدقيقة مقابل كتابة عادية {{typing}} كلمة في الدقيقة"
     }
   },
   "history": {

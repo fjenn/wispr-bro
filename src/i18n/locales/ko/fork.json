@@ -1620,8 +1620,7 @@
     },
     "words": {
       "title": "총 단어 수",
-      "dictations_other": "받아쓰기 {{count, number}}회",
-      "saved": "타이핑보다 {{time}} 절약"
+      "dictations_other": "받아쓰기 {{count, number}}회"
     },
     "fixes": {
       "title": "수정 횟수",
@@ -1681,6 +1680,13 @@
     "typing": {
       "take": "타이핑 테스트 하기",
       "retake": "타이핑 테스트 다시 하기"
+    },
+    "saved": {
+      "title": "타이핑 대비 절약한 시간",
+      "basisMeasured": "말하기 분당 {{speaking}}단어 대 타이핑 분당 {{typing}}단어",
+      "basisAverage": "말하기 분당 {{speaking}}단어 대 평균 타이핑 분당 {{typing}}단어",
+      "basisEstimateMeasured": "말하기 분당 약 {{speaking}}단어 대 타이핑 분당 {{typing}}단어",
+      "basisEstimateAverage": "말하기 분당 약 {{speaking}}단어 대 평균 타이핑 분당 {{typing}}단어"
     }
   },
   "history": {

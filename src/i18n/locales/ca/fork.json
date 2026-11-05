@@ -1746,8 +1746,7 @@
       "title": "Paraules en total",
       "dictations_one": "en {{count, number}} dictat",
       "dictations_many": "en {{count, number}} de dictats",
-      "dictations_other": "en {{count, number}} dictats",
-      "saved": "Estalvi de {{time}} respecte a escriure"
+      "dictations_other": "en {{count, number}} dictats"
     },
     "fixes": {
       "title": "Correccions fetes",
@@ -1829,6 +1828,13 @@
     "typing": {
       "take": "Fer la prova d'escriptura",
       "retake": "Repetir la prova d'escriptura"
+    },
+    "saved": {
+      "title": "Temps estalviat respecte a escriure",
+      "basisMeasured": "{{speaking}} ppm parlant contra {{typing}} ppm escrivint",
+      "basisAverage": "{{speaking}} ppm parlant contra {{typing}} ppm d'escriptura mitjana",
+      "basisEstimateMeasured": "Uns {{speaking}} ppm parlant contra {{typing}} ppm escrivint",
+      "basisEstimateAverage": "Uns {{speaking}} ppm parlant contra {{typing}} ppm d'escriptura mitjana"
     }
   },
   "history": {

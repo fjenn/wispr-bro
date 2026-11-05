@@ -1809,8 +1809,7 @@
       "dictations_one": "w {{count, number}} dyktowaniu",
       "dictations_few": "w {{count, number}} dyktowaniach",
       "dictations_many": "w {{count, number}} dyktowaniach",
-      "dictations_other": "w {{count, number}} dyktowania",
-      "saved": "Zaoszczędzono {{time}} w porównaniu z pisaniem"
+      "dictations_other": "w {{count, number}} dyktowania"
     },
     "fixes": {
       "title": "Wprowadzone poprawki",
@@ -1903,6 +1902,13 @@
     "typing": {
       "take": "Zrób test pisania",
       "retake": "Powtórz test pisania"
+    },
+    "saved": {
+      "title": "Czas zaoszczędzony względem pisania",
+      "basisMeasured": "Mówienie {{speaking}} sł./min wobec pisania {{typing}} sł./min",
+      "basisAverage": "Mówienie {{speaking}} sł./min wobec przeciętnego pisania {{typing}} sł./min",
+      "basisEstimateMeasured": "Mówienie ok. {{speaking}} sł./min wobec pisania {{typing}} sł./min",
+      "basisEstimateAverage": "Mówienie ok. {{speaking}} sł./min wobec przeciętnego pisania {{typing}} sł./min"
     }
   },
   "history": {

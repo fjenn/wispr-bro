@@ -2000,8 +2000,7 @@
     "words": {
       "title": "Total words",
       "dictations_one": "in {{count, number}} dictation",
-      "dictations_other": "in {{count, number}} dictations",
-      "saved": "{{time}} saved over typing"
+      "dictations_other": "in {{count, number}} dictations"
     },
     "fixes": {
       "title": "Fixes made",
@@ -2072,6 +2071,13 @@
     "typing": {
       "take": "Take the typing test",
       "retake": "Retake typing test"
+    },
+    "saved": {
+      "title": "Time saved vs typing",
+      "basisMeasured": "{{speaking}} wpm speaking vs {{typing}} wpm typing",
+      "basisAverage": "{{speaking}} wpm speaking vs {{typing}} wpm average typing",
+      "basisEstimateMeasured": "About {{speaking}} wpm speaking vs {{typing}} wpm typing",
+      "basisEstimateAverage": "About {{speaking}} wpm speaking vs {{typing}} wpm average typing"
     }
   },
   "history": {

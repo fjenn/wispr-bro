@@ -1683,8 +1683,7 @@
     "words": {
       "title": "Ord totalt",
       "dictations_one": "i {{count, number}} diktering",
-      "dictations_other": "i {{count, number}} dikteringar",
-      "saved": "Sparat {{time}} jämfört med att skriva"
+      "dictations_other": "i {{count, number}} dikteringar"
     },
     "fixes": {
       "title": "Rättningar",
@@ -1755,6 +1754,13 @@
     "typing": {
       "take": "Gör skrivtestet",
       "retake": "Gör skrivtestet igen"
+    },
+    "saved": {
+      "title": "Tid sparad jämfört med att skriva",
+      "basisMeasured": "{{speaking}} ord/min tal mot {{typing}} ord/min skrivande",
+      "basisAverage": "{{speaking}} ord/min tal mot {{typing}} ord/min genomsnittligt skrivande",
+      "basisEstimateMeasured": "Cirka {{speaking}} ord/min tal mot {{typing}} ord/min skrivande",
+      "basisEstimateAverage": "Cirka {{speaking}} ord/min tal mot {{typing}} ord/min genomsnittligt skrivande"
     }
   },
   "history": {

@@ -1683,8 +1683,7 @@
     "words": {
       "title": "Toplam kelime",
       "dictations_one": "{{count, number}} diktede",
-      "dictations_other": "{{count, number}} diktede",
-      "saved": "Yazmaya göre {{time}} kazanıldı"
+      "dictations_other": "{{count, number}} diktede"
     },
     "fixes": {
       "title": "Yapılan düzeltmeler",
@@ -1755,6 +1754,13 @@
     "typing": {
       "take": "Yazma Testini Yap",
       "retake": "Yazma testini tekrarla"
+    },
+    "saved": {
+      "title": "Yazmaya göre kazanılan zaman",
+      "basisMeasured": "Konuşma {{speaking}} kelime/dk, yazma {{typing}} kelime/dk",
+      "basisAverage": "Konuşma {{speaking}} kelime/dk, ortalama yazma {{typing}} kelime/dk",
+      "basisEstimateMeasured": "Konuşma yaklaşık {{speaking}} kelime/dk, yazma {{typing}} kelime/dk",
+      "basisEstimateAverage": "Konuşma yaklaşık {{speaking}} kelime/dk, ortalama yazma {{typing}} kelime/dk"
     }
   },
   "history": {

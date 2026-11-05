@@ -1620,8 +1620,7 @@
     },
     "words": {
       "title": "合計語数",
-      "dictations_other": "{{count, number}} 回の音声入力",
-      "saved": "タイピングと比べて{{time}}の節約"
+      "dictations_other": "{{count, number}} 回の音声入力"
     },
     "fixes": {
       "title": "修正数",
@@ -1681,6 +1680,13 @@
     "typing": {
       "take": "タイピングテストを受ける",
       "retake": "タイピングテストをもう一度"
+    },
+    "saved": {
+      "title": "タイピングと比べて節約できた時間",
+      "basisMeasured": "話す速度 {{speaking}} 語／分 対 タイピング {{typing}} 語／分",
+      "basisAverage": "話す速度 {{speaking}} 語／分 対 平均的なタイピング {{typing}} 語／分",
+      "basisEstimateMeasured": "話す速度 約 {{speaking}} 語／分 対 タイピング {{typing}} 語／分",
+      "basisEstimateAverage": "話す速度 約 {{speaking}} 語／分 対 平均的なタイピング {{typing}} 語／分"
     }
   },
   "history": {

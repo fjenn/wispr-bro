@@ -1746,8 +1746,7 @@
       "title": "Total de mots",
       "dictations_one": "en {{count, number}} dictée",
       "dictations_many": "en {{count, number}} de dictées",
-      "dictations_other": "en {{count, number}} dictées",
-      "saved": "Gain de temps : {{time}} par rapport à la frappe"
+      "dictations_other": "en {{count, number}} dictées"
     },
     "fixes": {
       "title": "Corrections apportées",
@@ -1829,6 +1828,13 @@
     "typing": {
       "take": "Faire le test de frappe",
       "retake": "Refaire le test de frappe"
+    },
+    "saved": {
+      "title": "Temps gagné par rapport à la frappe",
+      "basisMeasured": "{{speaking}} mots/min à l’oral contre {{typing}} mots/min à la frappe",
+      "basisAverage": "{{speaking}} mots/min à l’oral contre {{typing}} mots/min de frappe moyenne",
+      "basisEstimateMeasured": "Environ {{speaking}} mots/min à l’oral contre {{typing}} mots/min à la frappe",
+      "basisEstimateAverage": "Environ {{speaking}} mots/min à l’oral contre {{typing}} mots/min de frappe moyenne"
     }
   },
   "history": {

@@ -1620,8 +1620,7 @@
     },
     "words": {
       "title": "Tổng số từ",
-      "dictations_other": "trong {{count, number}} bản đọc chính tả",
-      "saved": "Tiết kiệm {{time}} so với gõ phím"
+      "dictations_other": "trong {{count, number}} bản đọc chính tả"
     },
     "fixes": {
       "title": "Số lần sửa",
@@ -1681,6 +1680,13 @@
     "typing": {
       "take": "Làm bài kiểm tra gõ",
       "retake": "Làm lại bài kiểm tra gõ"
+    },
+    "saved": {
+      "title": "Thời gian tiết kiệm so với gõ phím",
+      "basisMeasured": "Nói {{speaking}} từ/phút so với gõ {{typing}} từ/phút",
+      "basisAverage": "Nói {{speaking}} từ/phút so với gõ trung bình {{typing}} từ/phút",
+      "basisEstimateMeasured": "Nói khoảng {{speaking}} từ/phút so với gõ {{typing}} từ/phút",
+      "basisEstimateAverage": "Nói khoảng {{speaking}} từ/phút so với gõ trung bình {{typing}} từ/phút"
     }
   },
   "history": {

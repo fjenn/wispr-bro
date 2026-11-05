@@ -1746,8 +1746,7 @@
       "title": "Parole totali",
       "dictations_one": "in {{count, number}} dettatura",
       "dictations_many": "in {{count, number}} di dettature",
-      "dictations_other": "in {{count, number}} dettature",
-      "saved": "Risparmiati {{time}} rispetto alla battitura"
+      "dictations_other": "in {{count, number}} dettature"
     },
     "fixes": {
       "title": "Correzioni apportate",
@@ -1829,6 +1828,13 @@
     "typing": {
       "take": "Fai il test di battitura",
       "retake": "Rifai il test di battitura"
+    },
+    "saved": {
+      "title": "Tempo risparmiato rispetto alla digitazione",
+      "basisMeasured": "{{speaking}} parole/min parlando contro {{typing}} parole/min digitando",
+      "basisAverage": "{{speaking}} parole/min parlando contro {{typing}} parole/min di digitazione media",
+      "basisEstimateMeasured": "Circa {{speaking}} parole/min parlando contro {{typing}} parole/min digitando",
+      "basisEstimateAverage": "Circa {{speaking}} parole/min parlando contro {{typing}} parole/min di digitazione media"
     }
   },
   "history": {

@@ -1683,8 +1683,7 @@
     "words": {
       "title": "कुल शब्द",
       "dictations_one": "{{count, number}} श्रुतलेखनमा",
-      "dictations_other": "{{count, number}} श्रुतलेखनहरूमा",
-      "saved": "टाइप गर्नुभन्दा {{time}} बचत"
+      "dictations_other": "{{count, number}} श्रुतलेखनहरूमा"
     },
     "fixes": {
       "title": "गरिएका सुधारहरू",
@@ -1755,6 +1754,13 @@
     "typing": {
       "take": "टाइपिङ परीक्षण दिनुहोस्",
       "retake": "टाइपिङ परीक्षण फेरि दिनुहोस्"
+    },
+    "saved": {
+      "title": "टाइपिङको तुलनामा बचेको समय",
+      "basisMeasured": "बोलेर {{speaking}} शब्द/मिनेट बनाम टाइपिङ {{typing}} शब्द/मिनेट",
+      "basisAverage": "बोलेर {{speaking}} शब्द/मिनेट बनाम औसत टाइपिङ {{typing}} शब्द/मिनेट",
+      "basisEstimateMeasured": "बोलेर करिब {{speaking}} शब्द/मिनेट बनाम टाइपिङ {{typing}} शब्द/मिनेट",
+      "basisEstimateAverage": "बोलेर करिब {{speaking}} शब्द/मिनेट बनाम औसत टाइपिङ {{typing}} शब्द/मिनेट"
     }
   },
   "history": {

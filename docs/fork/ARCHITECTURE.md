@@ -532,7 +532,7 @@ the S-25 run).
 `html-to-image` 1.11.13 (all MIT, runtime; R4 "Charts"). Rust: `base64` 0.22
 (already in the tree) in the `Cargo.toml` fork block.
 
-**Typing test and time saved (`fix/wpm`).** The S-29b typing test is one component (`onboarding/TypingTest.tsx` `TypingTestPanel`) in two frames: the onboarding stage and `insights/TypingTestDialog.tsx`, opened from the speed card and Settings › General. `Dialog` takes a `container` (inside Settings' native modal `<dialog>` everything else is inert, so the test portals into it). A saved `typing_wpm` reloads Insights. `SpeedInsight.time_saved_ms` is the typing time of the lifetime words at `typing_wpm` minus their speaking time at the measured rate, floored at 0.
+**Typing test and time saved (`fix/wpm`).** The S-29b typing test is one component (`onboarding/TypingTest.tsx` `TypingTestPanel`) in two frames: the onboarding stage and `insights/TypingTestDialog.tsx`, opened from the speed card and Settings › General. `Dialog` takes a `container` (inside Settings' native modal `<dialog>` everything else is inert, so the test portals into it). A saved `typing_wpm` reloads Insights. `SpeedInsight.time_saved_ms` is the typing time of the lifetime words at `typing_wpm` minus their speaking time at the measured rate (200 wpm, `DEFAULT_SPEAKING_WPM`, until there is one), floored at 0; since `fix/saved` it is the Usage tab's hero card ("Time saved vs typing"), above the Words per minute / Fixes made / Total words row.
 
 ## Notifications (S-18)
 

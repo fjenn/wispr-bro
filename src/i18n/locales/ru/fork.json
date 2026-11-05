@@ -1809,8 +1809,7 @@
       "dictations_one": "в {{count, number}} диктовке",
       "dictations_few": "в {{count, number}} диктовках",
       "dictations_many": "в {{count, number}} диктовках",
-      "dictations_other": "в {{count, number}} диктовки",
-      "saved": "Сэкономлено {{time}} по сравнению с печатью"
+      "dictations_other": "в {{count, number}} диктовки"
     },
     "fixes": {
       "title": "Исправления",
@@ -1903,6 +1902,13 @@
     "typing": {
       "take": "Пройти тест печати",
       "retake": "Пройти тест печати снова"
+    },
+    "saved": {
+      "title": "Сэкономлено времени по сравнению с печатью",
+      "basisMeasured": "Речь {{speaking}} сл/мин против печати {{typing}} сл/мин",
+      "basisAverage": "Речь {{speaking}} сл/мин против средней печати {{typing}} сл/мин",
+      "basisEstimateMeasured": "Речь около {{speaking}} сл/мин против печати {{typing}} сл/мин",
+      "basisEstimateAverage": "Речь около {{speaking}} сл/мин против средней печати {{typing}} сл/мин"
     }
   },
   "history": {

@@ -1746,8 +1746,7 @@
       "title": "סך כל המילים",
       "dictations_one": "ב-{{count, number}} הכתבה",
       "dictations_two": "ב-{{count, number}} הכתבות",
-      "dictations_other": "ב-{{count, number}} הכתבות",
-      "saved": "חסכת {{time}} לעומת הקלדה"
+      "dictations_other": "ב-{{count, number}} הכתבות"
     },
     "fixes": {
       "title": "תיקונים שבוצעו",
@@ -1829,6 +1828,13 @@
     "typing": {
       "take": "עשה את מבחן ההקלדה",
       "retake": "לעשות שוב את מבחן ההקלדה"
+    },
+    "saved": {
+      "title": "זמן שנחסך לעומת הקלדה",
+      "basisMeasured": "דיבור {{speaking}} מילים לדקה לעומת הקלדה {{typing}} מילים לדקה",
+      "basisAverage": "דיבור {{speaking}} מילים לדקה לעומת הקלדה ממוצעת {{typing}} מילים לדקה",
+      "basisEstimateMeasured": "דיבור של כ־{{speaking}} מילים לדקה לעומת הקלדה {{typing}} מילים לדקה",
+      "basisEstimateAverage": "דיבור של כ־{{speaking}} מילים לדקה לעומת הקלדה ממוצעת {{typing}} מילים לדקה"
     }
   },
   "history": {

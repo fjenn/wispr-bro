@@ -1620,8 +1620,7 @@
     },
     "words": {
       "title": "Total kata",
-      "dictations_other": "dalam {{count, number}} dikte",
-      "saved": "Hemat {{time}} dibanding mengetik"
+      "dictations_other": "dalam {{count, number}} dikte"
     },
     "fixes": {
       "title": "Perbaikan yang dilakukan",
@@ -1681,6 +1680,13 @@
     "typing": {
       "take": "Ikuti tes mengetik",
       "retake": "Ulangi tes mengetik"
+    },
+    "saved": {
+      "title": "Waktu yang dihemat dibanding mengetik",
+      "basisMeasured": "Berbicara {{speaking}} kpm vs mengetik {{typing}} kpm",
+      "basisAverage": "Berbicara {{speaking}} kpm vs mengetik rata-rata {{typing}} kpm",
+      "basisEstimateMeasured": "Berbicara sekitar {{speaking}} kpm vs mengetik {{typing}} kpm",
+      "basisEstimateAverage": "Berbicara sekitar {{speaking}} kpm vs mengetik rata-rata {{typing}} kpm"
     }
   },
   "history": {

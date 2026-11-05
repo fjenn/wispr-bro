@@ -1809,8 +1809,7 @@
       "dictations_one": "v {{count, number}} diktování",
       "dictations_few": "ve {{count, number}} diktováních",
       "dictations_many": "v {{count, number}} diktování",
-      "dictations_other": "v {{count, number}} diktováních",
-      "saved": "Ušetřeno {{time}} oproti psaní"
+      "dictations_other": "v {{count, number}} diktováních"
     },
     "fixes": {
       "title": "Provedené opravy",
@@ -1903,6 +1902,13 @@
     "typing": {
       "take": "Udělat test psaní",
       "retake": "Zopakovat test psaní"
+    },
+    "saved": {
+      "title": "Ušetřený čas oproti psaní",
+      "basisMeasured": "{{speaking}} sl./min mluvení vs. {{typing}} sl./min psaní",
+      "basisAverage": "{{speaking}} sl./min mluvení vs. {{typing}} sl./min průměrného psaní",
+      "basisEstimateMeasured": "Asi {{speaking}} sl./min mluvení vs. {{typing}} sl./min psaní",
+      "basisEstimateAverage": "Asi {{speaking}} sl./min mluvení vs. {{typing}} sl./min průměrného psaní"
     }
   },
   "history": {

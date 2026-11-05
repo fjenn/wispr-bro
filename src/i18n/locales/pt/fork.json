@@ -1746,8 +1746,7 @@
       "title": "Total de palavras",
       "dictations_one": "em {{count, number}} ditado",
       "dictations_many": "em {{count, number}} de ditados",
-      "dictations_other": "em {{count, number}} ditados",
-      "saved": "Economia de {{time}} em relação a digitar"
+      "dictations_other": "em {{count, number}} ditados"
     },
     "fixes": {
       "title": "Correções feitas",
@@ -1829,6 +1828,13 @@
     "typing": {
       "take": "Fazer o teste de digitação",
       "retake": "Refazer o teste de digitação"
+    },
+    "saved": {
+      "title": "Tempo economizado em relação a digitar",
+      "basisMeasured": "{{speaking}} ppm falando contra {{typing}} ppm digitando",
+      "basisAverage": "{{speaking}} ppm falando contra {{typing}} ppm de digitação média",
+      "basisEstimateMeasured": "Cerca de {{speaking}} ppm falando contra {{typing}} ppm digitando",
+      "basisEstimateAverage": "Cerca de {{speaking}} ppm falando contra {{typing}} ppm de digitação média"
     }
   },
   "history": {

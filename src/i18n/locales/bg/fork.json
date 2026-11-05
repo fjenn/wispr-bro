@@ -1683,8 +1683,7 @@
     "words": {
       "title": "Общо думи",
       "dictations_one": "в {{count, number}} диктовка",
-      "dictations_other": "в {{count, number}} диктовки",
-      "saved": "Спестени {{time}} спрямо писането"
+      "dictations_other": "в {{count, number}} диктовки"
     },
     "fixes": {
       "title": "Поправки",
@@ -1755,6 +1754,13 @@
     "typing": {
       "take": "Направи теста за писане",
       "retake": "Повтори теста за писане"
+    },
+    "saved": {
+      "title": "Спестено време спрямо писането",
+      "basisMeasured": "{{speaking}} думи/мин говорене срещу {{typing}} думи/мин писане",
+      "basisAverage": "{{speaking}} думи/мин говорене срещу {{typing}} думи/мин средно писане",
+      "basisEstimateMeasured": "Около {{speaking}} думи/мин говорене срещу {{typing}} думи/мин писане",
+      "basisEstimateAverage": "Около {{speaking}} думи/мин говорене срещу {{typing}} думи/мин средно писане"
     }
   },
   "history": {

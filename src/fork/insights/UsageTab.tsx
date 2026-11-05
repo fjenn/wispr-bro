@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Insights › Usage (S-25, C-51, C-52, C-53, C-54, C-55): speaking speed
- * against typing speed (with the typing test to take or retake), fixes
- * made, total words and the time they saved over typing, where the words
- * go and the streak heatmap. Laid out after the reference: three stat cards
- * (rolling number over a micro label, a hairline, the detail), then two
+ * Insights › Usage (S-25, C-51, C-52, C-53, C-54, C-55): the time saved
+ * over typing as the page's main figure (with the typing test to take or
+ * retake), then speaking speed against typing speed, fixes made and total
+ * words, where the words go and the streak heatmap. Laid out after the
+ * reference: a hero card, three stat cards (rolling number over a micro
+ * label, a hairline, the detail), then two
  * section cards with a large heading and a "LABEL | value" aside. Every number comes from `fork_insights_usage`
  * unchanged (S-09's stats store), so the page matches `daily_stats` by
  * construction. No percentile: there is no population data, by design.
@@ -18,7 +19,7 @@ import type { UsageInsights } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { formatCount } from "../home/StatsRail";
 import { Button, StatNumber } from "../ui";
-import { Clock, Keyboard } from "../ui/icons";
+import { Keyboard } from "../ui/icons";
 import { HEAT_COLORS } from "./heatColors";
 
 const CategoryChart = lazy(() => import("./CategoryChart"));
@@ -133,32 +134,160 @@ function oneDecimal(value: number, language: string): string {
   }
 }
 
+type SavedUnit = "minute" | "hour" | "day";
+
 /**
- * A duration in the UI language's own units ("23 min", "2 hr, 5 min"),
- * from `Intl` so no unit string needs translating. At least one minute.
+ * The time saved in friendly units: minutes under 2 hours, hours under
+ * 2 days, then days and hours. Rounded to whole units; never negative.
  */
-export function formatSaved(ms: number, language: string): string {
-  const total = Math.max(1, Math.round(ms / 60_000));
-  const hours = Math.floor(total / 60);
-  const minutes = total % 60;
+export function savedParts(ms: number): { value: number; unit: SavedUnit }[] {
+  const minutes = Math.max(0, Math.round(ms / 60_000));
+  if (minutes < 120) return [{ value: minutes, unit: "minute" }];
+  const hours = Math.round(minutes / 60);
+  if (hours < 48) return [{ value: hours, unit: "hour" }];
+  const days = Math.floor(hours / 24);
+  const rest = hours % 24;
+  return [
+    { value: days, unit: "day" },
+    ...(rest > 0 ? [{ value: rest, unit: "hour" as const }] : []),
+  ];
+}
+
+/**
+ * `value unit` in the UI language, split around the number so the number
+ * can roll (`StatNumber`) while the unit words (from `Intl`, so nothing to
+ * translate, plurals included) sit before or after it as the language
+ * puts them.
+ */
+function unitText(
+  value: number,
+  unit: SavedUnit,
+  language: string,
+): { before: string; after: string; text: string } {
   try {
-    const unit = (n: number, u: "hour" | "minute") =>
-      new Intl.NumberFormat(language, {
-        style: "unit",
-        unit: u,
-        unitDisplay: "short",
-      }).format(n);
-    const parts = [
-      ...(hours > 0 ? [unit(hours, "hour")] : []),
-      ...(minutes > 0 || hours === 0 ? [unit(minutes, "minute")] : []),
-    ];
+    const parts = new Intl.NumberFormat(language, {
+      style: "unit",
+      unit,
+      unitDisplay: "long",
+    }).formatToParts(value);
+    const numeric = new Set(["integer", "group", "decimal", "fraction"]);
+    const first = parts.findIndex((p) => numeric.has(p.type));
+    let last = first;
+    while (last + 1 < parts.length && numeric.has(parts[last + 1].type))
+      last += 1;
+    const join = (ps: Intl.NumberFormatPart[]) =>
+      ps
+        .map((p) => p.value)
+        .join("")
+        .trim();
+    return {
+      before: first < 0 ? "" : join(parts.slice(0, first)),
+      after: first < 0 ? "" : join(parts.slice(last + 1)),
+      text: parts.map((p) => p.value).join(""),
+    };
+  } catch {
+    return { before: "", after: unit, text: `${value} ${unit}` };
+  }
+}
+
+/** The whole time saved as one localized phrase ("3 days, 4 hours"). */
+export function formatSaved(ms: number, language: string): string {
+  const texts = savedParts(ms).map(
+    (p) => unitText(p.value, p.unit, language).text,
+  );
+  try {
     return new Intl.ListFormat(language, {
       type: "unit",
-      style: "narrow",
-    }).format(parts);
+      style: "long",
+    }).format(texts);
   } catch {
-    return hours > 0 ? `${hours} h ${minutes} min` : `${minutes} min`;
+    return texts.join(" ");
   }
+}
+
+/**
+ * The page's main figure (owner's call): every dictated word typed at the
+ * typing speed (the test, or the average typist) against spoken at the
+ * user's own speaking speed (or the 200 wpm estimate until there is one),
+ * as `fork::stats::insights::time_saved_ms` computes it.
+ */
+function SavedHero({
+  usage,
+  onTypingTest,
+}: {
+  usage: UsageInsights;
+  onTypingTest: () => void;
+}) {
+  const { t, i18n } = useTranslation(FORK_NAMESPACE);
+  const language = i18n.language;
+  const { time_saved_ms, speaking_wpm, speaking_source, typing_wpm } =
+    usage.speed;
+  const measured = usage.speed.typing_source === "measured";
+  const estimate = speaking_source === "estimate";
+  const basis = `insights.saved.basis${estimate ? "Estimate" : ""}${measured ? "Measured" : "Average"}`;
+  const id = "wb-insights-saved-title";
+  return (
+    <section
+      aria-labelledby={id}
+      data-testid="wb-insights-saved"
+      data-ms={time_saved_ms}
+      className={`${CARD} flex min-w-0 flex-col gap-3 p-8`}
+    >
+      <div className="flex flex-col gap-2">
+        <h2 id={id} className="type-micro order-2 text-(--wb-ink-2)">
+          {t("insights.saved.title")}
+        </h2>
+        <p
+          className="type-hero order-1 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[64px] leading-[68px] text-(--wb-ink) tabular-nums @min-[600px]:text-[96px] @min-[600px]:leading-[96px]"
+          data-testid="wb-insights-saved-figure"
+        >
+          <span aria-hidden="true" className="contents">
+            {savedParts(time_saved_ms).map(({ value, unit }) => {
+              const u = unitText(value, unit, language);
+              const word = "type-sheet text-(--wb-ink-2)";
+              return (
+                <span
+                  key={unit}
+                  data-unit={unit}
+                  className="inline-flex items-baseline gap-2"
+                >
+                  {u.before && <span className={word}>{u.before}</span>}
+                  <StatNumber value={value} />
+                  {u.after && <span className={word}>{u.after}</span>}
+                </span>
+              );
+            })}
+          </span>
+          <span className="sr-only" data-testid="wb-insights-saved-value">
+            {formatSaved(time_saved_ms, language)}
+          </span>
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+        <p
+          data-testid="wb-insights-saved-basis"
+          data-speaking={speaking_source}
+          className="text-[13px] leading-[18px] text-(--wb-ink-2)"
+        >
+          {t(basis, {
+            speaking: formatCount(Math.round(speaking_wpm), language),
+            typing: formatCount(typing_wpm, language),
+          })}
+        </p>
+        <div data-export-skip="">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={onTypingTest}
+            data-testid="wb-insights-typing-test"
+            leading={<Keyboard size={16} aria-hidden="true" />}
+          >
+            {t(measured ? "insights.typing.retake" : "insights.typing.take")}
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 /** One labelled bar of the speaking-against-typing comparison. */
@@ -198,13 +327,7 @@ function SpeedBar({
   );
 }
 
-function SpeedCard({
-  usage,
-  onTypingTest,
-}: {
-  usage: UsageInsights;
-  onTypingTest: () => void;
-}) {
+function SpeedCard({ usage }: { usage: UsageInsights }) {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const language = i18n.language;
   const {
@@ -278,17 +401,6 @@ function SpeedCard({
             {t("insights.speed.notEnough")}
           </p>
         )}
-        <div className="mt-auto" data-export-skip="">
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={onTypingTest}
-            data-testid="wb-insights-typing-test"
-            leading={<Keyboard size={16} aria-hidden="true" />}
-          >
-            {t(measured ? "insights.typing.retake" : "insights.typing.take")}
-          </Button>
-        </div>
       </div>
     </Card>
   );
@@ -296,7 +408,6 @@ function SpeedCard({
 
 function WordsCard({ usage }: { usage: UsageInsights }) {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
-  const saved = usage.speed.time_saved_ms;
   return (
     <Card
       testId="wb-insights-words"
@@ -315,22 +426,6 @@ function WordsCard({ usage }: { usage: UsageInsights }) {
         <p>
           {t("insights.words.dictations", { count: usage.total_dictations })}
         </p>
-        {saved != null && saved > 0 && (
-          <p
-            className="flex items-center gap-2"
-            data-testid="wb-insights-saved"
-            data-ms={saved}
-          >
-            <Clock
-              size={16}
-              aria-hidden="true"
-              className="shrink-0 text-(--wb-ink-2)"
-            />
-            {t("insights.words.saved", {
-              time: formatSaved(saved, i18n.language),
-            })}
-          </p>
-        )}
       </div>
     </Card>
   );
@@ -518,8 +613,9 @@ export function UsageTab({
       data-testid="wb-insights-usage"
       className="@container flex flex-col gap-6"
     >
+      <SavedHero usage={usage} onTypingTest={onTypingTest} />
       <div className="grid grid-cols-1 gap-6 @min-[600px]:grid-cols-3">
-        <SpeedCard usage={usage} onTypingTest={onTypingTest} />
+        <SpeedCard usage={usage} />
         <FixesCard usage={usage} />
         <WordsCard usage={usage} />
       </div>

@@ -1683,8 +1683,7 @@
     "words": {
       "title": "Ord i alt",
       "dictations_one": "i {{count, number}} diktering",
-      "dictations_other": "i {{count, number}} dikteringer",
-      "saved": "Sparet {{time}} i forhold til at skrive"
+      "dictations_other": "i {{count, number}} dikteringer"
     },
     "fixes": {
       "title": "Rettelser",
@@ -1755,6 +1754,13 @@
     "typing": {
       "take": "Tag skrivetesten",
       "retake": "Tag skrivetesten igen"
+    },
+    "saved": {
+      "title": "Tid sparet i forhold til at skrive",
+      "basisMeasured": "{{speaking}} ord/min tale mod {{typing}} ord/min skrivning",
+      "basisAverage": "{{speaking}} ord/min tale mod {{typing}} ord/min gennemsnitlig skrivning",
+      "basisEstimateMeasured": "Cirka {{speaking}} ord/min tale mod {{typing}} ord/min skrivning",
+      "basisEstimateAverage": "Cirka {{speaking}} ord/min tale mod {{typing}} ord/min gennemsnitlig skrivning"
     }
   },
   "history": {

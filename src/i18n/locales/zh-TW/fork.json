@@ -1620,8 +1620,7 @@
     },
     "words": {
       "title": "總字數",
-      "dictations_other": "來自 {{count, number}} 次聽寫",
-      "saved": "比打字節省了 {{time}}"
+      "dictations_other": "來自 {{count, number}} 次聽寫"
     },
     "fixes": {
       "title": "已做的修正",
@@ -1681,6 +1680,13 @@
     "typing": {
       "take": "進行打字測驗",
       "retake": "重新進行打字測驗"
+    },
+    "saved": {
+      "title": "相較打字節省的時間",
+      "basisMeasured": "說話每分鐘 {{speaking}} 字，打字每分鐘 {{typing}} 字",
+      "basisAverage": "說話每分鐘 {{speaking}} 字，一般打字每分鐘 {{typing}} 字",
+      "basisEstimateMeasured": "說話約每分鐘 {{speaking}} 字，打字每分鐘 {{typing}} 字",
+      "basisEstimateAverage": "說話約每分鐘 {{speaking}} 字，一般打字每分鐘 {{typing}} 字"
     }
   },
   "history": {

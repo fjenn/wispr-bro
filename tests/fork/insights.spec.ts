@@ -40,6 +40,8 @@ function usageFixture(over: Partial<UsageInsights> = {}): UsageInsights {
       typing_wpm: 50,
       typing_source: "measured",
       times_typing: 3,
+      speaking_wpm: 150,
+      speaking_source: "measured",
       time_saved_ms: 1_400_000,
     },
     fixes_dictionary: 7,
@@ -145,8 +147,14 @@ test.describe("insights", () => {
       "Retake typing test",
     );
     // 1,750 words: 35 min at 50 wpm typing, 11⅔ min speaking.
-    await expect(page.getByTestId("wb-insights-saved")).toHaveText(
-      "23 min saved over typing",
+    await expect(page.getByTestId("wb-insights-saved-value")).toHaveText(
+      "23 minutes",
+    );
+    await expect(page.getByTestId("wb-insights-saved")).toContainText(
+      "Time saved vs typing",
+    );
+    await expect(page.getByTestId("wb-insights-saved-basis")).toHaveText(
+      "150 wpm speaking vs 50 wpm typing",
     );
     await expect(page.getByTestId("wb-insights-speed-compare")).toHaveText(
       "3.0× your typing speed of 50 wpm",
@@ -223,6 +231,8 @@ test.describe("insights", () => {
       typing_wpm: 40,
       typing_source: "average",
       times_typing: 3.9,
+      speaking_wpm: 155,
+      speaking_source: "measured",
       time_saved_ms: 7_200_000,
     };
     await openInsights(page, ipc, hub, b);
@@ -235,8 +245,11 @@ test.describe("insights", () => {
     await expect(page.getByTestId("wb-insights-typing-test")).toHaveText(
       "Take the typing test",
     );
-    await expect(page.getByTestId("wb-insights-saved")).toHaveText(
-      "2 hr saved over typing",
+    await expect(page.getByTestId("wb-insights-saved-value")).toHaveText(
+      "2 hours",
+    );
+    await expect(page.getByTestId("wb-insights-saved-basis")).toHaveText(
+      "155 wpm speaking vs 40 wpm average typing",
     );
   });
 
@@ -270,6 +283,8 @@ test.describe("insights", () => {
         typing_wpm: 300,
         typing_source: "measured",
         times_typing: 0.5,
+        speaking_wpm: 150,
+        speaking_source: "measured",
         time_saved_ms: 0,
       },
     });
@@ -282,8 +297,13 @@ test.describe("insights", () => {
     await expect(page.getByTestId("wb-insights-speed-compare")).toHaveText(
       "0.5× your typing speed of 300 wpm",
     );
-    // A typist faster than the speaker saves nothing: no line.
-    await expect(page.getByTestId("wb-insights-saved")).toHaveCount(0);
+    // A typist faster than the speaker saves nothing, never less.
+    await expect(page.getByTestId("wb-insights-saved-value")).toHaveText(
+      "0 minutes",
+    );
+    await expect(page.getByTestId("wb-insights-saved-basis")).toHaveText(
+      "150 wpm speaking vs 300 wpm typing",
+    );
   });
 
   test("closing the typing test keeps the stored speed", async ({
@@ -312,7 +332,9 @@ test.describe("insights", () => {
         typing_wpm: 40,
         typing_source: "average",
         times_typing: null,
-        time_saved_ms: null,
+        speaking_wpm: 200,
+        speaking_source: "estimate",
+        time_saved_ms: 0,
       },
       fixes_dictionary: 0,
       fixes_llm: 0,
@@ -339,9 +361,111 @@ test.describe("insights", () => {
     await expect(page.getByTestId("wb-insights-streak-current")).toHaveText(
       "0-day streak",
     );
-    // No speaking rate, no time saved; the typing test is still offered.
-    await expect(page.getByTestId("wb-insights-saved")).toHaveCount(0);
+    // No words, nothing saved yet; the estimate says so; the typing test
+    // is still offered.
+    await expect(page.getByTestId("wb-insights-saved-value")).toHaveText(
+      "0 minutes",
+    );
+    await expect(page.getByTestId("wb-insights-saved-basis")).toHaveText(
+      "About 200 wpm speaking vs 40 wpm average typing",
+    );
     await expect(page.getByTestId("wb-insights-typing-test")).toBeVisible();
+  });
+
+  test("time saved is the hero: big figure on top, three stats in a row under it", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const b = fresh();
+    // The owner's example: 150,000 words, 150 wpm speaking, 37.5 typing:
+    // 3,000 min = 50 h, shown as days and hours.
+    b.usage = usageFixture({
+      total_words: 150_000,
+      speed: {
+        words_per_minute: 150,
+        typing_wpm: 38,
+        typing_source: "measured",
+        times_typing: 3.9,
+        speaking_wpm: 150,
+        speaking_source: "measured",
+        time_saved_ms: 3_000 * 60_000,
+      },
+    });
+    await openInsights(page, ipc, hub, b);
+    const hero = page.getByTestId("wb-insights-saved");
+    await expect(page.getByTestId("wb-insights-saved-value")).toHaveText(
+      "2 days, 2 hours",
+    );
+    await expect(
+      page.getByTestId("wb-insights-saved-figure").locator("[data-unit]"),
+    ).toHaveCount(2);
+    await expect(hero.getByRole("heading")).toHaveText("Time saved vs typing");
+    const cards = ["speed", "fixes", "words"].map((id) =>
+      page.getByTestId(`wb-insights-${id}`),
+    );
+    const heroBox = (await hero.boundingBox())!;
+    const boxes = await Promise.all(
+      cards.map(async (c) => (await c.boundingBox())!),
+    );
+    // Hero first, full width; the three cards under it in one row.
+    for (const box of boxes) {
+      expect(box.y).toBeGreaterThanOrEqual(heroBox.y + heroBox.height);
+      expect(Math.abs(box.y - boxes[0].y)).toBeLessThan(1);
+    }
+    expect(boxes[0].x).toBeLessThan(boxes[1].x);
+    expect(boxes[1].x).toBeLessThan(boxes[2].x);
+    expect(
+      Math.abs(heroBox.width - (boxes[2].x + boxes[2].width - boxes[0].x)),
+    ).toBeLessThan(2);
+    // The hero's number is far larger than a stat card's.
+    const size = (sel: string) =>
+      page
+        .locator(sel)
+        .first()
+        .evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(
+      await size('[data-testid="wb-insights-saved-figure"]'),
+    ).toBeGreaterThanOrEqual(
+      2 * (await size('[data-testid="wb-insights-words"] p')),
+    );
+    // The words card no longer repeats the time saved.
+    await expect(page.getByTestId("wb-insights-words")).not.toContainText(
+      /saved/i,
+    );
+    await expect(page.getByTestId("wb-insights-words-value")).toHaveText(
+      "150,000",
+    );
+  });
+
+  test("words without a measured speaking rate use the 200 wpm estimate", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    const b = fresh();
+    b.usage = usageFixture({
+      total_words: 900,
+      speed: {
+        words_per_minute: null,
+        typing_wpm: 45,
+        typing_source: "average",
+        times_typing: null,
+        speaking_wpm: 200,
+        speaking_source: "estimate",
+        time_saved_ms: 930_000,
+      },
+    });
+    await openInsights(page, ipc, hub, b);
+    await expect(page.getByTestId("wb-insights-saved-value")).toHaveText(
+      "16 minutes",
+    );
+    await expect(page.getByTestId("wb-insights-saved-basis")).toHaveText(
+      "About 200 wpm speaking vs 45 wpm average typing",
+    );
+    await expect(page.getByTestId("wb-insights-typing-test")).toHaveText(
+      "Take the typing test",
+    );
   });
 
   test("no percentile anywhere", async ({ page, ipc, hub }) => {

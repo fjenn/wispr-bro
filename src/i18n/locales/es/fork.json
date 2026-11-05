@@ -1746,8 +1746,7 @@
       "title": "Palabras totales",
       "dictations_one": "en {{count, number}} dictado",
       "dictations_many": "en {{count, number}} de dictados",
-      "dictations_other": "en {{count, number}} dictados",
-      "saved": "Ahorro de {{time}} frente a escribir"
+      "dictations_other": "en {{count, number}} dictados"
     },
     "fixes": {
       "title": "Correcciones realizadas",
@@ -1829,6 +1828,13 @@
     "typing": {
       "take": "Hacer la prueba de escritura",
       "retake": "Repetir la prueba de escritura"
+    },
+    "saved": {
+      "title": "Tiempo ahorrado frente a escribir",
+      "basisMeasured": "{{speaking}} ppm hablando frente a {{typing}} ppm escribiendo",
+      "basisAverage": "{{speaking}} ppm hablando frente a {{typing}} ppm de escritura media",
+      "basisEstimateMeasured": "Unas {{speaking}} ppm hablando frente a {{typing}} ppm escribiendo",
+      "basisEstimateAverage": "Unas {{speaking}} ppm hablando frente a {{typing}} ppm de escritura media"
     }
   },
   "history": {

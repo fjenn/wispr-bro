@@ -1683,8 +1683,7 @@
     "words": {
       "title": "Wörter insgesamt",
       "dictations_one": "in {{count, number}} Diktat",
-      "dictations_other": "in {{count, number}} Diktaten",
-      "saved": "{{time}} gespart gegenüber dem Tippen"
+      "dictations_other": "in {{count, number}} Diktaten"
     },
     "fixes": {
       "title": "Korrekturen",
@@ -1755,6 +1754,13 @@
     "typing": {
       "take": "Tipptest machen",
       "retake": "Tipptest wiederholen"
+    },
+    "saved": {
+      "title": "Zeitersparnis gegenüber Tippen",
+      "basisMeasured": "{{speaking}} Wörter/Min. Sprechen gegenüber {{typing}} Wörter/Min. Tippen",
+      "basisAverage": "{{speaking}} Wörter/Min. Sprechen gegenüber {{typing}} Wörter/Min. durchschnittlichem Tippen",
+      "basisEstimateMeasured": "Etwa {{speaking}} Wörter/Min. Sprechen gegenüber {{typing}} Wörter/Min. Tippen",
+      "basisEstimateAverage": "Etwa {{speaking}} Wörter/Min. Sprechen gegenüber {{typing}} Wörter/Min. durchschnittlichem Tippen"
     }
   },
   "history": {
