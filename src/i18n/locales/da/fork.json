@@ -1100,11 +1100,10 @@
     "banner": {
       "title": "Lær {{appName}} dine ord",
       "lead": "Navne, termer og forkortelser stavet på din måde.",
-      "examplesLabel": "Eksempler",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "ka’ → kan",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Ord at tilføje"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1289,7 +1288,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Prøv det",
-      "howItWorks": "Sådan virker det"
+      "howItWorks": "Sådan virker det",
+      "title": "Omskriv al tekst, du markerer"
     },
     "enable": {
       "title": "Slå Transformationer til"
@@ -1301,7 +1301,8 @@
     "auto": {
       "title": "Anvend efter hver diktering",
       "choice": "Transformation, der skal anvendes",
-      "none": "Vælg en transformation"
+      "none": "Vælg en transformation",
+      "description": "Hver diktering kører gennem den transformation, du vælger."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 og ⌥O erstatter tegnene ¡, ™ og ø, mens Transformationer er slået til.",
@@ -1313,10 +1314,11 @@
     "createNew": "Ny transformation",
     "deleteConfirm": "Vil du slette {{name}}? Det kan ikke fortrydes.",
     "loading": "Indlæser dine transformationer…",
-    "empty": "Ingen transformationer endnu. Opret en for at komme i gang.",
     "error": "Ændringen af transformationen kunne ikke gemmes. Prøv igen.",
     "card": {
-      "delete": "Slet {{name}}"
+      "delete": "Slet {{name}}",
+      "createOwn": "Lav din egen",
+      "createOwnHint": "Beskriv, hvad den skal gøre"
     },
     "new": {
       "name": "Min transformation"
@@ -1414,6 +1416,11 @@
     "subtitle": "Markér tekst i en hvilken som helst app, og tryk på en genvej for at omskrive den.",
     "settings": {
       "title": "Indstillinger for transformationer"
+    },
+    "viewChanges": "for at se, hvad der er ændret",
+    "builtin": {
+      "polish": "Klarere og kortere, samme betydning",
+      "prompt_engineer": "Gør en løs forespørgsel til en klar prompt"
     }
   },
   "cleanup": {
@@ -1501,8 +1508,12 @@
       "title": "Sig et par ord, og få hele teksten",
       "lead": "Sig et kort stikord, og {{appName}} skriver hele teksten.",
       "examplesLabel": "Eksempler",
-      "example1": "”min adresse” → din fulde postadresse",
-      "example2": "”min hilsen” → Venlig hilsen og dit navn"
+      "cue1": "min adresse",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "min hilsen",
+      "text2": "Venlig hilsen, Sam",
+      "cue3": "kalenderlink",
+      "text3": "Vælg et tidspunkt, der passer dig: cal.example.com/sam"
     },
     "entry": {
       "becomes": "skrives som",
@@ -1892,22 +1903,22 @@
       "personal": {
         "tab": "Personlige beskeder",
         "label": "Personlige beskeder",
-        "description": "Chats med venner og familie, f.eks. Beskeder, WhatsApp, Telegram, Signal og Discord."
+        "bannerTitle": "Til chats med venner og familie"
       },
       "work": {
         "tab": "Arbejdsbeskeder",
         "label": "Arbejdsbeskeder",
-        "description": "Chats med kolleger, f.eks. Slack, Microsoft Teams og Google Chat."
+        "bannerTitle": "Til chats med kolleger"
       },
       "email": {
         "tab": "E-mail",
         "label": "E-mail",
-        "description": "E-mail-apps, f.eks. Mail, Outlook, Spark og Superhuman."
+        "bannerTitle": "Til din e-mail"
       },
       "other": {
         "tab": "Andre",
         "label": "Andre",
-        "description": "Alle andre apps: noter, dokumenter, kodeeditorer og mere."
+        "bannerTitle": "Til alt andet"
       }
     },
     "presets": {
@@ -1930,7 +1941,6 @@
     },
     "presetsHeading": "Stil",
     "presetsLegend": "Stil for {{group}}",
-    "before": "Hvad du siger",
     "after": "Hvad der skrives:",
     "englishOnly": "Stilarter gælder for dikteringer på engelsk. Oprydning virker på alle sprog.",
     "apps": {
@@ -1955,8 +1965,6 @@
       "changeFailed": "Ændringen blev ikke gemt. Prøv igen."
     },
     "sites": {
-      "heading": "Bruges på disse websteder",
-      "listLabel": "Websteder, der bruger stilen ”{{group}}”",
       "addShort": "Tilføj websted",
       "recent": {
         "heading": "Senest brugte websteder",
@@ -1992,8 +2000,15 @@
     },
     "cleanup": {
       "tab": "Oprydning",
-      "description": "Hvor meget der ryddes op i dine ord, i alle apps og på alle sprog. Stilen for hver gruppe lægges ovenpå."
-    }
+      "description": "Hvor meget der ryddes op i dine ord, i alle apps og på alle sprog. Stilen for hver gruppe lægges ovenpå.",
+      "bannerTitle": "Oprydningen gælder hver diktering",
+      "levels": {
+        "none": "Præcis det, du sagde, fejl og det hele",
+        "light": "Fjerner fyldord og retter tegnsætningen",
+        "medium": "Mere flydende formulering, samme betydning"
+      }
+    },
+    "addMenu": "Tilføj en app eller et websted"
   },
   "onboardingFlow": {
     "loading": "Gør klar…",

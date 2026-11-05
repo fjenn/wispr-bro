@@ -1082,11 +1082,10 @@
     "banner": {
       "title": "{{appName}} に言葉を教える",
       "lead": "名前、用語、略語をあなたの表記で。",
-      "examplesLabel": "例",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "かぶしきがいしゃ → 株式会社",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "追加する単語"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1253,7 +1252,8 @@
   "transforms": {
     "banner": {
       "tryIt": "試す",
-      "howItWorks": "仕組み"
+      "howItWorks": "仕組み",
+      "title": "選択したテキストを書き換えます"
     },
     "enable": {
       "title": "書き換えを有効にする"
@@ -1265,7 +1265,8 @@
     "auto": {
       "title": "毎回の音声入力後に適用",
       "choice": "適用する書き換え",
-      "none": "書き換えを選択"
+      "none": "書き換えを選択",
+      "description": "すべての音声入力を選んだ書き換えに通します。"
     },
     "shortcuts": {
       "warning": "書き換えがオンの間、⌥1、⌥2、⌥O で ¡、™、ø の文字は入力されなくなります。",
@@ -1277,10 +1278,11 @@
     "createNew": "新しい書き換え",
     "deleteConfirm": "{{name}} を削除しますか？この操作は取り消せません。",
     "loading": "書き換えを読み込み中…",
-    "empty": "書き換えはまだありません。作成して始めましょう。",
     "error": "書き換えの変更を保存できませんでした。もう一度お試しください。",
     "card": {
-      "delete": "{{name}} を削除"
+      "delete": "{{name}} を削除",
+      "createOwn": "自分で作成",
+      "createOwnHint": "何をするかを書いてください"
     },
     "new": {
       "name": "自分の書き換え"
@@ -1377,6 +1379,11 @@
     "subtitle": "どのアプリでもテキストを選択し、ショートカットを押すと書き換えられます。",
     "settings": {
       "title": "書き換えの設定"
+    },
+    "viewChanges": "で変更を確認",
+    "builtin": {
+      "polish": "より明確で簡潔に、意味はそのまま",
+      "prompt_engineer": "大まかな依頼を明確なプロンプトにします"
     }
   },
   "cleanup": {
@@ -1459,8 +1466,12 @@
       "title": "ひとこと話すだけで、全文を入力",
       "lead": "短いキーワードを言うと、{{appName}} が全文を入力します。",
       "examplesLabel": "例",
-      "example1": "「自分の住所」→ 郵便番号から始まる住所",
-      "example2": "「結びのあいさつ」→ よろしくお願いいたします、と自分の名前"
+      "cue1": "自分の住所",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "結びの挨拶",
+      "text2": "よろしくお願いします、Sam",
+      "cue3": "カレンダーのリンク",
+      "text3": "ご都合のよい時間をお選びください: cal.example.com/sam"
     },
     "entry": {
       "becomes": "の入力内容",
@@ -1815,22 +1826,22 @@
       "personal": {
         "tab": "個人のメッセージ",
         "label": "個人のメッセージ",
-        "description": "メッセージ、WhatsApp、Telegram、Signal、Discord など、友人や家族とのチャット。"
+        "bannerTitle": "友人や家族とのチャット向け"
       },
       "work": {
         "tab": "仕事のメッセージ",
         "label": "仕事のメッセージ",
-        "description": "Slack、Microsoft Teams、Google Chat など、同僚とのチャット。"
+        "bannerTitle": "同僚とのチャット向け"
       },
       "email": {
         "tab": "メール",
         "label": "メール",
-        "description": "メール、Outlook、Spark、Superhuman などのメールアプリ。"
+        "bannerTitle": "メール向け"
       },
       "other": {
         "tab": "その他",
         "label": "その他",
-        "description": "メモ、書類、コードエディタなど、ほかのすべてのアプリ。"
+        "bannerTitle": "その他すべて向け"
       }
     },
     "presets": {
@@ -1853,7 +1864,6 @@
     },
     "presetsHeading": "スタイル",
     "presetsLegend": "{{group}}のスタイル",
-    "before": "話した内容",
     "after": "入力される内容：",
     "englishOnly": "スタイルは英語の音声入力に適用されます。整形はすべての言語で機能します。",
     "apps": {
@@ -1878,8 +1888,6 @@
       "changeFailed": "変更を保存できませんでした。もう一度お試しください。"
     },
     "sites": {
-      "heading": "使用するサイト",
-      "listLabel": "{{group}}のスタイルを使用するサイト",
       "addShort": "ウェブサイトを追加",
       "recent": {
         "heading": "最近使ったウェブサイト",
@@ -1915,8 +1923,15 @@
     },
     "cleanup": {
       "tab": "整形",
-      "description": "すべてのアプリとすべての言語で、どの程度整形するかを設定します。各グループのスタイルはその上に適用されます。"
-    }
+      "description": "すべてのアプリとすべての言語で、どの程度整形するかを設定します。各グループのスタイルはその上に適用されます。",
+      "bannerTitle": "整形はすべての音声入力に適用されます",
+      "levels": {
+        "none": "話したとおり、言い間違いもそのまま",
+        "light": "つなぎ言葉を除き、句読点を整えます",
+        "medium": "より自然な言い回しで、意味はそのまま"
+      }
+    },
+    "addMenu": "アプリまたはWebサイトを追加"
   },
   "onboardingFlow": {
     "loading": "準備しています…",

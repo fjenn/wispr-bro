@@ -210,33 +210,43 @@ test("Command Mode card is independently opt-in and keyboard accessible", async 
   await expect.poll(() => hub.forkSettings.command_mode_enabled).toBe(false);
 });
 
-test("simple page: opt-in, list, settings with auto-apply and safe shortcuts", async ({
+test("page: opt-in, banner, auto-apply row, cards and safe shortcuts", async ({
   page,
   ipc,
   hub,
 }) => {
   const fake = new FakeTransforms();
-  await openTransforms(page, ipc, hub, fake);
-  // XF2: a title, one line with the lesson links, the list and one button.
-  await expect(page.getByTestId("wb-banner-transforms.rewrite")).toHaveCount(0);
-  await expect(page.getByTestId("wb-transforms")).toContainText(
+  await openTransforms(page, ipc, hub, fake, {
+    fork: {
+      hotkeys: {
+        "transform.view_changes": [{ chord: "option+o", activation: "press" }],
+      },
+    },
+  });
+  // flowmatch: header switch and key pill, one banner, the auto-apply row,
+  // then the "My Transforms" grid ending with "Make your own".
+  await expect(page.getByTestId("wb-banner-transforms")).toContainText(
     "press a shortcut to rewrite it",
   );
   await expect(page.getByTestId("wb-transforms-try-it")).toBeVisible();
   await expect(page.getByTestId("wb-transforms-how-it-works")).toBeVisible();
-  await expect(page.getByTestId("wb-transform-polish")).toBeVisible();
+  await expect(page.getByTestId("wb-transform-polish")).toContainText(
+    "Clearer and tighter",
+  );
   await expect(page.getByTestId("wb-transform-prompt_engineer")).toBeVisible();
   await expect(page.getByTestId("wb-transforms-create")).toHaveText(
     "New transform",
   );
+  await expect(page.getByTestId("wb-transforms-create-card")).toContainText(
+    "Make your own",
+  );
   await expect(page.getByTestId("wb-command-mode-card")).toHaveCount(0);
-  await expect(page.getByTestId("wb-transforms-auto")).toHaveCount(0);
+  await expect(page.getByTestId("wb-transforms-auto")).toBeDisabled();
   const enabled = page.getByTestId("wb-transforms-enabled");
   await expect(enabled).not.toBeChecked();
   await enabled.click();
   await expect(enabled).toBeChecked();
   await expect.poll(() => hub.forkSettings.transforms_enabled).toBe(true);
-  await page.getByTestId("wb-transforms-settings").click();
   await page.getByTestId("wb-transforms-auto").click();
   await expect(page.getByTestId("wb-transforms-auto")).toBeChecked();
   // A Radix select (W2): the trigger shows the chosen transform's name.
@@ -250,6 +260,7 @@ test("simple page: opt-in, list, settings with auto-apply and safe shortcuts", a
   await expect
     .poll(() => hub.forkSettings.auto_apply_transform)
     .toBe("prompt_engineer");
+  await page.getByTestId("wb-transforms-settings").click();
   await page.getByTestId("wb-transforms-safe-shortcuts").click();
   await expect
     .poll(() => hub.forkSettings.hotkey)
@@ -257,6 +268,10 @@ test("simple page: opt-in, list, settings with auto-apply and safe shortcuts", a
       action: "transform.view_changes",
       bindings: [{ chord: "ctrl+option+o", activation: "press" }],
     });
+  await page.keyboard.press("Escape");
+  // The key pill opens View changes for the latest run.
+  await page.getByTestId("wb-transforms-view-changes").click();
+  await expect(page.getByTestId("wb-transform-diff")).toBeVisible();
 });
 
 test("Polish editor: one instruction, five option chips, preview, autosave, reset and Escape", async ({
@@ -370,7 +385,6 @@ test("reset restores built-ins and clears auto-apply", async ({
   await openTransforms(page, ipc, hub, fake, {
     fork: { transforms_enabled: true, auto_apply_transform: "polish" },
   });
-  await page.getByTestId("wb-transforms-settings").click();
   page.once("dialog", (dialog) => void dialog.accept());
   await page.getByTestId("wb-transforms-reset").click();
   await ipc.expectCalled("fork_transforms_reset", {});

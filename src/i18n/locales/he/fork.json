@@ -1118,11 +1118,10 @@
     "banner": {
       "title": "למד את {{appName}} את המילים שלך",
       "lead": "שמות, מונחים וראשי תיבות, באיות שלכם.",
-      "examplesLabel": "דוגמאות",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "תכלס → בפועל",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "מילים להוספה"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1325,7 +1324,8 @@
   "transforms": {
     "banner": {
       "tryIt": "נסה",
-      "howItWorks": "איך זה עובד"
+      "howItWorks": "איך זה עובד",
+      "title": "שכתוב כל טקסט שבחרת"
     },
     "enable": {
       "title": "הפעל המרות"
@@ -1337,7 +1337,8 @@
     "auto": {
       "title": "החל אחרי כל הכתבה",
       "choice": "ההמרה שתוחל",
-      "none": "בחר המרה"
+      "none": "בחר המרה",
+      "description": "כל הכתבה עוברת דרך ההמרה שבחרת."
     },
     "shortcuts": {
       "warning": "כשההמרות פועלות, ⌥1, ⌥2 ו-⌥O מחליפים את התווים ¡, ™ ו-ø.",
@@ -1349,10 +1350,11 @@
     "createNew": "המרה חדשה",
     "deleteConfirm": "למחוק את {{name}}? לא ניתן לבטל פעולה זו.",
     "loading": "טוען את ההמרות שלך…",
-    "empty": "עדיין אין המרות. צור אחת כדי להתחיל.",
     "error": "לא ניתן לשמור את השינוי בהמרה. נסה שוב.",
     "card": {
-      "delete": "מחק את {{name}}"
+      "delete": "מחק את {{name}}",
+      "createOwn": "יצירת המרה משלך",
+      "createOwnHint": "תאר מה היא צריכה לעשות"
     },
     "new": {
       "name": "ההמרה שלי"
@@ -1451,6 +1453,11 @@
     "subtitle": "בחרו טקסט בכל אפליקציה ולחצו על קיצור כדי לנסח אותו מחדש.",
     "settings": {
       "title": "הגדרות המרות"
+    },
+    "viewChanges": "כדי לראות מה השתנה",
+    "builtin": {
+      "polish": "ברור ותמציתי יותר, אותה משמעות",
+      "prompt_engineer": "הופך בקשה כללית להנחיה ברורה"
     }
   },
   "cleanup": {
@@ -1543,8 +1550,12 @@
       "title": "אמור כמה מילים, קבל את כל הטקסט",
       "lead": "אמרו מילת מפתח קצרה ו-{{appName}} יכתוב את הטקסט המלא.",
       "examplesLabel": "דוגמאות",
-      "example1": "\"הכתובת שלי\" ← הכתובת המלאה שלך",
-      "example2": "\"החתימה שלי\" ← בברכה, והשם שלך"
+      "cue1": "הכתובת שלי",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "החתימה שלי",
+      "text2": "בברכה, סאם",
+      "cue3": "קישור ליומן",
+      "text3": "בחרו זמן שנוח לכם: cal.example.com/sam"
     },
     "entry": {
       "becomes": "נכתב כ-",
@@ -1969,22 +1980,22 @@
       "personal": {
         "tab": "הודעות אישיות",
         "label": "הודעות אישיות",
-        "description": "צ׳אטים עם חברים ומשפחה, כמו Messages,‏ WhatsApp,‏ Telegram,‏ Signal ו-Discord."
+        "bannerTitle": "לצ׳אטים עם חברים ומשפחה"
       },
       "work": {
         "tab": "הודעות עבודה",
         "label": "הודעות עבודה",
-        "description": "צ׳אטים עם עמיתים, כמו Slack,‏ Microsoft Teams ו-Google Chat."
+        "bannerTitle": "לצ׳אטים עם עמיתים"
       },
       "email": {
         "tab": "דוא״ל",
         "label": "דוא״ל",
-        "description": "אפליקציות דוא״ל, כמו Mail,‏ Outlook,‏ Spark ו-Superhuman."
+        "bannerTitle": "לדוא״ל שלך"
       },
       "other": {
         "tab": "אחר",
         "label": "אחר",
-        "description": "כל שאר האפליקציות: פתקים, מסמכים, עורכי קוד ועוד."
+        "bannerTitle": "לכל השאר"
       }
     },
     "presets": {
@@ -2007,7 +2018,6 @@
     },
     "presetsHeading": "סגנון",
     "presetsLegend": "סגנון עבור {{group}}",
-    "before": "מה שאתה אומר",
     "after": "מה שנכתב:",
     "englishOnly": "הסגנונות חלים על הכתבות באנגלית. הניקוי עובד בכל שפה.",
     "apps": {
@@ -2032,8 +2042,6 @@
       "changeFailed": "השינוי לא נשמר. נסה שוב."
     },
     "sites": {
-      "heading": "בשימוש באתרים האלה",
-      "listLabel": "אתרים שמשתמשים בסגנון {{group}}",
       "addShort": "הוסף אתר",
       "recent": {
         "heading": "אתרים שהיו בשימוש לאחרונה",
@@ -2069,8 +2077,15 @@
     },
     "cleanup": {
       "tab": "ניקוי",
-      "description": "כמה המילים שלך מסודרות, בכל אפליקציה ובכל שפה. הסגנון של כל קבוצה מוחל מעל זה."
-    }
+      "description": "כמה המילים שלך מסודרות, בכל אפליקציה ובכל שפה. הסגנון של כל קבוצה מוחל מעל זה.",
+      "bannerTitle": "הניקוי פועל בכל הכתבה",
+      "levels": {
+        "none": "בדיוק מה שאמרת, כולל הטעויות",
+        "light": "מסיר מילות מילוי ומתקן פיסוק",
+        "medium": "ניסוח זורם יותר, אותה משמעות"
+      }
+    },
+    "addMenu": "הוספת אפליקציה או אתר"
   },
   "onboardingFlow": {
     "loading": "מכין את הכול…",

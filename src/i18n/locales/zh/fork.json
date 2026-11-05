@@ -1082,11 +1082,10 @@
     "banner": {
       "title": "教 {{appName}} 认识你的用词",
       "lead": "人名、术语和缩写，按你的写法拼写。",
-      "examplesLabel": "示例",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "gonna → going to",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "可添加的词"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1253,7 +1252,8 @@
   "transforms": {
     "banner": {
       "tryIt": "试试",
-      "howItWorks": "工作原理"
+      "howItWorks": "工作原理",
+      "title": "改写你选中的任意文本"
     },
     "enable": {
       "title": "启用转换"
@@ -1265,7 +1265,8 @@
     "auto": {
       "title": "每次听写后应用",
       "choice": "要应用的转换",
-      "none": "选择转换"
+      "none": "选择转换",
+      "description": "每次听写都会经过你选择的转换。"
     },
     "shortcuts": {
       "warning": "转换处于打开状态时，⌥1、⌥2 和 ⌥O 将不再输入 ¡、™ 和 ø。",
@@ -1277,10 +1278,11 @@
     "createNew": "新建转换",
     "deleteConfirm": "要删除“{{name}}”吗？此操作无法撤销。",
     "loading": "正在载入你的转换…",
-    "empty": "还没有转换。新建一个即可开始。",
     "error": "无法存储对该转换的更改。请重试。",
     "card": {
-      "delete": "删除“{{name}}”"
+      "delete": "删除“{{name}}”",
+      "createOwn": "自己创建",
+      "createOwnHint": "描述它要做什么"
     },
     "new": {
       "name": "我的转换"
@@ -1377,6 +1379,11 @@
     "subtitle": "在任意应用中选中文本，按下快捷键即可改写。",
     "settings": {
       "title": "转换设置"
+    },
+    "viewChanges": "查看改动",
+    "builtin": {
+      "polish": "更清楚更简洁，意思不变",
+      "prompt_engineer": "把粗略的需求变成清晰的提示词"
     }
   },
   "cleanup": {
@@ -1459,8 +1466,12 @@
       "title": "说几个字，得到整段文本",
       "lead": "说出一个简短的提示词，{{appName}} 就会写出完整内容。",
       "examplesLabel": "示例",
-      "example1": "“我的地址” → 你的完整邮寄地址",
-      "example2": "“我的落款” → 祝好，加上你的名字"
+      "cue1": "我的地址",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "我的落款",
+      "text2": "祝好，Sam",
+      "cue3": "日历链接",
+      "text3": "请选择你方便的时间：cal.example.com/sam"
     },
     "entry": {
       "becomes": "写成",
@@ -1815,22 +1826,22 @@
       "personal": {
         "tab": "个人信息",
         "label": "个人信息",
-        "description": "与亲友聊天，例如“信息”、WhatsApp、Telegram、Signal 和 Discord。"
+        "bannerTitle": "用于与亲友聊天"
       },
       "work": {
         "tab": "工作信息",
         "label": "工作信息",
-        "description": "与同事聊天，例如 Slack、Microsoft Teams 和 Google Chat。"
+        "bannerTitle": "用于与同事聊天"
       },
       "email": {
         "tab": "邮件",
         "label": "邮件",
-        "description": "邮件 App，例如“邮件”、Outlook、Spark 和 Superhuman。"
+        "bannerTitle": "用于电子邮件"
       },
       "other": {
         "tab": "其他",
         "label": "其他",
-        "description": "所有其他 App：笔记、文稿、代码编辑器等。"
+        "bannerTitle": "用于其他所有地方"
       }
     },
     "presets": {
@@ -1853,7 +1864,6 @@
     },
     "presetsHeading": "风格",
     "presetsLegend": "“{{group}}”的风格",
-    "before": "你说的话",
     "after": "写出的内容：",
     "englishOnly": "风格仅适用于英语听写。清理适用于所有语言。",
     "apps": {
@@ -1878,8 +1888,6 @@
       "changeFailed": "未能存储该更改。请重试。"
     },
     "sites": {
-      "heading": "用于以下网站",
-      "listLabel": "使用“{{group}}”风格的网站",
       "addShort": "添加网站",
       "recent": {
         "heading": "最近使用的网站",
@@ -1915,8 +1923,15 @@
     },
     "cleanup": {
       "tab": "清理",
-      "description": "在所有 App 和所有语言中整理你的话的程度。每个分组的风格会在此基础上应用。"
-    }
+      "description": "在所有 App 和所有语言中整理你的话的程度。每个分组的风格会在此基础上应用。",
+      "bannerTitle": "每次听写都会清理",
+      "levels": {
+        "none": "原样保留你说的话，包括口误",
+        "light": "去掉口头禅并修正标点",
+        "medium": "表达更顺畅，意思不变"
+      }
+    },
+    "addMenu": "添加应用或网站"
   },
   "onboardingFlow": {
     "loading": "正在准备…",

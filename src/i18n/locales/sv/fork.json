@@ -1100,11 +1100,10 @@
     "banner": {
       "title": "Lär {{appName}} dina ord",
       "lead": "Namn, termer och förkortningar stavade på ditt sätt.",
-      "examplesLabel": "Exempel",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "nån → någon",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Ord att lägga till"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1289,7 +1288,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Prova",
-      "howItWorks": "Hur det fungerar"
+      "howItWorks": "Hur det fungerar",
+      "title": "Skriv om valfri markerad text"
     },
     "enable": {
       "title": "Aktivera Omvandlingar"
@@ -1301,7 +1301,8 @@
     "auto": {
       "title": "Använd efter varje diktering",
       "choice": "Omvandling att använda",
-      "none": "Välj en omvandling"
+      "none": "Välj en omvandling",
+      "description": "Varje diktering går igenom den omvandling du väljer."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 och ⌥O ersätter tecknen ¡, ™ och ø medan Omvandlingar är på.",
@@ -1313,10 +1314,11 @@
     "createNew": "Ny omvandling",
     "deleteConfirm": "Vill du radera {{name}}? Det går inte att ångra.",
     "loading": "Läser in dina omvandlingar…",
-    "empty": "Inga omvandlingar än. Skapa en för att komma igång.",
     "error": "Ändringen av omvandlingen kunde inte sparas. Försök igen.",
     "card": {
-      "delete": "Radera {{name}}"
+      "delete": "Radera {{name}}",
+      "createOwn": "Skapa din egen",
+      "createOwnHint": "Beskriv vad den ska göra"
     },
     "new": {
       "name": "Min omvandling"
@@ -1414,6 +1416,11 @@
     "subtitle": "Markera text i valfri app och tryck på ett kortkommando för att skriva om den.",
     "settings": {
       "title": "Inställningar för omvandlingar"
+    },
+    "viewChanges": "för att se vad som ändrats",
+    "builtin": {
+      "polish": "Tydligare och kortare, samma betydelse",
+      "prompt_engineer": "Gör en grov fråga till en tydlig prompt"
     }
   },
   "cleanup": {
@@ -1501,8 +1508,12 @@
       "title": "Säg några ord, få hela texten",
       "lead": "Säg ett kort stickord så skriver {{appName}} hela texten.",
       "examplesLabel": "Exempel",
-      "example1": "”min adress” → din fullständiga postadress",
-      "example2": "”min hälsning” → Vänliga hälsningar och ditt namn"
+      "cue1": "min adress",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "min hälsning",
+      "text2": "Vänliga hälsningar, Sam",
+      "cue3": "kalenderlänk",
+      "text3": "Välj en tid som passar dig: cal.example.com/sam"
     },
     "entry": {
       "becomes": "skrivs som",
@@ -1892,22 +1903,22 @@
       "personal": {
         "tab": "Personliga meddelanden",
         "label": "Personliga meddelanden",
-        "description": "Chattar med vänner och familj, till exempel Meddelanden, WhatsApp, Telegram, Signal och Discord."
+        "bannerTitle": "För chattar med vänner och familj"
       },
       "work": {
         "tab": "Arbetsmeddelanden",
         "label": "Arbetsmeddelanden",
-        "description": "Chattar med kollegor, till exempel Slack, Microsoft Teams och Google Chat."
+        "bannerTitle": "För chattar med kollegor"
       },
       "email": {
         "tab": "E-post",
         "label": "E-post",
-        "description": "E-postappar, till exempel Mail, Outlook, Spark och Superhuman."
+        "bannerTitle": "För din e-post"
       },
       "other": {
         "tab": "Övrigt",
         "label": "Övrigt",
-        "description": "Alla andra appar: anteckningar, dokument, kodredigerare och mer."
+        "bannerTitle": "För allt annat"
       }
     },
     "presets": {
@@ -1930,7 +1941,6 @@
     },
     "presetsHeading": "Stil",
     "presetsLegend": "Stil för {{group}}",
-    "before": "Vad du säger",
     "after": "Vad som skrivs:",
     "englishOnly": "Stilar gäller för dikteringar på engelska. Rensning fungerar på alla språk.",
     "apps": {
@@ -1955,8 +1965,6 @@
       "changeFailed": "Ändringen sparades inte. Försök igen."
     },
     "sites": {
-      "heading": "Används på de här webbplatserna",
-      "listLabel": "Webbplatser som använder stilen ”{{group}}”",
       "addShort": "Lägg till webbplats",
       "recent": {
         "heading": "Nyligen använda webbplatser",
@@ -1992,8 +2000,15 @@
     },
     "cleanup": {
       "tab": "Rensning",
-      "description": "Hur mycket dina ord rensas, i alla appar och på alla språk. Varje grupps stil läggs ovanpå."
-    }
+      "description": "Hur mycket dina ord rensas, i alla appar och på alla språk. Varje grupps stil läggs ovanpå.",
+      "bannerTitle": "Rensningen gäller varje diktering",
+      "levels": {
+        "none": "Exakt det du sa, misstag och allt",
+        "light": "Tar bort utfyllnadsord och rättar skiljetecken",
+        "medium": "Smidigare formulering, samma betydelse"
+      }
+    },
+    "addMenu": "Lägg till en app eller webbplats"
   },
   "onboardingFlow": {
     "loading": "Förbereder…",

@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * One style group's tab (S-19a/b): the apps and sites that use it (icons;
- * "+" adds an app; each chip's menu moves it to another group, takes it out,
- * returns it to its default group and turns "Press Enter after dictating"
- * on or off; a few headline websites plus the ones the user added or
- * dictated on (`shownSites`; the rest of the built-in list matches
- * silently; "+" adds a website by its domain and its dialog offers the
- * websites dictated on with no group yet). The presets come right after the
- * apps, before the websites (declutter pass: the choice people come for
- * first). Other also covers every app not in a group.
+ * One style group's tab (S-19a/b; flowmatch: Wispr Flow's structure). One
+ * banner with the apps and websites that use the group as round chips
+ * (each chip's menu moves it to another group, takes it out, returns it to
+ * its default group and turns "Press Return after dictating" on or off;
+ * websites are the few `shownSites` as our own monogram chips) and a "+"
+ * that adds an app or a website (the website dialog offers the sites
+ * dictated on with no group yet); then the group's three presets as cards.
+ * Nothing else is on the tab. Other also covers every app not in a group.
  */
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CornerDownLeft, Plus } from "../ui/icons";
 import { toast } from "sonner";
@@ -23,7 +22,7 @@ import {
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { FOCUS_RING, Hero, Menu, SectionLabel, type MenuGroup } from "../ui";
+import { FOCUS_RING, Hero, Menu, type MenuGroup } from "../ui";
 import { photos } from "@/assets/fork/art";
 import { AppIcon } from "./AppIcon";
 import { AppPicker } from "./AppPicker";
@@ -194,9 +193,10 @@ export function GroupTab({ group }: { group: StyleGroup }) {
   const { settings, pending, setSetting } = useForkSettings();
   const [picking, setPicking] = useState(false);
   const [addingSite, setAddingSite] = useState(false);
+  const addRef = useRef<HTMLButtonElement>(null);
+  const afterMenu = useRef<(() => void) | null>(null);
   const name = useId();
   const appsHeading = useId();
-  const sitesHeading = useId();
   const presetsHeading = useId();
 
   const members = apps.filter((a) => a.group === group);
@@ -244,8 +244,12 @@ export function GroupTab({ group }: { group: StyleGroup }) {
       <Hero
         id={`style-${group}`}
         image={photos.style.src}
-        title={groupName}
-        body={t(`style.groups.${group}.description`)}
+        title={t(`style.groups.${group}.bannerTitle`)}
+        body={
+          group === "other"
+            ? `${t("style.apps.allOthers")} ${t("style.englishOnly")}`
+            : t("style.englishOnly")
+        }
         aside={
           <section aria-labelledby={appsHeading}>
             <h2 id={appsHeading} className="sr-only">
@@ -259,55 +263,73 @@ export function GroupTab({ group }: { group: StyleGroup }) {
               {members.map((app) => (
                 <AppChip key={app.bundle_id} app={app} group={group} />
               ))}
+              {visibleSites.map((site) => (
+                <SiteChip key={site.host} site={site} group={group} />
+              ))}
               <li className="relative -ms-2 first:ms-0">
-                <button
-                  type="button"
-                  onClick={() => setPicking(true)}
-                  data-testid="wb-style-add-app"
-                  aria-label={t("style.apps.addShort")}
-                  title={t("style.apps.addShort")}
-                  className={`grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 text-(--wb-on-hero) shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-colors duration-(--wb-dur-fast) hover:bg-white/25 ${FOCUS_RING}`}
-                >
-                  <Plus size={20} aria-hidden="true" />
-                </button>
+                <Menu
+                  label={t("style.addMenu")}
+                  testId="wb-style-add-menu"
+                  align="end"
+                  groups={[
+                    {
+                      items: [
+                        {
+                          id: "style-add-app",
+                          label: t("style.apps.addShort"),
+                          onSelect: () => {
+                            afterMenu.current = () => setPicking(true);
+                          },
+                        },
+                        {
+                          id: "style-add-site",
+                          label: t("style.sites.addShort"),
+                          onSelect: () => {
+                            afterMenu.current = () => setAddingSite(true);
+                          },
+                        },
+                      ],
+                    },
+                  ]}
+                  onCloseAutoFocus={(e) => {
+                    // Focus goes back to "+" first, so the dialog returns
+                    // it there when it closes.
+                    const then = afterMenu.current;
+                    if (!then) return;
+                    afterMenu.current = null;
+                    e.preventDefault();
+                    addRef.current?.focus();
+                    then();
+                  }}
+                  trigger={
+                    <button
+                      ref={addRef}
+                      type="button"
+                      data-testid="wb-style-add"
+                      aria-label={t("style.addMenu")}
+                      title={t("style.addMenu")}
+                      className={`grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 text-(--wb-on-hero) shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-colors duration-(--wb-dur-fast) hover:bg-white/25 ${FOCUS_RING}`}
+                    >
+                      <Plus size={20} aria-hidden="true" />
+                    </button>
+                  }
+                />
               </li>
             </ul>
           </section>
         }
       />
 
-      {(group === "other" || status === "unavailable") && (
-        <div className="-mt-2 flex flex-col gap-1">
-          {group === "other" && (
-            <p className="text-[13px] text-(--wb-ink-2)">
-              {t("style.apps.allOthers")}
-            </p>
-          )}
-          {status === "unavailable" && (
-            <p role="alert" className="text-[13px] text-(--wb-ink-2)">
-              {t("style.apps.unavailable")}
-            </p>
-          )}
-        </div>
+      {status === "unavailable" && (
+        <p role="alert" className="-mt-2 text-[13px] text-(--wb-ink-2)">
+          {t("style.apps.unavailable")}
+        </p>
       )}
 
-      <section aria-labelledby={presetsHeading} className="flex flex-col gap-4">
+      <section aria-labelledby={presetsHeading}>
         <h2 id={presetsHeading} className="sr-only">
           {t("style.presetsHeading")}
         </h2>
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="type-micro text-(--wb-ink-3)">
-            {t("style.before")}
-          </span>
-          <p
-            lang="en"
-            dir="ltr"
-            data-testid="wb-style-before"
-            className="text-start text-[15px] text-(--wb-ink-2) italic"
-          >
-            {example.before}
-          </p>
-        </div>
         <fieldset
           disabled={!settings || !!pending.styles}
           aria-busy={!!pending.styles}
@@ -329,42 +351,6 @@ export function GroupTab({ group }: { group: StyleGroup }) {
             ))}
           </div>
         </fieldset>
-        <p
-          className="text-[13px] text-(--wb-ink-3)"
-          data-testid="wb-style-english-note"
-        >
-          {t("style.englishOnly")}
-        </p>
-      </section>
-
-      <section
-        aria-labelledby={sitesHeading}
-        className="flex flex-col gap-2.5"
-        data-testid="wb-style-sites-section"
-      >
-        <SectionLabel id={sitesHeading}>
-          {t("style.sites.heading")}
-        </SectionLabel>
-        <ul
-          className="flex flex-wrap items-center gap-2"
-          aria-label={t("style.sites.listLabel", { group: groupName })}
-          data-testid="wb-style-sites"
-        >
-          {visibleSites.map((site) => (
-            <SiteChip key={site.host} site={site} group={group} />
-          ))}
-          <li>
-            <button
-              type="button"
-              onClick={() => setAddingSite(true)}
-              data-testid="wb-style-add-site"
-              className={`flex h-9 cursor-pointer items-center gap-1.5 rounded-(--wb-radius-sm) border border-dashed border-(--wb-line-strong) px-3 text-[13px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) hover:text-(--wb-ink) ${FOCUS_RING}`}
-            >
-              <Plus size={16} aria-hidden="true" />
-              {t("style.sites.addShort")}
-            </button>
-          </li>
-        </ul>
       </section>
 
       <AddSiteDialog

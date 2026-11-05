@@ -1136,11 +1136,10 @@
     "banner": {
       "title": "Naucz {{appName}} swoich słów",
       "lead": "Imiona, terminy i skróty zapisane po Twojemu.",
-      "examplesLabel": "Przykłady",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "tera → teraz",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Słowa do dodania"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1361,7 +1360,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Wypróbuj",
-      "howItWorks": "Jak to działa"
+      "howItWorks": "Jak to działa",
+      "title": "Przepisz dowolny zaznaczony tekst"
     },
     "enable": {
       "title": "Włącz przekształcenia"
@@ -1373,7 +1373,8 @@
     "auto": {
       "title": "Stosuj po każdym dyktowaniu",
       "choice": "Przekształcenie do zastosowania",
-      "none": "Wybierz przekształcenie"
+      "none": "Wybierz przekształcenie",
+      "description": "Każde dyktowanie przechodzi przez wybrane przekształcenie."
     },
     "shortcuts": {
       "warning": "Gdy przekształcenia są włączone, ⌥1, ⌥2 i ⌥O zastępują znaki ¡, ™ i ø.",
@@ -1385,10 +1386,11 @@
     "createNew": "Nowe przekształcenie",
     "deleteConfirm": "Usunąć {{name}}? Tej operacji nie można cofnąć.",
     "loading": "Wczytywanie przekształceń…",
-    "empty": "Brak przekształceń. Utwórz pierwsze, aby zacząć.",
     "error": "Nie udało się zachować zmiany przekształcenia. Spróbuj ponownie.",
     "card": {
-      "delete": "Usuń {{name}}"
+      "delete": "Usuń {{name}}",
+      "createOwn": "Utwórz własne",
+      "createOwnHint": "Opisz, co ma robić"
     },
     "new": {
       "name": "Moje przekształcenie"
@@ -1488,6 +1490,11 @@
     "subtitle": "Zaznacz tekst w dowolnej aplikacji i naciśnij skrót, aby go przepisać.",
     "settings": {
       "title": "Ustawienia przekształceń"
+    },
+    "viewChanges": "aby zobaczyć zmiany",
+    "builtin": {
+      "polish": "Jaśniej i zwięźlej, ten sam sens",
+      "prompt_engineer": "Zmienia ogólną prośbę w jasny prompt"
     }
   },
   "cleanup": {
@@ -1585,8 +1592,12 @@
       "title": "Powiedz kilka słów, wstaw cały tekst",
       "lead": "Powiedz krótkie hasło, a {{appName}} wpisze cały tekst.",
       "examplesLabel": "Przykłady",
-      "example1": "„mój adres” → Twój pełny adres pocztowy",
-      "example2": "„moje pozdrowienia” → Pozdrawiam serdecznie i Twoje imię"
+      "cue1": "mój adres",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "moje pożegnanie",
+      "text2": "Pozdrawiam, Sam",
+      "cue3": "link do kalendarza",
+      "text3": "Wybierz dogodny termin: cal.example.com/sam"
     },
     "entry": {
       "becomes": "wpisuje",
@@ -2046,22 +2057,22 @@
       "personal": {
         "tab": "Prywatne",
         "label": "Wiadomości prywatne",
-        "description": "Czaty z przyjaciółmi i rodziną, np. Wiadomości, WhatsApp, Telegram, Signal i Discord."
+        "bannerTitle": "Do czatów z przyjaciółmi i rodziną"
       },
       "work": {
         "tab": "Służbowe",
         "label": "Wiadomości służbowe",
-        "description": "Czaty ze współpracownikami, np. Slack, Microsoft Teams i Google Chat."
+        "bannerTitle": "Do czatów ze współpracownikami"
       },
       "email": {
         "tab": "E-mail",
         "label": "E-mail",
-        "description": "Aplikacje pocztowe, np. Mail, Outlook, Spark i Superhuman."
+        "bannerTitle": "Do Twojej poczty"
       },
       "other": {
         "tab": "Inne",
         "label": "Inne",
-        "description": "Wszystkie pozostałe aplikacje: notatki, dokumenty, edytory kodu i nie tylko."
+        "bannerTitle": "Do wszystkiego innego"
       }
     },
     "presets": {
@@ -2084,7 +2095,6 @@
     },
     "presetsHeading": "Styl",
     "presetsLegend": "Styl dla grupy {{group}}",
-    "before": "Co mówisz",
     "after": "Co zostaje wpisane:",
     "englishOnly": "Style dotyczą dyktowania po angielsku. Porządkowanie działa w każdym języku.",
     "apps": {
@@ -2109,8 +2119,6 @@
       "changeFailed": "Nie zachowano tej zmiany. Spróbuj ponownie."
     },
     "sites": {
-      "heading": "Używany na tych stronach",
-      "listLabel": "Strony używające stylu {{group}}",
       "addShort": "Dodaj stronę",
       "recent": {
         "heading": "Ostatnio używane strony",
@@ -2146,8 +2154,15 @@
     },
     "cleanup": {
       "tab": "Porządkowanie",
-      "description": "Jak bardzo porządkowane są Twoje słowa, w każdej aplikacji i każdym języku. Styl każdej grupy jest stosowany dodatkowo."
-    }
+      "description": "Jak bardzo porządkowane są Twoje słowa, w każdej aplikacji i każdym języku. Styl każdej grupy jest stosowany dodatkowo.",
+      "bannerTitle": "Porządkowanie działa przy każdym dyktowaniu",
+      "levels": {
+        "none": "Dokładnie to, co powiedziano, razem z błędami",
+        "light": "Usuwa wtrącenia i poprawia interpunkcję",
+        "medium": "Płynniejsze sformułowania, ten sam sens"
+      }
+    },
+    "addMenu": "Dodaj aplikację lub stronę"
   },
   "onboardingFlow": {
     "loading": "Przygotowywanie…",

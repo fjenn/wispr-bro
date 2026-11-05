@@ -208,7 +208,7 @@ for (const l of LOOKS) {
       await open("add word", "dictionary", "wb-dictionary-add");
       await open("dictionary import", "dictionary", "wb-dictionary-import");
       await open("new snippet", "snippets", "wb-snippets-add");
-      await open("app picker", "style", "wb-style-add-app");
+      await open("add app or website", "style", "wb-style-add");
       await page.getByTestId("wb-nav-help").click();
       await page.getByTestId("wb-menu-item-report-problem").click();
       await axe(page, "report a problem", found);

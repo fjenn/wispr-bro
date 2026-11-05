@@ -1100,11 +1100,10 @@
     "banner": {
       "title": "Bring {{appName}} deine Wörter bei",
       "lead": "Namen, Begriffe und Abkürzungen, so geschrieben, wie du willst.",
-      "examplesLabel": "Beispiele",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "haste → hast du",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Wörter zum Hinzufügen"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1289,7 +1288,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Ausprobieren",
-      "howItWorks": "So funktioniert’s"
+      "howItWorks": "So funktioniert’s",
+      "title": "Schreib jeden markierten Text um"
     },
     "enable": {
       "title": "Transformationen aktivieren"
@@ -1301,7 +1301,8 @@
     "auto": {
       "title": "Nach jedem Diktat anwenden",
       "choice": "Anzuwendende Transformation",
-      "none": "Transformation auswählen"
+      "none": "Transformation auswählen",
+      "description": "Jedes Diktat durchläuft die Transformation deiner Wahl."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 und ⌥O ersetzen die Zeichen ¡, ™ und ø, solange Transformationen aktiv sind.",
@@ -1313,10 +1314,11 @@
     "createNew": "Neue Transformation",
     "deleteConfirm": "{{name}} löschen? Das kann nicht widerrufen werden.",
     "loading": "Transformationen werden geladen …",
-    "empty": "Noch keine Transformationen. Erstelle eine, um loszulegen.",
     "error": "Die Änderung an der Transformation konnte nicht gespeichert werden. Versuch es noch einmal.",
     "card": {
-      "delete": "{{name}} löschen"
+      "delete": "{{name}} löschen",
+      "createOwn": "Eigene erstellen",
+      "createOwnHint": "Beschreib, was sie tun soll"
     },
     "new": {
       "name": "Meine Transformation"
@@ -1414,6 +1416,11 @@
     "subtitle": "Text in einer beliebigen App auswählen und per Kurzbefehl umschreiben.",
     "settings": {
       "title": "Einstellungen für Transformationen"
+    },
+    "viewChanges": "um die Änderungen zu sehen",
+    "builtin": {
+      "polish": "Klarer und knapper, gleiche Bedeutung",
+      "prompt_engineer": "Macht aus einer groben Bitte einen klaren Prompt"
     }
   },
   "cleanup": {
@@ -1501,8 +1508,12 @@
       "title": "Ein paar Worte sagen, den ganzen Text bekommen",
       "lead": "Sag ein kurzes Stichwort und {{appName}} schreibt den ganzen Text.",
       "examplesLabel": "Beispiele",
-      "example1": "„meine Adresse“ → deine vollständige Postadresse",
-      "example2": "„meine Grußformel“ → Viele Grüße und dein Name"
+      "cue1": "meine Adresse",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "mein Gruß",
+      "text2": "Viele Grüße, Sam",
+      "cue3": "Kalenderlink",
+      "text3": "Such dir einfach eine passende Zeit aus: cal.example.com/sam"
     },
     "entry": {
       "becomes": "wird geschrieben als",
@@ -1892,22 +1903,22 @@
       "personal": {
         "tab": "Persönliche Nachrichten",
         "label": "Persönliche Nachrichten",
-        "description": "Chats mit Freunden und Familie, etwa in Nachrichten, WhatsApp, Telegram, Signal und Discord."
+        "bannerTitle": "Für Chats mit Freunden und Familie"
       },
       "work": {
         "tab": "Arbeitsnachrichten",
         "label": "Arbeitsnachrichten",
-        "description": "Chats mit Kolleginnen und Kollegen, etwa in Slack, Microsoft Teams und Google Chat."
+        "bannerTitle": "Für Chats mit Kollegen"
       },
       "email": {
         "tab": "E-Mail",
         "label": "E-Mail",
-        "description": "E-Mail-Apps wie Mail, Outlook, Spark und Superhuman."
+        "bannerTitle": "Für deine E-Mails"
       },
       "other": {
         "tab": "Sonstige",
         "label": "Sonstige",
-        "description": "Alle anderen Apps: Notizen, Dokumente, Code-Editoren und mehr."
+        "bannerTitle": "Für alles andere"
       }
     },
     "presets": {
@@ -1930,7 +1941,6 @@
     },
     "presetsHeading": "Stil",
     "presetsLegend": "Stil für {{group}}",
-    "before": "Was du sagst",
     "after": "Was geschrieben wird:",
     "englishOnly": "Stile gelten für Diktate auf Englisch. Die Bereinigung funktioniert in jeder Sprache.",
     "apps": {
@@ -1955,8 +1965,6 @@
       "changeFailed": "Die Änderung wurde nicht gespeichert. Versuch es noch einmal."
     },
     "sites": {
-      "heading": "Auf diesen Websites verwendet",
-      "listLabel": "Websites mit dem Stil „{{group}}“",
       "addShort": "Website hinzufügen",
       "recent": {
         "heading": "Zuletzt verwendete Websites",
@@ -1992,8 +2000,15 @@
     },
     "cleanup": {
       "tab": "Bereinigung",
-      "description": "Wie stark deine Worte bereinigt werden, in jeder App und jeder Sprache. Der Stil der jeweiligen Gruppe kommt noch dazu."
-    }
+      "description": "Wie stark deine Worte bereinigt werden, in jeder App und jeder Sprache. Der Stil der jeweiligen Gruppe kommt noch dazu.",
+      "bannerTitle": "Die Bereinigung läuft bei jedem Diktat",
+      "levels": {
+        "none": "Genau, was du gesagt hast, mit allen Fehlern",
+        "light": "Entfernt Füllwörter und korrigiert die Zeichensetzung",
+        "medium": "Flüssigere Formulierung, gleiche Bedeutung"
+      }
+    },
+    "addMenu": "App oder Website hinzufügen"
   },
   "onboardingFlow": {
     "loading": "Wird vorbereitet …",

@@ -1417,11 +1417,10 @@
     "banner": {
       "title": "Teach {{appName}} your words",
       "lead": "Names, terms and acronyms, spelled your way.",
-      "examplesLabel": "Examples",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "gonna → going to",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Words to add"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1606,7 +1605,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Try it",
-      "howItWorks": "How it works"
+      "howItWorks": "How it works",
+      "title": "Rewrite anything you select"
     },
     "enable": {
       "title": "Enable Transforms"
@@ -1618,7 +1618,8 @@
     "auto": {
       "title": "Apply after every dictation",
       "choice": "Transform to apply",
-      "none": "Choose a transform"
+      "none": "Choose a transform",
+      "description": "Each dictation goes through the transform you pick."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
@@ -1630,10 +1631,11 @@
     "createNew": "New transform",
     "deleteConfirm": "Delete {{name}}? This cannot be undone.",
     "loading": "Loading your transforms…",
-    "empty": "No transforms yet. Create one to get started.",
     "error": "That transform change could not be saved. Try again.",
     "card": {
-      "delete": "Delete {{name}}"
+      "delete": "Delete {{name}}",
+      "createOwn": "Make your own",
+      "createOwnHint": "Describe what it should do"
     },
     "new": {
       "name": "My transform"
@@ -1731,6 +1733,11 @@
     "subtitle": "Select text in any app and press a shortcut to rewrite it.",
     "settings": {
       "title": "Transform settings"
+    },
+    "viewChanges": "to see what changed",
+    "builtin": {
+      "polish": "Clearer and tighter, same meaning",
+      "prompt_engineer": "Turns a rough ask into a clear prompt"
     }
   },
   "cleanup": {
@@ -1818,8 +1825,12 @@
       "title": "Say a few words, get the whole text",
       "lead": "Say a short cue and {{appName}} writes the full text.",
       "examplesLabel": "Examples",
-      "example1": "“my address” → your full postal address",
-      "example2": "“my sign-off” → Best wishes, and your name"
+      "cue1": "my address",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "my sign-off",
+      "text2": "Best wishes, Sam",
+      "cue3": "calendar link",
+      "text3": "Pick any time that suits you: cal.example.com/sam"
     },
     "entry": {
       "becomes": "is written as",
@@ -2209,22 +2220,22 @@
       "personal": {
         "tab": "Personal messages",
         "label": "Personal messages",
-        "description": "Chats with friends and family, such as Messages, WhatsApp, Telegram, Signal and Discord."
+        "bannerTitle": "For chats with friends and family"
       },
       "work": {
         "tab": "Work messages",
         "label": "Work messages",
-        "description": "Chats with colleagues, such as Slack, Microsoft Teams and Google Chat."
+        "bannerTitle": "For chats with colleagues"
       },
       "email": {
         "tab": "Email",
         "label": "Email",
-        "description": "Email apps, such as Mail, Outlook, Spark and Superhuman."
+        "bannerTitle": "For your email"
       },
       "other": {
         "tab": "Other",
         "label": "Other",
-        "description": "Every other app: notes, documents, code editors and more."
+        "bannerTitle": "For everything else"
       }
     },
     "presets": {
@@ -2247,7 +2258,6 @@
     },
     "presetsHeading": "Style",
     "presetsLegend": "Style for {{group}}",
-    "before": "What you say",
     "after": "What gets written:",
     "englishOnly": "Styles apply to dictations in English. Cleanup works in every language.",
     "apps": {
@@ -2272,8 +2282,6 @@
       "changeFailed": "That change was not saved. Please try again."
     },
     "sites": {
-      "heading": "Used on these sites",
-      "listLabel": "Sites that use the {{group}} style",
       "addShort": "Add website",
       "recent": {
         "heading": "Recently used websites",
@@ -2309,8 +2317,15 @@
     },
     "cleanup": {
       "tab": "Cleanup",
-      "description": "How much your words are tidied up, in every app and every language. The style of each group is applied on top."
-    }
+      "description": "How much your words are tidied up, in every app and every language. The style of each group is applied on top.",
+      "bannerTitle": "Cleanup runs on every dictation",
+      "levels": {
+        "none": "Exactly what you said, mistakes included",
+        "light": "Takes out fillers and fixes punctuation",
+        "medium": "Smoother wording, same meaning"
+      }
+    },
+    "addMenu": "Add an app or website"
   },
   "onboardingFlow": {
     "loading": "Getting things ready…",

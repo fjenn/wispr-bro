@@ -14,7 +14,7 @@ import {
   Hero,
   IconButton,
   PageHeader,
-  SearchField,
+  SearchToggle,
   Switch,
   Tag,
 } from "../ui";
@@ -182,23 +182,20 @@ export function ScratchpadPage() {
         aria-labelledby="wb-scratchpad-recents"
         className="flex flex-col gap-4"
       >
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-(--wb-line) pb-3">
+        <div className="flex min-h-11 items-center justify-between gap-3 border-b border-(--wb-line) pb-1.5">
           <h2
             id="wb-scratchpad-recents"
             className="type-card-title text-(--wb-ink)"
           >
             {t("scratchpad.recents")}
           </h2>
-          <label className="block w-60 max-w-full">
-            <span className="sr-only">{t("scratchpad.searchLabel")}</span>
-            <SearchField
-              size="sm"
-              value={query}
-              onChange={(event) => setQuery(event.currentTarget.value)}
-              placeholder={t("scratchpad.searchPlaceholder")}
-              data-testid="wb-scratchpad-search"
-            />
-          </label>
+          <SearchToggle
+            value={query}
+            onChange={setQuery}
+            label={t("scratchpad.searchLabel")}
+            placeholder={t("scratchpad.searchPlaceholder")}
+            testId="wb-scratchpad-search"
+          />
         </div>
         {error && (
           <p

@@ -1082,11 +1082,10 @@
     "banner": {
       "title": "Ajarkan kata-kata Anda ke {{appName}}",
       "lead": "Nama, istilah, dan akronim, dieja sesuai keinginan Anda.",
-      "examplesLabel": "Contoh",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "gak → tidak",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Kata untuk ditambahkan"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1253,7 +1252,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Coba",
-      "howItWorks": "Cara kerjanya"
+      "howItWorks": "Cara kerjanya",
+      "title": "Tulis ulang teks apa pun yang Anda pilih"
     },
     "enable": {
       "title": "Aktifkan Transformasi"
@@ -1265,7 +1265,8 @@
     "auto": {
       "title": "Terapkan setelah setiap dikte",
       "choice": "Transformasi yang diterapkan",
-      "none": "Pilih transformasi"
+      "none": "Pilih transformasi",
+      "description": "Setiap dikte melewati transformasi yang Anda pilih."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2, dan ⌥O menggantikan karakter ¡, ™, dan ø saat Transformasi aktif.",
@@ -1277,10 +1278,11 @@
     "createNew": "Transformasi baru",
     "deleteConfirm": "Hapus {{name}}? Tindakan ini tidak dapat diurungkan.",
     "loading": "Memuat transformasi Anda…",
-    "empty": "Belum ada transformasi. Buat satu untuk memulai.",
     "error": "Perubahan transformasi itu tidak dapat disimpan. Coba lagi.",
     "card": {
-      "delete": "Hapus {{name}}"
+      "delete": "Hapus {{name}}",
+      "createOwn": "Buat sendiri",
+      "createOwnHint": "Jelaskan apa yang harus dilakukannya"
     },
     "new": {
       "name": "Transformasi saya"
@@ -1377,6 +1379,11 @@
     "subtitle": "Pilih teks di aplikasi apa pun dan tekan pintasan untuk menulis ulang.",
     "settings": {
       "title": "Pengaturan transformasi"
+    },
+    "viewChanges": "untuk melihat perubahannya",
+    "builtin": {
+      "polish": "Lebih jelas dan ringkas, makna sama",
+      "prompt_engineer": "Mengubah permintaan kasar menjadi prompt yang jelas"
     }
   },
   "cleanup": {
@@ -1459,8 +1466,12 @@
       "title": "Ucapkan beberapa kata, dapatkan seluruh teksnya",
       "lead": "Ucapkan kata kunci singkat dan {{appName}} menulis teks lengkapnya.",
       "examplesLabel": "Contoh",
-      "example1": "“alamat saya” → alamat pos lengkap Anda",
-      "example2": "“salam penutup saya” → Salam hangat, dan nama Anda"
+      "cue1": "alamat saya",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "salam penutup saya",
+      "text2": "Salam hangat, Sam",
+      "cue3": "tautan kalender",
+      "text3": "Pilih waktu yang cocok untuk Anda: cal.example.com/sam"
     },
     "entry": {
       "becomes": "ditulis sebagai",
@@ -1815,22 +1826,22 @@
       "personal": {
         "tab": "Pesan pribadi",
         "label": "Pesan pribadi",
-        "description": "Chat dengan teman dan keluarga, seperti Messages, WhatsApp, Telegram, Signal, dan Discord."
+        "bannerTitle": "Untuk obrolan dengan teman dan keluarga"
       },
       "work": {
         "tab": "Pesan kerja",
         "label": "Pesan kerja",
-        "description": "Chat dengan rekan kerja, seperti Slack, Microsoft Teams, dan Google Chat."
+        "bannerTitle": "Untuk obrolan dengan rekan kerja"
       },
       "email": {
         "tab": "Email",
         "label": "Email",
-        "description": "App email, seperti Mail, Outlook, Spark, dan Superhuman."
+        "bannerTitle": "Untuk email Anda"
       },
       "other": {
         "tab": "Lainnya",
         "label": "Lainnya",
-        "description": "Semua app lainnya: catatan, dokumen, editor kode, dan lainnya."
+        "bannerTitle": "Untuk semua yang lain"
       }
     },
     "presets": {
@@ -1853,7 +1864,6 @@
     },
     "presetsHeading": "Gaya",
     "presetsLegend": "Gaya untuk {{group}}",
-    "before": "Yang Anda ucapkan",
     "after": "Yang ditulis:",
     "englishOnly": "Gaya berlaku untuk dikte dalam bahasa Inggris. Pembersihan bekerja di semua bahasa.",
     "apps": {
@@ -1878,8 +1888,6 @@
       "changeFailed": "Perubahan itu tidak disimpan. Coba lagi."
     },
     "sites": {
-      "heading": "Digunakan di situs ini",
-      "listLabel": "Situs yang menggunakan gaya {{group}}",
       "addShort": "Tambah situs web",
       "recent": {
         "heading": "Situs web yang baru digunakan",
@@ -1915,8 +1923,15 @@
     },
     "cleanup": {
       "tab": "Pembersihan",
-      "description": "Seberapa banyak kata-kata Anda dirapikan, di setiap app dan setiap bahasa. Gaya setiap kelompok diterapkan di atasnya."
-    }
+      "description": "Seberapa banyak kata-kata Anda dirapikan, di setiap app dan setiap bahasa. Gaya setiap kelompok diterapkan di atasnya.",
+      "bannerTitle": "Pembersihan berlaku di setiap dikte",
+      "levels": {
+        "none": "Persis yang Anda ucapkan, termasuk kesalahannya",
+        "light": "Menghapus kata pengisi dan memperbaiki tanda baca",
+        "medium": "Kata-kata lebih luwes, makna sama"
+      }
+    },
+    "addMenu": "Tambahkan aplikasi atau situs web"
   },
   "onboardingFlow": {
     "loading": "Menyiapkan semuanya…",

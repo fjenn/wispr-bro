@@ -175,12 +175,12 @@ class FakeDictionary {
   }
 }
 
-/** Picks a sort order in the page's Radix select (W2: was a native select). */
+/** Picks a sort order in the sort button's menu (flowmatch). */
 async function pickSort(page: Page, value: string) {
   await page.getByTestId("wb-dictionary-sort").click();
-  await page.getByTestId("wb-dictionary-sort-option-" + value).click();
+  await page.getByTestId("wb-menu-item-wb-dictionary-sort-" + value).click();
   await expect(
-    page.getByTestId("wb-dictionary-sort-option-" + value),
+    page.getByTestId("wb-menu-item-wb-dictionary-sort-" + value),
   ).toHaveCount(0);
 }
 
@@ -208,15 +208,25 @@ const tab = (page: Page, name: RegExp) => page.getByRole("tab", { name });
 
 dictTest.describe("dictionary page", () => {
   dictTest(
-    "empty page: banner with examples, empty state, tabs at zero",
+    "empty page: banner with suggestion chips, empty state, tabs at zero",
     async ({ page, ipc, hub, dict }) => {
       await openDictionary(page, ipc, hub, dict);
       await expect(page.getByTestId("wb-page-title")).toHaveText("Dictionary");
       const banner = page.getByTestId("wb-banner-dictionary.teach");
       await expect(banner).toContainText("Teach Wispr Bro your words");
+      // flowmatch: no History yet, so the chips are examples; a chip opens
+      // Add word with it filled in.
       await expect(
-        banner.getByRole("list", { name: "Examples" }).getByRole("listitem"),
-      ).toHaveText(["Siobhán", "Kubernetes", "gonna → going to", "Anna-Lena"]);
+        banner
+          .getByRole("list", { name: "Words to add" })
+          .getByRole("listitem"),
+      ).toHaveText(["Siobhán", "Kubernetes", "Anna-Lena"]);
+      await page.getByTestId("wb-dictionary-suggestion").first().click();
+      await expect(page.getByTestId("wb-dictionary-phrase")).toHaveValue(
+        "Siobhán",
+      );
+      await page.keyboard.press("Escape");
+      await expect(page.getByRole("dialog")).toBeHidden();
       await expect(page.getByTestId("wb-dictionary-empty")).toBeVisible();
       await expect(tab(page, /^All \(0\)$/)).toHaveAttribute(
         "aria-selected",
@@ -243,6 +253,29 @@ dictTest.describe("dictionary page", () => {
       await page.reload();
       await expect(page.getByTestId("wb-dictionary")).toBeVisible();
       await expect(banner).toBeHidden();
+    },
+  );
+
+  dictTest(
+    "banner chips suggest names from recent History not in the dictionary",
+    async ({ page, ipc, hub, dict }) => {
+      dict.seed({ phrase: "Kubernetes", replacement: null });
+      await openDictionary(page, ipc, hub, dict, {
+        beforeNavigate: () =>
+          ipc.respond("fork_history_page", {
+            rows: [
+              { id: 1, created_at: 1, text: "Ask Priyanka about Kubernetes." },
+              {
+                id: 2,
+                created_at: 2,
+                text: "Priyanka moved the Zephyr launch.",
+              },
+            ],
+            next: null,
+          }),
+      });
+      const chips = page.getByTestId("wb-dictionary-suggestion");
+      await expect(chips).toHaveText(["Priyanka", "Zephyr"]);
     },
   );
 
@@ -465,6 +498,7 @@ dictTest.describe("dictionary page", () => {
       await pickSort(page, "used");
       expect((await phrases())[0]).toBe("Anna");
 
+      await page.getByTestId("wb-dictionary-search-open").click();
       await page.getByTestId("wb-dictionary-search").fill("SIOBHAN");
       await expect(rows(page)).toHaveCount(1);
       await page.getByTestId("wb-dictionary-search").fill("lena");
@@ -516,7 +550,7 @@ dictTest.describe("dictionary page", () => {
     async ({ page, ipc, hub, dict }) => {
       await openDictionary(page, ipc, hub, dict);
       await page.getByTestId("wb-dictionary-import").focus();
-      await page.keyboard.press("Tab"); // Export (disabled) is skipped
+      await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-dictionary-add")).toBeFocused();
       await page.keyboard.press("Enter");
       await expect(page.getByTestId("wb-dictionary-phrase")).toBeFocused();
@@ -528,7 +562,7 @@ dictTest.describe("dictionary page", () => {
       await page.keyboard.press("Escape");
       await expect(page.getByRole("dialog")).toBeHidden();
       // The row's buttons are reachable and named.
-      await page.getByTestId("wb-dictionary-search").focus();
+      await page.getByTestId("wb-dictionary-search-open").focus();
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-dictionary-sort")).toBeFocused();
       await page.keyboard.press("Tab");

@@ -1118,11 +1118,10 @@
     "banner": {
       "title": "Insegna a {{appName}} le tue parole",
       "lead": "Nomi, termini e sigle, scritti a modo tuo.",
-      "examplesLabel": "Esempi",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "cmq → comunque",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Parole da aggiungere"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1325,7 +1324,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Provalo",
-      "howItWorks": "Come funziona"
+      "howItWorks": "Come funziona",
+      "title": "Riscrivi qualsiasi testo selezionato"
     },
     "enable": {
       "title": "Abilita Trasformazioni"
@@ -1337,7 +1337,8 @@
     "auto": {
       "title": "Applica dopo ogni dettatura",
       "choice": "Trasformazione da applicare",
-      "none": "Scegli una trasformazione"
+      "none": "Scegli una trasformazione",
+      "description": "Ogni dettatura passa per la trasformazione che scegli."
     },
     "shortcuts": {
       "warning": "Quando le Trasformazioni sono attive, ⌥1, ⌥2 e ⌥O sostituiscono i caratteri ¡, ™ e ø.",
@@ -1349,10 +1350,11 @@
     "createNew": "Nuova trasformazione",
     "deleteConfirm": "Eliminare {{name}}? L’operazione non può essere annullata.",
     "loading": "Caricamento delle trasformazioni…",
-    "empty": "Ancora nessuna trasformazione. Creane una per iniziare.",
     "error": "Impossibile salvare la modifica alla trasformazione. Riprova.",
     "card": {
-      "delete": "Elimina {{name}}"
+      "delete": "Elimina {{name}}",
+      "createOwn": "Crea la tua",
+      "createOwnHint": "Descrivi cosa deve fare"
     },
     "new": {
       "name": "La mia trasformazione"
@@ -1451,6 +1453,11 @@
     "subtitle": "Seleziona del testo in qualsiasi app e premi una scorciatoia per riscriverlo.",
     "settings": {
       "title": "Impostazioni delle trasformazioni"
+    },
+    "viewChanges": "per vedere cosa è cambiato",
+    "builtin": {
+      "polish": "Più chiaro e conciso, stesso significato",
+      "prompt_engineer": "Trasforma una richiesta vaga in un prompt chiaro"
     }
   },
   "cleanup": {
@@ -1543,8 +1550,12 @@
       "title": "Di’ poche parole, ottieni il testo completo",
       "lead": "Pronuncia una parola chiave e {{appName}} scrive il testo completo.",
       "examplesLabel": "Esempi",
-      "example1": "“il mio indirizzo” → il tuo indirizzo postale completo",
-      "example2": "“la mia firma” → Cordiali saluti e il tuo nome"
+      "cue1": "il mio indirizzo",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "la mia firma",
+      "text2": "Un caro saluto, Sam",
+      "cue3": "link al calendario",
+      "text3": "Scegli l’orario che preferisci: cal.example.com/sam"
     },
     "entry": {
       "becomes": "viene scritto come",
@@ -1969,22 +1980,22 @@
       "personal": {
         "tab": "Personali",
         "label": "Messaggi personali",
-        "description": "Chat con amici e famiglia, ad esempio Messaggi, WhatsApp, Telegram, Signal e Discord."
+        "bannerTitle": "Per le chat con amici e familiari"
       },
       "work": {
         "tab": "Lavoro",
         "label": "Messaggi di lavoro",
-        "description": "Chat con colleghi, ad esempio Slack, Microsoft Teams e Google Chat."
+        "bannerTitle": "Per le chat con i colleghi"
       },
       "email": {
         "tab": "Email",
         "label": "Email",
-        "description": "App email come Mail, Outlook, Spark e Superhuman."
+        "bannerTitle": "Per le tue email"
       },
       "other": {
         "tab": "Altro",
         "label": "Altro",
-        "description": "Tutte le altre app: note, documenti, editor di codice e altro."
+        "bannerTitle": "Per tutto il resto"
       }
     },
     "presets": {
@@ -2007,7 +2018,6 @@
     },
     "presetsHeading": "Stile",
     "presetsLegend": "Stile per {{group}}",
-    "before": "Cosa dici",
     "after": "Cosa viene scritto:",
     "englishOnly": "Gli stili si applicano alle dettature in inglese. La pulizia funziona in tutte le lingue.",
     "apps": {
@@ -2032,8 +2042,6 @@
       "changeFailed": "La modifica non è stata salvata. Riprova."
     },
     "sites": {
-      "heading": "Usato su questi siti",
-      "listLabel": "Siti che usano lo stile {{group}}",
       "addShort": "Aggiungi sito web",
       "recent": {
         "heading": "Siti web usati di recente",
@@ -2069,8 +2077,15 @@
     },
     "cleanup": {
       "tab": "Pulizia",
-      "description": "Quanto vengono ripulite le tue parole, in ogni app e in ogni lingua. Lo stile di ciascun gruppo viene applicato in aggiunta."
-    }
+      "description": "Quanto vengono ripulite le tue parole, in ogni app e in ogni lingua. Lo stile di ciascun gruppo viene applicato in aggiunta.",
+      "bannerTitle": "La pulizia si applica a ogni dettatura",
+      "levels": {
+        "none": "Esattamente ciò che hai detto, errori compresi",
+        "light": "Toglie le parole riempitive e corregge la punteggiatura",
+        "medium": "Formulazione più scorrevole, stesso significato"
+      }
+    },
+    "addMenu": "Aggiungi un’app o un sito web"
   },
   "onboardingFlow": {
     "loading": "Preparazione in corso…",

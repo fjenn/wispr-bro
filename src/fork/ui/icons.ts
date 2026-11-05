@@ -21,6 +21,7 @@ export const ALargeSmall = glyph(L.ALargeSmall);
 export const AppWindow = glyph(L.AppWindow);
 export const ArrowLeft = glyph(L.ArrowLeft);
 export const ArrowRight = glyph(L.ArrowRight);
+export const ArrowUpDown = glyph(L.ArrowUpDown);
 export const AtSign = glyph(L.AtSign);
 export const AudioLines = glyph(L.AudioLines);
 export const Bell = glyph(L.Bell);

@@ -1118,11 +1118,10 @@
     "banner": {
       "title": "Ensine suas palavras ao {{appName}}",
       "lead": "Nomes, termos e siglas, escritos do seu jeito.",
-      "examplesLabel": "Exemplos",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "tá → está",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Palavras para adicionar"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1325,7 +1324,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Experimentar",
-      "howItWorks": "Como funciona"
+      "howItWorks": "Como funciona",
+      "title": "Reescreva qualquer texto selecionado"
     },
     "enable": {
       "title": "Ativar Transformações"
@@ -1337,7 +1337,8 @@
     "auto": {
       "title": "Aplicar depois de cada ditado",
       "choice": "Transformação a aplicar",
-      "none": "Escolha uma transformação"
+      "none": "Escolha uma transformação",
+      "description": "Cada ditado passa pela transformação que você escolher."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 e ⌥O substituem os caracteres ¡, ™ e ø enquanto as Transformações estão ativadas.",
@@ -1349,10 +1350,11 @@
     "createNew": "Nova transformação",
     "deleteConfirm": "Apagar {{name}}? Não é possível desfazer.",
     "loading": "Carregando suas transformações…",
-    "empty": "Ainda não há transformações. Crie uma para começar.",
     "error": "Não foi possível salvar essa alteração na transformação. Tente novamente.",
     "card": {
-      "delete": "Apagar {{name}}"
+      "delete": "Apagar {{name}}",
+      "createOwn": "Crie a sua",
+      "createOwnHint": "Descreva o que ela deve fazer"
     },
     "new": {
       "name": "Minha transformação"
@@ -1451,6 +1453,11 @@
     "subtitle": "Selecione um texto em qualquer app e pressione um atalho para reescrevê-lo.",
     "settings": {
       "title": "Ajustes das transformações"
+    },
+    "viewChanges": "para ver o que mudou",
+    "builtin": {
+      "polish": "Mais claro e enxuto, mesmo sentido",
+      "prompt_engineer": "Transforma um pedido vago em um prompt claro"
     }
   },
   "cleanup": {
@@ -1543,8 +1550,12 @@
       "title": "Diga poucas palavras, receba o texto inteiro",
       "lead": "Diga uma palavra-chave e o {{appName}} escreve o texto completo.",
       "examplesLabel": "Exemplos",
-      "example1": "“meu endereço” → seu endereço postal completo",
-      "example2": "“minha despedida” → Um abraço e seu nome"
+      "cue1": "meu endereço",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "minha despedida",
+      "text2": "Abraços, Sam",
+      "cue3": "link da agenda",
+      "text3": "Escolha o horário que for melhor para você: cal.example.com/sam"
     },
     "entry": {
       "becomes": "é escrito como",
@@ -1969,22 +1980,22 @@
       "personal": {
         "tab": "Mensagens pessoais",
         "label": "Mensagens pessoais",
-        "description": "Conversas com amigos e família, como Mensagens, WhatsApp, Telegram, Signal e Discord."
+        "bannerTitle": "Para conversas com amigos e família"
       },
       "work": {
         "tab": "Mensagens de trabalho",
         "label": "Mensagens de trabalho",
-        "description": "Conversas com colegas, como Slack, Microsoft Teams e Google Chat."
+        "bannerTitle": "Para conversas com colegas"
       },
       "email": {
         "tab": "E-mail",
         "label": "E-mail",
-        "description": "Apps de e-mail, como Mail, Outlook, Spark e Superhuman."
+        "bannerTitle": "Para o seu e-mail"
       },
       "other": {
         "tab": "Outros",
         "label": "Outros",
-        "description": "Todos os outros apps: notas, documentos, editores de código e mais."
+        "bannerTitle": "Para todo o resto"
       }
     },
     "presets": {
@@ -2007,7 +2018,6 @@
     },
     "presetsHeading": "Estilo",
     "presetsLegend": "Estilo para {{group}}",
-    "before": "O que você diz",
     "after": "O que é escrito:",
     "englishOnly": "Os estilos valem para ditados em inglês. A limpeza funciona em todos os idiomas.",
     "apps": {
@@ -2032,8 +2042,6 @@
       "changeFailed": "Essa alteração não foi salva. Tente novamente."
     },
     "sites": {
-      "heading": "Usado nestes sites",
-      "listLabel": "Sites que usam o estilo {{group}}",
       "addShort": "Adicionar site",
       "recent": {
         "heading": "Sites usados recentemente",
@@ -2069,8 +2077,15 @@
     },
     "cleanup": {
       "tab": "Limpeza",
-      "description": "O quanto suas palavras são arrumadas, em todos os apps e idiomas. O estilo de cada grupo é aplicado por cima."
-    }
+      "description": "O quanto suas palavras são arrumadas, em todos os apps e idiomas. O estilo de cada grupo é aplicado por cima.",
+      "bannerTitle": "A limpeza vale para cada ditado",
+      "levels": {
+        "none": "Exatamente o que você disse, com erros e tudo",
+        "light": "Tira as palavras de preenchimento e corrige a pontuação",
+        "medium": "Texto mais fluido, mesmo sentido"
+      }
+    },
+    "addMenu": "Adicionar um app ou site"
   },
   "onboardingFlow": {
     "loading": "Preparando tudo…",

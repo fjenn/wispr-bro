@@ -2,15 +2,17 @@
 /**
  * The Snippets page (S-17, C-69..C-73): the Hub's Snippets slot.
  *
- *   Snippets                          [Import] [Export] [Add snippet]
- *   ┌ banner: say a few words, get a whole text · 2 examples ─── × ┐
- *   3 snippets · used 12 times
- *   [search…]                              [sort ▾] [refresh]
+ *   Snippets                                   [Import] [Add snippet]
+ *   3 snippets · used 12 times                       🔍 ⇅ ⟳ ⤓
+ *   ┌ banner: say a few words, get a whole text ──────────────── × ┐
+ *   │ "cue" → text   (three clickable examples)                    │
+ *   │ [Add snippet]                                                │
  *   my address    Alex Morgan ⏎ 12 Harbour …   Used 4 times   ✎ 🗑
  *
  * Say the trigger alone or inside a sentence; the saved text is written
  * instead (stage 11, after the LLM). Counts follow every change and every
- * take live (`useSnippetsLive`). Deleting offers Undo.
+ * take live (`useSnippetsLive`). Deleting offers Undo. A banner example
+ * (flowmatch) opens Add snippet with its cue and text filled in.
  */
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -35,9 +37,10 @@ import {
   Button,
   EmptyState,
   FOCUS_RING,
+  IconButton,
   ListContainer,
-  SearchField,
-  Select,
+  SearchToggle,
+  SortMenu,
 } from "../ui";
 import { SnippetDialog } from "./SnippetDialog";
 import { SnippetsImportWizard } from "./ImportWizard";
@@ -137,6 +140,7 @@ export function SnippetsPage() {
   const [order, setOrder] = useState<SortOrder>("newest");
   const [dialog, setDialog] = useState<{
     snippet: SnippetEntry | null;
+    draft?: { trigger: string; body: string };
   } | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -269,21 +273,12 @@ export function SnippetsPage() {
     <div data-testid="wb-snippets" className="flex flex-col gap-6">
       <PageHeader title={t("hub.pages.snippets.title")}>
         <Button
-          variant="ghost"
+          variant="primary"
           onClick={() => setImportOpen(true)}
           data-testid="wb-snippets-import"
         >
           <Upload size={16} aria-hidden="true" />
           {t("snippets.import.open")}
-        </Button>
-        <Button
-          variant="ghost"
-          onClick={() => void exportCsv()}
-          disabled={counts.snippets === 0}
-          data-testid="wb-snippets-export"
-        >
-          <Download size={16} aria-hidden="true" />
-          {t("snippets.export.open")}
         </Button>
         <Button
           variant="primary"
@@ -295,79 +290,87 @@ export function SnippetsPage() {
         </Button>
       </PageHeader>
 
-      <Banner
-        id={BANNER_ID}
-        image={photos.snippets.src}
-        title={t("snippets.banner.title")}
-        body={t("snippets.banner.lead", { appName })}
-        examplesLabel={t("snippets.banner.examplesLabel")}
-        examples={[
-          t("snippets.banner.example1"),
-          t("snippets.banner.example2"),
-        ]}
-      />
-
       <section
         aria-labelledby="wb-snippets-heading"
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-6"
       >
-        <h2
-          id="wb-snippets-heading"
-          className="type-micro text-(--wb-ink-3)"
-          data-testid="wb-snippets-counts"
-          data-count={counts.snippets}
-          data-uses={counts.uses}
-        >
-          {t("snippets.counts.snippets", { count: counts.snippets })}
-          {counts.uses > 0 &&
-            ` · ${t("snippets.counts.uses", { count: counts.uses })}`}
-        </h2>
-        <div className="flex flex-wrap items-center gap-2">
-          <SearchField
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label={t("snippets.search")}
-            placeholder={t("snippets.search")}
-            className="min-w-48 flex-1"
-            data-testid="wb-snippets-search"
-          />
-          <div className="flex items-center gap-1">
-            <span
-              id="wb-snippets-sort-label"
-              className="ps-2 text-[13px] text-(--wb-ink-3)"
-            >
-              {t("snippets.sort.label")}
-            </span>
-            <Select
+        <div className="flex min-h-11 items-center justify-between gap-4 border-b border-(--wb-line) pb-1.5">
+          <h2
+            id="wb-snippets-heading"
+            className="text-[15px] font-medium text-(--wb-ink)"
+            data-testid="wb-snippets-counts"
+            data-count={counts.snippets}
+            data-uses={counts.uses}
+          >
+            {t("snippets.counts.snippets", { count: counts.snippets })}
+            {counts.uses > 0 &&
+              ` · ${t("snippets.counts.uses", { count: counts.uses })}`}
+          </h2>
+          <div className="flex shrink-0 items-center gap-1">
+            <SearchToggle
+              value={query}
+              onChange={setQuery}
+              label={t("snippets.search")}
+              testId="wb-snippets-search"
+            />
+            <SortMenu
               value={order}
-              onValueChange={(v) => setOrder(v as SortOrder)}
-              labelledBy="wb-snippets-sort-label"
-              variant="ghost"
-              size="sm"
-              fitContent
+              onChange={setOrder}
+              label={t("snippets.sort.label")}
               testId="wb-snippets-sort"
               options={SORT_ORDERS.map((o) => ({
                 value: o,
                 label: t(`snippets.sort.${o}`),
               }))}
             />
+            <IconButton
+              onClick={() => void refresh()}
+              aria-label={t("snippets.refresh")}
+              title={t("snippets.refresh")}
+              data-testid="wb-snippets-refresh"
+            >
+              <RefreshCw
+                size={18}
+                aria-hidden="true"
+                className={refreshing ? "motion-safe:animate-spin" : ""}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() => void exportCsv()}
+              disabled={counts.snippets === 0}
+              aria-label={t("snippets.export.open")}
+              title={t("snippets.export.open")}
+              data-testid="wb-snippets-export"
+            >
+              <Download size={18} aria-hidden="true" />
+            </IconButton>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => void refresh()}
-            aria-label={t("snippets.refresh")}
-            title={t("snippets.refresh")}
-            data-testid="wb-snippets-refresh"
-            className="px-2"
-          >
-            <RefreshCw
-              size={16}
-              aria-hidden="true"
-              className={refreshing ? "motion-safe:animate-spin" : ""}
-            />
-          </Button>
         </div>
+
+        <Banner
+          id={BANNER_ID}
+          image={photos.snippets.src}
+          title={t("snippets.banner.title")}
+          body={t("snippets.banner.lead", { appName })}
+          pairsLabel={t("snippets.banner.examplesLabel")}
+          pairs={([1, 2, 3] as const).map((n) => {
+            const trigger = t(`snippets.banner.cue${n}`);
+            const body = t(`snippets.banner.text${n}`);
+            return {
+              id: String(n),
+              cue: trigger,
+              text: body,
+              testId: "wb-snippets-example",
+              onClick: () =>
+                setDialog({ snippet: null, draft: { trigger, body } }),
+            };
+          })}
+          action={{
+            label: t("snippets.add"),
+            onClick: () => setDialog({ snippet: null }),
+            testId: "wb-snippets-banner-add",
+          }}
+        />
         {visible.length > 0 ? (
           <>
             <p
@@ -399,6 +402,7 @@ export function SnippetsPage() {
       <SnippetDialog
         open={dialog !== null}
         snippet={dialog?.snippet ?? null}
+        draft={dialog?.draft}
         onOpenChange={(open) => {
           if (!open) {
             setDialog(null);

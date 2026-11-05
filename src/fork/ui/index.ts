@@ -9,7 +9,14 @@
  * Glyphs come from `./icons`.
  */
 export { Badge, type BadgeTone } from "./Badge";
-export { Banner, Hero, type BannerProps, type HeroProps } from "./Banner";
+export {
+  Banner,
+  Hero,
+  type BannerPair,
+  type BannerProps,
+  type BannerSuggestion,
+  type HeroProps,
+} from "./Banner";
 export {
   Button,
   buttonClass,
@@ -78,6 +85,12 @@ export {
   type SettingControlIds,
   type SettingRowProps,
 } from "./SettingRow";
+export {
+  SearchToggle,
+  SortMenu,
+  type SearchToggleProps,
+  type SortMenuProps,
+} from "./SearchToggle";
 export { Switch, type SwitchProps } from "./Switch";
 export { Tabs, TabPanel, type TabItem, type TabsProps } from "./Tabs";
 export {

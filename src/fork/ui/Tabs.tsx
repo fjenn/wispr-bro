@@ -21,6 +21,8 @@ import { FOCUS_RING } from "./Button";
 export interface TabItem {
   value: string;
   label: string;
+  /** Beside the label (a Beta tag). */
+  tag?: ReactNode;
 }
 
 export interface TabsProps {
@@ -31,6 +33,8 @@ export interface TabsProps {
   label: string;
   children: ReactNode;
   className?: string;
+  /** Controls at the end of the tab row (search, sort, refresh). */
+  end?: ReactNode;
 }
 
 export function Tabs({
@@ -40,6 +44,7 @@ export function Tabs({
   label,
   children,
   className = "",
+  end,
 }: TabsProps) {
   // Radix sets `dir="ltr"` on the root unless told otherwise, which undid
   // the Hub's right-to-left layout inside every tab set (found in S-34).
@@ -51,20 +56,26 @@ export function Tabs({
       onValueChange={onValueChange}
       className={`flex flex-col ${className}`}
     >
-      <RadixTabs.List
-        aria-label={label}
-        className="flex flex-wrap gap-5 border-b border-(--wb-line)"
-      >
-        {tabs.map((tab) => (
-          <RadixTabs.Trigger
-            key={tab.value}
-            value={tab.value}
-            className={`-mb-px inline-flex cursor-pointer items-center gap-1.5 rounded-t-[4px] border-b-2 border-transparent pt-1 pb-2.5 text-[15px] font-medium text-(--wb-ink-3) transition-colors duration-(--wb-dur-fast) hover:text-(--wb-ink) data-[state=active]:border-(--wb-ink) data-[state=active]:text-(--wb-ink) ${FOCUS_RING}`}
-          >
-            {tab.label}
-          </RadixTabs.Trigger>
-        ))}
-      </RadixTabs.List>
+      <div className="flex items-end gap-4 border-b border-(--wb-line)">
+        <RadixTabs.List
+          aria-label={label}
+          className="flex min-w-0 flex-1 flex-wrap gap-6"
+        >
+          {tabs.map((tab) => (
+            <RadixTabs.Trigger
+              key={tab.value}
+              value={tab.value}
+              className={`-mb-px inline-flex cursor-pointer items-center gap-1.5 rounded-t-[4px] border-b-2 border-transparent pt-1 pb-2.5 text-[15px] font-medium text-(--wb-ink-3) transition-colors duration-(--wb-dur-fast) hover:text-(--wb-ink) data-[state=active]:border-(--wb-ink) data-[state=active]:text-(--wb-ink) ${FOCUS_RING}`}
+            >
+              {tab.label}
+              {tab.tag}
+            </RadixTabs.Trigger>
+          ))}
+        </RadixTabs.List>
+        {end && (
+          <div className="flex shrink-0 items-center gap-1 pb-1.5">{end}</div>
+        )}
+      </div>
       {children}
     </RadixTabs.Root>
   );

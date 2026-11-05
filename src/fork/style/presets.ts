@@ -76,3 +76,16 @@ export const EXAMPLES: Record<StyleGroup, GroupExample> = {
     },
   },
 };
+
+/**
+ * Style › Cleanup's sample (flowmatch): one spoken sentence and what each
+ * cleanup level makes of it. English data like the examples above; our own
+ * text.
+ */
+export const CLEANUP_EXAMPLES: Record<"none" | "light" | "medium", string> = {
+  none: "so um I think we should uh move the call to Thursday, no wait, Friday afternoon if that's okay with everyone",
+  light:
+    "So I think we should move the call to Friday afternoon, if that's okay with everyone.",
+  medium:
+    "I think we should move the call to Friday afternoon, if that works for everyone.",
+};

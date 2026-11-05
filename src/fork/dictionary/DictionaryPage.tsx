@@ -2,10 +2,9 @@
 /**
  * The Dictionary page (S-16, C-58..C-65): the Hub's Dictionary slot.
  *
- *   Dictionary                         [Import] [Export] [Add word]
- *   ┌ banner: Teach Wispr Bro your words · example chips ──────── × ┐
- *   All (n) · Added by you (n) · Suggested (n)
- *   [search…]                              [sort ▾] [refresh]
+ *   Dictionary                                   [Import] [Add word]
+ *   All (n) · Added by you (n) · Suggested (n)   🔍 ⇅ ⟳ ⤓
+ *   ┌ banner: Teach Wispr Bro your words · [Add word] chips ───── × ┐
  *   Siobhán                                           ✎  🗑
  *   gonna → going to        Used 3 times              ✎  🗑
  *
@@ -14,6 +13,9 @@
  * suggestions (Accept ✓ / Reject ✕) under the "Learn from my corrections"
  * toggle (off by default, DEC-20); a rejected one never returns. Counts
  * follow every change live (`useDictionaryLive`). Deleting offers Undo.
+ * The banner's chips (flowmatch) are names and terms from recent History
+ * not in the dictionary yet (`suggestWords`), or examples; a click opens
+ * Add word with it filled in.
  */
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,16 +44,18 @@ import {
   Button,
   EmptyState,
   FOCUS_RING,
+  IconButton,
   ListContainer,
-  SearchField,
-  Select,
+  SearchToggle,
   SettingRow,
+  SortMenu,
   Switch,
   TabPanel,
   Tabs,
 } from "../ui";
 import { useForkSettings } from "../settings/useForkSettings";
 import { AddWordDialog } from "./AddWordDialog";
+import { suggestWords } from "./suggestions";
 import { DictionaryImportWizard } from "./ImportWizard";
 import {
   SORT_ORDERS,
@@ -225,7 +229,9 @@ export function DictionaryPage() {
   const [order, setOrder] = useState<SortOrder>("newest");
   const [dialog, setDialog] = useState<{
     entry: DictionaryEntry | null;
+    draft?: string;
   } | null>(null);
+  const [recentTexts, setRecentTexts] = useState<string[]>([]);
   const [importOpen, setImportOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const appName = t("rust.appName");
@@ -235,6 +241,33 @@ export function DictionaryPage() {
   useEffect(() => {
     if (section === "add") setDialog({ entry: null });
   }, [section, navSeq]);
+
+  // The banner's suggestions read the latest dictations once per visit.
+  useEffect(() => {
+    let active = true;
+    void commands
+      .forkHistoryPage(null, 200)
+      .then((r) => {
+        if (active && r.status === "ok")
+          setRecentTexts(r.data.rows.map((row) => row.text));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+  const suggestions = useMemo(() => {
+    const found = suggestWords(
+      recentTexts,
+      entries.map((e) => e.phrase),
+    );
+    if (found.length > 0) return found;
+    return [
+      t("dictionary.banner.example1"),
+      t("dictionary.banner.example2"),
+      t("dictionary.banner.example4"),
+    ];
+  }, [recentTexts, entries, t]);
 
   const tabCounts: Record<TabId, number> = useMemo(
     () => ({
@@ -409,21 +442,12 @@ export function DictionaryPage() {
     <div data-testid="wb-dictionary" className="flex flex-col gap-6">
       <PageHeader title={t("hub.pages.dictionary.title")}>
         <Button
-          variant="ghost"
+          variant="primary"
           onClick={() => setImportOpen(true)}
           data-testid="wb-dictionary-import"
         >
           <Upload size={16} aria-hidden="true" />
           {t("dictionary.import.open")}
-        </Button>
-        <Button
-          variant="ghost"
-          onClick={() => void exportCsv()}
-          disabled={counts.words + counts.rules === 0}
-          data-testid="wb-dictionary-export"
-        >
-          <Download size={16} aria-hidden="true" />
-          {t("dictionary.export.open")}
         </Button>
         <Button
           variant="primary"
@@ -435,74 +459,75 @@ export function DictionaryPage() {
         </Button>
       </PageHeader>
 
-      <Banner
-        id={BANNER_ID}
-        image={photos.dictionary.src}
-        title={t("dictionary.banner.title", { appName })}
-        body={t("dictionary.banner.lead")}
-        examplesLabel={t("dictionary.banner.examplesLabel")}
-        examples={[
-          t("dictionary.banner.example1"),
-          t("dictionary.banner.example2"),
-          t("dictionary.banner.example3"),
-          t("dictionary.banner.example4"),
-        ]}
-      />
-
       <Tabs
         value={tab}
         onValueChange={(v) => setTab(v as TabId)}
         tabs={tabs}
         label={t("dictionary.tabs.label")}
-      >
-        <div className="mt-5 flex flex-wrap items-center gap-2">
-          <SearchField
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label={t("dictionary.search")}
-            placeholder={t("dictionary.search")}
-            className="min-w-48 flex-1"
-            data-testid="wb-dictionary-search"
-          />
-          <div className="flex items-center gap-1">
-            <span
-              id="wb-dictionary-sort-label"
-              className="ps-2 text-[13px] text-(--wb-ink-3)"
-            >
-              {t("dictionary.sort.label")}
-            </span>
-            <Select
+        end={
+          <>
+            <SearchToggle
+              value={query}
+              onChange={setQuery}
+              label={t("dictionary.search")}
+              testId="wb-dictionary-search"
+            />
+            <SortMenu
               value={order}
-              onValueChange={(v) => setOrder(v as SortOrder)}
-              labelledBy="wb-dictionary-sort-label"
-              variant="ghost"
-              size="sm"
-              fitContent
+              onChange={setOrder}
+              label={t("dictionary.sort.label")}
               testId="wb-dictionary-sort"
               options={SORT_ORDERS.map((o) => ({
                 value: o,
                 label: t(`dictionary.sort.${o}`),
               }))}
             />
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => void refresh()}
-            aria-label={t("dictionary.refresh")}
-            title={t("dictionary.refresh")}
-            data-testid="wb-dictionary-refresh"
-            className="px-2"
-          >
-            <RefreshCw
-              size={16}
-              aria-hidden="true"
-              className={refreshing ? "motion-safe:animate-spin" : ""}
-            />
-          </Button>
+            <IconButton
+              onClick={() => void refresh()}
+              aria-label={t("dictionary.refresh")}
+              title={t("dictionary.refresh")}
+              data-testid="wb-dictionary-refresh"
+            >
+              <RefreshCw
+                size={18}
+                aria-hidden="true"
+                className={refreshing ? "motion-safe:animate-spin" : ""}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() => void exportCsv()}
+              disabled={counts.words + counts.rules === 0}
+              aria-label={t("dictionary.export.open")}
+              title={t("dictionary.export.open")}
+              data-testid="wb-dictionary-export"
+            >
+              <Download size={18} aria-hidden="true" />
+            </IconButton>
+          </>
+        }
+      >
+        <div className="mt-6">
+          <Banner
+            id={BANNER_ID}
+            image={photos.dictionary.src}
+            title={t("dictionary.banner.title", { appName })}
+            body={t("dictionary.banner.lead")}
+            action={{
+              label: t("dictionary.add"),
+              onClick: () => setDialog({ entry: null }),
+              testId: "wb-dictionary-banner-add",
+            }}
+            suggestionsLabel={t("dictionary.banner.suggestionsLabel")}
+            suggestions={suggestions.map((word) => ({
+              id: word,
+              label: word,
+              testId: "wb-dictionary-suggestion",
+              onClick: () => setDialog({ entry: null, draft: word }),
+            }))}
+          />
         </div>
         {(["all", "mine", "suggested"] as TabId[]).map((id) => (
-          <TabPanel key={id} value={id} className="mt-3">
+          <TabPanel key={id} value={id} className="mt-6">
             {id === tab && id === "suggested" && (
               <SettingRow
                 className="mb-3"
@@ -559,6 +584,7 @@ export function DictionaryPage() {
       <AddWordDialog
         open={dialog !== null}
         entry={dialog?.entry ?? null}
+        draft={dialog?.draft}
         onOpenChange={(open) => {
           if (!open) {
             setDialog(null);

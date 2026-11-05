@@ -1100,11 +1100,10 @@
     "banner": {
       "title": "{{appName}} uygulamasına kendi kelimelerinizi öğretin",
       "lead": "Adlar, terimler ve kısaltmalar, sizin yazdığınız gibi.",
-      "examplesLabel": "Örnekler",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "napıyosun → ne yapıyorsun",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Eklenecek sözcükler"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1289,7 +1288,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Dene",
-      "howItWorks": "Nasıl çalışır?"
+      "howItWorks": "Nasıl çalışır?",
+      "title": "Seçtiğiniz her metni yeniden yazın"
     },
     "enable": {
       "title": "Dönüştürmeleri Etkinleştir"
@@ -1301,7 +1301,8 @@
     "auto": {
       "title": "Her dikteden sonra uygula",
       "choice": "Uygulanacak dönüştürme",
-      "none": "Bir dönüştürme seçin"
+      "none": "Bir dönüştürme seçin",
+      "description": "Her dikte seçtiğiniz dönüştürmeden geçer."
     },
     "shortcuts": {
       "warning": "Dönüştürmeler açıkken ⌥1, ⌥2 ve ⌥O, ¡, ™ ve ø karakterlerinin yerini alır.",
@@ -1313,10 +1314,11 @@
     "createNew": "Yeni dönüştürme",
     "deleteConfirm": "{{name}} silinsin mi? Bu işlem geri alınamaz.",
     "loading": "Dönüştürmeleriniz yükleniyor…",
-    "empty": "Henüz dönüştürme yok. Başlamak için bir tane oluşturun.",
     "error": "Dönüştürme değişikliği kaydedilemedi. Yeniden deneyin.",
     "card": {
-      "delete": "Sil: {{name}}"
+      "delete": "Sil: {{name}}",
+      "createOwn": "Kendinizinkini oluşturun",
+      "createOwnHint": "Ne yapması gerektiğini anlatın"
     },
     "new": {
       "name": "Dönüştürmem"
@@ -1414,6 +1416,11 @@
     "subtitle": "Herhangi bir uygulamada metin seçin ve yeniden yazmak için bir kısayola basın.",
     "settings": {
       "title": "Dönüştürme ayarları"
+    },
+    "viewChanges": "nelerin değiştiğini görmek için",
+    "builtin": {
+      "polish": "Daha net ve kısa, aynı anlam",
+      "prompt_engineer": "Kaba bir isteği net bir istem hâline getirir"
     }
   },
   "cleanup": {
@@ -1501,8 +1508,12 @@
       "title": "Birkaç kelime söyleyin, metnin tamamı gelsin",
       "lead": "Kısa bir ipucu söyleyin, {{appName}} metnin tamamını yazsın.",
       "examplesLabel": "Örnekler",
-      "example1": "“adresim” → tam posta adresiniz",
-      "example2": "“kapanışım” → Saygılarımla ve adınız"
+      "cue1": "adresim",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "kapanışım",
+      "text2": "Sevgiler, Sam",
+      "cue3": "takvim bağlantısı",
+      "text3": "Size uyan bir saati seçin: cal.example.com/sam"
     },
     "entry": {
       "becomes": "şöyle yazılır:",
@@ -1892,22 +1903,22 @@
       "personal": {
         "tab": "Kişisel mesajlar",
         "label": "Kişisel mesajlar",
-        "description": "Arkadaşlar ve aileyle sohbetler; örneğin Mesajlar, WhatsApp, Telegram, Signal ve Discord."
+        "bannerTitle": "Arkadaş ve aile sohbetleri için"
       },
       "work": {
         "tab": "İş mesajları",
         "label": "İş mesajları",
-        "description": "İş arkadaşlarıyla sohbetler; örneğin Slack, Microsoft Teams ve Google Chat."
+        "bannerTitle": "İş arkadaşlarıyla sohbetler için"
       },
       "email": {
         "tab": "E-posta",
         "label": "E-posta",
-        "description": "E-posta uygulamaları; örneğin Mail, Outlook, Spark ve Superhuman."
+        "bannerTitle": "E-postanız için"
       },
       "other": {
         "tab": "Diğer",
         "label": "Diğer",
-        "description": "Diğer tüm uygulamalar: notlar, belgeler, kod düzenleyiciler ve daha fazlası."
+        "bannerTitle": "Geri kalan her şey için"
       }
     },
     "presets": {
@@ -1930,7 +1941,6 @@
     },
     "presetsHeading": "Stil",
     "presetsLegend": "{{group}} için stil",
-    "before": "Söyledikleriniz",
     "after": "Yazılan:",
     "englishOnly": "Stiller İngilizce diktelere uygulanır. Temizleme her dilde çalışır.",
     "apps": {
@@ -1955,8 +1965,6 @@
       "changeFailed": "Değişiklik kaydedilmedi. Yeniden deneyin."
     },
     "sites": {
-      "heading": "Bu sitelerde kullanılır",
-      "listLabel": "{{group}} stilini kullanan siteler",
       "addShort": "Web sitesi ekle",
       "recent": {
         "heading": "Son kullanılan web siteleri",
@@ -1992,8 +2000,15 @@
     },
     "cleanup": {
       "tab": "Temizleme",
-      "description": "Sözlerinizin her uygulamada ve her dilde ne kadar düzenleneceği. Her grubun stili bunun üzerine uygulanır."
-    }
+      "description": "Sözlerinizin her uygulamada ve her dilde ne kadar düzenleneceği. Her grubun stili bunun üzerine uygulanır.",
+      "bannerTitle": "Temizleme her dikteye uygulanır",
+      "levels": {
+        "none": "Tam olarak söyledikleriniz, hatalarıyla birlikte",
+        "light": "Dolgu sözcüklerini atar, noktalamayı düzeltir",
+        "medium": "Daha akıcı ifade, aynı anlam"
+      }
+    },
+    "addMenu": "Uygulama veya web sitesi ekle"
   },
   "onboardingFlow": {
     "loading": "Hazırlanıyor…",

@@ -18,8 +18,27 @@ import { useState, type CSSProperties, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettingsStore } from "../settings/store";
-import { Button, IconButton } from "./Button";
-import { X } from "./icons";
+import { motion } from "motion/react";
+import { Button, FOCUS_RING, IconButton } from "./Button";
+import { ArrowRight, X } from "./icons";
+import { useMotionPresets } from "./motion";
+
+/** A clickable suggestion on the banner (a word to add, a snippet to try). */
+export interface BannerSuggestion {
+  id: string;
+  label: string;
+  onClick: () => void;
+  testId?: string;
+}
+
+/** A clickable "cue → text" example (Snippets). */
+export interface BannerPair {
+  id: string;
+  cue: string;
+  text: string;
+  onClick: () => void;
+  testId?: string;
+}
 
 export interface BannerProps {
   /** Stable id stored in `dismissed_banners` (lowercase, `a-z0-9_.-`). */
@@ -33,6 +52,14 @@ export interface BannerProps {
   action?: { label: string; onClick: () => void; testId?: string };
   /** A second, quieter action beside `action` (S-30). */
   secondaryAction?: { label: string; onClick: () => void; testId?: string };
+  /** Clickable chips after the action, e.g. words to add (flowmatch). */
+  suggestions?: BannerSuggestion[];
+  /** Label of the suggestions list, read by screen readers. */
+  suggestionsLabel?: string;
+  /** Clickable "cue → text" rows above the action (flowmatch). */
+  pairs?: BannerPair[];
+  /** Label of the pairs list, read by screen readers. */
+  pairsLabel?: string;
   /** Polite live region for `body` (it changes while shown, S-30). */
   live?: boolean;
   /** Decorative art on the right (hidden from screen readers). */
@@ -62,6 +89,10 @@ export function Banner({
   examplesLabel,
   action,
   secondaryAction,
+  suggestions,
+  suggestionsLabel,
+  pairs,
+  pairsLabel,
   live = false,
   art,
   aside,
@@ -94,6 +125,10 @@ export function Banner({
       examplesLabel={examplesLabel}
       action={action}
       secondaryAction={secondaryAction}
+      suggestions={suggestions}
+      suggestionsLabel={suggestionsLabel}
+      pairs={pairs}
+      pairsLabel={pairsLabel}
       live={live}
       art={art}
       aside={aside}
@@ -122,6 +157,10 @@ export function Hero({
   examplesLabel,
   action,
   secondaryAction,
+  suggestions,
+  suggestionsLabel,
+  pairs,
+  pairsLabel,
   live = false,
   art,
   aside,
@@ -130,6 +169,8 @@ export function Hero({
   onDismiss,
   dismissLabel,
 }: HeroProps) {
+  const m = useMotionPresets();
+  const chip = `rounded-(--wb-radius-sm) px-3.5 py-1.5 text-[14px] transition-colors duration-(--wb-dur-fast)`;
   const titleId = `wb-banner-${id}-title`;
   // With a known subject the text column ends 24 px before it. Banner
   // photos are 4:1 and the hero is at least 180 px tall, so under
@@ -206,7 +247,42 @@ export function Hero({
             ))}
           </ul>
         )}
-        {(action || secondaryAction) && (
+        {pairs && pairs.length > 0 && (
+          <ul aria-label={pairsLabel} className="mt-2 flex flex-col gap-2">
+            {pairs.map((pair) => (
+              <li key={pair.id}>
+                <motion.button
+                  type="button"
+                  {...m.press}
+                  onClick={pair.onClick}
+                  data-testid={pair.testId}
+                  className={`group/pair flex max-w-full cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) text-start ${FOCUS_RING}`}
+                >
+                  <span
+                    dir="auto"
+                    className={`${chip} shrink-0 bg-white/20 text-(--wb-on-hero) italic group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
+                  >
+                    “{pair.cue}”
+                  </span>
+                  <ArrowRight
+                    size={16}
+                    aria-hidden="true"
+                    className="shrink-0 text-(--wb-on-hero-2) rtl:-scale-x-100"
+                  />
+                  <span
+                    dir="auto"
+                    className={`${chip} min-w-0 truncate bg-white/20 text-(--wb-on-hero) group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
+                  >
+                    {pair.text}
+                  </span>
+                </motion.button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {(action ||
+          secondaryAction ||
+          (suggestions && suggestions.length > 0)) && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
             {action && (
               <Button
@@ -226,6 +302,28 @@ export function Hero({
               >
                 {secondaryAction.label}
               </Button>
+            )}
+            {suggestions && suggestions.length > 0 && (
+              <ul
+                aria-label={suggestionsLabel}
+                className="flex flex-wrap items-center gap-2"
+                data-testid={`wb-banner-${id}-suggestions`}
+              >
+                {suggestions.map((s) => (
+                  <li key={s.id}>
+                    <motion.button
+                      type="button"
+                      {...m.press}
+                      onClick={s.onClick}
+                      data-testid={s.testId}
+                      dir="auto"
+                      className={`${chip} h-9 cursor-pointer bg-white/20 font-medium text-(--wb-on-hero) hover:bg-(--wb-cream) hover:text-(--wb-on-cream) ${FOCUS_RING}`}
+                    >
+                      {s.label}
+                    </motion.button>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         )}

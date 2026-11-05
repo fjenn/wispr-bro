@@ -40,6 +40,12 @@ async function shot(page: Page, name: string) {
     .catch((e) => console.warn(`screenshot ${name} skipped: ${e}`));
 }
 
+/** "+" on the banner, then "Add app" or "Add website" in its menu. */
+async function addVia(page: Page, what: "app" | "site") {
+  await page.getByTestId("wb-style-add").click();
+  await page.getByTestId(`wb-menu-item-style-add-${what}`).click();
+}
+
 // A 1×1 PNG, as `fork_style_app_icon` returns icons.
 const ICON =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
@@ -246,16 +252,12 @@ styleTest.describe("style page", () => {
         page.getByTestId("wb-style-preset-very_relaxed"),
       ).toBeVisible();
       await expect(page.getByTestId("wb-style-preset-upbeat")).toHaveCount(0);
-      await expect(page.getByTestId("wb-style-before")).toHaveAttribute(
-        "lang",
-        "en",
-      );
       await expect(
         page.getByTestId("wb-style-example-very_relaxed"),
       ).toHaveText(
         "hey Sam are you around this weekend? we could grab dinner on Saturday if you're free",
       );
-      await expect(page.getByTestId("wb-style-english-note")).toHaveText(
+      await expect(page.getByTestId("wb-banner-style-personal")).toContainText(
         "Styles apply to dictations in English. Cleanup works in every language.",
       );
       await shot(page, "personal");
@@ -321,10 +323,7 @@ styleTest.describe("style page", () => {
       // (check() fails if the state has not flipped yet under load).
       // W2: the levels are option cards; click the card (its label), as a
       // person does; the radio inside is visually hidden.
-      await page
-        .getByTestId("fork-cleanup-level-medium")
-        .locator("xpath=ancestor::label[1]")
-        .click();
+      await page.getByTestId("fork-cleanup-level-medium").click();
       await ipc.expectCalled("fork_set_setting", {
         update: { key: "cleanup_level", value: "medium" },
       });
@@ -341,16 +340,15 @@ styleTest.describe("style page", () => {
         '[data-testid="wb-style-site"][data-host="mail.google.com"]',
       );
       await expect(gmail).toBeVisible();
-      await expect(gmail).toContainText("Gmail");
       await expect(gmail).toHaveAttribute("title", "mail.google.com");
       await expect(gmail).toHaveAccessibleName(
         "Gmail mail.google.com: options",
       );
       // Headline sites only, one chip per name (Outlook has two hosts).
-      await expect(page.getByTestId("wb-style-site")).toHaveText([
-        "Gmail",
-        "Outlook",
-      ]);
+      await expect(page.getByTestId("wb-style-site")).toHaveCount(2);
+      await expect(
+        page.getByTestId("wb-style-site").nth(1),
+      ).toHaveAccessibleName(/^Outlook /);
       await gmail.click();
       await expectNoSeriousAxeFindings(page);
       await page
@@ -486,7 +484,7 @@ styleTest.describe("style page", () => {
     "the + picker: search, add, and apps already here cannot be picked",
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style);
-      await page.getByTestId("wb-style-add-app").click();
+      await addVia(page, "app");
       const dialog = page.getByRole("dialog", {
         name: "Add an app to Personal messages",
       });
@@ -511,7 +509,7 @@ styleTest.describe("style page", () => {
       });
       await expect(dialog).toBeHidden();
       await expect(chips(page)).toHaveText(["Editor", "Messages", "WhatsApp"]);
-      await page.getByTestId("wb-style-add-app").click();
+      await addVia(page, "app");
       await page.getByTestId("wb-style-picker-search").fill("zzz");
       await expect(page.getByText("No app matches.")).toBeVisible();
     },
@@ -549,14 +547,8 @@ styleTest.describe("style page", () => {
       await expect(page.getByRole("menu")).toBeVisible();
       await page.keyboard.press("Escape");
       await expect(chip(page, "com.tinyspeck.slackmacgap")).toBeFocused();
-      // Add app, then the presets (declutter pass: before the websites).
-      await page.keyboard.press("Tab");
-      await expect(page.getByTestId("wb-style-add-app")).toBeFocused();
-      await page.keyboard.press("Tab");
-      await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
-      await page.keyboard.press("ArrowRight");
-      await expect(page.getByRole("radio", { name: "Relaxed" })).toBeChecked();
-      // Then the site chip and Add website.
+      // flowmatch: the websites sit beside the apps, then "+", then the
+      // presets.
       await page.keyboard.press("Tab");
       await expect(
         page.locator(
@@ -564,7 +556,11 @@ styleTest.describe("style page", () => {
         ),
       ).toBeFocused();
       await page.keyboard.press("Tab");
-      await expect(page.getByTestId("wb-style-add-site")).toBeFocused();
+      await expect(page.getByTestId("wb-style-add")).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
+      await page.keyboard.press("ArrowRight");
+      await expect(page.getByRole("radio", { name: "Relaxed" })).toBeChecked();
       await expect
         .poll(() => hub.forkSettings.styles)
         .toMatchObject({
@@ -599,7 +595,7 @@ styleTest.describe("websites (OT2-C)", () => {
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style);
       await page.getByRole("tab", { name: "Work messages" }).click();
-      await page.getByTestId("wb-style-add-site").click();
+      await addVia(page, "site");
       const dialog = page.getByRole("dialog", { name: "Add a website" });
       await expect(dialog).toBeVisible();
       const input = page.getByTestId("wb-style-site-add-input");
@@ -623,7 +619,7 @@ styleTest.describe("websites (OT2-C)", () => {
       await expect(dialog).toBeHidden();
       await expect(siteChip(page, "linear.app")).toBeVisible();
       // Mac wave 7: a site already in the chosen style does not "move".
-      await page.getByTestId("wb-style-add-site").click();
+      await addVia(page, "site");
       await input.fill("linear.app");
       await expect(hint).toHaveText("linear.app already uses Work messages.");
       // Another style from the dialog's own choice; a built-in is named.
@@ -647,7 +643,7 @@ styleTest.describe("websites (OT2-C)", () => {
       await openStyle(page, ipc, hub, style);
       // Declutter pass: the suggestions live in the dialog only.
       await expect(page.getByTestId("wb-style-site-recent")).toHaveCount(0);
-      await page.getByTestId("wb-style-add-site").click();
+      await addVia(page, "site");
       const recent = page.getByTestId("wb-style-site-add-recent-item");
       // Only dictated sites with no style: not Slack (built in).
       await expect(recent).toHaveText(["forum.example.org"]);
@@ -669,7 +665,12 @@ styleTest.describe("websites (OT2-C)", () => {
     async ({ page, ipc, hub, style }) => {
       style.recentSites.add("forum.example.org");
       await openStyle(page, ipc, hub, style);
-      await page.getByTestId("wb-style-add-site").focus();
+      await page.getByTestId("wb-style-add").focus();
+      await page.keyboard.press("Enter");
+      await expect(
+        page.getByTestId("wb-menu-item-style-add-app"),
+      ).toBeFocused();
+      await page.keyboard.press("ArrowDown");
       await page.keyboard.press("Enter");
       await expect(page.getByTestId("wb-style-site-add-input")).toBeFocused();
       await page.keyboard.type("github.com");
@@ -679,7 +680,7 @@ styleTest.describe("websites (OT2-C)", () => {
         group: "personal",
       });
       await expect(page.getByRole("dialog")).toBeHidden();
-      await expect(page.getByTestId("wb-style-add-site")).toBeFocused();
+      await expect(page.getByTestId("wb-style-add")).toBeFocused();
     },
   );
 
@@ -707,7 +708,7 @@ styleTest.describe("websites (OT2-C)", () => {
       await expect(page.getByTestId("wb-style-sites-more")).toHaveCount(0);
       // The built-in note lives in the add dialog (declutter pass).
       await expect(page.getByTestId("wb-style-sites-note")).toHaveCount(0);
-      await page.getByTestId("wb-style-add-site").click();
+      await addVia(page, "site");
       await expect(page.getByTestId("wb-style-sites-note")).toHaveText(
         "Many common websites already get the right style without being listed here.",
       );
@@ -725,7 +726,7 @@ styleTest.describe("websites (OT2-C)", () => {
       await openStyle(page, ipc, hub, style, {
         handy: { app_language: "ar" },
       });
-      await page.getByTestId("wb-style-add-site").click();
+      await addVia(page, "site");
       await expect(page.getByTestId("wb-style-site-add-input")).toHaveAttribute(
         "dir",
         "ltr",
@@ -746,7 +747,7 @@ for (const theme of ["light", "dark"] as const) {
       style.recentSites.add("forum.example.org");
       await openStyle(page, ipc, hub, style, { handy: { theme } });
       await expectNoSeriousAxeFindings(page);
-      await page.getByTestId("wb-style-add-site").click();
+      await addVia(page, "site");
       await page.getByTestId("wb-style-site-add-input").fill("bad site");
       await page.getByTestId("wb-style-site-add-input").blur();
       await expect(page.getByTestId("wb-style-site-add-recent")).toBeVisible();
@@ -782,7 +783,7 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.getByRole("menu")).toBeVisible();
       await expectNoSeriousAxeFindings(page);
       await page.keyboard.press("Escape");
-      await page.getByTestId("wb-style-add-app").click();
+      await addVia(page, "app");
       await expect(page.getByTestId("wb-style-picker-app")).toHaveCount(6);
       await expectNoSeriousAxeFindings(page);
       await shot(page, `picker-${theme}`);

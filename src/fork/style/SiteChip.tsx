@@ -117,52 +117,42 @@ export function SiteChip({
     site.auto_send ? `, ${t("style.apps.autoSendOn")}` : ""
   }`;
 
+  const letter = [...site.name.replace(/^www\./i, "").trim()][0] ?? "";
+  const trigger = (
+    <button
+      type="button"
+      data-testid="wb-style-site"
+      data-host={site.host}
+      data-auto-send={site.auto_send}
+      title={site.host}
+      aria-label={t("style.apps.chipLabel", { app: label })}
+      className={`relative grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-transform duration-(--wb-dur-fast) hover:z-10 hover:scale-105 focus-visible:z-10 motion-reduce:transition-none ${FOCUS_RING}`}
+    >
+      <span
+        aria-hidden="true"
+        data-testid="wb-style-site-monogram"
+        data-letter={letter.toLocaleUpperCase()}
+        className="grid size-[30px] place-items-center rounded-[8px] bg-(--wb-cream) text-[15px] font-semibold text-(--wb-on-cream) before:content-[attr(data-letter)]"
+      />
+      {site.auto_send && (
+        <span
+          aria-hidden="true"
+          className="absolute -end-0.5 -bottom-0.5 grid size-4 place-items-center rounded-full bg-(--wb-cream) text-(--wb-on-cream)"
+        >
+          <CornerDownLeft size={12} />
+        </span>
+      )}
+    </button>
+  );
+
   return (
-    <li>
+    <li className="relative -ms-2 first:ms-0">
       <Menu
         label={t("style.apps.menuLabel", { app: site.name })}
         groups={groups}
         testId="wb-style-site-menu"
-        trigger={
-          <button
-            type="button"
-            data-testid="wb-style-site"
-            data-host={site.host}
-            data-auto-send={site.auto_send}
-            title={site.host}
-            aria-label={t("style.apps.chipLabel", { app: label })}
-            className={`flex h-9 cursor-pointer items-center gap-2 rounded-full border border-(--wb-line-2) bg-(--wb-surface) ps-1 pe-3 text-[13px] text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) ${FOCUS_RING}`}
-          >
-            <SiteMonogram name={site.name} />
-            <span className="max-w-48 truncate">{site.name}</span>
-            {site.auto_send && (
-              <CornerDownLeft
-                size={14}
-                aria-hidden="true"
-                className="text-(--wb-ink-2)"
-              />
-            )}
-          </button>
-        }
+        trigger={trigger}
       />
     </li>
-  );
-}
-
-/**
- * A website's letter in a neutral disc: no favicon is fetched (the app
- * contacts only GitHub and Hugging Face). Decorative, the name is next to it.
- */
-function SiteMonogram({ name }: { name: string }) {
-  const letter = [...name.replace(/^www\./i, "").trim()][0] ?? "";
-  // Drawn by CSS so the letter is not part of the button's visible text
-  // (its accessible name starts with the site's name).
-  return (
-    <span
-      aria-hidden="true"
-      data-testid="wb-style-site-monogram"
-      data-letter={letter.toLocaleUpperCase()}
-      className="grid size-7 shrink-0 place-items-center rounded-full bg-(--wb-fill-active) text-[12px] font-semibold text-(--wb-ink-2) before:content-[attr(data-letter)]"
-    />
   );
 }

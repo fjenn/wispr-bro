@@ -1082,11 +1082,10 @@
     "banner": {
       "title": "Dạy {{appName}} các từ của bạn",
       "lead": "Tên, thuật ngữ và từ viết tắt, đúng cách bạn viết.",
-      "examplesLabel": "Ví dụ",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "ko → không",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Từ cần thêm"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1253,7 +1252,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Thử xem",
-      "howItWorks": "Cách hoạt động"
+      "howItWorks": "Cách hoạt động",
+      "title": "Viết lại bất kỳ đoạn văn bản nào bạn chọn"
     },
     "enable": {
       "title": "Bật Chuyển đổi"
@@ -1265,7 +1265,8 @@
     "auto": {
       "title": "Áp dụng sau mỗi lần đọc chính tả",
       "choice": "Chuyển đổi được áp dụng",
-      "none": "Chọn một chuyển đổi"
+      "none": "Chọn một chuyển đổi",
+      "description": "Mỗi lần đọc đều đi qua chuyển đổi bạn chọn."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 và ⌥O thay thế các ký tự ¡, ™ và ø khi Chuyển đổi đang bật.",
@@ -1277,10 +1278,11 @@
     "createNew": "Chuyển đổi mới",
     "deleteConfirm": "Xóa {{name}}? Không thể hoàn tác.",
     "loading": "Đang tải các chuyển đổi của bạn…",
-    "empty": "Chưa có chuyển đổi nào. Tạo một chuyển đổi để bắt đầu.",
     "error": "Không thể lưu thay đổi chuyển đổi đó. Hãy thử lại.",
     "card": {
-      "delete": "Xóa {{name}}"
+      "delete": "Xóa {{name}}",
+      "createOwn": "Tự tạo",
+      "createOwnHint": "Mô tả việc nó cần làm"
     },
     "new": {
       "name": "Chuyển đổi của tôi"
@@ -1377,6 +1379,11 @@
     "subtitle": "Chọn văn bản trong bất kỳ ứng dụng nào và nhấn phím tắt để viết lại.",
     "settings": {
       "title": "Cài đặt chuyển đổi"
+    },
+    "viewChanges": "để xem những gì đã thay đổi",
+    "builtin": {
+      "polish": "Rõ ràng và gọn hơn, giữ nguyên ý",
+      "prompt_engineer": "Biến một yêu cầu sơ sài thành prompt rõ ràng"
     }
   },
   "cleanup": {
@@ -1459,8 +1466,12 @@
       "title": "Nói vài từ, nhận cả đoạn văn bản",
       "lead": "Nói một từ khóa ngắn và {{appName}} sẽ viết toàn bộ văn bản.",
       "examplesLabel": "Ví dụ",
-      "example1": "“địa chỉ của tôi” → địa chỉ bưu điện đầy đủ của bạn",
-      "example2": "“lời chào cuối thư” → Trân trọng, và tên của bạn"
+      "cue1": "địa chỉ của tôi",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "lời chào cuối thư",
+      "text2": "Thân mến, Sam",
+      "cue3": "liên kết lịch",
+      "text3": "Hãy chọn thời gian phù hợp với bạn: cal.example.com/sam"
     },
     "entry": {
       "becomes": "được viết là",
@@ -1815,22 +1826,22 @@
       "personal": {
         "tab": "Tin nhắn cá nhân",
         "label": "Tin nhắn cá nhân",
-        "description": "Chat với bạn bè và gia đình, như Messages, WhatsApp, Telegram, Signal và Discord."
+        "bannerTitle": "Cho trò chuyện với bạn bè và gia đình"
       },
       "work": {
         "tab": "Tin nhắn công việc",
         "label": "Tin nhắn công việc",
-        "description": "Chat với đồng nghiệp, như Slack, Microsoft Teams và Google Chat."
+        "bannerTitle": "Cho trò chuyện với đồng nghiệp"
       },
       "email": {
         "tab": "Email",
         "label": "Email",
-        "description": "Ứng dụng email, như Mail, Outlook, Spark và Superhuman."
+        "bannerTitle": "Cho email của bạn"
       },
       "other": {
         "tab": "Khác",
         "label": "Khác",
-        "description": "Mọi ứng dụng khác: ghi chú, tài liệu, trình sửa mã và nhiều hơn nữa."
+        "bannerTitle": "Cho mọi thứ khác"
       }
     },
     "presets": {
@@ -1853,7 +1864,6 @@
     },
     "presetsHeading": "Kiểu",
     "presetsLegend": "Kiểu cho {{group}}",
-    "before": "Điều bạn nói",
     "after": "Nội dung được viết:",
     "englishOnly": "Các kiểu áp dụng cho bản đọc chính tả bằng tiếng Anh. Dọn dẹp hoạt động với mọi ngôn ngữ.",
     "apps": {
@@ -1878,8 +1888,6 @@
       "changeFailed": "Thay đổi đó không được lưu. Vui lòng thử lại."
     },
     "sites": {
-      "heading": "Dùng trên các trang web này",
-      "listLabel": "Các trang web dùng kiểu {{group}}",
       "addShort": "Thêm trang web",
       "recent": {
         "heading": "Trang web dùng gần đây",
@@ -1915,8 +1923,15 @@
     },
     "cleanup": {
       "tab": "Dọn dẹp",
-      "description": "Mức dọn dẹp lời của bạn, trong mọi ứng dụng và mọi ngôn ngữ. Kiểu của từng nhóm được áp dụng thêm bên trên."
-    }
+      "description": "Mức dọn dẹp lời của bạn, trong mọi ứng dụng và mọi ngôn ngữ. Kiểu của từng nhóm được áp dụng thêm bên trên.",
+      "bannerTitle": "Dọn dẹp áp dụng cho mọi lần đọc",
+      "levels": {
+        "none": "Đúng những gì bạn nói, kể cả lỗi",
+        "light": "Bỏ từ đệm và sửa dấu câu",
+        "medium": "Câu chữ mượt hơn, giữ nguyên ý"
+      }
+    },
+    "addMenu": "Thêm ứng dụng hoặc trang web"
   },
   "onboardingFlow": {
     "loading": "Đang chuẩn bị…",

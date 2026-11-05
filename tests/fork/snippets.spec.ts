@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// S-17 Snippets page: the banner with two examples, the Add snippet
+// S-17 Snippets page: the banner with three clickable examples, the Add snippet
 // dialog (disabled until both fields are filled, 60 / 4,000-character
 // limits, line breaks kept, ⌘Return saves, duplicates and conflicts), edit,
 // delete with undo, search and sort, live counts (an edit elsewhere and a
@@ -41,12 +41,12 @@ async function shot(page: Page, name: string) {
     .catch((e) => console.warn(`screenshot ${name} skipped: ${e}`));
 }
 
-/** Picks a sort order in the page's Radix select (W2: was a native select). */
+/** Picks a sort order in the sort button's menu (flowmatch). */
 async function pickSort(page: Page, value: string) {
   await page.getByTestId("wb-snippets-sort").click();
-  await page.getByTestId("wb-snippets-sort-option-" + value).click();
+  await page.getByTestId("wb-menu-item-wb-snippets-sort-" + value).click();
   await expect(
-    page.getByTestId("wb-snippets-sort-option-" + value),
+    page.getByTestId("wb-menu-item-wb-snippets-sort-" + value),
   ).toHaveCount(0);
 }
 
@@ -171,7 +171,7 @@ const counts = (page: Page) => page.getByTestId("wb-snippets-counts");
 
 snipTest.describe("snippets page", () => {
   snipTest(
-    "empty page: banner with two examples, empty state, count at zero",
+    "empty page: banner with three clickable examples, empty state, count at zero",
     async ({ page, ipc, hub, snips }) => {
       await openSnippets(page, ipc, hub, snips);
       await expect(page.getByTestId("wb-page-title")).toHaveText("Snippets");
@@ -179,8 +179,18 @@ snipTest.describe("snippets page", () => {
       await expect(banner).toContainText("Say a few words, get the whole text");
       await expect(
         banner.getByRole("list", { name: "Examples" }).getByRole("listitem"),
-      ).toHaveCount(2);
+      ).toHaveCount(3);
       await expect(page.getByTestId("wb-snippets-empty")).toBeVisible();
+      // flowmatch: an example opens Add snippet with its cue and text.
+      await page.getByTestId("wb-snippets-example").nth(1).click();
+      await expect(page.getByTestId("wb-snippet-trigger")).toHaveValue(
+        "my sign-off",
+      );
+      await expect(page.getByTestId("wb-snippet-body")).toHaveValue(
+        "Best wishes, Sam",
+      );
+      await page.keyboard.press("Escape");
+      await expect(page.getByRole("dialog")).toBeHidden();
       await expect(counts(page)).toHaveText("0 snippets");
       await expect(page.getByTestId("wb-snippets-export")).toBeDisabled();
       await expect(page.getByTestId("wb-empty-snippets")).toHaveCount(0);
@@ -414,6 +424,7 @@ snipTest.describe("snippets page", () => {
       await pickSort(page, "used");
       expect((await triggers())[0]).toBe("café menu");
 
+      await page.getByTestId("wb-snippets-search-open").click();
       await page.getByTestId("wb-snippets-search").fill("CAFE");
       await expect(rows(page)).toHaveCount(1);
       await page.getByTestId("wb-snippets-search").fill("harbour");
@@ -468,7 +479,7 @@ snipTest.describe("snippets page", () => {
     async ({ page, ipc, hub, snips }) => {
       await openSnippets(page, ipc, hub, snips);
       await page.getByTestId("wb-snippets-import").focus();
-      await page.keyboard.press("Tab"); // Export (disabled) is skipped
+      await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-snippets-add")).toBeFocused();
       await page.keyboard.press("Enter");
       await expect(page.getByTestId("wb-snippet-trigger")).toBeFocused();
@@ -482,13 +493,14 @@ snipTest.describe("snippets page", () => {
       await page.keyboard.press("Enter");
       await page.keyboard.press("Escape");
       await expect(page.getByRole("dialog")).toBeHidden();
-      await page.getByTestId("wb-snippets-search").focus();
+      await page.getByTestId("wb-snippets-search-open").focus();
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-snippets-sort")).toBeFocused();
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-snippets-refresh")).toBeFocused();
       await page.keyboard.press("Tab");
-      await expect(page.getByTestId("wb-snippet-edit")).toBeFocused();
+      await expect(page.getByTestId("wb-snippets-export")).toBeFocused();
+      await page.getByTestId("wb-snippet-edit").focus();
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-snippet-delete")).toBeFocused();
     },

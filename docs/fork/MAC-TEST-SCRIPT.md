@@ -3185,3 +3185,9 @@ test profile (never the owner's data dir); network on.
 - **WPM.1** Insights › Usage on a test profile with seeded history, light and dark: three stat cards (number over label), the speed card's two bars, "N min saved over typing", "4-day streak" with the outlined days; numbers roll in WebKit; Save as image leaves the Retake button out.
 - **WPM.2** Retake typing test from Insights, then from Settings › General: type for 30 s on the keyboard, Recalculate; the speed card, the time saved and the Settings row show the new speed; Esc in the test inside Settings closes only the test.
 - **WPM.3** VoiceOver on the test: the result card is read once ("You type about N words a minute").
+
+## FM: Hub pages after the owner's Wispr Flow references (`design/flowmatch`, queued for the Mac wave)
+
+- **FM.1** Style, light and dark: each group tab shows the banner (installed apps' real icons, website monogram chips, "+") and the three cards only; "+" › Add app / Add website open their dialogs and focus returns to "+"; Style › Cleanup shows three serif cards with samples, the choice saves and matches Settings › Advanced.
+- **FM.2** Transforms: Enable switch, ⓘ tooltip and the ⌥O pill (opens View changes after a Polish); banner Try it / How it works; Apply after every dictation row; My Transforms grid with key caps, Reset, settings (Command Mode, ⌃⌥ shortcuts) and Make your own.
+- **FM.3** Dictionary and Snippets: search / sort / refresh / export icons at the end of the tab row (search opens into a field, Esc folds it); the Dictionary banner's chips are words from recent History not in the dictionary (else examples) and open Add word filled in; the Snippets banner's three examples open Add snippet filled in; ✕ dismisses each banner across relaunches.

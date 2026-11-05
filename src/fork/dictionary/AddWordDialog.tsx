@@ -36,6 +36,8 @@ export interface AddWordDialogProps {
   entry?: DictionaryEntry | null;
   /** Called with the saved entry. */
   onSaved?: (entry: DictionaryEntry, added: boolean) => void;
+  /** Prefills a new word (a banner suggestion). */
+  draft?: string;
 }
 
 type Feedback =
@@ -76,6 +78,7 @@ export function AddWordDialog({
   onOpenChange,
   entry,
   onSaved,
+  draft,
 }: AddWordDialogProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const editing = Boolean(entry);
@@ -93,11 +96,11 @@ export function AddWordDialog({
   useEffect(() => {
     if (!open) return;
     setReplace(entry?.kind === "rule");
-    setPhrase(entry?.phrase ?? "");
+    setPhrase(entry?.phrase ?? draft ?? "");
     setReplacement(entry?.replacement ?? "");
     setFeedback(null);
     setBusy(false);
-  }, [open, entry]);
+  }, [open, entry, draft]);
 
   const phraseLength = length(phrase);
   const replacementLength = length(replacement);

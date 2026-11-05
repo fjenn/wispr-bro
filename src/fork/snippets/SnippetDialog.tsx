@@ -50,6 +50,8 @@ export interface SnippetDialogProps {
   /** Edit this snippet instead of adding one. */
   snippet?: SnippetEntry | null;
   onSaved?: (snippet: SnippetEntry, added: boolean) => void;
+  /** Prefills a new snippet (a banner example). */
+  draft?: { trigger: string; body: string };
 }
 
 type Feedback =
@@ -64,6 +66,7 @@ export function SnippetDialog({
   onOpenChange,
   snippet,
   onSaved,
+  draft,
 }: SnippetDialogProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const editing = Boolean(snippet);
@@ -79,11 +82,11 @@ export function SnippetDialog({
 
   useEffect(() => {
     if (!open) return;
-    setTrigger(snippet?.trigger ?? "");
-    setBody(snippet?.body ?? "");
+    setTrigger(snippet?.trigger ?? draft?.trigger ?? "");
+    setBody(snippet?.body ?? draft?.body ?? "");
     setFeedback(null);
     setBusy(false);
-  }, [open, snippet]);
+  }, [open, snippet, draft]);
 
   const tLength = triggerLength(trigger);
   const bLength = bodyLength(body);

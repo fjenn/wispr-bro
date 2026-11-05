@@ -1082,11 +1082,10 @@
     "banner": {
       "title": "{{appName}}에 자주 쓰는 단어 알려주기",
       "lead": "이름, 용어, 약어를 원하는 표기로.",
-      "examplesLabel": "예시",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "카톡 → 카카오톡",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "추가할 단어"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1253,7 +1252,8 @@
   "transforms": {
     "banner": {
       "tryIt": "시험해 보기",
-      "howItWorks": "작동 방식"
+      "howItWorks": "작동 방식",
+      "title": "선택한 텍스트를 다시 씁니다"
     },
     "enable": {
       "title": "변환 활성화"
@@ -1265,7 +1265,8 @@
     "auto": {
       "title": "받아쓰기할 때마다 적용",
       "choice": "적용할 변환",
-      "none": "변환 선택"
+      "none": "변환 선택",
+      "description": "모든 받아쓰기가 선택한 변환을 거칩니다."
     },
     "shortcuts": {
       "warning": "변환이 켜져 있는 동안 ⌥1, ⌥2, ⌥O로는 ¡, ™, ø를 입력할 수 없습니다.",
@@ -1277,10 +1278,11 @@
     "createNew": "새 변환",
     "deleteConfirm": "‘{{name}}’을(를) 삭제하겠습니까? 이 작업은 실행 취소할 수 없습니다.",
     "loading": "변환을 불러오는 중…",
-    "empty": "아직 변환이 없습니다. 하나 만들어 시작하세요.",
     "error": "변환 변경 사항을 저장할 수 없습니다. 다시 시도하세요.",
     "card": {
-      "delete": "‘{{name}}’ 삭제"
+      "delete": "‘{{name}}’ 삭제",
+      "createOwn": "직접 만들기",
+      "createOwnHint": "무엇을 할지 설명하세요"
     },
     "new": {
       "name": "내 변환"
@@ -1377,6 +1379,11 @@
     "subtitle": "아무 앱에서나 텍스트를 선택하고 단축키를 누르면 다시 써 줍니다.",
     "settings": {
       "title": "변환 설정"
+    },
+    "viewChanges": "눌러 변경 사항 보기",
+    "builtin": {
+      "polish": "더 명확하고 간결하게, 같은 의미",
+      "prompt_engineer": "막연한 요청을 명확한 프롬프트로 바꿉니다"
     }
   },
   "cleanup": {
@@ -1459,8 +1466,12 @@
       "title": "몇 마디로 전체 텍스트를 입력하기",
       "lead": "짧은 키워드를 말하면 {{appName}}이(가) 전체 텍스트를 입력합니다.",
       "examplesLabel": "예시",
-      "example1": "‘내 주소’ → 전체 우편 주소",
-      "example2": "‘내 맺음말’ → ‘감사합니다’와 이름"
+      "cue1": "내 주소",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "맺음말",
+      "text2": "감사합니다, Sam",
+      "cue3": "캘린더 링크",
+      "text3": "편하신 시간을 골라 주세요: cal.example.com/sam"
     },
     "entry": {
       "becomes": "입력 내용",
@@ -1815,22 +1826,22 @@
       "personal": {
         "tab": "개인 메시지",
         "label": "개인 메시지",
-        "description": "메시지, WhatsApp, Telegram, Signal, Discord 등 친구 및 가족과의 채팅."
+        "bannerTitle": "친구 및 가족과의 채팅용"
       },
       "work": {
         "tab": "업무 메시지",
         "label": "업무 메시지",
-        "description": "Slack, Microsoft Teams, Google Chat 등 동료와의 채팅."
+        "bannerTitle": "동료와의 채팅용"
       },
       "email": {
         "tab": "이메일",
         "label": "이메일",
-        "description": "Mail, Outlook, Spark, Superhuman 등 이메일 앱."
+        "bannerTitle": "이메일용"
       },
       "other": {
         "tab": "기타",
         "label": "기타",
-        "description": "메모, 문서, 코드 편집기 등 그 밖의 모든 앱."
+        "bannerTitle": "그 밖의 모든 곳용"
       }
     },
     "presets": {
@@ -1853,7 +1864,6 @@
     },
     "presetsHeading": "스타일",
     "presetsLegend": "{{group}} 스타일",
-    "before": "말한 내용",
     "after": "입력되는 내용:",
     "englishOnly": "스타일은 영어 받아쓰기에만 적용됩니다. 정리는 모든 언어에서 작동합니다.",
     "apps": {
@@ -1878,8 +1888,6 @@
       "changeFailed": "변경 사항이 저장되지 않았습니다. 다시 시도하세요."
     },
     "sites": {
-      "heading": "이 사이트에서 사용",
-      "listLabel": "{{group}} 스타일을 사용하는 사이트",
       "addShort": "웹사이트 추가",
       "recent": {
         "heading": "최근 사용한 웹사이트",
@@ -1915,8 +1923,15 @@
     },
     "cleanup": {
       "tab": "정리",
-      "description": "모든 앱과 언어에서 말한 내용을 얼마나 다듬을지 정합니다. 각 그룹의 스타일은 그 위에 적용됩니다."
-    }
+      "description": "모든 앱과 언어에서 말한 내용을 얼마나 다듬을지 정합니다. 각 그룹의 스타일은 그 위에 적용됩니다.",
+      "bannerTitle": "정리는 모든 받아쓰기에 적용됩니다",
+      "levels": {
+        "none": "말한 그대로, 실수까지 포함",
+        "light": "군말을 빼고 문장 부호를 고칩니다",
+        "medium": "더 매끄러운 표현, 같은 의미"
+      }
+    },
+    "addMenu": "앱 또는 웹사이트 추가"
   },
   "onboardingFlow": {
     "loading": "준비하는 중…",

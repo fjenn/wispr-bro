@@ -1100,11 +1100,10 @@
     "banner": {
       "title": "Leer {{appName}} je woorden",
       "lead": "Namen, termen en afkortingen, gespeld zoals jij wilt.",
-      "examplesLabel": "Voorbeelden",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "ff → even",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Woorden om toe te voegen"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1289,7 +1288,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Probeer het",
-      "howItWorks": "Hoe het werkt"
+      "howItWorks": "Hoe het werkt",
+      "title": "Herschrijf elke tekst die je selecteert"
     },
     "enable": {
       "title": "Schakel Transformaties in"
@@ -1301,7 +1301,8 @@
     "auto": {
       "title": "Pas toe na elk dictee",
       "choice": "Toe te passen transformatie",
-      "none": "Kies een transformatie"
+      "none": "Kies een transformatie",
+      "description": "Elk dictaat gaat door de transformatie die je kiest."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 en ⌥O vervangen de tekens ¡, ™ en ø zolang Transformaties aanstaan.",
@@ -1313,10 +1314,11 @@
     "createNew": "Nieuwe transformatie",
     "deleteConfirm": "{{name}} verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "loading": "Je transformaties laden…",
-    "empty": "Nog geen transformaties. Maak er een om te beginnen.",
     "error": "Die transformatiewijziging kon niet worden bewaard. Probeer het opnieuw.",
     "card": {
-      "delete": "Verwijder {{name}}"
+      "delete": "Verwijder {{name}}",
+      "createOwn": "Maak je eigen",
+      "createOwnHint": "Beschrijf wat hij moet doen"
     },
     "new": {
       "name": "Mijn transformatie"
@@ -1414,6 +1416,11 @@
     "subtitle": "Selecteer tekst in een app en druk op een sneltoets om hem te herschrijven.",
     "settings": {
       "title": "Instellingen voor transformaties"
+    },
+    "viewChanges": "om te zien wat er veranderd is",
+    "builtin": {
+      "polish": "Duidelijker en korter, zelfde betekenis",
+      "prompt_engineer": "Maakt van een ruwe vraag een duidelijke prompt"
     }
   },
   "cleanup": {
@@ -1501,8 +1508,12 @@
       "title": "Zeg een paar woorden, krijg de hele tekst",
       "lead": "Zeg een kort trefwoord en {{appName}} schrijft de hele tekst.",
       "examplesLabel": "Voorbeelden",
-      "example1": "“mijn adres” → je volledige postadres",
-      "example2": "“mijn afsluiting” → Met vriendelijke groet, en je naam"
+      "cue1": "mijn adres",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "mijn afsluiting",
+      "text2": "Groetjes, Sam",
+      "cue3": "agendalink",
+      "text3": "Kies een tijd die jou uitkomt: cal.example.com/sam"
     },
     "entry": {
       "becomes": "wordt geschreven als",
@@ -1892,22 +1903,22 @@
       "personal": {
         "tab": "Persoonlijke berichten",
         "label": "Persoonlijke berichten",
-        "description": "Chatten met vrienden en familie, zoals Berichten, WhatsApp, Telegram, Signal en Discord."
+        "bannerTitle": "Voor chats met vrienden en familie"
       },
       "work": {
         "tab": "Werkberichten",
         "label": "Werkberichten",
-        "description": "Chats met collega’s, zoals in Slack, Microsoft Teams en Google Chat."
+        "bannerTitle": "Voor chats met collega’s"
       },
       "email": {
         "tab": "E-mail",
         "label": "E-mail",
-        "description": "E-mailapps, zoals Mail, Outlook, Spark en Superhuman."
+        "bannerTitle": "Voor je e-mail"
       },
       "other": {
         "tab": "Overig",
         "label": "Overig",
-        "description": "Elke andere app: notities, documenten, codeeditoren en meer."
+        "bannerTitle": "Voor al het andere"
       }
     },
     "presets": {
@@ -1930,7 +1941,6 @@
     },
     "presetsHeading": "Stijl",
     "presetsLegend": "Stijl voor {{group}}",
-    "before": "Wat je zegt",
     "after": "Wat er wordt geschreven:",
     "englishOnly": "Stijlen gelden voor dictees in het Engels. Opschonen werkt in elke taal.",
     "apps": {
@@ -1955,8 +1965,6 @@
       "changeFailed": "Die wijziging is niet bewaard. Probeer het opnieuw."
     },
     "sites": {
-      "heading": "Gebruikt op deze sites",
-      "listLabel": "Sites met de stijl “{{group}}”",
       "addShort": "Voeg website toe",
       "recent": {
         "heading": "Recent gebruikte websites",
@@ -1992,8 +2000,15 @@
     },
     "cleanup": {
       "tab": "Opschonen",
-      "description": "Hoeveel je woorden worden opgeschoond, in elke app en elke taal. De stijl van elke groep komt daar nog bovenop."
-    }
+      "description": "Hoeveel je woorden worden opgeschoond, in elke app en elke taal. De stijl van elke groep komt daar nog bovenop.",
+      "bannerTitle": "Opschonen werkt bij elk dictaat",
+      "levels": {
+        "none": "Precies wat je zei, fouten inbegrepen",
+        "light": "Haalt stopwoorden weg en verbetert de interpunctie",
+        "medium": "Vloeiender verwoord, zelfde betekenis"
+      }
+    },
+    "addMenu": "App of website toevoegen"
   },
   "onboardingFlow": {
     "loading": "Voorbereiden…",

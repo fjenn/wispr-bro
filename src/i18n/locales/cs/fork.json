@@ -1136,11 +1136,10 @@
     "banner": {
       "title": "Naučte {{appName}} svá slova",
       "lead": "Jména, termíny a zkratky napsané po vašem.",
-      "examplesLabel": "Příklady",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "dyštak → kdyby něco",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Slova k přidání"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1361,7 +1360,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Vyzkoušet",
-      "howItWorks": "Jak to funguje"
+      "howItWorks": "Jak to funguje",
+      "title": "Přepište jakýkoli vybraný text"
     },
     "enable": {
       "title": "Zapnout transformace"
@@ -1373,7 +1373,8 @@
     "auto": {
       "title": "Použít po každém diktování",
       "choice": "Transformace k použití",
-      "none": "Vyberte transformaci"
+      "none": "Vyberte transformaci",
+      "description": "Každý diktát projde transformací, kterou zvolíte."
     },
     "shortcuts": {
       "warning": "Když jsou transformace zapnuté, ⌥1, ⌥2 a ⌥O nahrazují znaky ¡, ™ a ø.",
@@ -1385,10 +1386,11 @@
     "createNew": "Nová transformace",
     "deleteConfirm": "Smazat {{name}}? Tuto akci nelze odvolat.",
     "loading": "Načítají se transformace…",
-    "empty": "Zatím žádné transformace. Začněte vytvořením první.",
     "error": "Změnu transformace se nepodařilo uložit. Zkuste to znovu.",
     "card": {
-      "delete": "Smazat {{name}}"
+      "delete": "Smazat {{name}}",
+      "createOwn": "Vytvořit vlastní",
+      "createOwnHint": "Popište, co má dělat"
     },
     "new": {
       "name": "Moje transformace"
@@ -1488,6 +1490,11 @@
     "subtitle": "Vyberte text v libovolné aplikaci a stiskněte zkratku, aby se přepsal.",
     "settings": {
       "title": "Nastavení transformací"
+    },
+    "viewChanges": "pro zobrazení změn",
+    "builtin": {
+      "polish": "Jasnější a stručnější, stejný význam",
+      "prompt_engineer": "Udělá z hrubého zadání jasný prompt"
     }
   },
   "cleanup": {
@@ -1585,8 +1592,12 @@
       "title": "Řekněte pár slov a získejte celý text",
       "lead": "Řekněte krátké heslo a {{appName}} napíše celý text.",
       "examplesLabel": "Příklady",
-      "example1": "„moje adresa“ → vaše úplná poštovní adresa",
-      "example2": "„můj podpis“ → S pozdravem a vaše jméno"
+      "cue1": "moje adresa",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "můj pozdrav",
+      "text2": "S pozdravem, Sam",
+      "cue3": "odkaz na kalendář",
+      "text3": "Vyberte si čas, který vám vyhovuje: cal.example.com/sam"
     },
     "entry": {
       "becomes": "se napíše jako",
@@ -2046,22 +2057,22 @@
       "personal": {
         "tab": "Osobní zprávy",
         "label": "Osobní zprávy",
-        "description": "Chaty s přáteli a rodinou, například Zprávy, WhatsApp, Telegram, Signal a Discord."
+        "bannerTitle": "Pro chaty s přáteli a rodinou"
       },
       "work": {
         "tab": "Pracovní zprávy",
         "label": "Pracovní zprávy",
-        "description": "Chaty s kolegy, například Slack, Microsoft Teams a Google Chat."
+        "bannerTitle": "Pro chaty s kolegy"
       },
       "email": {
         "tab": "E-mail",
         "label": "E-mail",
-        "description": "E-mailové aplikace, například Mail, Outlook, Spark a Superhuman."
+        "bannerTitle": "Pro váš e-mail"
       },
       "other": {
         "tab": "Ostatní",
         "label": "Ostatní",
-        "description": "Všechny ostatní aplikace: poznámky, dokumenty, editory kódu a další."
+        "bannerTitle": "Pro všechno ostatní"
       }
     },
     "presets": {
@@ -2084,7 +2095,6 @@
     },
     "presetsHeading": "Styl",
     "presetsLegend": "Styl pro skupinu {{group}}",
-    "before": "Co řeknete",
     "after": "Co se napíše:",
     "englishOnly": "Styly platí pro diktování v angličtině. Vyčištění funguje ve všech jazycích.",
     "apps": {
@@ -2109,8 +2119,6 @@
       "changeFailed": "Změna nebyla uložena. Zkuste to znovu."
     },
     "sites": {
-      "heading": "Používá se na těchto webech",
-      "listLabel": "Weby se stylem {{group}}",
       "addShort": "Přidat web",
       "recent": {
         "heading": "Nedávno použité weby",
@@ -2146,8 +2154,15 @@
     },
     "cleanup": {
       "tab": "Vyčištění",
-      "description": "Jak moc se vaše slova upraví, v každé aplikaci a v každém jazyce. Styl každé skupiny se použije navíc."
-    }
+      "description": "Jak moc se vaše slova upraví, v každé aplikaci a v každém jazyce. Styl každé skupiny se použije navíc.",
+      "bannerTitle": "Vyčištění se použije u každého diktátu",
+      "levels": {
+        "none": "Přesně to, co jste řekli, i s chybami",
+        "light": "Odstraní vycpávková slova a opraví interpunkci",
+        "medium": "Plynulejší formulace, stejný význam"
+      }
+    },
+    "addMenu": "Přidat aplikaci nebo web"
   },
   "onboardingFlow": {
     "loading": "Připravujeme vše potřebné…",

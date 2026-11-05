@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// XF2 (owner, rc6): Scratchpad-level simplicity. A title and one line, the
-// list of transforms (name, shortcut, delete) and one "New transform";
-// auto-apply, Command Mode, the ⌥-key note and Reset live behind the
-// settings button.
+// The Transforms page (S-22; flowmatch, after Wispr Flow's structure): the
+// title with the on/off switch and the "view changes" key pill, one banner
+// (Try it, How it works), one auto-apply row, then "My Transforms" (Reset,
+// settings for Command Mode and the ⌥-key note, New transform) as a grid of
+// cards ending with "Create your own". The model download row shows only
+// while it downloads or failed (OT2-H); ⌥O swaps the grid for the diff.
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Settings2 } from "../ui/icons";
+import { Info, Plus, RotateCcw, Settings2 } from "../ui/icons";
 import {
   commands,
   events,
@@ -14,16 +16,29 @@ import {
   type TransformInput,
   type WordDiff,
 } from "../bindings";
-import { useHubNav } from "../hub/nav";
+import { navigate, useHubNav } from "../hub/nav";
 import { PageHeader } from "../ui/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
-import { Button, FOCUS_RING, IconButton, Switch, Tag } from "../ui";
+import {
+  Button,
+  FOCUS_RING,
+  Hero,
+  IconButton,
+  KbdCombo,
+  Select,
+  SettingRow,
+  Switch,
+  Tag,
+  Tooltip,
+} from "../ui";
+import { photos } from "@/assets/fork/art";
+import { chordLabel } from "../settings/hotkeys/model";
 import { openLesson, TRANSFORMS_LESSON, useLesson } from "../tutorials";
 import { ModelStatus } from "./ModelStatus";
 import { DiffCard } from "./DiffCard";
 import { useTransformViewStore } from "./store";
-import { TransformRow } from "./TransformRow";
+import { CreateCard, TransformCard } from "./TransformCard";
 import { TransformModal } from "./TransformModal";
 import { TransformSettings } from "./TransformSettings";
 
@@ -165,85 +180,53 @@ export function TransformsPage() {
   };
 
   const enabled = settings?.transforms_enabled ?? false;
-  const link = `cursor-pointer rounded-(--wb-radius-xs) font-medium text-(--wb-ink) underline-offset-4 hover:underline ${FOCUS_RING}`;
+  const viewChord = settings?.hotkeys["transform.view_changes"]?.[0]?.chord;
+  const autoOn = settings?.auto_apply_transform != null;
 
   return (
     <div
       data-testid="wb-transforms"
-      className="@container/page flex flex-col gap-6"
+      className="@container/page flex flex-col gap-8"
     >
-      <div className="flex flex-col gap-1.5">
-        <PageHeader
-          title={t("hub.pages.transforms.title")}
-          tag={<Tag kind="beta" />}
+      <PageHeader
+        title={t("hub.pages.transforms.title")}
+        tag={<Tag kind="beta" />}
+      >
+        <span
+          id="wb-transforms-enable-title"
+          className="text-[15px] text-(--wb-ink)"
         >
-          <span
-            id="wb-transforms-enable-title"
-            className="text-[15px] text-(--wb-ink)"
+          {t("transforms.enable.title")}
+        </span>
+        <Tooltip text={t("transforms.subtitle")}>
+          <button
+            type="button"
+            aria-label={t("transforms.subtitle")}
+            className={`grid size-7 cursor-default place-items-center rounded-full text-(--wb-ink-2) ${FOCUS_RING}`}
           >
-            {t("transforms.enable.title")}
-          </span>
-          <Switch
-            checked={enabled}
-            disabled={!settings || !!pending.transforms_enabled}
-            onChange={(checked) =>
-              void setSetting("transforms_enabled", checked)
-            }
-            ariaLabelledBy="wb-transforms-enable-title"
-            testId="wb-transforms-enabled"
-          />
-          <IconButton
-            aria-label={t("transforms.settings.title")}
-            title={t("transforms.settings.title")}
-            variant="ghost"
-            onClick={() => setSettingsOpen(true)}
-            data-testid="wb-transforms-settings"
-            className="ms-1"
+            <Info size={16} aria-hidden="true" />
+          </button>
+        </Tooltip>
+        <Switch
+          checked={enabled}
+          disabled={!settings || !!pending.transforms_enabled}
+          onChange={(checked) => void setSetting("transforms_enabled", checked)}
+          ariaLabelledBy="wb-transforms-enable-title"
+          testId="wb-transforms-enabled"
+        />
+        {viewChord && (
+          <button
+            type="button"
+            onClick={() => navigate("transforms", "changes")}
+            data-testid="wb-transforms-view-changes"
+            className={`ms-2 flex h-9 cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface) ps-1.5 pe-3.5 text-[14px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) hover:text-(--wb-ink) ${FOCUS_RING}`}
           >
-            <Settings2 size={18} aria-hidden="true" />
-          </IconButton>
-          <Button
-            variant="primary"
-            onClick={() => void create()}
-            data-testid="wb-transforms-create"
-          >
-            <Plus size={16} aria-hidden="true" />
-            {t("transforms.createNew")}
-          </Button>
-        </PageHeader>
-        <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[15px] text-(--wb-ink-2)">
-          <span>{t("transforms.subtitle")}</span>
-          {lesson && (
-            <>
-              <button
-                type="button"
-                className={link}
-                onClick={() => openLesson(TRANSFORMS_LESSON, "try")}
-                data-testid="wb-transforms-try-it"
-              >
-                {t("transforms.banner.tryIt")}
-              </button>
-              <button
-                type="button"
-                className={link}
-                onClick={() => openLesson(TRANSFORMS_LESSON, "how")}
-                data-testid="wb-transforms-how-it-works"
-              >
-                {t("transforms.banner.howItWorks")}
-              </button>
-            </>
-          )}
-        </p>
-      </div>
-      {/* Only while the instruction model downloads or fails (OT2-H). */}
-      <ModelStatus
-        wanted={enabled || (settings?.command_mode_enabled ?? false)}
-      />
-      {error && (
-        <p role="alert" className="text-[13px] text-(--wb-danger)">
-          {t("transforms.error")}
-        </p>
-      )}
+            <KbdCombo keys={chordLabel(viewChord).split(" ")} />
+            {t("transforms.viewChanges")}
+          </button>
+        )}
+      </PageHeader>
+
       {section === "changes" && currentRun && diff ? (
         <DiffCard
           run={currentRun}
@@ -258,39 +241,144 @@ export function TransformsPage() {
           onRetry={retry}
         />
       ) : (
-        <div>
-          {loading && (
-            <p role="status" className="text-[15px] text-(--wb-ink-2)">
-              {t("transforms.loading")}
-            </p>
-          )}
-          {!loading && entries.length === 0 && (
-            <p className="text-[15px] text-(--wb-ink-2)">
-              {t("transforms.empty")}
-            </p>
-          )}
-          <ul
-            className="flex flex-col gap-2"
-            aria-label={t("transforms.myTransforms")}
+        <>
+          <Hero
+            id="transforms"
+            image={photos.transforms.src}
+            title={t("transforms.banner.title")}
+            body={t("transforms.subtitle")}
+            action={
+              lesson
+                ? {
+                    label: t("transforms.banner.tryIt"),
+                    onClick: () => openLesson(TRANSFORMS_LESSON, "try"),
+                    testId: "wb-transforms-try-it",
+                  }
+                : undefined
+            }
+            secondaryAction={
+              lesson
+                ? {
+                    label: t("transforms.banner.howItWorks"),
+                    onClick: () => openLesson(TRANSFORMS_LESSON, "how"),
+                    testId: "wb-transforms-how-it-works",
+                  }
+                : undefined
+            }
+          />
+          {/* Only while the instruction model downloads or fails (OT2-H). */}
+          <ModelStatus
+            wanted={enabled || (settings?.command_mode_enabled ?? false)}
+          />
+          <SettingRow
+            title={t("transforms.auto.title")}
+            description={t("transforms.auto.description")}
+            testId="wb-transforms-auto-row"
+            className="border-transparent! bg-transparent! px-0! py-0!"
+            control={(ids) => (
+              <>
+                <Select
+                  value={settings?.auto_apply_transform ?? undefined}
+                  placeholder={t("transforms.auto.none")}
+                  onValueChange={(value) =>
+                    void setSetting("auto_apply_transform", value || null)
+                  }
+                  disabled={
+                    !enabled || !autoOn || !!pending.auto_apply_transform
+                  }
+                  label={t("transforms.auto.choice")}
+                  testId="wb-transforms-auto-choice"
+                  className="w-48"
+                  options={entries.map((entry) => ({
+                    value: entry.key,
+                    label: entry.name,
+                  }))}
+                />
+                <Switch
+                  checked={autoOn}
+                  disabled={!enabled || !!pending.auto_apply_transform}
+                  onChange={(checked) =>
+                    void setSetting(
+                      "auto_apply_transform",
+                      checked ? (entries[0]?.key ?? null) : null,
+                    )
+                  }
+                  ariaLabelledBy={ids.labelledBy}
+                  ariaDescribedBy={ids.describedBy}
+                  testId="wb-transforms-auto"
+                />
+              </>
+            )}
+          />
+          <section
+            aria-labelledby="wb-transforms-mine"
+            className="flex flex-col gap-5"
           >
-            {entries.map((entry) => (
-              <TransformRow
-                key={entry.id}
-                entry={entry}
-                hotkey={settings?.hotkeys[entry.action_id]?.[0]?.chord}
-                onOpen={() => setSelected(entry)}
-                onDelete={() => void remove(entry)}
-              />
-            ))}
-          </ul>
-        </div>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2
+                id="wb-transforms-mine"
+                className="type-serif-title text-[36px]! leading-[42px]! text-(--wb-ink)"
+              >
+                {t("transforms.myTransforms")}
+              </h2>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => void reset()}
+                  data-testid="wb-transforms-reset"
+                >
+                  <RotateCcw size={16} aria-hidden="true" />
+                  {t("transforms.reset")}
+                </Button>
+                <IconButton
+                  aria-label={t("transforms.settings.title")}
+                  title={t("transforms.settings.title")}
+                  variant="ghost"
+                  onClick={() => setSettingsOpen(true)}
+                  data-testid="wb-transforms-settings"
+                >
+                  <Settings2 size={18} aria-hidden="true" />
+                </IconButton>
+                <Button
+                  variant="primary"
+                  onClick={() => void create()}
+                  data-testid="wb-transforms-create"
+                >
+                  <Plus size={16} aria-hidden="true" />
+                  {t("transforms.createNew")}
+                </Button>
+              </div>
+            </div>
+            {error && (
+              <p role="alert" className="text-[13px] text-(--wb-danger)">
+                {t("transforms.error")}
+              </p>
+            )}
+            {loading ? (
+              <p role="status" className="text-[15px] text-(--wb-ink-2)">
+                {t("transforms.loading")}
+              </p>
+            ) : (
+              <ul
+                className="grid grid-cols-1 gap-4 @min-[480px]/page:grid-cols-2 @min-[660px]/page:grid-cols-3"
+                aria-labelledby="wb-transforms-mine"
+              >
+                {entries.map((entry) => (
+                  <TransformCard
+                    key={entry.id}
+                    entry={entry}
+                    hotkey={settings?.hotkeys[entry.action_id]?.[0]?.chord}
+                    onOpen={() => setSelected(entry)}
+                    onDelete={() => void remove(entry)}
+                  />
+                ))}
+                <CreateCard onCreate={() => void create()} />
+              </ul>
+            )}
+          </section>
+        </>
       )}
-      <TransformSettings
-        open={settingsOpen}
-        onOpenChange={setSettingsOpen}
-        entries={entries}
-        onReset={() => void reset()}
-      />
+      <TransformSettings open={settingsOpen} onOpenChange={setSettingsOpen} />
       {selected && (
         <TransformModal
           entry={selected}

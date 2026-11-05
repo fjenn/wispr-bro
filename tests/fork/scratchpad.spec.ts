@@ -187,6 +187,7 @@ test("Recents edit, trigram-search model, pin and delete", async ({
   const fake = new FakeNotes();
   await openPage(page, ipc, hub, fake);
   await expect(page.getByTestId("wb-note-1")).toBeVisible();
+  await page.getByTestId("wb-scratchpad-search-open").click();
   await page.getByTestId("wb-scratchpad-search").fill("café");
   await expect(page.getByTestId("wb-note-1")).toBeVisible();
   await expect(page.getByTestId("wb-note-2")).toHaveCount(0);

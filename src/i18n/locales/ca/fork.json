@@ -1118,11 +1118,10 @@
     "banner": {
       "title": "Ensenya les teves paraules a {{appName}}",
       "lead": "Noms, termes i sigles, escrits a la teva manera.",
-      "examplesLabel": "Exemples",
       "example1": "Siobhán",
       "example2": "Kubernetes",
-      "example3": "pq → perquè",
-      "example4": "Anna-Lena"
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Paraules per afegir"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1325,7 +1324,8 @@
   "transforms": {
     "banner": {
       "tryIt": "Provar-ho",
-      "howItWorks": "Com funciona"
+      "howItWorks": "Com funciona",
+      "title": "Reescriu qualsevol text que seleccionis"
     },
     "enable": {
       "title": "Activar les transformacions"
@@ -1337,7 +1337,8 @@
     "auto": {
       "title": "Aplicar després de cada dictat",
       "choice": "Transformació que s'aplicarà",
-      "none": "Triar una transformació"
+      "none": "Triar una transformació",
+      "description": "Cada dictat passa per la transformació que triïs."
     },
     "shortcuts": {
       "warning": "⌥1, ⌥2 i ⌥O substitueixen els caràcters ¡, ™ i ø mentre les transformacions estan activades.",
@@ -1349,10 +1350,11 @@
     "createNew": "Nova transformació",
     "deleteConfirm": "Vols eliminar {{name}}? Aquesta acció no es pot desfer.",
     "loading": "Carregant les transformacions…",
-    "empty": "Encara no hi ha transformacions. Crea'n una per començar.",
     "error": "No s'ha pogut desar el canvi de la transformació. Torna-ho a provar.",
     "card": {
-      "delete": "Eliminar {{name}}"
+      "delete": "Eliminar {{name}}",
+      "createOwn": "Crea la teva",
+      "createOwnHint": "Descriu què ha de fer"
     },
     "new": {
       "name": "La meva transformació"
@@ -1451,6 +1453,11 @@
     "subtitle": "Selecciona text a qualsevol app i prem una drecera per reescriure'l.",
     "settings": {
       "title": "Configuració de les transformacions"
+    },
+    "viewChanges": "per veure què ha canviat",
+    "builtin": {
+      "polish": "Més clar i concís, el mateix sentit",
+      "prompt_engineer": "Converteix una petició vaga en un prompt clar"
     }
   },
   "cleanup": {
@@ -1543,8 +1550,12 @@
       "title": "Digues unes paraules i obtén el text sencer",
       "lead": "Digues una paraula clau i {{appName}} escriu el text sencer.",
       "examplesLabel": "Exemples",
-      "example1": "“la meva adreça” → la teva adreça postal completa",
-      "example2": "“el meu comiat” → Salutacions cordials, i el teu nom"
+      "cue1": "la meva adreça",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "el meu comiat",
+      "text2": "Una abraçada, Sam",
+      "cue3": "enllaç del calendari",
+      "text3": "Tria l’hora que et vagi millor: cal.example.com/sam"
     },
     "entry": {
       "becomes": "s'escriu com",
@@ -1969,22 +1980,22 @@
       "personal": {
         "tab": "Missatges personals",
         "label": "Missatges personals",
-        "description": "Xats amb amics i família, com Missatges, WhatsApp, Telegram, Signal i Discord."
+        "bannerTitle": "Per als xats amb amics i família"
       },
       "work": {
         "tab": "Missatges de feina",
         "label": "Missatges de feina",
-        "description": "Xats amb companys de feina, com Slack, Microsoft Teams i Google Chat."
+        "bannerTitle": "Per als xats amb companys de feina"
       },
       "email": {
         "tab": "Correu electrònic",
         "label": "Correu electrònic",
-        "description": "Apps de correu electrònic, com Mail, Outlook, Spark i Superhuman."
+        "bannerTitle": "Per al teu correu"
       },
       "other": {
         "tab": "Altres",
         "label": "Altres",
-        "description": "Totes les altres apps: notes, documents, editors de codi i més."
+        "bannerTitle": "Per a tota la resta"
       }
     },
     "presets": {
@@ -2007,7 +2018,6 @@
     },
     "presetsHeading": "Estil",
     "presetsLegend": "Estil per a {{group}}",
-    "before": "El que dius",
     "after": "El que s'escriu:",
     "englishOnly": "Els estils s'apliquen als dictats en anglès. La neteja funciona en tots els idiomes.",
     "apps": {
@@ -2032,8 +2042,6 @@
       "changeFailed": "No s'ha desat el canvi. Torna-ho a provar."
     },
     "sites": {
-      "heading": "S'utilitza en aquests llocs web",
-      "listLabel": "Llocs web que fan servir l'estil {{group}}",
       "addShort": "Afegeix lloc web",
       "recent": {
         "heading": "Llocs web utilitzats recentment",
@@ -2069,8 +2077,15 @@
     },
     "cleanup": {
       "tab": "Neteja",
-      "description": "Quant es netegen les teves paraules, en totes les apps i tots els idiomes. L'estil de cada grup s'aplica a sobre."
-    }
+      "description": "Quant es netegen les teves paraules, en totes les apps i tots els idiomes. L'estil de cada grup s'aplica a sobre.",
+      "bannerTitle": "La neteja s’aplica a cada dictat",
+      "levels": {
+        "none": "Exactament el que has dit, errors inclosos",
+        "light": "Treu les crosses i corregeix la puntuació",
+        "medium": "Redacció més fluida, el mateix sentit"
+      }
+    },
+    "addMenu": "Afegeix una app o un lloc web"
   },
   "onboardingFlow": {
     "loading": "Preparant-ho tot…",

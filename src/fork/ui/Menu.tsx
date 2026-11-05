@@ -23,6 +23,8 @@ export interface MenuItem {
   disabled?: boolean;
   /** Makes the item a checkbox (`menuitemcheckbox`) in this state (S-18). */
   checked?: boolean;
+  /** A checked item that closes the menu, as a choice does (a sort order). */
+  closeOnSelect?: boolean;
 }
 
 export interface MenuGroup {
@@ -102,7 +104,7 @@ export function Menu({
                       disabled={item.disabled}
                       // Toggles keep the menu open, so several can change.
                       onSelect={(event) => {
-                        event.preventDefault();
+                        if (!item.closeOnSelect) event.preventDefault();
                         item.onSelect();
                       }}
                       data-testid={`wb-menu-item-${item.id}`}
