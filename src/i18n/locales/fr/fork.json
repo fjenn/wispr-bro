@@ -1103,9 +1103,9 @@
     "undo": "Annuler",
     "tabs": {
       "label": "Entrées du dictionnaire",
-      "all": "Tout ({{count}})",
-      "mine": "Ajoutés par vous ({{count}})",
-      "suggested": "Suggérés ({{count}})"
+      "all": "Tout",
+      "mine": "Ajoutés par vous",
+      "suggested": "Suggérés"
     },
     "sort": {
       "label": "Trier",
@@ -1116,12 +1116,13 @@
       "used": "Les plus utilisés"
     },
     "banner": {
-      "title": "Apprenez vos mots à {{appName}}",
-      "lead": "Noms, termes et sigles, écrits à votre façon.",
+      "title": "{{appName}} l’écrit à <em>votre</em> façon.",
+      "lead": "Ajoutez un mot une fois, ou corrigez-le quand il sort mal, pour que vos <b>noms, termes métier et mots rares</b> soient toujours bien écrits.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Mots à ajouter"
+      "suggestionsLabel": "Mots à ajouter",
+      "add": "Ajouter un mot"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1280,7 +1281,8 @@
       "hint": "Pendant 30 secondes après le collage d’une dictée, {{appName}} repère les mots que vous corrigez dans ce champ de texte et vous les suggère ici. Seul le mot corrigé est conservé, jamais le reste du texte. Les champs de mot de passe, les gestionnaires de mots de passe, les apps bancaires et les terminaux ne sont jamais lus."
     },
     "undoFailed": "« {{entry}} » n’a pas pu être restauré. Veuillez l’ajouter à nouveau.",
-    "undoSkipped": "« {{entry}} » n’a pas été restauré : votre dictionnaire le contient déjà."
+    "undoSkipped": "« {{entry}} » n’a pas été restauré : votre dictionnaire le contient déjà.",
+    "addNew": "Ajouter"
   },
   "pill": {
     "region": "Barre de dictée",
@@ -1328,14 +1330,14 @@
       "title": "Réécrivez tout texte sélectionné"
     },
     "enable": {
-      "title": "Activer les transformations"
+      "title": "Activer"
     },
     "commandMode": {
       "title": "Mode Commande",
       "help": "Maintenez le raccourci et dites quoi écrire ou modifier."
     },
     "auto": {
-      "title": "Appliquer après chaque dictée",
+      "title": "Appliquer automatiquement après la dictée",
       "choice": "Transformation à appliquer",
       "none": "Choisir une transformation",
       "description": "Chaque dictée passe par la transformation de votre choix."
@@ -1347,7 +1349,7 @@
     "myTransforms": "Mes transformations",
     "reset": "Rétablir les valeurs par défaut",
     "resetConfirm": "Réinitialiser Polish et Prompt Engineer et supprimer toutes les transformations personnalisées ?",
-    "createNew": "Nouvelle transformation",
+    "createNew": "Créer",
     "deleteConfirm": "Supprimer {{name}} ? Cette action est irréversible.",
     "loading": "Chargement de vos transformations…",
     "error": "Impossible d’enregistrer cette modification de la transformation. Réessayez.",
@@ -1456,8 +1458,8 @@
     },
     "viewChanges": "pour voir les modifications",
     "builtin": {
-      "polish": "Plus clair et plus concis, même sens",
-      "prompt_engineer": "Transforme une demande approximative en prompt clair"
+      "polish": "Plus clair et plus court",
+      "prompt_engineer": "Crée un prompt clair"
     }
   },
   "cleanup": {
@@ -1547,7 +1549,7 @@
       "used": "Les plus utilisés"
     },
     "banner": {
-      "title": "Dites quelques mots, obtenez tout le texte",
+      "title": "Arrêtez de taper la même chose <em>deux fois</em>.",
       "lead": "Dites un mot-clé et {{appName}} écrit le texte entier.",
       "examplesLabel": "Exemples",
       "cue1": "mon adresse",
@@ -1555,7 +1557,8 @@
       "cue2": "ma signature",
       "text2": "Bien à vous, Sam",
       "cue3": "lien d’agenda",
-      "text3": "Choisissez le créneau qui vous convient : cal.example.com/sam"
+      "text3": "Choisissez le créneau qui vous convient : cal.example.com/sam",
+      "add": "Ajouter un snippet"
     },
     "entry": {
       "becomes": "s’écrit",
@@ -1697,7 +1700,11 @@
       "failed": "Impossible d’exporter les fragments. Réessayez."
     },
     "undoFailed": "« {{trigger}} » n’a pas pu être restauré. Veuillez l’ajouter à nouveau.",
-    "undoSkipped": "« {{trigger}} » n’a pas été restauré : un autre fragment utilise désormais cette expression."
+    "undoSkipped": "« {{trigger}} » n’a pas été restauré : un autre fragment utilise désormais cette expression.",
+    "addNew": "Ajouter",
+    "tabs": {
+      "all": "Tous"
+    }
   },
   "insights": {
     "tabs": {
@@ -2001,19 +2008,19 @@
     "presets": {
       "formal": {
         "label": "Formel",
-        "description": "Majuscules et ponctuation complète."
+        "description": "Majuscules + ponctuation"
       },
       "relaxed": {
         "label": "Décontracté",
-        "description": "Majuscules, ponctuation plus légère."
+        "description": "Majuscules + moins de ponctuation"
       },
       "very_relaxed": {
         "label": "Très décontracté",
-        "description": "Minuscule en début de phrase, ponctuation plus légère."
+        "description": "Sans majuscules + moins de ponctuation"
       },
       "upbeat": {
         "label": "Enjoué",
-        "description": "Ponctuation complète, avec un peu plus d’entrain."
+        "description": "Majuscules + un peu plus d’énergie"
       }
     },
     "presetsHeading": "Style",
@@ -2076,14 +2083,15 @@
       "close": "Fermer"
     },
     "cleanup": {
-      "tab": "Nettoyage",
+      "tab": "Nettoyage auto",
       "description": "Le degré de mise au propre de vos mots, dans toutes les apps et toutes les langues. Le style de chaque groupe s’applique par-dessus.",
-      "bannerTitle": "Le nettoyage s’applique à chaque dictée",
+      "bannerTitle": "Le nettoyage auto s’applique à chaque dictée",
       "levels": {
         "none": "Exactement ce que vous avez dit, erreurs comprises",
         "light": "Retire les mots de remplissage et corrige la ponctuation",
         "medium": "Formulation plus fluide, même sens"
-      }
+      },
+      "note": "Vos mots d’origine ne sont jamais perdus : dans l’historique, ouvrez le menu d’une dictée et choisissez « Annuler la modification de l’IA »."
     },
     "addMenu": "Ajouter une app ou un site web"
   },

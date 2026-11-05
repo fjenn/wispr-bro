@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * A Hub page's header row (Design Phase 0): the page title in sans 24/600
+ * A Hub page's header row (Design Phase 0; flowmatch): the page title in sans 28/500
  * (the page's only `h1`; serif is for display moments, not page titles), an
  * optional tag beside it, and page-level actions right-aligned on the same
  * line.

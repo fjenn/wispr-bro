@@ -24,6 +24,10 @@ export interface TagProps {
   /** For `new`: hide once this id is in `seen_new_tags`. */
   seenId?: string;
   className?: string;
+  /** `lg`: beside a page title or a tab (flowmatch), a rounded box. */
+  size?: "sm" | "lg";
+  /** `accent`: the purple Beta beside a tab label (Style › Auto cleanup). */
+  tone?: "default" | "accent";
 }
 
 /** `true` when a "new" tag with this id should still show. */
@@ -44,14 +48,24 @@ export async function markNewTagSeen(seenId: string): Promise<void> {
   await store.setSetting("seen_new_tags", [...seen, seenId]);
 }
 
-export function Tag({ kind, seenId, className = "" }: TagProps) {
+export function Tag({
+  kind,
+  seenId,
+  className = "",
+  size = "sm",
+  tone = "default",
+}: TagProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const visible = useNewTagVisible(kind === "new" ? seenId : undefined);
   if (!visible) return null;
   return (
     <span
       data-testid={`wb-tag-${kind}`}
-      className={`inline-flex h-5 shrink-0 items-center rounded-full px-2 text-[11px] leading-none font-semibold ${STYLES[kind]} ${className}`}
+      className={`inline-flex shrink-0 items-center leading-none ${
+        size === "lg"
+          ? "h-[26px] rounded-[7px] px-2 text-[14px] font-medium"
+          : "h-5 rounded-full px-2 text-[11px] font-semibold"
+      } ${tone === "accent" ? "bg-(--wb-accent-soft) text-(--wb-accent)" : STYLES[kind]} ${className}`}
     >
       {t(`ui.tag.${kind}`)}
     </span>

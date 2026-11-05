@@ -1067,9 +1067,9 @@
     "undo": "還原",
     "tabs": {
       "label": "字典項目",
-      "all": "全部（{{count}}）",
-      "mine": "你加入的（{{count}}）",
-      "suggested": "建議的（{{count}}）"
+      "all": "全部",
+      "mine": "你加入的",
+      "suggested": "建議的"
     },
     "sort": {
       "label": "排序",
@@ -1080,12 +1080,13 @@
       "used": "最常使用"
     },
     "banner": {
-      "title": "教 {{appName}} 認識你的用詞",
-      "lead": "人名、術語和縮寫，照你的寫法拼寫。",
+      "title": "{{appName}} 按<em>你的</em>方式拼寫。",
+      "lead": "新增一次字詞，或在辨識錯誤時修正它，你的<b>人名、工作術語和罕見字詞</b>每次都會寫對。",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "可新增的字詞"
+      "suggestionsLabel": "可新增的字詞",
+      "add": "新增字詞"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1210,7 +1211,8 @@
       "hint": "聽寫內容貼上後的 30 秒內，{{appName}} 會留意你在該文字框中修正的字詞，並在這裡提供建議。只會保留你修正的字詞，絕不保留其餘文字。從不讀取密碼欄位、密碼管理程式、銀行 App 和終端機。"
     },
     "undoFailed": "無法還原「{{entry}}」。請重新加入。",
-    "undoSkipped": "未還原「{{entry}}」：你的字典已經有這一項。"
+    "undoSkipped": "未還原「{{entry}}」：你的字典已經有這一項。",
+    "addNew": "新增"
   },
   "pill": {
     "region": "聽寫浮動列",
@@ -1256,14 +1258,14 @@
       "title": "改寫你選取的任何文字"
     },
     "enable": {
-      "title": "啟用轉換"
+      "title": "開啟"
     },
     "commandMode": {
       "title": "指令模式",
       "help": "按住快速鍵，說出要寫或要改的內容。"
     },
     "auto": {
-      "title": "每次聽寫後套用",
+      "title": "聽寫後自動套用",
       "choice": "要套用的轉換",
       "none": "選擇轉換",
       "description": "每次聽寫都會經過你選擇的轉換。"
@@ -1275,7 +1277,7 @@
     "myTransforms": "我的轉換",
     "reset": "回復為預設值",
     "resetConfirm": "要重置 Polish 和 Prompt Engineer 並移除所有自訂轉換嗎？",
-    "createNew": "新增轉換",
+    "createNew": "新建",
     "deleteConfirm": "要刪除「{{name}}」嗎？此動作無法還原。",
     "loading": "正在載入你的轉換…",
     "error": "無法儲存該轉換的變更。請再試一次。",
@@ -1382,8 +1384,8 @@
     },
     "viewChanges": "查看變更",
     "builtin": {
-      "polish": "更清楚更簡潔，意思不變",
-      "prompt_engineer": "把粗略的需求變成清楚的提示詞"
+      "polish": "更清楚、更簡短",
+      "prompt_engineer": "產生清楚的提示詞"
     }
   },
   "cleanup": {
@@ -1463,7 +1465,7 @@
       "used": "最常使用"
     },
     "banner": {
-      "title": "說幾個字，得到整段文字",
+      "title": "別再把同樣的內容打<em>兩遍</em>。",
       "lead": "說出一個簡短的提示詞，{{appName}} 就會寫出完整內容。",
       "examplesLabel": "範例",
       "cue1": "我的地址",
@@ -1471,7 +1473,8 @@
       "cue2": "我的結尾",
       "text2": "祝好，Sam",
       "cue3": "行事曆連結",
-      "text3": "請選擇你方便的時間：cal.example.com/sam"
+      "text3": "請選擇你方便的時間：cal.example.com/sam",
+      "add": "新增片段"
     },
     "entry": {
       "becomes": "寫成",
@@ -1573,7 +1576,11 @@
       "failed": "無法匯出文字片段。請再試一次。"
     },
     "undoFailed": "無法還原「{{trigger}}」。請重新加入。",
-    "undoSkipped": "未還原「{{trigger}}」：現在有另一個文字片段使用了該詞句。"
+    "undoSkipped": "未還原「{{trigger}}」：現在有另一個文字片段使用了該詞句。",
+    "addNew": "新增",
+    "tabs": {
+      "all": "全部"
+    }
   },
   "insights": {
     "tabs": {
@@ -1847,19 +1854,19 @@
     "presets": {
       "formal": {
         "label": "正式",
-        "description": "首字母大寫，標點完整。"
+        "description": "大寫 + 標點"
       },
       "relaxed": {
-        "label": "輕鬆",
-        "description": "首字母大寫，標點較少。"
+        "label": "隨性",
+        "description": "大寫 + 少量標點"
       },
       "very_relaxed": {
-        "label": "非常輕鬆",
-        "description": "句首小寫，標點較少。"
+        "label": "非常隨性",
+        "description": "不大寫 + 少量標點"
       },
       "upbeat": {
         "label": "活潑",
-        "description": "標點完整，語氣更有活力。"
+        "description": "大寫 + 多一點活力"
       }
     },
     "presetsHeading": "風格",
@@ -1922,14 +1929,15 @@
       "close": "關閉"
     },
     "cleanup": {
-      "tab": "清理",
+      "tab": "自動清理",
       "description": "在所有 App 和所有語言中整理你的話的程度。每個分組的風格會在此基礎上套用。",
-      "bannerTitle": "每次聽寫都會清理",
+      "bannerTitle": "自動清理適用於每次聽寫",
       "levels": {
         "none": "原樣保留你說的話，包括口誤",
         "light": "去掉口頭禪並修正標點",
         "medium": "表達更順暢，意思不變"
-      }
+      },
+      "note": "你的原話永遠不會遺失：在歷史記錄中開啟某次聽寫的選單，選擇「還原 AI 編輯」。"
     },
     "addMenu": "新增 App 或網站"
   },

@@ -1085,9 +1085,9 @@
     "undo": "Rückgängig",
     "tabs": {
       "label": "Wörterbucheinträge",
-      "all": "Alle ({{count}})",
-      "mine": "Von dir hinzugefügt ({{count}})",
-      "suggested": "Vorgeschlagen ({{count}})"
+      "all": "Alle",
+      "mine": "Von dir hinzugefügt",
+      "suggested": "Vorgeschlagen"
     },
     "sort": {
       "label": "Sortieren",
@@ -1098,12 +1098,13 @@
       "used": "Meistverwendet"
     },
     "banner": {
-      "title": "Bring {{appName}} deine Wörter bei",
-      "lead": "Namen, Begriffe und Abkürzungen, so geschrieben, wie du willst.",
+      "title": "{{appName}} schreibt es <em>so wie du</em>.",
+      "lead": "Füge ein Wort einmal hinzu oder korrigiere es, wenn es falsch ankommt, damit deine <b>Namen, Fachbegriffe und seltenen Wörter</b> jedes Mal richtig geschrieben werden.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Wörter zum Hinzufügen"
+      "suggestionsLabel": "Wörter zum Hinzufügen",
+      "add": "Neues Wort hinzufügen"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1245,7 +1246,8 @@
       "hint": "Bis 30 Sekunden nach dem Einfügen eines Diktats merkt sich {{appName}} Wörter, die du in diesem Textfeld korrigierst, und schlägt sie hier vor. Nur das korrigierte Wort wird behalten, nie der übrige Text. Passwortfelder, Passwortmanager, Banking-Apps und Terminals werden nie gelesen."
     },
     "undoFailed": "„{{entry}}“ konnte nicht wiederhergestellt werden. Füge den Eintrag bitte erneut hinzu.",
-    "undoSkipped": "„{{entry}}“ wurde nicht wiederhergestellt: Dein Wörterbuch enthält den Eintrag bereits."
+    "undoSkipped": "„{{entry}}“ wurde nicht wiederhergestellt: Dein Wörterbuch enthält den Eintrag bereits.",
+    "addNew": "Neu"
   },
   "pill": {
     "region": "Diktatleiste",
@@ -1292,14 +1294,14 @@
       "title": "Schreib jeden markierten Text um"
     },
     "enable": {
-      "title": "Transformationen aktivieren"
+      "title": "Aktivieren"
     },
     "commandMode": {
       "title": "Befehlsmodus",
       "help": "Kurzbefehl halten und sagen, was geschrieben oder geändert werden soll."
     },
     "auto": {
-      "title": "Nach jedem Diktat anwenden",
+      "title": "Nach dem Diktat automatisch anwenden",
       "choice": "Anzuwendende Transformation",
       "none": "Transformation auswählen",
       "description": "Jedes Diktat durchläuft die Transformation deiner Wahl."
@@ -1311,7 +1313,7 @@
     "myTransforms": "Meine Transformationen",
     "reset": "Auf Standard zurücksetzen",
     "resetConfirm": "Polish und Prompt Engineer zurücksetzen und alle eigenen Transformationen entfernen?",
-    "createNew": "Neue Transformation",
+    "createNew": "Neu erstellen",
     "deleteConfirm": "{{name}} löschen? Das kann nicht widerrufen werden.",
     "loading": "Transformationen werden geladen …",
     "error": "Die Änderung an der Transformation konnte nicht gespeichert werden. Versuch es noch einmal.",
@@ -1419,8 +1421,8 @@
     },
     "viewChanges": "um die Änderungen zu sehen",
     "builtin": {
-      "polish": "Klarer und knapper, gleiche Bedeutung",
-      "prompt_engineer": "Macht aus einer groben Bitte einen klaren Prompt"
+      "polish": "Klarer und kürzer",
+      "prompt_engineer": "Baut einen klaren Prompt"
     }
   },
   "cleanup": {
@@ -1505,7 +1507,7 @@
       "used": "Meistverwendet"
     },
     "banner": {
-      "title": "Ein paar Worte sagen, den ganzen Text bekommen",
+      "title": "Hör auf, dasselbe <em>zweimal</em> zu tippen.",
       "lead": "Sag ein kurzes Stichwort und {{appName}} schreibt den ganzen Text.",
       "examplesLabel": "Beispiele",
       "cue1": "meine Adresse",
@@ -1513,7 +1515,8 @@
       "cue2": "mein Gruß",
       "text2": "Viele Grüße, Sam",
       "cue3": "Kalenderlink",
-      "text3": "Such dir einfach eine passende Zeit aus: cal.example.com/sam"
+      "text3": "Such dir einfach eine passende Zeit aus: cal.example.com/sam",
+      "add": "Neues Snippet hinzufügen"
     },
     "entry": {
       "becomes": "wird geschrieben als",
@@ -1635,7 +1638,11 @@
       "failed": "Die Textbausteine konnten nicht exportiert werden. Versuch es noch einmal."
     },
     "undoFailed": "„{{trigger}}“ konnte nicht wiederhergestellt werden. Füge den Textbaustein bitte erneut hinzu.",
-    "undoSkipped": "„{{trigger}}“ wurde nicht wiederhergestellt: Ein anderer Textbaustein verwendet diese Wendung jetzt."
+    "undoSkipped": "„{{trigger}}“ wurde nicht wiederhergestellt: Ein anderer Textbaustein verwendet diese Wendung jetzt.",
+    "addNew": "Neu",
+    "tabs": {
+      "all": "Alle"
+    }
   },
   "insights": {
     "tabs": {
@@ -1924,19 +1931,19 @@
     "presets": {
       "formal": {
         "label": "Förmlich",
-        "description": "Großschreibung und vollständige Zeichensetzung."
+        "description": "Großschreibung + Satzzeichen"
       },
       "relaxed": {
         "label": "Locker",
-        "description": "Großschreibung, sparsamere Zeichensetzung."
+        "description": "Großschreibung + weniger Satzzeichen"
       },
       "very_relaxed": {
         "label": "Sehr locker",
-        "description": "Kleinschreibung am Satzanfang, sparsamere Zeichensetzung."
+        "description": "Kleinschreibung + weniger Satzzeichen"
       },
       "upbeat": {
         "label": "Fröhlich",
-        "description": "Vollständige Zeichensetzung, mit etwas mehr Schwung."
+        "description": "Großschreibung + etwas mehr Schwung"
       }
     },
     "presetsHeading": "Stil",
@@ -1999,14 +2006,15 @@
       "close": "Schließen"
     },
     "cleanup": {
-      "tab": "Bereinigung",
+      "tab": "Automatische Bereinigung",
       "description": "Wie stark deine Worte bereinigt werden, in jeder App und jeder Sprache. Der Stil der jeweiligen Gruppe kommt noch dazu.",
-      "bannerTitle": "Die Bereinigung läuft bei jedem Diktat",
+      "bannerTitle": "Die automatische Bereinigung gilt für jedes Diktat",
       "levels": {
         "none": "Genau, was du gesagt hast, mit allen Fehlern",
         "light": "Entfernt Füllwörter und korrigiert die Zeichensetzung",
         "medium": "Flüssigere Formulierung, gleiche Bedeutung"
-      }
+      },
+      "note": "Deine ursprünglichen Worte gehen nie verloren: Öffne im Verlauf das Menü eines Diktats und wähle „KI-Bearbeitung widerrufen“."
     },
     "addMenu": "App oder Website hinzufügen"
   },

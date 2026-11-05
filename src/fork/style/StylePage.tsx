@@ -10,7 +10,7 @@ import type { StyleGroup } from "../bindings";
 import { navigate, useHubNav } from "../hub/nav";
 import { PageHeader } from "../ui/PageHeader";
 import { FORK_NAMESPACE } from "../i18n";
-import { TabPanel, Tabs } from "../ui";
+import { TabPanel, Tabs, Tag } from "../ui";
 import { CleanupTab } from "./CleanupTab";
 import { GroupTab } from "./GroupTab";
 import { STYLE_GROUPS, useStyleApps } from "./useStyle";
@@ -31,7 +31,7 @@ export function StylePage() {
   return (
     <div
       data-testid="wb-style"
-      className="mx-auto flex w-full max-w-[800px] flex-col gap-6"
+      className="mx-auto flex w-full max-w-[800px] flex-col gap-14"
     >
       <PageHeader title={t("hub.pages.style.title")} />
       <Tabs
@@ -44,6 +44,10 @@ export function StylePage() {
             value === "cleanup"
               ? t("style.cleanup.tab")
               : t(`style.groups.${value as StyleGroup}.tab`),
+          tag:
+            value === "cleanup" ? (
+              <Tag kind="beta" size="lg" tone="accent" />
+            ) : undefined,
         }))}
       >
         {TABS.map((value) => (

@@ -7,7 +7,7 @@
 // while it downloads or failed (OT2-H); ⌥O swaps the grid for the diff.
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Info, Plus, RotateCcw, Settings2 } from "../ui/icons";
+import { Info, RotateCcw, Settings2 } from "../ui/icons";
 import {
   commands,
   events,
@@ -33,12 +33,11 @@ import {
   Tooltip,
 } from "../ui";
 import { photos } from "@/assets/fork/art";
-import { chordLabel } from "../settings/hotkeys/model";
 import { openLesson, TRANSFORMS_LESSON, useLesson } from "../tutorials";
 import { ModelStatus } from "./ModelStatus";
 import { DiffCard } from "./DiffCard";
 import { useTransformViewStore } from "./store";
-import { CreateCard, TransformCard } from "./TransformCard";
+import { capKeys, CreateCard, TransformCard } from "./TransformCard";
 import { TransformModal } from "./TransformModal";
 import { TransformSettings } from "./TransformSettings";
 
@@ -186,15 +185,15 @@ export function TransformsPage() {
   return (
     <div
       data-testid="wb-transforms"
-      className="@container/page flex flex-col gap-8"
+      className="@container/page flex flex-col gap-7"
     >
       <PageHeader
         title={t("hub.pages.transforms.title")}
-        tag={<Tag kind="beta" />}
+        tag={<Tag kind="beta" size="lg" />}
       >
         <span
           id="wb-transforms-enable-title"
-          className="text-[15px] text-(--wb-ink)"
+          className="text-[16px] text-(--wb-ink)"
         >
           {t("transforms.enable.title")}
         </span>
@@ -219,9 +218,13 @@ export function TransformsPage() {
             type="button"
             onClick={() => navigate("transforms", "changes")}
             data-testid="wb-transforms-view-changes"
-            className={`ms-2 flex h-9 cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface) ps-1.5 pe-3.5 text-[14px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            className={`ms-2 flex h-9 cursor-pointer items-center gap-2 rounded-full border border-(--wb-line) bg-(--wb-surface-tint) ps-[3px] pe-3.5 text-[16px] text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:text-(--wb-ink) ${FOCUS_RING}`}
           >
-            <KbdCombo keys={chordLabel(viewChord).split(" ")} />
+            <KbdCombo
+              size="lg"
+              keys={capKeys(viewChord)}
+              className="[&_kbd]:bg-(--wb-surface) [&_kbd]:font-normal"
+            />
             {t("transforms.viewChanges")}
           </button>
         )}
@@ -278,7 +281,12 @@ export function TransformsPage() {
             control={(ids) => (
               <>
                 <Select
-                  value={settings?.auto_apply_transform ?? undefined}
+                  // Off, it still shows the transform it would run.
+                  value={
+                    settings?.auto_apply_transform ??
+                    entries[0]?.key ??
+                    undefined
+                  }
                   placeholder={t("transforms.auto.none")}
                   onValueChange={(value) =>
                     void setSetting("auto_apply_transform", value || null)
@@ -317,7 +325,7 @@ export function TransformsPage() {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h2
                 id="wb-transforms-mine"
-                className="type-serif-title text-[36px]! leading-[42px]! text-(--wb-ink)"
+                className="type-serif-title text-[32px]! leading-[38px]! tracking-[-0.02em] text-(--wb-ink)"
               >
                 {t("transforms.myTransforms")}
               </h2>
@@ -326,6 +334,7 @@ export function TransformsPage() {
                   variant="ghost"
                   onClick={() => void reset()}
                   data-testid="wb-transforms-reset"
+                  className="text-[16px]"
                 >
                   <RotateCcw size={16} aria-hidden="true" />
                   {t("transforms.reset")}
@@ -343,8 +352,8 @@ export function TransformsPage() {
                   variant="primary"
                   onClick={() => void create()}
                   data-testid="wb-transforms-create"
+                  className="text-[16px]"
                 >
-                  <Plus size={16} aria-hidden="true" />
                   {t("transforms.createNew")}
                 </Button>
               </div>

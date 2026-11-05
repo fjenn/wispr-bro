@@ -10,10 +10,13 @@ export function Kbd({
   children,
   tone = "light",
   pressed = false,
+  size = "md",
   className = "",
 }: {
   children: ReactNode;
   tone?: "light" | "dark";
+  /** `lg`: 30 pt caps on a transform card or the view-changes pill. */
+  size?: "md" | "lg";
   /** A key held right now (the onboarding key test): purple. */
   pressed?: boolean;
   className?: string;
@@ -25,7 +28,7 @@ export function Kbd({
       : "border-(--wb-line-2) bg-(--wb-surface-tint) text-(--wb-ink)";
   return (
     <kbd
-      className={`inline-flex h-6 min-w-6 items-center justify-center rounded-(--wb-radius-xs) border px-1.5 font-(family-name:--wb-font-ui) text-[13px] leading-none font-medium transition-colors duration-(--wb-dur-fast) ${look} ${className}`}
+      className={`inline-flex items-center justify-center rounded-(--wb-radius-xs) border font-(family-name:--wb-font-ui) leading-none font-medium transition-colors duration-(--wb-dur-fast) ${size === "lg" ? "h-[30px] min-w-[30px] px-2 text-[15px]" : "h-6 min-w-6 px-1.5 text-[13px]"} ${look} ${className}`}
     >
       {children}
     </kbd>
@@ -36,10 +39,12 @@ export function KbdCombo({
   keys,
   tone,
   label,
+  size,
   className = "",
 }: {
   keys: string[];
   tone?: "light" | "dark";
+  size?: "md" | "lg";
   /** Spoken name of the combination (e.g. "Option O"). */
   label?: string;
   className?: string;
@@ -51,7 +56,7 @@ export function KbdCombo({
       role={label ? "img" : undefined}
     >
       {keys.map((key, i) => (
-        <Kbd key={`${key}-${i}`} tone={tone}>
+        <Kbd key={`${key}-${i}`} tone={tone} size={size}>
           {key}
         </Kbd>
       ))}

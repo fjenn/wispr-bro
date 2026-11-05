@@ -1067,9 +1067,9 @@
     "undo": "撤销",
     "tabs": {
       "label": "词典条目",
-      "all": "全部（{{count}}）",
-      "mine": "你添加的（{{count}}）",
-      "suggested": "建议的（{{count}}）"
+      "all": "全部",
+      "mine": "你添加的",
+      "suggested": "建议的"
     },
     "sort": {
       "label": "排序",
@@ -1080,12 +1080,13 @@
       "used": "最常用"
     },
     "banner": {
-      "title": "教 {{appName}} 认识你的用词",
-      "lead": "人名、术语和缩写，按你的写法拼写。",
+      "title": "{{appName}} 按<em>你的</em>方式拼写。",
+      "lead": "添加一次词语，或在识别错误时纠正它，你的<b>人名、工作术语和生僻词</b>每次都会写对。",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "可添加的词"
+      "suggestionsLabel": "可添加的词",
+      "add": "添加词语"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1210,7 +1211,8 @@
       "hint": "听写内容粘贴后的 30 秒内，{{appName}} 会留意你在该文本框中改正的词语，并在这里提供建议。只保留你改正的词语，从不保留其余文本。从不读取密码栏、密码管理器、银行 App 和终端。"
     },
     "undoFailed": "无法恢复“{{entry}}”。请重新添加。",
-    "undoSkipped": "未恢复“{{entry}}”：你的词典中已有这一项。"
+    "undoSkipped": "未恢复“{{entry}}”：你的词典中已有这一项。",
+    "addNew": "添加"
   },
   "pill": {
     "region": "听写浮动栏",
@@ -1256,14 +1258,14 @@
       "title": "改写你选中的任意文本"
     },
     "enable": {
-      "title": "启用转换"
+      "title": "开启"
     },
     "commandMode": {
       "title": "命令模式",
       "help": "按住快捷键，说出要写或要改的内容。"
     },
     "auto": {
-      "title": "每次听写后应用",
+      "title": "听写后自动应用",
       "choice": "要应用的转换",
       "none": "选择转换",
       "description": "每次听写都会经过你选择的转换。"
@@ -1275,7 +1277,7 @@
     "myTransforms": "我的转换",
     "reset": "恢复默认设置",
     "resetConfirm": "要重置 Polish 和 Prompt Engineer 并移除所有自定义转换吗？",
-    "createNew": "新建转换",
+    "createNew": "新建",
     "deleteConfirm": "要删除“{{name}}”吗？此操作无法撤销。",
     "loading": "正在载入你的转换…",
     "error": "无法存储对该转换的更改。请重试。",
@@ -1382,8 +1384,8 @@
     },
     "viewChanges": "查看改动",
     "builtin": {
-      "polish": "更清楚更简洁，意思不变",
-      "prompt_engineer": "把粗略的需求变成清晰的提示词"
+      "polish": "更清楚、更简短",
+      "prompt_engineer": "生成清晰的提示词"
     }
   },
   "cleanup": {
@@ -1463,7 +1465,7 @@
       "used": "最常用"
     },
     "banner": {
-      "title": "说几个字，得到整段文本",
+      "title": "别再把同样的内容打<em>两遍</em>。",
       "lead": "说出一个简短的提示词，{{appName}} 就会写出完整内容。",
       "examplesLabel": "示例",
       "cue1": "我的地址",
@@ -1471,7 +1473,8 @@
       "cue2": "我的落款",
       "text2": "祝好，Sam",
       "cue3": "日历链接",
-      "text3": "请选择你方便的时间：cal.example.com/sam"
+      "text3": "请选择你方便的时间：cal.example.com/sam",
+      "add": "添加片段"
     },
     "entry": {
       "becomes": "写成",
@@ -1573,7 +1576,11 @@
       "failed": "无法导出文本片段。请重试。"
     },
     "undoFailed": "无法恢复“{{trigger}}”。请重新添加。",
-    "undoSkipped": "未恢复“{{trigger}}”：现在有另一个文本片段使用了该短语。"
+    "undoSkipped": "未恢复“{{trigger}}”：现在有另一个文本片段使用了该短语。",
+    "addNew": "添加",
+    "tabs": {
+      "all": "全部"
+    }
   },
   "insights": {
     "tabs": {
@@ -1847,19 +1854,19 @@
     "presets": {
       "formal": {
         "label": "正式",
-        "description": "首字母大写，标点完整。"
+        "description": "大写 + 标点"
       },
       "relaxed": {
-        "label": "轻松",
-        "description": "首字母大写，标点较少。"
+        "label": "随意",
+        "description": "大写 + 少量标点"
       },
       "very_relaxed": {
-        "label": "非常轻松",
-        "description": "句首小写，标点较少。"
+        "label": "非常随意",
+        "description": "不大写 + 少量标点"
       },
       "upbeat": {
         "label": "活泼",
-        "description": "标点完整，语气更有活力。"
+        "description": "大写 + 多一点活力"
       }
     },
     "presetsHeading": "风格",
@@ -1922,14 +1929,15 @@
       "close": "关闭"
     },
     "cleanup": {
-      "tab": "清理",
+      "tab": "自动清理",
       "description": "在所有 App 和所有语言中整理你的话的程度。每个分组的风格会在此基础上应用。",
-      "bannerTitle": "每次听写都会清理",
+      "bannerTitle": "自动清理适用于每次听写",
       "levels": {
         "none": "原样保留你说的话，包括口误",
         "light": "去掉口头禅并修正标点",
         "medium": "表达更顺畅，意思不变"
-      }
+      },
+      "note": "你的原话永远不会丢失：在历史记录中打开某次听写的菜单，选择“撤销 AI 编辑”。"
     },
     "addMenu": "添加应用或网站"
   },

@@ -1103,9 +1103,9 @@
     "undo": "Deshacer",
     "tabs": {
       "label": "Entradas del diccionario",
-      "all": "Todas ({{count}})",
-      "mine": "Añadidas por ti ({{count}})",
-      "suggested": "Sugeridas ({{count}})"
+      "all": "Todas",
+      "mine": "Añadidas por ti",
+      "suggested": "Sugeridas"
     },
     "sort": {
       "label": "Ordenar",
@@ -1116,12 +1116,13 @@
       "used": "Más usadas"
     },
     "banner": {
-      "title": "Enseña tus palabras a {{appName}}",
-      "lead": "Nombres, términos y siglas, escritos a tu manera.",
+      "title": "{{appName}} lo escribe a <em>tu</em> manera.",
+      "lead": "Añade una palabra una vez, o corrígela cuando salga mal, para que tus <b>nombres, términos de trabajo y palabras poco comunes</b> se escriban bien siempre.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Palabras para añadir"
+      "suggestionsLabel": "Palabras para añadir",
+      "add": "Añadir palabra"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1280,7 +1281,8 @@
       "hint": "Durante los 30 segundos posteriores a pegar un dictado, {{appName}} detecta las palabras que corriges en ese campo de texto y te las sugiere aquí. Solo se guarda la palabra que has corregido, nunca el resto del texto. Nunca se leen los campos de contraseña, los gestores de contraseñas, las apps de banca ni los terminales."
     },
     "undoFailed": "No se ha podido restaurar “{{entry}}”. Vuelve a añadirlo.",
-    "undoSkipped": "No se ha restaurado “{{entry}}”: tu diccionario ya lo tiene."
+    "undoSkipped": "No se ha restaurado “{{entry}}”: tu diccionario ya lo tiene.",
+    "addNew": "Añadir"
   },
   "pill": {
     "region": "Barra de dictado",
@@ -1328,14 +1330,14 @@
       "title": "Reescribe cualquier texto que selecciones"
     },
     "enable": {
-      "title": "Activar Transformaciones"
+      "title": "Activar"
     },
     "commandMode": {
       "title": "Modo de comandos",
       "help": "Mantén pulsado el atajo y di qué escribir o cambiar."
     },
     "auto": {
-      "title": "Aplicar después de cada dictado",
+      "title": "Aplicar automáticamente tras dictar",
       "choice": "Transformación que se aplicará",
       "none": "Elige una transformación",
       "description": "Cada dictado pasa por la transformación que elijas."
@@ -1347,7 +1349,7 @@
     "myTransforms": "Mis transformaciones",
     "reset": "Restaurar valores por omisión",
     "resetConfirm": "¿Restaurar Polish y Prompt Engineer y eliminar todas las transformaciones personalizadas?",
-    "createNew": "Nueva transformación",
+    "createNew": "Crear",
     "deleteConfirm": "¿Eliminar {{name}}? Esta acción no se puede deshacer.",
     "loading": "Cargando tus transformaciones…",
     "error": "No se ha podido guardar el cambio en la transformación. Inténtalo de nuevo.",
@@ -1454,10 +1456,10 @@
     "settings": {
       "title": "Ajustes de transformaciones"
     },
-    "viewChanges": "para ver qué cambió",
+    "viewChanges": "para ver los cambios",
     "builtin": {
-      "polish": "Más claro y conciso, mismo significado",
-      "prompt_engineer": "Convierte una petición vaga en un prompt claro"
+      "polish": "Más claro y más corto",
+      "prompt_engineer": "Crea un prompt claro"
     }
   },
   "cleanup": {
@@ -1547,7 +1549,7 @@
       "used": "Más usados"
     },
     "banner": {
-      "title": "Di unas palabras y obtén el texto completo",
+      "title": "Deja de escribir lo mismo <em>dos veces</em>.",
       "lead": "Di una palabra clave y {{appName}} escribe el texto completo.",
       "examplesLabel": "Ejemplos",
       "cue1": "mi dirección",
@@ -1555,7 +1557,8 @@
       "cue2": "mi despedida",
       "text2": "Un saludo, Sam",
       "cue3": "enlace del calendario",
-      "text3": "Elige la hora que mejor te venga: cal.example.com/sam"
+      "text3": "Elige la hora que mejor te venga: cal.example.com/sam",
+      "add": "Añadir fragmento"
     },
     "entry": {
       "becomes": "se escribe como",
@@ -1697,7 +1700,11 @@
       "failed": "No se han podido exportar los fragmentos. Inténtalo de nuevo."
     },
     "undoFailed": "No se ha podido restaurar “{{trigger}}”. Vuelve a añadirlo.",
-    "undoSkipped": "No se ha restaurado “{{trigger}}”: otro fragmento ya usa esa frase."
+    "undoSkipped": "No se ha restaurado “{{trigger}}”: otro fragmento ya usa esa frase.",
+    "addNew": "Añadir",
+    "tabs": {
+      "all": "Todos"
+    }
   },
   "insights": {
     "tabs": {
@@ -2001,19 +2008,19 @@
     "presets": {
       "formal": {
         "label": "Formal",
-        "description": "Mayúsculas y puntuación completa."
+        "description": "Mayúsculas + puntuación"
       },
       "relaxed": {
-        "label": "Relajado",
-        "description": "Mayúsculas y puntuación más ligera."
+        "label": "Informal",
+        "description": "Mayúsculas + menos puntuación"
       },
       "very_relaxed": {
-        "label": "Muy relajado",
-        "description": "Minúscula al inicio de las frases y puntuación más ligera."
+        "label": "Muy informal",
+        "description": "Sin mayúsculas + menos puntuación"
       },
       "upbeat": {
         "label": "Animado",
-        "description": "Puntuación completa, con un poco más de energía."
+        "description": "Mayúsculas + un poco más de energía"
       }
     },
     "presetsHeading": "Estilo",
@@ -2076,14 +2083,15 @@
       "close": "Cerrar"
     },
     "cleanup": {
-      "tab": "Limpieza",
+      "tab": "Limpieza automática",
       "description": "Cuánto se pulen tus palabras, en todas las apps y todos los idiomas. El estilo de cada grupo se aplica encima.",
-      "bannerTitle": "La limpieza se aplica a cada dictado",
+      "bannerTitle": "La limpieza automática se aplica a cada dictado",
       "levels": {
         "none": "Exactamente lo que dijiste, errores incluidos",
         "light": "Quita las muletillas y corrige la puntuación",
         "medium": "Redacción más fluida, mismo significado"
-      }
+      },
+      "note": "Tus palabras originales nunca se pierden: en el historial, abre el menú de un dictado y elige «Deshacer edición de la IA»."
     },
     "addMenu": "Añadir una app o un sitio web"
   },

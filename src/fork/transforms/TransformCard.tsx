@@ -12,8 +12,15 @@ import { chordLabel } from "../settings/hotkeys/model";
 import { FOCUS_RING, IconButton, KbdCombo, useMotionPresets } from "../ui";
 
 const CARD =
-  "group/card relative min-h-[148px] rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) transition-[border-color,background-color,box-shadow] duration-(--wb-dur-fast) hover:border-(--wb-line-2) hover:shadow-(--wb-elev-1)";
-const OPEN = `flex size-full min-h-[inherit] cursor-pointer flex-col items-start gap-3 rounded-(--wb-radius-md) p-5 text-start ${FOCUS_RING}`;
+  "group/card relative min-h-[144px] rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-[border-color,background-color,box-shadow] duration-(--wb-dur-fast) hover:border-(--wb-line-2) hover:shadow-(--wb-elev-1)";
+const OPEN = `flex size-full min-h-[inherit] cursor-pointer flex-col items-start rounded-(--wb-radius-md) px-6 pt-6 pb-6 text-start ${FOCUS_RING}`;
+
+/** Key caps for a chord as the reference shows them: "⌥ Opt", "1". */
+export function capKeys(chord: string): string[] {
+  return chordLabel(chord)
+    .split(" ")
+    .map((key) => (key === "⌥" ? "⌥ Opt" : key));
+}
 
 /** The grey line under a transform's name. */
 function line(entry: TransformEntry, t: (key: string) => string): string {
@@ -45,18 +52,18 @@ export function TransformCard({
         className={`${OPEN} ${custom ? "pe-12" : ""}`}
         data-testid={`wb-transform-open-${entry.key}`}
       >
-        <span className="flex h-7 items-center">
-          {hotkey && <KbdCombo keys={chordLabel(hotkey).split(" ")} />}
+        <span className="flex h-[30px] items-center">
+          {hotkey && <KbdCombo size="lg" keys={capKeys(hotkey)} />}
         </span>
         <span
           dir="auto"
-          className="type-card-title mt-auto w-full truncate text-(--wb-ink)"
+          className="mt-5 w-full truncate text-[16px] leading-[22px] font-semibold text-(--wb-ink)"
         >
           {entry.name}
         </span>
         <span
           dir="auto"
-          className="line-clamp-1 w-full text-[15px] leading-[22px] text-(--wb-ink-2)"
+          className="mt-3 line-clamp-1 w-full text-[16px] leading-[22px] text-(--wb-ink-3)"
         >
           {sub || " "}
         </span>
@@ -91,14 +98,14 @@ export function CreateCard({ onCreate }: { onCreate: () => void }) {
       >
         <span
           aria-hidden="true"
-          className="grid size-7 place-items-center rounded-full bg-(--wb-surface-tint) text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) group-hover/card:bg-(--wb-ink) group-hover/card:text-(--wb-surface)"
+          className="grid size-[30px] place-items-center rounded-full border border-(--wb-line) bg-(--wb-surface-tint) text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) group-hover/card:bg-(--wb-ink) group-hover/card:text-(--wb-surface)"
         >
-          <Plus size={16} />
+          <Plus size={14} />
         </span>
-        <span className="type-card-title mt-auto text-(--wb-ink)">
+        <span className="mt-5 text-[16px] leading-[22px] font-semibold text-(--wb-ink)">
           {t("transforms.card.createOwn")}
         </span>
-        <span className="text-[15px] leading-[22px] text-(--wb-ink-2)">
+        <span className="mt-3 text-[16px] leading-[22px] text-(--wb-ink-3)">
           {t("transforms.card.createOwnHint")}
         </span>
       </motion.button>

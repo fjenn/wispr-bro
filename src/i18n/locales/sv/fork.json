@@ -1085,9 +1085,9 @@
     "undo": "Ångra",
     "tabs": {
       "label": "Poster i ordlistan",
-      "all": "Alla ({{count}})",
-      "mine": "Tillagda av dig ({{count}})",
-      "suggested": "Föreslagna ({{count}})"
+      "all": "Alla",
+      "mine": "Tillagda av dig",
+      "suggested": "Föreslagna"
     },
     "sort": {
       "label": "Sortera",
@@ -1098,12 +1098,13 @@
       "used": "Mest använda"
     },
     "banner": {
-      "title": "Lär {{appName}} dina ord",
-      "lead": "Namn, termer och förkortningar stavade på ditt sätt.",
+      "title": "{{appName}} stavar det på <em>ditt</em> sätt.",
+      "lead": "Lägg till ett ord en gång, eller rätta det när det blir fel, så stavas dina <b>namn, jobbtermer och ovanliga ord</b> rätt varje gång.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Ord att lägga till"
+      "suggestionsLabel": "Ord att lägga till",
+      "add": "Lägg till ord"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1245,7 +1246,8 @@
       "hint": "I 30 sekunder efter att en diktering har klistrats in uppmärksammar {{appName}} ord du rättar i textrutan och föreslår dem här. Bara det rättade ordet sparas, aldrig resten av texten. Lösenordsfält, lösenordshanterare, bankappar och terminaler läses aldrig."
     },
     "undoFailed": "”{{entry}}” kunde inte återställas. Lägg till det igen.",
-    "undoSkipped": "”{{entry}}” återställdes inte: din ordlista har det redan."
+    "undoSkipped": "”{{entry}}” återställdes inte: din ordlista har det redan.",
+    "addNew": "Lägg till"
   },
   "pill": {
     "region": "Dikteringslist",
@@ -1292,14 +1294,14 @@
       "title": "Skriv om valfri markerad text"
     },
     "enable": {
-      "title": "Aktivera Omvandlingar"
+      "title": "Aktivera"
     },
     "commandMode": {
       "title": "Kommandoläge",
       "help": "Håll ned kortkommandot och säg vad som ska skrivas eller ändras."
     },
     "auto": {
-      "title": "Använd efter varje diktering",
+      "title": "Använd automatiskt efter diktering",
       "choice": "Omvandling att använda",
       "none": "Välj en omvandling",
       "description": "Varje diktering går igenom den omvandling du väljer."
@@ -1311,7 +1313,7 @@
     "myTransforms": "Mina omvandlingar",
     "reset": "Återställ standardvärden",
     "resetConfirm": "Vill du återställa Polish och Prompt Engineer och ta bort alla egna omvandlingar?",
-    "createNew": "Ny omvandling",
+    "createNew": "Skapa ny",
     "deleteConfirm": "Vill du radera {{name}}? Det går inte att ångra.",
     "loading": "Läser in dina omvandlingar…",
     "error": "Ändringen av omvandlingen kunde inte sparas. Försök igen.",
@@ -1417,10 +1419,10 @@
     "settings": {
       "title": "Inställningar för omvandlingar"
     },
-    "viewChanges": "för att se vad som ändrats",
+    "viewChanges": "för att se ändringarna",
     "builtin": {
-      "polish": "Tydligare och kortare, samma betydelse",
-      "prompt_engineer": "Gör en grov fråga till en tydlig prompt"
+      "polish": "Tydligare och kortare",
+      "prompt_engineer": "Bygger en tydlig prompt"
     }
   },
   "cleanup": {
@@ -1505,7 +1507,7 @@
       "used": "Mest använda"
     },
     "banner": {
-      "title": "Säg några ord, få hela texten",
+      "title": "Sluta skriva samma sak <em>två gånger</em>.",
       "lead": "Säg ett kort stickord så skriver {{appName}} hela texten.",
       "examplesLabel": "Exempel",
       "cue1": "min adress",
@@ -1513,7 +1515,8 @@
       "cue2": "min hälsning",
       "text2": "Vänliga hälsningar, Sam",
       "cue3": "kalenderlänk",
-      "text3": "Välj en tid som passar dig: cal.example.com/sam"
+      "text3": "Välj en tid som passar dig: cal.example.com/sam",
+      "add": "Lägg till snippet"
     },
     "entry": {
       "becomes": "skrivs som",
@@ -1635,7 +1638,11 @@
       "failed": "Det gick inte att exportera textstyckena. Försök igen."
     },
     "undoFailed": "”{{trigger}}” kunde inte återställas. Lägg till det igen.",
-    "undoSkipped": "”{{trigger}}” återställdes inte: ett annat textstycke använder nu den frasen."
+    "undoSkipped": "”{{trigger}}” återställdes inte: ett annat textstycke använder nu den frasen.",
+    "addNew": "Lägg till",
+    "tabs": {
+      "all": "Alla"
+    }
   },
   "insights": {
     "tabs": {
@@ -1924,19 +1931,19 @@
     "presets": {
       "formal": {
         "label": "Formell",
-        "description": "Versaler och fullständiga skiljetecken."
+        "description": "Versaler + skiljetecken"
       },
       "relaxed": {
         "label": "Avslappnad",
-        "description": "Versaler, färre skiljetecken."
+        "description": "Versaler + färre skiljetecken"
       },
       "very_relaxed": {
         "label": "Mycket avslappnad",
-        "description": "Gemener i början av meningar, färre skiljetecken."
+        "description": "Inga versaler + färre skiljetecken"
       },
       "upbeat": {
         "label": "Pigg",
-        "description": "Fullständiga skiljetecken, med lite mer energi."
+        "description": "Versaler + lite mer energi"
       }
     },
     "presetsHeading": "Stil",
@@ -1999,14 +2006,15 @@
       "close": "Stäng"
     },
     "cleanup": {
-      "tab": "Rensning",
+      "tab": "Automatisk rensning",
       "description": "Hur mycket dina ord rensas, i alla appar och på alla språk. Varje grupps stil läggs ovanpå.",
-      "bannerTitle": "Rensningen gäller varje diktering",
+      "bannerTitle": "Automatisk rensning gäller varje diktering",
       "levels": {
         "none": "Exakt det du sa, misstag och allt",
         "light": "Tar bort utfyllnadsord och rättar skiljetecken",
         "medium": "Smidigare formulering, samma betydelse"
-      }
+      },
+      "note": "Dina ursprungliga ord går aldrig förlorade: öppna en dikterings meny i historiken och välj ”Ångra AI-redigering”."
     },
     "addMenu": "Lägg till en app eller webbplats"
   },

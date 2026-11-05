@@ -65,7 +65,7 @@ export function Tabs({
             <RadixTabs.Trigger
               key={tab.value}
               value={tab.value}
-              className={`-mb-px inline-flex cursor-pointer items-center gap-1.5 rounded-t-[4px] border-b-2 border-transparent pt-1 pb-2.5 text-[15px] font-medium text-(--wb-ink-3) transition-colors duration-(--wb-dur-fast) hover:text-(--wb-ink) data-[state=active]:border-(--wb-ink) data-[state=active]:text-(--wb-ink) ${FOCUS_RING}`}
+              className={`-mb-px inline-flex cursor-pointer items-center gap-3 rounded-t-[4px] border-b-2 border-transparent pt-1 pb-3 text-[16px] font-medium text-(--wb-ink-2) transition-colors duration-(--wb-dur-fast) hover:text-(--wb-ink) data-[state=active]:border-(--wb-ink) data-[state=active]:text-(--wb-ink) ${FOCUS_RING}`}
             >
               {tab.label}
               {tab.tag}

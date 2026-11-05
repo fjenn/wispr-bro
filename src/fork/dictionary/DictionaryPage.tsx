@@ -439,23 +439,23 @@ export function DictionaryPage() {
   };
 
   return (
-    <div data-testid="wb-dictionary" className="flex flex-col gap-6">
+    <div data-testid="wb-dictionary" className="flex flex-col gap-14">
       <PageHeader title={t("hub.pages.dictionary.title")}>
         <Button
           variant="primary"
+          size="lg"
           onClick={() => setImportOpen(true)}
           data-testid="wb-dictionary-import"
         >
-          <Upload size={16} aria-hidden="true" />
           {t("dictionary.import.open")}
         </Button>
         <Button
           variant="primary"
+          size="lg"
           onClick={() => setDialog({ entry: null })}
           data-testid="wb-dictionary-add"
         >
-          <Plus size={16} aria-hidden="true" />
-          {t("dictionary.add")}
+          {t("dictionary.addNew")}
         </Button>
       </PageHeader>
 
@@ -506,14 +506,14 @@ export function DictionaryPage() {
           </>
         }
       >
-        <div className="mt-6">
+        <div className="mt-[25px]">
           <Banner
             id={BANNER_ID}
             image={photos.dictionary.src}
             title={t("dictionary.banner.title", { appName })}
             body={t("dictionary.banner.lead")}
             action={{
-              label: t("dictionary.add"),
+              label: t("dictionary.banner.add"),
               onClick: () => setDialog({ entry: null }),
               testId: "wb-dictionary-banner-add",
             }}

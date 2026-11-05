@@ -1121,9 +1121,9 @@
     "undo": "Cofnij",
     "tabs": {
       "label": "Wpisy w słowniku",
-      "all": "Wszystkie ({{count}})",
-      "mine": "Dodane przez Ciebie ({{count}})",
-      "suggested": "Sugerowane ({{count}})"
+      "all": "Wszystkie",
+      "mine": "Dodane przez Ciebie",
+      "suggested": "Sugerowane"
     },
     "sort": {
       "label": "Sortuj",
@@ -1134,12 +1134,13 @@
       "used": "Najczęściej używane"
     },
     "banner": {
-      "title": "Naucz {{appName}} swoich słów",
-      "lead": "Imiona, terminy i skróty zapisane po Twojemu.",
+      "title": "{{appName}} pisze to <em>po Twojemu</em>.",
+      "lead": "Dodaj słowo raz albo popraw je, gdy wyjdzie źle, a Twoje <b>imiona, terminy zawodowe i rzadkie słowa</b> będą zawsze zapisane poprawnie.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Słowa do dodania"
+      "suggestionsLabel": "Słowa do dodania",
+      "add": "Dodaj słowo"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1315,7 +1316,8 @@
       "hint": "Przez 30 sekund po wklejeniu dyktowania {{appName}} zauważa słowa poprawiane przez Ciebie w tym polu tekstowym i sugeruje je tutaj. Zachowywane jest tylko poprawione słowo, nigdy reszta tekstu. Pola haseł, menedżery haseł, aplikacje bankowe i terminale nigdy nie są odczytywane."
     },
     "undoFailed": "Nie udało się przywrócić „{{entry}}”. Dodaj to ponownie.",
-    "undoSkipped": "Nie przywrócono „{{entry}}”: Twój słownik już to zawiera."
+    "undoSkipped": "Nie przywrócono „{{entry}}”: Twój słownik już to zawiera.",
+    "addNew": "Dodaj"
   },
   "pill": {
     "region": "Pasek dyktowania",
@@ -1364,14 +1366,14 @@
       "title": "Przepisz dowolny zaznaczony tekst"
     },
     "enable": {
-      "title": "Włącz przekształcenia"
+      "title": "Włącz"
     },
     "commandMode": {
       "title": "Tryb poleceń",
       "help": "Przytrzymaj skrót i powiedz, co napisać lub zmienić."
     },
     "auto": {
-      "title": "Stosuj po każdym dyktowaniu",
+      "title": "Stosuj automatycznie po dyktowaniu",
       "choice": "Przekształcenie do zastosowania",
       "none": "Wybierz przekształcenie",
       "description": "Każde dyktowanie przechodzi przez wybrane przekształcenie."
@@ -1383,7 +1385,7 @@
     "myTransforms": "Moje przekształcenia",
     "reset": "Przywróć domyślne",
     "resetConfirm": "Przywrócić Polish i Prompt Engineer oraz usunąć wszystkie własne przekształcenia?",
-    "createNew": "Nowe przekształcenie",
+    "createNew": "Utwórz",
     "deleteConfirm": "Usunąć {{name}}? Tej operacji nie można cofnąć.",
     "loading": "Wczytywanie przekształceń…",
     "error": "Nie udało się zachować zmiany przekształcenia. Spróbuj ponownie.",
@@ -1493,8 +1495,8 @@
     },
     "viewChanges": "aby zobaczyć zmiany",
     "builtin": {
-      "polish": "Jaśniej i zwięźlej, ten sam sens",
-      "prompt_engineer": "Zmienia ogólną prośbę w jasny prompt"
+      "polish": "Jaśniej i krócej",
+      "prompt_engineer": "Tworzy jasny prompt"
     }
   },
   "cleanup": {
@@ -1589,7 +1591,7 @@
       "used": "Najczęściej używane"
     },
     "banner": {
-      "title": "Powiedz kilka słów, wstaw cały tekst",
+      "title": "Przestań pisać to samo <em>dwa razy</em>.",
       "lead": "Powiedz krótkie hasło, a {{appName}} wpisze cały tekst.",
       "examplesLabel": "Przykłady",
       "cue1": "mój adres",
@@ -1597,7 +1599,8 @@
       "cue2": "moje pożegnanie",
       "text2": "Pozdrawiam, Sam",
       "cue3": "link do kalendarza",
-      "text3": "Wybierz dogodny termin: cal.example.com/sam"
+      "text3": "Wybierz dogodny termin: cal.example.com/sam",
+      "add": "Dodaj fragment"
     },
     "entry": {
       "becomes": "wpisuje",
@@ -1759,7 +1762,11 @@
       "failed": "Nie można wyeksportować fragmentów tekstu. Spróbuj ponownie."
     },
     "undoFailed": "Nie udało się przywrócić „{{trigger}}”. Dodaj to ponownie.",
-    "undoSkipped": "Nie przywrócono „{{trigger}}”: ta fraza jest teraz używana przez inny fragment tekstu."
+    "undoSkipped": "Nie przywrócono „{{trigger}}”: ta fraza jest teraz używana przez inny fragment tekstu.",
+    "addNew": "Dodaj",
+    "tabs": {
+      "all": "Wszystkie"
+    }
   },
   "insights": {
     "tabs": {
@@ -2078,19 +2085,19 @@
     "presets": {
       "formal": {
         "label": "Formalny",
-        "description": "Wielkie litery i pełna interpunkcja."
+        "description": "Wielkie litery + interpunkcja"
       },
       "relaxed": {
         "label": "Swobodny",
-        "description": "Wielkie litery, lżejsza interpunkcja."
+        "description": "Wielkie litery + mniej interpunkcji"
       },
       "very_relaxed": {
         "label": "Bardzo swobodny",
-        "description": "Małe litery na początku zdań, lżejsza interpunkcja."
+        "description": "Bez wielkich liter + mniej interpunkcji"
       },
       "upbeat": {
         "label": "Energiczny",
-        "description": "Pełna interpunkcja i trochę więcej energii."
+        "description": "Wielkie litery + trochę więcej energii"
       }
     },
     "presetsHeading": "Styl",
@@ -2153,14 +2160,15 @@
       "close": "Zamknij"
     },
     "cleanup": {
-      "tab": "Porządkowanie",
+      "tab": "Auto porządkowanie",
       "description": "Jak bardzo porządkowane są Twoje słowa, w każdej aplikacji i każdym języku. Styl każdej grupy jest stosowany dodatkowo.",
-      "bannerTitle": "Porządkowanie działa przy każdym dyktowaniu",
+      "bannerTitle": "Automatyczne porządkowanie obejmuje każde dyktowanie",
       "levels": {
         "none": "Dokładnie to, co powiedziano, razem z błędami",
         "light": "Usuwa wtrącenia i poprawia interpunkcję",
         "medium": "Płynniejsze sformułowania, ten sam sens"
-      }
+      },
+      "note": "Twoje oryginalne słowa nigdy nie giną: w historii otwórz menu dyktowania i wybierz „Cofnij edycję AI”."
     },
     "addMenu": "Dodaj aplikację lub stronę"
   },

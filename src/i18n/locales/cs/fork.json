@@ -1121,9 +1121,9 @@
     "undo": "Odvolat",
     "tabs": {
       "label": "Záznamy ve slovníku",
-      "all": "Vše ({{count}})",
-      "mine": "Přidané vámi ({{count}})",
-      "suggested": "Návrhy ({{count}})"
+      "all": "Vše",
+      "mine": "Přidané vámi",
+      "suggested": "Návrhy"
     },
     "sort": {
       "label": "Řadit",
@@ -1134,12 +1134,13 @@
       "used": "Nejpoužívanější"
     },
     "banner": {
-      "title": "Naučte {{appName}} svá slova",
-      "lead": "Jména, termíny a zkratky napsané po vašem.",
+      "title": "{{appName}} to píše <em>po vašem</em>.",
+      "lead": "Přidejte slovo jednou nebo ho opravte, když vyjde špatně, a vaše <b>jména, pracovní pojmy a vzácná slova</b> budou pokaždé napsaná správně.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Slova k přidání"
+      "suggestionsLabel": "Slova k přidání",
+      "add": "Přidat slovo"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1315,7 +1316,8 @@
       "hint": "Po dobu 30 sekund od vložení diktátu si {{appName}} všímá slov, která v daném textovém poli opravíte, a navrhne je tady. Uchová se jen opravené slovo, nikdy zbytek textu. Pole pro hesla, správci hesel, bankovní aplikace a terminály se nikdy nečtou."
     },
     "undoFailed": "„{{entry}}“ se nepodařilo obnovit. Přidejte ho prosím znovu.",
-    "undoSkipped": "„{{entry}}“ nebylo obnoveno: Váš slovník ho už obsahuje."
+    "undoSkipped": "„{{entry}}“ nebylo obnoveno: Váš slovník ho už obsahuje.",
+    "addNew": "Přidat"
   },
   "pill": {
     "region": "Lišta diktování",
@@ -1364,14 +1366,14 @@
       "title": "Přepište jakýkoli vybraný text"
     },
     "enable": {
-      "title": "Zapnout transformace"
+      "title": "Zapnout"
     },
     "commandMode": {
       "title": "Příkazový režim",
       "help": "Podržte zkratku a řekněte, co napsat nebo změnit."
     },
     "auto": {
-      "title": "Použít po každém diktování",
+      "title": "Automaticky použít po diktování",
       "choice": "Transformace k použití",
       "none": "Vyberte transformaci",
       "description": "Každý diktát projde transformací, kterou zvolíte."
@@ -1383,7 +1385,7 @@
     "myTransforms": "Moje transformace",
     "reset": "Obnovit výchozí",
     "resetConfirm": "Obnovit Polish a Prompt Engineer a odstranit všechny vlastní transformace?",
-    "createNew": "Nová transformace",
+    "createNew": "Vytvořit",
     "deleteConfirm": "Smazat {{name}}? Tuto akci nelze odvolat.",
     "loading": "Načítají se transformace…",
     "error": "Změnu transformace se nepodařilo uložit. Zkuste to znovu.",
@@ -1493,8 +1495,8 @@
     },
     "viewChanges": "pro zobrazení změn",
     "builtin": {
-      "polish": "Jasnější a stručnější, stejný význam",
-      "prompt_engineer": "Udělá z hrubého zadání jasný prompt"
+      "polish": "Jasnější a kratší",
+      "prompt_engineer": "Sestaví jasný prompt"
     }
   },
   "cleanup": {
@@ -1589,7 +1591,7 @@
       "used": "Nejpoužívanější"
     },
     "banner": {
-      "title": "Řekněte pár slov a získejte celý text",
+      "title": "Přestaňte psát totéž <em>dvakrát</em>.",
       "lead": "Řekněte krátké heslo a {{appName}} napíše celý text.",
       "examplesLabel": "Příklady",
       "cue1": "moje adresa",
@@ -1597,7 +1599,8 @@
       "cue2": "můj pozdrav",
       "text2": "S pozdravem, Sam",
       "cue3": "odkaz na kalendář",
-      "text3": "Vyberte si čas, který vám vyhovuje: cal.example.com/sam"
+      "text3": "Vyberte si čas, který vám vyhovuje: cal.example.com/sam",
+      "add": "Přidat úryvek"
     },
     "entry": {
       "becomes": "se napíše jako",
@@ -1759,7 +1762,11 @@
       "failed": "Úryvky se nepodařilo exportovat. Zkuste to znovu."
     },
     "undoFailed": "„{{trigger}}“ se nepodařilo obnovit. Přidejte ho prosím znovu.",
-    "undoSkipped": "„{{trigger}}“ nebylo obnoveno: tuto frázi už používá jiný úryvek."
+    "undoSkipped": "„{{trigger}}“ nebylo obnoveno: tuto frázi už používá jiný úryvek.",
+    "addNew": "Přidat",
+    "tabs": {
+      "all": "Vše"
+    }
   },
   "insights": {
     "tabs": {
@@ -2078,19 +2085,19 @@
     "presets": {
       "formal": {
         "label": "Formální",
-        "description": "Velká písmena a úplná interpunkce."
+        "description": "Velká písmena + interpunkce"
       },
       "relaxed": {
-        "label": "Uvolněný",
-        "description": "Velká písmena, střídmější interpunkce."
+        "label": "Neformální",
+        "description": "Velká písmena + méně interpunkce"
       },
       "very_relaxed": {
-        "label": "Velmi uvolněný",
-        "description": "Malá písmena na začátku vět, střídmější interpunkce."
+        "label": "Velmi neformální",
+        "description": "Bez velkých písmen + méně interpunkce"
       },
       "upbeat": {
         "label": "Energický",
-        "description": "Úplná interpunkce a trochu víc energie."
+        "description": "Velká písmena + trochu víc energie"
       }
     },
     "presetsHeading": "Styl",
@@ -2153,14 +2160,15 @@
       "close": "Zavřít"
     },
     "cleanup": {
-      "tab": "Vyčištění",
+      "tab": "Automatické vyčištění",
       "description": "Jak moc se vaše slova upraví, v každé aplikaci a v každém jazyce. Styl každé skupiny se použije navíc.",
-      "bannerTitle": "Vyčištění se použije u každého diktátu",
+      "bannerTitle": "Automatické vyčištění platí pro každý diktát",
       "levels": {
         "none": "Přesně to, co jste řekli, i s chybami",
         "light": "Odstraní vycpávková slova a opraví interpunkci",
         "medium": "Plynulejší formulace, stejný význam"
-      }
+      },
+      "note": "Vaše původní slova se nikdy neztratí: v historii otevřete nabídku diktátu a zvolte „Odvolat úpravu AI“."
     },
     "addMenu": "Přidat aplikaci nebo web"
   },

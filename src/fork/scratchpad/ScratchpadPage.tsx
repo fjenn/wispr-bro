@@ -121,7 +121,7 @@ export function ScratchpadPage() {
     <div data-testid="wb-scratchpad-page" className="flex flex-col gap-6">
       <PageHeader
         title={t("hub.pages.scratchpad.title")}
-        tag={<Tag kind="beta" />}
+        tag={<Tag kind="beta" size="lg" />}
       >
         <section
           aria-label={t("scratchpad.preferences")}

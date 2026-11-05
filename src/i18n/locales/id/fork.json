@@ -1067,9 +1067,9 @@
     "undo": "Urungkan",
     "tabs": {
       "label": "Entri kamus",
-      "all": "Semua ({{count}})",
-      "mine": "Ditambahkan oleh Anda ({{count}})",
-      "suggested": "Disarankan ({{count}})"
+      "all": "Semua",
+      "mine": "Ditambahkan oleh Anda",
+      "suggested": "Disarankan"
     },
     "sort": {
       "label": "Urutkan",
@@ -1080,12 +1080,13 @@
       "used": "Paling sering digunakan"
     },
     "banner": {
-      "title": "Ajarkan kata-kata Anda ke {{appName}}",
-      "lead": "Nama, istilah, dan akronim, dieja sesuai keinginan Anda.",
+      "title": "{{appName}} menulisnya dengan cara <em>Anda</em>.",
+      "lead": "Tambahkan kata sekali, atau perbaiki saat hasilnya salah, agar <b>nama, istilah kerja, dan kata langka</b> Anda selalu dieja dengan benar.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Kata untuk ditambahkan"
+      "suggestionsLabel": "Kata untuk ditambahkan",
+      "add": "Tambah kata"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1210,7 +1211,8 @@
       "hint": "Selama 30 detik setelah dikte ditempel, {{appName}} memperhatikan kata yang Anda perbaiki di kotak teks itu dan menyarankannya di sini. Hanya kata yang Anda perbaiki yang disimpan, tidak pernah sisa teksnya. Bidang kata sandi, pengelola kata sandi, app perbankan, dan terminal tidak pernah dibaca."
     },
     "undoFailed": "“{{entry}}” tidak dapat dipulihkan. Tambahkan lagi.",
-    "undoSkipped": "“{{entry}}” tidak dipulihkan: kamus Anda sudah memilikinya."
+    "undoSkipped": "“{{entry}}” tidak dipulihkan: kamus Anda sudah memilikinya.",
+    "addNew": "Tambah"
   },
   "pill": {
     "region": "Bilah dikte",
@@ -1256,14 +1258,14 @@
       "title": "Tulis ulang teks apa pun yang Anda pilih"
     },
     "enable": {
-      "title": "Aktifkan Transformasi"
+      "title": "Aktifkan"
     },
     "commandMode": {
       "title": "Command Mode",
       "help": "Tahan pintasan dan ucapkan apa yang ingin ditulis atau diubah."
     },
     "auto": {
-      "title": "Terapkan setelah setiap dikte",
+      "title": "Terapkan otomatis setelah dikte",
       "choice": "Transformasi yang diterapkan",
       "none": "Pilih transformasi",
       "description": "Setiap dikte melewati transformasi yang Anda pilih."
@@ -1275,7 +1277,7 @@
     "myTransforms": "Transformasi Saya",
     "reset": "Atur ulang ke default",
     "resetConfirm": "Atur ulang Polish dan Prompt Engineer serta hapus semua transformasi kustom?",
-    "createNew": "Transformasi baru",
+    "createNew": "Buat baru",
     "deleteConfirm": "Hapus {{name}}? Tindakan ini tidak dapat diurungkan.",
     "loading": "Memuat transformasi Anda…",
     "error": "Perubahan transformasi itu tidak dapat disimpan. Coba lagi.",
@@ -1380,10 +1382,10 @@
     "settings": {
       "title": "Pengaturan transformasi"
     },
-    "viewChanges": "untuk melihat perubahannya",
+    "viewChanges": "untuk melihat perubahan",
     "builtin": {
-      "polish": "Lebih jelas dan ringkas, makna sama",
-      "prompt_engineer": "Mengubah permintaan kasar menjadi prompt yang jelas"
+      "polish": "Lebih jelas dan ringkas",
+      "prompt_engineer": "Menyusun prompt yang jelas"
     }
   },
   "cleanup": {
@@ -1463,7 +1465,7 @@
       "used": "Paling sering digunakan"
     },
     "banner": {
-      "title": "Ucapkan beberapa kata, dapatkan seluruh teksnya",
+      "title": "Berhenti mengetik hal yang sama <em>dua kali</em>.",
       "lead": "Ucapkan kata kunci singkat dan {{appName}} menulis teks lengkapnya.",
       "examplesLabel": "Contoh",
       "cue1": "alamat saya",
@@ -1471,7 +1473,8 @@
       "cue2": "salam penutup saya",
       "text2": "Salam hangat, Sam",
       "cue3": "tautan kalender",
-      "text3": "Pilih waktu yang cocok untuk Anda: cal.example.com/sam"
+      "text3": "Pilih waktu yang cocok untuk Anda: cal.example.com/sam",
+      "add": "Tambah snippet"
     },
     "entry": {
       "becomes": "ditulis sebagai",
@@ -1573,7 +1576,11 @@
       "failed": "Cuplikan tidak dapat diekspor. Coba lagi."
     },
     "undoFailed": "“{{trigger}}” tidak dapat dipulihkan. Tambahkan lagi.",
-    "undoSkipped": "“{{trigger}}” tidak dipulihkan: cuplikan lain kini memakai frasa itu."
+    "undoSkipped": "“{{trigger}}” tidak dipulihkan: cuplikan lain kini memakai frasa itu.",
+    "addNew": "Tambah",
+    "tabs": {
+      "all": "Semua"
+    }
   },
   "insights": {
     "tabs": {
@@ -1847,19 +1854,19 @@
     "presets": {
       "formal": {
         "label": "Formal",
-        "description": "Huruf kapital dan tanda baca lengkap."
+        "description": "Huruf kapital + tanda baca"
       },
       "relaxed": {
         "label": "Santai",
-        "description": "Huruf kapital, tanda baca lebih ringan."
+        "description": "Huruf kapital + lebih sedikit tanda baca"
       },
       "very_relaxed": {
         "label": "Sangat santai",
-        "description": "Huruf kecil di awal kalimat, tanda baca yang lebih ringan."
+        "description": "Tanpa huruf kapital + lebih sedikit tanda baca"
       },
       "upbeat": {
         "label": "Bersemangat",
-        "description": "Tanda baca lengkap, dengan sedikit lebih banyak semangat."
+        "description": "Huruf kapital + sedikit lebih bersemangat"
       }
     },
     "presetsHeading": "Gaya",
@@ -1922,14 +1929,15 @@
       "close": "Tutup"
     },
     "cleanup": {
-      "tab": "Pembersihan",
+      "tab": "Pembersihan otomatis",
       "description": "Seberapa banyak kata-kata Anda dirapikan, di setiap app dan setiap bahasa. Gaya setiap kelompok diterapkan di atasnya.",
-      "bannerTitle": "Pembersihan berlaku di setiap dikte",
+      "bannerTitle": "Pembersihan otomatis berlaku di setiap dikte",
       "levels": {
         "none": "Persis yang Anda ucapkan, termasuk kesalahannya",
         "light": "Menghapus kata pengisi dan memperbaiki tanda baca",
         "medium": "Kata-kata lebih luwes, makna sama"
-      }
+      },
+      "note": "Kata-kata asli Anda tidak pernah hilang: di Riwayat, buka menu sebuah dikte lalu pilih “Urungkan edit AI”."
     },
     "addMenu": "Tambahkan aplikasi atau situs web"
   },

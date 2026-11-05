@@ -213,7 +213,7 @@ dictTest.describe("dictionary page", () => {
       await openDictionary(page, ipc, hub, dict);
       await expect(page.getByTestId("wb-page-title")).toHaveText("Dictionary");
       const banner = page.getByTestId("wb-banner-dictionary.teach");
-      await expect(banner).toContainText("Teach Wispr Bro your words");
+      await expect(banner).toContainText("Wispr Bro spells it your way.");
       // flowmatch: no History yet, so the chips are examples; a chip opens
       // Add word with it filled in.
       await expect(
@@ -228,10 +228,7 @@ dictTest.describe("dictionary page", () => {
       await page.keyboard.press("Escape");
       await expect(page.getByRole("dialog")).toBeHidden();
       await expect(page.getByTestId("wb-dictionary-empty")).toBeVisible();
-      await expect(tab(page, /^All \(0\)$/)).toHaveAttribute(
-        "aria-selected",
-        "true",
-      );
+      await expect(tab(page, /^All$/)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByTestId("wb-dictionary-export")).toBeDisabled();
       await selectTab(page, /Suggested/);
       await expect(
@@ -302,7 +299,7 @@ dictTest.describe("dictionary page", () => {
       await expect(rows(page)).toHaveCount(1);
       await expect(rows(page).first()).toContainText("Siobhán");
       await expect(page.getByText("Added “Siobhán”.")).toBeVisible();
-      await expect(tab(page, /^All \(1\)$/)).toBeVisible();
+      await expect(tab(page, /^All$/)).toBeVisible();
 
       // An apostrophe survives (Handy's old editor stripped it, C-58).
       await page.getByTestId("wb-dictionary-add").click();
@@ -472,9 +469,9 @@ dictTest.describe("dictionary page", () => {
         { status: "suggested", source: "learn" },
       );
       await openDictionary(page, ipc, hub, dict);
-      await expect(tab(page, /^All \(4\)$/)).toBeVisible();
-      await expect(tab(page, /^Added by you \(3\)$/)).toBeVisible();
-      await expect(tab(page, /^Suggested \(1\)$/)).toBeVisible();
+      await expect(tab(page, /^All$/)).toBeVisible();
+      await expect(tab(page, /^Added by you$/)).toBeVisible();
+      await expect(tab(page, /^Suggested$/)).toBeVisible();
       await expect(page.getByText("Used 7 times")).toBeVisible();
       await expect(
         page.getByText("From your earlier custom words"),
@@ -530,7 +527,7 @@ dictTest.describe("dictionary page", () => {
         counts: { words: 1, rules: 0, suggested: 0 },
       });
       await expect(rows(page)).toHaveCount(1);
-      await expect(tab(page, /^All \(1\)$/)).toBeVisible();
+      await expect(tab(page, /^All$/)).toBeVisible();
       // A take used a replacement: its hit count shows after the stats event.
       const r = dict.seed({ phrase: "gonna", replacement: "going to" });
       await ipc.emit("fork-stats-updated", { day: "2026-10-30" });
@@ -977,7 +974,7 @@ dictTest.describe("dictionary suggestions (S-34)", () => {
       seedSuggestions(dict);
       hub.forkSettings.auto_learn_enabled = true;
       await openDictionary(page, ipc, hub, dict);
-      await expect(tab(page, /^Suggested \(2\)$/)).toBeVisible();
+      await expect(tab(page, /^Suggested$/)).toBeVisible();
       await selectTab(page, /Suggested/);
       await expect(rows(page)).toHaveCount(2);
       await expect(rows(page).getByTestId("wb-dictionary-edit")).toHaveCount(0);
@@ -1003,9 +1000,9 @@ dictTest.describe("dictionary suggestions (S-34)", () => {
       await expect(
         page.getByTestId("wb-dictionary-empty-suggested"),
       ).toBeVisible();
-      await expect(tab(page, /^All \(2\)$/)).toBeVisible();
+      await expect(tab(page, /^All$/)).toBeVisible();
       // A learned word is not "Added by you".
-      await expect(tab(page, /^Added by you \(1\)$/)).toBeVisible();
+      await expect(tab(page, /^Added by you$/)).toBeVisible();
     },
   );
 

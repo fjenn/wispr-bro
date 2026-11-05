@@ -1085,9 +1085,9 @@
     "undo": "Herstel",
     "tabs": {
       "label": "Items in woordenboek",
-      "all": "Alle ({{count}})",
-      "mine": "Door jou toegevoegd ({{count}})",
-      "suggested": "Voorgesteld ({{count}})"
+      "all": "Alle",
+      "mine": "Door jou toegevoegd",
+      "suggested": "Voorgesteld"
     },
     "sort": {
       "label": "Sorteer",
@@ -1098,12 +1098,13 @@
       "used": "Meest gebruikt"
     },
     "banner": {
-      "title": "Leer {{appName}} je woorden",
-      "lead": "Namen, termen en afkortingen, gespeld zoals jij wilt.",
+      "title": "{{appName}} spelt het op <em>jouw</em> manier.",
+      "lead": "Voeg een woord één keer toe, of verbeter het als het verkeerd uitkomt, zodat je <b>namen, vaktermen en zeldzame woorden</b> altijd goed gespeld zijn.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Woorden om toe te voegen"
+      "suggestionsLabel": "Woorden om toe te voegen",
+      "add": "Woord toevoegen"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1245,7 +1246,8 @@
       "hint": "Tot 30 seconden nadat een dictee is geplakt, merkt {{appName}} woorden op die je in dat tekstveld verbetert en stelt ze hier voor. Alleen het verbeterde woord wordt bewaard, nooit de rest van de tekst. Wachtwoordvelden, wachtwoordbeheerders, bankapps en terminals worden nooit gelezen."
     },
     "undoFailed": "“{{entry}}” kon niet worden hersteld. Voeg het opnieuw toe.",
-    "undoSkipped": "“{{entry}}” is niet hersteld: je woordenboek bevat het al."
+    "undoSkipped": "“{{entry}}” is niet hersteld: je woordenboek bevat het al.",
+    "addNew": "Toevoegen"
   },
   "pill": {
     "region": "Dicteerbalk",
@@ -1292,14 +1294,14 @@
       "title": "Herschrijf elke tekst die je selecteert"
     },
     "enable": {
-      "title": "Schakel Transformaties in"
+      "title": "Inschakelen"
     },
     "commandMode": {
       "title": "Opdrachtmodus",
       "help": "Houd de sneltoets ingedrukt en zeg wat er geschreven of veranderd moet worden."
     },
     "auto": {
-      "title": "Pas toe na elk dictee",
+      "title": "Automatisch toepassen na dicteren",
       "choice": "Toe te passen transformatie",
       "none": "Kies een transformatie",
       "description": "Elk dictaat gaat door de transformatie die je kiest."
@@ -1311,7 +1313,7 @@
     "myTransforms": "Mijn transformaties",
     "reset": "Herstel standaardwaarden",
     "resetConfirm": "Polish en Prompt Engineer herstellen en alle eigen transformaties verwijderen?",
-    "createNew": "Nieuwe transformatie",
+    "createNew": "Nieuw maken",
     "deleteConfirm": "{{name}} verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "loading": "Je transformaties laden…",
     "error": "Die transformatiewijziging kon niet worden bewaard. Probeer het opnieuw.",
@@ -1417,10 +1419,10 @@
     "settings": {
       "title": "Instellingen voor transformaties"
     },
-    "viewChanges": "om te zien wat er veranderd is",
+    "viewChanges": "om de wijzigingen te zien",
     "builtin": {
-      "polish": "Duidelijker en korter, zelfde betekenis",
-      "prompt_engineer": "Maakt van een ruwe vraag een duidelijke prompt"
+      "polish": "Duidelijker en korter",
+      "prompt_engineer": "Maakt een duidelijke prompt"
     }
   },
   "cleanup": {
@@ -1505,7 +1507,7 @@
       "used": "Meest gebruikt"
     },
     "banner": {
-      "title": "Zeg een paar woorden, krijg de hele tekst",
+      "title": "Typ nooit meer <em>twee keer</em> hetzelfde.",
       "lead": "Zeg een kort trefwoord en {{appName}} schrijft de hele tekst.",
       "examplesLabel": "Voorbeelden",
       "cue1": "mijn adres",
@@ -1513,7 +1515,8 @@
       "cue2": "mijn afsluiting",
       "text2": "Groetjes, Sam",
       "cue3": "agendalink",
-      "text3": "Kies een tijd die jou uitkomt: cal.example.com/sam"
+      "text3": "Kies een tijd die jou uitkomt: cal.example.com/sam",
+      "add": "Snippet toevoegen"
     },
     "entry": {
       "becomes": "wordt geschreven als",
@@ -1635,7 +1638,11 @@
       "failed": "De tekstfragmenten konden niet worden geëxporteerd. Probeer het opnieuw."
     },
     "undoFailed": "“{{trigger}}” kon niet worden hersteld. Voeg het opnieuw toe.",
-    "undoSkipped": "“{{trigger}}” is niet hersteld: een ander tekstfragment gebruikt die zin nu."
+    "undoSkipped": "“{{trigger}}” is niet hersteld: een ander tekstfragment gebruikt die zin nu.",
+    "addNew": "Toevoegen",
+    "tabs": {
+      "all": "Alle"
+    }
   },
   "insights": {
     "tabs": {
@@ -1924,19 +1931,19 @@
     "presets": {
       "formal": {
         "label": "Formeel",
-        "description": "Hoofdletters en alle leestekens."
+        "description": "Hoofdletters + leestekens"
       },
       "relaxed": {
-        "label": "Ontspannen",
-        "description": "Hoofdletters, minder leestekens."
+        "label": "Informeel",
+        "description": "Hoofdletters + minder leestekens"
       },
       "very_relaxed": {
-        "label": "Heel ontspannen",
-        "description": "Kleine letter aan het begin van zinnen, minder leestekens."
+        "label": "Heel informeel",
+        "description": "Geen hoofdletters + minder leestekens"
       },
       "upbeat": {
         "label": "Enthousiast",
-        "description": "Alle leestekens, met wat meer energie."
+        "description": "Hoofdletters + iets meer energie"
       }
     },
     "presetsHeading": "Stijl",
@@ -1999,14 +2006,15 @@
       "close": "Sluit"
     },
     "cleanup": {
-      "tab": "Opschonen",
+      "tab": "Automatisch opschonen",
       "description": "Hoeveel je woorden worden opgeschoond, in elke app en elke taal. De stijl van elke groep komt daar nog bovenop.",
-      "bannerTitle": "Opschonen werkt bij elk dictaat",
+      "bannerTitle": "Automatisch opschonen geldt voor elk dictaat",
       "levels": {
         "none": "Precies wat je zei, fouten inbegrepen",
         "light": "Haalt stopwoorden weg en verbetert de interpunctie",
         "medium": "Vloeiender verwoord, zelfde betekenis"
-      }
+      },
+      "note": "Je oorspronkelijke woorden gaan nooit verloren: open in de geschiedenis het menu van een dictaat en kies ‘Herstel AI-bewerking’."
     },
     "addMenu": "App of website toevoegen"
   },

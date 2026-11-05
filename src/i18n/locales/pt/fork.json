@@ -1103,9 +1103,9 @@
     "undo": "Desfazer",
     "tabs": {
       "label": "Itens do dicionário",
-      "all": "Todos ({{count}})",
-      "mine": "Adicionados por você ({{count}})",
-      "suggested": "Sugeridos ({{count}})"
+      "all": "Todos",
+      "mine": "Adicionados por você",
+      "suggested": "Sugeridos"
     },
     "sort": {
       "label": "Ordenar",
@@ -1116,12 +1116,13 @@
       "used": "Mais usados"
     },
     "banner": {
-      "title": "Ensine suas palavras ao {{appName}}",
-      "lead": "Nomes, termos e siglas, escritos do seu jeito.",
+      "title": "{{appName}} escreve do <em>seu</em> jeito.",
+      "lead": "Adicione uma palavra uma vez, ou corrija quando ela sair errada, para que seus <b>nomes, termos de trabalho e palavras raras</b> saiam sempre certos.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Palavras para adicionar"
+      "suggestionsLabel": "Palavras para adicionar",
+      "add": "Adicionar palavra"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1280,7 +1281,8 @@
       "hint": "Por 30 segundos depois que um ditado é colado, o {{appName}} nota as palavras que você corrige naquela caixa de texto e as sugere aqui. Só a palavra corrigida é mantida, nunca o resto do texto. Campos de senha, gerenciadores de senhas, apps de banco e terminais nunca são lidos."
     },
     "undoFailed": "Não foi possível restaurar “{{entry}}”. Adicione novamente.",
-    "undoSkipped": "“{{entry}}” não foi restaurada: seu dicionário já a tem."
+    "undoSkipped": "“{{entry}}” não foi restaurada: seu dicionário já a tem.",
+    "addNew": "Adicionar"
   },
   "pill": {
     "region": "Barra de ditado",
@@ -1328,14 +1330,14 @@
       "title": "Reescreva qualquer texto selecionado"
     },
     "enable": {
-      "title": "Ativar Transformações"
+      "title": "Ativar"
     },
     "commandMode": {
       "title": "Modo de Comando",
       "help": "Segure o atalho e diga o que escrever ou mudar."
     },
     "auto": {
-      "title": "Aplicar depois de cada ditado",
+      "title": "Aplicar automaticamente após ditar",
       "choice": "Transformação a aplicar",
       "none": "Escolha uma transformação",
       "description": "Cada ditado passa pela transformação que você escolher."
@@ -1347,7 +1349,7 @@
     "myTransforms": "Minhas Transformações",
     "reset": "Restaurar padrões",
     "resetConfirm": "Restaurar o Polish e o Prompt Engineer e remover todas as transformações personalizadas?",
-    "createNew": "Nova transformação",
+    "createNew": "Criar",
     "deleteConfirm": "Apagar {{name}}? Não é possível desfazer.",
     "loading": "Carregando suas transformações…",
     "error": "Não foi possível salvar essa alteração na transformação. Tente novamente.",
@@ -1454,10 +1456,10 @@
     "settings": {
       "title": "Ajustes das transformações"
     },
-    "viewChanges": "para ver o que mudou",
+    "viewChanges": "para ver as mudanças",
     "builtin": {
-      "polish": "Mais claro e enxuto, mesmo sentido",
-      "prompt_engineer": "Transforma um pedido vago em um prompt claro"
+      "polish": "Mais claro e mais curto",
+      "prompt_engineer": "Cria um prompt claro"
     }
   },
   "cleanup": {
@@ -1547,7 +1549,7 @@
       "used": "Mais usados"
     },
     "banner": {
-      "title": "Diga poucas palavras, receba o texto inteiro",
+      "title": "Pare de digitar a mesma coisa <em>duas vezes</em>.",
       "lead": "Diga uma palavra-chave e o {{appName}} escreve o texto completo.",
       "examplesLabel": "Exemplos",
       "cue1": "meu endereço",
@@ -1555,7 +1557,8 @@
       "cue2": "minha despedida",
       "text2": "Abraços, Sam",
       "cue3": "link da agenda",
-      "text3": "Escolha o horário que for melhor para você: cal.example.com/sam"
+      "text3": "Escolha o horário que for melhor para você: cal.example.com/sam",
+      "add": "Adicionar snippet"
     },
     "entry": {
       "becomes": "é escrito como",
@@ -1697,7 +1700,11 @@
       "failed": "Não foi possível exportar os trechos. Tente novamente."
     },
     "undoFailed": "Não foi possível restaurar “{{trigger}}”. Adicione novamente.",
-    "undoSkipped": "“{{trigger}}” não foi restaurado: outro trecho agora usa essa frase."
+    "undoSkipped": "“{{trigger}}” não foi restaurado: outro trecho agora usa essa frase.",
+    "addNew": "Adicionar",
+    "tabs": {
+      "all": "Todos"
+    }
   },
   "insights": {
     "tabs": {
@@ -2001,19 +2008,19 @@
     "presets": {
       "formal": {
         "label": "Formal",
-        "description": "Letras maiúsculas e pontuação completa."
+        "description": "Maiúsculas + pontuação"
       },
       "relaxed": {
-        "label": "Descontraído",
-        "description": "Letras maiúsculas, pontuação mais leve."
+        "label": "Casual",
+        "description": "Maiúsculas + menos pontuação"
       },
       "very_relaxed": {
-        "label": "Bem descontraído",
-        "description": "Minúsculas no início das frases, pontuação mais leve."
+        "label": "Bem casual",
+        "description": "Sem maiúsculas + menos pontuação"
       },
       "upbeat": {
         "label": "Animado",
-        "description": "Pontuação completa, com um pouco mais de energia."
+        "description": "Maiúsculas + um pouco mais de energia"
       }
     },
     "presetsHeading": "Estilo",
@@ -2076,14 +2083,15 @@
       "close": "Fechar"
     },
     "cleanup": {
-      "tab": "Limpeza",
+      "tab": "Limpeza automática",
       "description": "O quanto suas palavras são arrumadas, em todos os apps e idiomas. O estilo de cada grupo é aplicado por cima.",
-      "bannerTitle": "A limpeza vale para cada ditado",
+      "bannerTitle": "A limpeza automática vale para cada ditado",
       "levels": {
         "none": "Exatamente o que você disse, com erros e tudo",
         "light": "Tira as palavras de preenchimento e corrige a pontuação",
         "medium": "Texto mais fluido, mesmo sentido"
-      }
+      },
+      "note": "Suas palavras originais nunca se perdem: no histórico, abra o menu de um ditado e escolha “Desfazer edição da IA”."
     },
     "addMenu": "Adicionar um app ou site"
   },

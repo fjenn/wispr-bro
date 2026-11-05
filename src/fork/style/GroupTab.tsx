@@ -9,7 +9,7 @@
  * dictated on with no group yet); then the group's three presets as cards.
  * Nothing else is on the tab. Other also covers every app not in a group.
  */
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CornerDownLeft, Plus } from "../ui/icons";
 import { toast } from "sonner";
@@ -150,7 +150,7 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
     .join(", ");
 
   return (
-    <li className="relative -ms-2 first:ms-0">
+    <li className="relative -ms-3 first:ms-0">
       <Menu
         label={t("style.apps.menuLabel", { app: app.name })}
         groups={groups}
@@ -165,9 +165,9 @@ function AppChip({ app, group }: { app: StyleApp; group: StyleGroup }) {
             title={
               app.ai_chat ? `${app.name} · ${t("style.apps.aiChat")}` : app.name
             }
-            className={`relative grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-transform duration-(--wb-dur-fast) hover:z-10 hover:scale-105 focus-visible:z-10 motion-reduce:transition-none ${FOCUS_RING} ${app.installed ? "" : "opacity-70"}`}
+            className={`relative grid size-14 cursor-pointer place-items-center rounded-full border border-white/30 bg-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.25)] backdrop-blur-sm transition-transform duration-(--wb-dur-fast) hover:z-10 hover:scale-105 focus-visible:z-10 motion-reduce:transition-none ${FOCUS_RING} ${app.installed ? "" : "opacity-70"}`}
           >
-            <AppIcon bundleId={app.bundle_id} name={app.name} size={30} />
+            <AppIcon bundleId={app.bundle_id} name={app.name} size={36} />
             <span className="sr-only">{app.name}</span>
             {app.auto_send && (
               <span
@@ -194,6 +194,20 @@ export function GroupTab({ group }: { group: StyleGroup }) {
   const [picking, setPicking] = useState(false);
   const [addingSite, setAddingSite] = useState(false);
   const addRef = useRef<HTMLButtonElement>(null);
+  const [initial, setInitial] = useState("A");
+  useEffect(() => {
+    let active = true;
+    void commands
+      .forkAccountName()
+      .then((name) => {
+        const first = name ? [...name.trim()][0] : undefined;
+        if (active && first) setInitial(first.toLocaleUpperCase());
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
   const afterMenu = useRef<(() => void) | null>(null);
   const name = useId();
   const appsHeading = useId();
@@ -266,7 +280,7 @@ export function GroupTab({ group }: { group: StyleGroup }) {
               {visibleSites.map((site) => (
                 <SiteChip key={site.host} site={site} group={group} />
               ))}
-              <li className="relative -ms-2 first:ms-0">
+              <li className="relative -ms-3 first:ms-0">
                 <Menu
                   label={t("style.addMenu")}
                   testId="wb-style-add-menu"
@@ -308,9 +322,9 @@ export function GroupTab({ group }: { group: StyleGroup }) {
                       data-testid="wb-style-add"
                       aria-label={t("style.addMenu")}
                       title={t("style.addMenu")}
-                      className={`grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 text-(--wb-on-hero) shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-colors duration-(--wb-dur-fast) hover:bg-white/25 ${FOCUS_RING}`}
+                      className={`grid size-14 cursor-pointer place-items-center rounded-full border border-white/30 bg-white/20 text-(--wb-on-hero) shadow-[0_2px_10px_rgba(0,0,0,0.25)] backdrop-blur-sm transition-colors duration-(--wb-dur-fast) hover:bg-white/25 ${FOCUS_RING}`}
                     >
-                      <Plus size={20} aria-hidden="true" />
+                      <Plus size={24} aria-hidden="true" />
                     </button>
                   }
                 />
@@ -346,6 +360,7 @@ export function GroupTab({ group }: { group: StyleGroup }) {
                 index={index}
                 checked={current === preset}
                 example={example.after[preset] ?? ""}
+                initial={initial}
                 onSelect={() => choose(preset)}
               />
             ))}

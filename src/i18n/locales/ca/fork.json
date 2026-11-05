@@ -1103,9 +1103,9 @@
     "undo": "Desfer",
     "tabs": {
       "label": "Entrades del diccionari",
-      "all": "Totes ({{count}})",
-      "mine": "Afegides per tu ({{count}})",
-      "suggested": "Suggerides ({{count}})"
+      "all": "Totes",
+      "mine": "Afegides per tu",
+      "suggested": "Suggerides"
     },
     "sort": {
       "label": "Ordenar",
@@ -1116,12 +1116,13 @@
       "used": "Més utilitzades"
     },
     "banner": {
-      "title": "Ensenya les teves paraules a {{appName}}",
-      "lead": "Noms, termes i sigles, escrits a la teva manera.",
+      "title": "{{appName}} ho escriu a la <em>teva</em> manera.",
+      "lead": "Afegeix una paraula una vegada, o corregeix-la quan surti malament, perquè els teus <b>noms, termes de feina i paraules poc comunes</b> s’escriguin bé sempre.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Paraules per afegir"
+      "suggestionsLabel": "Paraules per afegir",
+      "add": "Afegeix una paraula"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1280,7 +1281,8 @@
       "hint": "Durant els 30 segons posteriors a enganxar un dictat, {{appName}} detecta les paraules que corregeixes en aquell quadre de text i te les suggereix aquí. Només es conserva la paraula corregida, mai la resta del text. No es llegeixen mai els camps de contrasenya, els gestors de contrasenyes, les apps bancàries ni els terminals."
     },
     "undoFailed": "No s'ha pogut restaurar “{{entry}}”. Torna-ho a afegir.",
-    "undoSkipped": "No s'ha restaurat “{{entry}}”: el teu diccionari ja el té."
+    "undoSkipped": "No s'ha restaurat “{{entry}}”: el teu diccionari ja el té.",
+    "addNew": "Afegeix"
   },
   "pill": {
     "region": "Barra de dictat",
@@ -1328,14 +1330,14 @@
       "title": "Reescriu qualsevol text que seleccionis"
     },
     "enable": {
-      "title": "Activar les transformacions"
+      "title": "Activa"
     },
     "commandMode": {
       "title": "Mode d'ordres",
       "help": "Mantén premuda la drecera i digues què cal escriure o canviar."
     },
     "auto": {
-      "title": "Aplicar després de cada dictat",
+      "title": "Aplica automàticament després de dictar",
       "choice": "Transformació que s'aplicarà",
       "none": "Triar una transformació",
       "description": "Cada dictat passa per la transformació que triïs."
@@ -1347,7 +1349,7 @@
     "myTransforms": "Les meves transformacions",
     "reset": "Restaurar els valors per defecte",
     "resetConfirm": "Vols restaurar Polish i Prompt Engineer i eliminar totes les transformacions personalitzades?",
-    "createNew": "Nova transformació",
+    "createNew": "Crea",
     "deleteConfirm": "Vols eliminar {{name}}? Aquesta acció no es pot desfer.",
     "loading": "Carregant les transformacions…",
     "error": "No s'ha pogut desar el canvi de la transformació. Torna-ho a provar.",
@@ -1454,10 +1456,10 @@
     "settings": {
       "title": "Configuració de les transformacions"
     },
-    "viewChanges": "per veure què ha canviat",
+    "viewChanges": "per veure els canvis",
     "builtin": {
-      "polish": "Més clar i concís, el mateix sentit",
-      "prompt_engineer": "Converteix una petició vaga en un prompt clar"
+      "polish": "Més clar i més curt",
+      "prompt_engineer": "Crea un prompt clar"
     }
   },
   "cleanup": {
@@ -1547,7 +1549,7 @@
       "used": "Més utilitzats"
     },
     "banner": {
-      "title": "Digues unes paraules i obtén el text sencer",
+      "title": "Deixa d’escriure el mateix <em>dues vegades</em>.",
       "lead": "Digues una paraula clau i {{appName}} escriu el text sencer.",
       "examplesLabel": "Exemples",
       "cue1": "la meva adreça",
@@ -1555,7 +1557,8 @@
       "cue2": "el meu comiat",
       "text2": "Una abraçada, Sam",
       "cue3": "enllaç del calendari",
-      "text3": "Tria l’hora que et vagi millor: cal.example.com/sam"
+      "text3": "Tria l’hora que et vagi millor: cal.example.com/sam",
+      "add": "Afegeix un fragment"
     },
     "entry": {
       "becomes": "s'escriu com",
@@ -1697,7 +1700,11 @@
       "failed": "No s'han pogut exportar els fragments. Torna-ho a provar."
     },
     "undoFailed": "No s'ha pogut restaurar “{{trigger}}”. Torna-ho a afegir.",
-    "undoSkipped": "No s'ha restaurat “{{trigger}}”: un altre fragment ja fa servir aquesta frase."
+    "undoSkipped": "No s'ha restaurat “{{trigger}}”: un altre fragment ja fa servir aquesta frase.",
+    "addNew": "Afegeix",
+    "tabs": {
+      "all": "Tots"
+    }
   },
   "insights": {
     "tabs": {
@@ -2001,19 +2008,19 @@
     "presets": {
       "formal": {
         "label": "Formal",
-        "description": "Majúscules i puntuació completa."
+        "description": "Majúscules + puntuació"
       },
       "relaxed": {
-        "label": "Relaxat",
-        "description": "Majúscules i puntuació més lleugera."
+        "label": "Informal",
+        "description": "Majúscules + menys puntuació"
       },
       "very_relaxed": {
-        "label": "Molt relaxat",
-        "description": "Minúscula a l'inici de les frases i puntuació més lleugera."
+        "label": "Molt informal",
+        "description": "Sense majúscules + menys puntuació"
       },
       "upbeat": {
         "label": "Animat",
-        "description": "Puntuació completa, amb una mica més d'energia."
+        "description": "Majúscules + una mica més d’energia"
       }
     },
     "presetsHeading": "Estil",
@@ -2076,14 +2083,15 @@
       "close": "Tancar"
     },
     "cleanup": {
-      "tab": "Neteja",
+      "tab": "Neteja automàtica",
       "description": "Quant es netegen les teves paraules, en totes les apps i tots els idiomes. L'estil de cada grup s'aplica a sobre.",
-      "bannerTitle": "La neteja s’aplica a cada dictat",
+      "bannerTitle": "La neteja automàtica s’aplica a cada dictat",
       "levels": {
         "none": "Exactament el que has dit, errors inclosos",
         "light": "Treu les crosses i corregeix la puntuació",
         "medium": "Redacció més fluida, el mateix sentit"
-      }
+      },
+      "note": "Les teves paraules originals no es perden mai: a l’historial, obre el menú d’un dictat i tria «Desfer l'edició de la IA»."
     },
     "addMenu": "Afegeix una app o un lloc web"
   },

@@ -1085,9 +1085,9 @@
     "undo": "Geri Al",
     "tabs": {
       "label": "Sözlük girişleri",
-      "all": "Tümü ({{count}})",
-      "mine": "Eklediklerim ({{count}})",
-      "suggested": "Önerilen ({{count}})"
+      "all": "Tümü",
+      "mine": "Eklediklerim",
+      "suggested": "Önerilen"
     },
     "sort": {
       "label": "Sırala",
@@ -1098,12 +1098,13 @@
       "used": "En çok kullanılan"
     },
     "banner": {
-      "title": "{{appName}} uygulamasına kendi kelimelerinizi öğretin",
-      "lead": "Adlar, terimler ve kısaltmalar, sizin yazdığınız gibi.",
+      "title": "{{appName}} <em>sizin</em> gibi yazar.",
+      "lead": "Bir sözcüğü bir kez ekleyin ya da yanlış çıktığında düzeltin; <b>adlarınız, iş terimleriniz ve nadir sözcükleriniz</b> her seferinde doğru yazılsın.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Eklenecek sözcükler"
+      "suggestionsLabel": "Eklenecek sözcükler",
+      "add": "Sözcük ekle"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1245,7 +1246,8 @@
       "hint": "Bir dikte yapıştırıldıktan sonraki 30 saniye boyunca {{appName}}, o metin kutusunda düzelttiğiniz kelimeleri fark eder ve burada önerir. Metnin geri kalanı değil, yalnızca düzelttiğiniz kelime saklanır. Parola alanları, parola yöneticileri, bankacılık uygulamaları ve terminaller asla okunmaz."
     },
     "undoFailed": "“{{entry}}” geri yüklenemedi. Lütfen yeniden ekleyin.",
-    "undoSkipped": "“{{entry}}” geri yüklenmedi: sözlüğünüzde zaten var."
+    "undoSkipped": "“{{entry}}” geri yüklenmedi: sözlüğünüzde zaten var.",
+    "addNew": "Ekle"
   },
   "pill": {
     "region": "Dikte çubuğu",
@@ -1292,14 +1294,14 @@
       "title": "Seçtiğiniz her metni yeniden yazın"
     },
     "enable": {
-      "title": "Dönüştürmeleri Etkinleştir"
+      "title": "Etkinleştir"
     },
     "commandMode": {
       "title": "Komut Modu",
       "help": "Kısayolu basılı tutun ve ne yazılacağını ya da neyin değişeceğini söyleyin."
     },
     "auto": {
-      "title": "Her dikteden sonra uygula",
+      "title": "Dikteden sonra otomatik uygula",
       "choice": "Uygulanacak dönüştürme",
       "none": "Bir dönüştürme seçin",
       "description": "Her dikte seçtiğiniz dönüştürmeden geçer."
@@ -1311,7 +1313,7 @@
     "myTransforms": "Dönüştürmelerim",
     "reset": "Varsayılanlara sıfırla",
     "resetConfirm": "Polish ve Prompt Engineer sıfırlansın ve tüm özel dönüştürmeler silinsin mi?",
-    "createNew": "Yeni dönüştürme",
+    "createNew": "Yeni oluştur",
     "deleteConfirm": "{{name}} silinsin mi? Bu işlem geri alınamaz.",
     "loading": "Dönüştürmeleriniz yükleniyor…",
     "error": "Dönüştürme değişikliği kaydedilemedi. Yeniden deneyin.",
@@ -1417,10 +1419,10 @@
     "settings": {
       "title": "Dönüştürme ayarları"
     },
-    "viewChanges": "nelerin değiştiğini görmek için",
+    "viewChanges": "değişiklikleri görmek için",
     "builtin": {
-      "polish": "Daha net ve kısa, aynı anlam",
-      "prompt_engineer": "Kaba bir isteği net bir istem hâline getirir"
+      "polish": "Daha net ve kısa",
+      "prompt_engineer": "Net bir istem oluşturur"
     }
   },
   "cleanup": {
@@ -1505,7 +1507,7 @@
       "used": "En çok kullanılan"
     },
     "banner": {
-      "title": "Birkaç kelime söyleyin, metnin tamamı gelsin",
+      "title": "Aynı şeyi <em>iki kez</em> yazmayı bırakın.",
       "lead": "Kısa bir ipucu söyleyin, {{appName}} metnin tamamını yazsın.",
       "examplesLabel": "Örnekler",
       "cue1": "adresim",
@@ -1513,7 +1515,8 @@
       "cue2": "kapanışım",
       "text2": "Sevgiler, Sam",
       "cue3": "takvim bağlantısı",
-      "text3": "Size uyan bir saati seçin: cal.example.com/sam"
+      "text3": "Size uyan bir saati seçin: cal.example.com/sam",
+      "add": "Parça ekle"
     },
     "entry": {
       "becomes": "şöyle yazılır:",
@@ -1635,7 +1638,11 @@
       "failed": "Metin parçaları dışa aktarılamadı. Yeniden deneyin."
     },
     "undoFailed": "“{{trigger}}” geri yüklenemedi. Lütfen yeniden ekleyin.",
-    "undoSkipped": "“{{trigger}}” geri yüklenmedi: bu ifadeyi artık başka bir metin parçası kullanıyor."
+    "undoSkipped": "“{{trigger}}” geri yüklenmedi: bu ifadeyi artık başka bir metin parçası kullanıyor.",
+    "addNew": "Ekle",
+    "tabs": {
+      "all": "Tümü"
+    }
   },
   "insights": {
     "tabs": {
@@ -1924,19 +1931,19 @@
     "presets": {
       "formal": {
         "label": "Resmî",
-        "description": "Büyük harfler ve tam noktalama."
+        "description": "Büyük harf + noktalama"
       },
       "relaxed": {
         "label": "Rahat",
-        "description": "Büyük harfler, daha hafif noktalama."
+        "description": "Büyük harf + daha az noktalama"
       },
       "very_relaxed": {
         "label": "Çok rahat",
-        "description": "Cümle başlarında küçük harf, daha hafif noktalama."
+        "description": "Büyük harf yok + daha az noktalama"
       },
       "upbeat": {
         "label": "Neşeli",
-        "description": "Tam noktalama, biraz daha fazla enerjiyle."
+        "description": "Büyük harf + biraz daha enerji"
       }
     },
     "presetsHeading": "Stil",
@@ -1999,14 +2006,15 @@
       "close": "Kapat"
     },
     "cleanup": {
-      "tab": "Temizleme",
+      "tab": "Otomatik temizleme",
       "description": "Sözlerinizin her uygulamada ve her dilde ne kadar düzenleneceği. Her grubun stili bunun üzerine uygulanır.",
-      "bannerTitle": "Temizleme her dikteye uygulanır",
+      "bannerTitle": "Otomatik temizleme her dikteye uygulanır",
       "levels": {
         "none": "Tam olarak söyledikleriniz, hatalarıyla birlikte",
         "light": "Dolgu sözcüklerini atar, noktalamayı düzeltir",
         "medium": "Daha akıcı ifade, aynı anlam"
-      }
+      },
+      "note": "Özgün sözcükleriniz asla kaybolmaz: geçmişte bir diktenin menüsünü açıp “Yapay zekâ düzenlemesini geri al” seçeneğini seçin."
     },
     "addMenu": "Uygulama veya web sitesi ekle"
   },

@@ -1402,9 +1402,9 @@
     "undo": "Undo",
     "tabs": {
       "label": "Dictionary entries",
-      "all": "All ({{count}})",
-      "mine": "Added by you ({{count}})",
-      "suggested": "Suggested ({{count}})"
+      "all": "All",
+      "mine": "Added by you",
+      "suggested": "Suggested"
     },
     "sort": {
       "label": "Sort",
@@ -1415,12 +1415,13 @@
       "used": "Most used"
     },
     "banner": {
-      "title": "Teach {{appName}} your words",
-      "lead": "Names, terms and acronyms, spelled your way.",
+      "title": "{{appName}} spells it <em>your</em> way.",
+      "lead": "Add a word once, or fix it when it comes out wrong, so your <b>names, work terms and rare words</b> are spelled right every time.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Words to add"
+      "suggestionsLabel": "Words to add",
+      "add": "Add new word"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1562,7 +1563,8 @@
       "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
     },
     "undoFailed": "“{{entry}}” couldn't be restored. Please add it again.",
-    "undoSkipped": "“{{entry}}” wasn't restored: your dictionary already has it."
+    "undoSkipped": "“{{entry}}” wasn't restored: your dictionary already has it.",
+    "addNew": "Add new"
   },
   "pill": {
     "region": "Dictation bar",
@@ -1609,14 +1611,14 @@
       "title": "Rewrite anything you select"
     },
     "enable": {
-      "title": "Enable Transforms"
+      "title": "Opt in"
     },
     "commandMode": {
       "title": "Command Mode",
       "help": "Hold the shortcut and say what to write or change."
     },
     "auto": {
-      "title": "Apply after every dictation",
+      "title": "Auto apply after dictation",
       "choice": "Transform to apply",
       "none": "Choose a transform",
       "description": "Each dictation goes through the transform you pick."
@@ -1628,13 +1630,13 @@
     "myTransforms": "My Transforms",
     "reset": "Reset to defaults",
     "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
-    "createNew": "New transform",
+    "createNew": "Create new",
     "deleteConfirm": "Delete {{name}}? This cannot be undone.",
     "loading": "Loading your transforms…",
     "error": "That transform change could not be saved. Try again.",
     "card": {
       "delete": "Delete {{name}}",
-      "createOwn": "Make your own",
+      "createOwn": "Create your own",
       "createOwnHint": "Describe what it should do"
     },
     "new": {
@@ -1734,10 +1736,10 @@
     "settings": {
       "title": "Transform settings"
     },
-    "viewChanges": "to see what changed",
+    "viewChanges": "to view changes",
     "builtin": {
-      "polish": "Clearer and tighter, same meaning",
-      "prompt_engineer": "Turns a rough ask into a clear prompt"
+      "polish": "Clearer and shorter",
+      "prompt_engineer": "Builds a clear prompt"
     }
   },
   "cleanup": {
@@ -1822,7 +1824,7 @@
       "used": "Most used"
     },
     "banner": {
-      "title": "Say a few words, get the whole text",
+      "title": "Stop typing the same thing <em>twice</em>.",
       "lead": "Say a short cue and {{appName}} writes the full text.",
       "examplesLabel": "Examples",
       "cue1": "my address",
@@ -1830,7 +1832,8 @@
       "cue2": "my sign-off",
       "text2": "Best wishes, Sam",
       "cue3": "calendar link",
-      "text3": "Pick any time that suits you: cal.example.com/sam"
+      "text3": "Pick any time that suits you: cal.example.com/sam",
+      "add": "Add new snippet"
     },
     "entry": {
       "becomes": "is written as",
@@ -1952,7 +1955,11 @@
       "failed": "The snippets couldn't be exported. Please try again."
     },
     "undoFailed": "“{{trigger}}” couldn't be restored. Please add it again.",
-    "undoSkipped": "“{{trigger}}” wasn't restored: another snippet now uses that phrase."
+    "undoSkipped": "“{{trigger}}” wasn't restored: another snippet now uses that phrase.",
+    "addNew": "Add new",
+    "tabs": {
+      "all": "All"
+    }
   },
   "insights": {
     "tabs": {
@@ -2241,19 +2248,19 @@
     "presets": {
       "formal": {
         "label": "Formal",
-        "description": "Capital letters and full punctuation."
+        "description": "Caps + punctuation"
       },
       "relaxed": {
-        "label": "Relaxed",
-        "description": "Capital letters, lighter punctuation."
+        "label": "Casual",
+        "description": "Caps + less punctuation"
       },
       "very_relaxed": {
-        "label": "Very relaxed",
-        "description": "Lower case at the start of sentences, lighter punctuation."
+        "label": "Very casual",
+        "description": "No caps + less punctuation"
       },
       "upbeat": {
         "label": "Upbeat",
-        "description": "Full punctuation, with a little more energy."
+        "description": "Caps + a bit more energy"
       }
     },
     "presetsHeading": "Style",
@@ -2316,14 +2323,15 @@
       "close": "Close"
     },
     "cleanup": {
-      "tab": "Cleanup",
+      "tab": "Auto cleanup",
       "description": "How much your words are tidied up, in every app and every language. The style of each group is applied on top.",
-      "bannerTitle": "Cleanup runs on every dictation",
+      "bannerTitle": "Auto cleanup applies to every dictation",
       "levels": {
         "none": "Exactly what you said, mistakes included",
         "light": "Takes out fillers and fixes punctuation",
         "medium": "Smoother wording, same meaning"
-      }
+      },
+      "note": "Your original words are never lost: in History, open a dictation’s menu and choose “Undo AI edit”."
     },
     "addMenu": "Add an app or website"
   },

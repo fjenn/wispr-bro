@@ -29,6 +29,7 @@ export function CleanupTab() {
         image={photos.style.src}
         title={t("style.cleanup.bannerTitle")}
         body={t("style.cleanup.description")}
+        note={t("style.cleanup.note")}
       />
       <fieldset
         disabled={!settings || !!pending.cleanup_level}

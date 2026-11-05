@@ -185,6 +185,13 @@
   --wb-dark-accent-2: #9a72ba;
   --wb-light-accent-soft: #f5ecfd;
   --wb-dark-accent-soft: #2e2438;
+  /* Style cards' sender discs (flowmatch): lavender, pink, burgundy. */
+  --wb-light-avatar-1: #ead6fb;
+  --wb-dark-avatar-1: #4a3a5c;
+  --wb-light-avatar-2: #f2c3ec;
+  --wb-dark-avatar-2: #6b3a64;
+  --wb-light-avatar-3: #7a2638;
+  --wb-dark-avatar-3: #9b3a50;
   --wb-light-accent-meter: #7b3fb0;
   --wb-dark-accent-meter: #b48ae6;
   --wb-light-accent-meter-idle: #e8ddf0;
@@ -268,6 +275,9 @@
   --wb-accent: var(--wb-light-accent);
   --wb-accent-2: var(--wb-light-accent-2);
   --wb-accent-soft: var(--wb-light-accent-soft);
+  --wb-avatar-1: var(--wb-light-avatar-1);
+  --wb-avatar-2: var(--wb-light-avatar-2);
+  --wb-avatar-3: var(--wb-light-avatar-3);
   --wb-accent-meter: var(--wb-light-accent-meter);
   --wb-accent-meter-idle: var(--wb-light-accent-meter-idle);
   --wb-data-1: var(--wb-light-data-1);
@@ -318,6 +328,9 @@
     --wb-accent: var(--wb-dark-accent);
     --wb-accent-2: var(--wb-dark-accent-2);
     --wb-accent-soft: var(--wb-dark-accent-soft);
+    --wb-avatar-1: var(--wb-dark-avatar-1);
+    --wb-avatar-2: var(--wb-dark-avatar-2);
+    --wb-avatar-3: var(--wb-dark-avatar-3);
     --wb-accent-meter: var(--wb-dark-accent-meter);
     --wb-accent-meter-idle: var(--wb-dark-accent-meter-idle);
     --wb-data-1: var(--wb-dark-data-1);
@@ -369,6 +382,9 @@
   --wb-accent: var(--wb-light-accent);
   --wb-accent-2: var(--wb-light-accent-2);
   --wb-accent-soft: var(--wb-light-accent-soft);
+  --wb-avatar-1: var(--wb-light-avatar-1);
+  --wb-avatar-2: var(--wb-light-avatar-2);
+  --wb-avatar-3: var(--wb-light-avatar-3);
   --wb-accent-meter: var(--wb-light-accent-meter);
   --wb-accent-meter-idle: var(--wb-light-accent-meter-idle);
   --wb-data-1: var(--wb-light-data-1);
@@ -420,6 +436,9 @@
   --wb-accent: var(--wb-dark-accent);
   --wb-accent-2: var(--wb-dark-accent-2);
   --wb-accent-soft: var(--wb-dark-accent-soft);
+  --wb-avatar-1: var(--wb-dark-avatar-1);
+  --wb-avatar-2: var(--wb-dark-avatar-2);
+  --wb-avatar-3: var(--wb-dark-avatar-3);
   --wb-accent-meter: var(--wb-dark-accent-meter);
   --wb-accent-meter-idle: var(--wb-dark-accent-meter-idle);
   --wb-data-1: var(--wb-dark-data-1);
@@ -551,10 +570,10 @@ body {
     letter-spacing: -0.012em;
   }
   .type-title {
-    font-size: 24px;
-    line-height: 32px;
-    font-weight: 600;
-    letter-spacing: -0.006em;
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
   }
   .type-heading {
     font-size: 17px;

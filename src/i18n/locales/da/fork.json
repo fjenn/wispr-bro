@@ -1085,9 +1085,9 @@
     "undo": "Fortryd",
     "tabs": {
       "label": "Poster i ordbogen",
-      "all": "Alle ({{count}})",
-      "mine": "Tilføjet af dig ({{count}})",
-      "suggested": "Foreslået ({{count}})"
+      "all": "Alle",
+      "mine": "Tilføjet af dig",
+      "suggested": "Foreslået"
     },
     "sort": {
       "label": "Sorter",
@@ -1098,12 +1098,13 @@
       "used": "Mest brugt"
     },
     "banner": {
-      "title": "Lær {{appName}} dine ord",
-      "lead": "Navne, termer og forkortelser stavet på din måde.",
+      "title": "{{appName}} staver det på <em>din</em> måde.",
+      "lead": "Tilføj et ord én gang, eller ret det, når det bliver forkert, så dine <b>navne, fagudtryk og sjældne ord</b> staves rigtigt hver gang.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Ord at tilføje"
+      "suggestionsLabel": "Ord at tilføje",
+      "add": "Tilføj ord"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1245,7 +1246,8 @@
       "hint": "I 30 sekunder efter at en diktering er indsat, bemærker {{appName}} ord, du retter i tekstfeltet, og foreslår dem her. Kun det rettede ord gemmes, aldrig resten af teksten. Adgangskodefelter, adgangskodeadministratorer, bankapps og terminaler læses aldrig."
     },
     "undoFailed": "”{{entry}}” kunne ikke gendannes. Tilføj det igen.",
-    "undoSkipped": "”{{entry}}” blev ikke gendannet: din ordbog har det allerede."
+    "undoSkipped": "”{{entry}}” blev ikke gendannet: din ordbog har det allerede.",
+    "addNew": "Tilføj"
   },
   "pill": {
     "region": "Dikteringsbjælke",
@@ -1292,14 +1294,14 @@
       "title": "Omskriv al tekst, du markerer"
     },
     "enable": {
-      "title": "Slå Transformationer til"
+      "title": "Slå til"
     },
     "commandMode": {
       "title": "Kommandotilstand",
       "help": "Hold genvejen nede, og sig, hvad der skal skrives eller ændres."
     },
     "auto": {
-      "title": "Anvend efter hver diktering",
+      "title": "Anvend automatisk efter diktering",
       "choice": "Transformation, der skal anvendes",
       "none": "Vælg en transformation",
       "description": "Hver diktering kører gennem den transformation, du vælger."
@@ -1311,7 +1313,7 @@
     "myTransforms": "Mine transformationer",
     "reset": "Nulstil til standard",
     "resetConfirm": "Vil du nulstille Polish og Prompt Engineer og fjerne alle egne transformationer?",
-    "createNew": "Ny transformation",
+    "createNew": "Opret ny",
     "deleteConfirm": "Vil du slette {{name}}? Det kan ikke fortrydes.",
     "loading": "Indlæser dine transformationer…",
     "error": "Ændringen af transformationen kunne ikke gemmes. Prøv igen.",
@@ -1417,10 +1419,10 @@
     "settings": {
       "title": "Indstillinger for transformationer"
     },
-    "viewChanges": "for at se, hvad der er ændret",
+    "viewChanges": "for at se ændringerne",
     "builtin": {
-      "polish": "Klarere og kortere, samme betydning",
-      "prompt_engineer": "Gør en løs forespørgsel til en klar prompt"
+      "polish": "Klarere og kortere",
+      "prompt_engineer": "Laver en klar prompt"
     }
   },
   "cleanup": {
@@ -1505,7 +1507,7 @@
       "used": "Mest brugt"
     },
     "banner": {
-      "title": "Sig et par ord, og få hele teksten",
+      "title": "Stop med at skrive det samme <em>to gange</em>.",
       "lead": "Sig et kort stikord, og {{appName}} skriver hele teksten.",
       "examplesLabel": "Eksempler",
       "cue1": "min adresse",
@@ -1513,7 +1515,8 @@
       "cue2": "min hilsen",
       "text2": "Venlig hilsen, Sam",
       "cue3": "kalenderlink",
-      "text3": "Vælg et tidspunkt, der passer dig: cal.example.com/sam"
+      "text3": "Vælg et tidspunkt, der passer dig: cal.example.com/sam",
+      "add": "Tilføj snippet"
     },
     "entry": {
       "becomes": "skrives som",
@@ -1635,7 +1638,11 @@
       "failed": "Tekststykkerne kunne ikke eksporteres. Prøv igen."
     },
     "undoFailed": "”{{trigger}}” kunne ikke gendannes. Tilføj det igen.",
-    "undoSkipped": "”{{trigger}}” blev ikke gendannet: et andet tekststykke bruger nu den frase."
+    "undoSkipped": "”{{trigger}}” blev ikke gendannet: et andet tekststykke bruger nu den frase.",
+    "addNew": "Tilføj",
+    "tabs": {
+      "all": "Alle"
+    }
   },
   "insights": {
     "tabs": {
@@ -1924,19 +1931,19 @@
     "presets": {
       "formal": {
         "label": "Formel",
-        "description": "Store bogstaver og fuld tegnsætning."
+        "description": "Store bogstaver + tegnsætning"
       },
       "relaxed": {
         "label": "Afslappet",
-        "description": "Store bogstaver, lettere tegnsætning."
+        "description": "Store bogstaver + mindre tegnsætning"
       },
       "very_relaxed": {
         "label": "Meget afslappet",
-        "description": "Små bogstaver i starten af sætninger, lettere tegnsætning."
+        "description": "Ingen store bogstaver + mindre tegnsætning"
       },
       "upbeat": {
         "label": "Opstemt",
-        "description": "Fuld tegnsætning med lidt mere energi."
+        "description": "Store bogstaver + lidt mere energi"
       }
     },
     "presetsHeading": "Stil",
@@ -1999,14 +2006,15 @@
       "close": "Luk"
     },
     "cleanup": {
-      "tab": "Oprydning",
+      "tab": "Automatisk oprydning",
       "description": "Hvor meget der ryddes op i dine ord, i alle apps og på alle sprog. Stilen for hver gruppe lægges ovenpå.",
-      "bannerTitle": "Oprydningen gælder hver diktering",
+      "bannerTitle": "Automatisk oprydning gælder hver diktering",
       "levels": {
         "none": "Præcis det, du sagde, fejl og det hele",
         "light": "Fjerner fyldord og retter tegnsætningen",
         "medium": "Mere flydende formulering, samme betydning"
-      }
+      },
+      "note": "Dine oprindelige ord går aldrig tabt: åbn en diktering menu i historikken, og vælg »Fortryd AI-redigering«."
     },
     "addMenu": "Tilføj en app eller et websted"
   },

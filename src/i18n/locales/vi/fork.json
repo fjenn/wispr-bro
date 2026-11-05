@@ -1067,9 +1067,9 @@
     "undo": "Hoàn tác",
     "tabs": {
       "label": "Mục từ điển",
-      "all": "Tất cả ({{count}})",
-      "mine": "Do bạn thêm ({{count}})",
-      "suggested": "Gợi ý ({{count}})"
+      "all": "Tất cả",
+      "mine": "Do bạn thêm",
+      "suggested": "Gợi ý"
     },
     "sort": {
       "label": "Sắp xếp",
@@ -1080,12 +1080,13 @@
       "used": "Dùng nhiều nhất"
     },
     "banner": {
-      "title": "Dạy {{appName}} các từ của bạn",
-      "lead": "Tên, thuật ngữ và từ viết tắt, đúng cách bạn viết.",
+      "title": "{{appName}} viết theo cách của <em>bạn</em>.",
+      "lead": "Thêm một từ một lần, hoặc sửa khi nó ra sai, để <b>tên riêng, thuật ngữ công việc và từ hiếm</b> của bạn luôn được viết đúng.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Từ cần thêm"
+      "suggestionsLabel": "Từ cần thêm",
+      "add": "Thêm từ"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1210,7 +1211,8 @@
       "hint": "Trong 30 giây sau khi bản đọc chính tả được dán, {{appName}} nhận biết các từ bạn sửa trong ô văn bản đó và gợi ý chúng ở đây. Chỉ từ bạn sửa được giữ lại, không bao giờ giữ phần còn lại của văn bản. Trường mật khẩu, trình quản lý mật khẩu, ứng dụng ngân hàng và terminal không bao giờ bị đọc."
     },
     "undoFailed": "Không thể khôi phục “{{entry}}”. Vui lòng thêm lại.",
-    "undoSkipped": "“{{entry}}” không được khôi phục: từ điển của bạn đã có mục này."
+    "undoSkipped": "“{{entry}}” không được khôi phục: từ điển của bạn đã có mục này.",
+    "addNew": "Thêm"
   },
   "pill": {
     "region": "Thanh đọc chính tả",
@@ -1256,14 +1258,14 @@
       "title": "Viết lại bất kỳ đoạn văn bản nào bạn chọn"
     },
     "enable": {
-      "title": "Bật Chuyển đổi"
+      "title": "Bật"
     },
     "commandMode": {
       "title": "Command Mode",
       "help": "Giữ phím tắt và nói nội dung cần viết hoặc thay đổi."
     },
     "auto": {
-      "title": "Áp dụng sau mỗi lần đọc chính tả",
+      "title": "Tự động áp dụng sau khi đọc",
       "choice": "Chuyển đổi được áp dụng",
       "none": "Chọn một chuyển đổi",
       "description": "Mỗi lần đọc đều đi qua chuyển đổi bạn chọn."
@@ -1275,7 +1277,7 @@
     "myTransforms": "Chuyển đổi của tôi",
     "reset": "Đặt lại về mặc định",
     "resetConfirm": "Đặt lại Polish và Prompt Engineer và xóa mọi chuyển đổi tùy chỉnh?",
-    "createNew": "Chuyển đổi mới",
+    "createNew": "Tạo mới",
     "deleteConfirm": "Xóa {{name}}? Không thể hoàn tác.",
     "loading": "Đang tải các chuyển đổi của bạn…",
     "error": "Không thể lưu thay đổi chuyển đổi đó. Hãy thử lại.",
@@ -1380,10 +1382,10 @@
     "settings": {
       "title": "Cài đặt chuyển đổi"
     },
-    "viewChanges": "để xem những gì đã thay đổi",
+    "viewChanges": "để xem thay đổi",
     "builtin": {
-      "polish": "Rõ ràng và gọn hơn, giữ nguyên ý",
-      "prompt_engineer": "Biến một yêu cầu sơ sài thành prompt rõ ràng"
+      "polish": "Rõ hơn và ngắn hơn",
+      "prompt_engineer": "Tạo prompt rõ ràng"
     }
   },
   "cleanup": {
@@ -1463,7 +1465,7 @@
       "used": "Dùng nhiều nhất"
     },
     "banner": {
-      "title": "Nói vài từ, nhận cả đoạn văn bản",
+      "title": "Đừng gõ một thứ <em>hai lần</em> nữa.",
       "lead": "Nói một từ khóa ngắn và {{appName}} sẽ viết toàn bộ văn bản.",
       "examplesLabel": "Ví dụ",
       "cue1": "địa chỉ của tôi",
@@ -1471,7 +1473,8 @@
       "cue2": "lời chào cuối thư",
       "text2": "Thân mến, Sam",
       "cue3": "liên kết lịch",
-      "text3": "Hãy chọn thời gian phù hợp với bạn: cal.example.com/sam"
+      "text3": "Hãy chọn thời gian phù hợp với bạn: cal.example.com/sam",
+      "add": "Thêm đoạn mẫu"
     },
     "entry": {
       "becomes": "được viết là",
@@ -1573,7 +1576,11 @@
       "failed": "Không thể xuất đoạn văn bản. Vui lòng thử lại."
     },
     "undoFailed": "Không thể khôi phục “{{trigger}}”. Vui lòng thêm lại.",
-    "undoSkipped": "“{{trigger}}” không được khôi phục: một đoạn văn bản khác hiện đang dùng cụm từ đó."
+    "undoSkipped": "“{{trigger}}” không được khôi phục: một đoạn văn bản khác hiện đang dùng cụm từ đó.",
+    "addNew": "Thêm",
+    "tabs": {
+      "all": "Tất cả"
+    }
   },
   "insights": {
     "tabs": {
@@ -1847,19 +1854,19 @@
     "presets": {
       "formal": {
         "label": "Trang trọng",
-        "description": "Chữ hoa và dấu câu đầy đủ."
+        "description": "Viết hoa + dấu câu"
       },
       "relaxed": {
-        "label": "Thoải mái",
-        "description": "Chữ hoa, ít dấu câu hơn."
+        "label": "Thân mật",
+        "description": "Viết hoa + ít dấu câu hơn"
       },
       "very_relaxed": {
-        "label": "Rất thoải mái",
-        "description": "Chữ thường ở đầu câu, ít dấu câu hơn."
+        "label": "Rất thân mật",
+        "description": "Không viết hoa + ít dấu câu hơn"
       },
       "upbeat": {
         "label": "Hào hứng",
-        "description": "Dấu câu đầy đủ, thêm chút năng lượng."
+        "description": "Viết hoa + thêm chút năng lượng"
       }
     },
     "presetsHeading": "Kiểu",
@@ -1922,14 +1929,15 @@
       "close": "Đóng"
     },
     "cleanup": {
-      "tab": "Dọn dẹp",
+      "tab": "Tự động dọn dẹp",
       "description": "Mức dọn dẹp lời của bạn, trong mọi ứng dụng và mọi ngôn ngữ. Kiểu của từng nhóm được áp dụng thêm bên trên.",
-      "bannerTitle": "Dọn dẹp áp dụng cho mọi lần đọc",
+      "bannerTitle": "Tự động dọn dẹp áp dụng cho mọi lần đọc",
       "levels": {
         "none": "Đúng những gì bạn nói, kể cả lỗi",
         "light": "Bỏ từ đệm và sửa dấu câu",
         "medium": "Câu chữ mượt hơn, giữ nguyên ý"
-      }
+      },
+      "note": "Lời gốc của bạn không bao giờ mất: trong Lịch sử, mở menu của một lần đọc và chọn “Hoàn tác chỉnh sửa AI”."
     },
     "addMenu": "Thêm ứng dụng hoặc trang web"
   },

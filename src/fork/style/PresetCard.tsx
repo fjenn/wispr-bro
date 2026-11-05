@@ -17,16 +17,18 @@ export interface PresetCardProps {
   disabled?: boolean;
   /** The group's example as this preset inserts it. */
   example: string;
-  /** Position in the row; picks the sample's sender dot. */
+  /** Position in the row; picks the sample's sender disc. */
   index?: number;
+  /** The letter on the sender disc (the user's initial). */
+  initial?: string;
   onSelect: () => void;
 }
 
-/** The sample bubble's sender dot, one per card (decorative). */
+/** The sample bubble's sender disc, one per card (decorative). */
 const AVATARS = [
-  "bg-(--wb-accent-soft)",
-  "bg-(--wb-accent-2)",
-  "bg-(--wb-accent)",
+  "bg-(--wb-avatar-1)",
+  "bg-(--wb-avatar-2)",
+  "bg-(--wb-avatar-3)",
 ];
 
 export function PresetCard({
@@ -36,6 +38,7 @@ export function PresetCard({
   checked,
   disabled,
   example,
+  initial,
   onSelect,
 }: PresetCardProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
@@ -53,6 +56,7 @@ export function PresetCard({
       example={example}
       exampleLabel={t("style.after")}
       avatar={AVATARS[index % AVATARS.length]}
+      initial={initial}
     />
   );
 }
@@ -72,9 +76,11 @@ export interface ChoiceCardProps {
   example: string;
   /** Read before the example by screen readers. */
   exampleLabel: string;
-  /** A chat bubble with this sender dot; without it, a serif title and an
-   *  italic sample (Style › Cleanup). */
+  /** A chat bubble with this sender disc; without it, a serif title and
+   *  an italic sample (Style › Cleanup). */
   avatar?: string;
+  /** The letter on the sender disc. */
+  initial?: string;
 }
 
 /**
@@ -94,6 +100,7 @@ export function ChoiceCard({
   example,
   exampleLabel,
   avatar,
+  initial,
 }: ChoiceCardProps) {
   const id = `${name}-${value}`;
   const chat = avatar !== undefined;
@@ -102,12 +109,14 @@ export function ChoiceCard({
       htmlFor={id}
       data-testid={testId}
       data-selected={checked}
-      className={`relative flex min-h-[300px] min-w-0 cursor-pointer flex-col gap-6 rounded-(--wb-radius-md) border bg-(--wb-surface) p-5 transition-[border-color,outline-color,background-color] duration-(--wb-dur-fast) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent) ${
+      className={`relative flex min-w-0 cursor-pointer flex-col rounded-(--wb-radius-md) border bg-(--wb-surface) transition-[border-color,box-shadow] duration-(--wb-dur-fast) has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--wb-accent) ${
+        chat ? "min-h-[350px] p-[18px]" : "min-h-[360px] p-[13px] pt-4"
+      } ${
         checked
           ? chat
-            ? "border-(--wb-accent-2) outline-[1.5px] -outline-offset-2 outline-(--wb-accent-2) outline-solid"
-            : "border-(--wb-ink) outline-[1px] -outline-offset-2 outline-(--wb-ink) outline-solid"
-          : "border-(--wb-line) hover:border-(--wb-line-2) hover:bg-(--wb-surface-tint)/40"
+            ? "border-(--wb-accent-2) shadow-[inset_0_0_0_1px_var(--wb-accent-2)]"
+            : "border-(--wb-ink) shadow-[inset_0_0_0_0.5px_var(--wb-ink)]"
+          : "border-(--wb-line) hover:border-(--wb-line-2)"
       }`}
     >
       {/* A real radio, invisible over the whole card: the card is its
@@ -123,36 +132,46 @@ export function ChoiceCard({
         aria-describedby={`${id}-desc ${id}-example`}
         className="absolute inset-0 m-0 size-full cursor-pointer appearance-none rounded-[inherit] opacity-0 disabled:cursor-default"
       />
-      <span className="flex flex-col gap-2 text-[15px] leading-[22px] text-(--wb-ink)">
-        <span
-          className={
-            chat
-              ? "font-medium"
-              : "type-serif-title text-[34px]! leading-[40px]!"
-          }
-        >
-          {title}
+      {chat ? (
+        <span className="flex flex-col gap-2 text-[16px] leading-[24px] text-(--wb-ink)">
+          <span>{title}</span>
+          <span id={`${id}-desc`}>{description}</span>
         </span>
-        <span id={`${id}-desc`} className="text-(--wb-ink-2)">
-          {description}
+      ) : (
+        <span className="flex flex-col gap-3 text-(--wb-ink)">
+          <span className="type-serif-title text-[32px]! leading-[38px]! tracking-[-0.02em]">
+            {title}
+          </span>
+          <span
+            id={`${id}-desc`}
+            className="text-[16px] leading-[22px] text-(--wb-ink-3)"
+          >
+            {description}
+          </span>
         </span>
-      </span>
-      <span className="mt-auto flex flex-col items-end gap-2">
+      )}
+      <span className={`flex flex-col items-end ${chat ? "mt-14" : "mt-auto"}`}>
         <span className="sr-only">{exampleLabel}</span>
         <span
           id={`${id}-example`}
           lang="en"
           dir="ltr"
           data-testid={exampleTestId}
-          className={`w-full rounded-(--wb-radius-md) bg-(--wb-accent-soft) px-4 py-3 text-start text-[15px] leading-[22px] text-(--wb-ink) ${chat ? "" : "italic"}`}
+          className={`w-full rounded-(--wb-radius-md) bg-(--wb-accent-soft) text-start text-[16px] leading-[24px] text-(--wb-ink) ${
+            chat
+              ? "rounded-ee-none px-[14px] py-[18px]"
+              : "px-4 py-3 leading-[20px]! italic [font-synthesis:style]"
+          }`}
         >
           {example}
         </span>
         {chat && (
           <span
             aria-hidden="true"
-            className={`size-9 rounded-full ${avatar}`}
-          />
+            className={`mt-3 grid size-[52px] place-items-center rounded-full text-[22px] font-medium text-(--wb-on-ink) ${avatar}`}
+          >
+            {initial}
+          </span>
         )}
       </span>
     </label>

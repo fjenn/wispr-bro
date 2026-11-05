@@ -1103,9 +1103,9 @@
     "undo": "Annulla",
     "tabs": {
       "label": "Voci del dizionario",
-      "all": "Tutte ({{count}})",
-      "mine": "Aggiunte da te ({{count}})",
-      "suggested": "Suggerite ({{count}})"
+      "all": "Tutte",
+      "mine": "Aggiunte da te",
+      "suggested": "Suggerite"
     },
     "sort": {
       "label": "Ordina",
@@ -1116,12 +1116,13 @@
       "used": "Più usate"
     },
     "banner": {
-      "title": "Insegna a {{appName}} le tue parole",
-      "lead": "Nomi, termini e sigle, scritti a modo tuo.",
+      "title": "{{appName}} la scrive a <em>modo tuo</em>.",
+      "lead": "Aggiungi una parola una volta, o correggila quando esce sbagliata, così <b>nomi, termini di lavoro e parole rare</b> sono sempre scritti bene.",
       "example1": "Siobhán",
       "example2": "Kubernetes",
       "example4": "Anna-Lena",
-      "suggestionsLabel": "Parole da aggiungere"
+      "suggestionsLabel": "Parole da aggiungere",
+      "add": "Aggiungi parola"
     },
     "entry": {
       "rule": "{{from}} → {{to}}",
@@ -1280,7 +1281,8 @@
       "hint": "Per 30 secondi dopo che una dettatura è stata incollata, {{appName}} rileva le parole che correggi in quel campo di testo e te le suggerisce qui. Viene conservata solo la parola corretta, mai il resto del testo. Campi password, gestori di password, app bancarie e terminali non vengono mai letti."
     },
     "undoFailed": "Non è stato possibile ripristinare “{{entry}}”. Aggiungilo di nuovo.",
-    "undoSkipped": "“{{entry}}” non è stato ripristinato: il tuo dizionario lo contiene già."
+    "undoSkipped": "“{{entry}}” non è stato ripristinato: il tuo dizionario lo contiene già.",
+    "addNew": "Aggiungi"
   },
   "pill": {
     "region": "Barra di dettatura",
@@ -1328,14 +1330,14 @@
       "title": "Riscrivi qualsiasi testo selezionato"
     },
     "enable": {
-      "title": "Abilita Trasformazioni"
+      "title": "Attiva"
     },
     "commandMode": {
       "title": "Modalità Comandi",
       "help": "Tieni premuta la scorciatoia e di' cosa scrivere o cambiare."
     },
     "auto": {
-      "title": "Applica dopo ogni dettatura",
+      "title": "Applica automaticamente dopo la dettatura",
       "choice": "Trasformazione da applicare",
       "none": "Scegli una trasformazione",
       "description": "Ogni dettatura passa per la trasformazione che scegli."
@@ -1347,7 +1349,7 @@
     "myTransforms": "Le mie trasformazioni",
     "reset": "Ripristina predefinite",
     "resetConfirm": "Ripristinare Polish e Prompt Engineer e rimuovere tutte le trasformazioni personalizzate?",
-    "createNew": "Nuova trasformazione",
+    "createNew": "Crea",
     "deleteConfirm": "Eliminare {{name}}? L’operazione non può essere annullata.",
     "loading": "Caricamento delle trasformazioni…",
     "error": "Impossibile salvare la modifica alla trasformazione. Riprova.",
@@ -1454,10 +1456,10 @@
     "settings": {
       "title": "Impostazioni delle trasformazioni"
     },
-    "viewChanges": "per vedere cosa è cambiato",
+    "viewChanges": "per vedere le modifiche",
     "builtin": {
-      "polish": "Più chiaro e conciso, stesso significato",
-      "prompt_engineer": "Trasforma una richiesta vaga in un prompt chiaro"
+      "polish": "Più chiaro e più breve",
+      "prompt_engineer": "Crea un prompt chiaro"
     }
   },
   "cleanup": {
@@ -1547,7 +1549,7 @@
       "used": "Più usati"
     },
     "banner": {
-      "title": "Di’ poche parole, ottieni il testo completo",
+      "title": "Smetti di scrivere la stessa cosa <em>due volte</em>.",
       "lead": "Pronuncia una parola chiave e {{appName}} scrive il testo completo.",
       "examplesLabel": "Esempi",
       "cue1": "il mio indirizzo",
@@ -1555,7 +1557,8 @@
       "cue2": "la mia firma",
       "text2": "Un caro saluto, Sam",
       "cue3": "link al calendario",
-      "text3": "Scegli l’orario che preferisci: cal.example.com/sam"
+      "text3": "Scegli l’orario che preferisci: cal.example.com/sam",
+      "add": "Aggiungi snippet"
     },
     "entry": {
       "becomes": "viene scritto come",
@@ -1697,7 +1700,11 @@
       "failed": "Impossibile esportare i frammenti. Riprova."
     },
     "undoFailed": "Non è stato possibile ripristinare “{{trigger}}”. Aggiungilo di nuovo.",
-    "undoSkipped": "“{{trigger}}” non è stato ripristinato: un altro frammento usa ora quella frase."
+    "undoSkipped": "“{{trigger}}” non è stato ripristinato: un altro frammento usa ora quella frase.",
+    "addNew": "Aggiungi",
+    "tabs": {
+      "all": "Tutti"
+    }
   },
   "insights": {
     "tabs": {
@@ -2001,19 +2008,19 @@
     "presets": {
       "formal": {
         "label": "Formale",
-        "description": "Maiuscole e punteggiatura completa."
+        "description": "Maiuscole + punteggiatura"
       },
       "relaxed": {
-        "label": "Rilassato",
-        "description": "Maiuscole, punteggiatura più leggera."
+        "label": "Informale",
+        "description": "Maiuscole + meno punteggiatura"
       },
       "very_relaxed": {
-        "label": "Molto rilassato",
-        "description": "Minuscole a inizio frase, punteggiatura più leggera."
+        "label": "Molto informale",
+        "description": "Niente maiuscole + meno punteggiatura"
       },
       "upbeat": {
         "label": "Energico",
-        "description": "Punteggiatura completa, con un po’ più di energia."
+        "description": "Maiuscole + un po’ più di energia"
       }
     },
     "presetsHeading": "Stile",
@@ -2076,14 +2083,15 @@
       "close": "Chiudi"
     },
     "cleanup": {
-      "tab": "Pulizia",
+      "tab": "Pulizia automatica",
       "description": "Quanto vengono ripulite le tue parole, in ogni app e in ogni lingua. Lo stile di ciascun gruppo viene applicato in aggiunta.",
-      "bannerTitle": "La pulizia si applica a ogni dettatura",
+      "bannerTitle": "La pulizia automatica vale per ogni dettatura",
       "levels": {
         "none": "Esattamente ciò che hai detto, errori compresi",
         "light": "Toglie le parole riempitive e corregge la punteggiatura",
         "medium": "Formulazione più scorrevole, stesso significato"
-      }
+      },
+      "note": "Le tue parole originali non vanno mai perse: nella cronologia apri il menu di una dettatura e scegli «Annulla modifica AI»."
     },
     "addMenu": "Aggiungi un’app o un sito web"
   },

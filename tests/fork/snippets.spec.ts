@@ -176,7 +176,7 @@ snipTest.describe("snippets page", () => {
       await openSnippets(page, ipc, hub, snips);
       await expect(page.getByTestId("wb-page-title")).toHaveText("Snippets");
       const banner = page.getByTestId("wb-banner-snippets.examples");
-      await expect(banner).toContainText("Say a few words, get the whole text");
+      await expect(banner).toContainText("Stop typing the same thing twice.");
       await expect(
         banner.getByRole("list", { name: "Examples" }).getByRole("listitem"),
       ).toHaveCount(3);

@@ -235,7 +235,7 @@ styleTest.describe("style page", () => {
         "Work messages",
         "Email",
         "Other",
-        "Cleanup",
+        "Auto cleanupBeta",
       ]);
       await expect(
         page.getByRole("tab", { name: "Personal messages" }),
@@ -268,7 +268,7 @@ styleTest.describe("style page", () => {
     "a preset card saves the group's style",
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style);
-      const veryRelaxed = page.getByRole("radio", { name: "Very relaxed" });
+      const veryRelaxed = page.getByRole("radio", { name: /^Very casual/ });
       await veryRelaxed.click();
       await expect(veryRelaxed).toBeChecked();
       await ipc.expectCalled("fork_set_setting", {
@@ -292,7 +292,7 @@ styleTest.describe("style page", () => {
       await expect(
         page.getByTestId("wb-style-preset-very_relaxed"),
       ).toHaveCount(0);
-      const upbeat = page.getByRole("radio", { name: "Upbeat" });
+      const upbeat = page.getByRole("radio", { name: /^Upbeat/ });
       await upbeat.click();
       await expect(upbeat).toBeChecked();
       await expect
@@ -317,7 +317,7 @@ styleTest.describe("style page", () => {
         "true",
       );
       await expect(chips(page)).toHaveText(["Mail"]);
-      await page.getByRole("tab", { name: "Cleanup" }).click();
+      await page.getByRole("tab", { name: /Auto cleanup/ }).click();
       await expect(page.getByTestId("wb-style-cleanup")).toBeVisible();
       // Controlled radio: it changes after the backend answers, so click
       // (check() fails if the state has not flipped yet under load).
@@ -558,9 +558,9 @@ styleTest.describe("style page", () => {
       await page.keyboard.press("Tab");
       await expect(page.getByTestId("wb-style-add")).toBeFocused();
       await page.keyboard.press("Tab");
-      await expect(page.getByRole("radio", { name: "Formal" })).toBeFocused();
+      await expect(page.getByRole("radio", { name: /^Formal/ })).toBeFocused();
       await page.keyboard.press("ArrowRight");
-      await expect(page.getByRole("radio", { name: "Relaxed" })).toBeChecked();
+      await expect(page.getByRole("radio", { name: /^Casual/ })).toBeChecked();
       await expect
         .poll(() => hub.forkSettings.styles)
         .toMatchObject({
@@ -671,6 +671,9 @@ styleTest.describe("websites (OT2-C)", () => {
         page.getByTestId("wb-menu-item-style-add-app"),
       ).toBeFocused();
       await page.keyboard.press("ArrowDown");
+      await expect(
+        page.getByTestId("wb-menu-item-style-add-site"),
+      ).toBeFocused();
       await page.keyboard.press("Enter");
       await expect(page.getByTestId("wb-style-site-add-input")).toBeFocused();
       await page.keyboard.type("github.com");

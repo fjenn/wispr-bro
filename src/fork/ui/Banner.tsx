@@ -23,6 +23,27 @@ import { Button, FOCUS_RING, IconButton } from "./Button";
 import { ArrowRight, X } from "./icons";
 import { useMotionPresets } from "./motion";
 
+/**
+ * A banner string with its marks (flowmatch): `<em>` is the headline's
+ * italic word, `<b>` a few bold words in the body. Anything else is text.
+ */
+export function marked(text: string): ReactNode {
+  const parts = text.split(/(<em>.*?<\/em>|<b>.*?<\/b>)/g);
+  if (parts.length === 1) return text;
+  return parts.map((part, i) => {
+    const em = /^<em>(.*)<\/em>$/.exec(part);
+    if (em) return <em key={i}>{em[1]}</em>;
+    const b = /^<b>(.*)<\/b>$/.exec(part);
+    if (b)
+      return (
+        <b key={i} className="font-semibold text-(--wb-on-hero)">
+          {b[1]}
+        </b>
+      );
+    return part;
+  });
+}
+
 /** A clickable suggestion on the banner (a word to add, a snippet to try). */
 export interface BannerSuggestion {
   id: string;
@@ -60,6 +81,8 @@ export interface BannerProps {
   pairs?: BannerPair[];
   /** Label of the pairs list, read by screen readers. */
   pairsLabel?: string;
+  /** A second paragraph under `body` (Style › Auto cleanup). */
+  note?: string;
   /** Polite live region for `body` (it changes while shown, S-30). */
   live?: boolean;
   /** Decorative art on the right (hidden from screen readers). */
@@ -94,6 +117,7 @@ export function Banner({
   pairs,
   pairsLabel,
   live = false,
+  note,
   art,
   aside,
   image,
@@ -130,6 +154,7 @@ export function Banner({
       pairs={pairs}
       pairsLabel={pairsLabel}
       live={live}
+      note={note}
       art={art}
       aside={aside}
       image={image}
@@ -162,6 +187,7 @@ export function Hero({
   pairs,
   pairsLabel,
   live = false,
+  note,
   art,
   aside,
   image,
@@ -170,7 +196,7 @@ export function Hero({
   dismissLabel,
 }: HeroProps) {
   const m = useMotionPresets();
-  const chip = `rounded-(--wb-radius-sm) px-3.5 py-1.5 text-[14px] transition-colors duration-(--wb-dur-fast)`;
+  const chip = `h-9 rounded-(--wb-radius-sm) px-4 text-[16px] transition-colors duration-(--wb-dur-fast)`;
   const titleId = `wb-banner-${id}-title`;
   // With a known subject the text column ends 24 px before it. Banner
   // photos are 4:1 and the hero is at least 180 px tall, so under
@@ -187,7 +213,7 @@ export function Hero({
     <section
       aria-labelledby={titleId}
       data-testid={`wb-banner-${id}`}
-      className="@container/hero relative isolate flex min-h-[180px] items-center gap-6 overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-hero) px-8 py-7 text-(--wb-on-hero)"
+      className="@container/hero relative isolate flex min-h-[128px] items-center gap-6 overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-hero) px-8 py-8 text-(--wb-on-hero)"
     >
       {image ? (
         <>
@@ -197,7 +223,10 @@ export function Hero({
             aria-hidden="true"
             data-subject-at={imageSubjectAt}
             className={`absolute inset-0 -z-20 size-full object-cover ${
-              imageSubjectAt !== undefined ? "object-left rtl:-scale-x-100" : ""
+              imageSubjectAt !== undefined
+                ? "object-left rtl:-scale-x-100"
+                : // flowmatch: an out-of-focus photo, as the reference's.
+                  "scale-125 blur-[24px] brightness-[1.12] saturate-[1.35]"
             }`}
           />
           <div
@@ -217,7 +246,9 @@ export function Hero({
           textMax
             ? "max-w-(--wb-hero-text-max)"
             : image
-              ? "@min-[560px]/hero:max-w-[64%]"
+              ? aside || art
+                ? "@min-[560px]/hero:max-w-[64%]"
+                : "@min-[560px]/hero:max-w-[82%]"
               : ""
         }`}
         style={
@@ -226,15 +257,23 @@ export function Hero({
             : undefined
         }
       >
-        <h2 id={titleId} className="type-serif-title pe-8 text-(--wb-on-hero)">
-          {title}
+        <h2
+          id={titleId}
+          className="type-serif-title pe-8 text-[32px]! leading-[38px]! tracking-[-0.02em] text-(--wb-on-hero)"
+        >
+          {marked(title)}
         </h2>
         <p
-          className="max-w-[60ch] text-[15px] leading-[22px] text-(--wb-on-hero-2)"
+          className="max-w-[70ch] text-[16px] leading-[24px] text-(--wb-on-hero-2)"
           aria-live={live ? "polite" : undefined}
         >
-          {body}
+          {marked(body)}
         </p>
+        {note && (
+          <p className="max-w-[70ch] text-[16px] leading-[24px] text-(--wb-on-hero-2)">
+            {note}
+          </p>
+        )}
         {examples && examples.length > 0 && (
           <ul aria-label={examplesLabel} className="mt-1 flex flex-wrap gap-2">
             {examples.map((example) => (
@@ -248,7 +287,7 @@ export function Hero({
           </ul>
         )}
         {pairs && pairs.length > 0 && (
-          <ul aria-label={pairsLabel} className="mt-2 flex flex-col gap-2">
+          <ul aria-label={pairsLabel} className="mt-2 flex flex-col gap-2.5">
             {pairs.map((pair) => (
               <li key={pair.id}>
                 <motion.button
@@ -260,7 +299,7 @@ export function Hero({
                 >
                   <span
                     dir="auto"
-                    className={`${chip} shrink-0 bg-white/20 text-(--wb-on-hero) italic group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
+                    className={`${chip} flex shrink-0 items-center bg-white/25 font-medium text-(--wb-on-hero) italic backdrop-blur-sm [font-synthesis:style] group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
                   >
                     “{pair.cue}”
                   </span>
@@ -271,7 +310,7 @@ export function Hero({
                   />
                   <span
                     dir="auto"
-                    className={`${chip} min-w-0 truncate bg-white/20 text-(--wb-on-hero) group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
+                    className={`${chip} block min-w-0 truncate leading-9 bg-white/25 font-medium text-(--wb-on-hero) backdrop-blur-sm group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
                   >
                     {pair.text}
                   </span>
@@ -317,7 +356,7 @@ export function Hero({
                       onClick={s.onClick}
                       data-testid={s.testId}
                       dir="auto"
-                      className={`${chip} h-9 cursor-pointer bg-white/20 font-medium text-(--wb-on-hero) hover:bg-(--wb-cream) hover:text-(--wb-on-cream) ${FOCUS_RING}`}
+                      className={`${chip} flex cursor-pointer items-center bg-white/25 font-medium text-(--wb-on-hero) backdrop-blur-sm hover:bg-(--wb-cream) hover:text-(--wb-on-cream) ${FOCUS_RING}`}
                     >
                       {s.label}
                     </motion.button>
@@ -343,11 +382,11 @@ export function Hero({
         <IconButton
           aria-label={dismissLabel}
           round
-          size="sm"
+          size="md"
           onClick={onDismiss}
-          className="absolute end-3 top-3 text-(--wb-on-hero-2)! hover:bg-white/10! hover:text-(--wb-on-hero)!"
+          className="absolute end-4 top-4 bg-white/20! text-(--wb-on-hero)! backdrop-blur-sm hover:bg-white/30!"
         >
-          <X size={16} />
+          <X size={18} />
         </IconButton>
       )}
     </section>

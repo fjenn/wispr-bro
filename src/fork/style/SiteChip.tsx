@@ -126,13 +126,13 @@ export function SiteChip({
       data-auto-send={site.auto_send}
       title={site.host}
       aria-label={t("style.apps.chipLabel", { app: label })}
-      className={`relative grid size-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.25)] transition-transform duration-(--wb-dur-fast) hover:z-10 hover:scale-105 focus-visible:z-10 motion-reduce:transition-none ${FOCUS_RING}`}
+      className={`relative grid size-14 cursor-pointer place-items-center rounded-full border border-white/30 bg-white/20 shadow-[0_2px_10px_rgba(0,0,0,0.25)] backdrop-blur-sm transition-transform duration-(--wb-dur-fast) hover:z-10 hover:scale-105 focus-visible:z-10 motion-reduce:transition-none ${FOCUS_RING}`}
     >
       <span
         aria-hidden="true"
         data-testid="wb-style-site-monogram"
         data-letter={letter.toLocaleUpperCase()}
-        className="grid size-[30px] place-items-center rounded-[8px] bg-(--wb-cream) text-[15px] font-semibold text-(--wb-on-cream) before:content-[attr(data-letter)]"
+        className="grid size-9 place-items-center rounded-[9px] bg-(--wb-cream) text-[17px] font-semibold text-(--wb-on-cream) before:content-[attr(data-letter)]"
       />
       {site.auto_send && (
         <span
@@ -146,7 +146,7 @@ export function SiteChip({
   );
 
   return (
-    <li className="relative -ms-2 first:ms-0">
+    <li className="relative -ms-3 first:ms-0">
       <Menu
         label={t("style.apps.menuLabel", { app: site.name })}
         groups={groups}

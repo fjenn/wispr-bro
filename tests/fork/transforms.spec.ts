@@ -224,21 +224,21 @@ test("page: opt-in, banner, auto-apply row, cards and safe shortcuts", async ({
     },
   });
   // flowmatch: header switch and key pill, one banner, the auto-apply row,
-  // then the "My Transforms" grid ending with "Make your own".
+  // then the "My Transforms" grid ending with "Create your own".
   await expect(page.getByTestId("wb-banner-transforms")).toContainText(
     "press a shortcut to rewrite it",
   );
   await expect(page.getByTestId("wb-transforms-try-it")).toBeVisible();
   await expect(page.getByTestId("wb-transforms-how-it-works")).toBeVisible();
   await expect(page.getByTestId("wb-transform-polish")).toContainText(
-    "Clearer and tighter",
+    "Clearer and shorter",
   );
   await expect(page.getByTestId("wb-transform-prompt_engineer")).toBeVisible();
   await expect(page.getByTestId("wb-transforms-create")).toHaveText(
-    "New transform",
+    "Create new",
   );
   await expect(page.getByTestId("wb-transforms-create-card")).toContainText(
-    "Make your own",
+    "Create your own",
   );
   await expect(page.getByTestId("wb-command-mode-card")).toHaveCount(0);
   await expect(page.getByTestId("wb-transforms-auto")).toBeDisabled();

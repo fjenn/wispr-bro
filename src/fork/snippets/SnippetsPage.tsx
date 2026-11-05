@@ -270,43 +270,49 @@ export function SnippetsPage() {
   };
 
   return (
-    <div data-testid="wb-snippets" className="flex flex-col gap-6">
+    <div data-testid="wb-snippets" className="flex flex-col gap-14">
       <PageHeader title={t("hub.pages.snippets.title")}>
         <Button
           variant="primary"
+          size="lg"
           onClick={() => setImportOpen(true)}
           data-testid="wb-snippets-import"
         >
-          <Upload size={16} aria-hidden="true" />
           {t("snippets.import.open")}
         </Button>
         <Button
           variant="primary"
+          size="lg"
           onClick={() => setDialog({ snippet: null })}
           data-testid="wb-snippets-add"
         >
-          <Plus size={16} aria-hidden="true" />
-          {t("snippets.add")}
+          {t("snippets.addNew")}
         </Button>
       </PageHeader>
 
       <section
         aria-labelledby="wb-snippets-heading"
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-[25px]"
       >
-        <div className="flex min-h-11 items-center justify-between gap-4 border-b border-(--wb-line) pb-1.5">
-          <h2
-            id="wb-snippets-heading"
-            className="text-[15px] font-medium text-(--wb-ink)"
-            data-testid="wb-snippets-counts"
-            data-count={counts.snippets}
-            data-uses={counts.uses}
+        <h2
+          id="wb-snippets-heading"
+          className="sr-only"
+          data-testid="wb-snippets-counts"
+          data-count={counts.snippets}
+          data-uses={counts.uses}
+        >
+          {t("snippets.counts.snippets", { count: counts.snippets })}
+          {counts.uses > 0 &&
+            ` · ${t("snippets.counts.uses", { count: counts.uses })}`}
+        </h2>
+        <div className="flex items-end gap-4 border-b border-(--wb-line)">
+          <span
+            className="-mb-px border-b-2 border-(--wb-ink) pt-1 pb-3 text-[16px] font-medium text-(--wb-ink)"
+            aria-hidden="true"
           >
-            {t("snippets.counts.snippets", { count: counts.snippets })}
-            {counts.uses > 0 &&
-              ` · ${t("snippets.counts.uses", { count: counts.uses })}`}
-          </h2>
-          <div className="flex shrink-0 items-center gap-1">
+            {t("snippets.tabs.all")}
+          </span>
+          <div className="ms-auto flex shrink-0 items-center gap-1 pb-1.5">
             <SearchToggle
               value={query}
               onChange={setQuery}
@@ -366,7 +372,7 @@ export function SnippetsPage() {
             };
           })}
           action={{
-            label: t("snippets.add"),
+            label: t("snippets.banner.add"),
             onClick: () => setDialog({ snippet: null }),
             testId: "wb-snippets-banner-add",
           }}
