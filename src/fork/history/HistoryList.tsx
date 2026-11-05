@@ -90,7 +90,7 @@ export function HistoryList() {
   const { rows, status, next, query, loadingMore } = useHistoryStore();
   const jobs = useTranscriptionJobsStore((s) => s.jobs);
   const { settings } = useForkSettings();
-  const level: CleanupLevel = settings?.cleanup_level ?? "light";
+  const level: CleanupLevel = settings?.cleanup_level ?? "medium";
   const audioDays = settings ? (settings.audio_retention_days ?? null) : 14;
   const now = useToday();
   const [flagging, setFlagging] = useState<Row | null>(null);

@@ -175,7 +175,11 @@ pub fn default_hotkeys() -> BTreeMap<String, Vec<HotkeyBinding>> {
     ])
 }
 
-/// LLM cleanup level (DEC-03: Light by default).
+/// LLM cleanup level. The setting's default is Medium since rc8 (the
+/// owner's call; DEC-03 said Light), set in [`ForkSettings::default`]; a
+/// stored value is kept (the store cannot tell an untouched Light from a
+/// chosen one). The enum's own `Default` stays Light: it is the base
+/// cleanup prompt (`fork::llm::prompt::Spec`).
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum CleanupLevel {
@@ -375,7 +379,8 @@ pub struct ForkSettings {
     pub typing_hours_per_day: f32,
     /// Greeting name; `None` uses the macOS account name (S-15a).
     pub greeting_name: Option<String>,
-    /// DEC-20: opt-in.
+    /// "Learn from my corrections" (DEC-20 made it opt-in; on by default
+    /// since rc8, the owner's call; a stored choice is kept).
     pub auto_learn_enabled: bool,
     pub vibe_coding: VibeCodingSettings,
     /// OT2: switch Apple Dictation's "Press fn twice" shortcut off while fn
@@ -396,7 +401,7 @@ impl Default for ForkSettings {
         Self {
             schema_version: CURRENT_SCHEMA_VERSION,
             hotkeys: default_hotkeys(),
-            cleanup_level: CleanupLevel::Light,
+            cleanup_level: CleanupLevel::Medium,
             styles: StyleSettings::default(),
             context_awareness: true,
             transforms_enabled: false,
@@ -424,7 +429,7 @@ impl Default for ForkSettings {
             typing_wpm: None,
             typing_hours_per_day: 2.0,
             greeting_name: None,
-            auto_learn_enabled: false,
+            auto_learn_enabled: true,
             vibe_coding: VibeCodingSettings::default(),
             apple_dictation_shortcut_off: true,
             mic_follow_system: false,

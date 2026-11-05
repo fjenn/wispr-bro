@@ -38,12 +38,12 @@ assert.equal(savableWpm(Number.NaN), null);
 assert.equal(savableWpm(42.4), 42);
 assert.equal(savableWpm(900), 300);
 
-// DEC-50 default: 2 h a day at 40 wpm → 2 × 5 × (1 − 40/130) = 6.92 → 7.
-assert.equal(hoursSavedPerWeek(40, 2), 7);
+// rc8 defaults: 2 h a day at 45 wpm → 2 × 5 × (1 − 45/200) = 7.75 → 8.
+assert.equal(hoursSavedPerWeek(45, 2), 8);
 // A faster typist saves less; at or above speaking speed nothing.
-assert.equal(hoursSavedPerWeek(80, 2), 4);
-assert.equal(hoursSavedPerWeek(130, 2), 0);
-assert.equal(hoursSavedPerWeek(200, 8), 0);
+assert.equal(hoursSavedPerWeek(80, 2), 6);
+assert.equal(hoursSavedPerWeek(200, 2), 0);
+assert.equal(hoursSavedPerWeek(250, 8), 0);
 // More typing time, more saved; none without typing.
 assert.ok(hoursSavedPerWeek(40, 4) > hoursSavedPerWeek(40, 2));
 assert.equal(hoursSavedPerWeek(40, 0), 0);

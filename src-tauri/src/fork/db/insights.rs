@@ -215,9 +215,9 @@ mod tests {
 
             let today = NaiveDate::from_ymd_opt(2026, 10, 31).unwrap();
             let u = crate::fork::stats::insights::usage(&t, &d, &c, None, today);
-            // 1,550 timed words / 10 min = 155 wpm; 155 / 40 = 3.9×.
+            // 1,550 timed words / 10 min = 155 wpm; 155 / 45 = 3.4×.
             assert_eq!(u.speed.words_per_minute, Some(155.0));
-            assert_eq!(u.speed.times_typing, Some(3.9));
+            assert_eq!(u.speed.times_typing, Some(3.4));
             // 800 / 1,600 documents = 50 %.
             assert_eq!(u.categories[0].share, 0.5);
             let last: Vec<u8> = u.heatmap[362..].iter().map(|x| x.level).collect();

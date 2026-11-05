@@ -22,7 +22,7 @@ use crate::fork::context::categories::UsageCategory;
 use crate::fork::stats::streak;
 
 /// Typing speed used until the user has taken the typing test (S-29b).
-pub const AVERAGE_TYPING_WPM: u32 = 40;
+pub const AVERAGE_TYPING_WPM: u32 = 45;
 
 /// Days the streak heatmap covers, today included (one year).
 pub const HEATMAP_DAYS: i64 = 365;
@@ -271,9 +271,9 @@ mod tests {
         };
         let avg = speed(&t, None);
         assert_eq!(avg.words_per_minute, Some(150.0));
-        assert_eq!(avg.typing_wpm, 40);
+        assert_eq!(avg.typing_wpm, 45);
         assert_eq!(avg.typing_source, TypingSource::Average);
-        assert_eq!(avg.times_typing, Some(3.8)); // 3.75 rounds up
+        assert_eq!(avg.times_typing, Some(3.3)); // 3.33
         let measured = speed(&t, Some(60));
         assert_eq!(measured.typing_source, TypingSource::Measured);
         assert_eq!(measured.times_typing, Some(2.5));
@@ -306,8 +306,8 @@ mod tests {
         };
         // 300 / 60 = 5 min typing, 2 min speaking: 3 min.
         assert_eq!(speed(&t, Some(60)).time_saved_ms, Some(180_000));
-        // The average typist (40 wpm): 7.5 − 2 = 5.5 min.
-        assert_eq!(speed(&t, None).time_saved_ms, Some(330_000));
+        // The average typist (45 wpm): 6⅔ − 2 = 4⅔ min.
+        assert_eq!(speed(&t, None).time_saved_ms, Some(280_000));
     }
 
     #[test]

@@ -9,9 +9,10 @@
  *   number instead of being ignored.
  * - Time saved (DEC-50): of the hours a day spent typing, the share that
  *   speaking would save, over a five-day week. Speaking is taken at
- *   130 words a minute, a conservative everyday speaking rate (people
- *   usually talk at 120-160), so a fast typist sees a smaller number, and
- *   nobody who types at 130 or faster is promised any saving.
+ *   200 words a minute (owner's call, rc8: dictation runs faster than
+ *   conversation), so a fast typist sees a smaller number, and nobody who
+ *   types at 200 or faster is promised any saving. The typing speed until
+ *   the test is taken is 45 words a minute.
  */
 
 /** Characters per typing-test word. */
@@ -21,9 +22,9 @@ export const TEST_SECONDS = 30;
 /** Below this the live number would jump around: show none yet. */
 export const MIN_LIVE_SECONDS = 2;
 /** The speaking rate the estimate assumes (see above). */
-export const SPEAKING_WPM = 130;
+export const SPEAKING_WPM = 200;
 /** Typing speed assumed until the test is taken (S-25 uses the same). */
-export const DEFAULT_TYPING_WPM = 40;
+export const DEFAULT_TYPING_WPM = 45;
 /** Working days a week. */
 export const WORKDAYS = 5;
 /** The fork setting's bound (`MAX_TYPING_WPM` in `fork/settings.rs`). */

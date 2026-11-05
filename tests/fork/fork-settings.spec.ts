@@ -60,7 +60,7 @@ test.describe("useForkSettings", () => {
     const checkbox = section.getByTestId("fork-settings-context-awareness");
     await expect(checkbox).toBeChecked();
     await expect(section.getByTestId("fork-settings-cleanup-level")).toHaveText(
-      "Light",
+      "Medium",
     );
     expect((await calls(page, "fork_get_settings")).length).toBeGreaterThan(0);
 
@@ -116,7 +116,7 @@ test.describe("useForkSettings", () => {
   test("follows ForkSettingsChanged from the backend", async ({ page }) => {
     const section = await openPanel(page, { fork_get_settings: defaults });
     const level = section.getByTestId("fork-settings-cleanup-level");
-    await expect(level).toHaveText("Light");
+    await expect(level).toHaveText("Medium");
 
     // The backend broadcasts a change made elsewhere (another window).
     await expect
@@ -147,9 +147,9 @@ test.describe("useForkSettings", () => {
           payload: { key: "cleanup_level", settings },
         });
       },
-      { ...defaults, cleanup_level: "medium" },
+      { ...defaults, cleanup_level: "light" },
     );
-    await expect(level).toHaveText("Medium");
+    await expect(level).toHaveText("Light");
   });
 
   test("shows a rejected value and keeps the stored one", async ({ page }) => {
@@ -161,8 +161,8 @@ test.describe("useForkSettings", () => {
     });
     const level = section.getByTestId("fork-settings-cleanup-level");
     await level.click();
-    await page.getByTestId("fork-settings-cleanup-level-option-medium").click();
+    await page.getByTestId("fork-settings-cleanup-level-option-light").click();
     await expect(section.getByRole("alert")).toContainText("cleanup_level: no");
-    await expect(level).toHaveText("Light");
+    await expect(level).toHaveText("Medium");
   });
 });

@@ -1543,7 +1543,11 @@ export type CleanupEngine = "none" | "local" |
  */
 "apple"
 /**
- * LLM cleanup level (DEC-03: Light by default).
+ * LLM cleanup level. The setting's default is Medium since rc8 (the
+ * owner's call; DEC-03 said Light), set in [`ForkSettings::default`]; a
+ * stored value is kept (the store cannot tell an untouched Light from a
+ * chosen one). The enum's own `Default` stays Light: it is the base
+ * cleanup prompt (`fork::llm::prompt::Spec`).
  */
 export type CleanupLevel = "none" | "light" | "medium"
 /**
@@ -2365,7 +2369,8 @@ typing_hours_per_day: number;
  */
 greeting_name: string | null; 
 /**
- * DEC-20: opt-in.
+ * "Learn from my corrections" (DEC-20 made it opt-in; on by default
+ * since rc8, the owner's call; a stored choice is kept).
  */
 auto_learn_enabled: boolean; vibe_coding: VibeCodingSettings; 
 /**

@@ -19,7 +19,7 @@ export const forkSettingsDefaults = {
     "transform.polish": [{ chord: "option+1", activation: "press" }],
     "transform.prompt_engineer": [{ chord: "option+2", activation: "press" }],
   },
-  cleanup_level: "light",
+  cleanup_level: "medium",
   styles: {
     personal: "relaxed",
     work: "formal",
@@ -64,7 +64,7 @@ export const forkSettingsDefaults = {
   typing_wpm: null,
   typing_hours_per_day: 2,
   greeting_name: null,
-  auto_learn_enabled: false,
+  auto_learn_enabled: true,
   apple_dictation_shortcut_off: true,
   vibe_coding: {
     enabled: false,

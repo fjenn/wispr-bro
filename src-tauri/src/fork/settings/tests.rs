@@ -43,7 +43,7 @@ fn provider(id: &str, base_url: &str) -> PostProcessProvider {
 fn defaults_match_the_product_decisions() {
     let s = ForkSettings::default();
     assert_eq!(s.schema_version, CURRENT_SCHEMA_VERSION);
-    assert_eq!(s.cleanup_level, CleanupLevel::Light); // DEC-03
+    assert_eq!(s.cleanup_level, CleanupLevel::Medium); // rc8 (was DEC-03 Light)
     assert!(s.context_awareness); // DEC-24
     assert!(!s.transforms_enabled && !s.command_mode_enabled); // DEC-31
     assert!(s.bar_always_visible); // DEC-14
@@ -64,7 +64,7 @@ fn defaults_match_the_product_decisions() {
     assert_eq!(s.notifications, NotificationSettings::default());
     assert!(s.notifications.system && s.notifications.errors);
     assert_eq!(s.onboarding.status, OnboardingStatus::NotStarted);
-    assert!(!s.auto_learn_enabled); // DEC-20
+    assert!(s.auto_learn_enabled); // rc8 (DEC-20 was opt-in)
     assert!(!s.vibe_coding.enabled && !s.vibe_coding.setup_completed); // DEC-41
     assert_eq!(s.typing_wpm, None);
     assert_eq!(s.typing_hours_per_day, 2.0); // DEC-50
@@ -324,7 +324,7 @@ fn salvage_keeps_valid_fields_and_resets_broken_ones() {
         assert!(dropped.iter().any(|d| d == field), "{field} in {dropped:?}");
     }
     assert!(status.needs_backup());
-    assert_eq!(s.cleanup_level, CleanupLevel::Light);
+    assert_eq!(s.cleanup_level, CleanupLevel::Medium);
     assert_eq!(s.bar_position, BarPosition::Bottom);
     assert_eq!(s.typing_hours_per_day, 2.0);
     assert_eq!(s.hotkeys["cancel"], default_hotkeys()["cancel"]);
@@ -383,7 +383,7 @@ fn a_partly_broken_file_is_salvaged_and_backed_up() {
     let (s, status) = load_from_path(&path);
     assert!(matches!(status, LoadStatus::Salvaged { .. }));
     assert_eq!(s.greeting_name.as_deref(), Some("Lee"));
-    assert_eq!(s.cleanup_level, CleanupLevel::Light);
+    assert_eq!(s.cleanup_level, CleanupLevel::Medium);
     let backups: Vec<_> = files_in(dir.path())
         .into_iter()
         .filter(|n| n.contains(".corrupt-"))
@@ -1188,7 +1188,7 @@ mod app {
             let set = invoke(
                 w,
                 "fork_set_setting",
-                json!({ "update": { "key": "cleanup_level", "value": "medium" } }),
+                json!({ "update": { "key": "cleanup_level", "value": "light" } }),
             );
             let invalid = invoke(
                 w,
@@ -1211,19 +1211,19 @@ mod app {
         let (got, set, invalid, wrong_type, mirror, after) = results;
 
         let got = got.unwrap();
-        assert_eq!(got["cleanup_level"], json!("light"));
-        assert_eq!(set.unwrap()["cleanup_level"], json!("medium"));
+        assert_eq!(got["cleanup_level"], json!("medium"));
+        assert_eq!(set.unwrap()["cleanup_level"], json!("light"));
         let invalid = invalid.unwrap_err();
         assert_eq!(invalid["kind"], json!("InvalidSetting"));
         assert!(invalid["message"].as_str().unwrap().contains("typing_wpm"));
         assert!(wrong_type.is_err());
         assert_eq!(mirror.unwrap()["update_checks_enabled"], json!(false));
         let after = after.unwrap();
-        assert_eq!(after["cleanup_level"], json!("medium"));
+        assert_eq!(after["cleanup_level"], json!("light"));
         assert_eq!(after["typing_wpm"], Value::Null);
 
         // Persisted to the store file, and mirrored to Handy at once.
-        assert_eq!(stored(&path)["cleanup_level"], json!("medium"));
+        assert_eq!(stored(&path)["cleanup_level"], json!("light"));
         assert_eq!(stored(&path)["update_checks_enabled"], json!(false));
         assert!(!handy.update_checks_enabled);
 
@@ -1232,7 +1232,7 @@ mod app {
             std::iter::from_fn(|| rx.recv_timeout(Duration::from_secs(2)).ok()).collect();
         let keys: Vec<_> = events.iter().map(|e| e.key.as_str()).collect();
         assert_eq!(keys, vec!["cleanup_level", "update_checks_enabled"]);
-        assert_eq!(events[0].settings.cleanup_level, CleanupLevel::Medium);
+        assert_eq!(events[0].settings.cleanup_level, CleanupLevel::Light);
     }
 
     #[test]
@@ -1280,7 +1280,7 @@ mod app {
         assert!(handy.experimental_enabled);
         assert!(!handy.audio_feedback);
         // Fork settings themselves still work.
-        assert_eq!(got.unwrap()["cleanup_level"], json!("light"));
+        assert_eq!(got.unwrap()["cleanup_level"], json!("medium"));
     }
 
     #[test]
@@ -1327,4 +1327,22 @@ fn filler_removal_follows_the_cleanup_level() {
     fork.cleanup_level = CleanupLevel::Medium;
     apply_product_settings(&mut handy, &mut fork);
     assert!(handy.filler_word_removal_enabled);
+}
+
+#[test]
+fn a_stored_light_cleanup_and_learning_off_are_kept() {
+    // rc8 moved the defaults to Medium and learning on; an existing file's
+    // values stay (an untouched Light cannot be told from a chosen one).
+    let stored = json!({
+        "schema_version": CURRENT_SCHEMA_VERSION,
+        "cleanup_level": "light",
+        "auto_learn_enabled": false
+    });
+    let (s, _) = decode_stored(Some(&stored));
+    assert_eq!(s.cleanup_level, CleanupLevel::Light);
+    assert!(!s.auto_learn_enabled);
+    // A file without the fields takes the new defaults.
+    let (s, _) = decode_stored(Some(&json!({ "schema_version": CURRENT_SCHEMA_VERSION })));
+    assert_eq!(s.cleanup_level, CleanupLevel::Medium);
+    assert!(s.auto_learn_enabled);
 }
