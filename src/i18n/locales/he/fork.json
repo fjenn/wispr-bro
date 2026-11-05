@@ -630,6 +630,10 @@
       "star": "כוכב ב-GitHub",
       "contribute": "תרומה לפיתוח"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "כיבינו את הקיצור ״לחיצה כפולה על fn״ של ההכתבה של Apple כדי שהטקסט שלך לא יוקלד פעמיים. אפשר לשנות זאת בהגדרות › קיצורים."
     }

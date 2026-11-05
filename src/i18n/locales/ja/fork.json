@@ -624,6 +624,10 @@
       "star": "GitHub でスターを付ける",
       "contribute": "開発に参加"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "テキストが二重に入力されないよう、Appleの音声入力の「fnキーを2回押す」をオフにしました。設定 › ショートカットで変更できます。"
     }

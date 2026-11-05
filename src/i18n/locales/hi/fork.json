@@ -627,6 +627,10 @@
       "star": "GitHub पर स्टार दें",
       "contribute": "योगदान दें"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "हमने Apple डिक्टेशन का “fn दो बार दबाएँ” बंद कर दिया है, ताकि आपका टेक्स्ट दो बार टाइप न हो। इसे सेटिंग्ज़ › शॉर्टकट में बदलें।"
     }

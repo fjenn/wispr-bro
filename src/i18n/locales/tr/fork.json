@@ -627,6 +627,10 @@
       "star": "GitHub'da yıldız ver",
       "contribute": "Katkıda bulun"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Metniniz iki kez yazılmasın diye Apple Dikte'nin “fn'ye iki kez bas” kestirmesini kapattık. Ayarlar › Kestirmeler'den değiştirebilirsiniz."
     }

@@ -630,6 +630,10 @@
       "star": "Doneu una estrella a GitHub",
       "contribute": "Contribuïu"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Hem desactivat «Prem fn dues vegades» del Dictat d'Apple perquè el text no s'escrigui dues vegades. Canvia-ho a Configuració › Dreceres."
     }

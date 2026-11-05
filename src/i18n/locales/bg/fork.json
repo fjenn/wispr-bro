@@ -627,6 +627,10 @@
       "star": "Дайте звезда в GitHub",
       "contribute": "Допринесете"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Изключихме „Натиснете fn два пъти“ за Диктовка на Apple, за да не се въвежда текстът ви два пъти. Променете го в Настройки › Клавишни комбинации."
     }

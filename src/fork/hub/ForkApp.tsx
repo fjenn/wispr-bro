@@ -25,7 +25,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { platform } from "@tauri-apps/plugin-os";
-import SecureInputWarning from "@/components/SecureInputWarning";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { WhatsNewGate } from "../whats-new/WhatsNewGate";
 import { getLanguageDirection } from "@/lib/utils/rtl";
@@ -53,8 +52,7 @@ import { syncHubWithHash, useHubNav } from "./nav";
 import { useMenuActions } from "./menuActions";
 import { useNotificationsLive } from "./NotificationsPanel";
 import { hubPage, newTagId } from "./pages";
-import { ShortcutHealthBanner } from "./ShortcutHealthBanner";
-import { AppleDictationNote } from "./AppleDictationNote";
+import { HubNotices } from "./HubNotices";
 import { setSidebarCard, Sidebar } from "./Sidebar";
 import { renderSetupChecklist } from "./SetupChecklist";
 import { FirstUseChooser } from "../onboarding/FirstUseChooser";
@@ -218,9 +216,9 @@ export function ForkApp(props: ForkAppProps) {
                   animate={m.page.animate}
                   className="mx-auto flex w-full max-w-[1000px] flex-col gap-6 px-(--wb-page-pad-x) pt-(--wb-page-pad-top) pb-10 max-[860px]:px-8"
                 >
-                  <ShortcutHealthBanner />
-                  <AppleDictationNote />
-                  <SecureInputWarning />
+                  <ErrorBoundary context="Notices">
+                    <HubNotices />
+                  </ErrorBoundary>
                   <ErrorBoundary key={page.id} context={page.id}>
                     <Page />
                   </ErrorBoundary>

@@ -627,6 +627,10 @@
       "star": "Ge en stjärna på GitHub",
       "contribute": "Bidra"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Vi har stängt av ”Tryck på fn två gånger” för Apples diktering så att texten inte skrivs två gånger. Ändra det i Inställningar › Kortkommandon."
     }

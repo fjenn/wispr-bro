@@ -627,6 +627,10 @@
       "star": "Auf GitHub mit Stern markieren",
       "contribute": "Mitwirken"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Wir haben „fn zweimal drücken“ für das Diktat von Apple ausgeschaltet, damit dein Text nicht doppelt geschrieben wird. Ändern kannst du das unter Einstellungen › Kurzbefehle."
     }

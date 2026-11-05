@@ -633,6 +633,10 @@
       "star": "Daj gwiazdkę na GitHubie",
       "contribute": "Współtwórz"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Wyłączyliśmy „Naciśnij fn dwa razy” w Dyktowaniu Apple, aby tekst nie był wpisywany dwukrotnie. Zmienisz to w Ustawienia › Skróty."
     }

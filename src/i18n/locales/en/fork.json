@@ -619,6 +619,10 @@
       "star": "Star on GitHub",
       "contribute": "Contribute"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "We turned off Apple Dictation's “Press fn twice” so your text isn't typed twice. Change it in Settings › Shortcuts."
     }

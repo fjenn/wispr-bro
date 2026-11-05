@@ -630,6 +630,10 @@
       "star": "Dale una estrella en GitHub",
       "contribute": "Contribuye"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Hemos desactivado «Pulsar fn dos veces» del Dictado de Apple para que tu texto no se escriba dos veces. Cámbialo en Ajustes › Funciones rápidas."
     }

@@ -627,6 +627,10 @@
       "star": "Giv en stjerne på GitHub",
       "contribute": "Bidrag"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Vi har slået Apples Diktering-genvej „Tryk på fn to gange“ fra, så din tekst ikke skrives to gange. Skift det i Indstillinger › Genveje."
     }

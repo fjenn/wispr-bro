@@ -633,6 +633,10 @@
       "star": "Dát hvězdičku na GitHubu",
       "contribute": "Přispět"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Vypnuli jsme zkratku „Stisknout fn dvakrát“ pro Diktování Apple, aby se váš text nenapsal dvakrát. Změnit to můžete v Nastavení › Zkratky."
     }

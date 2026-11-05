@@ -624,6 +624,10 @@
       "star": "GitHub에서 별표 주기",
       "contribute": "기여하기"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "텍스트가 두 번 입력되지 않도록 Apple 받아쓰기의 'fn 두 번 누르기'를 껐습니다. 설정 › 단축키에서 바꿀 수 있습니다."
     }

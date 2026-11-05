@@ -630,6 +630,10 @@
       "star": "Ajouter une étoile sur GitHub",
       "contribute": "Contribuer"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Nous avons désactivé « Appuyer deux fois sur fn » pour la Dictée d'Apple afin que votre texte ne soit pas saisi deux fois. Modifiez-le dans Réglages › Raccourcis."
     }

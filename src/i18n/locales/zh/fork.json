@@ -624,6 +624,10 @@
       "star": "在 GitHub 上加星标",
       "contribute": "参与贡献"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "我们已关闭 Apple 听写的“按两下 fn 键”，以免文字被输入两次。可在设置 › 快捷键中更改。"
     }

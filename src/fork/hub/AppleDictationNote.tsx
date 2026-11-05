@@ -3,7 +3,8 @@
  * One-time Hub note after the app switched Apple Dictation's "Press fn
  * twice" off (OT2, `shortcut/apple_dictation.rs`): what was changed, why,
  * and the way back (Settings › Shortcuts has the switch). Dismissal is kept
- * in `dismissed_banners`, so it never returns.
+ * in `dismissed_banners`, so it never returns. Lowest priority in the Hub's
+ * one notice slot (`HubNotices.tsx`).
  */
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,10 +15,11 @@ import { Info } from "../ui/icons";
 import { useForkSettings } from "../settings/useForkSettings";
 import { useRecheckOnFocus } from "../settings/hotkeys/AppleDictation";
 import { navigate } from "./nav";
+import type { HubNotice } from "./HubNotices";
 
 export const APPLE_DICTATION_NOTE_ID = "hub.apple-dictation-off";
 
-export function AppleDictationNote() {
+export function useAppleDictationNotice(): HubNotice | null {
   const { t } = useTranslation(FORK_NAMESPACE);
   const { settings, setSetting } = useForkSettings();
   const [status, setStatus] = useState<HotkeyStatus | null>(null);
@@ -45,17 +47,14 @@ export function AppleDictationNote() {
       ...settings.dismissed_banners,
       APPLE_DICTATION_NOTE_ID,
     ]);
-  return (
-    <div
-      role="status"
-      data-testid="wb-apple-dictation-note"
-      className="flex flex-wrap items-center gap-3 rounded-(--wb-radius-md) border border-(--wb-line-strong) bg-(--wb-surface) px-4 py-3 text-(--wb-ink)"
-    >
-      <Info size={18} aria-hidden className="shrink-0" />
-      <p className="m-0 min-w-0 flex-1 text-[14px] leading-5">
-        {t("hub.appleDictationNote.body")}
-      </p>
-      <div className="flex gap-2">
+  return {
+    id: "apple-dictation",
+    testId: "wb-apple-dictation-note",
+    role: "status",
+    icon: <Info size={18} aria-hidden className="shrink-0" />,
+    message: t("hub.appleDictationNote.body"),
+    actions: (
+      <>
         <Button
           variant="secondary"
           onClick={() => {
@@ -73,7 +72,7 @@ export function AppleDictationNote() {
         >
           {t("hub.featurePopup.dismiss")}
         </Button>
-      </div>
-    </div>
-  );
+      </>
+    ),
+  };
 }

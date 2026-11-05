@@ -3108,17 +3108,17 @@ twice", fresh login (`probe164` says `armed=1`).
 - [ ] OT2-H.1 **queued for the Mac wave** Start the S-05 test identity with
       `WISPRBRO_TEST_APPLE_DICTATION=1` and fn bound (default): the log says
       "Apple Dictation's fn-twice shortcut switched off", `probe164` says
-      `live=0 armed=0`, the log stream shows apps reporting `hotmod:0 …
-    keyChar=0xffff, virtKey=0xffff`, `apple-dictation-shortcut.json` is in
-      the test data dir, System Settings › Keyboard › Dictation still shows
-      "Press fn twice", and `defaults read com.apple.HIToolbox
-    AppleFnUsageType` is unchanged. The Hub shows the note once; Got it →
-      it never returns (relaunch).
+      `live=0 armed=0`, the log stream shows apps reporting
+      `hotmod:0 … keyChar=0xffff, virtKey=0xffff`,
+      `apple-dictation-shortcut.json` is in the test data dir, System
+      Settings › Keyboard › Dictation still shows "Press fn twice", and
+      `defaults read com.apple.HIToolbox AppleFnUsageType` is unchanged. The
+      Hub shows the note once; Got it → it never returns (relaunch).
 - [ ] OT2-H.2 **queued for the Mac wave (owner: real fn)** Double-tap fn in
       TextEdit and in an app that was already open before Wispr Bro started,
       speak (or the WAV microphone), double-tap to end: one copy of the
-      text, Apple's Dictation never opens (`log show --last 5m --predicate
-    'eventMessage CONTAINS "Dictation Hotkey start"'` is empty).
+      text, Apple's Dictation never opens (this is empty:
+      `log show --last 5m --predicate 'eventMessage CONTAINS "Dictation Hotkey start"'`).
 - [ ] OT2-H.3 **queued for the Mac wave** Settings › Shortcuts: "Turn off
       Apple Dictation on fn twice" is on; switch it off → marker gone,
       `armed=0` until the next login (by design); switch it on → stays

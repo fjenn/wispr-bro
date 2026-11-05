@@ -639,6 +639,10 @@
       "star": "أضف نجمة على GitHub",
       "contribute": "ساهِم"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "أوقفنا اختصار «الضغط على fn مرتين» لإملاء Apple حتى لا يُكتب نصك مرتين. يمكنك تغييره من الإعدادات › الاختصارات."
     }

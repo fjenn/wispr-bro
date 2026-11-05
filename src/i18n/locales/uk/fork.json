@@ -633,6 +633,10 @@
       "star": "Поставити зірку на GitHub",
       "contribute": "Долучитися"
     },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
     "appleDictationNote": {
       "body": "Ми вимкнули «Двічі натиснути fn» для Диктування Apple, щоб текст не вводився двічі. Змінити це можна в Параметри › Скорочення."
     }
