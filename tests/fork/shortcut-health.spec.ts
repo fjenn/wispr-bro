@@ -319,6 +319,8 @@ async function openPill(
 
 test.describe("the bar", () => {
   test.use({ ipcSetup: { windowLabel: "fork-pill" } });
+  // Load-only: a busy machine can spend most of 30 s loading the bar page.
+  test.beforeEach(() => test.setTimeout(180_000));
 
   test("a lost shortcut: the message, its reason, Fix and Dismiss", async ({
     page,

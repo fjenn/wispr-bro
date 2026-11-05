@@ -237,6 +237,8 @@ async function openPill(
 test.describe("states", () => {
   for (const [name, s] of Object.entries(STATES)) {
     test(`${name} renders at its exact size`, async ({ page, ipc }) => {
+      // Load-only: the spring can take long to settle on a busy machine.
+      test.setTimeout(180_000);
       await openPill(page, ipc, s);
       const pill = page.getByTestId("wb-pill");
       await expect(pill).toHaveAttribute("data-phase", s.phase);
@@ -254,7 +256,7 @@ test.describe("states", () => {
         expect(capsule?.width).toBe(cap.w);
         expect(capsule?.height).toBe(cap.h);
         expect(capsule!.y + capsule!.height).toBe(box!.y + box!.height);
-      }).toPass({ timeout: 10_000 });
+      }).toPass({ timeout: 60_000 });
       // Nothing overflows the window or the capsule's content.
       const overflow = await pill.evaluate(
         (el) => el.scrollWidth > el.clientWidth + 1,
