@@ -3179,3 +3179,9 @@ test profile (never the owner's data dir); network on.
 
 - **KEY.1** Debug test identity, Settings › General: Change on "Dictation key", hold ⌃ and ⌥: the caps light while held; release, Save. Holding ⌃⌥ starts a take, a double-tap starts hands-free, ⌃⌥Space toggles hands-free; fn no longer starts one. Change back to fn the same way.
 - **KEY.2** Onboarding's shortcut test: Edit shortcut shows only the key capture; press ⌥ alone: the inline "Use fn, or two modifier keys…" line, Save off; Esc closes the dialog and the test runs again with the current key.
+
+## WPM: retake the typing test, Insights layout (queued for the Mac wave)
+
+- **WPM.1** Insights › Usage on a test profile with seeded history, light and dark: three stat cards (number over label), the speed card's two bars, "N min saved over typing", "4-day streak" with the outlined days; numbers roll in WebKit; Save as image leaves the Retake button out.
+- **WPM.2** Retake typing test from Insights, then from Settings › General: type for 30 s on the keyboard, Recalculate; the speed card, the time saved and the Settings row show the new speed; Esc in the test inside Settings closes only the test.
+- **WPM.3** VoiceOver on the test: the result card is read once ("You type about N words a minute").
