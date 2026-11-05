@@ -2113,7 +2113,6 @@
         "bannerTitle": "Do wszystkiego innego"
       }
     },
-    "marksNote": "Wyróżnienia pokazują, co każdy styl zmienia względem stylu {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formalny",

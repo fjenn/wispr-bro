@@ -1,19 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * One preset of a style group as a selectable card (S-19a, R2 D-25): its
- * name, what it does, and the group's example as this preset inserts it.
- * The cards of a group are one radio group (arrow keys move, Space picks);
- * the example text is English (`lang="en"`), as styles are. A card other
- * than Formal marks what its preset changes (rc10: the rules change a few
- * characters, too few to spot): changed characters highlighted, dropped
- * ones struck through in a highlight drawn by CSS, so the example's text
- * (and what a screen reader reads) stays exactly what the app inserts.
+ * name and the group's example as this preset inserts it. The cards of a
+ * group are one radio group (arrow keys move, Space picks); the example
+ * text is English (`lang="en"`), as styles are.
  */
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { StylePreset } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { diffFromFormal, type DiffPart } from "./exampleDiff";
 
 export interface PresetCardProps {
   preset: StylePreset;
@@ -23,8 +17,6 @@ export interface PresetCardProps {
   disabled?: boolean;
   /** The group's example as this preset inserts it. */
   example: string;
-  /** The group's Formal example, to mark what this preset changes. */
-  baseline?: string;
   /** Position in the row; picks the sample's sender disc. */
   index?: number;
   /** The letter on the sender disc (the user's initial). */
@@ -46,18 +38,10 @@ export function PresetCard({
   checked,
   disabled,
   example,
-  baseline,
   initial,
   onSelect,
 }: PresetCardProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
-  const parts = useMemo(
-    () =>
-      baseline != null && baseline !== example
-        ? diffFromFormal(baseline, example)
-        : undefined,
-    [baseline, example],
-  );
   return (
     <ChoiceCard
       value={preset}
@@ -68,9 +52,7 @@ export function PresetCard({
       testId={`wb-style-preset-${preset}`}
       exampleTestId={`wb-style-example-${preset}`}
       title={t(`style.presets.${preset}.label`)}
-      description={t(`style.presets.${preset}.description`)}
       example={example}
-      parts={parts}
       exampleLabel={t("style.after")}
       avatar={AVATARS[index % AVATARS.length]}
       initial={initial}
@@ -88,14 +70,12 @@ export interface ChoiceCardProps {
   testId: string;
   exampleTestId: string;
   title: string;
-  description: string;
+  description?: string;
   /** A short line under the description (serif cards only), read with it. */
   note?: string;
   /** English sample text, shown in a tinted box at the bottom; its line
    *  breaks show (an email's greeting and sign-off). */
   example: string;
-  /** The example against Formal, to mark the changes (`exampleDiff.ts`). */
-  parts?: readonly DiffPart[];
   /** Read before the example by screen readers. */
   exampleLabel: string;
   /** A chat bubble with this sender disc; without it, a serif title and
@@ -121,7 +101,6 @@ export function ChoiceCard({
   description,
   note,
   example,
-  parts,
   exampleLabel,
   avatar,
   initial,
@@ -153,13 +132,12 @@ export function ChoiceCard({
         checked={checked}
         disabled={disabled}
         onChange={onSelect}
-        aria-describedby={`${id}-desc ${id}-example`}
+        aria-describedby={chat ? `${id}-example` : `${id}-desc ${id}-example`}
         className="absolute inset-0 m-0 size-full cursor-pointer appearance-none rounded-[inherit] opacity-0 disabled:cursor-default"
       />
       {chat ? (
-        <span className="flex flex-col gap-2 text-[16px] leading-[24px] text-(--wb-ink)">
-          <span>{title}</span>
-          <span id={`${id}-desc`}>{description}</span>
+        <span className="text-[16px] leading-[24px] text-(--wb-ink)">
+          {title}
         </span>
       ) : (
         <span className="flex flex-col gap-3 text-(--wb-ink)">
@@ -192,7 +170,7 @@ export function ChoiceCard({
               : "px-4 py-3 leading-[20px]! italic [font-synthesis:style]"
           }`}
         >
-          {parts ? <Marked parts={parts} /> : example}
+          {example}
         </span>
         {chat && (
           <span
@@ -204,37 +182,5 @@ export function ChoiceCard({
         )}
       </span>
     </label>
-  );
-}
-
-/** Highlight on what a preset changed (`exampleDiff.ts`). */
-const MARK =
-  "rounded-[4px] bg-(--wb-accent) px-[2px] text-(--wb-on-ink) not-italic";
-
-/**
- * The example with its changes marked. A dropped character is drawn by a
- * pseudo-element (struck through), so it is not part of the text.
- */
-function Marked({ parts }: { parts: readonly DiffPart[] }) {
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.kind === "same" ? (
-          <span key={i}>{part.text}</span>
-        ) : part.kind === "changed" ? (
-          <mark key={i} className={MARK} data-diff="changed">
-            {part.text}
-          </mark>
-        ) : (
-          <span
-            key={i}
-            aria-hidden="true"
-            data-diff="removed"
-            data-text={part.text}
-            className={`${MARK} line-through before:content-[attr(data-text)]`}
-          />
-        ),
-      )}
-    </>
   );
 }

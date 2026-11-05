@@ -2276,7 +2276,6 @@
         "bannerTitle": "For everything else"
       }
     },
-    "marksNote": "Highlights show what each style changes from {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",

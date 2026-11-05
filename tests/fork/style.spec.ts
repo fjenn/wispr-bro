@@ -235,7 +235,7 @@ styleTest.describe("style page", () => {
         "Work messages",
         "Email",
         "Other",
-        "Auto cleanupBeta",
+        "Auto cleanup",
       ]);
       await expect(
         page.getByRole("tab", { name: "Personal messages" }),
@@ -265,7 +265,7 @@ styleTest.describe("style page", () => {
   );
 
   styleTest(
-    "rc10: every tab's three cards differ and mark what changes from Formal",
+    "every tab's three cards show only a title and a distinct example",
     async ({ page, ipc, hub, style }) => {
       await openStyle(page, ipc, hub, style);
       for (const [tab, presets] of [
@@ -280,17 +280,16 @@ styleTest.describe("style page", () => {
           const example = page.getByTestId(`wb-style-example-${preset}`);
           await expect(example).toBeVisible();
           texts.push(await example.innerText());
-          const marks = example.locator("[data-diff]");
-          if (preset === "formal") await expect(marks).toHaveCount(0);
-          else expect(await marks.count()).toBeGreaterThan(0);
+          await expect(example.locator("[data-diff]")).toHaveCount(0);
+          const card = page.getByTestId(`wb-style-preset-${preset}`);
+          await expect(card).not.toContainText("punctuation");
+          await expect(card).not.toContainText("more energy");
         }
         expect(new Set(texts).size, tab).toBe(3);
-        await expect(page.getByTestId("wb-style-marks-note")).toHaveText(
-          "Highlights show what each style changes from Formal.",
-        );
+        await expect(page.getByTestId("wb-style-marks-note")).toHaveCount(0);
         await shot(
           page,
-          `rc10-${presets[0]}-${tab.split(" ")[0].toLowerCase()}`,
+          `simple-${presets[0]}-${tab.split(" ")[0].toLowerCase()}`,
         );
       }
     },

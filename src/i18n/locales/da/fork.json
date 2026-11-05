@@ -1959,7 +1959,6 @@
         "bannerTitle": "Til alt andet"
       }
     },
-    "marksNote": "Markeringerne viser, hvad hver stil ændrer i forhold til {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formel",

@@ -1882,7 +1882,6 @@
         "bannerTitle": "그 밖의 모든 곳용"
       }
     },
-    "marksNote": "강조 표시는 각 스타일이 {{formal}}에서 바꾸는 부분입니다.",
     "presets": {
       "formal": {
         "label": "격식 있게",

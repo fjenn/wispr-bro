@@ -26,7 +26,7 @@ export interface TagProps {
   className?: string;
   /** `lg`: beside a page title or a tab (flowmatch), a rounded box. */
   size?: "sm" | "lg";
-  /** `accent`: the purple Beta beside a tab label (Style › Auto cleanup). */
+  /** `accent`: the purple variant for a tab label. */
   tone?: "default" | "accent";
 }
 

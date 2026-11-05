@@ -1959,7 +1959,6 @@
         "bannerTitle": "Für alles andere"
       }
     },
-    "marksNote": "Markierungen zeigen, was jeder Stil gegenüber „{{formal}}“ ändert.",
     "presets": {
       "formal": {
         "label": "Förmlich",

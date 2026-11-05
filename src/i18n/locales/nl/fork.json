@@ -1959,7 +1959,6 @@
         "bannerTitle": "Voor al het andere"
       }
     },
-    "marksNote": "Markeringen tonen wat elke stijl verandert ten opzichte van {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formeel",

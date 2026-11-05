@@ -1882,7 +1882,6 @@
         "bannerTitle": "用於其他所有地方"
       }
     },
-    "marksNote": "醒目標示顯示每種風格相對於「{{formal}}」改變的內容。",
     "presets": {
       "formal": {
         "label": "正式",

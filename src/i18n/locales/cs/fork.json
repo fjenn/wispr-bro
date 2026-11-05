@@ -2113,7 +2113,6 @@
         "bannerTitle": "Pro všechno ostatní"
       }
     },
-    "marksNote": "Zvýraznění ukazuje, co každý styl mění oproti stylu {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formální",

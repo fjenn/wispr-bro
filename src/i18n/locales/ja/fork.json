@@ -1882,7 +1882,6 @@
         "bannerTitle": "その他すべて向け"
       }
     },
-    "marksNote": "ハイライトは、各スタイルが「{{formal}}」から変える部分です。",
     "presets": {
       "formal": {
         "label": "フォーマル",

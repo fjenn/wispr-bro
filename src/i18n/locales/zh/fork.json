@@ -1882,7 +1882,6 @@
         "bannerTitle": "用于其他所有地方"
       }
     },
-    "marksNote": "高亮显示每种风格相对于“{{formal}}”改变的内容。",
     "presets": {
       "formal": {
         "label": "正式",

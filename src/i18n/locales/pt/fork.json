@@ -2036,7 +2036,6 @@
         "bannerTitle": "Para todo o resto"
       }
     },
-    "marksNote": "Os destaques mostram o que cada estilo muda em relação a {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",
