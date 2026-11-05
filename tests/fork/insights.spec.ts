@@ -503,6 +503,8 @@ test.describe("insights", () => {
     ipc,
     hub,
   }) => {
+    // Load-only flake under a parallel release build: 180 s (repo rule).
+    test.setTimeout(180_000);
     await openInsights(page, ipc, hub, fresh());
     await expect(
       page.getByTestId("wb-insights-categories-chart").locator(".recharts-bar"),
@@ -515,9 +517,12 @@ test.describe("insights", () => {
     expect(JSON.stringify(dialog.args)).toContain(
       "Wispr Bro insights 2026-10-31.png",
     );
-    await ipc.expectCalled("fork_insights_save_image", {
-      path: "/Users/test/Desktop/insights.png",
-    });
+    // Rendering the PNG is CPU-bound; under load it took over 5 s.
+    await ipc.expectCalled(
+      "fork_insights_save_image",
+      { path: "/Users/test/Desktop/insights.png" },
+      60_000,
+    );
     const [call] = await ipc.calls("fork_insights_save_image");
     const png = Buffer.from(String(call.args.pngBase64), "base64");
     expect(png.subarray(0, 8)).toEqual(
@@ -540,6 +545,8 @@ test.describe("insights", () => {
     ipc,
     hub,
   }) => {
+    // Load-only flake under a parallel release build: 180 s (repo rule).
+    test.setTimeout(180_000);
     await openInsights(page, ipc, hub, fresh());
     ipc.respond("plugin:dialog|save", null);
     await page.getByTestId("wb-insights-save").click();
@@ -553,7 +560,7 @@ test.describe("insights", () => {
     await page.getByTestId("wb-insights-save").click();
     await expect(
       page.getByText("The image could not be saved. Try again."),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 60_000 });
   });
 
   test("keyboard only: tabs, arrow keys and the save button", async ({

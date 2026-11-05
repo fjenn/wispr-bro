@@ -119,6 +119,8 @@ test("a password field's text is never shown; Copy still works", async ({
   page,
   ipc,
 }) => {
+  // Load-only flake under a parallel release build: 180 s (repo rule).
+  test.setTimeout(180_000);
   await openCard(page, ipc, cardState("secure_field"));
   const text = page.getByTestId("wb-pill-card-text");
   await expect(text).toHaveAttribute("data-hidden", "true");
@@ -128,6 +130,8 @@ test("a password field's text is never shown; Copy still works", async ({
 });
 
 test("Copy, then Copied; ✕ dismisses", async ({ page, ipc }) => {
+  // Load-only flake under a parallel release build: 180 s (repo rule).
+  test.setTimeout(180_000);
   await openCard(page, ipc, cardState("focus_moved"));
   await page.getByRole("button", { name: "Copy" }).click();
   await ipc.expectCalled("fork_pill_action", { action: "copy" });
@@ -160,14 +164,19 @@ test("keyboard only: Copy and Dismiss act on Enter and Space", async ({
 });
 
 test("RTL mirrors the card", async ({ page, ipc }) => {
+  // Load-only flake under a parallel release build: 180 s (repo rule).
+  test.setTimeout(180_000);
   await openCard(page, ipc, cardState("no_text_field"), RTL_APP_SETTINGS);
   await expectRtl(page);
   await expect
-    .poll(async () => {
-      const text = (await page.getByTestId("wb-pill-card").boundingBox())!;
-      const close = (await page.getByTestId("wb-pill-dismiss").boundingBox())!;
-      return text.x > close.x;
-    })
+    .poll(
+      async () => {
+        const text = await page.getByTestId("wb-pill-card").boundingBox();
+        const close = await page.getByTestId("wb-pill-dismiss").boundingBox();
+        return !!text && !!close && text.x > close.x;
+      },
+      { timeout: 60_000 },
+    )
     .toBe(true);
 });
 

@@ -506,6 +506,8 @@ test("RTL: the list mirrors (radios on the right) and stays accessible", async (
 
 for (const theme of ["light", "dark"] as const) {
   test(`axe: microphone and sounds (${theme})`, async ({ page, ipc, hub }) => {
+    // Load-only flake under a parallel release build: 180 s (repo rule).
+    test.setTimeout(180_000);
     await page.emulateMedia({ colorScheme: theme });
     installMics(ipc);
     const { mic } = await openSound(page, ipc, hub, { theme });
