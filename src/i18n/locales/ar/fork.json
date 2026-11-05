@@ -2267,6 +2267,7 @@
         "bannerTitle": "لكل ما عدا ذلك"
       }
     },
+    "marksNote": "يُظهر التمييز ما يغيّره كل أسلوب عن {{formal}}.",
     "presets": {
       "formal": {
         "label": "رسمي",
@@ -2548,7 +2549,8 @@
       "faster": "<em>أسرع</em> بـ<n/>×",
       "takeTest": "إجراء اختبار الكتابة",
       "retakeTest": "إعادة اختبار الكتابة",
-      "yourTypingLabel": "كتابتك"
+      "yourTypingLabel": "كتابتك",
+      "youSpokeLabel": "تحدثت بسرعة"
     },
     "timeSaved": {
       "headline_zero": "قد يوفر لك الإملاء نحو {{hours}} ساعة أسبوعيًا",
@@ -2582,7 +2584,8 @@
       "hoursPerWeek_two": "{{hours}} ساعتان أسبوعيًا",
       "hoursPerWeek_few": "{{hours}} ساعات أسبوعيًا",
       "hoursPerWeek_many": "{{hours}} ساعةً أسبوعيًا",
-      "hoursPerWeek_other": "{{hours}} ساعة أسبوعيًا"
+      "hoursPerWeek_other": "{{hours}} ساعة أسبوعيًا",
+      "math": "{{typed}} س من الكتابة بسرعة {{wpm}} كلمة/د ≈ {{voice}} س بالصوت بسرعة {{speaking}} كلمة/د"
     },
     "typing": {
       "title": "ما سرعة <em>كتابتك</em>؟",

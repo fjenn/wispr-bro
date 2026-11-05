@@ -88,10 +88,72 @@ export function hoursSavedPerWeek(
   return Math.round(hoursPerWeek * share * 2) / 2;
 }
 
-/** How many times faster speaking is than `typingWpm`, to one decimal. */
-export function timesFaster(typingWpm: number): number {
-  if (!(typingWpm > 0)) return 0;
-  return Math.round((SPEAKING_WPM / typingWpm) * 10) / 10;
+/** How many times faster `speakingWpm` is than `typingWpm`, to one decimal. */
+export function timesFaster(
+  typingWpm: number,
+  speakingWpm: number = SPEAKING_WPM,
+): number {
+  if (!(typingWpm > 0) || !(speakingWpm > 0)) return 0;
+  return Math.round((speakingWpm / typingWpm) * 10) / 10;
+}
+
+/**
+ * Hours a week the same words would take by voice: `hoursPerWeek` of
+ * typing at `typingWpm`, spoken at `SPEAKING_WPM`. Time saved is the
+ * difference (`hoursSavedPerWeek`), so the estimate's line under the
+ * number can show both sides of it.
+ */
+export function voiceHoursPerWeek(
+  typingWpm: number,
+  hoursPerWeek: number,
+): number {
+  if (!(typingWpm > 0) || !(hoursPerWeek > 0)) return 0;
+  return hoursPerWeek * Math.min(1, typingWpm / SPEAKING_WPM);
+}
+
+/** Least recorded time and words for a speaking speed worth showing. */
+export const MIN_SPOKEN_SECONDS = 2;
+export const MIN_SPOKEN_WORDS = 3;
+/** Above this the timing must be off (no one dictates that fast). */
+export const MAX_SPOKEN_WPM = 400;
+
+/**
+ * Words in dictated `text` (word-like segments, so languages written
+ * without spaces count too).
+ */
+export function countWords(text: string, language?: string): number {
+  const Segmenter = (
+    Intl as unknown as {
+      Segmenter?: new (
+        l?: string,
+        o?: { granularity: "word" },
+      ) => { segment(s: string): Iterable<{ isWordLike?: boolean }> };
+    }
+  ).Segmenter;
+  if (Segmenter) {
+    let n = 0;
+    for (const s of new Segmenter(language, { granularity: "word" }).segment(
+      text,
+    )) {
+      if (s.isWordLike) n++;
+    }
+    return n;
+  }
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+/**
+ * The practice's speaking speed: dictated words over the seconds the
+ * microphone recorded, or `null` when there is too little to go on or the
+ * number is implausible. Spoken words are real words (not the typing
+ * test's five characters).
+ */
+export function spokenWpm(words: number, seconds: number): number | null {
+  if (!(seconds >= MIN_SPOKEN_SECONDS) || !(words >= MIN_SPOKEN_WORDS)) {
+    return null;
+  }
+  const wpm = Math.round(words / (seconds / 60));
+  return wpm >= 1 && wpm <= MAX_SPOKEN_WPM ? wpm : null;
 }
 
 /** Keeps a slider value (hours a week) on the slider's steps. */

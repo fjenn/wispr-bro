@@ -254,11 +254,45 @@ styleTest.describe("style page", () => {
       await expect(page.getByTestId("wb-style-preset-upbeat")).toHaveCount(0);
       await expect(
         page.getByTestId("wb-style-example-very_relaxed"),
-      ).toHaveText("hey Sam are you free tonight? let's get pizza my treat");
+      ).toHaveText(
+        "hey Sam are you free tonight? i'm thinking pizza around eight. my treat of course",
+      );
       await expect(page.getByTestId("wb-banner-style-personal")).toContainText(
         "Styles apply to dictations in English. Cleanup works in every language.",
       );
       await shot(page, "personal");
+    },
+  );
+
+  styleTest(
+    "rc10: every tab's three cards differ and mark what changes from Formal",
+    async ({ page, ipc, hub, style }) => {
+      await openStyle(page, ipc, hub, style);
+      for (const [tab, presets] of [
+        ["Personal messages", ["formal", "relaxed", "very_relaxed"]],
+        ["Work messages", ["formal", "relaxed", "upbeat"]],
+        ["Email", ["formal", "relaxed", "upbeat"]],
+        ["Other", ["formal", "relaxed", "upbeat"]],
+      ] as const) {
+        await page.getByRole("tab", { name: tab }).click();
+        const texts: string[] = [];
+        for (const preset of presets) {
+          const example = page.getByTestId(`wb-style-example-${preset}`);
+          await expect(example).toBeVisible();
+          texts.push(await example.innerText());
+          const marks = example.locator("[data-diff]");
+          if (preset === "formal") await expect(marks).toHaveCount(0);
+          else expect(await marks.count()).toBeGreaterThan(0);
+        }
+        expect(new Set(texts).size, tab).toBe(3);
+        await expect(page.getByTestId("wb-style-marks-note")).toHaveText(
+          "Highlights show what each style changes from Formal.",
+        );
+        await shot(
+          page,
+          `rc10-${presets[0]}-${tab.split(" ")[0].toLowerCase()}`,
+        );
+      }
     },
   );
 
@@ -300,7 +334,7 @@ styleTest.describe("style page", () => {
           work: "upbeat",
         });
       await expect(page.getByTestId("wb-style-example-upbeat")).toContainText(
-        "Great work, everyone!",
+        "for the late nights. Great work!",
       );
       await shot(page, "work");
     },

@@ -2276,6 +2276,7 @@
         "bannerTitle": "For everything else"
       }
     },
+    "marksNote": "Highlights show what each style changes from {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",
@@ -2545,7 +2546,8 @@
       "faster": "<n/>× <em>faster</em>",
       "takeTest": "Take the typing test",
       "retakeTest": "Retake the typing test",
-      "yourTypingLabel": "Your typing"
+      "yourTypingLabel": "Your typing",
+      "youSpokeLabel": "You spoke at"
     },
     "timeSaved": {
       "headline_one": "Dictating could save you about {{hours}} hour a week",
@@ -2559,7 +2561,8 @@
       "perWeek_one": "<n/> hour <em>a week</em>",
       "perWeek_other": "<n/> hours <em>a week</em>",
       "hoursPerWeek_one": "{{hours}} hour a week",
-      "hoursPerWeek_other": "{{hours}} hours a week"
+      "hoursPerWeek_other": "{{hours}} hours a week",
+      "math": "{{typed}} h of typing at {{wpm}} wpm ≈ {{voice}} h by voice at {{speaking}} wpm"
     },
     "typing": {
       "title": "How fast do you <em>type</em>?",

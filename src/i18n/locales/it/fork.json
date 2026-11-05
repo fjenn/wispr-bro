@@ -2036,6 +2036,7 @@
         "bannerTitle": "Per tutto il resto"
       }
     },
+    "marksNote": "Le evidenziazioni mostrano cosa cambia ogni stile rispetto a {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formale",
@@ -2308,7 +2309,8 @@
       "faster": "<n/>× <em>più veloce</em>",
       "takeTest": "Fai il test di battitura",
       "retakeTest": "Rifai il test di battitura",
-      "yourTypingLabel": "La tua digitazione"
+      "yourTypingLabel": "La tua digitazione",
+      "youSpokeLabel": "Hai parlato a"
     },
     "timeSaved": {
       "headline_one": "Dettare potrebbe farti risparmiare circa {{hours}} ora a settimana",
@@ -2327,7 +2329,8 @@
       "perWeek_other": "<n/> ore <em>a settimana</em>",
       "hoursPerWeek_one": "{{hours}} ora a settimana",
       "hoursPerWeek_many": "{{hours}} di ore a settimana",
-      "hoursPerWeek_other": "{{hours}} ore a settimana"
+      "hoursPerWeek_other": "{{hours}} ore a settimana",
+      "math": "{{typed}} h di digitazione a {{wpm}} ppm ≈ {{voice}} h a voce a {{speaking}} ppm"
     },
     "typing": {
       "title": "Quanto sei veloce a <em>digitare</em>?",

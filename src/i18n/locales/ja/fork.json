@@ -1882,6 +1882,7 @@
         "bannerTitle": "その他すべて向け"
       }
     },
+    "marksNote": "ハイライトは、各スタイルが「{{formal}}」から変える部分です。",
     "presets": {
       "formal": {
         "label": "フォーマル",
@@ -2148,7 +2149,8 @@
       "faster": "<n/> 倍<em>速い</em>",
       "takeTest": "タイピングテストを受ける",
       "retakeTest": "タイピングテストをもう一度",
-      "yourTypingLabel": "あなたのタイピング"
+      "yourTypingLabel": "あなたのタイピング",
+      "youSpokeLabel": "あなたの話す速さ"
     },
     "timeSaved": {
       "headline_other": "音声入力で 1 週間に約 {{hours}} 時間を節約できます",
@@ -2157,7 +2159,8 @@
       "basisAverage_other": "平均的なタイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
       "lead": "音声入力で節約できる時間は",
       "perWeek_other": "<em>週</em>約 <n/> 時間",
-      "hoursPerWeek_other": "週 {{hours}} 時間"
+      "hoursPerWeek_other": "週 {{hours}} 時間",
+      "math": "{{wpm}} 語/分で入力 {{typed}} 時間 ≈ {{speaking}} 語/分の音声で {{voice}} 時間"
     },
     "typing": {
       "title": "<em>タイピング</em>の速さは？",

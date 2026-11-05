@@ -13,7 +13,9 @@
  * - Preview (debug panel) is inert: no prompts, monitoring, moves or
  *   setting writes.
  * - Practice (S-29b): hands-free practice (Skip → time saved), the dark
- *   celebration ⇄ the typing test (rc9: offered there), time saved (its
+ *   celebration (rc10: the practice's measured speaking speed against
+ *   the typing speed) ⇄ the optional typing test (rc9: offered there),
+ *   time saved (its
  *   slider always shown, 4 h a week to start), then the summary, whose
  *   button writes the launch-at-login choice and completes setup.
  */
@@ -87,6 +89,8 @@ export function OnboardingFlow({
   const [helpOpen, setHelpOpen] = useState(false);
   const [navBusy, setNavBusy] = useState(false);
   const [navigationFailed, setNavigationFailed] = useState(false);
+  // The practice's speaking speed (rc10), for the celebration; not saved.
+  const [spokenWpm, setSpokenWpm] = useState<number | null>(null);
   const initialized = useRef(false);
   const finished = useRef(false);
   const heading = useRef<HTMLDivElement>(null);
@@ -246,7 +250,10 @@ export function OnboardingFlow({
         content = (
           <HandsFreePractice
             preview={preview}
-            onDone={() => void go("first_dictation")}
+            onDone={(spoken) => {
+              setSpokenWpm(spoken);
+              void go("first_dictation");
+            }}
             onSkip={() => void go("time_saved")}
           />
         );
@@ -255,6 +262,7 @@ export function OnboardingFlow({
         content = (
           <FirstDictation
             preview={preview}
+            spokenWpm={spokenWpm}
             onTakeTest={() => void go("typing_test")}
             onContinue={() => void go("time_saved")}
           />

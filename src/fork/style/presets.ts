@@ -28,19 +28,27 @@ export interface GroupExample {
 
 export const EXAMPLES: Record<StyleGroup, GroupExample> = {
   personal: {
-    before: "hey sam um are you free tonight let's get pizza my treat",
+    before:
+      "hey sam um are you free tonight i'm thinking pizza uh around eight my treat of course",
     after: {
-      formal: "Hey Sam, are you free tonight? Let's get pizza, my treat.",
-      relaxed: "Hey Sam are you free tonight? Let's get pizza my treat",
-      very_relaxed: "hey Sam are you free tonight? let's get pizza my treat",
+      formal:
+        "Hey Sam, are you free tonight? I'm thinking pizza, around eight. My treat, of course.",
+      relaxed:
+        "Hey Sam are you free tonight? I'm thinking pizza around eight. My treat of course",
+      very_relaxed:
+        "hey Sam are you free tonight? i'm thinking pizza around eight. my treat of course",
     },
   },
   work: {
-    before: "hi team uh the release is out great work everyone",
+    before:
+      "hi team uh the release is out thanks everyone for the late nights great work",
     after: {
-      formal: "Hi team, the release is out. Great work, everyone.",
-      relaxed: "Hi team the release is out. Great work everyone",
-      upbeat: "Hi team, the release is out. Great work, everyone!",
+      formal:
+        "Hi team, the release is out. Thanks, everyone, for the late nights. Great work.",
+      relaxed:
+        "Hi team the release is out. Thanks everyone for the late nights. Great work",
+      upbeat:
+        "Hi team, the release is out. Thanks, everyone, for the late nights. Great work!",
     },
   },
   email: {

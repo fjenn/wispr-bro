@@ -2036,6 +2036,7 @@
         "bannerTitle": "Para todo lo demás"
       }
     },
+    "marksNote": "Lo resaltado muestra qué cambia cada estilo respecto a {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",
@@ -2308,7 +2309,8 @@
       "faster": "<n/>× <em>más rápido</em>",
       "takeTest": "Hacer la prueba de escritura",
       "retakeTest": "Repetir la prueba de escritura",
-      "yourTypingLabel": "Tu escritura"
+      "yourTypingLabel": "Tu escritura",
+      "youSpokeLabel": "Hablaste a"
     },
     "timeSaved": {
       "headline_one": "Dictar podría ahorrarte alrededor de {{hours}} hora a la semana",
@@ -2327,7 +2329,8 @@
       "perWeek_other": "<n/> horas <em>a la semana</em>",
       "hoursPerWeek_one": "{{hours}} hora a la semana",
       "hoursPerWeek_many": "{{hours}} de horas a la semana",
-      "hoursPerWeek_other": "{{hours}} horas a la semana"
+      "hoursPerWeek_other": "{{hours}} horas a la semana",
+      "math": "{{typed}} h escribiendo a {{wpm}} ppm ≈ {{voice}} h con la voz a {{speaking}} ppm"
     },
     "typing": {
       "title": "¿A qué velocidad <em>escribes</em>?",

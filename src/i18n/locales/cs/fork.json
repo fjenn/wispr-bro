@@ -2113,6 +2113,7 @@
         "bannerTitle": "Pro všechno ostatní"
       }
     },
+    "marksNote": "Zvýraznění ukazuje, co každý styl mění oproti stylu {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formální",
@@ -2388,7 +2389,8 @@
       "faster": "<n/>× <em>rychlejší</em>",
       "takeTest": "Udělat test psaní",
       "retakeTest": "Zopakovat test psaní",
-      "yourTypingLabel": "Vaše psaní"
+      "yourTypingLabel": "Vaše psaní",
+      "youSpokeLabel": "Mluvili jste rychlostí"
     },
     "timeSaved": {
       "headline_one": "Diktování vám může ušetřit asi {{hours}} hodinu týdně",
@@ -2412,7 +2414,8 @@
       "hoursPerWeek_one": "{{hours}} hodina týdně",
       "hoursPerWeek_few": "{{hours}} hodiny týdně",
       "hoursPerWeek_many": "{{hours}} hodiny týdně",
-      "hoursPerWeek_other": "{{hours}} hodin týdně"
+      "hoursPerWeek_other": "{{hours}} hodin týdně",
+      "math": "{{typed}} h psaní při {{wpm}} sl./min ≈ {{voice}} h hlasem při {{speaking}} sl./min"
     },
     "typing": {
       "title": "Jak rychle <em>píšete</em>?",

@@ -1959,6 +1959,7 @@
         "bannerTitle": "बाकी सब के लिए"
       }
     },
+    "marksNote": "हाइलाइट दिखाते हैं कि हर शैली {{formal}} से क्या बदलती है।",
     "presets": {
       "formal": {
         "label": "औपचारिक",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>तेज़</em>",
       "takeTest": "टाइपिंग टेस्ट दें",
       "retakeTest": "टाइपिंग टेस्ट फिर से दें",
-      "yourTypingLabel": "आपकी टाइपिंग"
+      "yourTypingLabel": "आपकी टाइपिंग",
+      "youSpokeLabel": "आपकी बोलने की गति"
     },
     "timeSaved": {
       "headline_one": "बोलकर लिखने से आपका हर हफ़्ते लगभग {{hours}} घंटा बच सकता है",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> घंटा <em>हर हफ़्ते</em>",
       "perWeek_other": "<n/> घंटे <em>हर हफ़्ते</em>",
       "hoursPerWeek_one": "हफ़्ते में {{hours}} घंटा",
-      "hoursPerWeek_other": "हफ़्ते में {{hours}} घंटे"
+      "hoursPerWeek_other": "हफ़्ते में {{hours}} घंटे",
+      "math": "{{wpm}} शब्द/मिनट पर {{typed}} घंटे टाइपिंग ≈ {{speaking}} शब्द/मिनट पर आवाज़ से {{voice}} घंटे"
     },
     "typing": {
       "title": "आप कितनी तेज़ <em>टाइप</em> करते हैं?",

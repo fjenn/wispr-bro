@@ -2424,6 +2424,7 @@ axe light/dark (`tests/fork/onboarding-practice.spec.ts`).
 - [ ] S-29b.5 **Mac wave 2: NOT RUN (by eye; owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) By eye: the celebration is dark in light mode, confetti once (none with Reduce motion on in System Settings › Accessibility › Display); the counter counts up from 0.
 - [ ] S-29b.6 **Mac wave 2: NOT RUN (by hand; owner)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) Typing test by hand in WebKit: typing works (the window is `select-none`; the fields opt back in), paste is ignored, the number is plausible against a known typist, Recalculate updates the estimate; the slider by keyboard.
 - [x] S-29b.7 **Mac wave 2: PASS (SMAppService login item registered; unchecking removes it)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) Start dictating with "Open Wispr Bro when you log in" checked → the login item exists (`run.sh login`), the resting bar appears (DEC-38); unchecked → none.
+- [ ] S-29b.8 **rc10, queued for the Mac wave:** a real practice take shows a plausible "You spoke at N words a minute" against typing (45 until the optional test), and never writes that speaking rate to `typing_wpm`. Time saved shows the corresponding calculation.
 
 **Setup.** As S-29a with `s29b` in place of `s29a` (identifier
 `com.wisprbro.s29bcheck`, product name "Wispr Bro S29b Check", a scratch

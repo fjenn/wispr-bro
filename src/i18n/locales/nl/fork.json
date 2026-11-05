@@ -1959,6 +1959,7 @@
         "bannerTitle": "Voor al het andere"
       }
     },
+    "marksNote": "Markeringen tonen wat elke stijl verandert ten opzichte van {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formeel",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>sneller</em>",
       "takeTest": "Doe de typetest",
       "retakeTest": "Typetest opnieuw doen",
-      "yourTypingLabel": "Jouw typen"
+      "yourTypingLabel": "Jouw typen",
+      "youSpokeLabel": "Je sprak met"
     },
     "timeSaved": {
       "headline_one": "Dicteren kan je ongeveer {{hours}} uur per week besparen",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> uur <em>per week</em>",
       "perWeek_other": "<n/> uur <em>per week</em>",
       "hoursPerWeek_one": "{{hours}} uur per week",
-      "hoursPerWeek_other": "{{hours}} uur per week"
+      "hoursPerWeek_other": "{{hours}} uur per week",
+      "math": "{{typed}} u typen op {{wpm}} wpm ≈ {{voice}} u met je stem op {{speaking}} wpm"
     },
     "typing": {
       "title": "Hoe snel <em>typ</em> je?",

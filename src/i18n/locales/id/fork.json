@@ -1882,6 +1882,7 @@
         "bannerTitle": "Untuk semua yang lain"
       }
     },
+    "marksNote": "Sorotan menunjukkan apa yang diubah setiap gaya dari {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",
@@ -2148,7 +2149,8 @@
       "faster": "<n/>× <em>lebih cepat</em>",
       "takeTest": "Ikuti tes mengetik",
       "retakeTest": "Ulangi tes mengetik",
-      "yourTypingLabel": "Ketikan Anda"
+      "yourTypingLabel": "Ketikan Anda",
+      "youSpokeLabel": "Anda berbicara dengan"
     },
     "timeSaved": {
       "headline_other": "Dikte bisa menghemat waktu Anda sekitar {{hours}} jam per minggu",
@@ -2157,7 +2159,8 @@
       "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
       "lead": "Dikte bisa menghemat waktu Anda sekitar",
       "perWeek_other": "<n/> jam <em>per minggu</em>",
-      "hoursPerWeek_other": "{{hours}} jam per minggu"
+      "hoursPerWeek_other": "{{hours}} jam per minggu",
+      "math": "{{typed}} jam mengetik pada {{wpm}} kpm ≈ {{voice}} jam dengan suara pada {{speaking}} kpm"
     },
     "typing": {
       "title": "Seberapa cepat Anda <em>mengetik</em>?",

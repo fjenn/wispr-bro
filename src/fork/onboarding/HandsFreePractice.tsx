@@ -23,6 +23,11 @@
  * take stays in History. Skip is always offered. The take's way (hold or
  * hands-free) is not enforced: any take counts, the copy teaches
  * hands-free.
+ *
+ * The speaking speed (owner's rc10 report): the seconds each take recorded
+ * (from Handy's `recording-state-event`, start to stop) and the words its
+ * text has give the words a minute the celebration shows as "You spoke
+ * at N" (`spokenWpm` in `typing.ts`; never saved, never the typing speed).
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mail, Mic } from "../ui/icons";
@@ -34,6 +39,7 @@ import { FORK_NAMESPACE } from "../i18n";
 import { Button, ProgressLine } from "../ui";
 import { CentredLayout, SkipLink, Title } from "./Layout";
 import { practiceSampleFor } from "./samples";
+import { countWords, spokenWpm } from "./typing";
 import { chordLabel } from "../settings/hotkeys/model";
 
 /** The practice mode renews itself before the backend's two-minute expiry. */
@@ -51,8 +57,11 @@ export function HandsFreePractice({
   onSkip,
 }: {
   preview: boolean;
-  /** The practice produced a take (filled, or waited the full 90 s). */
-  onDone: () => void;
+  /**
+   * The practice produced a take (filled, or waited the full 90 s), with
+   * the speed it was spoken at (`null`: too little to measure).
+   */
+  onDone: (spokenWpm: number | null) => void;
   onSkip: () => void;
 }) {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
@@ -64,8 +73,14 @@ export function HandsFreePractice({
   const { settings: handy } = useSettings();
   const nothingTimer = useRef<number>();
   const waitTimer = useRef<number>();
-  const doneRef = useRef(onDone);
-  doneRef.current = onDone;
+  // The speaking speed: recorded seconds and the words they gave.
+  const recordingSince = useRef<number | null>(null);
+  const pendingSeconds = useRef(0);
+  const spoken = useRef({ words: 0, seconds: 0 });
+  const done = () =>
+    onDone(spokenWpm(spoken.current.words, spoken.current.seconds));
+  const doneRef = useRef(done);
+  doneRef.current = done;
 
   const clearTimers = () => {
     window.clearTimeout(nothingTimer.current);
@@ -100,11 +115,18 @@ export function HandsFreePractice({
     const offPhase = handyEvents.recordingStateEvent.listen(({ payload }) => {
       const p = payload.phase;
       if (p === "started" || p === "locked") {
+        recordingSince.current ??= performance.now();
         window.clearTimeout(nothingTimer.current);
         setPhase((now) => (now === "queued" ? now : "listening"));
       } else if (p === "cancelled") {
+        recordingSince.current = null;
         setPhase((now) => (now === "queued" ? now : "idle"));
       } else {
+        if (recordingSince.current != null) {
+          pendingSeconds.current +=
+            (performance.now() - recordingSince.current) / 1000;
+          recordingSince.current = null;
+        }
         setPhase((now) => (now === "queued" ? now : "working"));
         window.clearTimeout(nothingTimer.current);
         nothingTimer.current = window.setTimeout(() => {
@@ -131,6 +153,11 @@ export function HandsFreePractice({
         return;
       }
       clearTimers();
+      spoken.current = {
+        words: spoken.current.words + countWords(text),
+        seconds: spoken.current.seconds + pendingSeconds.current,
+      };
+      pendingSeconds.current = 0;
       setBody((now) => (now.trim() ? `${now.trimEnd()} ${text}` : text));
       setFilled(true);
       setPhase("idle");
@@ -203,7 +230,7 @@ export function HandsFreePractice({
           size="lg"
           className="w-full max-w-[300px]"
           disabled={!filled && !waiting && !preview}
-          onClick={onDone}
+          onClick={done}
           data-testid="wb-practice-continue"
         >
           {t("onboardingFlow.continue")}

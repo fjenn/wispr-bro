@@ -1959,6 +1959,7 @@
         "bannerTitle": "För allt annat"
       }
     },
+    "marksNote": "Markeringarna visar vad varje stil ändrar jämfört med {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formell",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>snabbare</em>",
       "takeTest": "Gör skrivtestet",
       "retakeTest": "Gör skrivtestet igen",
-      "yourTypingLabel": "Ditt skrivande"
+      "yourTypingLabel": "Ditt skrivande",
+      "youSpokeLabel": "Du talade med"
     },
     "timeSaved": {
       "headline_one": "Diktering kan spara dig ungefär {{hours}} timme i veckan",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> timme <em>i veckan</em>",
       "perWeek_other": "<n/> timmar <em>i veckan</em>",
       "hoursPerWeek_one": "{{hours}} timme per vecka",
-      "hoursPerWeek_other": "{{hours}} timmar per vecka"
+      "hoursPerWeek_other": "{{hours}} timmar per vecka",
+      "math": "{{typed}} h skrivande i {{wpm}} ord/min ≈ {{voice}} h med rösten i {{speaking}} ord/min"
     },
     "typing": {
       "title": "Hur snabbt <em>skriver</em> du?",

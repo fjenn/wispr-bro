@@ -360,11 +360,22 @@ export function GroupTab({ group }: { group: StyleGroup }) {
                 index={index}
                 checked={current === preset}
                 example={example.after[preset] ?? ""}
+                baseline={
+                  preset === "formal" ? undefined : example.after.formal
+                }
                 initial={initial}
                 onSelect={() => choose(preset)}
               />
             ))}
           </div>
+          <p
+            className="mt-3 mb-0 text-[13px] leading-[18px] text-(--wb-ink-3)"
+            data-testid="wb-style-marks-note"
+          >
+            {t("style.marksNote", {
+              formal: t("style.presets.formal.label"),
+            })}
+          </p>
         </fieldset>
       </section>
 

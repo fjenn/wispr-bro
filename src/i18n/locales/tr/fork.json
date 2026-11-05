@@ -1959,6 +1959,7 @@
         "bannerTitle": "Geri kalan her şey için"
       }
     },
+    "marksNote": "Vurgular, her stilin {{formal}} stiline göre neyi değiştirdiğini gösterir.",
     "presets": {
       "formal": {
         "label": "Resmî",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>daha hızlı</em>",
       "takeTest": "Yazma Testini Yap",
       "retakeTest": "Yazma testini tekrarla",
-      "yourTypingLabel": "Sizin yazma hızınız"
+      "yourTypingLabel": "Sizin yazma hızınız",
+      "youSpokeLabel": "Konuşma hızınız"
     },
     "timeSaved": {
       "headline_one": "Dikte, haftada yaklaşık {{hours}} saat kazandırabilir",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<em>haftada</em> <n/> saat",
       "perWeek_other": "<em>haftada</em> <n/> saat",
       "hoursPerWeek_one": "Haftada {{hours}} saat",
-      "hoursPerWeek_other": "Haftada {{hours}} saat"
+      "hoursPerWeek_other": "Haftada {{hours}} saat",
+      "math": "{{wpm}} k/dk ile {{typed}} sa yazma ≈ {{speaking}} k/dk ile sesle {{voice}} sa"
     },
     "typing": {
       "title": "Ne kadar hızlı <em>yazıyorsunuz</em>?",

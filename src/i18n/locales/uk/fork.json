@@ -2113,6 +2113,7 @@
         "bannerTitle": "Для всього іншого"
       }
     },
+    "marksNote": "Виділення показує, що кожен стиль змінює порівняно зі стилем «{{formal}}».",
     "presets": {
       "formal": {
         "label": "Офіційний",
@@ -2388,7 +2389,8 @@
       "faster": "<n/>× <em>швидше</em>",
       "takeTest": "Пройти тест друку",
       "retakeTest": "Пройти тест друку знову",
-      "yourTypingLabel": "Ваш друк"
+      "yourTypingLabel": "Ваш друк",
+      "youSpokeLabel": "Ви говорили зі швидкістю"
     },
     "timeSaved": {
       "headline_one": "Диктування може заощаджувати вам близько {{hours}} години на тиждень",
@@ -2412,7 +2414,8 @@
       "hoursPerWeek_one": "{{hours}} година на тиждень",
       "hoursPerWeek_few": "{{hours}} години на тиждень",
       "hoursPerWeek_many": "{{hours}} годин на тиждень",
-      "hoursPerWeek_other": "{{hours}} години на тиждень"
+      "hoursPerWeek_other": "{{hours}} години на тиждень",
+      "math": "{{typed}} год набору при {{wpm}} сл./хв ≈ {{voice}} год голосом при {{speaking}} сл./хв"
     },
     "typing": {
       "title": "Як швидко ви <em>друкуєте</em>?",

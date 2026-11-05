@@ -6,7 +6,9 @@
  * speed is the test's (fork setting `typing_wpm`; the test is offered on
  * the celebration step before this one), else the 45 wpm average. The
  * setting is stored per day (`typing_hours_per_day`); the math is in
- * `typing.ts`.
+ * `typing.ts`. Under the headline one line shows the sum (owner's rc10
+ * report: make the number explainable): "35 h of typing at 45 wpm ≈ 7.9 h
+ * by voice at 200 wpm"; the headline is the difference, to the half hour.
  */
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,6 +24,7 @@ import {
   HOURS_MIN,
   HOURS_STEP,
   SPEAKING_WPM,
+  voiceHoursPerWeek,
   weeklyHours,
 } from "./typing";
 
@@ -51,6 +54,13 @@ export function TimeSaved({
     maximumFractionDigits: 1,
   });
   const hoursLabel = number.format(hours);
+  const voice = voiceHoursPerWeek(wpm, hours);
+  const math = t("onboardingFlow.timeSaved.math", {
+    typed: hoursLabel,
+    wpm: new Intl.NumberFormat(i18n.language).format(wpm),
+    voice: number.format(Math.round(voice * 10) / 10),
+    speaking: new Intl.NumberFormat(i18n.language).format(SPEAKING_WPM),
+  });
   const fill = ((hours - HOURS_MIN) / (HOURS_MAX - HOURS_MIN)) * 100;
   const headline = t("onboardingFlow.timeSaved.headline", {
     count: target,
@@ -103,6 +113,13 @@ export function TimeSaved({
           {headline}
         </span>
       </h1>
+      {/* The sum behind the number (rc10). */}
+      <p
+        className="mt-3 mb-0 text-[15px] leading-[22px] text-(--wb-ink-2) tabular-nums"
+        data-testid="wb-time-saved-math"
+      >
+        {math}
+      </p>
       {/* The final number once, for screen readers. */}
       <p className="sr-only" role="status">
         {headline}

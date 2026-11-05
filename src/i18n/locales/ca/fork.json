@@ -2036,6 +2036,7 @@
         "bannerTitle": "Per a tota la resta"
       }
     },
+    "marksNote": "El ressaltat mostra què canvia cada estil respecte de {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",
@@ -2308,7 +2309,8 @@
       "faster": "<n/>× <em>més ràpid</em>",
       "takeTest": "Fer la prova d'escriptura",
       "retakeTest": "Repetir la prova d'escriptura",
-      "yourTypingLabel": "La teva escriptura"
+      "yourTypingLabel": "La teva escriptura",
+      "youSpokeLabel": "Has parlat a"
     },
     "timeSaved": {
       "headline_one": "Dictar et podria estalviar al voltant d'{{hours}} hora a la setmana",
@@ -2327,7 +2329,8 @@
       "perWeek_other": "<n/> hores <em>a la setmana</em>",
       "hoursPerWeek_one": "{{hours}} hora a la setmana",
       "hoursPerWeek_many": "{{hours}} d'hores a la setmana",
-      "hoursPerWeek_other": "{{hours}} hores a la setmana"
+      "hoursPerWeek_other": "{{hours}} hores a la setmana",
+      "math": "{{typed}} h d'escriure a {{wpm}} ppm ≈ {{voice}} h amb la veu a {{speaking}} ppm"
     },
     "typing": {
       "title": "A quina velocitat <em>escrius</em>?",

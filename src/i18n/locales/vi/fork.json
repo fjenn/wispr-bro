@@ -1882,6 +1882,7 @@
         "bannerTitle": "Cho mọi thứ khác"
       }
     },
+    "marksNote": "Phần tô sáng cho thấy mỗi kiểu thay đổi gì so với {{formal}}.",
     "presets": {
       "formal": {
         "label": "Trang trọng",
@@ -2148,7 +2149,8 @@
       "faster": "<em>nhanh hơn</em> <n/> lần",
       "takeTest": "Làm bài kiểm tra gõ",
       "retakeTest": "Làm lại bài kiểm tra gõ",
-      "yourTypingLabel": "Tốc độ gõ của bạn"
+      "yourTypingLabel": "Tốc độ gõ của bạn",
+      "youSpokeLabel": "Bạn đã nói với tốc độ"
     },
     "timeSaved": {
       "headline_other": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
@@ -2157,7 +2159,8 @@
       "basisAverage_other": "Dựa trên tốc độ gõ trung bình {{wpm}} từ/phút và tốc độ nói khoảng {{speaking}} từ/phút.",
       "lead": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng",
       "perWeek_other": "<n/> giờ <em>mỗi tuần</em>",
-      "hoursPerWeek_other": "{{hours}} giờ mỗi tuần"
+      "hoursPerWeek_other": "{{hours}} giờ mỗi tuần",
+      "math": "{{typed}} giờ gõ ở {{wpm}} từ/phút ≈ {{voice}} giờ bằng giọng nói ở {{speaking}} từ/phút"
     },
     "typing": {
       "title": "Bạn <em>gõ</em> nhanh đến mức nào?",

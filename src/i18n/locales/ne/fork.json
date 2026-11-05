@@ -1959,6 +1959,7 @@
         "bannerTitle": "बाँकी सबैका लागि"
       }
     },
+    "marksNote": "हाइलाइटले हरेक शैलीले {{formal}} बाट के बदल्छ देखाउँछ।",
     "presets": {
       "formal": {
         "label": "औपचारिक",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>छिटो</em>",
       "takeTest": "टाइपिङ परीक्षण दिनुहोस्",
       "retakeTest": "टाइपिङ परीक्षण फेरि दिनुहोस्",
-      "yourTypingLabel": "तपाईंको टाइपिङ"
+      "yourTypingLabel": "तपाईंको टाइपिङ",
+      "youSpokeLabel": "तपाईंको बोल्ने गति"
     },
     "timeSaved": {
       "headline_one": "बोलेर लेख्दा तपाईंको हप्तामा लगभग {{hours}} घण्टा बच्न सक्छ",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> घण्टा <em>हरेक हप्ता</em>",
       "perWeek_other": "<n/> घण्टा <em>हरेक हप्ता</em>",
       "hoursPerWeek_one": "हप्तामा {{hours}} घण्टा",
-      "hoursPerWeek_other": "हप्तामा {{hours}} घण्टा"
+      "hoursPerWeek_other": "हप्तामा {{hours}} घण्टा",
+      "math": "{{wpm}} शब्द/मिनेटमा {{typed}} घण्टा टाइपिङ ≈ {{speaking}} शब्द/मिनेटमा आवाजले {{voice}} घण्टा"
     },
     "typing": {
       "title": "तपाईं कति छिटो <em>टाइप</em> गर्नुहुन्छ?",

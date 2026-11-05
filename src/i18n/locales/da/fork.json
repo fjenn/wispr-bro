@@ -1959,6 +1959,7 @@
         "bannerTitle": "Til alt andet"
       }
     },
+    "marksNote": "Markeringerne viser, hvad hver stil ændrer i forhold til {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formel",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>hurtigere</em>",
       "takeTest": "Tag skrivetesten",
       "retakeTest": "Tag skrivetesten igen",
-      "yourTypingLabel": "Din skrivning"
+      "yourTypingLabel": "Din skrivning",
+      "youSpokeLabel": "Du talte med"
     },
     "timeSaved": {
       "headline_one": "Diktering kan spare dig omkring {{hours}} time om ugen",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> time <em>om ugen</em>",
       "perWeek_other": "<n/> timer <em>om ugen</em>",
       "hoursPerWeek_one": "{{hours}} time om ugen",
-      "hoursPerWeek_other": "{{hours}} timer om ugen"
+      "hoursPerWeek_other": "{{hours}} timer om ugen",
+      "math": "{{typed}} t skrivning ved {{wpm}} ord/min ≈ {{voice}} t med stemmen ved {{speaking}} ord/min"
     },
     "typing": {
       "title": "Hvor hurtigt <em>skriver</em> du?",

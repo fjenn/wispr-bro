@@ -2036,6 +2036,7 @@
         "bannerTitle": "Para todo o resto"
       }
     },
+    "marksNote": "Os destaques mostram o que cada estilo muda em relação a {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formal",
@@ -2308,7 +2309,8 @@
       "faster": "<n/>× <em>mais rápido</em>",
       "takeTest": "Fazer o teste de digitação",
       "retakeTest": "Refazer o teste de digitação",
-      "yourTypingLabel": "Sua digitação"
+      "yourTypingLabel": "Sua digitação",
+      "youSpokeLabel": "Você falou a"
     },
     "timeSaved": {
       "headline_one": "Ditar pode economizar cerca de {{hours}} hora por semana",
@@ -2327,7 +2329,8 @@
       "perWeek_other": "<n/> horas <em>por semana</em>",
       "hoursPerWeek_one": "{{hours}} hora por semana",
       "hoursPerWeek_many": "{{hours}} de horas por semana",
-      "hoursPerWeek_other": "{{hours}} horas por semana"
+      "hoursPerWeek_other": "{{hours}} horas por semana",
+      "math": "{{typed}} h digitando a {{wpm}} ppm ≈ {{voice}} h por voz a {{speaking}} ppm"
     },
     "typing": {
       "title": "Qual é a sua velocidade de <em>digitação</em>?",

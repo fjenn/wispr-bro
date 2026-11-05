@@ -2036,6 +2036,7 @@
         "bannerTitle": "לכל השאר"
       }
     },
+    "marksNote": "ההדגשות מראות מה כל סגנון משנה לעומת {{formal}}.",
     "presets": {
       "formal": {
         "label": "רשמי",
@@ -2308,7 +2309,8 @@
       "faster": "<em>מהיר</em> פי <n/>",
       "takeTest": "עשה את מבחן ההקלדה",
       "retakeTest": "לעשות שוב את מבחן ההקלדה",
-      "yourTypingLabel": "ההקלדה שלך"
+      "yourTypingLabel": "ההקלדה שלך",
+      "youSpokeLabel": "דיברת בקצב"
     },
     "timeSaved": {
       "headline_one": "הכתבה יכולה לחסוך לך כ-{{hours}} שעה בשבוע",
@@ -2327,7 +2329,8 @@
       "perWeek_other": "<n/> שעות <em>בשבוע</em>",
       "hoursPerWeek_one": "{{hours}} שעה בשבוע",
       "hoursPerWeek_two": "{{hours}} שעות בשבוע",
-      "hoursPerWeek_other": "{{hours}} שעות בשבוע"
+      "hoursPerWeek_other": "{{hours}} שעות בשבוע",
+      "math": "{{typed}} ש׳ הקלדה ב־{{wpm}} מ/ד ≈ {{voice}} ש׳ בקול ב־{{speaking}} מ/ד"
     },
     "typing": {
       "title": "כמה מהר אתה <em>מקליד</em>?",

@@ -1959,6 +1959,7 @@
         "bannerTitle": "Für alles andere"
       }
     },
+    "marksNote": "Markierungen zeigen, was jeder Stil gegenüber „{{formal}}“ ändert.",
     "presets": {
       "formal": {
         "label": "Förmlich",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>schneller</em>",
       "takeTest": "Tipptest machen",
       "retakeTest": "Tipptest wiederholen",
-      "yourTypingLabel": "Dein Tippen"
+      "yourTypingLabel": "Dein Tippen",
+      "youSpokeLabel": "Dein Sprechen"
     },
     "timeSaved": {
       "headline_one": "Diktieren könnte dir etwa {{hours}} Stunde pro Woche sparen",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> Stunde <em>pro Woche</em>",
       "perWeek_other": "<n/> Stunden <em>pro Woche</em>",
       "hoursPerWeek_one": "{{hours}} Stunde pro Woche",
-      "hoursPerWeek_other": "{{hours}} Stunden pro Woche"
+      "hoursPerWeek_other": "{{hours}} Stunden pro Woche",
+      "math": "{{typed}} Std. Tippen bei {{wpm}} WpM ≈ {{voice}} Std. per Stimme bei {{speaking}} WpM"
     },
     "typing": {
       "title": "Wie schnell <em>tippst</em> du?",

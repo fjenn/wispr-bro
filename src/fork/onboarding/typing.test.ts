@@ -3,6 +3,9 @@
 import assert from "node:assert/strict";
 import {
   clampHours,
+  countWords,
+  spokenWpm,
+  voiceHoursPerWeek,
   correctChars,
   dailyHours,
   DEFAULT_HOURS,
@@ -70,5 +73,25 @@ assert.equal(dailyHours(10), 2);
 assert.equal(timesFaster(45), 4.4);
 assert.equal(timesFaster(80), 2.5);
 assert.equal(timesFaster(0), 0);
+
+// A measured speaking speed beats the typing speed in the multiple.
+assert.equal(timesFaster(45, 150), 3.3);
+
+// The hours line: 35 h of typing at 45 wpm ≈ 7.9 h by voice at 200, and
+// the headline is the difference (27); at 33 wpm 5.8 h, 29 saved (rc10).
+assert.equal(Math.round(voiceHoursPerWeek(45, 35) * 10) / 10, 7.9);
+assert.equal(hoursSavedPerWeek(45, 35), 27);
+assert.equal(Math.round(voiceHoursPerWeek(33, 35) * 10) / 10, 5.8);
+assert.equal(hoursSavedPerWeek(33, 35), 29);
+assert.equal(voiceHoursPerWeek(250, 10), 10);
+assert.equal(voiceHoursPerWeek(0, 10), 0);
+
+// The practice's speaking speed: real words over recorded seconds.
+assert.equal(countWords("Hi Sam, thanks for the notes."), 6);
+assert.equal(countWords("  "), 0);
+assert.equal(spokenWpm(30, 12), 150);
+assert.equal(spokenWpm(2, 10), null); // too few words
+assert.equal(spokenWpm(10, 1), null); // too short
+assert.equal(spokenWpm(100, 5), null); // 1,200 wpm: timing is off
 
 console.log("typing.test.ts: ok");

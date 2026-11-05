@@ -2,8 +2,7 @@
 /**
  * The first dictation, celebrated (S-29b, B-27; Design W1 choreography,
  * SYSTEM-PLAN §5 rule 5). A dark stage in either theme with a staged
- * reveal: the serif headline, then the two speed bars (typing and speaking,
- * both the averages the estimate uses, labelled as averages), a hand-drawn
+ * reveal: the serif headline, then the two speed bars, a hand-drawn
  * arrow drawing itself while the speed multiple rolls up, the sticker
  * popping in, the caption, then Continue. One burst of confetti
  * (canvas-confetti 1.9.4, ISC, adopted) after the numbers settle, on this
@@ -11,11 +10,20 @@
  * CSP), cleared when the screen goes. Reduce Motion: everything is there
  * at once, no confetti, no drawing, no rolling.
  *
- * The typing test is offered here (owner's rc9 call): "Take the typing
- * test", or "Retake the typing test" once there is a result. Back from the
- * test, the typing bar and the multiple use the measured speed (fork
- * setting `typing_wpm`, which time saved uses too); the confetti does not
- * fire a second time.
+ * The bars (owner's rc10 report: the practice was spoken, not typed):
+ * speaking is the speed the practice was dictated at ("You spoke at",
+ * `spokenWpm` from `HandsFreePractice`; the 200 wpm average, labelled so,
+ * when there was too little to measure or it did not beat typing), typing
+ * is the typing test's result (fork setting `typing_wpm`, which only the
+ * test writes) or the 45 wpm average, labelled so. The multiple compares
+ * the two bars.
+ *
+ * The typing test is optional and offered here (owner's rc9 call): "Take
+ * the typing test", or "Retake the typing test" once there is a result
+ * (a result from an earlier run stays through Help › Show the intro
+ * again, like every setting). Continue never waits for it. Back from the
+ * test, the typing bar and the multiple use the measured speed (time
+ * saved uses it too); the confetti does not fire a second time.
  */
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
@@ -41,10 +49,13 @@ let celebrated = false;
 
 export function FirstDictation({
   preview,
+  spokenWpm = null,
   onTakeTest,
   onContinue,
 }: {
   preview: boolean;
+  /** The practice's speaking speed, `null` when not measured. */
+  spokenWpm?: number | null;
   onTakeTest: () => void;
   onContinue: () => void;
 }) {
@@ -52,7 +63,12 @@ export function FirstDictation({
   const { settings } = useForkSettings();
   const measured = settings?.typing_wpm ?? null;
   const typingWpm = measured ?? DEFAULT_TYPING_WPM;
-  const TIMES = timesFaster(typingWpm);
+  const spoke = spokenWpm != null && spokenWpm > typingWpm ? spokenWpm : null;
+  const speakingWpm = spoke ?? SPEAKING_WPM;
+  const TIMES = timesFaster(typingWpm, speakingWpm);
+  const widest = Math.max(typingWpm, speakingWpm);
+  const width = (wpm: number) =>
+    `${Math.min(100, Math.max(32, (wpm / widest) * 100))}%`;
   const m = useMotionPresets();
   const stages = m.celebration.stages;
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -121,7 +137,7 @@ export function FirstDictation({
     tone: "plain" | "accent",
     testId: string,
   ) => (
-    <div className="flex flex-col gap-1.5" data-testid={testId}>
+    <div className="flex flex-col gap-1.5" data-testid={testId} data-wpm={wpm}>
       <span className="type-micro text-(--wb-ink-2)">{label}</span>
       <motion.span
         className={`flex h-8 origin-left items-center rounded-(--wb-radius-xs) px-3 text-[14px] font-medium whitespace-nowrap rtl:origin-right ${
@@ -215,14 +231,18 @@ export function FirstDictation({
                 : "onboardingFlow.firstDictation.yourTypingLabel",
             ),
             typingWpm,
-            `${Math.min(100, Math.max(32, (typingWpm / SPEAKING_WPM) * 100))}%`,
+            width(typingWpm),
             "plain",
             "wb-first-dictation-typing",
           )}
           {bar(
-            t("onboardingFlow.firstDictation.speakingLabel"),
-            SPEAKING_WPM,
-            "100%",
+            t(
+              spoke == null
+                ? "onboardingFlow.firstDictation.speakingLabel"
+                : "onboardingFlow.firstDictation.youSpokeLabel",
+            ),
+            speakingWpm,
+            width(speakingWpm),
             "accent",
             "wb-first-dictation-speaking",
           )}

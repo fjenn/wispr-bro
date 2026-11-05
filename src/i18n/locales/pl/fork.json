@@ -2113,6 +2113,7 @@
         "bannerTitle": "Do wszystkiego innego"
       }
     },
+    "marksNote": "Wyróżnienia pokazują, co każdy styl zmienia względem stylu {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formalny",
@@ -2388,7 +2389,8 @@
       "faster": "<n/>× <em>szybciej</em>",
       "takeTest": "Zrób test pisania",
       "retakeTest": "Powtórz test pisania",
-      "yourTypingLabel": "Twoje pisanie"
+      "yourTypingLabel": "Twoje pisanie",
+      "youSpokeLabel": "Mówiłeś z prędkością"
     },
     "timeSaved": {
       "headline_one": "Dyktowanie może Ci oszczędzić około {{hours}} godziny tygodniowo",
@@ -2412,7 +2414,8 @@
       "hoursPerWeek_one": "{{hours}} godzina tygodniowo",
       "hoursPerWeek_few": "{{hours}} godziny tygodniowo",
       "hoursPerWeek_many": "{{hours}} godzin tygodniowo",
-      "hoursPerWeek_other": "{{hours}} godziny tygodniowo"
+      "hoursPerWeek_other": "{{hours}} godziny tygodniowo",
+      "math": "{{typed}} godz. pisania przy {{wpm}} sł./min ≈ {{voice}} godz. głosem przy {{speaking}} sł./min"
     },
     "typing": {
       "title": "Jak szybko <em>piszesz</em>?",

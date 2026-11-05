@@ -1882,6 +1882,7 @@
         "bannerTitle": "用於其他所有地方"
       }
     },
+    "marksNote": "醒目標示顯示每種風格相對於「{{formal}}」改變的內容。",
     "presets": {
       "formal": {
         "label": "正式",
@@ -2148,7 +2149,8 @@
       "faster": "<em>快</em> <n/> 倍",
       "takeTest": "進行打字測驗",
       "retakeTest": "重新進行打字測驗",
-      "yourTypingLabel": "你的打字速度"
+      "yourTypingLabel": "你的打字速度",
+      "youSpokeLabel": "你的說話速度"
     },
     "timeSaved": {
       "headline_other": "聽寫每週可為你節省約 {{hours}} 小時",
@@ -2157,7 +2159,8 @@
       "basisAverage_other": "根據每分鐘 {{wpm}} 字的平均打字速度，以及每分鐘約 {{speaking}} 字的語速估算。",
       "lead": "聽寫可為你節省約",
       "perWeek_other": "<em>每週</em> <n/> 小時",
-      "hoursPerWeek_other": "每週 {{hours}} 小時"
+      "hoursPerWeek_other": "每週 {{hours}} 小時",
+      "math": "以每分鐘 {{wpm}} 字打字 {{typed}} 小時 ≈ 以每分鐘 {{speaking}} 字語音 {{voice}} 小時"
     },
     "typing": {
       "title": "你<em>打字</em>有多快？",

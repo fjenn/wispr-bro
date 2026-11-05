@@ -1959,6 +1959,7 @@
         "bannerTitle": "За всичко останало"
       }
     },
+    "marksNote": "Маркираното показва какво променя всеки стил спрямо „{{formal}}“.",
     "presets": {
       "formal": {
         "label": "Официален",
@@ -2228,7 +2229,8 @@
       "faster": "<n/>× <em>по-бързо</em>",
       "takeTest": "Направи теста за писане",
       "retakeTest": "Повтори теста за писане",
-      "yourTypingLabel": "Вашето писане"
+      "yourTypingLabel": "Вашето писане",
+      "youSpokeLabel": "Говорихте със"
     },
     "timeSaved": {
       "headline_one": "Диктовката може да Ви спести около {{hours}} час седмично",
@@ -2242,7 +2244,8 @@
       "perWeek_one": "<n/> час <em>седмично</em>",
       "perWeek_other": "<n/> часа <em>седмично</em>",
       "hoursPerWeek_one": "{{hours}} час на седмица",
-      "hoursPerWeek_other": "{{hours}} часа на седмица"
+      "hoursPerWeek_other": "{{hours}} часа на седмица",
+      "math": "{{typed}} ч писане при {{wpm}} думи/мин ≈ {{voice}} ч с глас при {{speaking}} думи/мин"
     },
     "typing": {
       "title": "Колко бързо <em>пишете</em>?",

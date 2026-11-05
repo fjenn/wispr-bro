@@ -2113,6 +2113,7 @@
         "bannerTitle": "Для всего остального"
       }
     },
+    "marksNote": "Выделение показывает, что каждый стиль меняет по сравнению со стилем «{{formal}}».",
     "presets": {
       "formal": {
         "label": "Официальный",
@@ -2388,7 +2389,8 @@
       "faster": "<n/>× <em>быстрее</em>",
       "takeTest": "Пройти тест печати",
       "retakeTest": "Пройти тест печати снова",
-      "yourTypingLabel": "Ваша скорость печати"
+      "yourTypingLabel": "Ваша скорость печати",
+      "youSpokeLabel": "Вы говорили со скоростью"
     },
     "timeSaved": {
       "headline_one": "Диктовка может экономить вам около {{hours}} часа в неделю",
@@ -2412,7 +2414,8 @@
       "hoursPerWeek_one": "{{hours}} час в неделю",
       "hoursPerWeek_few": "{{hours}} часа в неделю",
       "hoursPerWeek_many": "{{hours}} часов в неделю",
-      "hoursPerWeek_other": "{{hours}} часа в неделю"
+      "hoursPerWeek_other": "{{hours}} часа в неделю",
+      "math": "{{typed}} ч набора при {{wpm}} сл./мин ≈ {{voice}} ч голосом при {{speaking}} сл./мин"
     },
     "typing": {
       "title": "Как быстро вы <em>печатаете</em>?",

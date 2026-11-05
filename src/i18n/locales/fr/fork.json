@@ -2036,6 +2036,7 @@
         "bannerTitle": "Pour tout le reste"
       }
     },
+    "marksNote": "Les surlignages montrent ce que chaque style change par rapport à {{formal}}.",
     "presets": {
       "formal": {
         "label": "Formel",
@@ -2308,7 +2309,8 @@
       "faster": "<n/>× <em>plus rapide</em>",
       "takeTest": "Faire le test de frappe",
       "retakeTest": "Refaire le test de frappe",
-      "yourTypingLabel": "Votre frappe"
+      "yourTypingLabel": "Votre frappe",
+      "youSpokeLabel": "Vous avez parlé à"
     },
     "timeSaved": {
       "headline_one": "La dictée pourrait vous faire gagner environ {{hours}} heure par semaine",
@@ -2327,7 +2329,8 @@
       "perWeek_other": "<n/> heures <em>par semaine</em>",
       "hoursPerWeek_one": "{{hours}} heure par semaine",
       "hoursPerWeek_many": "{{hours}} d’heures par semaine",
-      "hoursPerWeek_other": "{{hours}} heures par semaine"
+      "hoursPerWeek_other": "{{hours}} heures par semaine",
+      "math": "{{typed}} h de frappe à {{wpm}} mots/min ≈ {{voice}} h à la voix à {{speaking}} mots/min"
     },
     "typing": {
       "title": "À quelle vitesse <em>tapez</em>-vous ?",

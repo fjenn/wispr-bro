@@ -138,6 +138,83 @@ test.describe("S-29b practice", () => {
     await expect(page.getByTestId("wb-time-saved-skip")).toHaveCount(0);
   });
 
+  test("rc10: the practice's speed is speaking; typing stays 45 until the test", async ({
+    page,
+    ipc,
+  }) => {
+    // The owner's report: after dictating the email the next step read as
+    // "how fast you type". The take is spoken: 16 words in 6 s = 160 wpm.
+    const be = await practice(page, ipc, { setup: READY }, true);
+    await take(ipc, "started");
+    await take(ipc, "locked");
+    await page.clock.runFor(6_000);
+    await take(ipc, "stopped");
+    await ipc.emit("fork-practice-take", {
+      kind: "text",
+      text: "Hi Sam, thanks for the notes. Can we meet on Thursday to go over the plan?",
+      late: false,
+    });
+    const next = page.getByTestId("wb-practice-continue");
+    await expect(next).toBeEnabled();
+    await next.click();
+    await expectStep(page, "first_dictation");
+    await page.clock.runFor(1_000);
+    const speaking = page.getByTestId("wb-first-dictation-speaking");
+    await expect(speaking).toContainText("You spoke at160 words a minute");
+    await expect(speaking).toHaveAttribute("data-wpm", "160");
+    // Typing is not measured by a take: the 45 wpm average, labelled so.
+    await expect(page.getByTestId("wb-first-dictation-typing")).toContainText(
+      "Typing, on average45 words a minute",
+    );
+    await expect(page.getByTestId("wb-first-dictation-times")).toHaveAttribute(
+      "data-times",
+      "3.6",
+    );
+    await expect(page.getByTestId("wb-first-dictation-take-test")).toHaveText(
+      "Take the typing test",
+    );
+    expect(be.fork.typing_wpm).toBeNull();
+    // The test is optional: Continue goes on with the 45 wpm average.
+    await page.getByTestId("wb-first-dictation-continue").click();
+    await expectStep(page, "time_saved");
+    await page.clock.runFor(1_000);
+    expect(be.fork.typing_wpm).toBeNull();
+    await expect(page.getByTestId("wb-time-saved-math")).toHaveText(
+      "4 h of typing at 45 wpm ≈ 0.9 h by voice at 200 wpm",
+    );
+  });
+
+  test("rc10: a result from an earlier run says Retake and drives the maths", async ({
+    page,
+    ipc,
+  }) => {
+    // Help › Show the intro again keeps settings: a real earlier result
+    // (the owner's 33 wpm from rc9's test) is the typing speed.
+    await practice(page, ipc, {
+      step: "first_dictation",
+      fork: { typing_wpm: 33, typing_hours_per_day: 7 },
+    });
+    await expect(page.getByTestId("wb-first-dictation-typing")).toContainText(
+      "Your typing33 words a minute",
+    );
+    await expect(page.getByTestId("wb-first-dictation-speaking")).toContainText(
+      "Speaking, on average200 words a minute",
+    );
+    await expect(page.getByTestId("wb-first-dictation-take-test")).toHaveText(
+      "Retake the typing test",
+    );
+    await page.getByTestId("wb-first-dictation-continue").click();
+    await expectStep(page, "time_saved");
+    // 35 h × 33/200 = 5.8 h by voice; 35 − 5.8 = 29.2 → 29 saved.
+    await expect(page.getByTestId("wb-time-saved-headline")).toHaveAttribute(
+      "data-hours",
+      "29",
+    );
+    await expect(page.getByTestId("wb-time-saved-math")).toHaveText(
+      "35 h of typing at 33 wpm ≈ 5.8 h by voice at 200 wpm",
+    );
+  });
+
   test("wpm math, seconds left, Recalculate and the counter update", async ({
     page,
     ipc,

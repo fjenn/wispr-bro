@@ -81,6 +81,8 @@ export interface Options {
   settle?: Step;
   /** `fork_speech_setup_status` fields over the default (downloading). */
   setup?: Record<string, unknown>;
+  /** Fork settings over the defaults (e.g. an earlier `typing_wpm`). */
+  fork?: Record<string, unknown>;
 }
 
 /**
@@ -96,6 +98,7 @@ export async function openOnboarding(
   const be: Backend = {
     fork: structuredClone({
       ...forkSettingsDefaults,
+      ...(options.fork ?? {}),
       onboarding: options.step
         ? {
             status: "in_progress",
