@@ -1421,6 +1421,7 @@ the builder's scratch folder (not in the repo).
       card above it; dictating there keeps the label inside the circle.
 - [ ] W4.8 **Mac wave 6: NOT RUN** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-6.md)) Scratchpad group on the bar (S-24 on): the two buttons sit on the
       black capsule (not 6 pt below it), hover help still per button.
+      **Superseded by S-24.4 (`fix/padbtn`):** the grouped pill is gone.
 
 ### Design W6 (Scratchpad and dialogs) — queued for the Mac wave
 
@@ -2017,6 +2018,23 @@ fork::context::names_eval -- --ignored --nocapture` per speech model.
 - [x] S-24.1 **Mac wave 5: PASS regression after the wave 4 activation guard (note from the Hub, front pid = app at +0.2/+1/+3 s, `own_app`, no `focus_moved`, text in the note)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-5.md)) **Mac wave 2: PASS bundled and --no-bundle (focus kept at +0.2/+1/+3 s, text in the note); step 3 corrected (S-05 key-up rule)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) **Mac wave 1: FAIL (app loses focus when a take starts from the note)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Dictate into the note window.
 - [x] S-24.2 **Mac wave 2: PASS bundled and --no-bundle (⌥S front in 100-200 ms, typed keys in the note)** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-2.md)) **Mac wave 1: FAIL, fixed on `fix/macwave-s24` (window showed the Hub); note does not take focus** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) Open via ⌥S after binding.
 - [x] S-24.3 **Mac wave 1: PASS with the `fix/macwave-s24` fix** ([run](test-runs/1.0.0-alpha.1-M-26-macwave-1.md)) The note survives a force-quit.
+- [ ] S-24.4 **Queued for the Mac wave (`fix/padbtn`, 2026-11-05):** the
+      Scratchpad circle beside the bar (Settings › System › Scratchpad on the
+      bar on, test identity, light and dark, then the app language Arabic):
+  1. At rest the bar is the unchanged 38 × 6 line and a 6 pt dot sits 6 pt to
+     its right (left in Arabic), on the same baseline; no text anywhere.
+  2. Hover the line: it grows into the usual hint bubble and the dot grows
+     with it into a 34 pt circle with the note glyph, 6 pt to its side.
+     Hover the dot: it grows to 34 pt and a black "Scratchpad" tooltip shows
+     8 pt above it; the line does not grow. Leave: both shrink back.
+  3. Click the circle (TextEdit in front): the Scratchpad note opens and
+     TextEdit was not activated by the click; click the line: a hands-free
+     take starts, as before.
+  4. Start a take (WAV microphone): held, hands-free and "Transcribing…" each
+     keep the circle 6 pt beside the capsule, never under it; the circle
+     stays clickable during the take; with the mic label showing, no tooltip.
+  5. Drag the bar to the right screen edge: the circle moves to the bar's
+     left. System Reduce Motion on: sizes change at once.
 - **Fixed on `fix/wave1-b` (2026-11-03), queued for the Mac wave:** S-24.1
   (the bar's web view no longer flips the app to the Prohibited activation
   policy; no AX call into our own process) and S-24.2's focus (every open

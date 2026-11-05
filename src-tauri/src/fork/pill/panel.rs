@@ -38,7 +38,7 @@ use tauri::{AppHandle, Manager, WebviewUrl, Wry};
 use tauri_nspanel::{CollectionBehavior, ManagerExt, PanelBuilder, PanelLevel, StyleMask};
 
 use super::geometry::{Fit, Shape};
-use super::native::{self, Mode, NativeEvent, Resting, Texts};
+use super::native::{self, Mode, NativeEvent, Resting, Texts, WebBar};
 use super::placement::{self, Anchor, Edge, Screen};
 
 /// Label of the web view window (R5 §4.1).
@@ -76,8 +76,10 @@ pub struct Scene {
     pub protected: bool,
     /// `Some(true)` dark, `Some(false)` light, `None` the system's.
     pub dark: Option<bool>,
-    /// S-24: Dictate and Scratchpad share the resting bar.
+    /// S-24: the Scratchpad circle beside the bar, and whether the app's
+    /// language reads right to left (the circle on the left).
     pub scratchpad_enabled: bool,
+    pub rtl: bool,
     pub texts: Texts,
     /// Design W4: when the current appearance started growing from rest
     /// (Unix ms); the native bridge's morph runs from there.
@@ -193,12 +195,13 @@ impl Ui {
                 || o.protected != scene.protected
                 || o.dark != scene.dark
                 || o.scratchpad_enabled != scene.scratchpad_enabled
+                || o.rtl != scene.rtl
                 || o.texts != scene.texts
         });
         if prefs_changed {
             self.resting.set_texts(&scene.texts);
             self.resting
-                .set_scratchpad_enabled(scene.scratchpad_enabled);
+                .set_scratchpad(scene.scratchpad_enabled, scene.rtl);
             self.resting.set_protected(scene.protected);
             self.resting.set_appearance(scene.dark);
         }
@@ -242,6 +245,20 @@ impl Ui {
             if let Some(w) = self.app.get_webview_window(LABEL) {
                 let _ = w.set_content_protected(scene.protected);
             }
+        }
+        // S-24: the Scratchpad circle follows the web view's capsule while
+        // it shows the bar, and stays in front of it.
+        let web_bar = self.web_shown.and_then(|fit| {
+            let (anchor, _) = self.take_anchor.clone().or_else(|| self.anchor.clone())?;
+            Some(WebBar {
+                anchor,
+                capsule: fit.capsule(),
+                labelled: fit.shape.labelled(),
+            })
+        });
+        self.resting.set_web_bar(web_bar);
+        if web_bar.is_some() {
+            self.resting.raise_pad();
         }
         match scene.native {
             NativeScene::Hidden => self.resting.hide(),

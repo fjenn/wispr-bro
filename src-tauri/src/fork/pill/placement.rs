@@ -21,7 +21,9 @@
 //!   always kept inside the visible frame (a side Dock never covers it).
 //! - Positions are rounded to the display's pixel grid.
 
-use super::geometry::{Shape, EDGE_GAP, REST_HIT_PAD_X, REST_HIT_PAD_Y};
+use super::geometry::{
+    Shape, EDGE_GAP, HOVER_H, LABEL_GAP, LABEL_H, PAD_GAP, REST_HIT_PAD_X, REST_HIT_PAD_Y,
+};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Rect {
@@ -160,12 +162,31 @@ pub fn frame(anchor: &Anchor, size: (f64, f64)) -> Rect {
 /// so the thin resting bar stays easy to hover and click, and is never
 /// smaller than that area while a morph passes through it.
 pub fn native_frame(anchor: &Anchor, capsule: (f64, f64)) -> (Rect, Rect) {
+    native_frame_beside(anchor, capsule, None)
+}
+
+/// [`native_frame`] with the Scratchpad circle on `pad`'s side (S-24): the
+/// hit area stops half way across the gap on that side, where the
+/// circle's own window ([`pad_layout`]) starts, so the two never overlap.
+pub fn native_frame_beside(
+    anchor: &Anchor,
+    capsule: (f64, f64),
+    pad: Option<Side>,
+) -> (Rect, Rect) {
     let c = frame(anchor, capsule);
     let rest = frame(anchor, Shape::Rest.size());
+    let pad_x = |side: Side| {
+        if pad == Some(side) {
+            PAD_GAP / 2.0
+        } else {
+            REST_HIT_PAD_X
+        }
+    };
+    let (left, right) = (pad_x(Side::Left), pad_x(Side::Right));
     let hit = Rect::new(
-        rest.x - REST_HIT_PAD_X,
+        rest.x - left,
         rest.y - REST_HIT_PAD_Y,
-        rest.w + 2.0 * REST_HIT_PAD_X,
+        rest.w + left + right,
         rest.h + 2.0 * REST_HIT_PAD_Y,
     );
     let x = c.x.min(hit.x);
@@ -174,6 +195,109 @@ pub fn native_frame(anchor: &Anchor, capsule: (f64, f64)) -> (Rect, Rect) {
     let h = c.max_y().max(hit.max_y()) - y;
     let window = Rect::new(x, y, w, h);
     (window, Rect::new(c.x - x, c.y - y, c.w, c.h))
+}
+
+/// A side of the bar.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Side {
+    Left,
+    Right,
+}
+
+/// Which side of the bar's capsule `bar` the Scratchpad circle takes
+/// (S-24): the trailing one (right; left in a right-to-left language),
+/// unless the largest circle would leave the bounds there and fits on the
+/// other side (a bar dragged to a display edge).
+pub fn pad_side(anchor: &Anchor, bar: &Rect, rtl: bool) -> Side {
+    let need = PAD_GAP + HOVER_H + REST_HIT_PAD_X;
+    let b = anchor.bounds;
+    let fits = |side: Side| match side {
+        Side::Right => bar.max_x() + need <= b.max_x(),
+        Side::Left => bar.x - need >= b.x,
+    };
+    let (preferred, other) = if rtl {
+        (Side::Left, Side::Right)
+    } else {
+        (Side::Right, Side::Left)
+    };
+    if !fits(preferred) && fits(other) {
+        other
+    } else {
+        preferred
+    }
+}
+
+/// The Scratchpad circle's window (S-24), in global coordinates, with the
+/// circle and the hover tooltip inside it (window coordinates, y up).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PadLayout {
+    pub window: Rect,
+    pub circle: Rect,
+    pub tip: Option<Rect>,
+    pub side: Side,
+}
+
+/// Lays out the Scratchpad circle of diameter `d` beside the bar's capsule
+/// `bar` (global): [`PAD_GAP`] away on [`pad_side`], on the bar's anchored
+/// edge (so it grows from the edge like the bar). The window is the circle
+/// plus the resting bar's hit padding, starting half way across the gap
+/// (where [`native_frame_beside`] stops). A tooltip `tip_w` wide floats
+/// [`LABEL_GAP`] above the circle (below it at the top of the display), the
+/// label pill's place and size; it never reaches over the bar, so the
+/// circle's window never overlaps the bar's whatever its state.
+pub fn pad_layout(anchor: &Anchor, bar: &Rect, d: f64, tip_w: Option<f64>, rtl: bool) -> PadLayout {
+    let side = pad_side(anchor, bar, rtl);
+    let b = anchor.bounds;
+    let x = match side {
+        Side::Right => bar.max_x() + PAD_GAP,
+        Side::Left => bar.x - PAD_GAP - d,
+    };
+    let y = match anchor.edge {
+        Edge::Bottom => bar.y,
+        Edge::Top => bar.max_y() - d,
+    };
+    let circle = Rect::new(x, y, d, d);
+    let (hit_x0, hit_x1) = match side {
+        Side::Right => (bar.max_x() + PAD_GAP / 2.0, circle.max_x() + REST_HIT_PAD_X),
+        Side::Left => (circle.x - REST_HIT_PAD_X, bar.x - PAD_GAP / 2.0),
+    };
+    let hit = Rect::new(
+        hit_x0,
+        circle.y - REST_HIT_PAD_Y,
+        hit_x1 - hit_x0,
+        d + 2.0 * REST_HIT_PAD_Y,
+    );
+    let tip = tip_w.map(|w| {
+        let mut tx = circle.mid_x() - w / 2.0;
+        match side {
+            Side::Right => {
+                tx = tx.min(b.max_x() - w).max(hit_x0);
+            }
+            Side::Left => {
+                tx = tx.max(b.x).min(hit_x1 - w);
+            }
+        }
+        let ty = match anchor.edge {
+            Edge::Bottom => circle.max_y() + LABEL_GAP,
+            Edge::Top => circle.y - LABEL_GAP - LABEL_H,
+        };
+        Rect::new(snap(tx, anchor.scale), ty, w, LABEL_H)
+    });
+    let mut window = hit;
+    if let Some(t) = tip {
+        let x0 = window.x.min(t.x);
+        let y0 = window.y.min(t.y);
+        let x1 = window.max_x().max(t.max_x());
+        let y1 = window.max_y().max(t.max_y());
+        window = Rect::new(x0, y0, x1 - x0, y1 - y0);
+    }
+    let local = |r: Rect| Rect::new(r.x - window.x, r.y - window.y, r.w, r.h);
+    PadLayout {
+        window,
+        circle: local(circle),
+        tip: tip.map(local),
+        side,
+    }
 }
 
 /// The drag position to remember for a bar whose centre is at `centre_x`.
@@ -236,6 +360,7 @@ pub fn display_key(name: &str, frame: &Rect) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::fork::pill::geometry::REST_H;
 
     /// MacBook Pro 14" (1512 × 982 pt at 2x), notch: 38 pt menu bar.
     fn builtin(dock: Dock) -> Screen {
@@ -448,6 +573,162 @@ mod tests {
                 assert!(win.h <= cap.h.max(6.0) + 6.0 + 6.0, "{shape:?}");
             }
         }
+    }
+
+    fn overlaps(a: &Rect, b: &Rect) -> bool {
+        a.x < b.max_x() && b.x < a.max_x() && a.y < b.max_y() && b.y < a.max_y()
+    }
+
+    fn global(win: &Rect, r: &Rect) -> Rect {
+        Rect::new(win.x + r.x, win.y + r.y, r.w, r.h)
+    }
+
+    /// S-24: the Scratchpad circle sits 6 pt beside the bar on its anchored
+    /// edge, as tall as the bar (the 6 pt line at rest), and its window and
+    /// the bar's abut half way across the gap.
+    #[test]
+    fn the_scratchpad_circle_sits_beside_the_resting_bar() {
+        let a = anchor(&builtin(Dock::Bottom(70.0)), Edge::Bottom, None, false);
+        let bar = rest(&a);
+        let pad = pad_layout(&a, &bar, REST_H, None, false);
+        assert_eq!(pad.side, Side::Right);
+        let circle = global(&pad.window, &pad.circle);
+        assert_eq!(circle, Rect::new(bar.max_x() + PAD_GAP, bar.y, 6.0, 6.0));
+        assert_eq!(pad.tip, None);
+        let (win, cap) = native_frame_beside(&a, Shape::Rest.size(), Some(pad.side));
+        assert_eq!(global(&win, &cap), bar);
+        assert_eq!(win.max_x(), pad.window.x, "the windows abut");
+        assert_eq!(pad.window.x, bar.max_x() + PAD_GAP / 2.0);
+        // The bar keeps its full hit area on the other side.
+        assert_eq!(win.x, bar.x - REST_HIT_PAD_X);
+        assert_eq!((win.y, win.h), (pad.window.y, pad.window.h));
+        // Right to left: mirrored.
+        let pad = pad_layout(&a, &bar, REST_H, None, true);
+        assert_eq!(pad.side, Side::Left);
+        let circle = global(&pad.window, &pad.circle);
+        assert_eq!(circle.max_x(), bar.x - PAD_GAP);
+        let (win, _) = native_frame_beside(&a, Shape::Rest.size(), Some(pad.side));
+        assert_eq!(pad.window.max_x(), win.x);
+    }
+
+    /// Every bar state (rest, hover bubble, each take shape), both edges,
+    /// both directions, hovered or not: the circle never touches the bar,
+    /// the two windows never overlap, the circle keeps the 6 pt gap and
+    /// stays on screen, and the tooltip floats on the far side of it.
+    #[test]
+    fn the_scratchpad_circle_never_overlaps_the_bar() {
+        let hover = (200.0, HOVER_H);
+        let mut sizes: Vec<(f64, f64)> = Shape::ALL.iter().map(|s| s.capsule()).collect();
+        sizes.push(hover);
+        for frac in [None, Some(0.0), Some(1.0)] {
+            for edge in [Edge::Bottom, Edge::Top] {
+                let a = anchor(&builtin(Dock::Bottom(70.0)), edge, frac, false);
+                for &size in &sizes {
+                    for rtl in [false, true] {
+                        for hovered in [false, true] {
+                            let bar = frame(&a, size);
+                            let d = if hovered {
+                                HOVER_H
+                            } else {
+                                size.1.min(HOVER_H)
+                            };
+                            let tip = hovered.then_some(110.0);
+                            let pad = pad_layout(&a, &bar, d, tip, rtl);
+                            let ctx =
+                                format!("{size:?} {edge:?} {frac:?} rtl={rtl} hover={hovered}");
+                            let circle = global(&pad.window, &pad.circle);
+                            assert!(!overlaps(&circle, &bar), "{ctx}");
+                            let gap = match pad.side {
+                                Side::Right => circle.x - bar.max_x(),
+                                Side::Left => bar.x - circle.max_x(),
+                            };
+                            assert_eq!(gap, PAD_GAP, "{ctx}");
+                            assert!(circle.x >= a.bounds.x && circle.max_x() <= a.bounds.max_x());
+                            // The bar's window: native at rest/hover, else the web view's.
+                            let side = Some(pad.side);
+                            let (native, _) = native_frame_beside(&a, size, side);
+                            assert!(!overlaps(&pad.window, &native), "native {ctx}");
+                            let web = Shape::ALL
+                                .iter()
+                                .find(|s| s.capsule() == size && !s.labelled());
+                            if let Some(s) = web {
+                                let w = frame(&a, s.size());
+                                assert!(!overlaps(&pad.window, &w), "web {ctx}");
+                            }
+                            if let Some(t) = pad.tip {
+                                let t = global(&pad.window, &t);
+                                assert!(!overlaps(&t, &bar), "{ctx}");
+                                match edge {
+                                    Edge::Bottom => assert_eq!(t.y, circle.max_y() + LABEL_GAP),
+                                    Edge::Top => assert_eq!(t.max_y(), circle.y - LABEL_GAP),
+                                }
+                            }
+                            // On the bar's anchored edge.
+                            match edge {
+                                Edge::Bottom => assert_eq!(circle.y, bar.y, "{ctx}"),
+                                Edge::Top => assert_eq!(circle.max_y(), bar.max_y(), "{ctx}"),
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// A bar dragged against a display edge puts the circle on the side
+    /// with room.
+    #[test]
+    fn the_scratchpad_circle_flips_at_a_display_edge() {
+        let s = builtin(Dock::Bottom(70.0));
+        let a = anchor(&s, Edge::Bottom, Some(1.0), false);
+        let bar = frame(&a, Shape::Locked.size());
+        assert_eq!(pad_side(&a, &bar, false), Side::Left);
+        let a = anchor(&s, Edge::Bottom, Some(0.0), false);
+        let bar = frame(&a, Shape::Locked.size());
+        assert_eq!(pad_side(&a, &bar, true), Side::Right);
+        assert_eq!(pad_side(&a, &bar, false), Side::Right);
+    }
+
+    /// Writes the bar and circle layout of each state to
+    /// `$WB_PAD_LAYOUT_JSON` (for the before/after renders of the S-24 fix).
+    #[test]
+    #[ignore = "writes a layout dump for screenshots"]
+    fn dump_scratchpad_layouts() {
+        let Some(path) = std::env::var_os("WB_PAD_LAYOUT_JSON") else {
+            return;
+        };
+        let states: [(&str, (f64, f64), bool, bool); 8] = [
+            ("rest", Shape::Rest.size(), false, false),
+            ("rest_pad_hover", Shape::Rest.size(), true, false),
+            ("bar_hover", (196.0, HOVER_H), false, false),
+            ("held", Shape::Held.capsule(), false, false),
+            ("locked", Shape::Locked.capsule(), false, false),
+            ("locked_pad_hover", Shape::Locked.capsule(), true, false),
+            ("transcribing", Shape::Status.capsule(), false, false),
+            ("rest_rtl_pad_hover", Shape::Rest.size(), true, true),
+        ];
+        let a = anchor(&builtin(Dock::Bottom(70.0)), Edge::Bottom, None, false);
+        let rows: Vec<serde_json::Value> = states
+            .iter()
+            .map(|&(name, size, hovered, rtl)| {
+                let bar = frame(&a, size);
+                let d = if hovered {
+                    HOVER_H
+                } else {
+                    size.1.min(HOVER_H)
+                };
+                let pad = pad_layout(&a, &bar, d, hovered.then_some(118.0), rtl);
+                let (win, _) = native_frame_beside(&a, size, Some(pad.side));
+                let g = |r: Rect| serde_json::json!([r.x, r.y, r.w, r.h]);
+                serde_json::json!({
+                    "name": name, "bar": g(bar), "bar_window": g(win),
+                    "pad_window": g(pad.window),
+                    "circle": g(global(&pad.window, &pad.circle)),
+                    "tip": pad.tip.map(|t| g(global(&pad.window, &t))),
+                })
+            })
+            .collect();
+        std::fs::write(path, serde_json::to_string_pretty(&rows).unwrap()).unwrap();
     }
 
     #[test]

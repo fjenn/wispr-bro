@@ -19,18 +19,16 @@
 //! Reduce Motion: the bridge grows out of the resting line when a take
 //! starts, and the resting line grows back out of the last active capsule
 //! when the take ends. A Dictate click starts hands-free
-//! dictation; the optional S-24 group adds a Scratchpad button beside it,
-//! without taking focus from the frontmost app (`acceptsFirstMouse`, the
+//! dictation; the optional S-24 Scratchpad circle (`pad.rs`, its own small
+//! panel) sits beside it in every state, both without taking focus from the frontmost app (`acceptsFirstMouse`, the
 //! panel never activates the app); right-click offers "Hide for an hour";
 //! a horizontal drag moves the bar along its edge and the position is
 //! remembered per display. While the web view loads for a new take, the
 //! same view shows a "bridge" capsule of the active size, so the bar
 //! reacts at once.
 //!
-//! VoiceOver: the single-slot view is a button named "Dictation bar" with
-//! the hint as its help text. With S-24 enabled, two native NSButtons expose
-//! independent Dictate and Scratchpad names, actions and tooltips instead.
-//! Announcements come from `accessibility::announce`.
+//! VoiceOver: the view is a button named "Dictation bar" with the hint as
+//! its help text; the Scratchpad circle is a separate button. Announcements come from `accessibility::announce`.
 
 use std::cell::{Cell, RefCell};
 
@@ -41,7 +39,7 @@ use objc2::{
 };
 use objc2_app_kit::{
     NSAppearance, NSAppearanceCustomization, NSAppearanceNameAqua, NSAppearanceNameDarkAqua,
-    NSBackingStoreType, NSBezierPath, NSButton, NSColor, NSEvent, NSFont, NSFontAttributeName,
+    NSBackingStoreType, NSBezierPath, NSColor, NSEvent, NSFont, NSFontAttributeName,
     NSFontWeightMedium, NSForegroundColorAttributeName, NSMenu, NSMenuItem, NSPanel, NSResponder,
     NSScreen, NSStatusWindowLevel, NSTrackingArea, NSTrackingAreaOptions, NSView,
     NSWindowAnimationBehavior, NSWindowCollectionBehavior, NSWindowSharingType, NSWindowStyleMask,
@@ -49,8 +47,8 @@ use objc2_app_kit::{
 use objc2_foundation::{NSArray, NSDictionary, NSObject, NSPoint, NSRect, NSSize, NSString};
 
 use super::geometry::{self, Fit, Shape};
+use super::pad::Pad;
 use super::placement::{self, Anchor, Rect, Screen};
-use super::slots::{self, Slot};
 
 /// What the native view shows.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -74,7 +72,7 @@ pub enum NativeEvent {
     },
 }
 
-type Callback = Box<dyn Fn(NativeEvent)>;
+pub(super) type Callback = std::rc::Rc<dyn Fn(NativeEvent)>;
 
 /// Localized strings of the native bar.
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -85,9 +83,7 @@ pub struct Texts {
     pub name: String,
     /// The context menu item.
     pub hide_for_an_hour: String,
-    /// S-24 grouped bar labels and per-slot hover/VoiceOver help.
-    pub dictate: String,
-    pub dictate_hint: String,
+    /// S-24: the Scratchpad circle's tooltip / VoiceOver name and help.
     pub scratchpad: String,
     pub scratchpad_hint: String,
 }
@@ -101,10 +97,13 @@ struct Drag {
 pub struct ViewIvars {
     mode: Cell<Mode>,
     hover: Cell<bool>,
-    hover_slot: Cell<Slot>,
     scratchpad_enabled: Cell<bool>,
+    rtl: Cell<bool>,
     texts: RefCell<Texts>,
-    slot_buttons: RefCell<Option<(Retained<NSButton>, Retained<NSButton>)>>,
+    /// S-24: the Scratchpad circle, and the web view's capsule while the
+    /// web view shows the bar (the circle follows that one instead).
+    pad: RefCell<Option<Pad>>,
+    web_bar: Cell<Option<WebBar>>,
     anchor: Cell<Option<Anchor>>,
     screen: RefCell<Option<Screen>>,
     drag: RefCell<Option<Drag>>,
@@ -122,13 +121,22 @@ pub struct ViewIvars {
     on_event: Callback,
 }
 
+/// The web view's capsule (S-24): its anchor, size and whether a label
+/// pill floats beside it.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct WebBar {
+    pub anchor: Anchor,
+    pub capsule: (f64, f64),
+    pub labelled: bool,
+}
+
 /// A size morph on the bar's spring.
 #[derive(Clone, Copy, Debug, PartialEq)]
-struct Morph {
-    from: (f64, f64),
-    to: (f64, f64),
+pub(super) struct Morph {
+    pub(super) from: (f64, f64),
+    pub(super) to: (f64, f64),
     /// Start, Unix ms (fractional).
-    t0: f64,
+    pub(super) t0: f64,
 }
 
 /// A drag starts after this many points of horizontal movement.
@@ -140,7 +148,7 @@ define_class!(
     #[unsafe(super(NSPanel))]
     #[thread_kind = MainThreadOnly]
     #[name = "WisprBroRestingPanel"]
-    pub struct RestingPanel;
+    pub(super) struct RestingPanel;
 
     impl RestingPanel {
         #[unsafe(method(canBecomeKeyWindow))]
@@ -188,22 +196,9 @@ define_class!(
 
         #[unsafe(method(mouseEntered:))]
         fn mouse_entered(&self, _event: &NSEvent) {
-            if self.ivars().mode.get() == Mode::Rest && !self.ivars().scratchpad_enabled.get() {
-                self.update_hover_slot();
-                if !self.ivars().hover.get() {
-                    self.ivars().hover.set(true);
-                    self.relayout();
-                }
-            }
-        }
-
-        #[unsafe(method(mouseMoved:))]
-        fn mouse_moved(&self, _event: &NSEvent) {
-            if self.ivars().mode.get() == Mode::Rest
-                && self.ivars().hover.get()
-                && !self.ivars().scratchpad_enabled.get()
-            {
-                self.update_hover_slot();
+            if self.ivars().mode.get() == Mode::Rest && !self.ivars().hover.get() {
+                self.ivars().hover.set(true);
+                self.relayout();
             }
         }
 
@@ -268,15 +263,7 @@ define_class!(
                 return;
             };
             if !drag.moved {
-                self.update_hover_slot();
-                let event = if self.ivars().scratchpad_enabled.get()
-                    && self.ivars().hover_slot.get() == Slot::Scratchpad
-                {
-                    NativeEvent::Scratchpad
-                } else {
-                    NativeEvent::Click
-                };
-                (self.ivars().on_event)(event);
+                (self.ivars().on_event)(NativeEvent::Click);
                 return;
             }
             let screen = self.ivars().screen.borrow().clone();
@@ -337,21 +324,11 @@ define_class!(
             self.relayout();
         }
 
-        #[unsafe(method(dictateSlot:))]
-        fn dictate_slot(&self, _sender: Option<&AnyObject>) {
-            (self.ivars().on_event)(NativeEvent::Click);
-        }
-
-        #[unsafe(method(scratchpadSlot:))]
-        fn scratchpad_slot(&self, _sender: Option<&AnyObject>) {
-            (self.ivars().on_event)(NativeEvent::Scratchpad);
-        }
-
         // --- Accessibility (VoiceOver) ---
 
         #[unsafe(method(isAccessibilityElement))]
         fn ax_is_element(&self) -> bool {
-            !self.ivars().scratchpad_enabled.get()
+            true
         }
 
         #[unsafe(method_id(accessibilityRole))]
@@ -361,44 +338,17 @@ define_class!(
 
         #[unsafe(method_id(accessibilityLabel))]
         fn ax_label(&self) -> Option<Retained<NSString>> {
-            let texts = self.ivars().texts.borrow();
-            let label = if self.ivars().scratchpad_enabled.get()
-                && self.ivars().hover_slot.get() == Slot::Scratchpad
-            {
-                &texts.scratchpad
-            } else if self.ivars().scratchpad_enabled.get() {
-                &texts.dictate
-            } else {
-                &texts.name
-            };
-            Some(NSString::from_str(label))
+            Some(NSString::from_str(&self.ivars().texts.borrow().name))
         }
 
         #[unsafe(method_id(accessibilityHelp))]
         fn ax_help(&self) -> Option<Retained<NSString>> {
-            let texts = self.ivars().texts.borrow();
-            let help = if self.ivars().scratchpad_enabled.get()
-                && self.ivars().hover_slot.get() == Slot::Scratchpad
-            {
-                &texts.scratchpad_hint
-            } else if self.ivars().scratchpad_enabled.get() {
-                &texts.dictate_hint
-            } else {
-                &texts.hint
-            };
-            Some(NSString::from_str(help))
+            Some(NSString::from_str(&self.ivars().texts.borrow().hint))
         }
 
         #[unsafe(method(accessibilityPerformPress))]
         fn ax_press(&self) -> bool {
-            let event = if self.ivars().scratchpad_enabled.get()
-                && self.ivars().hover_slot.get() == Slot::Scratchpad
-            {
-                NativeEvent::Scratchpad
-            } else {
-                NativeEvent::Click
-            };
-            (self.ivars().on_event)(event);
+            (self.ivars().on_event)(NativeEvent::Click);
             true
         }
     }
@@ -409,10 +359,11 @@ impl RestingView {
         let this = Self::alloc(mtm).set_ivars(ViewIvars {
             mode: Cell::new(Mode::Rest),
             hover: Cell::new(false),
-            hover_slot: Cell::new(Slot::Dictate),
             scratchpad_enabled: Cell::new(false),
+            rtl: Cell::new(false),
             texts: RefCell::new(Texts::default()),
-            slot_buttons: RefCell::new(None),
+            pad: RefCell::new(None),
+            web_bar: Cell::new(None),
             anchor: Cell::new(None),
             screen: RefCell::new(None),
             drag: RefCell::new(None),
@@ -442,31 +393,7 @@ impl RestingView {
             )
         };
         view.addTrackingArea(&area);
-        let dictate = slot_button(mtm, &view, sel!(dictateSlot:));
-        let scratchpad = slot_button(mtm, &view, sel!(scratchpadSlot:));
-        view.addSubview(&dictate);
-        view.addSubview(&scratchpad);
-        *view.ivars().slot_buttons.borrow_mut() = Some((dictate, scratchpad));
-        view.layout_slot_buttons();
         view
-    }
-
-    fn layout_slot_buttons(&self) {
-        let slot_buttons = self.ivars().slot_buttons.borrow();
-        let Some(buttons) = slot_buttons.as_ref() else {
-            return;
-        };
-        let enabled = self.ivars().scratchpad_enabled.get();
-        let half = slots::GROUP_WIDTH / 2.0;
-        // On the capsule, which sits inside the hit area (`native_frame`).
-        let origin = self.ivars().capsule.get().origin;
-        for (button, x) in [(&buttons.0, 0.0), (&buttons.1, half)] {
-            button.setFrame(NSRect::new(
-                NSPoint::new(origin.x + x, origin.y),
-                NSSize::new(half, slots::GROUP_HEIGHT),
-            ));
-            button.setHidden(!enabled);
-        }
     }
 
     fn mouse_inside(&self) -> bool {
@@ -478,39 +405,14 @@ impl RestingView {
         Rect::new(f.origin.x, f.origin.y, f.size.width, f.size.height).contains(p.x, p.y)
     }
 
-    fn update_hover_slot(&self) {
-        let Some(window) = self.window() else {
-            return;
-        };
-        let x = NSEvent::mouseLocation().x - window.frame().origin.x;
-        let next = slots::hit_test(
-            self.ivars().scratchpad_enabled.get(),
-            x,
-            window.frame().size.width,
-        );
-        if self.ivars().hover_slot.replace(next) != next {
-            self.relayout();
-        }
-    }
-
     fn hover_text(&self) -> String {
-        let texts = self.ivars().texts.borrow();
-        if !self.ivars().scratchpad_enabled.get() {
-            return texts.hint.clone();
-        }
-        match self.ivars().hover_slot.get() {
-            Slot::Dictate => texts.dictate_hint.clone(),
-            Slot::Scratchpad => texts.scratchpad_hint.clone(),
-        }
+        self.ivars().texts.borrow().hint.clone()
     }
 
     /// The capsule this view is heading for (points).
     fn target_size(&self) -> (f64, f64) {
         match self.ivars().mode.get() {
             Mode::Bridge(fit) => fit.capsule(),
-            Mode::Rest if self.ivars().scratchpad_enabled.get() => {
-                (slots::GROUP_WIDTH, slots::GROUP_HEIGHT)
-            }
             Mode::Rest if self.ivars().hover.get() => {
                 let w = text_size(&self.hover_text()).width + 2.0 * geometry::HOVER_PAD_X;
                 (
@@ -569,11 +471,16 @@ impl RestingView {
         let Some(anchor) = self.ivars().anchor.get() else {
             return;
         };
-        let (win, cap) = placement::native_frame(&anchor, shown);
+        let side = self.ivars().scratchpad_enabled.get().then(|| {
+            placement::pad_side(
+                &anchor,
+                &placement::frame(&anchor, shown),
+                self.ivars().rtl.get(),
+            )
+        });
+        let (win, cap) = placement::native_frame_beside(&anchor, shown, side);
         let capsule = NSRect::new(NSPoint::new(cap.x, cap.y), NSSize::new(cap.w, cap.h));
-        if self.ivars().capsule.replace(capsule) != capsule {
-            self.layout_slot_buttons();
-        }
+        self.ivars().capsule.set(capsule);
         if let Some(window) = self.window() {
             let target = NSRect::new(NSPoint::new(win.x, win.y), NSSize::new(win.w, win.h));
             if window.frame() != target {
@@ -581,6 +488,7 @@ impl RestingView {
             }
         }
         self.setNeedsDisplay(true);
+        self.sync_pad();
         if self.ivars().morph.get().is_some() && !self.ivars().tick_pending.replace(true) {
             // SAFETY: `morphTick:` is defined on this class with the
             // one-object-argument signature; the run loop retains the view
@@ -597,12 +505,33 @@ impl RestingView {
     }
 
     fn is_dark(&self) -> bool {
-        let names = NSArray::from_slice(&[unsafe { NSAppearanceNameAqua }, unsafe {
-            NSAppearanceNameDarkAqua
-        }]);
-        self.effectiveAppearance()
-            .bestMatchFromAppearancesWithNames(&names)
-            .is_some_and(|n| &*n == unsafe { NSAppearanceNameDarkAqua })
+        is_dark(self)
+    }
+
+    /// S-24: puts the Scratchpad circle beside the bar the user sees: the
+    /// web view's capsule during a take, this view's capsule otherwise, and
+    /// hides it with the bar.
+    fn sync_pad(&self) {
+        let pad = self.ivars().pad.borrow();
+        let Some(pad) = pad.as_ref() else {
+            return;
+        };
+        if !self.ivars().scratchpad_enabled.get() {
+            pad.hide();
+            return;
+        }
+        let native_shown = self.window().is_some_and(|w| w.isVisible());
+        match (self.ivars().web_bar.get(), self.ivars().anchor.get()) {
+            (Some(web), _) => {
+                pad.follow_web(web);
+                pad.show();
+            }
+            (None, Some(anchor)) if native_shown => {
+                pad.follow_native(anchor, self.ivars().shown.get());
+                pad.show();
+            }
+            _ => pad.hide(),
+        }
     }
 
     fn draw(&self) {
@@ -657,23 +586,25 @@ impl RestingView {
                     content,
                 );
             }
-            Mode::Rest if self.ivars().scratchpad_enabled.get() => {
-                rgba(255.0, 255.0, 255.0, 0.24 * content).setFill();
-                NSBezierPath::bezierPathWithRect(NSRect::new(
-                    NSPoint::new(cap.origin.x + w / 2.0, cap.origin.y + 7.0),
-                    NSSize::new(1.0, (h - 14.0).max(0.0)),
-                ))
-                .fill();
-            }
             Mode::Bridge(fit) => draw_bridge(fit.shape, cap, content),
             Mode::Rest => {}
         }
     }
 }
 
+/// Whether `view` draws in a dark appearance.
+pub(super) fn is_dark(view: &NSView) -> bool {
+    let names = NSArray::from_slice(&[unsafe { NSAppearanceNameAqua }, unsafe {
+        NSAppearanceNameDarkAqua
+    }]);
+    view.effectiveAppearance()
+        .bestMatchFromAppearancesWithNames(&names)
+        .is_some_and(|n| &*n == unsafe { NSAppearanceNameDarkAqua })
+}
+
 /// Corner radius of a capsule `h` high: round ends, the cards 18 pt (the
 /// web view's `capsuleRadius`; continuous, so a morph never jumps).
-fn capsule_radius(h: f64) -> f64 {
+pub(super) fn capsule_radius(h: f64) -> f64 {
     (h / 2.0).min(18.0)
 }
 
@@ -762,7 +693,7 @@ const BUTTON_D: f64 = 18.0;
 const BUTTON_INSET: f64 = 6.0;
 
 /// Wall-clock milliseconds (the clock the web view's morph shares).
-fn now_ms() -> f64 {
+pub(super) fn now_ms() -> f64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs_f64() * 1000.0)
@@ -770,7 +701,7 @@ fn now_ms() -> f64 {
 }
 
 /// macOS Reduce Motion: sizes change at once.
-fn reduce_motion() -> bool {
+pub(super) fn reduce_motion() -> bool {
     // SAFETY: plain class and property getters on NSWorkspace.
     unsafe {
         let ws: *mut AnyObject = msg_send![objc2::class!(NSWorkspace), sharedWorkspace];
@@ -781,35 +712,7 @@ fn reduce_motion() -> bool {
     }
 }
 
-fn slot_button(
-    mtm: MainThreadMarker,
-    target: &RestingView,
-    action: objc2::runtime::Sel,
-) -> Retained<NSButton> {
-    // SAFETY: NSButton's frame initializer and ordinary control setters.
-    let button: Retained<NSButton> =
-        unsafe { msg_send![NSButton::alloc(mtm), initWithFrame: NSRect::ZERO] };
-    button.setBordered(false);
-    // SAFETY: medium system font and a light title over the dark capsule.
-    button.setFont(Some(unsafe {
-        &NSFont::systemFontOfSize_weight(SLOT_FONT, NSFontWeightMedium)
-    }));
-    // SAFETY: target and action use the RestingView methods defined above;
-    // the view owns these buttons and outlives their callbacks.
-    unsafe {
-        button.setTarget(Some(target));
-        button.setAction(Some(action));
-        button.setContentTintColor(Some(&NSColor::whiteColor()));
-    }
-    button.setHidden(true);
-    button
-}
-
-/// The grouped bar's two labels share a 184 pt capsule: a point smaller
-/// than the bar's 15 pt text so longer translations fit.
-const SLOT_FONT: f64 = 14.0;
-
-fn rgba(r: f64, g: f64, b: f64, a: f64) -> Retained<NSColor> {
+pub(super) fn rgba(r: f64, g: f64, b: f64, a: f64) -> Retained<NSColor> {
     NSColor::colorWithSRGBRed_green_blue_alpha(r / 255.0, g / 255.0, b / 255.0, a)
 }
 
@@ -822,14 +725,14 @@ fn text_attributes(alpha: f64) -> Retained<NSDictionary<NSString, AnyObject>> {
     NSDictionary::from_slices(&keys, &values)
 }
 
-fn text_size(text: &str) -> NSSize {
+pub(super) fn text_size(text: &str) -> NSSize {
     let s = NSString::from_str(text);
     let attrs = text_attributes(1.0);
     // SAFETY: `-[NSString sizeWithAttributes:]` (NSStringDrawing).
     unsafe { msg_send![&*s, sizeWithAttributes: &*attrs] }
 }
 
-fn draw_text(text: &str, at: NSPoint, alpha: f64) {
+pub(super) fn draw_text(text: &str, at: NSPoint, alpha: f64) {
     let s = NSString::from_str(text);
     let attrs = text_attributes(alpha);
     // SAFETY: `-[NSString drawAtPoint:withAttributes:]` inside `drawRect:`.
@@ -863,47 +766,17 @@ impl Resting {
     pub fn new(mtm: MainThreadMarker, on_event: impl Fn(NativeEvent) + 'static) -> Resting {
         let (w, h) = Shape::Rest.size();
         let rect = NSRect::new(NSPoint::new(0.0, 0.0), NSSize::new(w, h));
-        let style = NSWindowStyleMask::Borderless | NSWindowStyleMask::NonactivatingPanel;
-        let this = RestingPanel::alloc(mtm).set_ivars(());
-        // SAFETY: NSPanel's designated initializer.
-        let panel: Retained<RestingPanel> = unsafe {
-            msg_send![super(this), initWithContentRect: rect, styleMask: style, backing: NSBackingStoreType::Buffered, defer: false]
-        };
-        // SAFETY: plain setters on a window we own.
-        unsafe {
-            panel.setReleasedWhenClosed(false);
-        }
-        panel.setFloatingPanel(true);
-        panel.setBecomesKeyOnlyIfNeeded(true);
-        panel.setHidesOnDeactivate(false);
-        stay_when_app_hidden(&panel);
-        panel.setLevel(NSStatusWindowLevel);
-        panel.setCollectionBehavior(
-            NSWindowCollectionBehavior::CanJoinAllSpaces
-                | NSWindowCollectionBehavior::FullScreenAuxiliary
-                | NSWindowCollectionBehavior::Stationary
-                | NSWindowCollectionBehavior::IgnoresCycle,
-        );
-        panel.setOpaque(false);
-        panel.setBackgroundColor(Some(&NSColor::clearColor()));
-        panel.setHasShadow(false);
-        panel.setMovable(false);
-        panel.setAnimationBehavior(NSWindowAnimationBehavior::None);
-        let view = RestingView::new(mtm, rect, Box::new(on_event));
+        let on_event: Callback = std::rc::Rc::new(on_event);
+        let panel = bar_panel(mtm, rect);
+        let view = RestingView::new(mtm, rect, on_event.clone());
         panel.setContentView(Some(&view));
+        *view.ivars().pad.borrow_mut() = Some(Pad::new(mtm, on_event));
         Resting { panel, view }
     }
 
     pub fn set_texts(&self, texts: &Texts) {
-        if let Some(buttons) = self.view.ivars().slot_buttons.borrow().as_ref() {
-            for (button, title, help) in [
-                (&buttons.0, &texts.dictate, &texts.dictate_hint),
-                (&buttons.1, &texts.scratchpad, &texts.scratchpad_hint),
-            ] {
-                button.setTitle(&NSString::from_str(title));
-                // Native tooltips also become each button's accessibility help.
-                button.setToolTip(Some(&NSString::from_str(help)));
-            }
+        if let Some(pad) = self.view.ivars().pad.borrow().as_ref() {
+            pad.set_texts(&texts.scratchpad, &texts.scratchpad_hint);
         }
         if *self.view.ivars().texts.borrow() != *texts {
             *self.view.ivars().texts.borrow_mut() = texts.clone();
@@ -911,12 +784,33 @@ impl Resting {
         }
     }
 
-    pub fn set_scratchpad_enabled(&self, enabled: bool) {
-        if self.view.ivars().scratchpad_enabled.replace(enabled) != enabled {
-            self.view.ivars().hover_slot.set(Slot::Dictate);
-            self.view.ivars().hover.set(false);
-            self.view.layout_slot_buttons();
+    /// S-24: the Scratchpad circle beside the bar; `rtl`: the app's
+    /// language reads right to left (the circle mirrors to the left).
+    pub fn set_scratchpad(&self, enabled: bool, rtl: bool) {
+        let was = (
+            self.view.ivars().scratchpad_enabled.replace(enabled),
+            self.view.ivars().rtl.replace(rtl),
+        );
+        if let Some(pad) = self.view.ivars().pad.borrow().as_ref() {
+            pad.set_rtl(rtl);
+        }
+        if was != (enabled, rtl) {
             self.view.relayout();
+        }
+    }
+
+    /// S-24: the web view's capsule while it shows the bar (`None` once the
+    /// native bar is back or the take is over).
+    pub fn set_web_bar(&self, web: Option<WebBar>) {
+        if self.view.ivars().web_bar.replace(web) != web {
+            self.view.sync_pad();
+        }
+    }
+
+    /// The Scratchpad circle back in front of the web view (shown after it).
+    pub fn raise_pad(&self) {
+        if let Some(pad) = self.view.ivars().pad.borrow().as_ref() {
+            pad.reassert();
         }
     }
 
@@ -977,12 +871,14 @@ impl Resting {
         if !self.panel.isVisible() {
             self.panel.orderFrontRegardless();
             crate::fork::startup::mark(crate::fork::startup::Milestone::Bar);
+            self.view.sync_pad();
         }
     }
 
     pub fn hide(&self) {
         if self.panel.isVisible() {
             self.panel.orderOut(None);
+            self.view.sync_pad();
         }
     }
 
@@ -995,15 +891,20 @@ impl Resting {
         if self.panel.isVisible() {
             self.panel.orderFrontRegardless();
         }
+        self.raise_pad();
     }
 
     /// Hides the panel from screen capture (or shows it again).
     pub fn set_protected(&self, protected: bool) {
-        self.panel.setSharingType(if protected {
+        let sharing = if protected {
             NSWindowSharingType::None
         } else {
             NSWindowSharingType::ReadOnly
-        });
+        };
+        self.panel.setSharingType(sharing);
+        if let Some(pad) = self.view.ivars().pad.borrow().as_ref() {
+            pad.panel().setSharingType(sharing);
+        }
     }
 
     /// Follows the app theme (`None` = the system's).
@@ -1019,6 +920,9 @@ impl Resting {
         // SAFETY: NSAppearanceCustomization setter.
         unsafe {
             let _: () = msg_send![&*self.panel, setAppearance: appearance.as_deref()];
+            if let Some(pad) = self.view.ivars().pad.borrow().as_ref() {
+                let _: () = msg_send![pad.panel(), setAppearance: appearance.as_deref()];
+            }
         }
     }
 
@@ -1026,6 +930,38 @@ impl Resting {
     pub fn window_number(&self) -> isize {
         self.panel.windowNumber()
     }
+}
+
+/// A borderless, non-activating panel for the bar (the resting bar and the
+/// S-24 Scratchpad circle), hidden. Main thread only.
+pub(super) fn bar_panel(mtm: MainThreadMarker, rect: NSRect) -> Retained<RestingPanel> {
+    let style = NSWindowStyleMask::Borderless | NSWindowStyleMask::NonactivatingPanel;
+    let this = RestingPanel::alloc(mtm).set_ivars(());
+    // SAFETY: NSPanel's designated initializer.
+    let panel: Retained<RestingPanel> = unsafe {
+        msg_send![super(this), initWithContentRect: rect, styleMask: style, backing: NSBackingStoreType::Buffered, defer: false]
+    };
+    // SAFETY: plain setters on a window we own.
+    unsafe {
+        panel.setReleasedWhenClosed(false);
+    }
+    panel.setFloatingPanel(true);
+    panel.setBecomesKeyOnlyIfNeeded(true);
+    panel.setHidesOnDeactivate(false);
+    stay_when_app_hidden(&panel);
+    panel.setLevel(NSStatusWindowLevel);
+    panel.setCollectionBehavior(
+        NSWindowCollectionBehavior::CanJoinAllSpaces
+            | NSWindowCollectionBehavior::FullScreenAuxiliary
+            | NSWindowCollectionBehavior::Stationary
+            | NSWindowCollectionBehavior::IgnoresCycle,
+    );
+    panel.setOpaque(false);
+    panel.setBackgroundColor(Some(&NSColor::clearColor()));
+    panel.setHasShadow(false);
+    panel.setMovable(false);
+    panel.setAnimationBehavior(NSWindowAnimationBehavior::None);
+    panel
 }
 
 /// Every display, for placement. Main thread only.

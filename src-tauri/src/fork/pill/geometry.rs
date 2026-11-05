@@ -114,6 +114,10 @@ impl Shape {
 /// The resting bar: a thin capsule (Design W4: Wispr Flow's proportions).
 pub const REST_W: f64 = 38.0;
 pub const REST_H: f64 = 6.0;
+/// S-24: the Scratchpad circle sits this far beside the bar's capsule.
+pub const PAD_GAP: f64 = 6.0;
+/// The circle's glyph shows once it is at least this large.
+pub const PAD_GLYPH_MIN_D: f64 = 20.0;
 /// The resting bar's window is larger than the capsule it draws, so the
 /// 6 pt line is still easy to hover and click: this much on each side.
 pub const REST_HIT_PAD_X: f64 = 8.0;

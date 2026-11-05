@@ -241,16 +241,20 @@ test.describe("states", () => {
       const pill = page.getByTestId("wb-pill");
       await expect(pill).toHaveAttribute("data-phase", s.phase);
       await expect(pill).toHaveAttribute("data-shape", s.shape);
-      const box = await pill.boundingBox();
       const size = windowSize(s);
-      expect(box?.width).toBe(size.w);
-      expect(box?.height).toBe(size.h);
-      // The capsule has its own size, on the window's bottom edge.
-      const capsule = await page.getByTestId("wb-pill-capsule").boundingBox();
       const cap = s.shape === "diff" ? size : geometry.capsules[s.shape];
-      expect(capsule?.width).toBe(cap.w);
-      expect(capsule?.height).toBe(cap.h);
-      expect(capsule!.y + capsule!.height).toBe(box!.y + box!.height);
+      // Measured once the capsule's spring has settled (a loaded machine
+      // can sample it mid-morph).
+      await expect(async () => {
+        const box = await pill.boundingBox();
+        expect(box?.width).toBe(size.w);
+        expect(box?.height).toBe(size.h);
+        // The capsule has its own size, on the window's bottom edge.
+        const capsule = await page.getByTestId("wb-pill-capsule").boundingBox();
+        expect(capsule?.width).toBe(cap.w);
+        expect(capsule?.height).toBe(cap.h);
+        expect(capsule!.y + capsule!.height).toBe(box!.y + box!.height);
+      }).toPass({ timeout: 10_000 });
       // Nothing overflows the window or the capsule's content.
       const overflow = await pill.evaluate(
         (el) => el.scrollWidth > el.clientWidth + 1,

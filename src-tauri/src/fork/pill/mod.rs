@@ -39,6 +39,8 @@ pub mod model;
 #[cfg(target_os = "macos")]
 mod native;
 #[cfg(target_os = "macos")]
+mod pad;
+#[cfg(target_os = "macos")]
 mod panel;
 pub mod placement;
 pub mod slots;
@@ -484,6 +486,15 @@ pub fn bar_placement() -> Option<(placement::Anchor, placement::Screen)> {
 /// Whether the bar runs (product builds on macOS, after [`start`]).
 pub fn is_running() -> bool {
     RUNNING.load(Ordering::Acquire)
+}
+
+/// Whether `locale` reads right to left (the languages `src/i18n/languages.ts`
+/// marks `rtl`): the Scratchpad circle mirrors to the bar's left.
+pub fn is_rtl(locale: &str) -> bool {
+    matches!(
+        locale.split(['-', '_']).next(),
+        Some("ar" | "he" | "fa" | "ur")
+    )
 }
 
 fn panel_label() -> &'static str {
@@ -1098,8 +1109,6 @@ impl Controller {
             hint: t("rust.pill.hint"),
             name: t("rust.pill.name"),
             hide_for_an_hour: t("rust.pill.hideForAnHour"),
-            dictate: t(slots::DICTATE.label_key),
-            dictate_hint: t(slots::DICTATE.tooltip_key),
             scratchpad: t(slots::SCRATCHPAD.label_key),
             scratchpad_hint: t(slots::SCRATCHPAD.tooltip_key),
         }
@@ -1265,6 +1274,7 @@ impl Controller {
             protected: self.settings.bar_hide_in_recordings,
             dark: self.dark,
             scratchpad_enabled: self.settings.scratchpad_on_bar,
+            rtl: is_rtl(self.locale),
             texts: self.texts(),
             grown_at: self.grown_at,
         }

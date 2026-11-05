@@ -341,10 +341,23 @@ fn bar_panels_never_unhide_a_hidden_app() {
     let panel = include_str!("panel.rs");
     let spotlight = include_str!("spotlight.rs");
     assert!(native.contains("window.setCanHide(false);"));
-    // The resting bar: before `Resting::new` returns (it is ordered in later).
+    // The resting bar and the S-24 Scratchpad circle: built by `bar_panel`,
+    // which turns canHide off before returning (they are ordered in later).
+    let builder = &native[native.find("pub(super) fn bar_panel(").unwrap()..];
+    let builder = &builder[..builder.find("\n}\n").unwrap()];
+    assert!(
+        builder.contains("stay_when_app_hidden(&panel);"),
+        "bar_panel"
+    );
     let new = &native[native.find("pub fn new(mtm: MainThreadMarker").unwrap()..];
     let new = &new[..new.find("Resting { panel, view }").unwrap()];
-    assert!(new.contains("stay_when_app_hidden(&panel);"), "resting bar");
+    assert!(
+        new.contains("let panel = bar_panel(mtm, rect);"),
+        "resting bar"
+    );
+    let pad = include_str!("pad.rs");
+    assert!(pad.contains("let panel = bar_panel(mtm, rect);"), "pad");
+    assert!(!pad.contains("NSPanel::alloc") && !pad.contains("RestingPanel::alloc"));
     // The web view and the spotlight: before their first `panel.show()`.
     for (name, src, call) in [
         ("fork-pill", panel, "native::stay_when_app_hidden(win);"),
@@ -390,6 +403,7 @@ fn bar_panels_never_unhide_a_hidden_app() {
     assert!(activation.contains("(sel!(activateIgnoringOtherApps:), "));
     for (name, src) in [
         ("native", native),
+        ("pad", pad),
         ("panel", panel),
         ("spotlight", spotlight),
     ] {
@@ -407,5 +421,16 @@ fn bar_panels_never_unhide_a_hidden_app() {
         ] {
             assert!(!code.contains(banned), "{name} calls {banned}");
         }
+    }
+}
+
+/// S-24: the Scratchpad circle mirrors in the right-to-left languages.
+#[test]
+fn rtl_locales_mirror_the_scratchpad_circle() {
+    for l in ["ar", "he", "ar-EG"] {
+        assert!(super::is_rtl(l), "{l}");
+    }
+    for l in ["en", "de", "zh-TW", "pt"] {
+        assert!(!super::is_rtl(l), "{l}");
     }
 }

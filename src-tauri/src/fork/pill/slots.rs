@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Resting-bar slots (S-24): Dictate alone, or Dictate beside Scratchpad.
+//! Bar slots (S-24): Dictate alone, or Dictate with the Scratchpad circle
+//! beside it (`pad.rs`); their names and VoiceOver help.
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Slot {
@@ -33,19 +34,6 @@ pub fn slots(scratchpad_enabled: bool) -> Vec<SlotSpec> {
     }
 }
 
-/// Horizontal hit target in the grouped resting bar. The boundary is stable
-/// while a hover tooltip changes the panel's width.
-pub fn hit_test(scratchpad_enabled: bool, x: f64, width: f64) -> Slot {
-    if scratchpad_enabled && width > 0.0 && x >= width / 2.0 {
-        Slot::Scratchpad
-    } else {
-        Slot::Dictate
-    }
-}
-
-pub const GROUP_WIDTH: f64 = 184.0;
-pub const GROUP_HEIGHT: f64 = 30.0;
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -67,8 +55,5 @@ mod tests {
                 spec.tooltip_key
             );
         }
-        assert_eq!(hit_test(true, 20.0, 100.0), Slot::Dictate);
-        assert_eq!(hit_test(true, 80.0, 100.0), Slot::Scratchpad);
-        assert_eq!(hit_test(false, 80.0, 100.0), Slot::Dictate);
     }
 }
