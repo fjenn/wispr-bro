@@ -18,6 +18,7 @@ pub mod hints;
 pub mod ide;
 #[cfg(test)]
 mod names_eval;
+pub mod recognizer_prompt;
 pub mod take;
 pub mod url;
 pub mod workspace;

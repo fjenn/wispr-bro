@@ -1208,6 +1208,7 @@ fn finish_text(outcome: RunOutcome, settings: &AppSettings) -> String {
     let output_language = setup.output_language(settings, model_detected_language);
     debug!("Output language evidence: {:?}", output_language);
     // Skip fuzzy correction if the model already got the custom words.
+    let text = crate::fork::context::recognizer_prompt::strip_echo(text, &setup.run_options);
     crate::fork::text::process(text, &output_language, |text| {
         post_process_transcription_text(
             text,
@@ -1233,7 +1234,7 @@ struct RunSetup {
 impl RunSetup {
     /// Custom words went to the model as vocabulary; skip fuzzy correction.
     fn custom_words_prompted(&self) -> bool {
-        !self.run_options.vocabulary.is_empty()
+        !self.run_options.vocabulary.is_empty() || self.run_options.prompt.is_some()
     }
 
     /// The language the runs were in. When the model decided, the language
@@ -1319,11 +1320,13 @@ fn run_setup(info: &LoadedInfo, settings: &AppSettings, language: LanguageDecisi
         task: run_plan.task,
         language: run_plan.language,
         target_language: run_plan.target_language,
-        vocabulary: crate::fork::context::awareness::vocabulary(
-            info.supports_vocabulary,
-            vocabulary_for_model(info.supports_vocabulary, &settings.custom_words),
-        ),
-        ..Default::default()
+        ..crate::fork::context::recognizer_prompt::run_options(
+            &info.arch,
+            crate::fork::context::awareness::vocabulary(
+                info.supports_vocabulary,
+                vocabulary_for_model(info.supports_vocabulary, &settings.custom_words),
+            ),
+        )
     };
 
     debug!(
