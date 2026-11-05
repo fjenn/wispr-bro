@@ -56,6 +56,11 @@ export interface SelectProps {
   className?: string;
   /** Popup width follows the trigger (default) or its content. */
   fitContent?: boolean;
+  /**
+   * Where focus goes when the list closes (Radix returns it to the
+   * trigger). Call `event.preventDefault()` and focus another element.
+   */
+  onCloseAutoFocus?: (event: Event) => void;
 }
 
 const HEIGHTS = {
@@ -80,6 +85,7 @@ export function Select({
   testId,
   className = "",
   fitContent = false,
+  onCloseAutoFocus,
 }: SelectProps) {
   const { i18n } = useTranslation();
   const pinned = usePinnedThemeProps();
@@ -122,6 +128,7 @@ export function Select({
         <RadixSelect.Content
           {...pinned}
           position="popper"
+          onCloseAutoFocus={onCloseAutoFocus}
           sideOffset={6}
           collisionPadding={8}
           className={`wb-pop z-50 max-h-(--radix-select-content-available-height) overflow-hidden rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) text-(--wb-ink) shadow-(--wb-elev-1) ${fitContent ? "min-w-(--radix-select-trigger-width)" : "w-(--radix-select-trigger-width) min-w-44"}`}

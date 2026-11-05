@@ -3033,3 +3033,15 @@ Details and decisions in R5 under S-14 "Audit OT2-F". In short:
   English row: off and explained for models without `supports_translation`.
 - `settings/hotkeys/model.ts` `ACTION_LIMITS`: per-action shortcut limits
   matching `shortcut/bindings.rs`; custom transforms are named in the panel.
+- Dictation key (rc8, `fix/onb`): the trigger is fn, two or more modifiers,
+  or modifiers plus one key (`Trigger::Combo` in `shortcut/decision.rs`:
+  at least one of ⌃ ⌥ ⌘, never fn, Shift alone or Esc). A combo is down
+  while its key is held with exactly its modifiers, up on the key's or a
+  modifier's release, its auto-repeat absorbed; it is always in the
+  blocking set so ⌥Space never types; hands-free is its double-tap only
+  (no `<trigger>+space`). `model.ts` `triggerChord` mirrors it and reads the
+  Globe key's `fn+dictation` as fn.
+- rc8 defaults: cleanup Medium and "Learn from my corrections" on for new
+  installs (no migration: a stored Light / off cannot be told from a
+  choice); typing 45 wpm (`AVERAGE_TYPING_WPM`, `DEFAULT_TYPING_WPM`) and
+  speaking 200 wpm (`SPEAKING_WPM`, the onboarding estimate) until the test.

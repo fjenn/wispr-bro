@@ -3205,7 +3205,13 @@ test profile (never the owner's data dir); network on.
 ## KEY: the dictation key in one step (`fix/keys`, queued for the Mac wave)
 
 - **KEY.1** Debug test identity, Settings › General: Change on "Dictation key", hold ⌃ and ⌥: the caps light while held; release, Save. Holding ⌃⌥ starts a take, a double-tap starts hands-free, ⌃⌥Space toggles hands-free; fn no longer starts one. Change back to fn the same way.
-- **KEY.2** Onboarding's shortcut test: Edit shortcut shows only the key capture; press ⌥ alone: the inline "Use fn, or two modifier keys…" line, Save off; Esc closes the dialog and the test runs again with the current key.
+- **KEY.2** Onboarding's shortcut test: Edit shortcut shows only the key capture; press ⌥ alone: the inline "Use fn, two modifier keys…" line, Save off; Esc closes the dialog and the test runs again with the current key.
+
+## ONB: rc8 owner fixes (`fix/onb`, queued for the Mac wave)
+
+- **ONB.1** Debug test identity, onboarding › Edit shortcut: press fn (Globe set to Emoji, then to Start Dictation): no error, Save on. Then ⌥Space, ⌃⌥D and ⌘⇧ in turn, each saved: holding the keys starts a take and releasing stops it (⌥Space types no space, no non-breaking space); a quick double-tap starts hands-free and the next press stops it; the shortcut test shows the chosen caps and lights them while held; ⇧A is refused with its caps drawn beside the reason. Back to fn.
+- **ONB.2** Fresh profile: Style › Cleanup shows Medium, Dictionary's "Learn from my corrections" is on; the onboarding estimate says 45 and 200 words a minute; Insights compares with 45 wpm until the test is taken. An existing rc8 profile keeps its stored Light / off.
+- **ONB.3** Onboarding time-saved step without a result: "Take the typing test" (Settings › General and Insights too); after a test: "Retake". In the test, pick another language from the list and type at once without clicking: the new paragraph fills, the language stays.
 
 ## WPM: retake the typing test, Insights layout (queued for the Mac wave)
 

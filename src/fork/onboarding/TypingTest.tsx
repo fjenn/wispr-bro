@@ -74,6 +74,10 @@ export function TypingTestPanel({
   const [busy, setBusy] = useState(false);
   const started = useRef<number | null>(null);
   const input = useRef<HTMLTextAreaElement>(null);
+  // A language was just picked: when the list closes, focus goes to the
+  // text box, not back to the picker (owner report rc8: typing there ran
+  // the picker's type-ahead and switched back to the previous language).
+  const picked = useRef(false);
 
   const reset = useCallback(() => {
     started.current = null;
@@ -166,8 +170,15 @@ export function TypingTestPanel({
         <Select
           value={language}
           onValueChange={(next) => {
+            picked.current = true;
             setLanguage(next);
             reset();
+          }}
+          onCloseAutoFocus={(event) => {
+            if (!picked.current) return;
+            picked.current = false;
+            event.preventDefault();
+            input.current?.focus();
           }}
           disabled={run === "running"}
           label={t("onboardingFlow.typing.language")}

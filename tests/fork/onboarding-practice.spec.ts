@@ -97,10 +97,10 @@ test.describe("S-29b practice", () => {
     await expect(page.locator("main h1")).toHaveText("That's it!");
     // Both speeds are labelled as averages (no measured voice speed).
     await expect(page.getByTestId("wb-first-dictation-typing")).toContainText(
-      "Typing, on average40 words a minute",
+      "Typing, on average45 words a minute",
     );
     await expect(page.getByTestId("wb-first-dictation-speaking")).toContainText(
-      "130 words a minute",
+      "200 words a minute",
     );
     // Reduced motion: no confetti at all.
     await expect(
@@ -170,8 +170,8 @@ test.describe("S-29b practice", () => {
     // The step change animates on the fake clock.
     await page.clock.runFor(1_000);
     expect(be.fork.typing_wpm).toBe(final);
-    // 2 h a day × 5 days × (1 − wpm/130), to the half hour.
-    const hours = Math.round(2 * 5 * Math.max(0, 1 - final / 130) * 2) / 2;
+    // 2 h a day × 5 days × (1 − wpm/200), to the half hour.
+    const hours = Math.round(2 * 5 * Math.max(0, 1 - final / 200) * 2) / 2;
     const headline = page.getByTestId("wb-time-saved-headline");
     await expect(headline).toHaveAttribute("data-hours", String(hours));
     await expect(headlineText(page)).toHaveText(
@@ -194,7 +194,7 @@ test.describe("S-29b practice", () => {
       "3 hours a day",
     );
     expect(be.fork.typing_hours_per_day).toBe(3);
-    const more = Math.round(3 * 5 * Math.max(0, 1 - final / 130) * 2) / 2;
+    const more = Math.round(3 * 5 * Math.max(0, 1 - final / 200) * 2) / 2;
     await expect(headline).toHaveAttribute("data-hours", String(more));
   });
 
@@ -248,6 +248,18 @@ test.describe("S-29b practice", () => {
       );
     });
     await expect(page.getByTestId("wb-typing-input")).toHaveValue("");
+    // Owner report (rc8): typing straight after a change, without clicking
+    // the text box, types the new paragraph; the picker's type-ahead never
+    // gets the keys and the language stays.
+    await pick("French");
+    const typingInput = page.getByTestId("wb-typing-input");
+    await expect(typingInput).toBeFocused();
+    await page.keyboard.type("Chaque");
+    await expect(typingInput).toHaveValue("Chaque");
+    await expect(sample).toContainText("Chaque matin");
+    await expect(page.getByTestId("wb-typing-language")).toContainText(
+      "French",
+    );
   });
 
   test("a slow starter: the take records, shows progress, fills later", async ({
@@ -357,13 +369,17 @@ test.describe("S-29b practice", () => {
     const headline = page.getByTestId("wb-time-saved-headline");
     await expect(headline).toHaveAttribute("data-hours", "0");
     await page.getByTestId("wb-time-saved-skip").click();
-    // The 40 wpm average: 2 × 5 × (1 − 40/130) = 6.9 → 7.
-    await expect(headline).toHaveAttribute("data-hours", "7");
+    // The 45 wpm average: 2 × 5 × (1 − 45/200) = 7.75 → 8.
+    await expect(headline).toHaveAttribute("data-hours", "8");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 7 hours a week",
+      "Dictating could save you about 8 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-basis")).toContainText(
-      "average typing speed of 40",
+      "average typing speed of 45",
+    );
+    // Owner report (rc8): no result yet, so "Take", never "Retake".
+    await expect(page.getByTestId("wb-time-saved-take-test")).toHaveText(
+      "Take the typing test",
     );
     await page.getByTestId("wb-time-saved-take-test").click();
     await expectStep(page, "typing_test");
@@ -387,9 +403,9 @@ test.describe("S-29b practice", () => {
       "Dictating could save you about 0 hours a week",
     );
     await page.getByTestId("wb-time-saved-skip").click();
-    await expect(headline).toHaveAttribute("data-hours", "7");
+    await expect(headline).toHaveAttribute("data-hours", "8");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 7 hours a week",
+      "Dictating could save you about 8 hours a week",
     );
   });
 
