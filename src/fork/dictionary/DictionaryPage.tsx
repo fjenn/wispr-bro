@@ -510,6 +510,7 @@ export function DictionaryPage() {
           <Banner
             id={BANNER_ID}
             image={photos.dictionary.src}
+            imageLift={1.15}
             title={t("dictionary.banner.title", { appName })}
             body={t("dictionary.banner.lead")}
             action={{

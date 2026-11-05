@@ -27,6 +27,7 @@ export function CleanupTab() {
       <Hero
         id="style-cleanup"
         image={photos.style.src}
+        imageLift={1.1}
         title={t("style.cleanup.bannerTitle")}
         body={t("style.cleanup.description")}
         note={t("style.cleanup.note")}

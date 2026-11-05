@@ -6,7 +6,11 @@
  * `image` puts a photo under a left-to-right dark grade (W7 sources the
  * photos; without one the banner is a warm near-black with a soft glow);
  * over a photo the text keeps to the graded left ~64 % and example chips sit
- * on a dark wash, so they stay legible on bright photos (W2).
+ * on a dark wash, so they stay legible on bright photos (W2). A photo
+ * without `imageSubjectAt` is shown out of focus and mid-bright under
+ * `--wb-hero-soft` (cool blue, teal and green light and a light shade under
+ * the text, rc8): body text is full white there and chips are translucent
+ * cream with dark text, each at 4.5:1 or better.
  * Each feature page brings its own content (C-29, C-61, C-73, D-206).
  *
  * Dismissal persists in the fork setting `dismissed_banners` under `id`, so a
@@ -102,6 +106,13 @@ export interface BannerProps {
    * the photo is mirrored with the text.
    */
   imageSubjectAt?: number;
+  /**
+   * Brightness of an out-of-focus photo (no `imageSubjectAt`), 1.3 by
+   * default; a dark photo gets more so the banner stays mid-bright.
+   */
+  imageLift?: number;
+  /** `object-position` of an out-of-focus photo (which colours show). */
+  imagePosition?: string;
 }
 
 export function Banner({
@@ -122,6 +133,8 @@ export function Banner({
   aside,
   image,
   imageSubjectAt,
+  imageLift,
+  imagePosition,
 }: BannerProps) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const status = useForkSettingsStore((s) => s.status);
@@ -159,6 +172,8 @@ export function Banner({
       aside={aside}
       image={image}
       imageSubjectAt={imageSubjectAt}
+      imageLift={imageLift}
+      imagePosition={imagePosition}
       onDismiss={dismiss}
       dismissLabel={t("ui.banner.dismiss")}
     />
@@ -192,12 +207,15 @@ export function Hero({
   aside,
   image,
   imageSubjectAt,
+  imageLift = 1.3,
+  imagePosition,
   onDismiss,
   dismissLabel,
 }: HeroProps) {
   const m = useMotionPresets();
   const chip = `h-9 rounded-(--wb-radius-sm) px-4 text-[16px] transition-colors duration-(--wb-dur-fast)`;
   const titleId = `wb-banner-${id}-title`;
+  const soft = !!image && imageSubjectAt === undefined;
   // With a known subject the text column ends 24 px before it. Banner
   // photos are 4:1 and the hero is at least 180 px tall, so under
   // `object-cover` anchored at the start the photo is at least
@@ -223,15 +241,24 @@ export function Hero({
             aria-hidden="true"
             data-subject-at={imageSubjectAt}
             className={`absolute inset-0 -z-20 size-full object-cover ${
-              imageSubjectAt !== undefined
-                ? "object-left rtl:-scale-x-100"
-                : // flowmatch: an out-of-focus photo, as the reference's.
-                  "scale-125 blur-[24px] brightness-[1.12] saturate-[1.35]"
+              soft ? "scale-125" : "object-left rtl:-scale-x-100"
             }`}
+            style={
+              soft
+                ? {
+                    // flowmatch: an out-of-focus, mid-bright photo, as the
+                    // reference's.
+                    filter: `blur(28px) brightness(${imageLift}) saturate(1.45)`,
+                    objectPosition: imagePosition,
+                  }
+                : undefined
+            }
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-(image:--wb-hero-grade) rtl:-scale-x-100"
+            className={`absolute inset-0 -z-10 rtl:-scale-x-100 ${
+              soft ? "bg-(image:--wb-hero-soft)" : "bg-(image:--wb-hero-grade)"
+            }`}
           />
         </>
       ) : (
@@ -264,13 +291,15 @@ export function Hero({
           {marked(title)}
         </h2>
         <p
-          className="max-w-[70ch] text-[16px] leading-[24px] text-(--wb-on-hero-2)"
+          className={`max-w-[70ch] text-[16px] leading-[24px] ${soft ? "text-(--wb-on-hero)" : "text-(--wb-on-hero-2)"}`}
           aria-live={live ? "polite" : undefined}
         >
           {marked(body)}
         </p>
         {note && (
-          <p className="max-w-[70ch] text-[16px] leading-[24px] text-(--wb-on-hero-2)">
+          <p
+            className={`max-w-[70ch] text-[16px] leading-[24px] ${soft ? "text-(--wb-on-hero)" : "text-(--wb-on-hero-2)"}`}
+          >
             {note}
           </p>
         )}
@@ -299,7 +328,7 @@ export function Hero({
                 >
                   <span
                     dir="auto"
-                    className={`${chip} flex shrink-0 items-center bg-white/25 font-medium text-(--wb-on-hero) italic backdrop-blur-sm [font-synthesis:style] group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
+                    className={`${chip} flex shrink-0 items-center bg-(--wb-cream)/60 font-medium text-(--wb-on-cream) italic backdrop-blur-sm [font-synthesis:style] group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
                   >
                     “{pair.cue}”
                   </span>
@@ -310,7 +339,7 @@ export function Hero({
                   />
                   <span
                     dir="auto"
-                    className={`${chip} block min-w-0 truncate leading-9 bg-white/25 font-medium text-(--wb-on-hero) backdrop-blur-sm group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
+                    className={`${chip} block min-w-0 truncate leading-9 bg-(--wb-cream)/60 font-medium text-(--wb-on-cream) backdrop-blur-sm group-hover/pair:bg-(--wb-cream) group-hover/pair:text-(--wb-on-cream) group-focus-visible/pair:bg-(--wb-cream) group-focus-visible/pair:text-(--wb-on-cream)`}
                   >
                     {pair.text}
                   </span>
@@ -356,7 +385,7 @@ export function Hero({
                       onClick={s.onClick}
                       data-testid={s.testId}
                       dir="auto"
-                      className={`${chip} flex cursor-pointer items-center bg-white/25 font-medium text-(--wb-on-hero) backdrop-blur-sm hover:bg-(--wb-cream) hover:text-(--wb-on-cream) ${FOCUS_RING}`}
+                      className={`${chip} flex cursor-pointer items-center bg-(--wb-cream)/60 font-medium text-(--wb-on-cream) backdrop-blur-sm hover:bg-(--wb-cream) hover:text-(--wb-on-cream) ${FOCUS_RING}`}
                     >
                       {s.label}
                     </motion.button>

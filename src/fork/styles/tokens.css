@@ -125,6 +125,31 @@
     rgba(12, 10, 8, 0.72) 45%,
     rgba(12, 10, 8, 0.2) 100%
   );
+  /* Out-of-focus banners (flowmatch): cool blue, teal and green light over
+     the warm photo, and a light shade under the text so white stays at
+     4.5:1 or better. */
+  --wb-hero-soft:
+    radial-gradient(
+      80% 140% at 0% 0%,
+      rgba(70, 122, 168, 0.7) 0%,
+      rgba(70, 122, 168, 0) 70%
+    ),
+    radial-gradient(
+      65% 130% at 100% 100%,
+      rgba(58, 138, 126, 0.6) 0%,
+      rgba(58, 138, 126, 0) 72%
+    ),
+    radial-gradient(
+      45% 90% at 78% 0%,
+      rgba(104, 150, 112, 0.42) 0%,
+      rgba(104, 150, 112, 0) 70%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(18, 20, 24, 0.56) 0%,
+      rgba(18, 20, 24, 0.42) 55%,
+      rgba(18, 20, 24, 0.1) 100%
+    );
 
   /* Surfaces */
   --wb-light-chrome: #f5f4f0;

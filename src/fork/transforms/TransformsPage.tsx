@@ -248,6 +248,7 @@ export function TransformsPage() {
           <Hero
             id="transforms"
             image={photos.transforms.src}
+            imageLift={2.1}
             title={t("transforms.banner.title")}
             body={t("transforms.subtitle")}
             action={
