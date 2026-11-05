@@ -114,12 +114,7 @@ pub fn deliver_as(
         Kind::Take => crate::fork::context::app_rules::take_armed(&text),
         _ => None,
     };
-    // S-11: the text stages after the LLM (R5 §4.10 stages 9 and 12). The
-    // last transcript already went through them.
-    let text = match kind {
-        Kind::Again => text,
-        Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text),
-    };
+    let text = delivery_text(text, kind);
     // S-29b: the practice screen's take fills its composer, never a paste.
     if kind.is_take() && crate::fork::onboarding::practice::take_delivering(Instant::now()) {
         return deliver_practice(&app, text);
@@ -154,6 +149,18 @@ pub fn deliver_as(
         }
     }
     (result, Some(outcome))
+}
+
+/// The text a delivery inserts, decided before where it goes: a paste, the
+/// clipboard ("Copied to clipboard") and the card all carry this same text.
+/// S-11: the text stages after the LLM (R5 §4.10 stages 9 and 12, then the
+/// snippets); the last transcript already went through them. The cleanup
+/// (S-12a) ran before `deliver` and does not depend on the target either.
+pub(crate) fn delivery_text(text: String, kind: Kind) -> String {
+    match kind {
+        Kind::Again => text,
+        Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text),
+    }
 }
 
 /// The smart leading space ([`spacing`]): one space in front of `text`

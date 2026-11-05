@@ -448,8 +448,11 @@ fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
     );
     let body = &insert[insert.find("pub fn deliver_as(").unwrap()..];
     let finish = body
-        .find("Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text)")
+        .find("let text = delivery_text(text, kind);")
         .expect("takes go through finish first");
+    let prep = &insert[insert.find("pub(crate) fn delivery_text(").unwrap()..];
+    assert!(prep[..prep.find("\n}").unwrap()]
+        .contains("Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text)"));
     let paste = body.find("mac::deliver(").expect("the macOS paste");
     assert!(finish < paste);
     let llm_code = include_str!("../llm/post_process.rs");
@@ -510,6 +513,35 @@ fn finish_expands_installed_snippets_and_records_the_take() {
     let (a, _) = active_snippets();
     let (b, _) = active_snippets();
     assert!(Arc::ptr_eq(&a, &b));
+}
+
+#[test]
+fn the_clipboard_gets_the_same_finished_text_as_a_paste() {
+    // fix/gloss: a take with no text field goes to the clipboard ("Copied
+    // to clipboard"); it carries the text a paste would insert, snippets
+    // and dictionary spellings included, not the raw transcript.
+    let _l = crate::fork::context::awareness::tests::lock();
+    install_probe_snippets();
+    let text = "Ship it to zq probe address please e5c3";
+    let pasted =
+        crate::fork::insert::delivery_text(text.to_string(), crate::fork::insert::Kind::Take);
+    assert_eq!(pasted, format!("Ship it to {PROBE_BODY} please e5c3"));
+    let copied = std::cell::RefCell::new(None);
+    let end = crate::fork::insert::end_card(
+        crate::fork::insert::deliver::CardReason::NoTextField,
+        &pasted,
+        |t| {
+            *copied.borrow_mut() = Some(t.to_owned());
+            Ok(1)
+        },
+    );
+    assert_eq!(end, crate::fork::insert::CardEnd::Copied);
+    assert_eq!(copied.into_inner().as_deref(), Some(pasted.as_str()));
+    // Paste-last (already final) is not expanded twice.
+    assert_eq!(
+        crate::fork::insert::delivery_text(pasted.clone(), crate::fork::insert::Kind::Again),
+        pasted
+    );
 }
 
 #[test]
@@ -683,6 +715,9 @@ fn the_accent_stage_reads_the_installed_word_source() {
         &OutputLanguageEvidence::UserSelected("en".into()),
         handy(&[]),
     );
+    // Uninstalled before the asserts: a later test's record (under the same
+    // lock) must not grow a DictionaryAccents stage from this source.
+    *WORD_SOURCE.write().unwrap_or_else(|e| e.into_inner()) = None;
     assert_eq!(kept, "Zqobhán here");
     let _ = ledger().take_processed(&kept);
 }
