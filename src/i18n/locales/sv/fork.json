@@ -1920,7 +1920,20 @@
     "saveError": "Inte sparad än",
     "autosaveHelp": "Sparar automatiskt",
     "copy": "Kopiera",
-    "copied": "Kopierad"
+    "copied": "Kopierad",
+    "record": "Spela in",
+    "stop": "Stoppa",
+    "recordHint": "Diktera i den här anteckningen ({{key}})",
+    "recordHintNoKey": "Diktera i den här anteckningen",
+    "stopHint": "Stoppa diktering",
+    "gettingReady": "Förbereder…",
+    "polished": "Polish har använts på anteckningen",
+    "undo": "Ångra",
+    "polishNoChange": "Den här anteckningen läser redan bra.",
+    "polishRefused": "Det gick inte att använda Polish på den här anteckningen.",
+    "polishNotReady": "AI-modellen förbereds fortfarande. Försök igen om några minuter.",
+    "polishStale": "Anteckningen ändrades under Polish, så inget ersattes.",
+    "dismiss": "Stäng"
   },
   "style": {
     "tabsLabel": "Stilgrupper",

@@ -14,16 +14,19 @@ import {
   Copy,
   Loader2,
   Maximize2,
+  Mic,
   Minimize2,
   PanelLeft,
   Plus,
   Search,
   Sparkles,
+  Square,
   SquarePen,
   X,
 } from "../ui/icons";
 import { getLanguageDirection } from "@/lib/utils/rtl";
-import { commands, events, type Note } from "../bindings";
+import { commands as handyCommands, events as handyEvents } from "@/bindings";
+import { commands, events, type LlmState, type Note } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import {
   Button,
@@ -46,6 +49,27 @@ function storedTextSize(value: number | undefined): TextSize {
 }
 
 type SaveState = "saved" | "saving" | "error";
+/** Polish: waiting for the cleanup model, then running (rc9). */
+type PolishPhase = "idle" | "waiting" | "running";
+/** What the last Polish said; `previous` is the text Undo restores. */
+type PolishNotice =
+  | { kind: "polished"; previous: string; polished: string }
+  | {
+      kind: "message";
+      key:
+        | "scratchpad.polishNoChange"
+        | "scratchpad.polishRefused"
+        | "scratchpad.polishNotReady"
+        | "scratchpad.polishStale";
+    };
+
+/** The cleanup model is still on its way (`model_coming` in Rust). */
+const COMING: LlmState[] = [
+  "waiting_for_speech_model",
+  "downloading",
+  "verifying",
+];
+const LEVEL_BARS = 5;
 
 function requestedNote(): number | null {
   const value = Number(new URLSearchParams(window.location.search).get("note"));
@@ -65,7 +89,13 @@ export function NoteWindow() {
   const [sidebar, setSidebar] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [polishing, setPolishing] = useState(false);
+  const [polishPhase, setPolishPhase] = useState<PolishPhase>("idle");
+  const [notice, setNotice] = useState<PolishNotice | null>(null);
+  const polishing = polishPhase !== "idle";
+  const [recording, setRecording] = useState(false);
+  const [level, setLevel] = useState<number[]>(() => Array(LEVEL_BARS).fill(0));
+  const [dictateKey, setDictateKey] = useState<string | null>(null);
+  const editorRef = useRef<HTMLTextAreaElement>(null);
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
   // Audit OT2: a fork setting, so the size survives a parked window and a
@@ -198,6 +228,77 @@ export function NoteWindow() {
     };
   }, [save]);
 
+  useEffect(() => {
+    let alive = true;
+    let off: (() => void) | undefined;
+    handyEvents.recordingStateEvent
+      .listen(({ payload }) => {
+        setRecording(payload.phase === "started" || payload.phase === "locked");
+      })
+      .then((unlisten) => {
+        if (alive) off = unlisten;
+        else unlisten();
+      })
+      .catch(() => undefined);
+    handyCommands
+      .isRecording()
+      .then((value) => {
+        if (alive && value === true) setRecording(true);
+      })
+      .catch(() => undefined);
+    commands
+      .forkHotkeyStatus()
+      .then((result) => {
+        if (!alive || result.status !== "ok") return;
+        const dictate = result.data.bindings.find(
+          (binding) => binding.action === "dictate",
+        );
+        setDictateKey(dictate?.label.text ?? result.data.trigger);
+      })
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+      off?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!recording) {
+      setLevel(Array(LEVEL_BARS).fill(0));
+      return;
+    }
+    let alive = true;
+    let off: (() => void) | undefined;
+    events.forkPillLevels
+      .listen(({ payload }) => {
+        // The bar's bars, folded into five.
+        const bars = payload.bars;
+        const size = Math.max(1, Math.ceil(bars.length / LEVEL_BARS));
+        setLevel(
+          Array.from({ length: LEVEL_BARS }, (_, i) => {
+            const slice = bars.slice(i * size, (i + 1) * size);
+            const peak = slice.reduce((a, b) => Math.max(a, b), 0);
+            return Number.isFinite(peak) ? Math.min(1, Math.max(0, peak)) : 0;
+          }),
+        );
+      })
+      .then((unlisten) => {
+        if (alive) off = unlisten;
+        else unlisten();
+      })
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+      off?.();
+    };
+  }, [recording]);
+
+  // Undo is offered until the note is edited again.
+  useEffect(() => {
+    if (notice?.kind === "polished" && body !== notice.polished)
+      setNotice(null);
+  }, [body, notice]);
+
   const newNote = async () => {
     if (bodyRef.current !== savedBodyRef.current) await save(bodyRef.current);
     const result = await commands.forkScratchpadNew();
@@ -209,16 +310,64 @@ export function NoteWindow() {
     await commands.forkScratchpadClose();
   };
   const polish = async () => {
-    if (!body.trim() || polishing) return;
-    if (body !== savedBody) await save(body);
-    setPolishing(true);
+    const source = body;
+    if (!source.trim() || polishing) return;
+    if (source !== savedBody) await save(source);
+    setNotice(null);
     setError(false);
-    const result = await commands.forkScratchpadPolish(body);
-    if (result.status === "ok") {
-      setBody(result.data);
-      await save(result.data);
-    } else setError(true);
-    setPolishing(false);
+    // A model still on its way: "Getting ready…" until it is ready; the
+    // command waits for it (rc9: Polish ran on Apple's stand-in and was
+    // refused every time while Muesli downloaded).
+    let offStatus: (() => void) | undefined;
+    const status = await commands.forkLlmStatus().catch(() => null);
+    if (status?.status === "ok" && COMING.includes(status.data.state)) {
+      setPolishPhase("waiting");
+      offStatus = await events.forkLlmStatus
+        .listen(({ payload }) => {
+          if (!COMING.includes(payload.state)) setPolishPhase("running");
+        })
+        .catch(() => undefined);
+    } else setPolishPhase("running");
+    const result = await commands.forkScratchpadPolish(source);
+    offStatus?.();
+    setPolishPhase("idle");
+    if (result.status === "error") {
+      setNotice({ kind: "message", key: "scratchpad.polishRefused" });
+      return;
+    }
+    const { outcome, text } = result.data;
+    if (outcome === "changed" && text != null) {
+      if (bodyRef.current !== source) {
+        setNotice({ kind: "message", key: "scratchpad.polishStale" });
+        return;
+      }
+      setBody(text);
+      await save(text);
+      setNotice({ kind: "polished", previous: source, polished: text });
+    } else
+      setNotice({
+        kind: "message",
+        key:
+          outcome === "no_change"
+            ? "scratchpad.polishNoChange"
+            : outcome === "not_ready"
+              ? "scratchpad.polishNotReady"
+              : "scratchpad.polishRefused",
+      });
+  };
+  const undoPolish = async () => {
+    if (notice?.kind !== "polished") return;
+    const previous = notice.previous;
+    setNotice(null);
+    setBody(previous);
+    await save(previous);
+    editorRef.current?.focus();
+  };
+  // Record: exactly a click on the bar, so the take pastes at the note's
+  // caret. The button never takes focus from the note (rc9).
+  const record = () => {
+    editorRef.current?.focus();
+    void commands.forkScratchpadRecord();
   };
   const copy = async () => {
     const result = await commands.forkScratchpadCopy(body);
@@ -417,6 +566,7 @@ export function NoteWindow() {
             </div>
           ) : (
             <textarea
+              ref={editorRef}
               dir="auto"
               aria-label={t("scratchpad.noteBody")}
               value={body}
@@ -428,6 +578,39 @@ export function NoteWindow() {
               className="min-h-0 w-full flex-1 resize-none bg-transparent px-6 pt-5 pb-16 leading-[1.55] text-(--wb-ink) outline-none placeholder:text-(--wb-ink-3) focus-visible:outline-none"
               data-testid="wb-note-body"
             />
+          )}
+          {notice && (
+            <div
+              role="status"
+              className="mx-4 mb-14 flex items-center gap-3 rounded-(--wb-radius-sm) bg-(--wb-fill-hover) px-3 py-2 text-[13px] text-(--wb-ink)"
+              data-testid="wb-note-polish-notice"
+            >
+              <span className="min-w-0 flex-1">
+                {notice.kind === "polished"
+                  ? t("scratchpad.polished")
+                  : t(notice.key)}
+              </span>
+              {notice.kind === "polished" ? (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => void undoPolish()}
+                  data-testid="wb-note-polish-undo"
+                >
+                  {t("scratchpad.undo")}
+                </Button>
+              ) : (
+                <IconButton
+                  size="sm"
+                  onClick={() => setNotice(null)}
+                  aria-label={t("scratchpad.dismiss")}
+                  title={t("scratchpad.dismiss")}
+                  data-testid="wb-note-polish-dismiss"
+                >
+                  <X size={14} />
+                </IconButton>
+              )}
+            </div>
           )}
           {error && (
             <p
@@ -444,24 +627,62 @@ export function NoteWindow() {
               className="pointer-events-auto text-[12px] text-(--wb-ink-3)"
               data-testid="wb-note-save-state"
             >
-              {polishing
-                ? t("scratchpad.polishing")
-                : saveState === "saved"
-                  ? t("scratchpad.saved")
-                  : saveState === "saving"
-                    ? t("scratchpad.saving")
-                    : t("scratchpad.saveError")}
+              {polishPhase === "waiting"
+                ? t("scratchpad.gettingReady")
+                : polishing
+                  ? t("scratchpad.polishing")
+                  : saveState === "saved"
+                    ? t("scratchpad.saved")
+                    : saveState === "saving"
+                      ? t("scratchpad.saving")
+                      : t("scratchpad.saveError")}
             </span>
-            <Button
-              variant="primary"
-              onClick={() => void copy()}
-              disabled={!selected}
-              leading={copied ? <Check size={16} /> : <Copy size={16} />}
-              className="pointer-events-auto rounded-full! px-4 shadow-(--wb-elev-1)"
-              data-testid="wb-note-copy"
-            >
-              {copied ? t("scratchpad.copied") : t("scratchpad.copy")}
-            </Button>
+            <div className="pointer-events-auto flex items-center gap-2">
+              <Button
+                variant="outline"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={record}
+                disabled={!selected}
+                aria-pressed={recording}
+                title={
+                  recording
+                    ? t("scratchpad.stopHint")
+                    : dictateKey
+                      ? t("scratchpad.recordHint", { key: dictateKey })
+                      : t("scratchpad.recordHintNoKey")
+                }
+                leading={recording ? <Square size={14} /> : <Mic size={16} />}
+                className="rounded-full! px-4 shadow-(--wb-elev-1)"
+                data-testid="wb-note-record"
+              >
+                {recording ? t("scratchpad.stop") : t("scratchpad.record")}
+                {recording && (
+                  <span
+                    aria-hidden="true"
+                    className="ms-1 flex h-3.5 items-center gap-[2px]"
+                    data-testid="wb-note-record-level"
+                  >
+                    {level.map((value, i) => (
+                      <span
+                        key={i}
+                        className="w-[3px] rounded-full bg-current transition-[height] duration-(--wb-dur-fast)"
+                        style={{ height: `${Math.round(3 + value * 11)}px` }}
+                      />
+                    ))}
+                  </span>
+                )}
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => void copy()}
+                disabled={!selected}
+                leading={copied ? <Check size={16} /> : <Copy size={16} />}
+                className="rounded-full! px-4 shadow-(--wb-elev-1)"
+                data-testid="wb-note-copy"
+              >
+                {copied ? t("scratchpad.copied") : t("scratchpad.copy")}
+              </Button>
+            </div>
           </div>
         </main>
       </div>

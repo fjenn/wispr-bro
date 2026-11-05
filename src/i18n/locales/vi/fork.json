@@ -1843,7 +1843,20 @@
     "saveError": "Chưa lưu",
     "autosaveHelp": "Tự động lưu",
     "copy": "Sao chép",
-    "copied": "Đã sao chép"
+    "copied": "Đã sao chép",
+    "record": "Ghi âm",
+    "stop": "Dừng",
+    "recordHint": "Đọc chính tả vào ghi chú này ({{key}})",
+    "recordHintNoKey": "Đọc chính tả vào ghi chú này",
+    "stopHint": "Dừng đọc chính tả",
+    "gettingReady": "Đang chuẩn bị…",
+    "polished": "Đã Polish ghi chú",
+    "undo": "Hoàn tác",
+    "polishNoChange": "Ghi chú này đã đọc tốt rồi.",
+    "polishRefused": "Không thể Polish ghi chú này.",
+    "polishNotReady": "Mô hình AI vẫn đang được chuẩn bị. Hãy thử lại sau vài phút.",
+    "polishStale": "Ghi chú đã thay đổi trong lúc Polish nên không có gì bị thay thế.",
+    "dismiss": "Đóng"
   },
   "style": {
     "tabsLabel": "Nhóm kiểu",

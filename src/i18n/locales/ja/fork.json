@@ -1843,7 +1843,20 @@
     "saveError": "まだ保存されていません",
     "autosaveHelp": "自動的に保存されます",
     "copy": "コピー",
-    "copied": "コピーしました"
+    "copied": "コピーしました",
+    "record": "録音",
+    "stop": "停止",
+    "recordHint": "このメモに音声入力（{{key}}）",
+    "recordHintNoKey": "このメモに音声入力",
+    "stopHint": "音声入力を停止",
+    "gettingReady": "準備中…",
+    "polished": "メモに Polish を適用しました",
+    "undo": "取り消す",
+    "polishNoChange": "このメモはすでに読みやすい状態です。",
+    "polishRefused": "このメモに Polish を適用できませんでした。",
+    "polishNotReady": "AI モデルはまだ準備中です。数分後にもう一度お試しください。",
+    "polishStale": "Polish の実行中にメモが変更されたため、何も置き換えていません。",
+    "dismiss": "閉じる"
   },
   "style": {
     "tabsLabel": "スタイルのグループ",

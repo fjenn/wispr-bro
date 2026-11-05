@@ -1920,7 +1920,20 @@
     "saveError": "Henüz kaydedilmedi",
     "autosaveHelp": "Otomatik olarak kaydedilir",
     "copy": "Kopyala",
-    "copied": "Kopyalandı"
+    "copied": "Kopyalandı",
+    "record": "Kaydet",
+    "stop": "Durdur",
+    "recordHint": "Bu nota dikte et ({{key}})",
+    "recordHintNoKey": "Bu nota dikte et",
+    "stopHint": "Dikteyi durdur",
+    "gettingReady": "Hazırlanıyor…",
+    "polished": "Nota Polish uygulandı",
+    "undo": "Geri al",
+    "polishNoChange": "Bu not zaten iyi okunuyor.",
+    "polishRefused": "Bu nota Polish uygulanamadı.",
+    "polishNotReady": "Yapay zekâ modeli hâlâ hazırlanıyor. Birkaç dakika sonra yeniden deneyin.",
+    "polishStale": "Polish sırasında not değişti, bu yüzden hiçbir şey değiştirilmedi.",
+    "dismiss": "Kapat"
   },
   "style": {
     "tabsLabel": "Stil grupları",

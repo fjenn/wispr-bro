@@ -1920,7 +1920,20 @@
     "saveError": "Nog niet bewaard",
     "autosaveHelp": "Wordt automatisch bewaard",
     "copy": "Kopieer",
-    "copied": "Gekopieerd"
+    "copied": "Gekopieerd",
+    "record": "Opnemen",
+    "stop": "Stop",
+    "recordHint": "Dicteer in deze notitie ({{key}})",
+    "recordHintNoKey": "Dicteer in deze notitie",
+    "stopHint": "Stop met dicteren",
+    "gettingReady": "Bezig met voorbereiden…",
+    "polished": "Polish toegepast op notitie",
+    "undo": "Ongedaan maken",
+    "polishNoChange": "Deze notitie leest al goed.",
+    "polishRefused": "Polish kon niet worden toegepast op deze notitie.",
+    "polishNotReady": "Het AI-model wordt nog voorbereid. Probeer het over een paar minuten opnieuw.",
+    "polishStale": "De notitie is tijdens Polish gewijzigd, dus er is niets vervangen.",
+    "dismiss": "Sluiten"
   },
   "style": {
     "tabsLabel": "Stijlgroepen",

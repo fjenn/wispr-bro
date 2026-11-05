@@ -2074,7 +2074,20 @@
     "saveError": "Zatím neuloženo",
     "autosaveHelp": "Ukládá se automaticky",
     "copy": "Kopírovat",
-    "copied": "Zkopírováno"
+    "copied": "Zkopírováno",
+    "record": "Nahrát",
+    "stop": "Zastavit",
+    "recordHint": "Diktovat do této poznámky ({{key}})",
+    "recordHintNoKey": "Diktovat do této poznámky",
+    "stopHint": "Zastavit diktování",
+    "gettingReady": "Připravuje se…",
+    "polished": "Polish byl na poznámku použit",
+    "undo": "Zpět",
+    "polishNoChange": "Tato poznámka už zní dobře.",
+    "polishRefused": "Polish se na tuto poznámku nepodařilo použít.",
+    "polishNotReady": "Model AI se stále připravuje. Zkuste to znovu za pár minut.",
+    "polishStale": "Poznámka se během Polish změnila, proto nebylo nic nahrazeno.",
+    "dismiss": "Zavřít"
   },
   "style": {
     "tabsLabel": "Skupiny stylů",

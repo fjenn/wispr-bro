@@ -93,7 +93,37 @@ class FakeNotes {
     ipc.respond({
       fork_scratchpad_close: null,
       fork_scratchpad_copy: null,
-      fork_scratchpad_polish: "Alpha café, polished.",
+      fork_scratchpad_polish: {
+        outcome: "changed",
+        text: "Alpha café, polished.",
+      },
+      fork_scratchpad_record: null,
+      fork_llm_status: {
+        state: "ready",
+        model_name: "Muesli",
+        downloaded_bytes: 0,
+        total_bytes: 0,
+        server: { phase: "stopped" },
+        error: null,
+      },
+      is_recording: false,
+      fork_hotkey_status: {
+        running: true,
+        error: null,
+        trigger: "fn",
+        globe: "do_nothing",
+        fn_blocked: false,
+        apple_dictation: "off",
+        issues: [],
+        bindings: [
+          {
+            action: "dictate",
+            chord: "fn",
+            activation: "hold",
+            label: { text: "fn", spoken: "Function" },
+          },
+        ],
+      },
     });
   }
 }
@@ -277,6 +307,13 @@ test("window tools: sidebar, search, Polish, text size, Copy, expand and close",
   await expect(page.getByTestId("wb-note-body")).toHaveValue(
     "Alpha café, polished.",
   );
+  // rc9: a polished note says so and offers Undo.
+  await expect(page.getByTestId("wb-note-polish-notice")).toHaveText(
+    /Note polished/,
+  );
+  await page.getByTestId("wb-note-polish-undo").click();
+  await expect(page.getByTestId("wb-note-body")).toHaveValue("beta launch");
+  await expect(page.getByTestId("wb-note-polish-notice")).toHaveCount(0);
   await page.getByTestId("wb-note-copy").click();
   await expect(page.getByTestId("wb-note-copy")).toHaveText("Copied");
   await page.getByTestId("wb-note-expand").click();
@@ -348,4 +385,103 @@ test("the text size is saved and comes back in a new window", async ({
   await page.reload();
   await expect(page.getByTestId("wb-note-body")).toBeVisible();
   await expect(page.getByTestId("wb-note-body")).toHaveCSS("font-size", "20px");
+});
+
+// rc9: Polish never ends silently, and waits for a model on its way.
+test("Polish says when it could not polish, and gets ready first", async ({
+  page,
+  ipc,
+}) => {
+  const fake = new FakeNotes();
+  await openWindow(page, ipc, fake);
+  ipc.respond("fork_scratchpad_polish", { outcome: "refused", text: null });
+  await page.getByTestId("wb-note-polish").click();
+  await expect(page.getByTestId("wb-note-polish-notice")).toHaveText(
+    /Couldn't polish this note\./,
+  );
+  await expect(page.getByTestId("wb-note-body")).toHaveValue("beta launch");
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme });
+    await expectNoSeriousAxeFindings(page);
+  }
+  await page.getByTestId("wb-note-polish-dismiss").click();
+  await expect(page.getByTestId("wb-note-polish-notice")).toHaveCount(0);
+
+  ipc.respond("fork_scratchpad_polish", { outcome: "no_change", text: null });
+  await page.getByTestId("wb-note-polish").click();
+  await expect(page.getByTestId("wb-note-polish-notice")).toHaveText(
+    /already reads well/,
+  );
+
+  // The cleanup model is downloading: "Getting ready…" until the command
+  // answers.
+  ipc.respond("fork_llm_status", {
+    state: "downloading",
+    model_name: "Muesli",
+    downloaded_bytes: 1,
+    total_bytes: 2,
+    server: { phase: "stopped" },
+    error: null,
+  });
+  let release: () => void = () => undefined;
+  const answered = new Promise<void>((resolve) => (release = resolve));
+  ipc.handle("fork_scratchpad_polish", async () => {
+    await answered;
+    return { outcome: "not_ready", text: null };
+  });
+  await page.getByTestId("wb-note-polish").click();
+  await expect(page.getByTestId("wb-note-save-state")).toHaveText(
+    "Getting ready…",
+  );
+  release();
+  await expect(page.getByTestId("wb-note-polish-notice")).toHaveText(
+    /still getting ready/,
+  );
+  await expect(page.getByTestId("wb-note-save-state")).toHaveText("Saved");
+});
+
+// rc9: Record dictates into the note like a click on the bar.
+test("Record starts and stops a take without taking focus from the note", async ({
+  page,
+  ipc,
+}) => {
+  const fake = new FakeNotes();
+  await openWindow(page, ipc, fake);
+  const record = page.getByTestId("wb-note-record");
+  await expect(record).toHaveText("Record");
+  await expect(record).toHaveAttribute("title", "Dictate into this note (fn)");
+  await expect(record).toHaveAttribute("aria-pressed", "false");
+  await page.getByTestId("wb-note-body").focus();
+  await record.click();
+  await ipc.expectCalled("fork_scratchpad_record", {});
+  await expect(page.getByTestId("wb-note-body")).toBeFocused();
+
+  await ipc.waitForListener("recording-state-event");
+  await ipc.emit("recording-state-event", { phase: "locked" });
+  await expect(record).toHaveText("Stop");
+  await expect(record).toHaveAttribute("aria-pressed", "true");
+  await expect(record).toHaveAttribute("title", "Stop dictating");
+  await ipc.waitForListener("fork-pill-levels");
+  await ipc.emit("fork-pill-levels", { bars: Array(12).fill(1) });
+  const bar = page.getByTestId("wb-note-record-level").locator("span").first();
+  await expect(bar).toHaveCSS("height", "14px");
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme });
+    await expectNoSeriousAxeFindings(page);
+  }
+  await record.click();
+  await expect
+    .poll(async () => (await ipc.calls("fork_scratchpad_record")).length)
+    .toBe(2);
+  await ipc.emit("recording-state-event", { phase: "stopped" });
+  await expect(record).toHaveText("Record");
+
+  // Keyboard: Tab to Record, Enter starts the take and the note gets the
+  // focus back for the paste.
+  await record.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("wb-note-body")).toBeFocused();
+  await expect
+    .poll(async () => (await ipc.calls("fork_scratchpad_record")).length)
+    .toBe(3);
 });

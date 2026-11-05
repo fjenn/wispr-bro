@@ -1920,7 +1920,20 @@
     "saveError": "Ikke gemt endnu",
     "autosaveHelp": "Gemmes automatisk",
     "copy": "Kopier",
-    "copied": "Kopieret"
+    "copied": "Kopieret",
+    "record": "Optag",
+    "stop": "Stop",
+    "recordHint": "Diktér i denne note ({{key}})",
+    "recordHintNoKey": "Diktér i denne note",
+    "stopHint": "Stop diktering",
+    "gettingReady": "Gør klar…",
+    "polished": "Polish er brugt på noten",
+    "undo": "Fortryd",
+    "polishNoChange": "Denne note lyder allerede godt.",
+    "polishRefused": "Kunne ikke bruge Polish på denne note.",
+    "polishNotReady": "AI-modellen er stadig ved at blive klar. Prøv igen om et par minutter.",
+    "polishStale": "Noten blev ændret under Polish, så intet blev erstattet.",
+    "dismiss": "Luk"
   },
   "style": {
     "tabsLabel": "Stilgrupper",

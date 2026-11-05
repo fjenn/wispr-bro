@@ -2074,7 +2074,20 @@
     "saveError": "Jeszcze nie zachowano",
     "autosaveHelp": "Zachowuje automatycznie",
     "copy": "Kopiuj",
-    "copied": "Skopiowano"
+    "copied": "Skopiowano",
+    "record": "Nagraj",
+    "stop": "Zatrzymaj",
+    "recordHint": "Dyktuj do tej notatki ({{key}})",
+    "recordHintNoKey": "Dyktuj do tej notatki",
+    "stopHint": "Zatrzymaj dyktowanie",
+    "gettingReady": "Przygotowywanie…",
+    "polished": "Zastosowano Polish do notatki",
+    "undo": "Cofnij",
+    "polishNoChange": "Ta notatka już dobrze się czyta.",
+    "polishRefused": "Nie udało się zastosować Polish do tej notatki.",
+    "polishNotReady": "Model AI wciąż się przygotowuje. Spróbuj ponownie za kilka minut.",
+    "polishStale": "Notatka zmieniła się podczas Polish, więc nic nie zostało zastąpione.",
+    "dismiss": "Zamknij"
   },
   "style": {
     "tabsLabel": "Grupy stylów",

@@ -1843,7 +1843,20 @@
     "saveError": "Belum disimpan",
     "autosaveHelp": "Tersimpan otomatis",
     "copy": "Salin",
-    "copied": "Disalin"
+    "copied": "Disalin",
+    "record": "Rekam",
+    "stop": "Berhenti",
+    "recordHint": "Dikte ke catatan ini ({{key}})",
+    "recordHintNoKey": "Dikte ke catatan ini",
+    "stopHint": "Hentikan dikte",
+    "gettingReady": "Menyiapkan…",
+    "polished": "Polish diterapkan ke catatan",
+    "undo": "Urungkan",
+    "polishNoChange": "Catatan ini sudah enak dibaca.",
+    "polishRefused": "Tidak dapat menerapkan Polish ke catatan ini.",
+    "polishNotReady": "Model AI masih disiapkan. Coba lagi dalam beberapa menit.",
+    "polishStale": "Catatan berubah saat Polish berjalan, jadi tidak ada yang diganti.",
+    "dismiss": "Tutup"
   },
   "style": {
     "tabsLabel": "Kelompok gaya",

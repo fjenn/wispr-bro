@@ -1843,7 +1843,20 @@
     "saveError": "尚未儲存",
     "autosaveHelp": "自動儲存",
     "copy": "拷貝",
-    "copied": "已拷貝"
+    "copied": "已拷貝",
+    "record": "錄音",
+    "stop": "停止",
+    "recordHint": "在此筆記中聽寫（{{key}}）",
+    "recordHintNoKey": "在此筆記中聽寫",
+    "stopHint": "停止聽寫",
+    "gettingReady": "正在準備…",
+    "polished": "已用 Polish 潤飾筆記",
+    "undo": "還原",
+    "polishNoChange": "這則筆記已經很通順了。",
+    "polishRefused": "無法用 Polish 潤飾這則筆記。",
+    "polishNotReady": "AI 模型仍在準備中。請幾分鐘後再試一次。",
+    "polishStale": "潤飾期間筆記已變更，因此未取代任何內容。",
+    "dismiss": "關閉"
   },
   "style": {
     "tabsLabel": "風格分組",

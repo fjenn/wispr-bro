@@ -2228,7 +2228,20 @@
     "saveError": "لم يُحفظ بعد",
     "autosaveHelp": "يُحفظ تلقائيًا",
     "copy": "نسخ",
-    "copied": "تم النسخ"
+    "copied": "تم النسخ",
+    "record": "تسجيل",
+    "stop": "إيقاف",
+    "recordHint": "الإملاء في هذه الملاحظة ({{key}})",
+    "recordHintNoKey": "الإملاء في هذه الملاحظة",
+    "stopHint": "إيقاف الإملاء",
+    "gettingReady": "جارٍ التجهيز…",
+    "polished": "تم تطبيق Polish على الملاحظة",
+    "undo": "تراجع",
+    "polishNoChange": "هذه الملاحظة جيدة بالفعل.",
+    "polishRefused": "تعذّر تطبيق Polish على هذه الملاحظة.",
+    "polishNotReady": "نموذج الذكاء الاصطناعي لا يزال قيد التجهيز. حاول مرة أخرى بعد بضع دقائق.",
+    "polishStale": "تغيّرت الملاحظة أثناء Polish، لذا لم يُستبدل شيء.",
+    "dismiss": "إغلاق"
   },
   "style": {
     "tabsLabel": "مجموعات النمط",

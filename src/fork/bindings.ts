@@ -1211,13 +1211,21 @@ async forkScratchpadCopy(text: string) : Promise<Result<null, ForkError>> {
  * Polish is the merged S-21 engine and built-in definition, with no AX
  * selection, paste, clipboard write, or transform-run side effects.
  */
-async forkScratchpadPolish(source: string) : Promise<Result<string, ForkError>> {
+async forkScratchpadPolish(source: string) : Promise<Result<NotePolish, ForkError>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_polish", { source }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * The note's Record button (rc9): the same as a click on the Flow Bar,
+ * so it starts a hands-free take, or stops the running one. The take
+ * pastes at the note's caret like any other.
+ */
+async forkScratchpadRecord() : Promise<void> {
+    await TAURI_INVOKE("fork_scratchpad_record");
 },
 /**
  * Version, channel, endpoints and whether checks are on.
@@ -2928,6 +2936,27 @@ export type MicEntryKind =
  */
 "auto" | "device"
 export type Note = { id: number; title: string; body: string; pinned: boolean; created_at: number; updated_at: number }
+export type NotePolish = { outcome: NotePolishOutcome; text: string | null }
+/**
+ * What Polish did to a note (rc9: every outcome is shown in the note).
+ */
+export type NotePolishOutcome = 
+/**
+ * `text` is the polished note.
+ */
+"changed" | 
+/**
+ * The note needs no polish.
+ */
+"no_change" | 
+/**
+ * The model's answer was refused or it failed.
+ */
+"refused" | 
+/**
+ * The cleanup model is still on its way (downloading or verifying).
+ */
+"not_ready"
 /**
  * What activating a notification does.
  */

@@ -1920,7 +1920,20 @@
     "saveError": "अभी सहेजा नहीं गया",
     "autosaveHelp": "अपने आप सहेजता है",
     "copy": "कॉपी करें",
-    "copied": "कॉपी हो गया"
+    "copied": "कॉपी हो गया",
+    "record": "रिकॉर्ड करें",
+    "stop": "रोकें",
+    "recordHint": "इस नोट में बोलकर लिखें ({{key}})",
+    "recordHintNoKey": "इस नोट में बोलकर लिखें",
+    "stopHint": "डिक्टेशन रोकें",
+    "gettingReady": "तैयार हो रहा है…",
+    "polished": "नोट पर Polish लगाया गया",
+    "undo": "पूर्ववत करें",
+    "polishNoChange": "यह नोट पहले से अच्छा पढ़ता है।",
+    "polishRefused": "इस नोट पर Polish नहीं लगाया जा सका।",
+    "polishNotReady": "AI मॉडल अभी तैयार हो रहा है। कुछ मिनट बाद फिर से कोशिश करें।",
+    "polishStale": "Polish के दौरान नोट बदल गया, इसलिए कुछ भी नहीं बदला गया।",
+    "dismiss": "बंद करें"
   },
   "style": {
     "tabsLabel": "शैली समूह",

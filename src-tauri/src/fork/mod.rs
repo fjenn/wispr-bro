@@ -786,6 +786,7 @@ macro_rules! fork_specta_builder {
                 commands::scratchpad::fork_scratchpad_expand::<$runtime>,
                 commands::scratchpad::fork_scratchpad_copy::<$runtime>,
                 commands::scratchpad::fork_scratchpad_polish::<$runtime>,
+                commands::scratchpad::fork_scratchpad_record::<$runtime>,
                 commands::update::fork_update_status::<$runtime>,
                 commands::update::fork_update_check::<$runtime>,
                 commands::update::fork_update_install::<$runtime>,

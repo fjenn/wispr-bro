@@ -268,6 +268,8 @@ pub fn on_levels<R: Runtime>(app: &AppHandle<R>, levels: &[f32]) {
         log_level_peak(&frame.bars);
     }
     let _ = tauri_specta::Event::emit_to(&frame, app, panel_label());
+    // The note's Record button shows the same level (rc9).
+    let _ = tauri_specta::Event::emit_to(&frame, app, crate::fork::scratchpad::WINDOW_LABEL);
 }
 
 /// Debug log, once a second while a take shows: the loudest bar sent and
@@ -491,6 +493,18 @@ pub fn ready(seq: u32) {
 /// `fork_pill_action`.
 pub fn ui_action(action: PillUiAction) {
     send(Msg::Ui(action));
+}
+
+/// The note's Record button (rc9): exactly a click on the bar (starts a
+/// hands-free take or stops the running one). Without the bar, the hotkey
+/// engine gets the click.
+pub fn click() {
+    #[cfg(target_os = "macos")]
+    if is_running() {
+        send(Msg::Native(native::NativeEvent::Click));
+        return;
+    }
+    crate::fork::shortcut::pill_action(crate::fork::shortcut::engine::PillAction::Click);
 }
 
 /// S-37: VoiceOver says the `rust.*` string `key` in the bar's language

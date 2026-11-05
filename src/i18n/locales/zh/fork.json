@@ -1843,7 +1843,20 @@
     "saveError": "尚未存储",
     "autosaveHelp": "自动存储",
     "copy": "拷贝",
-    "copied": "已拷贝"
+    "copied": "已拷贝",
+    "record": "录音",
+    "stop": "停止",
+    "recordHint": "在此笔记中听写（{{key}}）",
+    "recordHintNoKey": "在此笔记中听写",
+    "stopHint": "停止听写",
+    "gettingReady": "正在准备…",
+    "polished": "已用 Polish 润色笔记",
+    "undo": "撤销",
+    "polishNoChange": "这条笔记已经很通顺了。",
+    "polishRefused": "无法用 Polish 润色这条笔记。",
+    "polishNotReady": "AI 模型仍在准备中。请几分钟后再试。",
+    "polishStale": "润色期间笔记已更改，因此未替换任何内容。",
+    "dismiss": "关闭"
   },
   "style": {
     "tabsLabel": "风格分组",

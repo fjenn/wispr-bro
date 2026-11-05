@@ -1997,7 +1997,20 @@
     "saveError": "עדיין לא נשמר",
     "autosaveHelp": "נשמר אוטומטית",
     "copy": "העתק",
-    "copied": "הועתק"
+    "copied": "הועתק",
+    "record": "הקלטה",
+    "stop": "עצירה",
+    "recordHint": "הכתבה לפתק הזה ({{key}})",
+    "recordHintNoKey": "הכתבה לפתק הזה",
+    "stopHint": "עצירת ההכתבה",
+    "gettingReady": "בהכנה…",
+    "polished": "Polish הוחל על הפתק",
+    "undo": "ביטול",
+    "polishNoChange": "הפתק הזה כבר נקרא טוב.",
+    "polishRefused": "לא ניתן היה להחיל Polish על הפתק הזה.",
+    "polishNotReady": "מודל ה-AI עדיין בהכנה. נסו שוב בעוד כמה דקות.",
+    "polishStale": "הפתק השתנה בזמן Polish, ולכן שום דבר לא הוחלף.",
+    "dismiss": "סגירה"
   },
   "style": {
     "tabsLabel": "קבוצות סגנון",

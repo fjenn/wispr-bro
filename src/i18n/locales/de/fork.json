@@ -1920,7 +1920,20 @@
     "saveError": "Noch nicht gespeichert",
     "autosaveHelp": "Speichert automatisch",
     "copy": "Kopieren",
-    "copied": "Kopiert"
+    "copied": "Kopiert",
+    "record": "Aufnehmen",
+    "stop": "Stopp",
+    "recordHint": "In diese Notiz diktieren ({{key}})",
+    "recordHintNoKey": "In diese Notiz diktieren",
+    "stopHint": "Diktat beenden",
+    "gettingReady": "Wird vorbereitet …",
+    "polished": "Notiz mit Polish überarbeitet",
+    "undo": "Rückgängig",
+    "polishNoChange": "Diese Notiz liest sich schon gut.",
+    "polishRefused": "Polish konnte diese Notiz nicht überarbeiten.",
+    "polishNotReady": "Das KI-Modell wird noch vorbereitet. Versuche es in ein paar Minuten noch einmal.",
+    "polishStale": "Die Notiz hat sich während Polish geändert, daher wurde nichts ersetzt.",
+    "dismiss": "Schließen"
   },
   "style": {
     "tabsLabel": "Stilgruppen",

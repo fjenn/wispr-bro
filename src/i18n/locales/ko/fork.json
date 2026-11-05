@@ -1843,7 +1843,20 @@
     "saveError": "아직 저장되지 않음",
     "autosaveHelp": "자동으로 저장됨",
     "copy": "복사",
-    "copied": "복사됨"
+    "copied": "복사됨",
+    "record": "녹음",
+    "stop": "중지",
+    "recordHint": "이 메모에 받아쓰기({{key}})",
+    "recordHintNoKey": "이 메모에 받아쓰기",
+    "stopHint": "받아쓰기 중지",
+    "gettingReady": "준비 중…",
+    "polished": "메모에 Polish를 적용했습니다",
+    "undo": "실행 취소",
+    "polishNoChange": "이 메모는 이미 잘 읽힙니다.",
+    "polishRefused": "이 메모에 Polish를 적용할 수 없습니다.",
+    "polishNotReady": "AI 모델을 아직 준비하고 있습니다. 몇 분 후에 다시 시도하세요.",
+    "polishStale": "Polish 중에 메모가 바뀌어서 아무것도 바꾸지 않았습니다.",
+    "dismiss": "닫기"
   },
   "style": {
     "tabsLabel": "스타일 그룹",

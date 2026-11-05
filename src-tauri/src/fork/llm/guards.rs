@@ -224,6 +224,72 @@ pub fn lines_survive_loosely(input: &str, output: &str) -> bool {
     paragraphs(input) == paragraphs(output) || non_empty_lines(input) == non_empty_lines(output)
 }
 
+/// Polish (rc9): both models join a note's paragraphs into one. When every
+/// source paragraph after the first starts a sentence of the reply, in
+/// order, the breaks go back where they were; else `None` (the line rule
+/// then refuses the reply).
+pub fn restore_paragraphs(input: &str, output: &str) -> Option<String> {
+    let starts: Vec<Vec<String>> = input
+        .split("\n\n")
+        .map(str::trim)
+        .filter(|p| !p.is_empty())
+        .skip(1)
+        .map(|p| {
+            markers::words(p)
+                .into_iter()
+                .take(3)
+                .map(|w| fold(&w.text))
+                .collect()
+        })
+        .collect();
+    if starts.is_empty() || starts.iter().any(Vec::is_empty) {
+        return None;
+    }
+    let flat = output.trim();
+    let words = markers::words(flat);
+    let mut cuts = Vec::with_capacity(starts.len());
+    let mut from = 0;
+    for start in &starts {
+        let at = (from..words.len()).find(|&i| {
+            let begins_sentence = flat[..words[i].start]
+                .trim_end()
+                .ends_with(['.', '!', '?', ':', '…']);
+            begins_sentence
+                && i + start.len() <= words.len()
+                && start
+                    .iter()
+                    .zip(&words[i..])
+                    .all(|(want, got)| *want == fold(&got.text))
+        })?;
+        cuts.push(words[at].start);
+        from = at + 1;
+    }
+    let mut restored = String::with_capacity(flat.len() + 2 * cuts.len());
+    let mut last = 0;
+    for cut in cuts {
+        restored.push_str(flat[last..cut].trim_end());
+        restored.push_str("\n\n");
+        last = cut;
+    }
+    restored.push_str(&flat[last..]);
+    Some(restored)
+}
+
+/// Polish's new-word rule: [`too_many_new_tokens`] without the language's
+/// function words ("also", "which", "there"): rewording a sentence brings
+/// those in; new names, numbers and content words still count.
+pub fn too_many_new_content_tokens(input: &str, output: &str, ctx: &Context<'_>) -> bool {
+    let lang = input_language(ctx);
+    let table = TABLES.for_language(lang.as_deref());
+    let content = |text: &str| -> Vec<Word> {
+        markers::words(text)
+            .into_iter()
+            .filter(|w| !table.stopwords.contains(&w.text))
+            .collect()
+    };
+    too_many_new_tokens(&markers::words(input), &content(output))
+}
+
 /// The input language: the take's, else a confident detection.
 pub fn input_language(ctx: &Context<'_>) -> Option<String> {
     ctx.language

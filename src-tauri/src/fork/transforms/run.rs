@@ -138,7 +138,7 @@ fn user_turn(instruction: &str, text: &str) -> String {
 
 /// Built-ins (Polish, Prompt Engineer) keep the cleanup model's worked-example
 /// prompt; custom transforms get the plain one.
-fn request_for(definition: &record::Definition, text: &str) -> (String, ChatRequest) {
+pub(super) fn request_for(definition: &record::Definition, text: &str) -> (String, ChatRequest) {
     if definition.guard == GuardProfile::Instruction {
         custom_request_for(&definition.instruction, text)
     } else {
@@ -160,7 +160,7 @@ fn custom_request_for(instruction: &str, text: &str) -> (String, ChatRequest) {
 
 /// The model's reply as the guard chain's JSON: a plain-text reply is
 /// wrapped; Apple's engine already answers in that shape.
-fn as_reply_json(raw: &str) -> String {
+pub(super) fn as_reply_json(raw: &str) -> String {
     if prompt::parse_reply(raw).is_some() {
         raw.to_owned()
     } else {
@@ -192,7 +192,7 @@ pub fn budget_for(guard: GuardProfile, source: &str) -> Duration {
     }
 }
 
-fn guarded_reply(
+pub(super) fn guarded_reply(
     raw: &str,
     guard: GuardProfile,
     source: &str,
@@ -217,7 +217,10 @@ fn guarded_reply(
         }
         return Ok(text);
     }
-    let verdict = guards::check(raw, &ctx);
+    let mut verdict = guards::check(raw, &ctx);
+    if guard == GuardProfile::Strict {
+        verdict = polish_verdict(verdict, &ctx);
+    }
     let text = verdict.text.clone().unwrap_or_default();
     let reasons = match guard {
         GuardProfile::Instruction => unreachable!("handled above"),
@@ -247,14 +250,9 @@ fn guarded_reply(
             }
             reasons
         }
-        // Polish: the cleanup guards, with a paragraph-tolerant line rule.
-        GuardProfile::Strict => verdict
-            .reasons
-            .into_iter()
-            .filter(|reason| {
-                *reason != Reason::LineCount || !guards::lines_survive_loosely(source, &text)
-            })
-            .collect(),
+        // Polish: the cleanup guards, fitted to a whole note in
+        // [`polish_verdict`].
+        GuardProfile::Strict => verdict.reasons,
     };
     if !reasons.is_empty() {
         return Err(GenerateError::Guard(reasons));
@@ -263,6 +261,33 @@ fn guarded_reply(
         .text
         .filter(|text| !text.trim().is_empty())
         .ok_or_else(|| GenerateError::Guard(vec![Reason::Empty]))
+}
+
+/// Polish of a whole note (rc9): the cleanup guards with three rules made
+/// fair for paragraphs and rewording. Paragraph breaks the model joined are
+/// put back (and the reply checked again); a re-wrapped paragraph keeps the
+/// line rule quiet; new function words ("also", "which") are not new
+/// tokens. Dropped content words, changed words, numbers, names and
+/// entities are still refused.
+fn polish_verdict(mut verdict: guards::Verdict, ctx: &guards::Context<'_>) -> guards::Verdict {
+    let Some(mut text) = verdict.text.take() else {
+        return verdict;
+    };
+    let source = ctx.input;
+    if verdict.reasons.contains(&Reason::LineCount) && !guards::lines_survive_loosely(source, &text)
+    {
+        if let Some(restored) = guards::restore_paragraphs(source, &text) {
+            verdict.reasons = guards::check_text(&restored, ctx);
+            text = restored;
+        }
+    }
+    verdict.reasons.retain(|reason| match reason {
+        Reason::LineCount => !guards::lines_survive_loosely(source, &text),
+        Reason::NewTokens => guards::too_many_new_content_tokens(source, &text, ctx),
+        _ => true,
+    });
+    verdict.text = Some(text);
+    verdict
 }
 
 fn same_text(a: &str, b: &str) -> bool {
@@ -1001,10 +1026,11 @@ mod tests {
             "text": "First point of the note, still the first paragraph. Second paragraph here."
         })
         .to_string();
-        assert!(matches!(
-            guarded_reply(&merged, GuardProfile::Strict, note, "s"),
-            Err(GenerateError::Guard(reasons)) if reasons.contains(&Reason::LineCount)
-        ));
+        // rc9: a joined paragraph is put back where it was.
+        assert_eq!(
+            guarded_reply(&merged, GuardProfile::Strict, note, "s").as_deref(),
+            Ok("First point of the note, still the first paragraph.\n\nSecond paragraph here.")
+        );
     }
 
     #[test]
@@ -1161,5 +1187,67 @@ mod tests {
             .await
             .unwrap_err();
         assert_eq!(error, GenerateError::Cancelled);
+    }
+
+    fn polish_reply(source: &str, reply: &str) -> Result<String, GenerateError> {
+        let raw = serde_json::json!({ "text": reply }).to_string();
+        guarded_reply(&raw, GuardProfile::Strict, source, "system")
+    }
+
+    // rc9: Polish of a note with paragraphs failed on both models, which
+    // join the paragraphs (replies recorded from Muesli and Apple's model,
+    // `long_polish_bench::polish_realistic_notes`).
+    #[test]
+    fn polish_puts_back_the_paragraph_breaks_a_model_joined() {
+        let source = super::super::long_polish_bench::NOTES[0];
+        let reply = "For the meeting tomorrow, I think we should talk about the budget first and then the hiring plan. Sarah said the numbers are not final yet, but she will send them tonight. Also, we need to decide if we move the launch to March or keep it in February. I lean towards March because the design isn't ready.";
+        let text = polish_reply(source, reply).expect("accepted");
+        assert_eq!(text.matches("\n\n").count(), 1);
+        assert!(text.contains("tonight.\n\nAlso, we need"));
+        let dutch = super::super::long_polish_bench::NOTES[2];
+        let reply = "Morgen moet ik de huur betalen en de verzekering bellen, want die hebben het verkeerde adres. Daarna boodschappen doen voor het etentje van vrijdag, we zijn met zes mensen. Niet vergeten om Peter te vragen of hij de stoelen kan meenemen.";
+        let text = polish_reply(dutch, reply).expect("accepted");
+        assert!(text.contains("mensen.\n\nNiet vergeten"));
+    }
+
+    #[test]
+    fn polish_still_refuses_dropped_content_and_lost_paragraphs() {
+        // Apple's model dropped "notes from call with the landlord" and "he
+        // says": refused.
+        let source = super::super::long_polish_bench::NOTES[4];
+        let reply = "Heating will be fixed next week, probably Tuesday. The rent will increase by 3 percent from January. I asked about the parking spot, and he will check with the building owner.";
+        assert!(matches!(
+            polish_reply(source, reply),
+            Err(GenerateError::Guard(reasons)) if reasons.contains(&Reason::ContentWords)
+        ));
+        // A paragraph whose start is gone cannot be put back.
+        let source = "Buy milk today.\n\nCall the bank about the card.";
+        let reply = "Buy milk today and phone your bank regarding the card.";
+        assert!(polish_reply(source, reply).is_err());
+    }
+
+    #[test]
+    fn polish_allows_new_function_words_but_not_invented_facts() {
+        let source = "design isnt ready so we move launch to march and tell the team about it";
+        // rc9: "since", "will" and "then" made a quarter of the words new.
+        let reworded =
+            "Since the design isn't ready, we will move the launch to March and then tell the team.";
+        let raw = serde_json::json!({ "text": reworded }).to_string();
+        let ctx = guards::Context {
+            input: source,
+            level: CleanupLevel::Medium,
+            language: None,
+            system_prompt: "system",
+            terms: &[],
+        };
+        let reasons = guards::check(&raw, &ctx).reasons;
+        assert!(reasons.contains(&Reason::NewTokens), "{reasons:?}");
+        assert_eq!(polish_reply(source, reworded).as_deref(), Ok(reworded));
+        for invented in [
+            "Since the design isn't ready, we will move the launch to March 3 and then tell the team.",
+            "Since Sarah's design isn't ready, we will move the Lenovo launch to March, then tell Paul.",
+        ] {
+            assert!(polish_reply(source, invented).is_err(), "{invented}");
+        }
     }
 }

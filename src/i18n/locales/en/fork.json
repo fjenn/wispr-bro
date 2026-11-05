@@ -2237,7 +2237,20 @@
     "saveError": "Not saved yet",
     "autosaveHelp": "Saves automatically",
     "copy": "Copy",
-    "copied": "Copied"
+    "copied": "Copied",
+    "record": "Record",
+    "stop": "Stop",
+    "recordHint": "Dictate into this note ({{key}})",
+    "recordHintNoKey": "Dictate into this note",
+    "stopHint": "Stop dictating",
+    "gettingReady": "Getting ready…",
+    "polished": "Note polished",
+    "undo": "Undo",
+    "polishNoChange": "This note already reads well.",
+    "polishRefused": "Couldn't polish this note.",
+    "polishNotReady": "The AI model is still getting ready. Try again in a few minutes.",
+    "polishStale": "The note changed while polishing, so nothing was replaced.",
+    "dismiss": "Dismiss"
   },
   "style": {
     "tabsLabel": "Style groups",

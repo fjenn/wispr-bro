@@ -1997,7 +1997,20 @@
     "saveError": "Aún no se ha guardado",
     "autosaveHelp": "Se guarda automáticamente",
     "copy": "Copiar",
-    "copied": "Copiado"
+    "copied": "Copiado",
+    "record": "Grabar",
+    "stop": "Detener",
+    "recordHint": "Dictar en esta nota ({{key}})",
+    "recordHintNoKey": "Dictar en esta nota",
+    "stopHint": "Detener el dictado",
+    "gettingReady": "Preparando…",
+    "polished": "Se aplicó Polish a la nota",
+    "undo": "Deshacer",
+    "polishNoChange": "Esta nota ya está bien.",
+    "polishRefused": "No se pudo aplicar Polish a esta nota.",
+    "polishNotReady": "El modelo de IA aún se está preparando. Vuelve a intentarlo en unos minutos.",
+    "polishStale": "La nota cambió mientras se aplicaba Polish, así que no se reemplazó nada.",
+    "dismiss": "Cerrar"
   },
   "style": {
     "tabsLabel": "Grupos de estilo",

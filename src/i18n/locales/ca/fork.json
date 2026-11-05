@@ -1997,7 +1997,20 @@
     "saveError": "Encara no s'ha desat",
     "autosaveHelp": "Es desa automàticament",
     "copy": "Copiar",
-    "copied": "Copiat"
+    "copied": "Copiat",
+    "record": "Grava",
+    "stop": "Atura",
+    "recordHint": "Dicta en aquesta nota ({{key}})",
+    "recordHintNoKey": "Dicta en aquesta nota",
+    "stopHint": "Atura el dictat",
+    "gettingReady": "Preparant…",
+    "polished": "S'ha aplicat Polish a la nota",
+    "undo": "Desfés",
+    "polishNoChange": "Aquesta nota ja està bé.",
+    "polishRefused": "No s'ha pogut aplicar Polish a aquesta nota.",
+    "polishNotReady": "El model d'IA encara s'està preparant. Torna-ho a provar d'aquí a uns minuts.",
+    "polishStale": "La nota ha canviat mentre s'aplicava Polish, així que no s'ha substituït res.",
+    "dismiss": "Tanca"
   },
   "style": {
     "tabsLabel": "Grups d'estil",
