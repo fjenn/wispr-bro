@@ -631,8 +631,8 @@
       "contribute": "Contribuïu"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "{{count}} més",
+      "nextLabel": "Avís següent:"
     },
     "appleDictationNote": {
       "body": "Hem desactivat «Prem fn dues vegades» del Dictat d'Apple perquè el text no s'escrigui dues vegades. Canvia-ho a Configuració › Dreceres."

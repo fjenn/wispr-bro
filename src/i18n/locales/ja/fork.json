@@ -625,8 +625,8 @@
       "contribute": "開発に参加"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "他 {{count}} 件",
+      "nextLabel": "次のお知らせ:"
     },
     "appleDictationNote": {
       "body": "テキストが二重に入力されないよう、Appleの音声入力の「fnキーを2回押す」をオフにしました。設定 › ショートカットで変更できます。"

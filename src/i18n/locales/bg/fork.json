@@ -628,8 +628,8 @@
       "contribute": "Допринесете"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Още {{count}}",
+      "nextLabel": "Следващо известие:"
     },
     "appleDictationNote": {
       "body": "Изключихме „Натиснете fn два пъти“ за Диктовка на Apple, за да не се въвежда текстът ви два пъти. Променете го в Настройки › Клавишни комбинации."

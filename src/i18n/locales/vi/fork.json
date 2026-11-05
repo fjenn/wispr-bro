@@ -625,8 +625,8 @@
       "contribute": "Đóng góp"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Thêm {{count}}",
+      "nextLabel": "Thông báo tiếp theo:"
     },
     "appleDictationNote": {
       "body": "Chúng tôi đã tắt “Nhấn fn hai lần” của Đọc chính tả Apple để văn bản của bạn không bị nhập hai lần. Thay đổi trong Cài đặt › Phím tắt."

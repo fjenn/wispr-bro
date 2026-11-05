@@ -625,8 +625,8 @@
       "contribute": "參與貢獻"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "還有 {{count}} 則",
+      "nextLabel": "下一則通知："
     },
     "appleDictationNote": {
       "body": "我們已關閉 Apple 聽寫的「按兩下 fn 鍵」，以免文字被輸入兩次。可在設定 › 快速鍵中更改。"

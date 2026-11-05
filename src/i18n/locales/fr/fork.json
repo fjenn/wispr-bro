@@ -631,8 +631,8 @@
       "contribute": "Contribuer"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "{{count}} de plus",
+      "nextLabel": "Avis suivant :"
     },
     "appleDictationNote": {
       "body": "Nous avons désactivé « Appuyer deux fois sur fn » pour la Dictée d'Apple afin que votre texte ne soit pas saisi deux fois. Modifiez-le dans Réglages › Raccourcis."

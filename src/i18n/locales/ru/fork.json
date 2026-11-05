@@ -634,8 +634,8 @@
       "contribute": "Участвовать"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Ещё {{count}}",
+      "nextLabel": "Следующее уведомление:"
     },
     "appleDictationNote": {
       "body": "Мы выключили «Дважды нажать fn» для Диктовки Apple, чтобы текст не вводился дважды. Изменить это можно в Настройки › Сочетания клавиш."

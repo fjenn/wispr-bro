@@ -625,8 +625,8 @@
       "contribute": "Berkontribusi"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "{{count}} lagi",
+      "nextLabel": "Pemberitahuan berikutnya:"
     },
     "appleDictationNote": {
       "body": "Kami mematikan “Tekan fn dua kali” untuk Dikte Apple agar teks Anda tidak diketik dua kali. Ubah di Pengaturan › Pintasan."

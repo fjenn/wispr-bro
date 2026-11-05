@@ -634,8 +634,8 @@
       "contribute": "Долучитися"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Ще {{count}}",
+      "nextLabel": "Наступне сповіщення:"
     },
     "appleDictationNote": {
       "body": "Ми вимкнули «Двічі натиснути fn» для Диктування Apple, щоб текст не вводився двічі. Змінити це можна в Параметри › Скорочення."

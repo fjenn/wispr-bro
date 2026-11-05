@@ -631,8 +631,8 @@
       "contribute": "Contribuir"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Mais {{count}}",
+      "nextLabel": "Próximo aviso:"
     },
     "appleDictationNote": {
       "body": "Desativamos o “Pressionar fn duas vezes” do Ditado da Apple para que seu texto não seja digitado duas vezes. Altere em Ajustes › Atalhos."

@@ -628,8 +628,8 @@
       "contribute": "Bijdragen"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Nog {{count}}",
+      "nextLabel": "Volgende melding:"
     },
     "appleDictationNote": {
       "body": "We hebben 'Druk twee keer op fn' voor Dicteren van Apple uitgeschakeld, zodat je tekst niet dubbel wordt getypt. Wijzig dit in Instellingen › Toetscombinaties."

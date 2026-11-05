@@ -628,8 +628,8 @@
       "contribute": "योगदान दें"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "{{count}} और",
+      "nextLabel": "अगली सूचना:"
     },
     "appleDictationNote": {
       "body": "हमने Apple डिक्टेशन का “fn दो बार दबाएँ” बंद कर दिया है, ताकि आपका टेक्स्ट दो बार टाइप न हो। इसे सेटिंग्ज़ › शॉर्टकट में बदलें।"

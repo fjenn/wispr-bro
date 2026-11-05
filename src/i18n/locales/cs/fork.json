@@ -634,8 +634,8 @@
       "contribute": "Přispět"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Další: {{count}}",
+      "nextLabel": "Další upozornění:"
     },
     "appleDictationNote": {
       "body": "Vypnuli jsme zkratku „Stisknout fn dvakrát“ pro Diktování Apple, aby se váš text nenapsal dvakrát. Změnit to můžete v Nastavení › Zkratky."

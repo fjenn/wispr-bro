@@ -640,8 +640,8 @@
       "contribute": "ساهِم"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "{{count}} أخرى",
+      "nextLabel": "الإشعار التالي:"
     },
     "appleDictationNote": {
       "body": "أوقفنا اختصار «الضغط على fn مرتين» لإملاء Apple حتى لا يُكتب نصك مرتين. يمكنك تغييره من الإعدادات › الاختصارات."

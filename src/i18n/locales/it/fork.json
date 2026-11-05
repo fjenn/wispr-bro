@@ -631,8 +631,8 @@
       "contribute": "Contribuisci"
     },
     "notices": {
-      "more": "{{count}} more",
-      "nextLabel": "Next notice:"
+      "more": "Altri {{count}}",
+      "nextLabel": "Avviso successivo:"
     },
     "appleDictationNote": {
       "body": "Abbiamo disattivato “Premi fn due volte” della Dettatura di Apple, così il testo non viene scritto due volte. Puoi cambiarlo in Impostazioni › Abbreviazioni."
