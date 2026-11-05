@@ -593,8 +593,8 @@ static LIST_PREFIX: Lazy<Regex> =
 
 /// Words removable by a correct cleanup (fillers, repairs and reparanda),
 /// counted on whitespace words like BetterWispr.
-fn droppable_whitespace_words(words: &[Word], table: &Table) -> usize {
-    markers::droppable(words, table)
+fn droppable_whitespace_words(input: &str, words: &[Word], table: &Table) -> usize {
+    markers::droppable(input, words, table)
         .iter()
         .filter(|d| **d)
         .count()
@@ -613,7 +613,7 @@ fn in_word_band(input: &str, output: &str, in_words: &[Word], table: &Table) -> 
         let a = output.chars().filter(|c| c.is_alphanumeric()).count();
         return a * 5 >= b * 2 && a <= b + usize::max(2, b / 5);
     }
-    let keep = before.saturating_sub(droppable_whitespace_words(in_words, table));
+    let keep = before.saturating_sub(droppable_whitespace_words(input, in_words, table));
     after >= usize::max(1, keep * 2 / 5) && after <= before + usize::max(2, before / 5)
 }
 
@@ -729,8 +729,8 @@ fn trim_trailing_punct(s: &str) -> &str {
 }
 
 /// Byte offsets of input words a self-repair may drop.
-fn repair_spans(in_words: &[Word], table: &Table) -> Vec<(usize, usize)> {
-    let drop = markers::droppable(in_words, table);
+fn repair_spans(input: &str, in_words: &[Word], table: &Table) -> Vec<(usize, usize)> {
+    let drop = markers::droppable(input, in_words, table);
     in_words
         .iter()
         .zip(drop)
@@ -756,7 +756,7 @@ fn entities_survive(
             }
         }
     }
-    let repairs = repair_spans(in_words, table);
+    let repairs = repair_spans(input, in_words, table);
     let out_digits: Vec<&str> = DIGITS.find_iter(output).map(|m| m.as_str()).collect();
     let in_digits: Vec<&str> = DIGITS.find_iter(input).map(|m| m.as_str()).collect();
     for m in DIGITS.find_iter(input) {

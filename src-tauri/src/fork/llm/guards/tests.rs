@@ -500,3 +500,70 @@ fn paragraphs_count_blocks_between_blank_lines() {
     assert!(lines_survive_loosely("a\nb", "a\n\nb"));
     assert!(!lines_survive_loosely("a\nb\n\nc", "a b c"));
 }
+
+#[test]
+fn self_corrections_may_drop_the_corrected_words() {
+    // rc9 / eval disfluent-030: Light was rejected (content words) and the
+    // take fell back to the raw text with its fillers.
+    ok(
+        "so um what I wanted to say is uh the new onboarding goes live thursday no wait friday and like the early feedback is really good",
+        "What I wanted to say is the new onboarding goes live Friday, and the early feedback is really good.",
+    );
+    ok("Thursday, no wait, Friday", "Friday.");
+    ok("let's meet thursday no wait friday", "Let's meet Friday.");
+    ok("send it to Anna I mean Maria", "Send it to Maria.");
+    ok("the call is at noon sorry at one", "The call is at one.");
+    ok(
+        "book the red room actually the blue room",
+        "Book the blue room.",
+    );
+    ok("Thursday. No, wait. Friday.", "Friday.");
+    // Eval repair-009: a repair after "or" replaces its whole clause.
+    ok(
+        "put it in the shared drive or actually just email it",
+        "Just email it.",
+    );
+    ok(
+        "we could take the train to the airport or no wait let's drive",
+        "Let's drive.",
+    );
+    // Eval disfluent-030 (Light, after the "so um" lead-in): the model
+    // dropped the opening frame; that is a lead-in, not content.
+    ok(
+        "What I wanted to say is uh the new onboarding goes live thursday no wait friday and like the early feedback is really good",
+        "The new onboarding goes live Friday and the early feedback is really good",
+    );
+}
+
+#[test]
+fn repairs_and_frames_still_refuse_dropped_content() {
+    // The clause reach stops at the sentence before the repair.
+    rejects(
+        "Book the hotel in Lyon. Put it in the shared drive or actually just email it",
+        "Just email it.",
+        Reason::ContentWords,
+    );
+    // Without "or", a repair reaches four words back, no further.
+    rejects(
+        "please put the signed contract in the shared drive no wait email it",
+        "Email it.",
+        Reason::ContentWords,
+    );
+    // The wrong side of a repair is still refused.
+    rejects(
+        "put it in the shared drive or actually just email it",
+        "Put it in the shared drive.",
+        Reason::ContentWords,
+    );
+    // A frame mid-sentence is content; a frame does not excuse the rest.
+    rejects(
+        "the client said what I wanted to say is wrong",
+        "The client said it is wrong.",
+        Reason::ContentWords,
+    );
+    rejects(
+        "what I wanted to say is the onboarding goes live friday and the early feedback is good",
+        "The onboarding is good.",
+        Reason::ContentWords,
+    );
+}

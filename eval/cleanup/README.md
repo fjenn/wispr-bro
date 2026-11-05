@@ -265,6 +265,15 @@ self-repairs that drop a number ("2 actually 3" → "3"). The eval shows this
 as guard false rejections in the `repair` and `number` categories; S-12a
 decides how the real guard handles repairs.
 
+The shipped guards (`fork/llm/markers.rs` `droppable`) let a cleanup drop a
+repair marker and up to four words before it; after "or" (`alternatives`:
+"put it in the shared drive **or actually** just email it" → "Just email
+it.") the whole clause back to the sentence start, at most ten words; and a
+sentence-opening frame (`frames`: "what I wanted to say is", see "Discourse
+markers"). Everything else is still required (`fix/medium`, 2026-11-05: the
+eval's `repair-009` and `disfluent-030` were guard false rejections that
+inserted the raw take with its fillers).
+
 ## Item set
 
 271 original items (229 from F-10, 42 from S-12a), written for this set. Each category targets a failure
@@ -406,6 +415,14 @@ Filler when used as a marker, a lead-in or a tag:
 | ja       | えーと / えっと, あのー, まあ                                                                                                                                        |
 | zh       | 那个, 就是 (filler), 嗯                                                                                                                                              |
 | ko       | 음, 어, 그러니까 (filler), 뭐                                                                                                                                        |
+
+Sentence-opening frames ("what I wanted to say is (that)", "I just wanted to
+let you know (that)"; nl "wat ik wilde zeggen is", fr "ce que je voulais dire
+c'est") are lead-ins too: a cleanup **may** drop them at the start of a
+sentence (the guards allow it; `markers.json` `frames`), but they are not
+`must_remove` spans, so keeping them is not a filler miss. Mid-sentence they
+are content ("he asked what I wanted to say"). Labels: `disfluent-030`
+(`labels.revised = "frames-2026-11-05"`).
 
 **Kept** when they carry meaning:
 

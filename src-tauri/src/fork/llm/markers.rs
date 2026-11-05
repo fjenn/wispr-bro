@@ -23,6 +23,10 @@ struct RawTable {
     repairs: Vec<String>,
     stopwords: String,
     openers: Vec<String>,
+    #[serde(default)]
+    frames: Vec<String>,
+    #[serde(default)]
+    alternatives: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -39,6 +43,11 @@ pub struct Table {
     pub repairs: Vec<Vec<String>>,
     pub stopwords: HashSet<String>,
     pub openers: Vec<String>,
+    /// Sentence-opening frames that say nothing ("what I wanted to say
+    /// is"): droppable at the start of a sentence only.
+    pub frames: Vec<Vec<String>>,
+    /// The word for "or": a repair right after it replaces its clause.
+    pub alternatives: Vec<String>,
 }
 
 pub struct Tables {
@@ -71,6 +80,8 @@ fn table(raw: &RawTable) -> Table {
             .map(str::to_owned)
             .collect(),
         openers: raw.openers.clone(),
+        frames: phrases(&raw.frames),
+        alternatives: raw.alternatives.clone(),
     }
 }
 
@@ -80,6 +91,8 @@ fn merge(into: &mut Table, t: &Table) {
     into.repairs.extend(t.repairs.iter().cloned());
     into.stopwords.extend(t.stopwords.iter().cloned());
     into.openers.extend(t.openers.iter().cloned());
+    into.frames.extend(t.frames.iter().cloned());
+    into.alternatives.extend(t.alternatives.iter().cloned());
 }
 
 fn sort_dedup(list: &mut Vec<Vec<String>>) {
@@ -102,6 +115,9 @@ pub static TABLES: Lazy<Tables> = Lazy::new(|| {
     sort_dedup(&mut all.hesitations);
     sort_dedup(&mut all.fillers);
     sort_dedup(&mut all.repairs);
+    sort_dedup(&mut all.frames);
+    all.alternatives.sort();
+    all.alternatives.dedup();
     all.openers.sort();
     all.openers.dedup();
     Tables {
@@ -198,43 +214,76 @@ pub fn has_stutter(words: &[Word]) -> bool {
     })
 }
 
-/// Which words of `words` a correct cleanup may drop: hesitations, fillers,
-/// repair markers and up to [`REPAIR_REACH`] words before a repair marker
-/// (the reparandum, "the blue **no** the green"). `true` = may drop.
-pub fn droppable(words: &[Word], table: &Table) -> Vec<bool> {
+/// Which words of `words` (the words of `text`) a correct cleanup may
+/// drop: hesitations, fillers, repair markers and up to [`REPAIR_REACH`]
+/// words before a repair marker (the reparandum, "the blue **no** the
+/// green"); after an alternative ("put it in the drive **or actually** email
+/// it") the reparandum is the clause back to the sentence start, at most
+/// [`CLAUSE_REACH`] words; a frame at the start of a sentence ("what I
+/// wanted to say is …", the owner's lead-in rule). `true` = may drop.
+pub fn droppable(text: &str, words: &[Word], table: &Table) -> Vec<bool> {
     let mut drop = vec![false; words.len()];
+    // Index of the first word of the current sentence.
+    let mut sentence = 0;
+    // No word of the sentence so far is content (only hesitations, fillers).
+    let mut at_start = true;
     let mut i = 0;
     while i < words.len() {
+        if i > 0 && ends_sentence(&text[words[i - 1].end..words[i].start]) {
+            sentence = i;
+            at_start = true;
+        }
         if let Some(n) = phrase_at(words, i, &table.repairs) {
             for d in drop.iter_mut().skip(i).take(n) {
                 *d = true;
             }
-            for d in drop.iter_mut().take(i).skip(i.saturating_sub(REPAIR_REACH)) {
+            let after_or = i > 0 && table.alternatives.contains(&words[i - 1].text);
+            let from = if after_or {
+                sentence.max(i.saturating_sub(CLAUSE_REACH))
+            } else {
+                i.saturating_sub(REPAIR_REACH)
+            };
+            for d in drop.iter_mut().take(i).skip(from) {
                 *d = true;
             }
+            at_start = false;
             i += n;
-        } else if let Some(n) =
-            phrase_at(words, i, &table.hesitations).or_else(|| phrase_at(words, i, &table.fillers))
+        } else if let Some(n) = phrase_at(words, i, &table.hesitations)
+            .or_else(|| phrase_at(words, i, &table.fillers))
+            .or_else(|| {
+                at_start
+                    .then(|| phrase_at(words, i, &table.frames))
+                    .flatten()
+            })
         {
             for d in drop.iter_mut().skip(i).take(n) {
                 *d = true;
             }
             i += n;
         } else {
+            at_start = false;
             i += 1;
         }
     }
     drop
 }
 
+/// The text between two words ends a sentence (or a line).
+fn ends_sentence(gap: &str) -> bool {
+    gap.contains(['.', '!', '?', '\n', '。', '！', '？'])
+}
+
 /// How far back a repair may reach.
 pub const REPAIR_REACH: usize = 4;
+
+/// How far back a repair after "or" may reach (its clause).
+pub const CLAUSE_REACH: usize = 10;
 
 /// The content words of `text` a cleanup must keep: words that are not
 /// stopwords and not droppable (see [`droppable`]), first occurrence each.
 pub fn required_words(text: &str, table: &Table) -> Vec<String> {
     let ws = words(text);
-    let drop = droppable(&ws, table);
+    let drop = droppable(text, &ws, table);
     let mut seen = HashSet::new();
     ws.iter()
         .zip(drop)
@@ -374,6 +423,28 @@ mod tests {
         // Fillers and stopwords are never required.
         let req = required_words("um so basically the client wants a refund", en());
         assert_eq!(req, ["client", "wants", "refund"]);
+    }
+
+    #[test]
+    fn a_repair_after_or_takes_its_clause_and_frames_open_sentences() {
+        let req = required_words("put it in the shared drive or actually just email it", en());
+        assert_eq!(req, ["email"]);
+        // Not across a sentence end.
+        let req = required_words(
+            "book the hotel. put it in the drive or actually email it",
+            en(),
+        );
+        assert!(req.contains(&"book".to_string()) && req.contains(&"hotel".to_string()));
+        // Frames: at a sentence start (after fillers) only.
+        let req = required_words("so um what I wanted to say is the demo works", en());
+        assert_eq!(req, ["demo", "works"]);
+        let req = required_words("ok. What I wanted to say is the demo works", en());
+        assert_eq!(req, ["demo", "works"]);
+        let req = required_words("he asked what I wanted to say is it done", en());
+        assert!(req.contains(&"wanted".to_string()) && req.contains(&"say".to_string()));
+        let fr = TABLES.for_language(Some("fr"));
+        let req = required_words("ce que je voulais dire c'est que la démo marche", fr);
+        assert!(!req.contains(&"voulais".to_string()) && req.contains(&"démo".to_string()));
     }
 
     #[test]
