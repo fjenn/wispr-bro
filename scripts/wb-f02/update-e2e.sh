@@ -56,8 +56,15 @@ IDENTITY="${WB_SIGNING_IDENTITY:-Developer ID Application: Finn Jennen (446XT983
 NAME="Wispr Bro F02 Check"
 ID="com.wisprbro.f02check"
 mkdir -p "$OUT"
-OUT="$(cd "$OUT" && pwd)"
+OUT="$(cd "$OUT" && pwd -P)"
 cd "$ROOT"
+# Two runs share the port and the bundle identifier, so a second one would
+# quietly talk to the first one's feed and through its single-instance
+# handler; refuse instead of producing mixed results.
+if lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1; then
+  echo "port $PORT is already in use (stop the other run or set F02_PORT)" >&2
+  exit 1
+fi
 
 A="$(bun -e "console.log(require('./src-tauri/tauri.fork.conf.json').version)")"
 B="$(bun -e "const v='$A';const m=v.match(/^(.*\\.)(\\d+)$/);console.log(m?m[1]+(+m[2]+1):v+'-alpha.1')")"
