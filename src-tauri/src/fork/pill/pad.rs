@@ -13,7 +13,8 @@
 //! a "Scratchpad" tooltip in the label pill's place and style. A click
 //! opens the Scratchpad without taking focus from the frontmost app.
 //! Size changes run on the bar's spring, at once under Reduce Motion.
-//! Layout: [`placement::pad_layout`].
+//! Layout: [`placement::pad_layout`]. The bar reads the pointer for both
+//! panels: the bar, the gap and the circle hover as one (`hover.rs`).
 
 use std::cell::{Cell, RefCell};
 
@@ -49,7 +50,14 @@ struct Bar {
 
 pub struct PadIvars {
     bar: Cell<Option<Bar>>,
+    /// The pointer is over the circle's own window (its tooltip shows).
     hover: Cell<bool>,
+    /// The bar group is hovered (`hover.rs`) and the circle, left for the
+    /// bar or the gap, keeps its hover size until the group shrinks.
+    hold: Cell<bool>,
+    /// The bar reads the pointer for both (one hover state); without it the
+    /// circle hovers on its own.
+    on_pointer: RefCell<Option<std::rc::Rc<dyn Fn()>>>,
     rtl: Cell<bool>,
     /// Tooltip / VoiceOver name and help.
     texts: RefCell<(String, String)>,
@@ -98,12 +106,12 @@ define_class!(
 
         #[unsafe(method(mouseEntered:))]
         fn mouse_entered(&self, _event: &NSEvent) {
-            self.set_hover(true);
+            self.pointer_changed(true);
         }
 
         #[unsafe(method(mouseExited:))]
         fn mouse_exited(&self, _event: &NSEvent) {
-            self.set_hover(false);
+            self.pointer_changed(false);
         }
 
         #[unsafe(method(mouseDown:))]
@@ -157,6 +165,8 @@ impl PadView {
         let this = Self::alloc(mtm).set_ivars(PadIvars {
             bar: Cell::new(None),
             hover: Cell::new(false),
+            hold: Cell::new(false),
+            on_pointer: RefCell::new(None),
             rtl: Cell::new(false),
             texts: RefCell::new((String::new(), String::new())),
             hover_morph: Cell::new(None),
@@ -193,6 +203,14 @@ impl PadView {
         Rect::new(f.origin.x, f.origin.y, f.size.width, f.size.height).contains(p.x, p.y)
     }
 
+    fn pointer_changed(&self, entered: bool) {
+        let handler = self.ivars().on_pointer.borrow().clone();
+        match handler {
+            Some(f) => f(),
+            None => self.set_hover(entered),
+        }
+    }
+
     fn set_hover(&self, hover: bool) {
         if self.ivars().hover.replace(hover) == hover {
             return;
@@ -214,7 +232,7 @@ impl PadView {
     /// The diameter the circle heads for: the hover height while hovered,
     /// else as tall as the bar's capsule (never more than the hover height).
     fn target_d(&self) -> f64 {
-        if self.ivars().hover.get() {
+        if self.ivars().hover.get() || self.ivars().hold.get() {
             return geometry::HOVER_H;
         }
         let h = self
@@ -406,6 +424,41 @@ impl Pad {
         &self.panel
     }
 
+    /// The circle's window (global), while it is on screen.
+    pub fn window_rect(&self) -> Option<Rect> {
+        if !self.panel.isVisible() {
+            return None;
+        }
+        let f = self.panel.frame();
+        Some(Rect::new(
+            f.origin.x,
+            f.origin.y,
+            f.size.width,
+            f.size.height,
+        ))
+    }
+
+    /// The circle's enter/exit goes to `f` (the bar's hover check).
+    pub fn on_pointer(&self, f: impl Fn() + 'static) {
+        *self.view.ivars().on_pointer.borrow_mut() = Some(std::rc::Rc::new(f));
+    }
+
+    /// The bar's pointer reading: `over` the circle's window, and whether
+    /// the bar group is hovered. A circle the pointer leaves for the rest
+    /// of a hovered group keeps its hover size (no shrink and regrow on
+    /// the way to the bar); it follows the bar again once the group ends.
+    pub fn set_pointer(&self, over: bool, group: bool) {
+        let iv = self.view.ivars();
+        let was_hover = iv.hover.get();
+        let hold = group && (iv.hold.get() || (was_hover && !over));
+        let hold_changed = iv.hold.replace(hold) != hold;
+        if was_hover != over {
+            self.view.set_hover(over);
+        } else if hold_changed {
+            self.view.relayout();
+        }
+    }
+
     pub fn set_texts(&self, label: &str, help: &str) {
         let next = (label.to_string(), help.to_string());
         if *self.view.ivars().texts.borrow() != next {
@@ -474,6 +527,7 @@ impl Pad {
             self.panel.orderOut(None);
         }
         self.view.ivars().hover.set(false);
+        self.view.ivars().hold.set(false);
         self.view.ivars().hover_morph.set(None);
     }
 

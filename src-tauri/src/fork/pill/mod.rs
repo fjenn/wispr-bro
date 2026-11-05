@@ -34,10 +34,13 @@ pub mod accessibility;
 #[cfg(target_os = "macos")]
 pub(crate) mod activation;
 pub mod geometry;
+pub mod hover;
 pub mod levels;
 pub mod model;
 #[cfg(target_os = "macos")]
 mod native;
+#[cfg(target_os = "macos")]
+mod outside;
 #[cfg(target_os = "macos")]
 mod pad;
 #[cfg(target_os = "macos")]

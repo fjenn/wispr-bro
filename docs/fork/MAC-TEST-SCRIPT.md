@@ -3237,3 +3237,15 @@ test profile (never the owner's data dir); network on.
 - **ST.3** Fresh identity, Dutch only: the practice screen shows "Getting your speech model ready", MB of 739, minutes left that count down, then "Checking the download…" (no 99 % sitting still); Continue works meanwhile; a practice take shows "Your words will appear here…" and fills in Dutch when ready. The suggested sentence is Dutch ("Hoi Sam, …").
 - **ST.4** Fresh identity, French + Dutch: whisper-base first, French practice sentence; a Dutch take (Handy language Dutch) waits for the full model.
 - **ST.5** Celebration step: "Take the typing test" → test → Recalculate returns to the celebration, the typing bar reads "Your typing" with the measured speed and the multiple updates; the confetti does not fire again; "Retake the typing test" now. Time saved: slider shows "4 hours a week" on a fresh profile, the number shows at once, no test button.
+
+## BH: hints dismissed by a click outside, one hover across the bar and the Scratchpad circle (`fix/barhover`, queued for the Mac wave)
+
+Test identity with "Scratchpad on the bar" on; the owner's running Wispr Bro stays untouched. Mouse moves and clicks by script (`cliclick` or a CGEvent helper), screenshots with `screencapture -l` of the bar's and the circle's windows; no audio.
+
+- **BH.1** Hover the bar (hint bubble grows), then move the pointer away without the tracking area seeing it leave (warp it by CGEvent to another app's window) and click there: the bubble shrinks at once, the click reaches that app (its window takes the click, focus as before), Wispr Bro is not activated. Same with a right click.
+- **BH.2** Click in the Hub while the bar's bubble is shown (warp as in BH.1): the bubble shrinks; the Hub control gets the click.
+- **BH.3** S-30 spotlight on (`WISPRBRO_S30_SPOTLIGHT=email`): a click anywhere but the bar ends it (log `spotlight: off (ClickedOutside)`), the click reaches the app below; a click on the bar starts a take and leaves the spotlight on. Esc still ends it.
+- **BH.4** Glide left → right at 1 pt per 4 ms from the hovered bar's centre to the circle's centre at the circle's mid-height: the bar keeps its bubble the whole way (frames of the bar's window never shrink), the circle stays 34 pt and moves not at all, its "Scratchpad" tooltip appears only once the pointer is over the circle's window. A click there opens the Scratchpad.
+- **BH.5** Glide right → left along the bar's line from the circle (bar at rest) to the bar's centre: the bar grows on entering it, the circle stays 34 pt (no shrink-and-regrow) and its tooltip fades; glide back to the moved circle: no shrink.
+- **BH.6** BH.4/BH.5 in Arabic (circle on the left) and with the bar dragged to the right display edge (circle flipped to the left).
+- **BH.7** Leave the group upwards from the gap: the bar and circle shrink ~150 ms later (not at once); come back within 100 ms: no shrink.

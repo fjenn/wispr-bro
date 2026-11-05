@@ -47,6 +47,8 @@ use objc2_app_kit::{
 use objc2_foundation::{NSArray, NSDictionary, NSObject, NSPoint, NSRect, NSSize, NSString};
 
 use super::geometry::{self, Fit, Shape};
+use super::hover::{self, Group};
+use super::outside::{self, Hint};
 use super::pad::Pad;
 use super::placement::{self, Anchor, Rect, Screen};
 
@@ -96,7 +98,11 @@ struct Drag {
 
 pub struct ViewIvars {
     mode: Cell<Mode>,
+    /// The hover bubble is shown: the bar group's hover ([`hover::Group`],
+    /// the bar, the gap and the Scratchpad circle hover as one).
     hover: Cell<bool>,
+    group: Cell<Group>,
+    hover_poll_pending: Cell<bool>,
     scratchpad_enabled: Cell<bool>,
     rtl: Cell<bool>,
     texts: RefCell<Texts>,
@@ -196,21 +202,18 @@ define_class!(
 
         #[unsafe(method(mouseEntered:))]
         fn mouse_entered(&self, _event: &NSEvent) {
-            if self.ivars().mode.get() == Mode::Rest && !self.ivars().hover.get() {
-                self.ivars().hover.set(true);
-                self.relayout();
-            }
+            self.hover_check();
         }
 
         #[unsafe(method(mouseExited:))]
         fn mouse_exited(&self, _event: &NSEvent) {
-            if self.ivars().drag.borrow().is_some() {
-                return; // keep the bubble while dragging past its edge
-            }
-            if self.ivars().hover.get() {
-                self.ivars().hover.set(false);
-                self.relayout();
-            }
+            self.hover_check();
+        }
+
+        #[unsafe(method(hoverPoll:))]
+        fn hover_poll(&self, _sender: Option<&AnyObject>) {
+            self.ivars().hover_poll_pending.set(false);
+            self.hover_check();
         }
 
         #[unsafe(method(mouseDown:))]
@@ -283,10 +286,7 @@ define_class!(
                 x_frac: (!centred).then(|| placement::x_frac(&screen, anchor.centre_x)),
             });
             // The pointer may have left the bubble during the drag.
-            if !self.mouse_inside() && self.ivars().hover.get() {
-                self.ivars().hover.set(false);
-                self.relayout();
-            }
+            self.hover_check();
         }
 
         #[unsafe(method(rightMouseDown:))]
@@ -359,6 +359,8 @@ impl RestingView {
         let this = Self::alloc(mtm).set_ivars(ViewIvars {
             mode: Cell::new(Mode::Rest),
             hover: Cell::new(false),
+            group: Cell::new(Group::default()),
+            hover_poll_pending: Cell::new(false),
             scratchpad_enabled: Cell::new(false),
             rtl: Cell::new(false),
             texts: RefCell::new(Texts::default()),
@@ -396,13 +398,110 @@ impl RestingView {
         view
     }
 
-    fn mouse_inside(&self) -> bool {
-        let Some(window) = self.window() else {
-            return false;
-        };
+    /// The bar's window (global), while it is on screen.
+    fn window_rect(&self) -> Option<Rect> {
+        let window = self.window().filter(|w| w.isVisible())?;
         let f = window.frame();
-        let p = NSEvent::mouseLocation();
-        Rect::new(f.origin.x, f.origin.y, f.size.width, f.size.height).contains(p.x, p.y)
+        Some(Rect::new(
+            f.origin.x,
+            f.origin.y,
+            f.size.width,
+            f.size.height,
+        ))
+    }
+
+    /// The Scratchpad circle's window (global), while it is on screen.
+    fn pad_rect(&self) -> Option<Rect> {
+        self.ivars()
+            .pad
+            .borrow()
+            .as_ref()
+            .and_then(Pad::window_rect)
+    }
+
+    /// Whether `(x, y)` is in the bar group (a click there is the bar's).
+    fn in_group(&self, x: f64, y: f64) -> bool {
+        let pad = self.pad_rect();
+        match self.window_rect() {
+            Some(bar) => hover::group_contains(&bar, pad.as_ref(), x, y),
+            None => pad.is_some_and(|p| p.contains(x, y)),
+        }
+    }
+
+    /// Reads the pointer and updates the group's hover and the circle's
+    /// own (its tooltip): on the tracking areas' enter/exit, and polled
+    /// while the group is grown and the pointer is off the bar itself.
+    fn hover_check(&self) {
+        let (x, y) = cursor();
+        let now = now_ms();
+        let bar = self.window_rect();
+        let pad_rect = self.pad_rect();
+        let over_pad = pad_rect.is_some_and(|p| p.contains(x, y));
+        let mut group = self.ivars().group.get();
+        let mut next = None;
+        if self.ivars().mode.get() == Mode::Rest {
+            let dragging = self.ivars().drag.borrow().is_some();
+            let over_bar = dragging || bar.is_some_and(|b| b.contains(x, y));
+            let inside = bar.is_some_and(|b| hover::group_contains(&b, pad_rect.as_ref(), x, y));
+            group.pointer(over_bar, inside, now);
+            next = group.next_check(over_bar, now);
+        } else {
+            group.dismiss();
+        }
+        self.ivars().group.set(group);
+        if let Some(pad) = self.ivars().pad.borrow().as_ref() {
+            pad.set_pointer(over_pad, group.grown());
+        }
+        self.apply_hover(group.grown(), over_pad);
+        if let Some(at) = next {
+            if !self.ivars().hover_poll_pending.replace(true) {
+                let delay = ((at - now).max(1.0)) / 1000.0;
+                // SAFETY: `hoverPoll:` is defined on this class with the
+                // one-object-argument signature; the run loop retains the
+                // view until the call.
+                unsafe {
+                    let _: () = msg_send![
+                        self,
+                        performSelector: sel!(hoverPoll:),
+                        withObject: std::ptr::null::<AnyObject>(),
+                        afterDelay: delay
+                    ];
+                }
+            }
+        }
+    }
+
+    /// Shows or hides the hover bubble; a click outside dismisses it (and
+    /// the circle's tooltip) while either is shown.
+    fn apply_hover(&self, grown: bool, over_pad: bool) {
+        if self.ivars().hover.replace(grown) != grown {
+            self.relayout();
+        }
+        if grown || over_pad {
+            let weak = objc2::rc::Weak::new(self);
+            outside::open(Hint::Hover, move || {
+                if let Some(view) = weak.load() {
+                    view.dismiss_hover();
+                }
+            });
+        } else {
+            outside::close(Hint::Hover);
+        }
+    }
+
+    /// The hover bubble and the circle's tooltip go at once (a click
+    /// outside, the bar leaving rest).
+    fn dismiss_hover(&self) {
+        let mut group = self.ivars().group.get();
+        group.dismiss();
+        self.ivars().group.set(group);
+        if let Some(pad) = self.ivars().pad.borrow().as_ref() {
+            pad.set_pointer(false, false);
+        }
+        if self.ivars().hover.replace(false) {
+            self.relayout();
+        }
+        outside::close(Hint::Hover);
     }
 
     fn hover_text(&self) -> String {
@@ -770,7 +869,17 @@ impl Resting {
         let panel = bar_panel(mtm, rect);
         let view = RestingView::new(mtm, rect, on_event.clone());
         panel.setContentView(Some(&view));
-        *view.ivars().pad.borrow_mut() = Some(Pad::new(mtm, on_event));
+        let pad = Pad::new(mtm, on_event);
+        // The circle's enter/exit is read by the bar (one hover state).
+        let weak = objc2::rc::Weak::from_retained(&view);
+        pad.on_pointer(move || {
+            if let Some(view) = weak.load() {
+                view.hover_check();
+            }
+        });
+        *view.ivars().pad.borrow_mut() = Some(pad);
+        let weak = objc2::rc::Weak::from_retained(&view);
+        outside::set_inside(move |x, y| weak.load().is_some_and(|v| v.in_group(x, y)));
         Resting { panel, view }
     }
 
@@ -860,8 +969,8 @@ impl Resting {
             }
             self.view.ivars().mode.set(mode);
             if mode != Mode::Rest {
-                self.view.ivars().hover.set(false);
                 *self.view.ivars().drag.borrow_mut() = None;
+                self.view.dismiss_hover();
             }
             self.view.relayout();
         }
@@ -879,6 +988,7 @@ impl Resting {
         if self.panel.isVisible() {
             self.panel.orderOut(None);
             self.view.sync_pad();
+            self.view.dismiss_hover();
         }
     }
 
