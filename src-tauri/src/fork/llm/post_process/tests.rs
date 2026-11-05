@@ -834,3 +834,74 @@ mod styles {
         }
     }
 }
+
+/// Answers Medium requests with `medium` and Light ones with `light`.
+struct ByLevel {
+    medium: &'static str,
+    light: &'static str,
+    levels: StdMutex<Vec<&'static str>>,
+}
+
+impl Engine for ByLevel {
+    async fn complete(
+        &self,
+        request: ChatRequest,
+        _timeout: Duration,
+    ) -> Result<String, EngineError> {
+        let medium = request.system.contains("LEVEL MEDIUM");
+        self.levels
+            .lock()
+            .unwrap()
+            .push(if medium { "medium" } else { "light" });
+        reply(if medium { self.medium } else { self.light })
+    }
+}
+
+/// rc9: a Medium take carries the Medium instructions, and its answer
+/// differs from Light's when the model tightens.
+#[tokio::test]
+async fn medium_asks_for_the_tighter_text() {
+    let e = ByLevel {
+        medium: "The onboarding flow is live, and the feedback is really good.",
+        light: "The onboarding flow is basically live, and the feedback is good, really good.",
+        levels: StdMutex::new(Vec::new()),
+    };
+    let input = "um the onboarding flow is basically live and the feedback is good really good";
+    let medium = clean(&e, &req(input, CleanupLevel::Medium)).await;
+    let light = clean(&e, &req(input, CleanupLevel::Light)).await;
+    assert_eq!(
+        medium.text,
+        "The onboarding flow is live, and the feedback is really good."
+    );
+    assert_eq!(
+        light.text,
+        "The onboarding flow is basically live, and the feedback is good, really good."
+    );
+    assert_ne!(medium.text, light.text);
+}
+
+/// rc9: a Medium reply the guards reject (real content dropped) falls back
+/// to Light's cleanup, never to the raw take with its fillers.
+#[tokio::test]
+async fn rejected_medium_falls_back_to_light() {
+    let e = ByLevel {
+        medium: "I'm late.",
+        light: "Lol, yeah, that was so funny. I'm gonna be ten minutes late, sorry.",
+        levels: StdMutex::new(Vec::new()),
+    };
+    let c = clean(
+        &e,
+        &req(
+            "lol yeah that was so funny um I'm gonna be ten minutes late sorry",
+            CleanupLevel::Medium,
+        ),
+    )
+    .await;
+    assert_eq!(
+        c.text,
+        "Lol, yeah, that was so funny. I'm gonna be ten minutes late, sorry."
+    );
+    assert_eq!(c.outcome, CleanupOutcome::Applied);
+    assert_eq!(*e.levels.lock().unwrap(), ["medium", "light"]);
+    assert_eq!(c.chunks_applied(), 1);
+}

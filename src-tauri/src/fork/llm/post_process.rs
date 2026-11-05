@@ -943,6 +943,26 @@ pub async fn clean_within<E: Engine>(
         }
         let timeout = deadline::request(core).min(budget_left(started));
         let mut trace = ask(engine, req, &system, core, timeout).await;
+        // rc9: Medium may reword more than its guards allow (it drops a
+        // phrase of real content); a rejected Medium reply then falls back
+        // to Light's cleanup, not to the raw take with its fillers.
+        if req.level == CleanupLevel::Medium
+            && trace.verdict.as_ref().is_some_and(|v| !v.accepted())
+            && !trace.only_lines_moved()
+        {
+            let left = deadline::request(core).min(budget_left(started));
+            if !left.is_zero() {
+                let light = Request {
+                    level: CleanupLevel::Light,
+                    ..req.clone()
+                };
+                let retry = ask(engine, &light, &system_prompt(&light), core, left).await;
+                if retry.applied() {
+                    trace.superseded = true;
+                    traces.push(std::mem::replace(&mut trace, retry));
+                }
+            }
+        }
         if trace.only_lines_moved() && block.len() > 1 {
             // The model kept the words but joined the lines: put the
             // breaks back where the input had them, then guard again.
@@ -1396,8 +1416,13 @@ pub fn apply_style(style: &StyleDecision, text: String, keep: &[String]) -> Stri
         "style: {:?} for {} ({})",
         preset,
         style.group.map_or("?", StyleGroup::as_str),
-        if styled == text {
-            "no change"
+        // Formal is the cleaned text as it is (its capitals and punctuation);
+        // the others found nothing to change when a take already fits
+        // (no comma, no final period).
+        if preset == StylePreset::Formal {
+            "Formal keeps the cleaned text"
+        } else if styled == text {
+            "nothing to change"
         } else {
             "applied"
         }
