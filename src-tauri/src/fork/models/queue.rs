@@ -145,6 +145,15 @@ pub fn recover(conn: &Connection, entries: &[HistoryEntry]) -> Result<Vec<Take>,
 /// Starts every saved waiting take in recording order. Audio and its History
 /// row necessarily existed before this point.
 pub fn start_ready(conn: &mut Connection) -> Result<Vec<Take>, DbError> {
+    start_ready_where(conn, |_| true)
+}
+
+/// [`start_ready`] for the takes `keep` allows; the others stay waiting
+/// (takes that wait for the full model behind a partial starter, DEC-52).
+pub fn start_ready_where(
+    conn: &mut Connection,
+    keep: impl Fn(&Take) -> bool,
+) -> Result<Vec<Take>, DbError> {
     let tx = conn.transaction()?;
     let started = {
         let mut stmt = tx.prepare(&format!(
@@ -153,6 +162,9 @@ pub fn start_ready(conn: &mut Connection) -> Result<Vec<Take>, DbError> {
         ))?;
         let rows = stmt.query_map([], read_take)?;
         rows.collect::<Result<Vec<_>, _>>()?
+            .into_iter()
+            .filter(|t| keep(t))
+            .collect::<Vec<_>>()
     };
     for take in &started {
         tx.execute(
@@ -255,6 +267,28 @@ mod tests {
     use super::*;
     use crate::fork::db::handy::fake::entry;
     use crate::fork::db::ForkDb;
+
+    #[test]
+    fn takes_for_the_full_model_stay_waiting_behind_a_partial_starter() {
+        let dir = tempfile::tempdir().unwrap();
+        let db = ForkDb::in_dir(dir.path());
+        db.with_conn(|c| {
+            for (n, name) in ["practice.wav", "dutch.wav"].iter().enumerate() {
+                enqueue(c, name, 1_000 + n as i64)?;
+                bind_entry(c, name, n as i64 + 1)?;
+            }
+            Ok(())
+        })
+        .unwrap();
+        let started = db
+            .with_conn(|c| start_ready_where(c, |t| t.file_name == "practice.wav"))
+            .unwrap();
+        assert_eq!(started.len(), 1);
+        assert_eq!(started[0].file_name, "practice.wav");
+        let rest = db.with_conn(start_ready).unwrap();
+        assert_eq!(rest.len(), 1);
+        assert_eq!(rest[0].file_name, "dutch.wav");
+    }
 
     #[test]
     fn offline_takes_survive_relaunch_and_finish_as_one_ordered_batch() {

@@ -507,3 +507,54 @@ fn whisper_base_never_serves_dutch() {
         }
     }
 }
+
+/// rc9 owner fix: the first model may be a partial starter (English +
+/// Dutch → parakeet-110m), so the full pick that follows it must hear every
+/// language, must not be the starter, and the starter must be small.
+#[test]
+fn the_full_model_after_a_starter_hears_every_language() {
+    use crate::fork::models::starter::{is_partial, pick as first, STARTERS};
+    use Tier::*;
+    let starters = STARTERS.as_ref().expect("the starter table loads");
+    let cases: [(&[&str], &str, bool); 4] = [
+        (&["en", "nl"], P110, true),
+        (&["en"], P110, false),
+        (&["nl"], V3, false),
+        (&["fr", "nl"], BASE, true),
+    ];
+    for (l, starter, partial) in cases {
+        let s = first(starters, &langs(l));
+        assert_eq!(s.catalog_id, starter, "{l:?}");
+        assert_eq!(is_partial(s, &langs(l)), partial, "{l:?}");
+        if partial {
+            assert!(s.is_starter_sized(), "{l:?}");
+        }
+        for m in [
+            mac(1, Base, 8),
+            mac(3, Max, 36),
+            mac(5, Max, 128),
+            intel(16),
+        ] {
+            let v = V::new(m.clone(), l);
+            let Some(d) = v.decide() else { continue };
+            let pin = table().pin(&d.model).expect("pinned");
+            for lang in l {
+                assert!(
+                    pin.languages.iter().any(|h| h == lang),
+                    "{l:?} on {m:?}: {} does not hear {lang}",
+                    d.model
+                );
+            }
+            if partial {
+                assert_ne!(d.model, starter, "{l:?} on {m:?}");
+            }
+            if l.contains(&"nl") {
+                assert!(
+                    d.model == V3 || d.model == TURBO,
+                    "{l:?} on {m:?}: {}",
+                    d.model
+                );
+            }
+        }
+    }
+}

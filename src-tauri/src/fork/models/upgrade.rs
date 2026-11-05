@@ -124,6 +124,20 @@ static PAUSED_UNTIL_MS: AtomicI64 = AtomicI64::new(0);
 /// How long a stopped background download rests.
 pub const PAUSE_MS: i64 = 30 * 60 * 1000;
 
+/// Whether the policy is still bringing a model after the selection: it
+/// chooses automatically and has not settled. A partial starter holds back
+/// takes in languages it does not hear only while this holds (otherwise a
+/// pinned starter, or a Mac where nothing better fits, would hold them
+/// forever).
+pub(super) fn full_model_coming<R: Runtime>(app: &AppHandle<R>) -> bool {
+    state(app, cleanup::KEY_PINNED).is_none() && lock_status().phase != PolicyPhase::Settled
+}
+
+/// The policy's phase now (the bar's status overlays a held take's wait).
+pub(super) fn phase() -> PolicyPhase {
+    lock_status().phase
+}
+
 /// The languages or the automatic choice changed: a paused download may
 /// start again at once.
 pub(super) fn clear_pause() {
@@ -670,6 +684,8 @@ async fn swap(
         s.current_model = model_name(mm, to);
         s.next_model = None;
     });
+    // Takes held back by a partial starter (DEC-52) run on the new model.
+    super::setup::after_swap(app);
     clean_up(app, mm, table, to);
 }
 

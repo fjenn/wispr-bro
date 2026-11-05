@@ -63,6 +63,12 @@ pub struct ForkSpeechSetup {
     pub needed_mb: Option<u64>,
     /// Durable takes that wait for a model or are being transcribed.
     pub queued_takes: u32,
+    /// Time left of the download, from its measured speed (none until a few
+    /// seconds of it are measured).
+    pub eta_seconds: Option<u32>,
+    /// The user's languages the first model hears, in their order (the
+    /// practice text uses the first, so the practice take runs at once).
+    pub starter_languages: Vec<String>,
 }
 
 impl ForkSpeechSetup {
@@ -75,6 +81,8 @@ impl ForkSpeechSetup {
             problem: None,
             needed_mb: None,
             queued_takes: 0,
+            eta_seconds: None,
+            starter_languages: Vec::new(),
         }
     }
 }
@@ -122,12 +130,75 @@ pub(super) fn kick(k: Kick) {
 /// `fork_speech_setup_status`.
 pub fn status() -> ForkSpeechSetup {
     let mut s = lock_status().clone();
-    s.queued_takes = WRY_APP
-        .get()
-        .and_then(|app| app.try_state::<crate::fork::db::ForkDb>())
+    let Some(app) = WRY_APP.get() else {
+        return s;
+    };
+    s.queued_takes = app
+        .try_state::<crate::fork::db::ForkDb>()
         .and_then(|db| db.with_conn(|c| super::queue::pending(c)).ok())
         .unwrap_or(0);
+    let languages = user_languages(app);
+    if let Some(first) = target(app) {
+        s.starter_languages = super::starter::heard_by(first, &languages);
+    }
+    // A take held back by a partial starter waits for the full model: the
+    // bar and the practice screen show that download, never a silent wait.
+    if s.phase == SetupPhase::Ready && s.queued_takes > 0 && partial_starter(app).is_some() {
+        hold_view(&mut s, &lock_background(), super::upgrade::phase());
+    }
     s
+}
+
+/// The full model's download, as the bar's status shows it while a take
+/// waits for it.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+struct BackgroundProgress {
+    done: u64,
+    total: u64,
+    eta_seconds: Option<u32>,
+    verifying: bool,
+}
+
+static BACKGROUND_PROGRESS: Mutex<BackgroundProgress> = Mutex::new(BackgroundProgress {
+    done: 0,
+    total: 0,
+    eta_seconds: None,
+    verifying: false,
+});
+
+fn lock_background() -> std::sync::MutexGuard<'static, BackgroundProgress> {
+    BACKGROUND_PROGRESS
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+}
+
+/// The status of a held take: the full model's download (or its check, or
+/// "getting ready" between them).
+fn hold_view(
+    s: &mut ForkSpeechSetup,
+    bg: &BackgroundProgress,
+    policy: super::upgrade::PolicyPhase,
+) {
+    use super::upgrade::PolicyPhase;
+    let downloading = policy == PolicyPhase::Downloading && !bg.verifying && bg.total > 0;
+    s.phase = if bg.verifying && policy == PolicyPhase::Downloading {
+        SetupPhase::Verifying
+    } else {
+        SetupPhase::Downloading
+    };
+    s.problem = None;
+    s.needed_mb = None;
+    if downloading {
+        s.percent = Some(percent_of(bg.done, bg.total));
+        s.downloaded_bytes = bg.done;
+        s.total_bytes = bg.total;
+        s.eta_seconds = bg.eta_seconds;
+    } else {
+        s.percent = None;
+        s.downloaded_bytes = 0;
+        s.total_bytes = 0;
+        s.eta_seconds = None;
+    }
 }
 
 /// `fork_speech_setup_retry` and the bar's Retry.
@@ -188,11 +259,31 @@ pub fn transcribe_take(
         // A live decode may have started at key-down (it has no model);
         // tear it down so the next take can start one.
         tm.cancel_stream();
-        queue_take(app, file_name);
+        // Takes queued before the first model: may a partial starter run it?
+        let ok = target(app).is_none_or(|first| {
+            !super::starter::needs_full_model(first, take_language(app).as_deref(), practice_take())
+        });
+        queue_take(app, file_name, ok);
         return Ok(crate::managers::transcription::Transcription {
             text: String::new(),
             language: None,
         });
+    }
+    // A partial starter (English + Dutch → parakeet-110m) never gets a take
+    // in a language it does not hear: it waits for the full model (DEC-52).
+    if let Some(starter) = partial_starter(app) {
+        if super::starter::needs_full_model(starter, take_language(app).as_deref(), practice_take())
+        {
+            log::info!(
+                "models: take waits for the full speech model (language not on the starter)"
+            );
+            tm.cancel_stream();
+            queue_take(app, file_name, false);
+            return Ok(crate::managers::transcription::Transcription {
+                text: String::new(),
+                language: None,
+            });
+        }
     }
     // The model may have been selected while this take recorded (it was
     // queued at key-down): load it now; the batch run waits for the load.
@@ -252,7 +343,57 @@ pub fn take_queued_outcome() -> bool {
     false
 }
 
-fn queue_take<R: Runtime>(app: &AppHandle<R>, file_name: &str) {
+/// The take's language when known before transcribing: Handy's language
+/// set to one language (not Auto).
+fn take_language(app: &AppHandle) -> Option<String> {
+    let l = crate::settings::get_settings(app).selected_language;
+    (!l.trim().is_empty() && l != "auto").then_some(l)
+}
+
+fn practice_take() -> bool {
+    crate::fork::onboarding::practice::take_is_practice(std::time::Instant::now())
+}
+
+/// WAV names of queued takes a partial starter may transcribe. In memory:
+/// after a relaunch they wait for the full model (the safe side).
+static STARTER_OK: Mutex<Vec<String>> = Mutex::new(Vec::new());
+
+fn lock_starter_ok() -> std::sync::MutexGuard<'static, Vec<String>> {
+    STARTER_OK.lock().unwrap_or_else(|e| e.into_inner())
+}
+
+/// The selected model when it is a partial starter for the user's
+/// languages and the full model is still coming (S-07b swaps it in).
+fn partial_starter(app: &AppHandle) -> Option<&'static super::starter::Pinned> {
+    let selected = crate::settings::get_settings(app).selected_model;
+    let starter = super::starter::STARTERS
+        .as_ref()?
+        .candidates
+        .iter()
+        .find(|c| c.handy_id() == selected)?;
+    (starter.is_starter_sized()
+        && super::starter::is_partial(starter, &user_languages(app))
+        && super::upgrade::full_model_coming(app))
+    .then_some(starter)
+}
+
+/// `upgrade::swap`: the full model loaded. Held takes run on it now.
+pub(super) fn after_swap(app: &AppHandle) {
+    lock_starter_ok().clear();
+    *lock_background() = BackgroundProgress::default();
+    drain(app);
+    emit(app);
+}
+
+/// `starter_ok`: a partial starter may transcribe it (else it waits for the
+/// full model).
+fn queue_take<R: Runtime>(app: &AppHandle<R>, file_name: &str, starter_ok: bool) {
+    if starter_ok {
+        let mut ok = lock_starter_ok();
+        if !ok.iter().any(|f| f == file_name) {
+            ok.push(file_name.to_owned());
+        }
+    }
     QUEUED_OUTCOMES.fetch_add(1, Ordering::AcqRel);
     if let Some(db) = app.try_state::<crate::fork::db::ForkDb>() {
         let now = chrono::Utc::now().timestamp_millis();
@@ -501,24 +642,94 @@ pub fn on_exit<R: Runtime>(app: &AppHandle<R>) {
 
 fn follow(id: Option<&str>) {
     *FOLLOWED.lock().unwrap_or_else(|e| e.into_inner()) = id.map(str::to_owned);
+    *lock_rate() = None;
+}
+
+/// The first progress sample of the followed transfer: when, and how many
+/// bytes were already there (a resumed download starts above zero).
+static RATE: Mutex<Option<(std::time::Instant, u64)>> = Mutex::new(None);
+
+fn lock_rate() -> std::sync::MutexGuard<'static, Option<(std::time::Instant, u64)>> {
+    RATE.lock().unwrap_or_else(|e| e.into_inner())
+}
+
+/// Seconds left at the speed measured since the transfer's first sample
+/// (`start` bytes then, `done` now, `elapsed_ms` between): none before 3 s
+/// or 1 MB of it, so a slow start never promises an hour.
+pub fn eta_seconds(start: u64, done: u64, total: u64, elapsed_ms: u64) -> Option<u32> {
+    let moved = done.saturating_sub(start);
+    if elapsed_ms < 3_000 || moved < 1_000_000 || total <= done {
+        return None;
+    }
+    let left = (total - done) as u128 * elapsed_ms as u128 / moved as u128 / 1000;
+    Some(left.clamp(1, u32::MAX as u128) as u32)
+}
+
+/// Rounded so the text does not flicker: 10 s steps under two minutes,
+/// whole minutes above.
+pub fn round_eta(secs: u32) -> u32 {
+    if secs < 120 {
+        secs.div_ceil(10) * 10
+    } else {
+        secs.div_ceil(60) * 60
+    }
+}
+
+fn eta_now(done: u64, total: u64) -> Option<u32> {
+    let mut rate = lock_rate();
+    let now = std::time::Instant::now();
+    match *rate {
+        // A new transfer (the counter went back): measure again.
+        Some((_, start)) if done < start => *rate = Some((now, done)),
+        None => *rate = Some((now, done)),
+        _ => {}
+    }
+    let (at, start) = (*rate)?;
+    eta_seconds(
+        start,
+        done,
+        total,
+        now.duration_since(at).as_millis() as u64,
+    )
+    .map(round_eta)
 }
 
 /// Progress of the followed download: the bar's status for the first model,
 /// the Models panel for a silent upgrade (S-07b).
 fn on_download_progress(done: u64, total: u64) {
     let percent = percent_of(done, total);
+    let eta = eta_now(done, total);
     let Some(app) = WRY_APP.get() else { return };
     if BACKGROUND.load(Ordering::Acquire) {
         super::upgrade::on_progress(app, percent);
+        let changed = {
+            let mut bg = lock_background();
+            let before = (percent_of(bg.done, bg.total), bg.eta_seconds);
+            *bg = BackgroundProgress {
+                done,
+                total,
+                eta_seconds: eta,
+                verifying: false,
+            };
+            before != (percent, eta)
+        };
+        // Only a held take's wait shows it (the practice screen, the bar).
+        if changed && partial_starter(app).is_some() {
+            emit(app);
+        }
         return;
     }
-    let before = lock_status().percent;
+    let before = {
+        let s = lock_status();
+        (s.percent, s.eta_seconds)
+    };
     let s = set_status(|s| {
         s.downloaded_bytes = done;
         s.total_bytes = total;
         s.percent = Some(percent);
+        s.eta_seconds = eta;
     });
-    if before != s.percent {
+    if before != (s.percent, s.eta_seconds) {
         emit(app);
     }
 }
@@ -632,6 +843,7 @@ fn become_ready(app: &AppHandle) {
         s.problem = None;
         s.needed_mb = None;
         s.percent = None;
+        s.eta_seconds = None;
     });
     emit(app);
     drain(app);
@@ -725,6 +937,7 @@ pub(super) async fn download_background(
 ) -> Background {
     BACKGROUND.store(true, Ordering::Release);
     BACKGROUND_FAILED.store(false, Ordering::Release);
+    *lock_background() = BackgroundProgress::default();
     let ok = download(app, mm, pinned, rx, Mode::Background).await;
     BACKGROUND.store(false, Ordering::Release);
     follow(None);
@@ -857,7 +1070,14 @@ async fn download(
                 }
             }
             Step::Verify => {
-                show(&|s| s.phase = SetupPhase::Verifying);
+                show(&|s| {
+                    s.phase = SetupPhase::Verifying;
+                    s.eta_seconds = None;
+                });
+                if !fg {
+                    lock_background().verifying = true;
+                    emit(app);
+                }
                 let ok = verify(mm, &id, pinned).await;
                 log::info!(
                     "models: checksum of {id}: {}",
@@ -875,6 +1095,7 @@ async fn download(
                 show(&|s| {
                     s.phase = SetupPhase::Waiting;
                     s.problem = problem;
+                    s.eta_seconds = None;
                 });
                 log::info!("models: next attempt in {} s", delay.as_secs());
                 let woke = wait_or_kick(app, mm, mode, delay, &id, rx).await;
@@ -1186,7 +1407,13 @@ fn drain(app: &AppHandle) {
     let Some(db) = app.try_state::<crate::fork::db::ForkDb>() else {
         return;
     };
-    let started = match db.with_conn(super::queue::start_ready) {
+    // Behind a partial starter only the takes it may transcribe start; the
+    // rest wait for the full model (`after_swap`).
+    let held_back = partial_starter(app).is_some();
+    let ok = lock_starter_ok().clone();
+    let started = match db.with_conn(|c| {
+        super::queue::start_ready_where(c, |t| !held_back || ok.contains(&t.file_name))
+    }) {
         Ok(started) => started,
         Err(e) => {
             log::warn!("models: could not start queued takes: {e}");
@@ -1272,6 +1499,67 @@ mod tests {
         assert_eq!(percent_of(100, 100), 99);
         assert_eq!(percent_of(200, 100), 99);
         assert_eq!(percent_of(135_373_279, 135_373_280), 99);
+    }
+
+    #[test]
+    fn the_eta_comes_from_the_measured_speed() {
+        // Too early, or too little moved: no promise.
+        assert_eq!(eta_seconds(0, 500_000, 739_000_000, 10_000), None);
+        assert_eq!(eta_seconds(0, 5_000_000, 739_000_000, 2_000), None);
+        // 10 MB in 4 s (2.5 MB/s): 729 MB left → 291.6 s.
+        assert_eq!(eta_seconds(0, 10_000_000, 739_000_000, 4_000), Some(291));
+        // A resumed download measures from where it resumed.
+        assert_eq!(
+            eta_seconds(400_000_000, 410_000_000, 739_000_000, 4_000),
+            Some(131)
+        );
+        assert_eq!(eta_seconds(0, 739_000_000, 739_000_000, 9_000), None);
+        assert_eq!(round_eta(1), 10);
+        assert_eq!(round_eta(41), 50);
+        assert_eq!(round_eta(119), 120);
+        assert_eq!(round_eta(131), 180);
+        assert_eq!(round_eta(291), 300);
+    }
+
+    #[test]
+    fn a_held_take_shows_the_full_download_never_ready() {
+        use super::super::upgrade::PolicyPhase;
+        let ready = || {
+            let mut s = ForkSpeechSetup::checking();
+            s.phase = SetupPhase::Ready;
+            s.queued_takes = 1;
+            s
+        };
+        let bg = BackgroundProgress {
+            done: 369_500_000,
+            total: 739_000_000,
+            eta_seconds: Some(120),
+            verifying: false,
+        };
+        let mut s = ready();
+        hold_view(&mut s, &bg, PolicyPhase::Downloading);
+        assert_eq!(s.phase, SetupPhase::Downloading);
+        assert_eq!(s.percent, Some(50));
+        assert_eq!(s.eta_seconds, Some(120));
+        // The checksum: "Checking the download", not a stuck 99 %.
+        let mut s = ready();
+        hold_view(
+            &mut s,
+            &BackgroundProgress {
+                verifying: true,
+                ..bg
+            },
+            PolicyPhase::Downloading,
+        );
+        assert_eq!(s.phase, SetupPhase::Verifying);
+        assert_eq!(s.percent, None);
+        // Before the policy decided, or between download and swap.
+        for p in [PolicyPhase::Checking, PolicyPhase::WaitingToSwap] {
+            let mut s = ready();
+            hold_view(&mut s, &bg, p);
+            assert_eq!(s.phase, SetupPhase::Downloading);
+            assert_eq!(s.percent, None);
+        }
     }
 
     #[test]

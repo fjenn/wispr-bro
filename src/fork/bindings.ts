@@ -2361,7 +2361,8 @@ first_use_choice: string | null;
  */
 typing_wpm: number | null; 
 /**
- * DEC-50: typing time per day, hours (default 2).
+ * DEC-50: typing time per day, hours (default 0.8: the onboarding
+ * slider's 4 h a week over five days, owner's rc9 call).
  */
 typing_hours_per_day: number; 
 /**
@@ -2448,7 +2449,17 @@ needed_mb: number | null;
 /**
  * Durable takes that wait for a model or are being transcribed.
  */
-queued_takes: number }
+queued_takes: number; 
+/**
+ * Time left of the download, from its measured speed (none until a few
+ * seconds of it are measured).
+ */
+eta_seconds: number | null; 
+/**
+ * The user's languages the first model hears, in their order (the
+ * practice text uses the first, so the practice take runs at once).
+ */
+starter_languages: string[] }
 /**
  * What the `fork-spotlight` page shows (event, and `fork_spotlight_state`
  * when the page loads). Also sent to the Hub, which shows "the hint is on

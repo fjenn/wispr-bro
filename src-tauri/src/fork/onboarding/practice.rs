@@ -90,6 +90,14 @@ pub fn on_record_start(self_in_front: bool, now: Instant) -> bool {
     s.take
 }
 
+/// Whether the take recording or transcribing now is a practice take
+/// (without consuming the mark): its text is in a language the first model
+/// hears, so a partial starter may transcribe it (`fork::models::setup`).
+pub fn take_is_practice(now: Instant) -> bool {
+    let s = state();
+    s.take && active(&s, now)
+}
+
 /// An ordinary (or command) take started: no mark.
 pub fn clear_take() {
     state().take = false;

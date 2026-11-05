@@ -6,16 +6,23 @@
 //! Which one comes from `catalog.fork.json` (the candidates in order of
 //! preference) and the languages the user speaks:
 //!
-//! 1. the first candidate that is usable for **every** language the user
-//!    speaks (so an English + Dutch speaker never gets an English-only
-//!    model, and nobody's Dutch goes through whisper-base, DEC-52);
-//! 2. else the first one usable for their first language;
-//! 3. else the last resort (whisper-base: 99 languages).
+//! 1. the first **small** candidate (under [`STARTER_CAP_BYTES`], §5.3) that
+//!    is usable for every language the user speaks;
+//! 2. else a **partial starter**: the small candidate usable for the first
+//!    of the user's languages that has one (the owner's rc9 install: English
+//!    and Dutch get parakeet-110m first, not 3.5 minutes of nothing). Takes
+//!    in a language it does not hear wait for the full model, which S-07b
+//!    downloads right after it ([`needs_full_model`], DEC-52: Dutch is never
+//!    transcribed with a weak model);
+//! 3. else the first candidate (any size) usable for every language;
+//! 4. else the first one usable for their first language;
+//! 5. else the last resort (whisper-base: 99 languages).
 //!
-//! With RS-09's table that gives: English → parakeet-110m (135 MB), French
-//! and the other whisper languages → whisper-base (85 MB), Dutch (alone or
-//! with others) → Parakeet TDT 0.6B v3 (740 MB, DEC-52's "no starter":
-//! takes are queued until it is ready).
+//! With RS-09's table that gives: English → parakeet-110m (90 MB), French
+//! and the other whisper languages → whisper-base (85 MB), English + Dutch
+//! → parakeet-110m (Dutch waits for Parakeet v3), French + Dutch →
+//! whisper-base (Dutch waits), Dutch alone → Parakeet TDT 0.6B v3 (740 MB,
+//! DEC-52's "no starter": takes are queued until it is ready).
 //!
 //! Pins (repository, revision, file, size, sha256) are read from Handy's
 //! bundled catalog (`catalog/catalog.json`), the same pinned upstream
@@ -62,7 +69,15 @@ impl Pinned {
         self.languages.iter().any(|l| l == language)
             && !self.unusable_for.iter().any(|l| l == language)
     }
+
+    /// Small enough to be a true starter (§5.3: ready within a minute).
+    pub fn is_starter_sized(&self) -> bool {
+        self.size < STARTER_CAP_BYTES
+    }
 }
+
+/// §5.3's starter cap: what downloads within the first-run budget.
+pub const STARTER_CAP_BYTES: u64 = 150_000_000;
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -229,26 +244,64 @@ pub fn user_languages(spoken: &[String], os_preferred: &[String]) -> Vec<String>
     out
 }
 
+/// No languages counts as English.
+fn or_english(languages: &[String]) -> std::borrow::Cow<'_, [String]> {
+    if languages.is_empty() {
+        std::borrow::Cow::Owned(vec!["en".to_string()])
+    } else {
+        std::borrow::Cow::Borrowed(languages)
+    }
+}
+
 /// The model to download first for these languages (rules in the module
 /// docs). No languages counts as English.
 pub fn pick<'a>(starters: &'a Starters, languages: &[String]) -> &'a Pinned {
-    let english = ["en".to_string()];
-    let languages = if languages.is_empty() {
-        &english[..]
-    } else {
-        languages
-    };
-    starters
-        .candidates
-        .iter()
-        .find(|c| languages.iter().all(|l| c.usable_for(l)))
+    let languages = or_english(languages);
+    let c = &starters.candidates;
+    let small = |p: &&Pinned| p.is_starter_sized();
+    c.iter()
+        .filter(small)
+        .find(|p| languages.iter().all(|l| p.usable_for(l)))
         .or_else(|| {
-            starters
-                .candidates
+            languages
                 .iter()
-                .find(|c| c.usable_for(&languages[0]))
+                .find_map(|l| c.iter().filter(small).find(|p| p.usable_for(l)))
         })
+        .or_else(|| c.iter().find(|p| languages.iter().all(|l| p.usable_for(l))))
+        .or_else(|| c.iter().find(|p| p.usable_for(&languages[0])))
         .unwrap_or(&starters.last_resort)
+}
+
+/// Whether `starter` is a partial one: some language the user speaks must
+/// wait for the full model.
+pub fn is_partial(starter: &Pinned, languages: &[String]) -> bool {
+    !or_english(languages).iter().all(|l| starter.usable_for(l))
+}
+
+/// The user's languages `starter` hears, in the user's order (the practice
+/// text uses the first, so the practice take can run on the starter).
+pub fn heard_by(starter: &Pinned, languages: &[String]) -> Vec<String> {
+    or_english(languages)
+        .iter()
+        .filter(|l| starter.usable_for(l))
+        .cloned()
+        .collect()
+}
+
+/// Whether a take must wait for the full model while the partial starter
+/// `starter` is selected. `take_language` is the take's language when it
+/// is known before transcribing (Handy's language set to one language);
+/// with Auto it is unknown, and only the onboarding practice take (whose
+/// text is in a language the starter hears) runs on the starter. Anything
+/// else waits: DEC-52, a weak model never gets Dutch.
+pub fn needs_full_model(starter: &Pinned, take_language: Option<&str>, practice: bool) -> bool {
+    match take_language
+        .map(base_language)
+        .filter(|l| !l.is_empty() && l != "auto")
+    {
+        Some(l) => !starter.usable_for(&l),
+        None => !practice,
+    }
 }
 
 #[cfg(test)]
@@ -344,13 +397,63 @@ mod tests {
     }
 
     #[test]
-    fn dutch_never_goes_through_whisper_base() {
+    fn dutch_alone_gets_no_starter() {
         assert_eq!(pick_id(&["nl"]), "parakeet-tdt-0.6b-v3");
-        assert_eq!(pick_id(&["en", "nl"]), "parakeet-tdt-0.6b-v3");
-        assert_eq!(pick_id(&["nl", "fr"]), "parakeet-tdt-0.6b-v3");
-        // Nothing hears Dutch and Japanese: the first language decides.
-        assert_eq!(pick_id(&["nl", "ja"]), "parakeet-tdt-0.6b-v3");
+        let s = pick(starters(), &langs(&["nl"]));
+        assert!(!is_partial(s, &langs(&["nl"])));
+    }
+
+    #[test]
+    fn a_second_language_with_a_starter_gets_a_partial_starter() {
+        // The owner's rc9 install: English + Dutch, in either order.
+        for l in [&["en", "nl"][..], &["nl", "en"][..]] {
+            assert_eq!(pick_id(l), "parakeet-tdt_ctc-110m", "{l:?}");
+            let s = pick(starters(), &langs(l));
+            assert!(s.is_starter_sized());
+            assert!(is_partial(s, &langs(l)));
+            assert_eq!(heard_by(s, &langs(l)), langs(&["en"]));
+        }
+        // French + Dutch: whisper-base for French, never for Dutch.
+        for l in [&["fr", "nl"][..], &["nl", "fr"][..]] {
+            assert_eq!(pick_id(l), "whisper-base", "{l:?}");
+            let s = pick(starters(), &langs(l));
+            assert!(is_partial(s, &langs(l)));
+            assert!(!s.usable_for("nl"));
+            assert_eq!(heard_by(s, &langs(l)), langs(&["fr"]));
+        }
+        // English + French: one small model hears both, not partial.
+        let s = pick(starters(), &langs(&["en", "fr"]));
+        assert!(!is_partial(s, &langs(&["en", "fr"])));
+        // The first language with a starter wins.
+        assert_eq!(pick_id(&["nl", "ja"]), "whisper-base");
         assert_eq!(pick_id(&["ja", "nl"]), "whisper-base");
+    }
+
+    #[test]
+    fn english_alone_is_never_partial() {
+        let s = pick(starters(), &langs(&["en"]));
+        assert!(!is_partial(s, &langs(&["en"])));
+        assert!(!is_partial(s, &[]));
+        assert_eq!(heard_by(s, &[]), langs(&["en"]));
+    }
+
+    #[test]
+    fn dutch_takes_wait_for_the_full_model() {
+        let s = pick(starters(), &langs(&["en", "nl"]));
+        // Known language.
+        assert!(needs_full_model(s, Some("nl"), false));
+        assert!(needs_full_model(s, Some("nl-NL"), true));
+        assert!(!needs_full_model(s, Some("en"), false));
+        assert!(!needs_full_model(s, Some("en-GB"), true));
+        // Auto: only the practice take (English text) uses the starter.
+        assert!(!needs_full_model(s, None, true));
+        assert!(!needs_full_model(s, Some("auto"), true));
+        assert!(needs_full_model(s, None, false));
+        assert!(needs_full_model(s, Some("auto"), false));
+        // French + Dutch: whisper-base never gets Dutch.
+        let s = pick(starters(), &langs(&["fr", "nl"]));
+        assert!(needs_full_model(s, Some("nl"), true));
+        assert!(!needs_full_model(s, Some("fr"), false));
     }
 
     #[test]
