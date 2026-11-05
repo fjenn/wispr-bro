@@ -2249,8 +2249,6 @@
       "listening": "Écoute… appuyez sur fn quand vous avez terminé.",
       "listening_fallback": "Écoute… appuyez sur Control et Option quand vous avez terminé.",
       "working": "Transcription…",
-      "settingUp": "Préparation…",
-      "settingUpPercent": "Préparation… {{percent}} %",
       "queuedNote": "Vos paroles sont conservées. Elles apparaîtront ici dès la fin de la configuration et figurent de toute façon dans l’Historique. Nous passerons à la suite automatiquement dans un instant.",
       "nothing": "Rien n’a été capté. Vérifiez que votre micro est activé et réessayez.",
       "filled": "Voici votre e-mail. Complétez-le ou continuez.",
@@ -2259,12 +2257,27 @@
         "to": "À",
         "recipient": "Sam",
         "subject": "Objet",
-        "subjectText": "Jeudi",
         "body": "Message",
-        "placeholder": "Essayez de dire : « Bonjour Sam, merci pour les notes. Peut-on se voir jeudi à dix heures ? »"
+        "trySaying": "Essayez de dire : « {{text}} »",
+        "willAppear": "Vos mots apparaîtront ici dès que le modèle vocal sera prêt."
       },
       "instructionCustom": "Appuyez deux fois rapidement sur {{keys}}, puis parlez. Appuyez de nouveau sur {{keys}} quand vous avez terminé.",
-      "listening_custom": "Écoute… appuyez sur {{keys}} quand vous avez terminé."
+      "listening_custom": "Écoute… appuyez sur {{keys}} quand vous avez terminé.",
+      "queued": "Enregistré. En attente du modèle vocal…",
+      "model": {
+        "title": "Préparation de votre modèle vocal",
+        "checking": "Vérification du téléchargement…",
+        "paused": "Téléchargement en pause. Nouvel essai dans un instant…",
+        "failed": "Impossible de télécharger le modèle vocal",
+        "underMinute": "moins d'une minute restante",
+        "minutesLeft_one": "environ {{count}} min restantes",
+        "minutesLeft_many": "environ {{count}} min restantes",
+        "minutesLeft_other": "environ {{count}} min restantes",
+        "bytes": "{{done}} sur {{total}} Mo",
+        "progressLabel": "Téléchargement du modèle vocal",
+        "body": "Cela n'arrive qu'une fois. Vous pouvez passer aux étapes suivantes ; ce que vous dictez maintenant attend et apparaît dès qu'il est prêt.",
+        "retry": "Réessayer"
+      }
     },
     "firstDictation": {
       "title": "C’est tout !",
@@ -2272,20 +2285,16 @@
       "lead": "Vous venez de dicter votre premier texte.",
       "typingLabel": "Frappe, en moyenne",
       "speakingLabel": "Parole, en moyenne",
-      "faster": "<n/>× <em>plus rapide</em>"
+      "faster": "<n/>× <em>plus rapide</em>",
+      "takeTest": "Faire le test de frappe",
+      "retakeTest": "Refaire le test de frappe",
+      "yourTypingLabel": "Votre frappe"
     },
     "timeSaved": {
       "headline_one": "La dictée pourrait vous faire gagner environ {{hours}} heure par semaine",
       "headline_many": "La dictée pourrait vous faire gagner environ {{hours}} d’heures par semaine",
       "headline_other": "La dictée pourrait vous faire gagner environ {{hours}} heures par semaine",
-      "intro": "Pour la plupart des gens, parler est plus rapide que taper. Faites un test de frappe de 30 secondes pour voir combien de temps vous pourriez gagner.",
-      "howFast": "À quelle vitesse tapez-vous ?",
-      "skipTest": "Passer le test",
-      "sliderLabel": "Combien de temps tapez-vous par jour ?",
-      "hoursPerDay_one": "{{hours}} heure par jour",
-      "hoursPerDay_many": "{{hours}} d’heures par jour",
-      "hoursPerDay_other": "{{hours}} heures par jour",
-      "takeTest": "Faire le test de frappe",
+      "sliderLabel": "Combien d'heures par semaine tapez-vous ?",
       "basisMeasured_one": "Sur la base de votre vitesse de frappe de {{wpm}} mot par minute et d’un débit de parole d’environ {{speaking}} mots par minute.",
       "basisMeasured_many": "Sur la base de votre vitesse de frappe de {{wpm}} de mots par minute et d’un débit de parole d’environ {{speaking}} mots par minute.",
       "basisMeasured_other": "Sur la base de votre vitesse de frappe de {{wpm}} mots par minute et d’un débit de parole d’environ {{speaking}} mots par minute.",
@@ -2296,7 +2305,9 @@
       "perWeek_one": "<n/> heure <em>par semaine</em>",
       "perWeek_many": "<n/> d’heures <em>par semaine</em>",
       "perWeek_other": "<n/> heures <em>par semaine</em>",
-      "retakeTest": "Refaire le test de frappe"
+      "hoursPerWeek_one": "{{hours}} heure par semaine",
+      "hoursPerWeek_many": "{{hours}} d’heures par semaine",
+      "hoursPerWeek_other": "{{hours}} heures par semaine"
     },
     "typing": {
       "title": "À quelle vitesse <em>tapez</em>-vous ?",

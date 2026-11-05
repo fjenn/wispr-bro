@@ -2249,8 +2249,6 @@
       "listening": "Escoltant… prem fn quan acabis.",
       "listening_fallback": "Escoltant… prem Control i Opció quan acabis.",
       "working": "Escrivint-ho…",
-      "settingUp": "Configurant…",
-      "settingUpPercent": "Configurant… {{percent}}%",
       "queuedNote": "Les teves paraules es conserven. Apareixeran aquí tan bon punt acabi la configuració i, en qualsevol cas, són a l'Historial. Continuarem automàticament d'aquí a un moment.",
       "nothing": "No s'ha rebut res. Comprova que el micròfon estigui activat i torna-ho a provar.",
       "filled": "Aquest és el teu correu. Afegeix-hi més o continua.",
@@ -2259,12 +2257,27 @@
         "to": "Per a",
         "recipient": "Sam",
         "subject": "Assumpte",
-        "subjectText": "Dijous",
         "body": "Missatge",
-        "placeholder": "Prova de dir: «Hola, Sam, gràcies per les notes. Podem quedar dijous a les deu?»"
+        "trySaying": "Prova de dir: «{{text}}»",
+        "willAppear": "Les teves paraules apareixeran aquí tan bon punt el model de veu estigui a punt."
       },
       "instructionCustom": "Prem {{keys}} dues vegades ràpidament i parla. Torna a prémer {{keys}} quan acabis.",
-      "listening_custom": "Escoltant… prem {{keys}} quan acabis."
+      "listening_custom": "Escoltant… prem {{keys}} quan acabis.",
+      "queued": "Desat. Esperant el model de veu…",
+      "model": {
+        "title": "Preparant el model de veu",
+        "checking": "Comprovant la baixada…",
+        "paused": "Baixada en pausa. Es tornarà a provar d'aquí a un moment…",
+        "failed": "No s'ha pogut baixar el model de veu",
+        "underMinute": "queda menys d'un minut",
+        "minutesLeft_one": "queden uns {{count}} min",
+        "minutesLeft_many": "queden uns {{count}} min",
+        "minutesLeft_other": "queden uns {{count}} min",
+        "bytes": "{{done}} de {{total}} MB",
+        "progressLabel": "Baixada del model de veu",
+        "body": "Això només passa una vegada. Pots continuar amb els passos següents; el que dictis ara s'espera i apareix quan estigui a punt.",
+        "retry": "Torna-ho a provar"
+      }
     },
     "firstDictation": {
       "title": "Ja està!",
@@ -2272,20 +2285,16 @@
       "lead": "Acabes de dictar el teu primer text.",
       "typingLabel": "Escrivint, de mitjana",
       "speakingLabel": "Parlant, de mitjana",
-      "faster": "<n/>× <em>més ràpid</em>"
+      "faster": "<n/>× <em>més ràpid</em>",
+      "takeTest": "Fer la prova d'escriptura",
+      "retakeTest": "Repetir la prova d'escriptura",
+      "yourTypingLabel": "La teva escriptura"
     },
     "timeSaved": {
       "headline_one": "Dictar et podria estalviar al voltant d'{{hours}} hora a la setmana",
       "headline_many": "Dictar et podria estalviar unes {{hours}} d'hores a la setmana",
       "headline_other": "Dictar et podria estalviar unes {{hours}} hores a la setmana",
-      "intro": "Per a la majoria de gent, parlar és més ràpid que escriure. Fes una prova d'escriptura de 30 segons per veure quant de temps et podria estalviar.",
-      "howFast": "A quina velocitat escrius?",
-      "skipTest": "Ometre la prova",
-      "sliderLabel": "Quanta estona escrius cada dia?",
-      "hoursPerDay_one": "{{hours}} hora al dia",
-      "hoursPerDay_many": "{{hours}} d'hores al dia",
-      "hoursPerDay_other": "{{hours}} hores al dia",
-      "takeTest": "Fer la prova d'escriptura",
+      "sliderLabel": "Quantes hores a la setmana escrius?",
       "basisMeasured_one": "Segons la teva velocitat d'escriptura de {{wpm}} paraula per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
       "basisMeasured_many": "Segons la teva velocitat d'escriptura de {{wpm}} de paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
       "basisMeasured_other": "Segons la teva velocitat d'escriptura de {{wpm}} paraules per minut i una velocitat de parla d'unes {{speaking}} paraules per minut.",
@@ -2296,7 +2305,9 @@
       "perWeek_one": "<n/> hora <em>a la setmana</em>",
       "perWeek_many": "<n/> d'hores <em>a la setmana</em>",
       "perWeek_other": "<n/> hores <em>a la setmana</em>",
-      "retakeTest": "Repetir la prova d'escriptura"
+      "hoursPerWeek_one": "{{hours}} hora a la setmana",
+      "hoursPerWeek_many": "{{hours}} d'hores a la setmana",
+      "hoursPerWeek_other": "{{hours}} hores a la setmana"
     },
     "typing": {
       "title": "A quina velocitat <em>escrius</em>?",

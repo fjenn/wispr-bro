@@ -2170,8 +2170,6 @@
       "listening": "Hört zu … drück fn, wenn du fertig bist.",
       "listening_fallback": "Hört zu … drück Control und Option, wenn du fertig bist.",
       "working": "Wird aufgeschrieben …",
-      "settingUp": "Wird eingerichtet …",
-      "settingUpPercent": "Wird eingerichtet … {{percent}} %",
       "queuedNote": "Deine Worte sind gespeichert. Sie erscheinen hier, sobald die Einrichtung fertig ist, und stehen in jedem Fall im Verlauf. Gleich geht es von selbst weiter.",
       "nothing": "Es kam nichts an. Prüfe, ob dein Mikrofon an ist, und versuch es noch einmal.",
       "filled": "Das ist deine E-Mail. Ergänze mehr oder mach weiter.",
@@ -2180,12 +2178,26 @@
         "to": "An",
         "recipient": "Sam",
         "subject": "Betreff",
-        "subjectText": "Donnerstag",
         "body": "Nachricht",
-        "placeholder": "Sag zum Beispiel: „Hallo Sam, danke für die Notizen. Können wir uns am Donnerstag um zehn treffen?“"
+        "trySaying": "Sag zum Beispiel: „{{text}}“",
+        "willAppear": "Deine Worte erscheinen hier, sobald das Sprachmodell bereit ist."
       },
       "instructionCustom": "Drück zweimal schnell {{keys}} und sprich. Drück erneut {{keys}}, wenn du fertig bist.",
-      "listening_custom": "Hört zu … drück {{keys}}, wenn du fertig bist."
+      "listening_custom": "Hört zu … drück {{keys}}, wenn du fertig bist.",
+      "queued": "Gespeichert. Warte auf das Sprachmodell…",
+      "model": {
+        "title": "Dein Sprachmodell wird vorbereitet",
+        "checking": "Download wird geprüft…",
+        "paused": "Download pausiert. Gleich neuer Versuch…",
+        "failed": "Das Sprachmodell konnte nicht geladen werden",
+        "underMinute": "noch weniger als eine Minute",
+        "minutesLeft_one": "noch etwa {{count}} Min.",
+        "minutesLeft_other": "noch etwa {{count}} Min.",
+        "bytes": "{{done}} von {{total}} MB",
+        "progressLabel": "Download des Sprachmodells",
+        "body": "Das passiert nur einmal. Du kannst mit den nächsten Schritten weitermachen; was du jetzt diktierst, wartet und erscheint, sobald es bereit ist.",
+        "retry": "Erneut versuchen"
+      }
     },
     "firstDictation": {
       "title": "Das war’s!",
@@ -2193,18 +2205,15 @@
       "lead": "Du hast gerade deinen ersten Text diktiert.",
       "typingLabel": "Tippen, im Schnitt",
       "speakingLabel": "Sprechen, im Schnitt",
-      "faster": "<n/>× <em>schneller</em>"
+      "faster": "<n/>× <em>schneller</em>",
+      "takeTest": "Tipptest machen",
+      "retakeTest": "Tipptest wiederholen",
+      "yourTypingLabel": "Dein Tippen"
     },
     "timeSaved": {
       "headline_one": "Diktieren könnte dir etwa {{hours}} Stunde pro Woche sparen",
       "headline_other": "Diktieren könnte dir etwa {{hours}} Stunden pro Woche sparen",
-      "intro": "Für die meisten Menschen ist Sprechen schneller als Tippen. Mach einen 30-Sekunden-Tipptest, um zu sehen, wie viel Zeit du sparen könntest.",
-      "howFast": "Wie schnell tippst du?",
-      "skipTest": "Test überspringen",
-      "sliderLabel": "Wie lange tippst du pro Tag?",
-      "hoursPerDay_one": "{{hours}} Stunde pro Tag",
-      "hoursPerDay_other": "{{hours}} Stunden pro Tag",
-      "takeTest": "Tipptest machen",
+      "sliderLabel": "Wie viele Stunden pro Woche tippst du?",
       "basisMeasured_one": "Ausgehend von deinem Tipptempo von {{wpm}} Wort pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
       "basisMeasured_other": "Ausgehend von deinem Tipptempo von {{wpm}} Wörtern pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
       "basisAverage_one": "Ausgehend von einem durchschnittlichen Tipptempo von {{wpm}} Wort pro Minute und einem Sprechtempo von etwa {{speaking}} Wörtern pro Minute.",
@@ -2212,7 +2221,8 @@
       "lead": "Mit Diktieren sparst du etwa",
       "perWeek_one": "<n/> Stunde <em>pro Woche</em>",
       "perWeek_other": "<n/> Stunden <em>pro Woche</em>",
-      "retakeTest": "Tipptest wiederholen"
+      "hoursPerWeek_one": "{{hours}} Stunde pro Woche",
+      "hoursPerWeek_other": "{{hours}} Stunden pro Woche"
     },
     "typing": {
       "title": "Wie schnell <em>tippst</em> du?",

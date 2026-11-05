@@ -2249,8 +2249,6 @@
       "listening": "Ouvindo… pressione fn quando terminar.",
       "listening_fallback": "Ouvindo… pressione Control e Option quando terminar.",
       "working": "Escrevendo…",
-      "settingUp": "Configurando…",
-      "settingUpPercent": "Configurando… {{percent}}%",
       "queuedNote": "Suas palavras estão salvas. Elas aparecem aqui assim que a configuração terminar e ficam no Histórico de qualquer forma. Vamos seguir sozinhos em um instante.",
       "nothing": "Nada chegou. Verifique se o microfone está ligado e tente novamente.",
       "filled": "Esse é o seu e-mail. Adicione mais ou continue.",
@@ -2259,12 +2257,27 @@
         "to": "Para",
         "recipient": "Sam",
         "subject": "Assunto",
-        "subjectText": "Quinta-feira",
         "body": "Mensagem",
-        "placeholder": "Tente dizer: “Oi, Sam, obrigado pelas anotações. Podemos nos encontrar na quinta às dez?”"
+        "trySaying": "Experimente dizer: “{{text}}”",
+        "willAppear": "Suas palavras aparecerão aqui assim que o modelo de voz estiver pronto."
       },
       "instructionCustom": "Pressione {{keys}} duas vezes rapidamente e fale. Pressione {{keys}} de novo quando terminar.",
-      "listening_custom": "Ouvindo… pressione {{keys}} quando terminar."
+      "listening_custom": "Ouvindo… pressione {{keys}} quando terminar.",
+      "queued": "Salvo. Aguardando o modelo de voz…",
+      "model": {
+        "title": "Preparando seu modelo de voz",
+        "checking": "Verificando o download…",
+        "paused": "Download pausado. Tentando de novo em instantes…",
+        "failed": "Não foi possível baixar o modelo de voz",
+        "underMinute": "falta menos de um minuto",
+        "minutesLeft_one": "faltam cerca de {{count}} min",
+        "minutesLeft_many": "faltam cerca de {{count}} min",
+        "minutesLeft_other": "faltam cerca de {{count}} min",
+        "bytes": "{{done}} de {{total}} MB",
+        "progressLabel": "Download do modelo de voz",
+        "body": "Isso só acontece uma vez. Você pode seguir para as próximas etapas; o que ditar agora aguarda e aparece quando estiver pronto.",
+        "retry": "Tentar de novo"
+      }
     },
     "firstDictation": {
       "title": "Pronto!",
@@ -2272,20 +2285,16 @@
       "lead": "Você acabou de ditar seu primeiro texto.",
       "typingLabel": "Digitando, em média",
       "speakingLabel": "Falando, em média",
-      "faster": "<n/>× <em>mais rápido</em>"
+      "faster": "<n/>× <em>mais rápido</em>",
+      "takeTest": "Fazer o teste de digitação",
+      "retakeTest": "Refazer o teste de digitação",
+      "yourTypingLabel": "Sua digitação"
     },
     "timeSaved": {
       "headline_one": "Ditar pode economizar cerca de {{hours}} hora por semana",
       "headline_many": "Ditar pode economizar cerca de {{hours}} de horas por semana",
       "headline_other": "Ditar pode economizar cerca de {{hours}} horas por semana",
-      "intro": "Para a maioria das pessoas, falar é mais rápido que digitar. Faça um teste de digitação de 30 segundos para ver quanto tempo você pode economizar.",
-      "howFast": "Qual é a sua velocidade de digitação?",
-      "skipTest": "Pular o teste",
-      "sliderLabel": "Quanto tempo você digita por dia?",
-      "hoursPerDay_one": "{{hours}} hora por dia",
-      "hoursPerDay_many": "{{hours}} de horas por dia",
-      "hoursPerDay_other": "{{hours}} horas por dia",
-      "takeTest": "Fazer o teste de digitação",
+      "sliderLabel": "Quantas horas por semana você digita?",
       "basisMeasured_one": "Com base na sua velocidade de digitação de {{wpm}} palavra por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
       "basisMeasured_many": "Com base na sua velocidade de digitação de {{wpm}} de palavras por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
       "basisMeasured_other": "Com base na sua velocidade de digitação de {{wpm}} palavras por minuto e numa velocidade de fala de cerca de {{speaking}} palavras por minuto.",
@@ -2296,7 +2305,9 @@
       "perWeek_one": "<n/> hora <em>por semana</em>",
       "perWeek_many": "<n/> de horas <em>por semana</em>",
       "perWeek_other": "<n/> horas <em>por semana</em>",
-      "retakeTest": "Refazer o teste de digitação"
+      "hoursPerWeek_one": "{{hours}} hora por semana",
+      "hoursPerWeek_many": "{{hours}} de horas por semana",
+      "hoursPerWeek_other": "{{hours}} horas por semana"
     },
     "typing": {
       "title": "Qual é a sua velocidade de <em>digitação</em>?",

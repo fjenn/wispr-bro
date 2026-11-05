@@ -2170,8 +2170,6 @@
       "listening": "Dinleniyor… Bitirince fn’ye basın.",
       "listening_fallback": "Dinleniyor… Bitirince Control ve Option’a basın.",
       "working": "Yazıya dökülüyor…",
-      "settingUp": "Ayarlanıyor…",
-      "settingUpPercent": "Ayarlanıyor… %{{percent}}",
       "queuedNote": "Sözcükleriniz kaydedildi. Kurulum biter bitmez burada görünecekler; her durumda Geçmiş’te de yer alırlar. Birazdan kendiliğinden devam edeceğiz.",
       "nothing": "Hiçbir şey algılanmadı. Mikrofonunuzun açık olduğunu denetleyin ve yeniden deneyin.",
       "filled": "E-postanız hazır. Ekleme yapın veya devam edin.",
@@ -2180,12 +2178,26 @@
         "to": "Kime",
         "recipient": "Sam",
         "subject": "Konu",
-        "subjectText": "Perşembe",
         "body": "İleti",
-        "placeholder": "Şunu söylemeyi deneyin: “Merhaba Sam, notlar için teşekkürler. Perşembe saat onda görüşebilir miyiz?”"
+        "trySaying": "Şunu söylemeyi deneyin: “{{text}}”",
+        "willAppear": "Konuşma modeli hazır olur olmaz sözleriniz burada görünecek."
       },
       "instructionCustom": "{{keys}} tuşlarına hızlıca iki kez basın, ardından konuşun. Bitirince {{keys}} tuşlarına yeniden basın.",
-      "listening_custom": "Dinleniyor… Bitirince {{keys}} tuşlarına basın."
+      "listening_custom": "Dinleniyor… Bitirince {{keys}} tuşlarına basın.",
+      "queued": "Kaydedildi. Konuşma modeli bekleniyor…",
+      "model": {
+        "title": "Konuşma modeliniz hazırlanıyor",
+        "checking": "İndirme denetleniyor…",
+        "paused": "İndirme duraklatıldı. Birazdan yeniden denenecek…",
+        "failed": "Konuşma modeli indirilemedi",
+        "underMinute": "bir dakikadan az kaldı",
+        "minutesLeft_one": "yaklaşık {{count}} dk kaldı",
+        "minutesLeft_other": "yaklaşık {{count}} dk kaldı",
+        "bytes": "{{done}} / {{total}} MB",
+        "progressLabel": "Konuşma modeli indirmesi",
+        "body": "Bu yalnızca bir kez olur. Sonraki adımlarla devam edebilirsiniz; şimdi dikte ettikleriniz bekler ve hazır olunca görünür.",
+        "retry": "Yeniden dene"
+      }
     },
     "firstDictation": {
       "title": "İşte bu kadar!",
@@ -2193,18 +2205,15 @@
       "lead": "İlk metninizi dikte ettiniz.",
       "typingLabel": "Yazma, ortalama",
       "speakingLabel": "Konuşma, ortalama",
-      "faster": "<n/>× <em>daha hızlı</em>"
+      "faster": "<n/>× <em>daha hızlı</em>",
+      "takeTest": "Yazma Testini Yap",
+      "retakeTest": "Yazma testini tekrarla",
+      "yourTypingLabel": "Sizin yazma hızınız"
     },
     "timeSaved": {
       "headline_one": "Dikte, haftada yaklaşık {{hours}} saat kazandırabilir",
       "headline_other": "Dikte, haftada yaklaşık {{hours}} saat kazandırabilir",
-      "intro": "Çoğu kişi için konuşmak, yazmaktan daha hızlıdır. Ne kadar zaman kazanabileceğinizi görmek için 30 saniyelik bir yazma testi yapın.",
-      "howFast": "Ne kadar hızlı yazıyorsunuz?",
-      "skipTest": "Testi Atla",
-      "sliderLabel": "Her gün ne kadar süre yazıyorsunuz?",
-      "hoursPerDay_one": "Günde {{hours}} saat",
-      "hoursPerDay_other": "Günde {{hours}} saat",
-      "takeTest": "Yazma Testini Yap",
+      "sliderLabel": "Haftada kaç saat yazıyorsunuz?",
       "basisMeasured_one": "Dakikada {{wpm}} kelimelik yazma hızınıza ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
       "basisMeasured_other": "Dakikada {{wpm}} kelimelik yazma hızınıza ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
       "basisAverage_one": "Dakikada {{wpm}} kelimelik ortalama yazma hızına ve dakikada yaklaşık {{speaking}} kelimelik konuşma hızına göre.",
@@ -2212,7 +2221,8 @@
       "lead": "Dikte ile kazanabileceğiniz süre yaklaşık",
       "perWeek_one": "<em>haftada</em> <n/> saat",
       "perWeek_other": "<em>haftada</em> <n/> saat",
-      "retakeTest": "Yazma testini tekrarla"
+      "hoursPerWeek_one": "Haftada {{hours}} saat",
+      "hoursPerWeek_other": "Haftada {{hours}} saat"
     },
     "typing": {
       "title": "Ne kadar hızlı <em>yazıyorsunuz</em>?",

@@ -2091,8 +2091,6 @@
       "listening": "正在聆听… 说完后按 fn。",
       "listening_fallback": "正在聆听… 说完后按 Control 和 Option。",
       "working": "正在写下来…",
-      "settingUp": "正在设置…",
-      "settingUpPercent": "正在设置… {{percent}}%",
       "queuedNote": "你说的话已保留。设置完成后会立即显示在这里，并且无论如何都会出现在历史记录中。稍后会自动进入下一步。",
       "nothing": "没有收到任何内容。请检查麦克风是否已打开，然后重试。",
       "filled": "这就是你的邮件。可以继续添加内容，或继续下一步。",
@@ -2101,12 +2099,25 @@
         "to": "收件人",
         "recipient": "Sam",
         "subject": "主题",
-        "subjectText": "周四",
         "body": "正文",
-        "placeholder": "试着说：“Sam 你好，谢谢你的笔记。我们周四十点见面可以吗？”"
+        "trySaying": "试着说：“{{text}}”",
+        "willAppear": "语音模型就绪后，你的话会立即显示在这里。"
       },
       "instructionCustom": "快速按两次 {{keys}}，然后说话。说完后再按一次 {{keys}}。",
-      "listening_custom": "正在聆听… 说完后按 {{keys}}。"
+      "listening_custom": "正在聆听… 说完后按 {{keys}}。",
+      "queued": "已保存。正在等待语音模型…",
+      "model": {
+        "title": "正在准备语音模型",
+        "checking": "正在检查下载…",
+        "paused": "下载已暂停，稍后重试…",
+        "failed": "无法下载语音模型",
+        "underMinute": "剩余不到 1 分钟",
+        "minutesLeft_other": "约剩 {{count}} 分钟",
+        "bytes": "{{done}} / {{total}} MB",
+        "progressLabel": "语音模型下载",
+        "body": "这只会发生一次。你可以继续后面的步骤；现在听写的内容会等待，就绪后显示。",
+        "retry": "重试"
+      }
     },
     "firstDictation": {
       "title": "就这么简单！",
@@ -2114,21 +2125,19 @@
       "lead": "你刚刚听写了第一段文字。",
       "typingLabel": "平均打字速度",
       "speakingLabel": "平均说话速度",
-      "faster": "<em>快</em> <n/> 倍"
+      "faster": "<em>快</em> <n/> 倍",
+      "takeTest": "进行打字测试",
+      "retakeTest": "重新进行打字测试",
+      "yourTypingLabel": "你的打字速度"
     },
     "timeSaved": {
       "headline_other": "听写每周可为你节省约 {{hours}} 小时",
-      "intro": "对大多数人来说，说话比打字快。做一个 30 秒的打字测试，看看听写能为你节省多少时间。",
-      "howFast": "你打字有多快？",
-      "skipTest": "跳过测试",
-      "sliderLabel": "你每天打字多长时间？",
-      "hoursPerDay_other": "每天 {{hours}} 小时",
-      "takeTest": "进行打字测试",
+      "sliderLabel": "你每周打字多少小时？",
       "basisMeasured_other": "根据你每分钟 {{wpm}} 词的打字速度，以及每分钟约 {{speaking}} 词的语速估算。",
       "basisAverage_other": "根据每分钟 {{wpm}} 词的平均打字速度，以及每分钟约 {{speaking}} 词的语速估算。",
       "lead": "听写可为你节省约",
       "perWeek_other": "<em>每周</em> <n/> 小时",
-      "retakeTest": "重新进行打字测试"
+      "hoursPerWeek_other": "每周 {{hours}} 小时"
     },
     "typing": {
       "title": "你<em>打字</em>有多快？",

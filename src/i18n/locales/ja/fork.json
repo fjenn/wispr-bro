@@ -2091,8 +2091,6 @@
       "listening": "聞き取り中… 話し終えたら fn を押してください。",
       "listening_fallback": "聞き取り中… 話し終えたら Control と Option を押してください。",
       "working": "書き起こしています…",
-      "settingUp": "設定中…",
-      "settingUpPercent": "設定中… {{percent}}%",
       "queuedNote": "話した内容は保存されています。設定が完了するとすぐにここに表示され、いずれにしても履歴に残ります。まもなく自動的に次へ進みます。",
       "nothing": "何も入力されませんでした。マイクがオンになっていることを確認して、もう一度お試しください。",
       "filled": "メールができました。さらに追加するか、続けてください。",
@@ -2101,12 +2099,25 @@
         "to": "宛先",
         "recipient": "サム",
         "subject": "件名",
-        "subjectText": "木曜日",
         "body": "メッセージ",
-        "placeholder": "例えばこう話してみましょう：「サムさん、メモをありがとうございます。木曜日の 10 時に会えますか？」"
+        "trySaying": "「{{text}}」と話してみましょう",
+        "willAppear": "音声モデルの準備ができしだい、ここに表示されます。"
       },
       "instructionCustom": "{{keys}} をすばやく 2 回押してから話してください。終わったらもう一度 {{keys}} を押します。",
-      "listening_custom": "聞き取り中… 話し終えたら {{keys}} を押してください。"
+      "listening_custom": "聞き取り中… 話し終えたら {{keys}} を押してください。",
+      "queued": "保存しました。音声モデルを待っています…",
+      "model": {
+        "title": "音声モデルを準備しています",
+        "checking": "ダウンロードを確認しています…",
+        "paused": "ダウンロードを一時停止中。まもなく再試行します…",
+        "failed": "音声モデルをダウンロードできませんでした",
+        "underMinute": "残り 1 分未満",
+        "minutesLeft_other": "残り約 {{count}} 分",
+        "bytes": "{{done}} / {{total}} MB",
+        "progressLabel": "音声モデルのダウンロード",
+        "body": "これは最初の一度だけです。次のステップに進めます。今話した内容は待機し、準備ができると表示されます。",
+        "retry": "もう一度試す"
+      }
     },
     "firstDictation": {
       "title": "できました！",
@@ -2114,21 +2125,19 @@
       "lead": "初めてのテキストを音声入力しました。",
       "typingLabel": "タイピング（平均）",
       "speakingLabel": "発話（平均）",
-      "faster": "<n/> 倍<em>速い</em>"
+      "faster": "<n/> 倍<em>速い</em>",
+      "takeTest": "タイピングテストを受ける",
+      "retakeTest": "タイピングテストをもう一度",
+      "yourTypingLabel": "あなたのタイピング"
     },
     "timeSaved": {
       "headline_other": "音声入力で 1 週間に約 {{hours}} 時間を節約できます",
-      "intro": "ほとんどの人にとって、話すほうがタイピングより速くなります。30 秒のタイピングテストで、どれだけ時間を節約できるか確認しましょう。",
-      "howFast": "タイピングの速さは？",
-      "skipTest": "テストをスキップ",
-      "sliderLabel": "1 日にどのくらいタイピングしますか？",
-      "hoursPerDay_other": "1 日 {{hours}} 時間",
-      "takeTest": "タイピングテストを受ける",
+      "sliderLabel": "1 週間に何時間タイピングしますか？",
       "basisMeasured_other": "タイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
       "basisAverage_other": "平均的なタイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
       "lead": "音声入力で節約できる時間は",
       "perWeek_other": "<em>週</em>約 <n/> 時間",
-      "retakeTest": "タイピングテストをもう一度"
+      "hoursPerWeek_other": "週 {{hours}} 時間"
     },
     "typing": {
       "title": "<em>タイピング</em>の速さは？",

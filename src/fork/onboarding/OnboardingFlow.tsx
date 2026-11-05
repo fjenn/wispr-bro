@@ -13,7 +13,8 @@
  * - Preview (debug panel) is inert: no prompts, monitoring, moves or
  *   setting writes.
  * - Practice (S-29b): hands-free practice (Skip → time saved), the dark
- *   celebration, time saved ⇄ the typing test, then the summary, whose
+ *   celebration ⇄ the typing test (rc9: offered there), time saved (its
+ *   slider always shown, 4 h a week to start), then the summary, whose
  *   button writes the launch-at-login choice and completes setup.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -254,25 +255,22 @@ export function OnboardingFlow({
         content = (
           <FirstDictation
             preview={preview}
+            onTakeTest={() => void go("typing_test")}
             onContinue={() => void go("time_saved")}
           />
         );
         break;
       case "time_saved":
         content = (
-          <TimeSaved
-            preview={preview}
-            onTakeTest={() => void go("typing_test")}
-            onContinue={() => void go("summary")}
-          />
+          <TimeSaved preview={preview} onContinue={() => void go("summary")} />
         );
         break;
       case "typing_test":
         content = (
           <TypingTest
             preview={preview}
-            onDone={() => void go("time_saved")}
-            onSkip={() => void go("time_saved")}
+            onDone={() => void go("first_dictation")}
+            onSkip={() => void go("first_dictation")}
           />
         );
         break;

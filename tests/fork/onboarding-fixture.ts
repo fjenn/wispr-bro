@@ -79,6 +79,8 @@ export interface Options {
   theme?: "light" | "dark";
   /** The step the page should settle on (default: `step`, else welcome). */
   settle?: Step;
+  /** `fork_speech_setup_status` fields over the default (downloading). */
+  setup?: Record<string, unknown>;
 }
 
 /**
@@ -160,6 +162,9 @@ export async function openOnboarding(
       problem: null,
       needed_mb: null,
       queued_takes: 0,
+      eta_seconds: null,
+      starter_languages: ["en"],
+      ...(options.setup ?? {}),
     },
     fork_onboarding_practice: null,
     fork_speech_setup_refresh: null,

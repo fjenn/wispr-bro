@@ -375,7 +375,8 @@ pub struct ForkSettings {
     pub first_use_choice: Option<String>,
     /// From the typing test (S-29b); `None` = not taken.
     pub typing_wpm: Option<u32>,
-    /// DEC-50: typing time per day, hours (default 2).
+    /// DEC-50: typing time per day, hours (default 0.8: the onboarding
+    /// slider's 4 h a week over five days, owner's rc9 call).
     pub typing_hours_per_day: f32,
     /// Greeting name; `None` uses the macOS account name (S-15a).
     pub greeting_name: Option<String>,
@@ -427,7 +428,7 @@ impl Default for ForkSettings {
             seen_new_tags: Vec::new(),
             first_use_choice: None,
             typing_wpm: None,
-            typing_hours_per_day: 2.0,
+            typing_hours_per_day: 0.8,
             greeting_name: None,
             auto_learn_enabled: true,
             vibe_coding: VibeCodingSettings::default(),

@@ -40,8 +40,8 @@ export const STAGES: readonly OnboardingStage[] = [
 /** Steps on the always-dark stage (the celebration and what follows it). */
 export const DARK_STEPS: readonly OnboardingStep[] = [
   "first_dictation",
-  "time_saved",
   "typing_test",
+  "time_saved",
 ];
 
 const STAGE_OF: Record<OnboardingStep, OnboardingStage> = {
@@ -54,7 +54,7 @@ const STAGE_OF: Record<OnboardingStep, OnboardingStage> = {
   practice: "practice",
   first_dictation: "practice",
   time_saved: "finish",
-  typing_test: "finish",
+  typing_test: "practice",
   summary: "finish",
 };
 
@@ -79,6 +79,6 @@ export const BACK: Partial<Record<OnboardingStep, OnboardingStep>> = {
   practice: "shortcut_test",
   first_dictation: "practice",
   time_saved: "practice",
-  typing_test: "time_saved",
+  typing_test: "first_dictation",
   summary: "time_saved",
 };

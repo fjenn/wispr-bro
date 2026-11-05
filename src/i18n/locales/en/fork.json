@@ -2487,8 +2487,6 @@
       "listening": "Listening… press fn when you're done.",
       "listening_fallback": "Listening… press Control and Option when you're done.",
       "working": "Writing it down…",
-      "settingUp": "Setting up…",
-      "settingUpPercent": "Setting up… {{percent}}%",
       "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
       "nothing": "Nothing came through. Check that your microphone is on and try again.",
       "filled": "That's your email. Add more, or continue.",
@@ -2497,12 +2495,26 @@
         "to": "To",
         "recipient": "Sam",
         "subject": "Subject",
-        "subjectText": "Thursday",
         "body": "Message",
-        "placeholder": "Try saying: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”"
+        "trySaying": "Try saying: “{{text}}”",
+        "willAppear": "Your words will appear here as soon as the speech model is ready."
       },
       "instructionCustom": "Press {{keys}} twice quickly, then talk. Press {{keys}} again when you're done.",
-      "listening_custom": "Listening… press {{keys}} when you're done."
+      "listening_custom": "Listening… press {{keys}} when you're done.",
+      "queued": "Saved. Waiting for the speech model…",
+      "model": {
+        "title": "Getting your speech model ready",
+        "checking": "Checking the download…",
+        "paused": "Download paused. Trying again in a moment…",
+        "failed": "Couldn't download the speech model",
+        "underMinute": "less than a minute left",
+        "minutesLeft_one": "about {{count}} minute left",
+        "minutesLeft_other": "about {{count}} minutes left",
+        "bytes": "{{done}} of {{total}} MB",
+        "progressLabel": "Speech model download",
+        "body": "This happens only once. You can keep going with the next steps; anything you dictate now waits and appears when it's ready.",
+        "retry": "Retry"
+      }
     },
     "firstDictation": {
       "title": "That's it!",
@@ -2510,18 +2522,15 @@
       "lead": "You just dictated your first text.",
       "typingLabel": "Typing, on average",
       "speakingLabel": "Speaking, on average",
-      "faster": "<n/>× <em>faster</em>"
+      "faster": "<n/>× <em>faster</em>",
+      "takeTest": "Take the typing test",
+      "retakeTest": "Retake the typing test",
+      "yourTypingLabel": "Your typing"
     },
     "timeSaved": {
       "headline_one": "Dictating could save you about {{hours}} hour a week",
       "headline_other": "Dictating could save you about {{hours}} hours a week",
-      "intro": "Speaking is faster than typing for most people. Take a 30-second typing test to see how much time it could save you.",
-      "howFast": "How fast do you type?",
-      "skipTest": "Skip the test",
-      "sliderLabel": "How long do you type each day?",
-      "hoursPerDay_one": "{{hours}} hour a day",
-      "hoursPerDay_other": "{{hours}} hours a day",
-      "takeTest": "Take the typing test",
+      "sliderLabel": "How many hours a week do you type?",
       "basisMeasured_one": "Based on your typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
       "basisMeasured_other": "Based on your typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
       "basisAverage_one": "Based on an average typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
@@ -2529,7 +2538,8 @@
       "lead": "Dictating could save you about",
       "perWeek_one": "<n/> hour <em>a week</em>",
       "perWeek_other": "<n/> hours <em>a week</em>",
-      "retakeTest": "Retake the typing test"
+      "hoursPerWeek_one": "{{hours}} hour a week",
+      "hoursPerWeek_other": "{{hours}} hours a week"
     },
     "typing": {
       "title": "How fast do you <em>type</em>?",

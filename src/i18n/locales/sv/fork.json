@@ -2170,8 +2170,6 @@
       "listening": "Lyssnar… tryck på fn när du är klar.",
       "listening_fallback": "Lyssnar… tryck på Control och Option när du är klar.",
       "working": "Skriver ned det…",
-      "settingUp": "Förbereder…",
-      "settingUpPercent": "Förbereder… {{percent}} %",
       "queuedNote": "Dina ord är sparade. De visas här så fort konfigureringen är klar, och de finns i Historik i vilket fall som helst. Vi går vidare av oss själva om en stund.",
       "nothing": "Inget kom fram. Kontrollera att mikrofonen är på och försök igen.",
       "filled": "Det där är ditt mejl. Lägg till mer eller fortsätt.",
@@ -2180,12 +2178,26 @@
         "to": "Till",
         "recipient": "Sam",
         "subject": "Ämne",
-        "subjectText": "Torsdag",
         "body": "Meddelande",
-        "placeholder": "Säg till exempel: ”Hej Sam, tack för anteckningarna. Kan vi ses på torsdag klockan tio?”"
+        "trySaying": "Prova att säga: ”{{text}}”",
+        "willAppear": "Dina ord visas här så snart talmodellen är klar."
       },
       "instructionCustom": "Tryck snabbt två gånger på {{keys}} och prata. Tryck på {{keys}} igen när du är klar.",
-      "listening_custom": "Lyssnar… tryck på {{keys}} när du är klar."
+      "listening_custom": "Lyssnar… tryck på {{keys}} när du är klar.",
+      "queued": "Sparat. Väntar på talmodellen…",
+      "model": {
+        "title": "Gör din talmodell klar",
+        "checking": "Kontrollerar nedladdningen…",
+        "paused": "Nedladdningen är pausad. Försöker igen om en stund…",
+        "failed": "Talmodellen kunde inte laddas ned",
+        "underMinute": "mindre än en minut kvar",
+        "minutesLeft_one": "cirka {{count}} min kvar",
+        "minutesLeft_other": "cirka {{count}} min kvar",
+        "bytes": "{{done}} av {{total}} MB",
+        "progressLabel": "Nedladdning av talmodell",
+        "body": "Det här händer bara en gång. Du kan fortsätta med nästa steg; det du dikterar nu väntar och visas när den är klar.",
+        "retry": "Försök igen"
+      }
     },
     "firstDictation": {
       "title": "Så enkelt var det!",
@@ -2193,18 +2205,15 @@
       "lead": "Du har just dikterat din första text.",
       "typingLabel": "Skriva, i genomsnitt",
       "speakingLabel": "Prata, i genomsnitt",
-      "faster": "<n/>× <em>snabbare</em>"
+      "faster": "<n/>× <em>snabbare</em>",
+      "takeTest": "Gör skrivtestet",
+      "retakeTest": "Gör skrivtestet igen",
+      "yourTypingLabel": "Ditt skrivande"
     },
     "timeSaved": {
       "headline_one": "Diktering kan spara dig ungefär {{hours}} timme i veckan",
       "headline_other": "Diktering kan spara dig ungefär {{hours}} timmar i veckan",
-      "intro": "För de flesta går det snabbare att prata än att skriva. Gör ett skrivtest på 30 sekunder för att se hur mycket tid du kan spara.",
-      "howFast": "Hur snabbt skriver du?",
-      "skipTest": "Hoppa över testet",
-      "sliderLabel": "Hur länge skriver du varje dag?",
-      "hoursPerDay_one": "{{hours}} timme per dag",
-      "hoursPerDay_other": "{{hours}} timmar per dag",
-      "takeTest": "Gör skrivtestet",
+      "sliderLabel": "Hur många timmar i veckan skriver du?",
       "basisMeasured_one": "Baserat på din skrivhastighet på {{wpm}} ord per minut och ett taltempo på ungefär {{speaking}} ord per minut.",
       "basisMeasured_other": "Baserat på din skrivhastighet på {{wpm}} ord per minut och ett taltempo på ungefär {{speaking}} ord per minut.",
       "basisAverage_one": "Baserat på en genomsnittlig skrivhastighet på {{wpm}} ord per minut och ett taltempo på ungefär {{speaking}} ord per minut.",
@@ -2212,7 +2221,8 @@
       "lead": "Diktering kan spara dig ungefär",
       "perWeek_one": "<n/> timme <em>i veckan</em>",
       "perWeek_other": "<n/> timmar <em>i veckan</em>",
-      "retakeTest": "Gör skrivtestet igen"
+      "hoursPerWeek_one": "{{hours}} timme per vecka",
+      "hoursPerWeek_other": "{{hours}} timmar per vecka"
     },
     "typing": {
       "title": "Hur snabbt <em>skriver</em> du?",

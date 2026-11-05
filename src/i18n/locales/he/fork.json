@@ -2249,8 +2249,6 @@
       "listening": "מאזין… הקש fn כשתסיים.",
       "listening_fallback": "מאזין… הקש Control ו-Option כשתסיים.",
       "working": "כותב…",
-      "settingUp": "מכין…",
-      "settingUpPercent": "מכין… {{percent}}%",
       "queuedNote": "המילים שלך נשמרות. הן יופיעו כאן ברגע שההגדרה תסתיים, ובכל מקרה הן נמצאות בהיסטוריה. נמשיך בעצמנו בעוד רגע.",
       "nothing": "שום דבר לא נקלט. ודא שהמיקרופון פועל ונסה שוב.",
       "filled": "זה הדוא״ל שלך. הוסף עוד, או המשך.",
@@ -2259,12 +2257,27 @@
         "to": "אל",
         "recipient": "סאם",
         "subject": "נושא",
-        "subjectText": "יום חמישי",
         "body": "הודעה",
-        "placeholder": "נסה לומר: \"היי סאם, תודה על ההערות. אפשר להיפגש ביום חמישי בעשר?\""
+        "trySaying": "נסו לומר: ”{{text}}“",
+        "willAppear": "המילים שלך יופיעו כאן ברגע שמודל הדיבור יהיה מוכן."
       },
       "instructionCustom": "הקש {{keys}} פעמיים במהירות, ואז דבר. הקש שוב {{keys}} כשתסיים.",
-      "listening_custom": "מאזין… הקש {{keys}} כשתסיים."
+      "listening_custom": "מאזין… הקש {{keys}} כשתסיים.",
+      "queued": "נשמר. ממתין למודל הדיבור…",
+      "model": {
+        "title": "מכינים את מודל הדיבור",
+        "checking": "בודקים את ההורדה…",
+        "paused": "ההורדה מושהית. ננסה שוב בעוד רגע…",
+        "failed": "לא ניתן היה להוריד את מודל הדיבור",
+        "underMinute": "נותרה פחות מדקה",
+        "minutesLeft_one": "נותרו כ־{{count}} דק׳",
+        "minutesLeft_two": "נותרו כ־{{count}} דק׳",
+        "minutesLeft_other": "נותרו כ־{{count}} דק׳",
+        "bytes": "{{done}} מתוך {{total}} MB",
+        "progressLabel": "הורדת מודל הדיבור",
+        "body": "זה קורה רק פעם אחת. אפשר להמשיך לשלבים הבאים; מה שתכתיב עכשיו ממתין ויופיע כשהמודל יהיה מוכן.",
+        "retry": "לנסות שוב"
+      }
     },
     "firstDictation": {
       "title": "זהו!",
@@ -2272,20 +2285,16 @@
       "lead": "הרגע הכתבת את הטקסט הראשון שלך.",
       "typingLabel": "הקלדה, בממוצע",
       "speakingLabel": "דיבור, בממוצע",
-      "faster": "<em>מהיר</em> פי <n/>"
+      "faster": "<em>מהיר</em> פי <n/>",
+      "takeTest": "עשה את מבחן ההקלדה",
+      "retakeTest": "לעשות שוב את מבחן ההקלדה",
+      "yourTypingLabel": "ההקלדה שלך"
     },
     "timeSaved": {
       "headline_one": "הכתבה יכולה לחסוך לך כ-{{hours}} שעה בשבוע",
       "headline_two": "הכתבה יכולה לחסוך לך כ-{{hours}} שעות בשבוע",
       "headline_other": "הכתבה יכולה לחסוך לך כ-{{hours}} שעות בשבוע",
-      "intro": "לרוב האנשים דיבור מהיר יותר מהקלדה. עשה מבחן הקלדה של 30 שניות כדי לראות כמה זמן זה יכול לחסוך לך.",
-      "howFast": "כמה מהר אתה מקליד?",
-      "skipTest": "דלג על המבחן",
-      "sliderLabel": "כמה זמן אתה מקליד בכל יום?",
-      "hoursPerDay_one": "{{hours}} שעה ביום",
-      "hoursPerDay_two": "{{hours}} שעות ביום",
-      "hoursPerDay_other": "{{hours}} שעות ביום",
-      "takeTest": "עשה את מבחן ההקלדה",
+      "sliderLabel": "כמה שעות בשבוע אתה מקליד?",
       "basisMeasured_one": "על סמך מהירות ההקלדה שלך, {{wpm}} מילה לדקה, ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
       "basisMeasured_two": "על סמך מהירות ההקלדה שלך, {{wpm}} מילים לדקה, ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
       "basisMeasured_other": "על סמך מהירות ההקלדה שלך, {{wpm}} מילים לדקה, ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
@@ -2296,7 +2305,9 @@
       "perWeek_one": "<n/> שעה <em>בשבוע</em>",
       "perWeek_two": "<n/> שעות <em>בשבוע</em>",
       "perWeek_other": "<n/> שעות <em>בשבוע</em>",
-      "retakeTest": "לעשות שוב את מבחן ההקלדה"
+      "hoursPerWeek_one": "{{hours}} שעה בשבוע",
+      "hoursPerWeek_two": "{{hours}} שעות בשבוע",
+      "hoursPerWeek_other": "{{hours}} שעות בשבוע"
     },
     "typing": {
       "title": "כמה מהר אתה <em>מקליד</em>?",

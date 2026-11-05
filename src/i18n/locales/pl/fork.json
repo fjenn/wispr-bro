@@ -2328,8 +2328,6 @@
       "listening": "Słucham… gdy skończysz, naciśnij fn.",
       "listening_fallback": "Słucham… gdy skończysz, naciśnij Control i Option.",
       "working": "Zapisuję…",
-      "settingUp": "Konfigurowanie…",
-      "settingUpPercent": "Konfigurowanie… {{percent}}%",
       "queuedNote": "Twoje słowa są zapisane. Pojawią się tutaj, gdy tylko konfiguracja się zakończy, a tak czy inaczej znajdziesz je w Historii. Za chwilę przejdziemy dalej automatycznie.",
       "nothing": "Nic nie dotarło. Sprawdź, czy mikrofon jest włączony, i spróbuj ponownie.",
       "filled": "Oto Twój e‑mail. Dodaj coś jeszcze lub przejdź dalej.",
@@ -2338,12 +2336,28 @@
         "to": "Do",
         "recipient": "Sam",
         "subject": "Temat",
-        "subjectText": "Czwartek",
         "body": "Wiadomość",
-        "placeholder": "Spróbuj powiedzieć: „Cześć Sam, dzięki za notatki. Możemy się spotkać w czwartek o dziesiątej?”"
+        "trySaying": "Spróbuj powiedzieć: „{{text}}”",
+        "willAppear": "Twoje słowa pojawią się tutaj, gdy tylko model mowy będzie gotowy."
       },
       "instructionCustom": "Naciśnij szybko dwa razy {{keys}}, a potem mów. Gdy skończysz, naciśnij ponownie {{keys}}.",
-      "listening_custom": "Słucham… gdy skończysz, naciśnij {{keys}}."
+      "listening_custom": "Słucham… gdy skończysz, naciśnij {{keys}}.",
+      "queued": "Zapisano. Czekamy na model mowy…",
+      "model": {
+        "title": "Przygotowujemy model mowy",
+        "checking": "Sprawdzanie pobranego pliku…",
+        "paused": "Pobieranie wstrzymane. Za chwilę ponowna próba…",
+        "failed": "Nie udało się pobrać modelu mowy",
+        "underMinute": "zostało mniej niż minuta",
+        "minutesLeft_one": "zostało około {{count}} min",
+        "minutesLeft_few": "zostało około {{count}} min",
+        "minutesLeft_many": "zostało około {{count}} min",
+        "minutesLeft_other": "zostało około {{count}} min",
+        "bytes": "{{done}} z {{total}} MB",
+        "progressLabel": "Pobieranie modelu mowy",
+        "body": "To dzieje się tylko raz. Możesz przejść do kolejnych kroków; to, co teraz podyktujesz, poczeka i pojawi się, gdy model będzie gotowy.",
+        "retry": "Spróbuj ponownie"
+      }
     },
     "firstDictation": {
       "title": "To wszystko!",
@@ -2351,22 +2365,17 @@
       "lead": "Twój pierwszy tekst jest już podyktowany.",
       "typingLabel": "Pisanie, średnio",
       "speakingLabel": "Mówienie, średnio",
-      "faster": "<n/>× <em>szybciej</em>"
+      "faster": "<n/>× <em>szybciej</em>",
+      "takeTest": "Zrób test pisania",
+      "retakeTest": "Powtórz test pisania",
+      "yourTypingLabel": "Twoje pisanie"
     },
     "timeSaved": {
       "headline_one": "Dyktowanie może Ci oszczędzić około {{hours}} godziny tygodniowo",
       "headline_few": "Dyktowanie może Ci oszczędzić około {{hours}} godzin tygodniowo",
       "headline_many": "Dyktowanie może Ci oszczędzić około {{hours}} godzin tygodniowo",
       "headline_other": "Dyktowanie może Ci oszczędzić około {{hours}} godziny tygodniowo",
-      "intro": "Większość osób mówi szybciej, niż pisze. Zrób 30-sekundowy test pisania, aby zobaczyć, ile czasu możesz zaoszczędzić.",
-      "howFast": "Jak szybko piszesz?",
-      "skipTest": "Pomiń test",
-      "sliderLabel": "Ile czasu dziennie piszesz?",
-      "hoursPerDay_one": "{{hours}} godzina dziennie",
-      "hoursPerDay_few": "{{hours}} godziny dziennie",
-      "hoursPerDay_many": "{{hours}} godzin dziennie",
-      "hoursPerDay_other": "{{hours}} godziny dziennie",
-      "takeTest": "Zrób test pisania",
+      "sliderLabel": "Ile godzin tygodniowo piszesz?",
       "basisMeasured_one": "Na podstawie Twojego tempa pisania ({{wpm}} słowo na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
       "basisMeasured_few": "Na podstawie Twojego tempa pisania ({{wpm}} słowa na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
       "basisMeasured_many": "Na podstawie Twojego tempa pisania ({{wpm}} słów na minutę) i tempa mówienia około {{speaking}} słów na minutę.",
@@ -2380,7 +2389,10 @@
       "perWeek_few": "<n/> godzin <em>tygodniowo</em>",
       "perWeek_many": "<n/> godzin <em>tygodniowo</em>",
       "perWeek_other": "<n/> godziny <em>tygodniowo</em>",
-      "retakeTest": "Powtórz test pisania"
+      "hoursPerWeek_one": "{{hours}} godzina tygodniowo",
+      "hoursPerWeek_few": "{{hours}} godziny tygodniowo",
+      "hoursPerWeek_many": "{{hours}} godzin tygodniowo",
+      "hoursPerWeek_other": "{{hours}} godziny tygodniowo"
     },
     "typing": {
       "title": "Jak szybko <em>piszesz</em>?",

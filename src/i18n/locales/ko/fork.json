@@ -2091,8 +2091,6 @@
       "listening": "듣는 중… 다 말했으면 fn 키를 누르세요.",
       "listening_fallback": "듣는 중… 다 말했으면 Control과 Option을 누르세요.",
       "working": "받아 적는 중…",
-      "settingUp": "설정 중…",
-      "settingUpPercent": "설정 중… {{percent}}%",
       "queuedNote": "말한 내용이 저장되었습니다. 설정이 끝나는 대로 여기에 표시되며, 어떤 경우든 기록에 남습니다. 잠시 후 자동으로 다음 단계로 넘어갑니다.",
       "nothing": "입력된 내용이 없습니다. 마이크가 켜져 있는지 확인하고 다시 시도하세요.",
       "filled": "이메일이 완성되었습니다. 내용을 더 추가하거나 계속하세요.",
@@ -2101,12 +2099,25 @@
         "to": "받는 사람",
         "recipient": "샘",
         "subject": "제목",
-        "subjectText": "목요일",
         "body": "메시지",
-        "placeholder": "이렇게 말해 보세요: “샘, 안녕하세요. 메모 고마워요. 목요일 10시에 만날 수 있을까요?”"
+        "trySaying": "이렇게 말해 보세요: “{{text}}”",
+        "willAppear": "음성 모델이 준비되는 대로 여기에 표시됩니다."
       },
       "instructionCustom": "{{keys}}을(를) 빠르게 두 번 누른 다음 말하세요. 다 말했으면 {{keys}}을(를) 다시 누르세요.",
-      "listening_custom": "듣는 중… 다 말했으면 {{keys}}을(를) 누르세요."
+      "listening_custom": "듣는 중… 다 말했으면 {{keys}}을(를) 누르세요.",
+      "queued": "저장됨. 음성 모델을 기다리는 중…",
+      "model": {
+        "title": "음성 모델 준비 중",
+        "checking": "다운로드 확인 중…",
+        "paused": "다운로드 일시 중지됨. 잠시 후 다시 시도합니다…",
+        "failed": "음성 모델을 다운로드하지 못했습니다",
+        "underMinute": "1분 미만 남음",
+        "minutesLeft_other": "약 {{count}}분 남음",
+        "bytes": "{{done}} / {{total}}MB",
+        "progressLabel": "음성 모델 다운로드",
+        "body": "처음 한 번만 진행됩니다. 다음 단계를 계속 진행할 수 있으며, 지금 받아쓴 내용은 기다렸다가 준비되면 표시됩니다.",
+        "retry": "다시 시도"
+      }
     },
     "firstDictation": {
       "title": "이게 전부입니다!",
@@ -2114,21 +2125,19 @@
       "lead": "첫 번째 텍스트를 받아쓰기했습니다.",
       "typingLabel": "타이핑, 평균",
       "speakingLabel": "말하기, 평균",
-      "faster": "<n/>배 <em>더 빠름</em>"
+      "faster": "<n/>배 <em>더 빠름</em>",
+      "takeTest": "타이핑 테스트 하기",
+      "retakeTest": "타이핑 테스트 다시 하기",
+      "yourTypingLabel": "내 타이핑"
     },
     "timeSaved": {
       "headline_other": "받아쓰기로 일주일에 약 {{hours}}시간을 절약할 수 있습니다",
-      "intro": "대부분의 사람은 타이핑보다 말하는 것이 더 빠릅니다. 30초 타이핑 테스트로 얼마나 시간을 절약할 수 있는지 확인해 보세요.",
-      "howFast": "타이핑 속도는 어느 정도인가요?",
-      "skipTest": "테스트 건너뛰기",
-      "sliderLabel": "하루에 타이핑하는 시간은 얼마나 되나요?",
-      "hoursPerDay_other": "하루 {{hours}}시간",
-      "takeTest": "타이핑 테스트 하기",
+      "sliderLabel": "일주일에 몇 시간 타이핑하나요?",
       "basisMeasured_other": "분당 {{wpm}}단어의 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
       "basisAverage_other": "분당 {{wpm}}단어의 평균 타이핑 속도와 분당 약 {{speaking}}단어의 말하기 속도를 기준으로 합니다.",
       "lead": "받아쓰기로 절약할 수 있는 시간",
       "perWeek_other": "<em>주당</em> 약 <n/>시간",
-      "retakeTest": "타이핑 테스트 다시 하기"
+      "hoursPerWeek_other": "주 {{hours}}시간"
     },
     "typing": {
       "title": "<em>타이핑</em> 속도는 어느 정도인가요?",

@@ -10,16 +10,24 @@
  * page's own canvas without a worker (no blob: script under the app's
  * CSP), cleared when the screen goes. Reduce Motion: everything is there
  * at once, no confetti, no drawing, no rolling.
+ *
+ * The typing test is offered here (owner's rc9 call): "Take the typing
+ * test", or "Retake the typing test" once there is a result. Back from the
+ * test, the typing bar and the multiple use the measured speed (fork
+ * setting `typing_wpm`, which time saved uses too); the confetti does not
+ * fire a second time.
  */
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, StatNumber, useMotionPresets } from "../ui";
+import { useForkSettings } from "../settings/useForkSettings";
+import { Button, FOCUS_RING, StatNumber, useMotionPresets } from "../ui";
+import { ArrowRight } from "../ui/icons";
 import { DUR, EASE } from "../ui/motion";
 import { ArtSlot, CentredLayout, Title } from "./Layout";
-import { DEFAULT_TYPING_WPM, SPEAKING_WPM } from "./typing";
+import { DEFAULT_TYPING_WPM, SPEAKING_WPM, timesFaster } from "./typing";
 
 function reducedMotion(): boolean {
   return (
@@ -28,23 +36,30 @@ function reducedMotion(): boolean {
   );
 }
 
-/** How many times faster speaking is, to one decimal. */
-const TIMES = Math.round((SPEAKING_WPM / DEFAULT_TYPING_WPM) * 10) / 10;
+/** The confetti fires once per session (not again back from the test). */
+let celebrated = false;
 
 export function FirstDictation({
   preview,
+  onTakeTest,
   onContinue,
 }: {
   preview: boolean;
+  onTakeTest: () => void;
   onContinue: () => void;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
+  const { settings } = useForkSettings();
+  const measured = settings?.typing_wpm ?? null;
+  const typingWpm = measured ?? DEFAULT_TYPING_WPM;
+  const TIMES = timesFaster(typingWpm);
   const m = useMotionPresets();
   const stages = m.celebration.stages;
   const canvas = useRef<HTMLCanvasElement>(null);
   const [times, setTimes] = useState(m.reduced ? TIMES : 1);
 
-  // The multiple rolls up while the arrow draws (stage 2).
+  // The multiple rolls up while the arrow draws (stage 2), and follows a
+  // new result.
   useEffect(() => {
     if (m.reduced) {
       setTimes(TIMES);
@@ -52,12 +67,13 @@ export function FirstDictation({
     }
     const roll = window.setTimeout(() => setTimes(TIMES), stages[2] * 1000);
     return () => window.clearTimeout(roll);
-  }, [m.reduced, stages]);
+  }, [m.reduced, stages, TIMES]);
 
   // One burst once the numbers have settled (after the sticker).
   useEffect(() => {
     const el = canvas.current;
-    if (!el || reducedMotion()) return;
+    if (!el || reducedMotion() || celebrated) return;
+    celebrated = true;
     const burst = confetti.create(el, {
       resize: true,
       useWorker: false,
@@ -134,7 +150,30 @@ export function FirstDictation({
       align="start"
       width={820}
       action={
-        <motion.div {...at(5)} className="flex w-full justify-center">
+        <motion.div
+          {...at(5)}
+          className="flex w-full flex-col items-center gap-4"
+        >
+          <button
+            type="button"
+            onClick={onTakeTest}
+            data-testid="wb-first-dictation-take-test"
+            data-measured={measured != null ? "" : undefined}
+            className={`relative z-20 inline-flex cursor-pointer items-center gap-2 rounded-(--wb-radius-sm) px-2 py-1 text-[15px] font-medium text-(--wb-ink) transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-fill-hover) ${FOCUS_RING}`}
+          >
+            {t(
+              measured == null
+                ? "onboardingFlow.firstDictation.takeTest"
+                : "onboardingFlow.firstDictation.retakeTest",
+            )}
+            <span className="grid size-6 place-items-center rounded-(--wb-radius-xs) bg-(--wb-secondary)">
+              <ArrowRight
+                size={14}
+                aria-hidden="true"
+                className="rtl:-scale-x-100"
+              />
+            </span>
+          </button>
           <Button
             variant="cream"
             size="lg"
@@ -170,9 +209,13 @@ export function FirstDictation({
             {t("onboardingFlow.firstDictation.lead")}
           </motion.p>
           {bar(
-            t("onboardingFlow.firstDictation.typingLabel"),
-            DEFAULT_TYPING_WPM,
-            `${Math.max(32, (DEFAULT_TYPING_WPM / SPEAKING_WPM) * 100)}%`,
+            t(
+              measured == null
+                ? "onboardingFlow.firstDictation.typingLabel"
+                : "onboardingFlow.firstDictation.yourTypingLabel",
+            ),
+            typingWpm,
+            `${Math.min(100, Math.max(32, (typingWpm / SPEAKING_WPM) * 100))}%`,
             "plain",
             "wb-first-dictation-typing",
           )}

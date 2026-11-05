@@ -2170,8 +2170,6 @@
       "listening": "Lytter… tryk på fn, når du er færdig.",
       "listening_fallback": "Lytter… tryk på Control og Option, når du er færdig.",
       "working": "Skriver det ned…",
-      "settingUp": "Gør klar…",
-      "settingUpPercent": "Gør klar… {{percent}} %",
       "queuedNote": "Dine ord er gemt. De vises her, så snart opsætningen er færdig, og de ligger under alle omstændigheder i Historik. Vi går selv videre om et øjeblik.",
       "nothing": "Der kom ikke noget igennem. Tjek, at din mikrofon er slået til, og prøv igen.",
       "filled": "Det er din e-mail. Tilføj mere, eller fortsæt.",
@@ -2180,12 +2178,26 @@
         "to": "Til",
         "recipient": "Sam",
         "subject": "Emne",
-        "subjectText": "Torsdag",
         "body": "Besked",
-        "placeholder": "Prøv at sige: ”Hej Sam, tak for noterne. Kan vi mødes torsdag klokken ti?”"
+        "trySaying": "Prøv at sige: “{{text}}”",
+        "willAppear": "Dine ord vises her, så snart talemodellen er klar."
       },
       "instructionCustom": "Tryk hurtigt to gange på {{keys}}, og tal. Tryk på {{keys}} igen, når du er færdig.",
-      "listening_custom": "Lytter… tryk på {{keys}}, når du er færdig."
+      "listening_custom": "Lytter… tryk på {{keys}}, når du er færdig.",
+      "queued": "Gemt. Venter på talemodellen…",
+      "model": {
+        "title": "Gør din talemodel klar",
+        "checking": "Tjekker downloaden…",
+        "paused": "Download sat på pause. Prøver igen om et øjeblik…",
+        "failed": "Talemodellen kunne ikke downloades",
+        "underMinute": "under et minut tilbage",
+        "minutesLeft_one": "ca. {{count}} min tilbage",
+        "minutesLeft_other": "ca. {{count}} min tilbage",
+        "bytes": "{{done}} af {{total}} MB",
+        "progressLabel": "Download af talemodel",
+        "body": "Det sker kun én gang. Du kan fortsætte med de næste trin; det, du dikterer nu, venter og vises, når den er klar.",
+        "retry": "Prøv igen"
+      }
     },
     "firstDictation": {
       "title": "Sådan!",
@@ -2193,18 +2205,15 @@
       "lead": "Du har lige dikteret din første tekst.",
       "typingLabel": "Skrivning, i gennemsnit",
       "speakingLabel": "Tale, i gennemsnit",
-      "faster": "<n/>× <em>hurtigere</em>"
+      "faster": "<n/>× <em>hurtigere</em>",
+      "takeTest": "Tag skrivetesten",
+      "retakeTest": "Tag skrivetesten igen",
+      "yourTypingLabel": "Din skrivning"
     },
     "timeSaved": {
       "headline_one": "Diktering kan spare dig omkring {{hours}} time om ugen",
       "headline_other": "Diktering kan spare dig omkring {{hours}} timer om ugen",
-      "intro": "For de fleste er det hurtigere at tale end at skrive. Tag en skrivetest på 30 sekunder for at se, hvor meget tid du kan spare.",
-      "howFast": "Hvor hurtigt skriver du?",
-      "skipTest": "Spring testen over",
-      "sliderLabel": "Hvor længe skriver du hver dag?",
-      "hoursPerDay_one": "{{hours}} time om dagen",
-      "hoursPerDay_other": "{{hours}} timer om dagen",
-      "takeTest": "Tag skrivetesten",
+      "sliderLabel": "Hvor mange timer om ugen skriver du?",
       "basisMeasured_one": "Ud fra din skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
       "basisMeasured_other": "Ud fra din skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
       "basisAverage_one": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
@@ -2212,7 +2221,8 @@
       "lead": "Diktering kan spare dig omkring",
       "perWeek_one": "<n/> time <em>om ugen</em>",
       "perWeek_other": "<n/> timer <em>om ugen</em>",
-      "retakeTest": "Tag skrivetesten igen"
+      "hoursPerWeek_one": "{{hours}} time om ugen",
+      "hoursPerWeek_other": "{{hours}} timer om ugen"
     },
     "typing": {
       "title": "Hvor hurtigt <em>skriver</em> du?",

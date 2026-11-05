@@ -7,21 +7,33 @@
  * fills the body here, instead of being pasted. Its source is `practice`,
  * so it is in History but not in the stats (DEC-11).
  *
- * If no speech model is ready yet, the take still records and waits in the
- * queue (S-07c): the screen shows "Setting up… N%" from `fork-speech-setup`
- * and fills the body when the queued take is transcribed. After 90 s of
- * waiting it moves on by itself; the take stays in History. Skip is always
- * offered. The take's way (hold or hands-free) is not enforced: any take
- * counts, the copy teaches hands-free.
+ * The suggested sentence and subject are in the user's language (rc9):
+ * the first of their languages the first speech model hears, so the take
+ * runs on it at once (`practiceSampleFor`); the labels stay in the app's.
+ *
+ * While no speech model can transcribe yet (Dutch alone: DEC-52's one
+ * download; or a take held for the full model behind a partial starter),
+ * the screen says so plainly (`ModelWait`): what is happening, that it
+ * happens once, a real progress bar with megabytes and the time left from
+ * the measured speed, "Checking the download…" while the file is checked
+ * (never a stuck 99 %), and Continue stays enabled so the rest of the
+ * onboarding goes on. A take made meanwhile records and waits in the queue
+ * (S-07c): the composer says it will appear and fills in when the queued
+ * take is transcribed. After 90 s of waiting it moves on by itself; the
+ * take stays in History. Skip is always offered. The take's way (hold or
+ * hands-free) is not enforced: any take counts, the copy teaches
+ * hands-free.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mail, Mic } from "../ui/icons";
 import { useTranslation } from "react-i18next";
 import { events as handyEvents } from "@/bindings";
+import { useSettings } from "@/hooks/useSettings";
 import { commands, events, type ForkSpeechSetup } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button } from "../ui";
+import { Button, ProgressLine } from "../ui";
 import { CentredLayout, SkipLink, Title } from "./Layout";
+import { practiceSampleFor } from "./samples";
 import { chordLabel } from "../settings/hotkeys/model";
 
 /** The practice mode renews itself before the backend's two-minute expiry. */
@@ -43,12 +55,13 @@ export function HandsFreePractice({
   onDone: () => void;
   onSkip: () => void;
 }) {
-  const { t } = useTranslation(FORK_NAMESPACE);
+  const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const [trigger, setTrigger] = useState<string | null>("fn");
   const [phase, setPhase] = useState<Phase>("idle");
   const [body, setBody] = useState("");
   const [filled, setFilled] = useState(false);
-  const [percent, setPercent] = useState<number | null>(null);
+  const [setup, setSetup] = useState<ForkSpeechSetup | null>(null);
+  const { settings: handy } = useSettings();
   const nothingTimer = useRef<number>();
   const waitTimer = useRef<number>();
   const doneRef = useRef(onDone);
@@ -59,14 +72,15 @@ export function HandsFreePractice({
     window.clearTimeout(waitTimer.current);
   };
 
-  const onSetup = useCallback((setup: ForkSpeechSetup) => {
-    setPercent(setup.phase === "ready" ? 100 : setup.percent);
-  }, []);
+  const onSetup = useCallback((next: ForkSpeechSetup) => setSetup(next), []);
 
   // Practice mode, its renewal, and the key the copy names.
   useEffect(() => {
     if (preview) return;
     let alive = true;
+    void commands.forkSpeechSetupStatus().then((s) => {
+      if (alive) onSetup(s);
+    });
     const on = () => void commands.forkOnboardingPractice(true);
     on();
     const renew = window.setInterval(on, RENEW_MS);
@@ -78,7 +92,7 @@ export function HandsFreePractice({
       window.clearInterval(renew);
       void commands.forkOnboardingPractice(false);
     };
-  }, [preview]);
+  }, [preview, onSetup]);
 
   // Takes: their phases, their text, and a queued take's wait.
   useEffect(() => {
@@ -145,14 +159,21 @@ export function HandsFreePractice({
       : phase === "working"
         ? t("onboardingFlow.practice.working")
         : phase === "queued"
-          ? percent != null && percent < 100
-            ? t("onboardingFlow.practice.settingUpPercent", { percent })
-            : t("onboardingFlow.practice.settingUp")
+          ? t("onboardingFlow.practice.queued")
           : phase === "nothing"
             ? t("onboardingFlow.practice.nothing")
             : filled
               ? t("onboardingFlow.practice.filled")
               : t("onboardingFlow.practice.waiting");
+
+  const { practice: sample, language: sampleLanguage } = practiceSampleFor(
+    setup?.starter_languages ?? [],
+    handy?.spoken_languages ?? [],
+    i18n.language,
+  );
+  // No model can transcribe yet: the wait is shown and never blocks.
+  const waiting =
+    setup != null && setup.phase !== "ready" && setup.phase !== "checking";
 
   return (
     <CentredLayout
@@ -181,7 +202,7 @@ export function HandsFreePractice({
           variant="primary"
           size="lg"
           className="w-full max-w-[300px]"
-          disabled={!filled && !preview}
+          disabled={!filled && !waiting && !preview}
           onClick={onDone}
           data-testid="wb-practice-continue"
         >
@@ -212,8 +233,8 @@ export function HandsFreePractice({
             <dt className="font-medium text-(--wb-ink-2)">
               {t("onboardingFlow.practice.composer.subject")}
             </dt>
-            <dd className="m-0 text-(--wb-ink-2)">
-              {t("onboardingFlow.practice.composer.subjectText")}
+            <dd className="m-0 text-(--wb-ink-2)" lang={sampleLanguage}>
+              {sample.subject}
             </dd>
           </div>
         </dl>
@@ -225,7 +246,13 @@ export function HandsFreePractice({
             id="wb-practice-body"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            placeholder={t("onboardingFlow.practice.composer.placeholder")}
+            placeholder={
+              phase === "queued" && !body.trim()
+                ? t("onboardingFlow.practice.composer.willAppear")
+                : t("onboardingFlow.practice.composer.trySaying", {
+                    text: sample.suggestion,
+                  })
+            }
             data-testid="wb-practice-body"
             rows={5}
             className={`min-h-[132px] w-full resize-none rounded-(--wb-radius-sm) border bg-transparent px-3 py-2.5 text-[15px] leading-[22px] text-(--wb-ink) outline-none select-text placeholder:text-(--wb-ink-3) placeholder:italic focus-visible:border-(--wb-accent) ${
@@ -262,6 +289,104 @@ export function HandsFreePractice({
           {t("onboardingFlow.practice.queuedNote")}
         </p>
       )}
+      {waiting && setup && <ModelWait setup={setup} />}
     </CentredLayout>
+  );
+}
+
+/**
+ * "Getting your speech model ready": what happens, that it happens once,
+ * and how far it is (bytes and the time left from the measured speed; the
+ * checksum as "Checking the download…", never a stuck 99 %).
+ */
+export function ModelWait({ setup }: { setup: ForkSpeechSetup }) {
+  const { t, i18n } = useTranslation(FORK_NAMESPACE);
+  const mb = new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 0 });
+  const verifying = setup.phase === "verifying";
+  const failed = setup.phase === "failed";
+  const paused = setup.phase === "waiting";
+  const known =
+    setup.phase === "downloading" &&
+    setup.percent != null &&
+    setup.total_bytes > 0;
+  const eta = setup.eta_seconds;
+  const title = verifying
+    ? t("onboardingFlow.practice.model.checking")
+    : failed
+      ? t("onboardingFlow.practice.model.failed")
+      : paused
+        ? t("onboardingFlow.practice.model.paused")
+        : t("onboardingFlow.practice.model.title");
+  const left =
+    known && eta != null
+      ? eta < 60
+        ? t("onboardingFlow.practice.model.underMinute")
+        : t("onboardingFlow.practice.model.minutesLeft", {
+            count: Math.ceil(eta / 60),
+          })
+      : null;
+  const bytes = known
+    ? t("onboardingFlow.practice.model.bytes", {
+        done: mb.format(setup.downloaded_bytes / 1_000_000),
+        total: mb.format(setup.total_bytes / 1_000_000),
+      })
+    : null;
+  return (
+    <section
+      className="mt-6 flex w-full max-w-[480px] flex-col gap-2 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-4 py-3 text-start"
+      aria-labelledby="wb-practice-model-title"
+      data-testid="wb-practice-model-wait"
+      data-phase={setup.phase}
+    >
+      <div className="flex items-baseline justify-between gap-3">
+        <h2
+          id="wb-practice-model-title"
+          className="type-card-title m-0 text-(--wb-ink)"
+        >
+          {title}
+        </h2>
+        {left && (
+          <span
+            className="shrink-0 text-[13px] text-(--wb-ink-2) tabular-nums"
+            data-testid="wb-practice-model-eta"
+          >
+            {left}
+          </span>
+        )}
+      </div>
+      {known ? (
+        <ProgressLine
+          value={(setup.percent ?? 0) / 100}
+          thickness={4}
+          tone="ink"
+          label={t("onboardingFlow.practice.model.progressLabel")}
+          valueText={bytes ?? undefined}
+          testId="wb-practice-model-progress"
+        />
+      ) : null}
+      <p className="m-0 text-[13px] leading-[18px] text-(--wb-ink-2)">
+        {bytes && (
+          <span
+            className="me-1 tabular-nums"
+            data-testid="wb-practice-model-bytes"
+          >
+            {bytes} ·
+          </span>
+        )}
+        {t("onboardingFlow.practice.model.body")}
+      </p>
+      {failed && (
+        <div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => void commands.forkSpeechSetupRetry()}
+            data-testid="wb-practice-model-retry"
+          >
+            {t("onboardingFlow.practice.model.retry")}
+          </Button>
+        </div>
+      )}
+    </section>
   );
 }

@@ -7,8 +7,10 @@
  *   counting only characters typed correctly (in place against the sample),
  *   over the time since the first key press. A typo therefore lowers the
  *   number instead of being ignored.
- * - Time saved (DEC-50): of the hours a day spent typing, the share that
- *   speaking would save, over a five-day week. Speaking is taken at
+ * - Time saved (DEC-50): of the hours a week spent typing (the slider,
+ *   4 h by default, owner's rc9 call; stored per day as the fork setting
+ *   `typing_hours_per_day` over a five-day week), the share that speaking
+ *   would save. Speaking is taken at
  *   200 words a minute (owner's call, rc8: dictation runs faster than
  *   conversation), so a fast typist sees a smaller number, and nobody who
  *   types at 200 or faster is promised any saving. The typing speed until
@@ -29,11 +31,21 @@ export const DEFAULT_TYPING_WPM = 45;
 export const WORKDAYS = 5;
 /** The fork setting's bound (`MAX_TYPING_WPM` in `fork/settings.rs`). */
 export const MAX_TYPING_WPM = 300;
-/** The slider's range and step, hours a day. */
-export const HOURS_MIN = 0.5;
-export const HOURS_MAX = 8;
-export const HOURS_STEP = 0.5;
-export const DEFAULT_HOURS = 2;
+/** The slider's range and step, hours of typing a week. */
+export const HOURS_MIN = 1;
+export const HOURS_MAX = 40;
+export const HOURS_STEP = 1;
+export const DEFAULT_HOURS = 4;
+
+/** The stored setting (hours a day) as the slider's hours a week. */
+export function weeklyHours(hoursPerDay: number | null | undefined): number {
+  return clampHours(hoursPerDay == null ? null : hoursPerDay * WORKDAYS);
+}
+
+/** The slider's hours a week as the stored setting (hours a day). */
+export function dailyHours(hoursPerWeek: number): number {
+  return Math.round((hoursPerWeek / WORKDAYS) * 100) / 100;
+}
 
 /** Characters of `typed` that match `sample` at the same place. */
 export function correctChars(sample: string, typed: string): number {
@@ -69,14 +81,20 @@ export function savableWpm(wpm: number): number | null {
  */
 export function hoursSavedPerWeek(
   typingWpm: number,
-  hoursPerDay: number,
+  hoursPerWeek: number,
 ): number {
-  if (!(typingWpm > 0) || !(hoursPerDay > 0)) return 0;
+  if (!(typingWpm > 0) || !(hoursPerWeek > 0)) return 0;
   const share = Math.max(0, 1 - typingWpm / SPEAKING_WPM);
-  return Math.round(hoursPerDay * WORKDAYS * share * 2) / 2;
+  return Math.round(hoursPerWeek * share * 2) / 2;
 }
 
-/** Keeps a stored slider value on the slider's steps. */
+/** How many times faster speaking is than `typingWpm`, to one decimal. */
+export function timesFaster(typingWpm: number): number {
+  if (!(typingWpm > 0)) return 0;
+  return Math.round((SPEAKING_WPM / typingWpm) * 10) / 10;
+}
+
+/** Keeps a slider value (hours a week) on the slider's steps. */
 export function clampHours(hours: number | null | undefined): number {
   if (hours == null || !Number.isFinite(hours)) return DEFAULT_HOURS;
   const stepped = Math.round(hours / HOURS_STEP) * HOURS_STEP;

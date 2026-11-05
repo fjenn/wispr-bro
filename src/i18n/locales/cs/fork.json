@@ -2328,8 +2328,6 @@
       "listening": "Poslouchám… Až budete hotovi, stiskněte fn.",
       "listening_fallback": "Poslouchám… Až budete hotovi, stiskněte Control a Option.",
       "working": "Zapisuji…",
-      "settingUp": "Připravuji…",
-      "settingUpPercent": "Připravuji… {{percent}} %",
       "queuedNote": "Vaše slova jsou uložená. Objeví se zde, jakmile se dokončí příprava, a v každém případě je najdete v Historii. Za chvíli budeme pokračovat sami.",
       "nothing": "Nic se nezachytilo. Zkontrolujte, že je mikrofon zapnutý, a zkuste to znovu.",
       "filled": "Váš e-mail je hotový. Můžete pokračovat v diktování, nebo jít dál.",
@@ -2338,12 +2336,28 @@
         "to": "Komu",
         "recipient": "Sam",
         "subject": "Předmět",
-        "subjectText": "Čtvrtek",
         "body": "Zpráva",
-        "placeholder": "Zkuste říct: „Ahoj Same, díky za poznámky. Můžeme se sejít ve čtvrtek v deset?“"
+        "trySaying": "Zkuste říct: „{{text}}“",
+        "willAppear": "Vaše slova se tu objeví, jakmile bude řečový model připravený."
       },
       "instructionCustom": "Stiskněte rychle dvakrát {{keys}} a mluvte. Až budete hotovi, stiskněte znovu {{keys}}.",
-      "listening_custom": "Poslouchám… Až budete hotovi, stiskněte {{keys}}."
+      "listening_custom": "Poslouchám… Až budete hotovi, stiskněte {{keys}}.",
+      "queued": "Uloženo. Čeká se na řečový model…",
+      "model": {
+        "title": "Připravujeme řečový model",
+        "checking": "Kontrola staženého souboru…",
+        "paused": "Stahování je pozastavené. Za chvíli to zkusíme znovu…",
+        "failed": "Řečový model se nepodařilo stáhnout",
+        "underMinute": "zbývá méně než minuta",
+        "minutesLeft_one": "zbývá asi {{count}} min",
+        "minutesLeft_few": "zbývá asi {{count}} min",
+        "minutesLeft_many": "zbývá asi {{count}} min",
+        "minutesLeft_other": "zbývá asi {{count}} min",
+        "bytes": "{{done}} z {{total}} MB",
+        "progressLabel": "Stahování řečového modelu",
+        "body": "Stane se to jen jednou. Můžete pokračovat dalšími kroky; co teď nadiktujete, počká a objeví se, až bude model připravený.",
+        "retry": "Zkusit znovu"
+      }
     },
     "firstDictation": {
       "title": "A je to!",
@@ -2351,22 +2365,17 @@
       "lead": "Právě jste nadiktovali svůj první text.",
       "typingLabel": "Psaní, v průměru",
       "speakingLabel": "Mluvení, v průměru",
-      "faster": "<n/>× <em>rychlejší</em>"
+      "faster": "<n/>× <em>rychlejší</em>",
+      "takeTest": "Udělat test psaní",
+      "retakeTest": "Zopakovat test psaní",
+      "yourTypingLabel": "Vaše psaní"
     },
     "timeSaved": {
       "headline_one": "Diktování vám může ušetřit asi {{hours}} hodinu týdně",
       "headline_few": "Diktování vám může ušetřit asi {{hours}} hodiny týdně",
       "headline_many": "Diktování vám může ušetřit asi {{hours}} hodiny týdně",
       "headline_other": "Diktování vám může ušetřit asi {{hours}} hodin týdně",
-      "intro": "Většina lidí mluví rychleji, než píše. Udělejte si 30sekundový test psaní a zjistěte, kolik času byste mohli ušetřit.",
-      "howFast": "Jak rychle píšete?",
-      "skipTest": "Přeskočit test",
-      "sliderLabel": "Kolik času denně píšete?",
-      "hoursPerDay_one": "{{hours}} hodina denně",
-      "hoursPerDay_few": "{{hours}} hodiny denně",
-      "hoursPerDay_many": "{{hours}} hodiny denně",
-      "hoursPerDay_other": "{{hours}} hodin denně",
-      "takeTest": "Udělat test psaní",
+      "sliderLabel": "Kolik hodin týdně píšete?",
       "basisMeasured_one": "Vychází z vaší rychlosti psaní {{wpm}} slovo za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
       "basisMeasured_few": "Vychází z vaší rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
       "basisMeasured_many": "Vychází z vaší rychlosti psaní {{wpm}} slova za minutu a rychlosti mluvení asi {{speaking}} slov za minutu.",
@@ -2380,7 +2389,10 @@
       "perWeek_few": "<n/> hodiny <em>týdně</em>",
       "perWeek_many": "<n/> hodiny <em>týdně</em>",
       "perWeek_other": "<n/> hodin <em>týdně</em>",
-      "retakeTest": "Zopakovat test psaní"
+      "hoursPerWeek_one": "{{hours}} hodina týdně",
+      "hoursPerWeek_few": "{{hours}} hodiny týdně",
+      "hoursPerWeek_many": "{{hours}} hodiny týdně",
+      "hoursPerWeek_other": "{{hours}} hodin týdně"
     },
     "typing": {
       "title": "Jak rychle <em>píšete</em>?",

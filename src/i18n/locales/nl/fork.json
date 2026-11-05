@@ -2170,8 +2170,6 @@
       "listening": "Luistert… druk op fn als je klaar bent.",
       "listening_fallback": "Luistert… druk op Control en Option als je klaar bent.",
       "working": "Uitschrijven…",
-      "settingUp": "Instellen…",
-      "settingUpPercent": "Instellen… {{percent}}%",
       "queuedNote": "Je woorden zijn bewaard. Ze verschijnen hier zodra het instellen klaar is, en staan hoe dan ook in Geschiedenis. Zo dadelijk gaan we vanzelf verder.",
       "nothing": "Er kwam niets door. Controleer of je microfoon aanstaat en probeer het opnieuw.",
       "filled": "Dat is je e-mail. Voeg meer toe of ga verder.",
@@ -2180,12 +2178,26 @@
         "to": "Aan",
         "recipient": "Sam",
         "subject": "Onderwerp",
-        "subjectText": "Donderdag",
         "body": "Bericht",
-        "placeholder": "Zeg bijvoorbeeld: “Hoi Sam, bedankt voor de aantekeningen. Kunnen we donderdag om tien uur afspreken?”"
+        "trySaying": "Zeg bijvoorbeeld: ‘{{text}}’",
+        "willAppear": "Je woorden verschijnen hier zodra het spraakmodel klaar is."
       },
       "instructionCustom": "Druk twee keer snel op {{keys}} en praat. Druk nog een keer op {{keys}} als je klaar bent.",
-      "listening_custom": "Luistert… druk op {{keys}} als je klaar bent."
+      "listening_custom": "Luistert… druk op {{keys}} als je klaar bent.",
+      "queued": "Bewaard. Wachten op het spraakmodel…",
+      "model": {
+        "title": "Je spraakmodel wordt klaargezet",
+        "checking": "Download controleren…",
+        "paused": "Download gepauzeerd. Zo meteen opnieuw…",
+        "failed": "Het spraakmodel kon niet worden gedownload",
+        "underMinute": "nog minder dan een minuut",
+        "minutesLeft_one": "nog ongeveer {{count}} min",
+        "minutesLeft_other": "nog ongeveer {{count}} min",
+        "bytes": "{{done}} van {{total}} MB",
+        "progressLabel": "Download van het spraakmodel",
+        "body": "Dit gebeurt maar één keer. Je kunt verder met de volgende stappen; wat je nu dicteert, wacht en verschijnt zodra het klaar is.",
+        "retry": "Opnieuw proberen"
+      }
     },
     "firstDictation": {
       "title": "Zo simpel is het!",
@@ -2193,18 +2205,15 @@
       "lead": "Je hebt net je eerste tekst gedicteerd.",
       "typingLabel": "Typen, gemiddeld",
       "speakingLabel": "Praten, gemiddeld",
-      "faster": "<n/>× <em>sneller</em>"
+      "faster": "<n/>× <em>sneller</em>",
+      "takeTest": "Doe de typetest",
+      "retakeTest": "Typetest opnieuw doen",
+      "yourTypingLabel": "Jouw typen"
     },
     "timeSaved": {
       "headline_one": "Dicteren kan je ongeveer {{hours}} uur per week besparen",
       "headline_other": "Dicteren kan je ongeveer {{hours}} uur per week besparen",
-      "intro": "Voor de meeste mensen is praten sneller dan typen. Doe een typetest van 30 seconden om te zien hoeveel tijd je kunt besparen.",
-      "howFast": "Hoe snel typ je?",
-      "skipTest": "Sla de test over",
-      "sliderLabel": "Hoe lang typ je per dag?",
-      "hoursPerDay_one": "{{hours}} uur per dag",
-      "hoursPerDay_other": "{{hours}} uur per dag",
-      "takeTest": "Doe de typetest",
+      "sliderLabel": "Hoeveel uur per week typ je?",
       "basisMeasured_one": "Op basis van je typsnelheid van {{wpm}} woord per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
       "basisMeasured_other": "Op basis van je typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
       "basisAverage_one": "Op basis van een gemiddelde typsnelheid van {{wpm}} woord per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
@@ -2212,7 +2221,8 @@
       "lead": "Met dicteren bespaar je ongeveer",
       "perWeek_one": "<n/> uur <em>per week</em>",
       "perWeek_other": "<n/> uur <em>per week</em>",
-      "retakeTest": "Typetest opnieuw doen"
+      "hoursPerWeek_one": "{{hours}} uur per week",
+      "hoursPerWeek_other": "{{hours}} uur per week"
     },
     "typing": {
       "title": "Hoe snel <em>typ</em> je?",

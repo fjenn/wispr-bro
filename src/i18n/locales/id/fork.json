@@ -2091,8 +2091,6 @@
       "listening": "Mendengarkan… tekan fn saat selesai.",
       "listening_fallback": "Mendengarkan… tekan Control dan Option saat selesai.",
       "working": "Menuliskannya…",
-      "settingUp": "Menyiapkan…",
-      "settingUpPercent": "Menyiapkan… {{percent}}%",
       "queuedNote": "Kata-kata Anda telah disimpan. Kata-kata itu muncul di sini begitu penyiapan selesai, dan tetap ada di Riwayat. Kami akan lanjut dengan sendirinya sebentar lagi.",
       "nothing": "Tidak ada yang masuk. Periksa apakah mikrofon Anda menyala, lalu coba lagi.",
       "filled": "Itulah email Anda. Tambahkan lagi, atau lanjutkan.",
@@ -2101,12 +2099,25 @@
         "to": "Kepada",
         "recipient": "Sam",
         "subject": "Subjek",
-        "subjectText": "Kamis",
         "body": "Pesan",
-        "placeholder": "Coba ucapkan: “Hai Sam, terima kasih atas catatannya. Bisakah kita bertemu hari Kamis pukul sepuluh?”"
+        "trySaying": "Coba ucapkan: “{{text}}”",
+        "willAppear": "Kata-kata Anda akan muncul di sini begitu model ucapan siap."
       },
       "instructionCustom": "Tekan {{keys}} dua kali dengan cepat, lalu bicara. Tekan {{keys}} lagi saat selesai.",
-      "listening_custom": "Mendengarkan… tekan {{keys}} saat selesai."
+      "listening_custom": "Mendengarkan… tekan {{keys}} saat selesai.",
+      "queued": "Tersimpan. Menunggu model ucapan…",
+      "model": {
+        "title": "Menyiapkan model ucapan Anda",
+        "checking": "Memeriksa unduhan…",
+        "paused": "Unduhan dijeda. Mencoba lagi sebentar lagi…",
+        "failed": "Model ucapan tidak dapat diunduh",
+        "underMinute": "kurang dari satu menit lagi",
+        "minutesLeft_other": "sekitar {{count}} menit lagi",
+        "bytes": "{{done}} dari {{total}} MB",
+        "progressLabel": "Unduhan model ucapan",
+        "body": "Ini hanya terjadi sekali. Anda bisa lanjut ke langkah berikutnya; apa pun yang Anda diktekan sekarang akan menunggu dan muncul saat siap.",
+        "retry": "Coba lagi"
+      }
     },
     "firstDictation": {
       "title": "Begitu saja!",
@@ -2114,21 +2125,19 @@
       "lead": "Anda baru saja mendikte teks pertama Anda.",
       "typingLabel": "Mengetik, rata-rata",
       "speakingLabel": "Berbicara, rata-rata",
-      "faster": "<n/>× <em>lebih cepat</em>"
+      "faster": "<n/>× <em>lebih cepat</em>",
+      "takeTest": "Ikuti tes mengetik",
+      "retakeTest": "Ulangi tes mengetik",
+      "yourTypingLabel": "Ketikan Anda"
     },
     "timeSaved": {
       "headline_other": "Dikte bisa menghemat waktu Anda sekitar {{hours}} jam per minggu",
-      "intro": "Bagi kebanyakan orang, berbicara lebih cepat daripada mengetik. Ikuti tes mengetik 30 detik untuk melihat berapa banyak waktu yang bisa Anda hemat.",
-      "howFast": "Seberapa cepat Anda mengetik?",
-      "skipTest": "Lewati tes",
-      "sliderLabel": "Berapa lama Anda mengetik setiap hari?",
-      "hoursPerDay_other": "{{hours}} jam per hari",
-      "takeTest": "Ikuti tes mengetik",
+      "sliderLabel": "Berapa jam seminggu Anda mengetik?",
       "basisMeasured_other": "Berdasarkan kecepatan mengetik Anda {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
       "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
       "lead": "Dikte bisa menghemat waktu Anda sekitar",
       "perWeek_other": "<n/> jam <em>per minggu</em>",
-      "retakeTest": "Ulangi tes mengetik"
+      "hoursPerWeek_other": "{{hours}} jam per minggu"
     },
     "typing": {
       "title": "Seberapa cepat Anda <em>mengetik</em>?",
