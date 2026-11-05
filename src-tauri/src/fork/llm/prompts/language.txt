@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro's own text. Appended when the take's language is known (S-12a).
+# `{{language}}` is replaced with e.g. "Dutch (nl)", `{{fillers}}` with that
+# language's filler words from tables/markers.json (the owner's policy).
+# Everything after the first line that is exactly `---` is the fragment.
+---
+
+LANGUAGE: the transcript is in {{language}}. Write the cleaned text in that language; never translate it. In this language these words are fillers when they only start a sentence or fill a pause and carry no meaning; remove them: {{fillers}}.

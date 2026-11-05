@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Cargo.lock is committed: a pruned copy of src-tauri/Cargo.lock (same versions as the app) plus objc2-application-services.
+/target/

@@ -1,0 +1,70 @@
+# Hosts that may appear in upstream code or in the built bundle but that the
+# app provably never contacts (R5 §4.12). Every active entry names the test
+# (or, for identifiers that are never dereferenced, the reason; for
+# click-only links, the source) that proves it unreachable. Read by
+# scripts/wb-guard-hosts.ts (upstream scan) and
+# scripts/wb-guard-bundle-hosts.ts (built bundle).
+#
+# Sections and the comment each entry needs (checked by wb-guard-hosts.ts):
+#   identifier: `reason: …`  never dereferenced;
+#   proven:     `proof: …`   names the test(s) proving it unreachable (the
+#                            guard self-tests check that every `fork::…::fn`
+#                            path named here is a Rust test that exists);
+#   link:       `source: …`  a link that only opens in the user's browser on
+#                            a click (opener plugin `openUrl`), never app
+#                            traffic; names every source location.
+# Still pending (commented out at the end): F-02 (Windows signCommand).
+
+[identifier]
+# Never dereferenced: identifiers, not requests.
+www.w3.org                  # reason: XML namespace URI (SVG xmlns in icon components, React DOM); browsers never fetch namespace URIs
+www.apple.com               # reason: plist DOCTYPE system id (PropertyList-1.0.dtd) in the binary; plist parsers never fetch it
+docs.rs                     # reason: documentation link inside a rustls error message string
+developer.apple.com         # reason: `// ref:` comment in ggml's embedded Metal shader source
+www.johndcook.com           # reason: `// ref:` comment in ggml's embedded Metal shader source
+www.opencompute.org         # reason: `// ref:` comment in ggml's embedded Metal shader source
+arxiv.org                   # reason: `// ref:` comment in ggml's embedded Metal shader source
+tailwindcss.com             # reason: `/*! tailwindcss … | https://tailwindcss.com */` licence banner in the built CSS
+reactjs.org                 # reason: React's production error-decoder link inside thrown error messages
+www.i18next.com             # reason: i18next deprecation-warning text (console only)
+bit.ly                      # reason: Immer's minified-error message text ("Full error at: …")
+redux.js.org                # reason: Redux's minified-error message text inside thrown errors (Recharts' state store, S-25 Insights chart chunk)
+redux-toolkit.js.org        # reason: Redux Toolkit's minified-error message text inside thrown errors (Recharts, S-25)
+
+[proven]
+# Network hosts proven unreachable by a test (F-08). Every LLM request in
+# Handy's llm_client.rs (send_chat_completion, …_with_schema,
+# send_anthropic_message, fetch_models) builds its client through
+# create_client → fork::llm::client_builder, which refuses any non-loopback
+# base URL before a request is made (DEC-04, hook in ci/hooks.txt). In the
+# frontend bundle the provider hosts are only placeholder text
+# (translation.json settings.postProcessing.api.baseUrl.placeholder*), shown
+# in the base-URL field; a URL typed there is refused by the same check.
+blob.handy.computer        # proof: fork::models::tests::downloader_never_builds_a_blob_handy_computer_url, fork::net::tests::the_handy_mirror_is_never_a_mirror_base (mirror hook returns None; legacy URL models refused by checked_download_url)
+api.openai.com             # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (chat + models refused, no connection), fork::llm::tests::default_list_has_no_cloud_provider, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
+api.anthropic.com          # proof: fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_a_stopped_local_llm, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local
+api.groq.com               # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list (not offered), fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (any non-loopback URL refused)
+api.cerebras.ai            # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
+api.z.ai                   # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
+openrouter.ai              # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (names it), fork::llm::tests::neutral_headers_drop_app_identifying_headers_only (HTTP-Referer / X-Title dropped)
+bedrock-mantle.us-east-1.api.aws # proof: fork::llm::tests::handy_settings_defaults_come_from_the_fork_list, fork::settings::tests::a_stored_openai_provider_is_migrated_to_local, fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request
+api.deepseek.com           # proof: fork::llm::tests::non_loopback_custom_url_is_refused_before_any_request (llm_client.rs only compares a base-URL substring; any non-loopback base URL is refused)
+
+# S-10: strings inside the bundled llama-server sidecar (its -hf / -dr /
+# model-catalog download code, chat-template docs links, the JSON-schema
+# id). The sidecar is built without TLS (ci/llama-server/build.sh:
+# LLAMA_OPENSSL=OFF, LLAMA_BUILD_BORINGSSL=OFF), so it cannot make any HTTPS
+# request, and the app spawns it with --offline and never a download flag.
+llama.app                  # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06, fork::llm::process::tests::the_overlay_bundles_the_sidecar_build_sh_builds
+ggml.ai                    # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06 (--no-ui: the web UI that links it is not served)
+registry-1.docker.io       # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06 (no -dr flag)
+auth.docker.io             # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests, fork::llm::process::tests::spawn_line_matches_r5_and_rs06 (no -dr flag)
+docs.z.ai                  # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests (a docs link in a chat-template comment string)
+json-schema.org            # proof: fork::llm::process::tests::real_sidecar_cannot_make_https_requests (a JSON-schema `$schema` id string, never fetched)
+
+[link]
+# Click-only links: opened in the user's browser by the opener plugin.
+handy.computer             # source: src/components/SecureInputWarning.tsx:100 openUrl(SECURE_INPUT_HELP_URL) (/docs/troubleshooting), src/components/onboarding/LinuxGuide.tsx:19 openUrl(LINUX_SETUP_URL) (/docs/linux), src/components/settings/about/AboutSettings.tsx:34 openUrl("…/donate"). S-26b replaces them
+
+# --- pending (uncomment when the named proof exists) ------------------------
+# eus.codesigning.azure.net  # proof: F-02 overlay nulls bundle.windows.signCommand (embedded config only, never requested)

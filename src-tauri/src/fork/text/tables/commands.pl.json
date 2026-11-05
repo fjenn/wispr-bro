@@ -1,0 +1,27 @@
+{
+  "_about": "Voice commands for one language (R5 §4.10 stage 7, S-11). Phrases match case-insensitively as whole words. newLine, newParagraph and scratchThat fire only at a clause edge on both sides (start or end of the text, a line break or clause punctuation), so 'a new line of credit' stays text; punctuation fires when nothing but punctuation or the end follows and the word before is not a blocker ('a question mark.' stays text). In scripts without spaces only the right edge is checked. A literal prefix right before any phrase keeps the phrase as words. Loaded by fork/text/commands.rs; tested there.",
+  "_sources": "Spoken punctuation phrases and literal prefixes ported as data from MacParakeet Sources/MacParakeetCore/TextProcessing/SpokenPunctuation.swift (moona3k/macparakeet, commit 3ec699152f78df8adccba0cbff5cb968c9790947, GPL-3.0, Copyright (C) 2026 Daniel Moon). Modified by Wispr Bro contributors, 2026-10-30: split per language; line, paragraph and scratch phrases and blockers added (our own). See docs/fork/PORTS.md.",
+  "language": "pl",
+  "newLine": ["nowa linia", "nowa linijka", "następna linia"],
+  "newParagraph": ["nowy akapit"],
+  "scratchThat": ["skreśl to", "skresl to"],
+  "punctuation": [
+    ["znak zapytania", "?"],
+    ["wykrzyknik", "!"]
+  ],
+  "literal": ["dosłownie", "doslownie"],
+  "blockers": [
+    "ten",
+    "ta",
+    "mój",
+    "moja",
+    "twój",
+    "twoja",
+    "jego",
+    "jej",
+    "nasz",
+    "nasza",
+    "każdy",
+    "każda"
+  ]
+}

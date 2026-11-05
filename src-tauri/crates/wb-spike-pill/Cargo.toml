@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# RS-03 pill panel spike (R5 §7 RS-03, §4.9, DEC-28, RT-13..RT-17). A test
+# tool, not product code: it is never built into the app. A minimal Tauri app
+# with one `fork-pill` NSPanel built the Tolkovo way on tauri-nspanel 2.1.1
+# (no Handy `recording_overlay`, no Hub), plus a driver that runs the RS-03
+# checks unattended with CGEvent, AX and screen capture. See
+# docs/fork/spikes/RS-03-pill.md.
+
+[package]
+name = "wb-spike-pill"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+
+# Its own workspace root, so it never joins (or changes) the app's build.
+[workspace]
+
+[[bin]]
+name = "wb-spike-pill"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+# The app's own versions (src-tauri/Cargo.toml); Cargo.lock started as a copy
+# of src-tauri/Cargo.lock. tauri-nspanel is the 2.1.1 release R4 names (the app
+# still pins the git v2.1 branch at 2.1.0).
+[dependencies]
+tauri = { version = "2.11.5", features = ["macos-private-api"] }
+tauri-nspanel = "=2.1.1"
+objc2 = "0.6"
+objc2-foundation = "0.3"
+objc2-app-kit = "0.3"
+block2 = "0.6"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+libc = "0.2"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+png = "0.18"
+
+[profile.release]
+panic = "unwind"

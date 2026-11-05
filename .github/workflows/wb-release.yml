@@ -1,0 +1,202 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro release (F-02, E-58, E-219; docs/fork/RELEASING.md).
+#
+# Trigger: pushing a tag `vX.Y.Z[-alpha.N|-beta.N|-rc.N]` whose commit is on
+# `wispr-bro` (or workflow_dispatch with that tag). Nothing else releases.
+#
+#   preflight  tag format, strictly newer than every other v* tag, equal to
+#              the overlay version; commit on wispr-bro; every guard in
+#              release mode (no F-02 placeholders, our pubkey and feed)
+#   notices    THIRD-PARTY-NOTICES.md is current (cargo-about, F-04)
+#   egress     wb-egress.yml: the build talks only to the R5 §1 hosts
+#   build      wb-build.yml: signed, notarized, stapled DMG + updater archive,
+#              its .sig and latest.json; wb-verify on a fresh runner
+#   publish    stable/alpha/rc → a **draft** release `vX…` (the owner
+#              reviews and publishes it; only then does
+#              releases/latest/download/latest.json serve it). `-beta.N` → the
+#              rolling `beta` **prerelease**: assets replaced, tag `beta`
+#              moved to this commit, so releases/latest never points at it.
+#              Both carry the GPL assets (LICENSE, NOTICE,
+#              THIRD-PARTY-NOTICES.md, the source tarball) and SHA256SUMS.
+#
+# Owner, once: add the secrets listed in RELEASING.md; disable the upstream
+# release.yml, build.yml, main-build.yml, pr-test-build.yml, build-test.yml
+# and nix-check.yml in the Actions UI (R5 §4.1).
+
+name: "wb-release"
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "existing tag to release (vX.Y.Z[-alpha|beta|rc.N])"
+        type: string
+        required: true
+
+concurrency:
+  group: wb-release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      version: ${{ steps.tag.outputs.version }}
+      channel: ${{ steps.tag.outputs.channel }}
+      release_tag: ${{ steps.tag.outputs.release_tag }}
+      sha: ${{ steps.sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: The tag's commit is on wispr-bro
+        id: sha
+        run: |
+          set -euo pipefail
+          sha="$(git rev-list -n 1 "refs/tags/$TAG")"
+          git fetch --no-tags origin wispr-bro
+          git merge-base --is-ancestor "$sha" FETCH_HEAD \
+            || { echo "::error::$TAG ($sha) is not on wispr-bro"; exit 1; }
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Tag format, order and channel
+        id: tag
+        run: bun scripts/wb-release/tag.ts "$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch upstream Handy (hook-size guard base)
+        run: |
+          git remote add upstream https://github.com/cjpais/Handy.git || true
+          git fetch --no-tags upstream main
+
+      - name: Guards in release mode
+        run: |
+          bun scripts/wb-guard-identity.ts --release --tag "$TAG"
+          bun scripts/wb-guards.ts --release
+
+  notices:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: dtolnay/rust-toolchain@stable
+      - run: bun install --frozen-lockfile
+      - run: cargo install cargo-about --locked --version 0.9.3 --features cli
+      - name: THIRD-PARTY-NOTICES.md is current
+        run: bun scripts/wb-notices.ts --check
+
+  egress:
+    needs: preflight
+    uses: ./.github/workflows/wb-egress.yml
+
+  build:
+    needs: preflight
+    uses: ./.github/workflows/wb-build.yml
+    with:
+      tag: ${{ needs.preflight.outputs.version && format('v{0}', needs.preflight.outputs.version) }}
+      signed: true
+    secrets: inherit
+
+  publish:
+    needs: [preflight, notices, egress, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      VERSION: ${{ needs.preflight.outputs.version }}
+      CHANNEL: ${{ needs.preflight.outputs.channel }}
+      RELEASE_TAG: ${{ needs.preflight.outputs.release_tag }}
+      SHA: ${{ needs.preflight.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wb-release-macos-aarch64
+          path: release-out
+
+      - name: GPL assets (F-04) and checksums
+        run: |
+          set -euo pipefail
+          src="wispr-bro-${VERSION}-source.tar.gz"
+          git archive --format=tar.gz --prefix="wispr-bro-${VERSION}/" -o "release-out/$src" "refs/tags/$TAG"
+          cp LICENSE NOTICE THIRD-PARTY-NOTICES.md release-out/
+          cd release-out
+          rm -f SHA256SUMS
+          shasum -a 256 -- *.dmg *.app.tar.gz *.app.tar.gz.sig latest.json "$src" LICENSE NOTICE THIRD-PARTY-NOTICES.md > SHA256SUMS
+          ls -la
+
+      - name: Release notes
+        run: |
+          set -euo pipefail
+          base="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}"
+          cat > notes.md <<EOF
+          Wispr Bro ${VERSION} for macOS 13 or later on Apple Silicon.
+
+          Download the DMG, open it and drag Wispr Bro to Applications. Installed copies update themselves.
+
+          Languages: English and 25 translations. Every translation was reviewed by AI, not by native speakers, so some wording may be off; corrections from native speakers are welcome (docs/fork/TRANSLATION-REVIEW.md in the repository).
+
+          Wispr Bro is free software under the GNU General Public License v3.0. The complete corresponding source of this build is attached: [wispr-bro-${VERSION}-source.tar.gz](${base}/wispr-bro-${VERSION}-source.tar.gz). Third-party licences: THIRD-PARTY-NOTICES.md. Checksums: SHA256SUMS.
+          EOF
+          sed -i 's/^          //' notes.md
+
+      - name: Publish (stable channel → draft release)
+        if: ${{ env.CHANNEL == 'stable' }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" release-out/* --clobber
+          else
+            gh release create "$TAG" release-out/* --draft --verify-tag \
+              --title "Wispr Bro ${VERSION}" --notes-file notes.md
+          fi
+          echo "Draft ${TAG} is ready: review it, then publish it (Set as the latest release) to put it on the stable feed."
+
+      - name: Publish (beta channel → rolling beta prerelease)
+        if: ${{ env.CHANNEL == 'beta' }}
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          if gh api "repos/$repo/git/refs/tags/beta" > /dev/null 2>&1; then
+            gh api -X PATCH "repos/$repo/git/refs/tags/beta" -f sha="$SHA" -F force=true > /dev/null
+          else
+            gh api -X POST "repos/$repo/git/refs" -f ref=refs/tags/beta -f sha="$SHA" > /dev/null
+          fi
+          if ! gh release view beta > /dev/null 2>&1; then
+            gh release create beta --prerelease --latest=false --verify-tag \
+              --title "Wispr Bro beta" --notes-file notes.md
+          fi
+          for asset in $(gh release view beta --json assets -q '.assets[].name'); do
+            gh release delete-asset beta "$asset" -y
+          done
+          gh release upload beta release-out/* --clobber
+          gh release edit beta --prerelease --latest=false --draft=false \
+            --title "Wispr Bro beta (${VERSION})" --notes-file notes.md

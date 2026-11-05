@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Wispr Bro",
+  "mainBinaryName": "wispr-bro",
+  "version": "1.0.0-alpha.1",
+  "identifier": "com.wisprbro.desktop",
+  "app": {
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: asset: http://asset.localhost; media-src 'self' blob: asset: http://asset.localhost; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "devCsp": "default-src 'self'; script-src 'self' http://localhost:1420; style-src 'self' 'unsafe-inline' http://localhost:1420; img-src 'self' data: blob: asset: http://asset.localhost http://localhost:1420; media-src 'self' blob: asset: http://asset.localhost; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost http://localhost:1420 ws://localhost:1420; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "assetProtocol": {
+        "enable": true,
+        "scope": {
+          "allow": ["$APPDATA/**"]
+        }
+      }
+    }
+  },
+  "bundle": {
+    "icon": [
+      "icons-fork/32x32.png",
+      "icons-fork/128x128.png",
+      "icons-fork/128x128@2x.png",
+      "icons-fork/icon.icns",
+      "icons-fork/icon.ico"
+    ],
+    "externalBin": ["target/wb-sidecar/llama-server"],
+    "macOS": {
+      "minimumSystemVersion": "13.0",
+      "dmg": {
+        "background": "icons-fork/dmg/background.png",
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        },
+        "windowPosition": {
+          "x": 200,
+          "y": 160
+        },
+        "appPosition": {
+          "x": 180,
+          "y": 228
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 228
+        }
+      }
+    },
+    "windows": {
+      "signCommand": null
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg5RTA4NTIxN0FDQzQ2Q0YKUldUUFJzeDZJWVhnaWVxSmEwdkcvWTJ2b1RDMlU5NWRWM3lOTVZ6UTZmNkVuZ0w5YjJGYzNJLzUK",
+      "endpoints": [
+        "https://github.com/fjenn/wispr-bro/releases/latest/download/latest.json"
+      ]
+    }
+  }
+}

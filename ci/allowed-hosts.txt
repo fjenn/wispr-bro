@@ -1,0 +1,62 @@
+# Hosts fork code may name (R5 §1 privacy promise; enforced by
+# scripts/wb-guard-hosts.ts and scripts/wb-guard-bundle-hosts.ts).
+#
+# Adding a host here changes the privacy promise: it needs an owner-approved
+# PR that also updates R5 §1. `*.x` matches subdomains of x, not x itself.
+
+[network]
+# Hosts the app may contact, and only for the §1 purposes.
+github.com                           # §1 #1: update check (latest.json) and update download
+objects.githubusercontent.com        # §1 #1: release-asset redirect
+release-assets.githubusercontent.com # §1 #1: release-asset redirect
+huggingface.co                       # §1 #2: model downloads (pinned revisions)
+*.hf.co                              # §1 #2: Hugging Face download CDN (cas-bridge.xethub.hf.co, …)
+*.huggingface.co                     # §1 #2: Hugging Face download CDN (cdn-lfs.huggingface.co, …)
+
+[link]
+# Allowed only as an openUrl(…) / open_url(…) argument (same line or up to
+# two lines above): the user clicks a link and the browser opens it; this is
+# not app traffic. None: S-26b's Help, support, Share and About links are all
+# on github.com ([network] above), opened only on a click.
+
+[schema]
+# Allowed only as a JSON "$schema" value (editor hint, never fetched by the
+# app).
+schema.tauri.app                     # tauri.fork.conf.json "$schema"
+
+[loopback]
+# Local hosts: never leave the machine (dev server, Tauri custom protocols,
+# the local HF mock and llama-server on loopback).
+localhost
+*.localhost                          # tauri.localhost, ipc.localhost, asset.localhost
+127.0.0.1
+[::1]
+
+[test]
+# Allowed ONLY in fork test code (scripts/wb-guard-hosts.ts: test files
+# `scripts/wb-*.test.ts`, `tests/fork/**`, `#[cfg(test)]`-declared fork
+# `tests.rs` / `testutil.rs`; `#[cfg(test)] mod … { }` blocks of other fork
+# Rust files). Never accepted in production fork code (comments included:
+# describe a refused host in words there), upstream code or the built
+# bundle. The comment starts with the category, which the guard checks:
+# `example:` (RFC 2606/6761 name), `private:` (RFC 1918 or link-local IPv4),
+# `loopback:` (127/8 in any spelling) or `refusal:` (a real host a test names
+# to prove the app refuses it).
+example.com                          # example: RFC 2606 fixture host
+*.example.com                        # example: my-llm./localhost./mail./telemetry.example.com fixtures (fork/settings/tests.rs, fork/testutil.rs)
+*.example                            # example: RFC 2606 `.example` TLD spoofs (hf.co.evil.example, github.com.evil.example, localhost.evil.example, 127.0.0.1.nip.example in fork::net::tests; scripts/wb-guards.test.ts)
+10.0.0.2                             # private: non-loopback LAN LLM is refused (fork/settings/tests.rs loopback_detection)
+10.0.0.5                             # private: non-loopback LAN LLM is refused (fork::net::tests::loopback_requires_both_parsers_to_agree)
+192.168.1.10                         # private: LAN LLM is refused (fork::llm::tests::refusal_covers_cloud_and_disguised_hosts_and_a_stopped_local_llm)
+127.1.2.3                            # loopback: any 127/8 address counts as loopback (fork::net::tests::loopback_requires_both_parsers_to_agree)
+127.8.9.10                           # loopback: any 127/8 address counts as loopback (fork/settings/tests.rs loopback_detection)
+0x7f000001                           # loopback: hex spelling of 127.0.0.1 that only one URL parser accepts; refused (fork::net, fork::llm tests)
+2130706433                           # loopback: decimal spelling of 127.0.0.1; refused (fork::net::tests::loopback_requires_both_parsers_to_agree)
+api.openai.com                       # refusal: cloud LLM refused by the backend and migrated away (fork::llm tests, fork/settings/tests.rs, fork::net tests)
+api.anthropic.com                    # refusal: cloud LLM refused / migrated (fork::llm tests, fork/settings/tests.rs)
+openrouter.ai                        # refusal: cloud LLM refused / migrated (fork::llm tests, fork/settings/tests.rs)
+bedrock-mantle.us-east-1.api.aws     # refusal: cloud LLM migrated away (fork/settings/tests.rs a_stored_openai_provider_is_migrated_to_local)
+blob.handy.computer                  # refusal: Handy's model mirror is never a download base (fork::net::tests::the_handy_mirror_is_never_a_mirror_base)
+handy.computer                       # refusal: not on the download allowlist (fork::net::tests::allowlist_matches_the_privacy_promise)
+evilhuggingface.co                   # refusal: lookalike of huggingface.co without a dot boundary; needs the real `.co` suffix, so no RFC 2606 name can stand in (fork::net::tests::allowlist_matches_the_privacy_promise)
+hf.co                                # refusal: bare hf.co is outside `*.hf.co`; must be the real apex (fork::net::tests::allowlist_matches_the_privacy_promise)

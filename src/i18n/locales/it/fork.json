@@ -1,0 +1,3004 @@
+{
+  "debug": {
+    "title": "Pannello di debug del fork",
+    "description": "Verifiche interne del livello Wispr Bro. Visibili solo nelle build di debug o se l’app è stata avviata con --debug.",
+    "close": "Chiudi",
+    "runAgain": "Esegui di nuovo",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Stato del modello",
+      "notReady": "Non ancora pronto: l’app non ha finito di avviarsi."
+    },
+    "lastEvent": {
+      "title": "Ultimo evento di ping",
+      "none": "Ancora nessun evento ricevuto."
+    },
+    "pending": "In attesa…",
+    "error": "Errore: {{message}}",
+    "csp": {
+      "title": "Criteri di sicurezza dei contenuti (CSP)",
+      "description": "Riproduce un file audio tramite il protocollo asset, carica immagini data: e blob:, esegue un comando del fork e verifica che un’immagine non consentita venga bloccata.",
+      "run": "Esegui il controllo CSP",
+      "running": "In esecuzione…",
+      "pass": "Superato: nessuna violazione CSP imprevista.",
+      "fail": "Non superato: vedi i controlli qui sotto.",
+      "ok": "ok ({{detail}})",
+      "failed": "non superato ({{detail}})",
+      "noViolations": "Nessuna violazione CSP registrata.",
+      "violations_one": "{{count}} violazione CSP registrata.",
+      "violations_many": "{{count}} di violazioni CSP registrate.",
+      "violations_other": "{{count}} violazioni CSP registrate.",
+      "checks": {
+        "media": "Audio (protocollo asset)",
+        "dataImage": "Immagine data:",
+        "blobImage": "Immagine blob:",
+        "forkCommand": "Comando del fork",
+        "probe": "Origine bloccata"
+      }
+    },
+    "notifications": {
+      "title": "Notifiche",
+      "permission": "Autorizzazione macOS: {{state}}",
+      "kind": "Tipo",
+      "delay": "Ritardo (s)",
+      "post": "Invia esempio",
+      "posted": "Invio tra {{seconds}} s. Passa a un’altra app per vedere una notifica di macOS."
+    },
+    "update": {
+      "title": "Aggiornamenti",
+      "version": "Versione",
+      "channel": "Canale",
+      "key": "Chiave di firma",
+      "endpoints": "Feed degli aggiornamenti",
+      "checksOff": "La ricerca di aggiornamenti è disattivata (Impostazioni › Avanzate, oppure è attivo un interruttore di emergenza).",
+      "check": "Controlla ora",
+      "checking": "Controllo in corso…",
+      "install": "Installa {{version}} e riavvia",
+      "installing": "Download e verifica in corso…",
+      "installed": "{{version}} installata. Riavvio in corso…",
+      "available": "È disponibile {{version}}.",
+      "upToDate": "Nessun aggiornamento disponibile.",
+      "failed": "Impossibile controllare: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "Impostazioni del fork",
+      "loading": "Caricamento delle impostazioni…",
+      "loadError": "Impossibile leggere le impostazioni: {{message}}",
+      "setError": "La modifica non è stata salvata: {{message}}",
+      "contextAwareness": "Riconoscimento del contesto",
+      "contextAwarenessHint": "Usa i nomi nel testo vicino al cursore per scriverli correttamente. Quel testo rimane su questo Mac e non viene mai salvato.",
+      "transforms": "Trasformazioni",
+      "transformsHint": "⌥1 rifinisce il testo selezionato, ⌥2 lo trasforma in un prompt AI più chiaro e ⌥O mostra cosa ha cambiato l’ultima trasformazione. Se l’opzione è attiva, questi tasti non scrivono più ¡, ™ e ø.",
+      "transformsSafeShortcuts": "Usa invece ⌃⌥1 e ⌃⌥2",
+      "transformsSafeShortcutsHint": "Lascia ¡ e ™ disponibili con ⌥1 e ⌥2.",
+      "cleanupLevel": "Livello di pulizia",
+      "levels": {
+        "none": "Nessuna",
+        "light": "Leggera",
+        "medium": "Media"
+      },
+      "all": "Tutte le impostazioni"
+    },
+    "bar": {
+      "title": "Barra di dettatura",
+      "alwaysShow": "Mostra sempre la barra",
+      "alwaysShowHelp": "Se disattivata, la barra appare solo mentre detti.",
+      "position": "Posizione",
+      "positions": {
+        "bottom": "In fondo allo schermo",
+        "top": "In cima allo schermo"
+      },
+      "hideInRecordings": "Nascondi la barra nelle registrazioni dello schermo",
+      "hideInRecordingsHelp": "Istantanee dello schermo, registrazioni e condivisione dello schermo non mostrano la barra.",
+      "hiddenUntil": "Nascosta fino alle {{time}}",
+      "showNow": "Mostrala di nuovo",
+      "resetPositions": "Centra la barra su tutti i monitor"
+    },
+    "mic": {
+      "title": "Microfono",
+      "legend": "Microfono da usare",
+      "loading": "Ricerca dei microfoni…",
+      "loadError": "Impossibile elencare i microfoni: {{message}}",
+      "retry": "Riprova",
+      "recommended": "{{name}} (consigliato)",
+      "auto": "Rilevamento automatico (impostazione di sistema)",
+      "autoNow": "Ora: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "I microfoni con filo o integrati funzionano meglio; quelli Bluetooth possono interrompersi.",
+      "avoided": "L’ingresso audio del Mac è impostato su {{name}}. I microfoni Bluetooth possono interrompersi, quindi la dettatura usa il microfono integrato.",
+      "useAnyway": "Usa comunque {{name}}",
+      "inUse": "La dettatura ascolta con: {{name}}",
+      "chooseError": "Impossibile cambiare microfono: {{message}}",
+      "meter": {
+        "start": "Prova microfono",
+        "stop": "Interrompi prova",
+        "label": "Livello del microfono",
+        "value": "{{percent}} percento",
+        "off": "Prova non attiva",
+        "hint": "Di’ qualcosa. Le barre dovrebbero muoversi mentre parli.",
+        "errors": {
+          "permission_denied": "L’accesso al microfono è disattivato. Attivalo in Impostazioni di Sistema › Privacy e sicurezza › Microfono.",
+          "no_input_device": "Nessun microfono trovato.",
+          "failed": "Il microfono non si è avviato. Prova con un altro."
+        }
+      },
+      "loadErrorPlain": "Impossibile elencare i microfoni.",
+      "chooseErrorPlain": "Impossibile cambiare microfono."
+    },
+    "sound": {
+      "title": "Suoni",
+      "enabled": "Riproduci un suono quando la dettatura inizia e termina",
+      "enabledHelp": "Un breve suono quando il microfono si accende e si spegne.",
+      "theme": "Suono",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Personalizzato"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} percento",
+      "preview": "Riproduci",
+      "mute": "Disattiva l’audio durante la dettatura",
+      "muteHelp": "Musica e video tacciono mentre parli, poi tornano come prima."
+    },
+    "recovery": {
+      "title": "Abbreviazioni di recupero",
+      "description": "Recupera l’ultima dettatura, o inviala, senza togliere le mani dalla tastiera.",
+      "notSet": "Non impostata",
+      "current": "Abbreviazione: {{shortcut}}",
+      "listening": "Premi un’abbreviazione…",
+      "listeningHelp": "Premi i tasti o il tasto del mouse che vuoi. Esc annulla.",
+      "record": "Registra",
+      "cancel": "Annulla",
+      "clear": "Rimuovi",
+      "useDefault": "Usa predefinita",
+      "unusable": "Questa abbreviazione non si può usare. Scegline un’altra.",
+      "saveFailed": "Impossibile salvare l’abbreviazione.",
+      "recordFailed": "Impossibile registrare l’abbreviazione. Verifica che l’app abbia l’autorizzazione Accessibilità.",
+      "pasteLast": {
+        "title": "Incolla l’ultima dettatura",
+        "help": "Incolla di nuovo l’ultima dettatura dove stai scrivendo."
+      },
+      "copyLast": {
+        "title": "Copia l’ultima dettatura",
+        "help": "Mette l’ultima dettatura negli appunti."
+      },
+      "pressEnter": {
+        "title": "Premi A capo",
+        "help": "Preme Invio al posto tuo, per esempio per inviare un messaggio appena dettato.",
+        "mouse": "Un tasto del mouse fa comunque il suo clic abituale nell’app sotto il puntatore, quindi un tasto laterale (Indietro o Avanti) è la scelta migliore."
+      },
+      "undoCancel": {
+        "title": "Annulla un annullamento",
+        "help": "Recupera una dettatura appena annullata, finché la barra mostra Annulla."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "Impostazioni",
+    "close": "Chiudi le impostazioni",
+    "navigation": "Sezioni delle impostazioni",
+    "sections": {
+      "general": "Generale",
+      "system": "Sistema",
+      "vibe": "Vibe coding",
+      "privacy": "Dati e privacy",
+      "advanced": "Avanzate",
+      "about": "Informazioni",
+      "hotkeys": "Abbreviazioni"
+    },
+    "general": {
+      "shortcuts": "Abbreviazioni",
+      "change": "Cambia",
+      "microphone": "Microfono",
+      "languages": "Le mie lingue",
+      "appearance": "Lingua e tema dell’app",
+      "typingHint": "Serve a calcolare quanto tempo ti fa risparmiare la dettatura."
+    },
+    "system": {
+      "app": "Comportamento dell’app",
+      "alwaysBar": "Mostra sempre la barra",
+      "showDock": "Mostra l’app nel Dock",
+      "showDockHint": "Mantieni Wispr Bro nel Dock dopo la chiusura della finestra.",
+      "sounds": "Suoni",
+      "notifications": "Notifiche",
+      "notificationKinds": {
+        "system": "Notifiche del Mac",
+        "modelReady": "Modello vocale pronto",
+        "updateReady": "Aggiornamento pronto",
+        "queuedReady": "Dettature in coda pronte",
+        "suggestions": "Suggerimenti",
+        "announcements": "Annunci di nuove funzioni",
+        "milestones": "Traguardi",
+        "shortcutProblems": "Problemi con le abbreviazioni"
+      },
+      "scratchpad": "Blocco note",
+      "scratchpadLabel": "All’apertura del Blocco note",
+      "scratchpadHint": "Scegli cosa aprono l’abbreviazione e il pulsante nella barra.",
+      "scratchpadOptions": {
+        "resume_last": "Riprendi l’ultima nota",
+        "new_note": "Inizia una nuova nota"
+      },
+      "notificationsHint": "Ogni interruttore controlla quella notifica in Wispr Bro e sul Mac. “Notifiche del Mac” disattiva solo i banner del Mac. Le notifiche di arresto anomalo e di ripristino compaiono sempre in Wispr Bro.",
+      "dockKeptForTray": "L’icona nella barra dei menu è disattivata, quindi resta l’icona nel Dock. Attiva l’icona nella barra dei menu per nasconderla.",
+      "trayKeptForDock": "L’icona nel Dock è disattivata, quindi resta l’icona nella barra dei menu. Attiva Mostra l’app nel Dock per nasconderla."
+    },
+    "vibe": {
+      "intro": "Wispr Bro legge i nomi di codice che il tuo editor mostra e i nomi di file e cartelle del progetto aperto, su questo Mac. Legge solo i nomi, mai il contenuto dei tuoi file.",
+      "contextOff": "Il riconoscimento del contesto è disattivato, quindi queste funzioni non hanno nulla da leggere. Attivalo per usarle.",
+      "recognize": "Riconosci i nomi nel codice",
+      "recognizeHint": "Pronuncia un nome che il tuo editor mostra, come “get user by id”, e viene scritto come lo scrive il tuo codice: getUserById.",
+      "setUp": "Configura",
+      "change": "Cambia editor",
+      "setUpFor": "Configura per {{editors}}",
+      "fileTags": "Tagga i file nella chat",
+      "fileTagsHint": "Nella chat di Cursor o Windsurf, dire “index dot ts” tagga index.ts tramite il menu @ dell’editor, per qualsiasi file del tuo progetto. Se l’editor non offre corrispondenze, @index.ts viene scritto come testo.",
+      "fileTagsNeedsChat": "Disponibile dopo aver aggiunto Cursor o Windsurf ai tuoi editor.",
+      "fileTagsNeedsSetup": "Disponibile dopo aver configurato il riconoscimento dei nomi nel codice.",
+      "setup": {
+        "title": "Configura il riconoscimento dei nomi nel codice",
+        "stepEditors": "1. Scegli gli editor che usi",
+        "stepScreenReader": "2. Attiva la modalità lettore di schermo in ciascuno, così condividono il testo con Wispr Bro",
+        "openSettings": "Apri le impostazioni dell’editor con ⌘ virgola.",
+        "search": "Cerca “accessibility support”.",
+        "setOn": "Imposta Editor: Accessibility Support su “on”.",
+        "palette": "Puoi anche eseguire “Toggle Screen Reader Accessibility Mode” dalla Command Palette (⇧⌘P).",
+        "confirm": "Ho attivato la modalità lettore di schermo in questi editor",
+        "cancel": "Annulla",
+        "finish": "Completa la configurazione"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "Privacy integrata",
+        "local": "Le tue dettature e i tuoi dati restano su questo Mac.",
+        "noCloud": "Riconoscimento vocale, pulizia e Cronologia funzionano in locale. Niente account, telemetria, dettatura o pulizia nel cloud.",
+        "network": "Cosa usa la rete",
+        "networkIntro": "Wispr Bro usa la rete solo per queste due cose:",
+        "models": "Scaricare i modelli vocali e di pulizia da Hugging Face (huggingface.co).",
+        "updates": "Se la ricerca di aggiornamenti è attiva, cercare aggiornamenti dell’app su GitHub (github.com)."
+      },
+      "locations": {
+        "title": "Dove si trovano i tuoi dati",
+        "data": "Dati e impostazioni dell’app",
+        "models": "Modelli scaricati",
+        "recordings": "Registrazioni",
+        "logs": "Log e rapporti sugli arresti anomali",
+        "show": "Mostra nel Finder",
+        "loading": "Ricerca in corso…",
+        "failed": "Impossibile aprire quella cartella. Riprova."
+      },
+      "retention": {
+        "title": "Per quanto tempo conservare la Cronologia",
+        "textLabel": "Conserva il testo dettato",
+        "textHint": "Le voci più vecchie vengono rimosse automaticamente. Per impostazione predefinita il testo viene conservato per sempre.",
+        "audioLabel": "Conserva le registrazioni",
+        "audioHint": "Per impostazione predefinita l’audio scade dopo 14 giorni; il testo resta.",
+        "options": {
+          "0": "Non conservare l’audio",
+          "1": "1 giorno",
+          "7": "7 giorni",
+          "14": "14 giorni",
+          "30": "30 giorni",
+          "90": "90 giorni",
+          "365": "1 anno",
+          "forever": "Per sempre"
+        }
+      },
+      "choices": {
+        "title": "Opzioni di privacy",
+        "context": "Usa il riconoscimento del contesto",
+        "contextHint": "Legge il testo vicino mentre detti per scrivere bene i nomi. Mai salvato né registrato.",
+        "updates": "Cerca aggiornamenti dell’app",
+        "updatesHint": "Chiede a GitHub se ci sono nuove versioni. Non invia dettature né dati personali.",
+        "learn": "Impara dalle mie correzioni",
+        "learnHint": "Suggerisce parole per il dizionario dalle correzioni che fai dopo una dettatura."
+      },
+      "export": {
+        "title": "I tuoi dati",
+        "hint": "Uno zip con Cronologia, impostazioni e registrazioni. Modelli e log non sono inclusi.",
+        "button": "Esporta i miei dati",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Archivio ZIP",
+        "done": "Esportazione salvata e mostrata nel Finder.",
+        "failed": "Impossibile esportare i dati. Non è stato eliminato nulla."
+      },
+      "delete": {
+        "button": "Elimina tutti i miei dati",
+        "title": "Eliminare tutti i tuoi dati?",
+        "warning": "Vengono eliminati definitivamente Cronologia, registrazioni, impostazioni, log e rapporti sugli arresti anomali. L’operazione non può essere annullata.",
+        "relaunch": "Wispr Bro interromperà ciò che sta facendo, cancellerà i dati e si riavvierà dalla configurazione iniziale.",
+        "models": "Elimina anche i modelli scaricati",
+        "modelsHint": "Lascia disattivata questa opzione per non dover scaricare di nuovo i modelli vocali e di pulizia.",
+        "confirmLabel": "Digita {{word}} per confermare",
+        "cancel": "Annulla",
+        "confirm": "Elimina tutto",
+        "failed": "L’eliminazione non è stata completata. Controlla i dati rimasti prima di riprovare.",
+        "short": "Cancella Cronologia, registrazioni e impostazioni. Non si può annullare."
+      },
+      "diagnostics": {
+        "title": "Rapporti sugli arresti anomali e diagnostica",
+        "hint": "I rapporti sugli arresti restano su questo Mac. Condividi la diagnostica solo se vuoi.",
+        "sanitized": "Rimuove testo dettato, prompt, parole del dizionario, email, chiavi e il percorso della tua cartella.",
+        "copy": "Copia diagnostica",
+        "save": "Salva diagnostica…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Diagnostica anonimizzata copiata.",
+        "saved": "Diagnostica anonimizzata salvata.",
+        "failed": "Impossibile preparare la diagnostica. Riprova.",
+        "rowTitle": "Condividi la diagnostica"
+      }
+    },
+    "advanced": {
+      "output": "Output del testo",
+      "transcription": "Trascrizione",
+      "barAndOverlay": "Barra di dettatura e overlay",
+      "liveText": "Mostra il testo in tempo reale nella barra",
+      "liveTextHint": "Mostra le parole riconosciute mentre parli.",
+      "keyboard": "Backend della tastiera",
+      "prompts": "Provider di pulizia ed editor dei prompt",
+      "history": "Archiviazione della Cronologia",
+      "updates": "Aggiornamenti",
+      "updateChannel": "Canale di aggiornamento",
+      "updateChannelHint": "Le build beta possono contenere modifiche non ancora complete.",
+      "updateChannels": {
+        "stable": "Stabile",
+        "beta": "Beta"
+      },
+      "storage": "Posizioni dei dati e dei log",
+      "experimental": "Sperimentale e debug",
+      "debugMode": "Strumenti di debug",
+      "debugModeHint": "Mostra i controlli diagnostici e le opzioni di logging dettagliate.",
+      "forkDiagnostics": "Diagnostica delle impostazioni del fork",
+      "translateUnsupported": "{{model}} non può tradurre. Scegli un modello che possa farlo, come Whisper o Canary, in Modelli vocali.",
+      "translateNoModel": "Il tuo modello vocale non può tradurre. Scegli un modello che possa farlo, come Whisper o Canary, in Modelli vocali."
+    },
+    "about": {
+      "tagline": "Dettatura in locale, senza account e senza elaborazione nel cloud.",
+      "version": "Versione {{version}}",
+      "source": "Visualizza il codice sorgente",
+      "updates": "Note di aggiornamento",
+      "updatesTitle": "Aggiornamenti",
+      "license": "Software libero distribuito con la GNU General Public License, versione 3 (GPL-3.0).",
+      "licenseLink": "Visualizza licenza",
+      "credit": "Basato su Handy di CJ Pais, usato secondo la licenza MIT. Grazie a tutte le persone che ci lavorano.",
+      "creditLink": "Handy su GitHub",
+      "supportTitle": "Supporta lo sviluppo"
+    },
+    "hotkeys": {
+      "open": "Abbreviazioni",
+      "loading": "Caricamento delle abbreviazioni…",
+      "secureInputHelp": "L’acquisizione si ferma mentre l’input sicuro di macOS protegge un campo password.",
+      "count": "{{count}} di {{max}} impostate",
+      "notSet": "Non impostata",
+      "current": "Abbreviazione: {{shortcut}}",
+      "activationLabel": "Attivazione dell’abbreviazione",
+      "activations": {
+        "hold": "Tieni premuto",
+        "double_tap": "Doppio tocco",
+        "press": "Premi",
+        "toggle": "Attiva/disattiva"
+      },
+      "add": "Aggiungi abbreviazione",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "reset": "Ripristina predefinite",
+      "resetting": "Ripristino…",
+      "resetFailed": "Impossibile ripristinare tutte le abbreviazioni. Riprova.",
+      "done": "Fine",
+      "saveFailed": "Impossibile salvare l’abbreviazione.",
+      "conflict": "Già usata da {{action}}. Scegli un’altra abbreviazione.",
+      "invalid": "Abbreviazione non riconosciuta.",
+      "unsupported": "Questa combinazione non può essere usata come abbreviazione per questa azione.",
+      "capture": {
+        "starting": "Avvio della registrazione dell’abbreviazione…",
+        "listening": "Premi un’abbreviazione…",
+        "listeningHelp": "Premi la combinazione di tasti o il tasto del mouse da usare. Esc annulla.",
+        "cancel": "Annulla",
+        "close": "Indietro",
+        "secure": "Non puoi registrare abbreviazioni mentre l’inserimento sicuro è attivo. Esci dal campo della password o disattiva l’inserimento sicuro da tastiera, poi riprova.",
+        "failed": "Impossibile avviare la registrazione dell’abbreviazione. Verifica l’autorizzazione Accessibilità e riprova."
+      },
+      "actions": {
+        "dictate": "Tieni premuto per parlare",
+        "hands_free": "Dettatura a mani libere",
+        "cancel": "Annulla dettatura",
+        "command_mode": "Modalità Comandi",
+        "paste_last": "Incolla l’ultima dettatura",
+        "copy_last": "Copia l’ultima dettatura",
+        "press_enter": "Premi A capo",
+        "undo_cancel": "Annulla un annullamento",
+        "transform": {
+          "polish": "Applica Polish al testo selezionato",
+          "prompt_engineer": "Trasforma il testo selezionato in un prompt AI",
+          "view_changes": "Mostra le modifiche della trasformazione"
+        },
+        "scratchpad": {
+          "open": "Apri Blocco note"
+        }
+      },
+      "help": {
+        "dictate": "Tieni premuta l’abbreviazione mentre parli; rilasciala per terminare.",
+        "hands_free": "Avvia e interrompi la dettatura senza tenere premuto un tasto.",
+        "cancel": "Interrompi la dettatura in corso senza inserirla.",
+        "command_mode": "Tieni premuta l’abbreviazione mentre dici come modificare o scrivere il testo.",
+        "paste_last": "Incolla di nuovo la dettatura più recente.",
+        "copy_last": "Copia negli appunti la dettatura più recente.",
+        "press_enter": "Preme A capo dove stai scrivendo. Un tasto laterale del mouse va bene.",
+        "undo_cancel": "Ripristina una dettatura subito dopo averla annullata.",
+        "transform": {
+          "polish": "Riscrivi il testo selezionato con Polish.",
+          "prompt_engineer": "Riscrivi il testo selezionato come prompt AI chiaro.",
+          "view_changes": "Confronta il prima e il dopo dell’ultima trasformazione."
+        },
+        "scratchpad": {
+          "open": "Riprende l’ultima nota o ne inizia una nuova."
+        }
+      },
+      "addFor": "Aggiungi un’abbreviazione per {{action}}",
+      "descriptionLimits": "La maggior parte delle azioni accetta fino a {{max}} abbreviazioni. Tieni premuto per parlare, annulla e Modalità Comandi ne accettano una ciascuna, la dettatura a mani libere due. Le modifiche vengono salvate man mano.",
+      "limit_one": "Questa azione accetta {{count}} abbreviazione.",
+      "limit_many": "Questa azione accetta fino a {{count}} abbreviazioni.",
+      "limit_other": "Questa azione accetta fino a {{count}} abbreviazioni.",
+      "appleDictation": {
+        "title": "Disattiva la Dettatura di Apple con fn due volte",
+        "description": "Un doppio tocco non avvia più anche la Dettatura di Apple.",
+        "active": "La Dettatura di Apple si avvia ancora con fn due volte. Nelle impostazioni Tastiera, imposta l'abbreviazione della Dettatura su No."
+      },
+      "key": {
+        "title": "Tasto di dettatura",
+        "hint": "Tieni premuto per parlare. Premi due volte per dettare a mani libere.",
+        "prompt": "Premi il tasto o i tasti che vuoi usare",
+        "save": "Salva",
+        "invalid": "Usa fn, due tasti modificatori come ⌃ ⌥, oppure un modificatore con un tasto come ⌥ Space.",
+        "more": "Altre abbreviazioni"
+      }
+    },
+    "resetSetting": "Ripristina {{setting}}",
+    "intro": {
+      "general": "La tua abbreviazione, il microfono, le lingue e l’aspetto dell’app.",
+      "system": "Come Wispr Bro si avvia, suona e ti avvisa.",
+      "privacy": "Tutto resta su questo Mac. Scegli cosa conservare e per quanto.",
+      "advanced": "Regolazioni fini per voce, pulizia, testo inserito e aggiornamenti."
+    },
+    "navGroups": {
+      "app": "App"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "Principale"
+    },
+    "sidebar": {
+      "collapse": "Comprimi barra laterale",
+      "expand": "Espandi barra laterale",
+      "suggested": "Parole suggerite: {{count}}"
+    },
+    "header": {
+      "toDark": "Passa all’aspetto scuro",
+      "toLight": "Passa all’aspetto chiaro"
+    },
+    "notifications": {
+      "title": "Notifiche",
+      "empty": {
+        "title": "Niente di nuovo",
+        "body": "Qui vedrai aggiornamenti e suggerimenti."
+      },
+      "bellUnread_one": "Notifiche, {{count}} non letta",
+      "bellUnread_many": "Notifiche, {{count}} di non lette",
+      "bellUnread_other": "Notifiche, {{count}} non lette",
+      "filter": {
+        "label": "Mostra",
+        "all": "Tutte",
+        "unread": "Non lette"
+      },
+      "more": "Altre opzioni di notifica",
+      "markAllRead": "Segna tutte come lette",
+      "groups": {
+        "show": "Mostra in questo elenco",
+        "mac": "Su questo Mac"
+      },
+      "toggles": {
+        "suggestions": "Suggerimenti",
+        "announcements": "Annunci",
+        "milestones": "Traguardi",
+        "system": "Notifiche del Mac"
+      },
+      "list": "Notifiche",
+      "unreadDot": "Non letta",
+      "emptyUnread": {
+        "title": "Niente di nuovo",
+        "body": "Hai letto tutto."
+      },
+      "loadFailed": "Impossibile caricare le notifiche.",
+      "actionFailed": "Operazione non riuscita. Riprova.",
+      "copied": "Ultima dettatura copiata",
+      "nothingToCopy": "Ancora nessuna dettatura da copiare",
+      "justNow": "Adesso"
+    },
+    "help": {
+      "title": "Aiuto",
+      "updates": "Aggiornamenti",
+      "whatsNew": "Novità",
+      "essentials": "Nozioni di base",
+      "shortcuts": "Abbreviazioni",
+      "microphone": "Microfono",
+      "languages": "Lingue",
+      "documentation": "Documentazione",
+      "getInTouch": "Contattaci",
+      "reportProblem": "Segnala un problema…",
+      "sendFeedback": "Invia feedback",
+      "report": {
+        "title": "Segnala un problema",
+        "body": "Si apre una nuova segnalazione su GitHub nel browser, con la versione dell’app e il modello del Mac già compilati. Non include mai nulla di ciò che hai dettato e puoi leggere e modificare tutto prima di inviarla.",
+        "diagnosticsTitle": "Diagnostica (opzionale)",
+        "diagnosticsBody": "I log anonimizzati aiutano a trovare la causa. Non contengono mai le tue dettature. Copiali qui, poi incollali nella segnalazione.",
+        "copy": "Copia diagnostica",
+        "copied": "Diagnostica copiata. Incollala nella segnalazione.",
+        "copyFailed": "Impossibile copiare la diagnostica.",
+        "open": "Apri GitHub",
+        "cancel": "Annulla",
+        "close": "Chiudi"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Sezioni delle impostazioni"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Dettatura",
+        "banner": {
+          "title": "Parla invece di digitare",
+          "body": "Tieni premuto fn in qualsiasi app, di’ cosa vuoi scrivere e rilascia. {{appName}} inserisce il testo pulito dove si trova il cursore.",
+          "quiet": "Dettare a bassa voce: scopri come"
+        },
+        "empty": {
+          "title": "Qui vedrai le tue dettature"
+        }
+      },
+      "insights": {
+        "title": "Statistiche",
+        "empty": {
+          "title": "Le statistiche richiedono qualche dettatura",
+          "action": "Vai a Dettatura"
+        }
+      },
+      "dictionary": {
+        "title": "Dizionario"
+      },
+      "snippets": {
+        "title": "Frammenti"
+      },
+      "style": {
+        "title": "Stile"
+      },
+      "transforms": {
+        "title": "Trasformazioni"
+      },
+      "scratchpad": {
+        "title": "Blocco note"
+      },
+      "share": {
+        "title": "Condividi con un amico"
+      },
+      "settings": {
+        "title": "Impostazioni"
+      }
+    },
+    "featurePopup": {
+      "label": "Nuovo in questa versione",
+      "dismiss": "Capito",
+      "open": "Mostrami"
+    },
+    "update": {
+      "off": "Ricerca aggiornamenti disattivata",
+      "turnOn": "Attiva",
+      "notChecked": "Non ancora controllato",
+      "check": "Cerca aggiornamenti",
+      "checking": "Ricerca di aggiornamenti…",
+      "upToDate": "Aggiornato",
+      "checkAgain": "Controlla di nuovo",
+      "checkFailed": "Impossibile controllare",
+      "retry": "Riprova",
+      "downloading": "Download di {{version}}…",
+      "ready": "Aggiornamento pronto",
+      "restartNow": "Riavvia ora",
+      "installing": "Installazione di {{version}}…",
+      "installedWaiting": "{{version}} installata · riavvio dopo questa dettatura",
+      "restarting": "Riavvio in corso…",
+      "installFailed": "Aggiornamento non installato",
+      "busy": "Prima termina la dettatura.",
+      "actionFailed": "Operazione non riuscita. Riprova più tardi.",
+      "lastChecked": "Ultimo controllo: {{time}}.",
+      "paused": "Dopo tre tentativi non riusciti, gli aggiornamenti automatici sono sospesi fino a {{time}}.",
+      "manualOnly": "Questa è una build di sviluppo: gli aggiornamenti vengono cercati solo quando lo chiedi tu.",
+      "readyHint": "Si installa da solo dopo 20 minuti senza dettature o quando esci dall’app.",
+      "policy": "Gli aggiornamenti vengono scaricati in background e installati dopo 20 minuti senza dettature o quando esci dall’app.",
+      "needsPassword": "Questa copia dell’app si trova in una cartella che richiede una password di amministratore per essere modificata, quindi gli aggiornamenti vengono installati solo quando scegli Riavvia ora."
+    },
+    "support": {
+      "nav": "Sostieni {{appName}}",
+      "title": "Sostieni {{appName}}",
+      "free": "Gratuito e open source",
+      "sponsor": "Sponsorizza su GitHub",
+      "star": "Aggiungi una stella su GitHub",
+      "contribute": "Contribuisci"
+    },
+    "notices": {
+      "more": "Altri {{count}}",
+      "nextLabel": "Avviso successivo:"
+    },
+    "appleDictationNote": {
+      "body": "Abbiamo disattivato “Premi fn due volte” della Dettatura di Apple, così il testo non viene scritto due volte. Puoi cambiarlo in Impostazioni › Abbreviazioni."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "Nuovo!",
+      "beta": "Beta"
+    },
+    "banner": {
+      "dismiss": "Ignora"
+    },
+    "importWizard": {
+      "stepsLabel": "Passaggi dell’importazione",
+      "stepOf": "Passaggio {{step}} di {{total}}: {{title}}",
+      "steps": {
+        "choose": "Scegli un file",
+        "columns": "Abbina le colonne",
+        "review": "Verifica",
+        "done": "Fine"
+      },
+      "dropHint": "Trascina qui un file .csv o scegline uno.",
+      "browse": "Scegli un file .csv",
+      "limit": "Fino a 3 MB.",
+      "formatLink": "Formato accettato",
+      "csvFilter": "File CSV",
+      "fileSummary_one": "{{name}}: {{count}} riga",
+      "fileSummary_many": "{{name}}: {{count}} di righe",
+      "fileSummary_other": "{{name}}: {{count}} righe",
+      "hasHeader": "La prima riga contiene i nomi delle colonne",
+      "optional": "(opzionale)",
+      "noColumn": "Non presente nel file",
+      "column": "Colonna {{letter}}",
+      "columnNamed": "Colonna {{letter}}: {{name}}",
+      "mapRequired": "Scegli una colonna per ogni campo obbligatorio.",
+      "previewCaption_one": "Anteprima della prima riga",
+      "previewCaption_many": "Anteprima delle prime {{count}} di righe",
+      "previewCaption_other": "Anteprima delle prime {{count}} righe",
+      "rowHeader": "Riga",
+      "cancel": "Annulla",
+      "back": "Indietro",
+      "next": "Avanti",
+      "import": "Importa",
+      "done": "Fine",
+      "close": "Chiudi",
+      "errors": {
+        "notCsv": "Non è un file .csv. Salva il foglio come CSV e riprova.",
+        "tooLarge": "Il file è di {{size}} MB. La dimensione massima è 3 MB.",
+        "unreadable": "Impossibile leggere il file. Verifica che sia un file CSV e riprova.",
+        "empty": "Il file non contiene righe da importare.",
+        "failed": "Si è verificato un problema. Non è stato importato nulla; riprova."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Dettatura",
+      "vocabulary": "Dizionario",
+      "help": "Aiuto",
+      "file": "File",
+      "edit": "Modifica",
+      "view": "Vista",
+      "window": "Finestra",
+      "wordsDictated_one": "{{count}} parola dettata",
+      "wordsDictated_many": "{{count}} di parole dettate",
+      "wordsDictated_other": "{{count}} parole dettate",
+      "copyLast": "Copia l’ultima dettatura",
+      "copyLastPreview": "Copia l’ultima dettatura: “{{preview}}”",
+      "copyLastConcealed": "Copia l’ultima dettatura (testo nascosto)",
+      "microphone": "Microfono",
+      "languages": "Lingue",
+      "moreLanguages": "Aggiungi o rimuovi lingue…",
+      "automaticMicrophone": "Rilevamento automatico (impostazione di sistema)",
+      "noMicrophones": "Nessun microfono trovato",
+      "dictionaryWords_one": "{{count}} parola del dizionario",
+      "dictionaryWords_many": "{{count}} di parole del dizionario",
+      "dictionaryWords_other": "{{count}} parole del dizionario",
+      "snippetCount_one": "{{count}} frammento",
+      "snippetCount_many": "{{count}} di frammenti",
+      "snippetCount_other": "{{count}} frammenti",
+      "addWord": "Aggiungi parola…",
+      "newSnippet": "Nuovo frammento…",
+      "documentation": "Documentazione",
+      "showIntro": "Mostra di nuovo l’introduzione",
+      "shortcuts": "Abbreviazioni",
+      "reportProblem": "Segnala un problema…",
+      "sendFeedback": "Invia feedback…",
+      "openApp": "Apri {{appName}}",
+      "checkUpdates": "Cerca aggiornamenti…",
+      "pasteLast": "Incolla l’ultima dettatura",
+      "cancelDictation": "Annulla dettatura",
+      "shortcutsBlocked": "Abbreviazioni bloccate: apri Impostazioni",
+      "undo": "Annulla",
+      "redo": "Ripeti",
+      "cut": "Taglia",
+      "copy": "Copia",
+      "paste": "Incolla",
+      "selectAll": "Seleziona tutto",
+      "minimize": "Contrai",
+      "zoom": "Ridimensiona",
+      "closeWindow": "Chiudi finestra",
+      "fullScreen": "Entra in modalità a tutto schermo",
+      "services": "Servizi",
+      "hideOthers": "Nascondi altre",
+      "showAll": "Mostra tutte",
+      "about": "Informazioni su {{appName}}",
+      "hide": "Nascondi {{appName}}",
+      "quitApp": "Esci da {{appName}}",
+      "restartToUpdate": "Riavvia per aggiornare a {{version}}",
+      "updatesOff": "La ricerca di aggiornamenti è disattivata…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "L’abbreviazione non funziona più"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Controllo",
+        "option": "Opzione",
+        "shift": "Maiuscole",
+        "command": "Comando",
+        "space": "Spazio",
+        "escape": "Esc",
+        "return": "A capo",
+        "tab": "Tab",
+        "delete": "Elimina",
+        "forwardDelete": "Elimina avanti",
+        "left": "Freccia sinistra",
+        "right": "Freccia destra",
+        "up": "Freccia su",
+        "down": "Freccia giù",
+        "home": "Inizio",
+        "end": "Fine",
+        "pageUp": "Pagina su",
+        "pageDown": "Pagina giù",
+        "mouseLeft": "Tasto sinistro del mouse",
+        "mouseRight": "Tasto destro del mouse",
+        "mouseMiddle": "Tasto centrale del mouse",
+        "mouseBack": "Tasto Indietro del mouse",
+        "mouseForward": "Tasto Avanti del mouse"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "La dettatura è pronta",
+        "body": "Il download del modello vocale è terminato. Tieni premuto fn in qualsiasi app e inizia a parlare."
+      },
+      "updateReady": {
+        "title": "Aggiornamento pronto",
+        "body": "{{appName}} {{version}} verrà installato al prossimo riavvio dell’app."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dettatura pronta",
+        "title_many": "{{count}} di dettature pronte",
+        "title_other": "{{count}} dettature pronte",
+        "body": "Ciò che hai detto mentre il modello vocale non era disponibile è stato trascritto."
+      },
+      "shortcutProblem": {
+        "title": "L’abbreviazione non funziona",
+        "body": "{{appName}} non è riuscito ad ascoltare il tasto fn. Apri Impostazioni per controllare l’abbreviazione.",
+        "bodyPermission": "{{appName}} ha bisogno dell’accesso ad Accessibilità per rilevare fn. Attivalo in Impostazioni di Sistema."
+      },
+      "crashReport": {
+        "title": "{{appName}} è stato chiuso inaspettatamente",
+        "body": "Su questo Mac è stato salvato un rapporto sull’arresto anomalo. Non è stato inviato nulla."
+      },
+      "dataRecovered": {
+        "title": "Il file della cronologia è stato riparato",
+        "body": "Non era leggibile, quindi ne è stato creato uno nuovo. Il file danneggiato è stato conservato nella stessa cartella."
+      },
+      "milestoneWords": {
+        "title_one": "{{count}} parola dettata",
+        "title_many": "{{count}} di parole dettate",
+        "title_other": "{{count}} parole dettate",
+        "body_one": "È {{count}} parola che non hai dovuto digitare. Ottimo lavoro.",
+        "body_many": "Sono {{count}} di parole che non hai dovuto digitare. Ottimo lavoro.",
+        "body_other": "Sono {{count}} parole che non hai dovuto digitare. Ottimo lavoro."
+      },
+      "milestoneStreak": {
+        "title_one": "{{count}} giorno di fila",
+        "title_many": "{{count}} di giorni di fila",
+        "title_other": "{{count}} giorni di fila",
+        "body_one": "Hai dettato per {{count}} giorno di fila.",
+        "body_many": "Hai dettato per {{count}} di giorni di fila.",
+        "body_other": "Hai dettato per {{count}} giorni di fila."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Parla senza tenere premuto un tasto",
+          "body": "Tocca due volte fn, oppure premi fn e Spazio, per la modalità a mani libere. Premi di nuovo fn quando hai finito."
+        },
+        "cancel": {
+          "title": "Hai cambiato idea?",
+          "body": "Premi Esc mentre parli e la dettatura viene scartata. Non viene incollato nulla."
+        },
+        "history": {
+          "title": "Ogni dettatura viene conservata",
+          "body": "Le tue dettature restano su questo Mac. Apri Cronologia per copiarne di nuovo una."
+        },
+        "darkMode": {
+          "title": "Chiaro o scuro",
+          "body": "Il pulsante con la luna in cima a questa finestra cambia l’aspetto."
+        },
+        "customWords": {
+          "title": "Insegnagli le tue parole",
+          "body": "Aggiungi i nomi e i termini che usi spesso, così vengono sempre scritti correttamente."
+        }
+      },
+      "slowerMac": {
+        "title": "La dettatura potrebbe essere più lenta su questo Mac",
+        "body": "Su questo Mac nessun modello vocale è abbastanza veloce per le tue lingue, quindi viene usato il più veloce. Il testo potrebbe impiegare un po’ di più ad apparire."
+      },
+      "features": {
+        "inbox": {
+          "title": "Le tue notifiche sono qui",
+          "body": "Download, traguardi e suggerimenti ora si raccolgono sotto la campanella. Scegli cosa ricevere dal suo menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Copia l’ultima",
+        "open": "Apri",
+        "openAccessibility": "Apri Impostazioni"
+      },
+      "takeRecovered": {
+        "title_one": "Una registrazione è stata salvata alla chiusura dell’app",
+        "title_many": "{{count}} di registrazioni sono state salvate alla chiusura dell’app",
+        "title_other": "{{count}} registrazioni sono state salvate alla chiusura dell’app",
+        "body_one": "Stavi ancora dettando quando {{appName}} si è chiuso. La registrazione viene trascritta e comparirà in Cronologia.",
+        "body_many": "Stavi ancora dettando quando {{appName}} si è chiuso. Le registrazioni vengono trascritte e compariranno in Cronologia.",
+        "body_other": "Stavi ancora dettando quando {{appName}} si è chiuso. Le registrazioni vengono trascritte e compariranno in Cronologia."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "Blocco note"
+    },
+    "pill": {
+      "name": "Barra di dettatura",
+      "hint": "Tieni premuto fn per dettare o fai clic per iniziare",
+      "hideForAnHour": "Nascondi per un’ora",
+      "slots": {
+        "dictate": {
+          "label": "Detta",
+          "tooltip": "Tieni premuto fn per dettare"
+        },
+        "scratchpad": {
+          "label": "Blocco note",
+          "tooltip": "Blocco note"
+        }
+      },
+      "announce": {
+        "listening": "In ascolto",
+        "transcribing": "Trascrizione in corso",
+        "cleaningUp": "Pulizia del testo in corso",
+        "cancelled": "Dettatura annullata",
+        "silenceWarning": "Nessuna voce da un po’. La dettatura si interromperà a breve.",
+        "lengthWarning": "La dettatura si interrompe dopo 30 minuti.",
+        "settingUp": "Configurazione della dettatura in corso. Le tue parole vengono salvate.",
+        "card": "La tua dettatura è pronta. Copiala dalla barra.",
+        "micLostWarning": "Il microfono si è disconnesso. Ciò che hai detto finora viene conservato.",
+        "undo": "Annulla resta sulla barra di dettatura per 4 secondi.",
+        "diff": "Le modifiche della trasformazione sono pronte per la revisione.",
+        "secureInputWarning": "L’inserimento sicuro è attivo. fn e Spazio non possono bloccare la dettatura. Esc o il pulsante di chiusura la annullano comunque.",
+        "inserted": "Testo inserito",
+        "newWord": "Nuova parola: {{word}}. Aggiungila dalla barra di dettatura o più tardi nel Dizionario."
+      },
+      "message": {
+        "no_speech": "Nessuna voce rilevata",
+        "mic_muted": "Arriva solo silenzio. Il microfono è disattivato?",
+        "inserted_without_cleanup": "Inserito senza pulizia",
+        "not_pasted": "Non incollato. Il testo è in Cronologia.",
+        "transcription_failed": "Impossibile trascrivere",
+        "mic_denied": "L’accesso al microfono è disattivato",
+        "no_microphone": "Nessun microfono trovato",
+        "mic_failed": "Il microfono non si è avviato",
+        "download_failed": "Impossibile scaricare",
+        "check_connection": "Controlla la connessione a internet",
+        "no_space": "Spazio su disco insufficiente per configurare la dettatura",
+        "cancelled": "Annullata",
+        "no_transcript": "Ancora nessuna dettatura da incollare",
+        "copied_last": "Ultima dettatura copiata",
+        "copied_to_clipboard": "Copiato negli appunti",
+        "transform_done": "Fatto",
+        "command_done": "Fatto",
+        "command_needs_text": "La modalità Comandi modifica e scrive testo. Seleziona del testo o fai clic in un campo.",
+        "select_text_first": "Prima seleziona del testo",
+        "selection_too_long": "Seleziona 6.000 caratteri o meno",
+        "transform_focus_moved": "Hai cambiato campo, quindi non è cambiato nulla",
+        "transform_failed": "Impossibile trasformare quel testo",
+        "shortcut_lost": "L’abbreviazione non funziona più",
+        "shortcut_stopped": "L’abbreviazione non risponde più",
+        "shortcut_back": "L’abbreviazione funziona di nuovo",
+        "transform_no_change": "Niente da modificare",
+        "transform_not_applied": "Impossibile applicare questa trasformazione",
+        "transform_getting_ready": "Le trasformazioni sono in preparazione. Riprova tra un minuto."
+      },
+      "card": {
+        "no_text_field": "Prima fai clic in un campo di testo",
+        "focus_moved": "Hai cambiato campo, quindi non è stato incollato nulla",
+        "secure_field": "Non inserito in un campo password",
+        "sleep": "Non incollato: il Mac è andato in stop",
+        "screen_locked": "Non incollato: lo schermo era bloccato",
+        "session_inactive": "Non incollato: hai cambiato utente",
+        "paste_failed": "Impossibile incollare questo testo",
+        "disk_full": "Disco pieno: registrazione interrotta"
+      },
+      "word": {
+        "added": "Aggiunta al Dizionario",
+        "full": "Il Dizionario è pieno. La parola resta in Suggerite."
+      }
+    },
+    "share": {
+      "message": "{{appName}} è un’app di dettatura gratuita che funziona interamente sul tuo Mac. Scaricala qui:"
+    },
+    "spotlight": {
+      "label": "Passo successivo",
+      "hint": {
+        "ai_chat": "Apri una chat AI, come ChatGPT o Claude",
+        "note": "Apri l’app per le note",
+        "message": "Apri una chat, come Messaggi o Slack",
+        "email": "Apri la tua app email",
+        "comment": "Apri un post su cui vuoi lasciare un commento",
+        "document": "Apri un documento che stai scrivendo",
+        "coding": "Apri Cursor, VS Code o un altro editor di codice"
+      },
+      "how": "Fai clic dove vuoi scrivere, poi tieni premuto fn e parla.",
+      "howFallback": "Fai clic dove vuoi scrivere, poi tieni premuti Controllo e Opzione e parla.",
+      "escape": "Premi Esc per chiudere questo suggerimento."
+    }
+  },
+  "speechModels": {
+    "title": "Modelli vocali",
+    "intro": "{{appName}} sceglie il modello vocale adatto alle tue lingue e a questo Mac, e lo sostituisce con uno migliore quando può. Non devi mai scegliere tu.",
+    "loading": "Controllo dei modelli vocali…",
+    "current": "In uso: {{name}}",
+    "none": "Ancora nessun modello vocale",
+    "phase": {
+      "checking": "Verifica del modello più adatto a questo Mac…",
+      "settled": "Questo è il modello migliore per le tue lingue su questo Mac.",
+      "downloading": "Download di un modello migliore in background… {{percent}}%",
+      "downloadingNoPercent": "Download di un modello migliore in background…",
+      "waiting_to_swap": "Un modello migliore è pronto. Verrà attivato quando non stai dettando.",
+      "paused": "Impossibile scaricare il modello migliore. Verrà riprovato più tardi."
+    },
+    "next": "Prossimo: {{name}}",
+    "progressLabel": "Download del modello vocale migliore",
+    "slower": "La dettatura potrebbe essere più lenta su questo Mac: nessun modello è abbastanza veloce per le tue lingue, quindi viene usato il più veloce.",
+    "pinned": "Hai scelto tu questo modello, quindi {{appName}} non lo cambia.",
+    "automatic": "Scegli il modello automaticamente",
+    "automaticHint": "Si disattiva quando scegli un modello nell’elenco qui sotto.",
+    "languages": "Per: {{languages}}",
+    "machine": "Questo Mac: {{chip}}, {{ram}} GB di memoria",
+    "freeDisk": "{{gb}} GB liberi per i modelli",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Processore Intel"
+    },
+    "list": "Tutti i modelli"
+  },
+  "aiEngine": {
+    "title": "Motore AI",
+    "loading": "Controllo del motore AI…",
+    "loadError": "Impossibile leggere lo stato del motore AI: {{message}}",
+    "state": {
+      "unsupported": "La pulizia del testo con il motore AI locale non è disponibile su questo Mac.",
+      "missing_runtime": "Il motore AI non è incluso in questa build.",
+      "waiting_for_speech_model": "Il modello di pulizia viene scaricato dopo il modello vocale.",
+      "downloading": "Download del modello di pulizia… {{percent}}%",
+      "verifying": "Verifica del modello di pulizia…",
+      "ready": "Pronto",
+      "download_failed": "Impossibile scaricare il modello di pulizia."
+    },
+    "progressLabel": "Download del modello di pulizia",
+    "model": "Modello: {{name}}",
+    "server": {
+      "stopped": "Motore inattivo: si avvia quando detti.",
+      "starting": "Avvio del motore…",
+      "ready": "Motore in esecuzione",
+      "failed": "Impossibile avviare il motore; verrà riprovato."
+    },
+    "cpuOnly": "in esecuzione sulla CPU",
+    "downloadError": "Errore: {{message}}",
+    "retry": "Riprova",
+    "try": {
+      "label": "Provalo su una frase",
+      "sample": "ehm allora stavo pensando che potremmo ehm vederci venerdì no aspetta giovedì per rivedere il il budget",
+      "button": "Provalo",
+      "running": "Pulizia in corso…",
+      "notReady": "Disponibile quando il modello di pulizia sarà pronto.",
+      "result": "Testo pulito",
+      "empty": "(non resta nulla dopo la pulizia)",
+      "timing": "Pulito in {{ms}} ms.",
+      "timingCold": "Pulito in {{ms}} ms, dopo {{start}} ms per avviare il motore.",
+      "lowMemory": "Al momento non c’è abbastanza memoria libera per avviare il motore AI. Chiudi qualche app e riprova.",
+      "badReply": "Impossibile usare la risposta del modello. Il testo verrebbe inserito senza pulizia.",
+      "failed": "Pulizia non riuscita: {{message}}",
+      "ranOnApple": "Eseguito su Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Pronto su questo Mac. Wispr Bro lo usa quando il proprio modello di pulizia non può ancora funzionare, ad esempio durante il download.",
+        "available_default": "Pronto su questo Mac. Wispr Bro lo usa per pulire le tue dettature.",
+        "device_not_eligible": "Questo Mac non supporta Apple Intelligence. Wispr Bro usa il proprio modello di pulizia.",
+        "not_enabled": "Apple Intelligence è disattivato in Impostazioni di Sistema. Wispr Bro usa il proprio modello di pulizia.",
+        "model_not_ready": "Apple Intelligence sta ancora preparando il modello.",
+        "unsupported": "Apple Intelligence richiede macOS 26 o versioni successive. Wispr Bro usa il proprio modello di pulizia.",
+        "unknown": "Apple Intelligence non è disponibile al momento."
+      },
+      "counts": "Dall’avvio dell’app: richieste {{requests}}, rifiutate {{refusals}}, limitate {{rateLimited}}."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "Ciao, {{name}}",
+      "anonymous": "Ciao",
+      "edit": "Modifica il nome nel saluto"
+    },
+    "nameEditor": {
+      "label": "Nome nel saluto",
+      "field": "Il tuo nome",
+      "hint": "Mostrato solo su questo Mac.",
+      "save": "Salva",
+      "useAccountName": "Usa il nome dell’account del Mac",
+      "clear": "Rimuovi il nome",
+      "saveFailed": "Impossibile salvare il nome. Riprova."
+    },
+    "stats": {
+      "label": "Le tue statistiche",
+      "totalWords": "Parole totali",
+      "wordsPerMinute": "Parole al minuto",
+      "streak": "Giorni di fila",
+      "notEnoughSpeech": "Ancora poco parlato",
+      "unavailable": "Non ancora disponibile"
+    },
+    "voiceProfile": {
+      "title": "Il tuo profilo vocale",
+      "unlocked": "Sbloccato. Scopri come parli in Statistiche.",
+      "open": "Apri Statistiche",
+      "progress_one": "{{current}} di {{goal}} parola",
+      "progress_many": "{{current}} di {{goal}} parole",
+      "progress_other": "{{current}} di {{goal}} parole",
+      "locked_one": "Si sblocca a {{goal}} parola. Continua a dettare per completarlo.",
+      "locked_many": "Si sblocca a {{goal}} di parole. Continua a dettare per completarlo.",
+      "locked_other": "Si sblocca a {{goal}} parole. Continua a dettare per completarlo."
+    },
+    "history": {
+      "title": "Le tue dettature vengono salvate su questo Mac",
+      "body": "Apri Cronologia per copiarle, riprodurle o cercarle.",
+      "action": "Apri Cronologia"
+    }
+  },
+  "dictionary": {
+    "add": "Aggiungi parola",
+    "added": "Aggiunta “{{entry}}”.",
+    "search": "Cerca nel dizionario",
+    "refresh": "Aggiorna",
+    "shown_one": "{{count}} voce mostrata",
+    "shown_many": "{{count}} di voci mostrate",
+    "shown_other": "{{count}} voci mostrate",
+    "deleted": "Eliminata “{{entry}}”.",
+    "deleteFailed": "Impossibile eliminare la voce. Riprova.",
+    "undo": "Annulla",
+    "tabs": {
+      "label": "Voci del dizionario",
+      "all": "Tutte",
+      "mine": "Aggiunte da te",
+      "suggested": "Suggerite"
+    },
+    "sort": {
+      "label": "Ordina",
+      "newest": "Prima le più recenti",
+      "oldest": "Prima le meno recenti",
+      "az": "Dalla A alla Z",
+      "za": "Dalla Z alla A",
+      "used": "Più usate"
+    },
+    "banner": {
+      "title": "{{appName}} la scrive a <em>modo tuo</em>.",
+      "lead": "Aggiungi una parola una volta, o correggila quando esce sbagliata, così <b>nomi, termini di lavoro e parole rare</b> sono sempre scritti bene.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Parole da aggiungere",
+      "add": "Aggiungi parola"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "diventa",
+      "used_one": "Usata {{count}} volta",
+      "used_many": "Usata {{count}} di volte",
+      "used_other": "Usata {{count}} volte",
+      "edit": "Modifica {{entry}}",
+      "delete": "Elimina {{entry}}",
+      "accept": "Aggiungi {{entry}} al tuo dizionario",
+      "reject": "Non imparare {{entry}}"
+    },
+    "source": {
+      "import": "Importata",
+      "migrated": "Dalle tue parole personalizzate precedenti",
+      "learn": "Appresa",
+      "flag": "Da una dettatura segnalata"
+    },
+    "empty": {
+      "title": "Il tuo dizionario è vuoto",
+      "body": "Aggiungi i nomi, le parole e le sostituzioni che {{appName}} deve conoscere. Valgono dalla prossima dettatura."
+    },
+    "emptySuggested": {
+      "title": "Ancora nessun suggerimento",
+      "body": "Quando {{appName}} potrà imparare dalle parole che correggi, le vedrai qui per approvarle.",
+      "bodyOn": "Subito dopo la dettatura, correggi nel campo di testo un nome o un termine scritto male, poi premi A capo o Tab oppure passa oltre. La parola corretta compare qui per essere approvata."
+    },
+    "noMatch": {
+      "title": "Nessun risultato",
+      "body": "Nessuna voce contiene “{{query}}”.",
+      "action": "Cancella ricerca"
+    },
+    "unavailable": {
+      "title": "Il dizionario non è ancora disponibile",
+      "body": "Si apre non appena l’app ha finito di avviarsi.",
+      "brokenTitle": "Impossibile aprire il dizionario",
+      "brokenBody": "{{appName}} non riesce a leggere il suo file di dati in questo momento. Esci dall’app e riaprila. Se succede ancora, scegli Aiuto › Segnala un problema."
+    },
+    "problem": {
+      "empty": "Prima digita una parola.",
+      "same_as_replacement": "La sostituzione è uguale alla parola.",
+      "control_character": "Qui non puoi usare a capo e tabulazioni.",
+      "full": "Il dizionario è pieno. Prima elimina alcune voci.",
+      "too_long_one": "Le parole possono avere al massimo {{max}} carattere.",
+      "too_long_many": "Le parole possono avere al massimo {{max}} di caratteri.",
+      "too_long_other": "Le parole possono avere al massimo {{max}} caratteri.",
+      "replacement_too_long_one": "Le sostituzioni possono avere al massimo {{maxReplacement}} carattere.",
+      "replacement_too_long_many": "Le sostituzioni possono avere al massimo {{maxReplacement}} di caratteri.",
+      "replacement_too_long_other": "Le sostituzioni possono avere al massimo {{maxReplacement}} caratteri."
+    },
+    "dialog": {
+      "addTitle": "Aggiungi al dizionario",
+      "editTitle": "Modifica voce del dizionario",
+      "description": "Le parole vengono scritte esattamente come le inserisci qui.",
+      "replaceToggle": "Sostituisci una parola",
+      "word": "Parola o nome",
+      "wordPlaceholder": "ad es. Siobhán",
+      "from": "Quando dico",
+      "fromPlaceholder": "ad es. cmq",
+      "to": "Scrivi",
+      "toPlaceholder": "ad es. comunque",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Aiuta il modello vocale a riconoscerla e scriverla correttamente.",
+      "ruleHint": "Riconosce la parola intera, con qualsiasi combinazione di maiuscole e minuscole, e scrive la sostituzione esattamente come l’hai digitata.",
+      "cancel": "Annulla",
+      "add": "Aggiungi parola",
+      "save": "Salva",
+      "close": "Chiudi",
+      "duplicate": "“{{entry}}” è già presente nel tuo dizionario.",
+      "conflictRule": "“{{from}}” diventa già “{{to}}”.",
+      "conflictWord": "“{{word}}” è già presente nel tuo dizionario con un’altra grafia.",
+      "replaceExisting": "Sostituisci",
+      "missing": "Nel frattempo questa voce è stata eliminata.",
+      "failed": "Impossibile salvare. Riprova.",
+      "failedStorage": "Non salvato: {{appName}} non riesce ad aprire il suo file di dati. Esci dall’app, riaprila e riprova. Se succede ancora, scegli Aiuto › Segnala un problema.",
+      "failedStarting": "Non ancora salvato: {{appName}} si sta ancora avviando. Riprova tra un momento."
+    },
+    "import": {
+      "open": "Importa",
+      "title": "Importa dizionario",
+      "description": "Importa parole e sostituzioni da un foglio di calcolo salvato in formato CSV.",
+      "fieldPhrase": "Parola, o ciò che dici",
+      "fieldReplacement": "Sostituisci con",
+      "format": {
+        "intro": "Una voce per riga:",
+        "columns": "La prima colonna è una parola o ciò che dici; la seconda, se compilata, è il testo da scrivere al suo posto.",
+        "header": "Può esserci una prima riga con i nomi delle colonne; scegli le colonne nel passaggio successivo.",
+        "limits": "Parole fino a 60 caratteri, sostituzioni fino a 200, file fino a 3 MB.",
+        "encoding": "Salva come CSV UTF-8, così accenti e altri alfabeti vengono importati correttamente."
+      },
+      "review": {
+        "new_one": "nuova voce",
+        "new_many": "di nuove voci",
+        "new_other": "nuove voci",
+        "duplicates_one": "già presente",
+        "duplicates_many": "già presenti",
+        "duplicates_other": "già presenti",
+        "conflicts_one": "conflitto",
+        "conflicts_many": "conflitti",
+        "conflicts_other": "conflitti",
+        "invalid_one": "non importabile",
+        "invalid_many": "non importabili",
+        "invalid_other": "non importabili",
+        "overLimit_one": "{{count}} nuova voce non ci sta (spazio rimasto nel dizionario: {{room}}).",
+        "overLimit_many": "{{count}} di nuove voci non ci stanno (spazio rimasto nel dizionario: {{room}}).",
+        "overLimit_other": "{{count}} nuove voci non ci stanno (spazio rimasto nel dizionario: {{room}}).",
+        "showNew": "Mostra le nuove voci",
+        "more_one": "e {{count}} altra",
+        "more_many": "e altre {{count}}",
+        "more_other": "e altre {{count}}",
+        "conflictsTitle": "Già nel dizionario, ma diverse",
+        "conflictsHelp": "Seleziona quelle per cui la versione del file deve sostituire la tua.",
+        "useAllFile": "Usa la versione del file per tutte",
+        "keepAllMine": "Mantieni tutte le mie",
+        "useFile": "Usa quella del file:",
+        "yours": "La tua:",
+        "showInvalid": "Mostra le righe non importabili",
+        "invalidRow": "Riga {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} voce importata",
+        "title_many": "{{count}} di voci importate",
+        "title_other": "{{count}} voci importate",
+        "added_one": "{{count}} aggiunta",
+        "added_many": "{{count}} aggiunte",
+        "added_other": "{{count}} aggiunte",
+        "replaced_one": "{{count}} sostituita con la versione del file",
+        "replaced_many": "{{count}} sostituite con la versione del file",
+        "replaced_other": "{{count}} sostituite con la versione del file",
+        "skipped_one": "{{count}} già presente, saltata",
+        "skipped_many": "{{count}} già presenti, saltate",
+        "skipped_other": "{{count}} già presenti, saltate",
+        "kept_one": "{{count}} conflitto lasciato com’era",
+        "kept_many": "{{count}} di conflitti lasciati com’erano",
+        "kept_other": "{{count}} conflitti lasciati com’erano",
+        "invalid_one": "Impossibile importare {{count}} riga",
+        "invalid_many": "Impossibile importare {{count}} di righe",
+        "invalid_other": "Impossibile importare {{count}} righe",
+        "overLimit_one": "{{count}} non è entrata (il dizionario è pieno)",
+        "overLimit_many": "{{count}} non sono entrate (il dizionario è pieno)",
+        "overLimit_other": "{{count}} non sono entrate (il dizionario è pieno)"
+      }
+    },
+    "export": {
+      "open": "Esporta",
+      "fileName": "{{appName}} - dizionario.csv",
+      "done_one": "{{count}} voce esportata.",
+      "done_many": "{{count}} di voci esportate.",
+      "done_other": "{{count}} voci esportate.",
+      "failed": "Impossibile esportare il dizionario. Riprova."
+    },
+    "rejected": "“{{entry}}” non verrà più suggerita.",
+    "actionFailed": "Operazione non riuscita. Riprova.",
+    "learn": {
+      "toggle": "Impara dalle mie correzioni",
+      "hint": "Per 30 secondi dopo che una dettatura è stata incollata, {{appName}} rileva le parole che correggi in quel campo di testo e te le suggerisce qui. Viene conservata solo la parola corretta, mai il resto del testo. Campi password, gestori di password, app bancarie e terminali non vengono mai letti."
+    },
+    "undoFailed": "Non è stato possibile ripristinare “{{entry}}”. Aggiungilo di nuovo.",
+    "undoSkipped": "“{{entry}}” non è stato ripristinato: il tuo dizionario lo contiene già.",
+    "addNew": "Aggiungi"
+  },
+  "pill": {
+    "region": "Barra di dettatura",
+    "listening": "In ascolto",
+    "cancel": "Annulla dettatura",
+    "finish": "Termina dettatura",
+    "transcribing": "Trascrizione…",
+    "cleaningUp": "Pulizia…",
+    "contextUsed": "Il testo circostante ha aiutato con l’ortografia",
+    "mic": "Microfono: {{name}}",
+    "fix": "Risolvi",
+    "dismiss": "Ignora",
+    "warning": {
+      "silence": "Nessuna voce da un po’, interruzione a breve",
+      "length": "Si interrompe dopo 30 minuti",
+      "mic_lost": "Microfono perso, ciò che hai detto è salvo",
+      "secure_input": "Inserimento sicuro attivo · fn+Spazio non blocca · Esc o ✕ annulla",
+      "secure_input_app": "{{app}} ha l’inserimento sicuro attivo · fn+Spazio non blocca · Esc o ✕ annulla"
+    },
+    "settingUp": "Configurazione…",
+    "settingUpPercent": "Configurazione… {{percent}}%",
+    "settingUpHint": "Le tue parole vengono salvate. Il testo apparirà qui quando la dettatura sarà pronta.",
+    "cardReady": "La tua dettatura",
+    "cardMore_one": "La tua dettatura · {{count}} altra in Cronologia",
+    "cardMore_many": "La tua dettatura · altre {{count}} in Cronologia",
+    "cardMore_other": "La tua dettatura · altre {{count}} in Cronologia",
+    "copy": "Copia",
+    "copied": "Copiato",
+    "retry": "Riprova",
+    "card": {
+      "hidden": "Nascosta perché era destinata a un campo password"
+    },
+    "undo": "Annulla",
+    "viewChanges": "Mostra modifiche",
+    "sendsAutomatically": "Invio automatico",
+    "shortcutDetail": {
+      "permission": "L’accesso ad Accessibilità è disattivato",
+      "stopped": "Il rilevamento della tastiera si è interrotto"
+    },
+    "word": {
+      "new": "Nuova parola",
+      "add": "Aggiungi",
+      "addLabel": "Aggiungi {{word}} al Dizionario",
+      "notNow": "Non ora"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "Provalo",
+      "howItWorks": "Come funziona",
+      "title": "Riscrivi qualsiasi testo selezionato"
+    },
+    "enable": {
+      "title": "Attiva"
+    },
+    "commandMode": {
+      "title": "Modalità Comandi",
+      "help": "Tieni premuta la scorciatoia e di' cosa scrivere o cambiare."
+    },
+    "auto": {
+      "title": "Applica automaticamente dopo la dettatura",
+      "choice": "Trasformazione da applicare",
+      "none": "Scegli una trasformazione",
+      "description": "Ogni dettatura passa per la trasformazione che scegli."
+    },
+    "shortcuts": {
+      "warning": "Quando le Trasformazioni sono attive, ⌥1, ⌥2 e ⌥O sostituiscono i caratteri ¡, ™ e ø.",
+      "safe": "Usa invece ⌃⌥"
+    },
+    "myTransforms": "Le mie trasformazioni",
+    "reset": "Ripristina predefinite",
+    "resetConfirm": "Ripristinare Polish e Prompt Engineer e rimuovere tutte le trasformazioni personalizzate?",
+    "createNew": "Crea",
+    "deleteConfirm": "Eliminare {{name}}? L’operazione non può essere annullata.",
+    "loading": "Caricamento delle trasformazioni…",
+    "error": "Impossibile salvare la modifica alla trasformazione. Riprova.",
+    "card": {
+      "delete": "Elimina {{name}}",
+      "createOwn": "Crea la tua",
+      "createOwnHint": "Descrivi cosa deve fare"
+    },
+    "new": {
+      "name": "La mia trasformazione"
+    },
+    "editor": {
+      "title": "Modifica {{name}}",
+      "name": "Nome",
+      "hotkey": "Abbreviazione",
+      "addHotkey": "Aggiungi abbreviazione",
+      "example": "Esempio",
+      "exampleInput": "Testo da trasformare",
+      "exampleText": "ehm potresti mandarmi il report domani magari ne parliamo allora",
+      "preview": "Anteprima",
+      "previewing": "Anteprima in corso…",
+      "rules": "Regole di modifica",
+      "autosave": {
+        "saved": "Salvataggio automatico · Tutte le modifiche salvate",
+        "saving": "Salvataggio automatico · Salvataggio…",
+        "error": "Salvataggio automatico · Impossibile salvare l’ultima modifica"
+      },
+      "reset": "Ripristina",
+      "done": "Fine",
+      "close": "Chiudi editor",
+      "exactBadge": "Esatto · senza IA",
+      "outcome": {
+        "no_change": "Niente da modificare in questo testo.",
+        "not_applied": "L’IA locale non è riuscita a farlo. Prova con un’istruzione più breve e specifica.",
+        "failed": "La risposta dell’IA locale non ha superato i controlli di sicurezza. Riprova o riformula l’istruzione.",
+        "timeout": "L’IA locale ci ha messo troppo. Riprova.",
+        "no_engine": "L’IA locale non è ancora pronta. Le modifiche esatte funzionano comunque."
+      },
+      "instruction": "Che cosa deve fare?",
+      "instructionPlaceholder": "Per esempio: sostituisci tutte le «A» con 0, oppure rendilo più cordiale",
+      "more": "Altre opzioni"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Più corto"
+      },
+      "clearer": {
+        "title": "Formulazione più chiara"
+      },
+      "better_order": {
+        "title": "Ordine migliore"
+      },
+      "headings_lists": {
+        "title": "Aggiungi titoli ed elenchi"
+      },
+      "keep_tone": {
+        "title": "Mantieni il mio tono"
+      }
+    },
+    "examples": {
+      "title": "Esempi di scrittura",
+      "fileType": "Testo o Markdown",
+      "label": "Esempio di scrittura {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Incolla un esempio",
+      "load": "Carica .txt o .md",
+      "remove": "Rimuovi esempio {{number}}",
+      "readError": "Scegli un file .txt o .md di non più di {{chars}} caratteri."
+    },
+    "diff": {
+      "changes_one": "{{count}} modifica",
+      "changes_many": "{{count}} di modifiche",
+      "changes_other": "{{count}} modifiche",
+      "configure": "Configura",
+      "copy": "Copia",
+      "copied": "Copiato",
+      "retry": "Riprova",
+      "retrying": "Nuovo tentativo…",
+      "feedback": "Valuta questa trasformazione",
+      "good": "Buon risultato",
+      "bad": "Risultato scadente",
+      "simpleView": "Viene mostrata un’unica sostituzione per questa modifica ampia o complessa.",
+      "actionFailed": "L’azione non è riuscita. Il testo è ancora qui; riprova."
+    },
+    "findReplace": {
+      "title": "Trova e sostituisci",
+      "find": "Trova, riga {{number}}",
+      "replace": "Sostituisci con, riga {{number}}",
+      "findPlaceholder": "Trova",
+      "replacePlaceholder": "Sostituisci con",
+      "matchCase": "Maiuscole/minuscole",
+      "remove": "Rimuovi la riga {{number}}",
+      "add": "Aggiungi una sostituzione"
+    },
+    "model": {
+      "downloading": "Preparazione delle trasformazioni: download una tantum, {{percent}}%",
+      "verifying": "Preparazione delle trasformazioni: verifica del download…",
+      "ready": "Le trasformazioni sono pronte",
+      "progressLabel": "Download per le trasformazioni",
+      "failed": "Impossibile scaricare ciò che serve alle trasformazioni. Controlla la connessione.",
+      "retry": "Riprova"
+    },
+    "subtitle": "Seleziona del testo in qualsiasi app e premi una scorciatoia per riscriverlo.",
+    "settings": {
+      "title": "Impostazioni delle trasformazioni"
+    },
+    "viewChanges": "per vedere le modifiche",
+    "builtin": {
+      "polish": "Più chiaro e più breve",
+      "prompt_engineer": "Crea un prompt chiaro"
+    }
+  },
+  "cleanup": {
+    "title": "Pulizia",
+    "loading": "Caricamento del livello di pulizia…",
+    "loadError": "Impossibile leggere il livello di pulizia: {{message}}",
+    "setError": "La modifica non è stata salvata: {{message}}",
+    "notice": "Inserito senza pulizia",
+    "picker": {
+      "legend": "Quanto vuoi che vengano ripulite le tue parole?",
+      "recommended": "Consigliato",
+      "aiChat": "Nelle app di chat AI le tue parole vengono inserite così come le hai dette, senza pulizia AI."
+    },
+    "levels": {
+      "none": {
+        "label": "Nessuna",
+        "description": "Esattamente ciò che hai detto, con solo spaziatura e comandi vocali applicati."
+      },
+      "light": {
+        "label": "Leggera",
+        "description": "Rimuove intercalari come “ehm” e “cioè”, corregge punteggiatura e maiuscole e tiene conto delle tue correzioni: “alle 2, anzi alle 3” diventa “alle 3”."
+      },
+      "medium": {
+        "label": "Media",
+        "description": "Tutto ciò che fa Leggera, più grammatica e formulazione più scorrevoli. Fatti e significato restano invariati."
+      }
+    },
+    "last": {
+      "title": "Ultima dettatura",
+      "none": "Nessuna dettatura dall’avvio dell’app.",
+      "applied_one": "Pulita in {{ms}} ms, {{count}} modifica.",
+      "applied_many": "Pulita in {{ms}} ms, {{count}} di modifiche.",
+      "applied_other": "Pulita in {{ms}} ms, {{count}} modifiche.",
+      "checks": "Controlli di sicurezza che l’hanno bloccata: {{checks}}",
+      "partial_one": "Pulita in parte ({{applied}} di {{total}} paragrafo); il resto è come l’hai detto: {{reason}}",
+      "partial_many": "Pulita in parte ({{applied}} di {{total}} di paragrafi); il resto è come l’hai detto: {{reason}}",
+      "partial_other": "Pulita in parte ({{applied}} di {{total}} paragrafi); il resto è come l’hai detto: {{reason}}"
+    },
+    "why": {
+      "level_none": "La pulizia è disattivata.",
+      "empty": "Niente da pulire.",
+      "already_clean": "Già pulito, quindi il motore AI non è servito.",
+      "ai_chat": "App di chat AI: inserito così come l’hai detto.",
+      "not_ready": "Inserito senza pulizia: il modello di pulizia non è ancora pronto.",
+      "low_memory": "Inserito senza pulizia: al momento non c’è abbastanza memoria libera.",
+      "guard": "Inserito senza pulizia: il testo pulito non ha superato i controlli di sicurezza.",
+      "timeout": "Inserito senza pulizia: la pulizia ha impiegato troppo tempo.",
+      "error": "Inserito senza pulizia: si è verificato un problema con il motore AI."
+    },
+    "reason": {
+      "level_none": "la pulizia è disattivata",
+      "empty": "niente da pulire",
+      "already_clean": "già pulito",
+      "ai_chat": "app di chat AI",
+      "not_ready": "il modello di pulizia non è ancora pronto",
+      "low_memory": "memoria libera insufficiente",
+      "guard": "non ha superato i controlli di sicurezza",
+      "timeout": "la pulizia ha richiesto troppo tempo",
+      "error": "si è verificato un problema con il motore AI"
+    }
+  },
+  "snippets": {
+    "add": "Aggiungi frammento",
+    "added": "Aggiunto “{{trigger}}”.",
+    "search": "Cerca nei frammenti",
+    "refresh": "Aggiorna",
+    "shown_one": "{{count}} frammento mostrato",
+    "shown_many": "{{count}} di frammenti mostrati",
+    "shown_other": "{{count}} frammenti mostrati",
+    "deleted": "Eliminato “{{trigger}}”.",
+    "deleteFailed": "Impossibile eliminare il frammento. Riprova.",
+    "undo": "Annulla",
+    "counts": {
+      "snippets_one": "{{count}} frammento",
+      "snippets_many": "{{count}} di frammenti",
+      "snippets_other": "{{count}} frammenti",
+      "uses_one": "usato {{count}} volta",
+      "uses_many": "usato {{count}} di volte",
+      "uses_other": "usato {{count}} volte"
+    },
+    "sort": {
+      "label": "Ordina",
+      "newest": "Prima i più recenti",
+      "oldest": "Prima i meno recenti",
+      "az": "Dalla A alla Z",
+      "za": "Dalla Z alla A",
+      "used": "Più usati"
+    },
+    "banner": {
+      "title": "Smetti di scrivere la stessa cosa <em>due volte</em>.",
+      "lead": "Pronuncia una parola chiave e {{appName}} scrive il testo completo.",
+      "examplesLabel": "Esempi",
+      "cue1": "il mio indirizzo",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "la mia firma",
+      "text2": "Un caro saluto, Sam",
+      "cue3": "link al calendario",
+      "text3": "Scegli l’orario che preferisci: cal.example.com/sam",
+      "add": "Aggiungi snippet"
+    },
+    "entry": {
+      "becomes": "viene scritto come",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} riga",
+      "lines_many": "{{count}} di righe",
+      "lines_other": "{{count}} righe",
+      "imported": "Importato",
+      "used_one": "Usato {{count}} volta",
+      "used_many": "Usato {{count}} di volte",
+      "used_other": "Usato {{count}} volte",
+      "edit": "Modifica {{trigger}}",
+      "delete": "Elimina {{trigger}}"
+    },
+    "empty": {
+      "title": "Ancora nessun frammento",
+      "body": "Salva una volta sola un indirizzo, una formula di chiusura o un link. Quando pronunci la frase chiave, {{appName}} lo scrive per te."
+    },
+    "noMatch": {
+      "title": "Nessun risultato",
+      "body": "Nessun frammento contiene “{{query}}”.",
+      "action": "Cancella ricerca"
+    },
+    "unavailable": {
+      "title": "I frammenti non sono ancora disponibili",
+      "body": "Si aprono non appena l’app ha finito di avviarsi."
+    },
+    "problem": {
+      "empty_trigger": "Prima digita cosa dirai.",
+      "trigger_not_spoken": "La frase chiave deve contenere almeno una lettera o un numero.",
+      "trigger_control_character": "La frase chiave deve stare su una sola riga.",
+      "empty_body": "Digita il testo da scrivere.",
+      "body_control_character": "Il testo contiene un carattere che non può essere scritto. Rimuovilo e riprova.",
+      "full": "L’elenco dei frammenti è pieno. Prima elimina alcuni frammenti.",
+      "trigger_too_long_one": "La frase chiave può avere al massimo {{max}} carattere.",
+      "trigger_too_long_many": "La frase chiave può avere al massimo {{max}} di caratteri.",
+      "trigger_too_long_other": "La frase chiave può avere al massimo {{max}} caratteri.",
+      "body_too_long_one": "Il testo può avere al massimo {{maxBody}} carattere.",
+      "body_too_long_many": "Il testo può avere al massimo {{maxBody}} di caratteri.",
+      "body_too_long_other": "Il testo può avere al massimo {{maxBody}} caratteri."
+    },
+    "dialog": {
+      "addTitle": "Aggiungi frammento",
+      "editTitle": "Modifica frammento",
+      "description": "Pronuncia la frase chiave e al suo posto viene scritto il testo salvato.",
+      "trigger": "Quando dico",
+      "triggerPlaceholder": "ad es. il mio indirizzo",
+      "body": "Scrivi",
+      "bodyPlaceholder": "Il testo da scrivere. I salti di riga vengono mantenuti.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Funziona da sola o dentro una frase, con maiuscole o minuscole. Dentro una frase, la punteggiatura di ciò che dici deve corrispondere esattamente al testo dettato. Il testo viene scritto esattamente come è stato salvato.",
+      "cancel": "Annulla",
+      "add": "Aggiungi frammento",
+      "save": "Salva",
+      "close": "Chiudi",
+      "duplicate": "“{{trigger}}” è già salvato con questo testo.",
+      "conflict": "“{{trigger}}” è già un frammento con un altro testo.",
+      "replaceExisting": "Sostituisci",
+      "missing": "Nel frattempo questo frammento è stato eliminato.",
+      "failed": "Impossibile salvare. Riprova."
+    },
+    "import": {
+      "open": "Importa",
+      "title": "Importa frammenti",
+      "description": "Importa frammenti da un foglio di calcolo salvato in formato CSV.",
+      "fieldTrigger": "Cosa dici",
+      "fieldBody": "Testo da scrivere",
+      "format": {
+        "intro": "Un frammento per riga:",
+        "columns": "La prima colonna è ciò che dici; la seconda è il testo da scrivere.",
+        "lines": "Un testo con a capo va tra virgolette, come lo salvano le app per fogli di calcolo.",
+        "encoding": "Salva come CSV UTF-8, così accenti e altri alfabeti vengono importati correttamente.",
+        "limits_one": "Fino a {{max}} carattere per ciò che dici e {{maxBody}} per il testo; al massimo 1.000 righe e 3 MB per file.",
+        "limits_many": "Fino a {{max}} di caratteri per ciò che dici e {{maxBody}} per il testo; al massimo 1.000 righe e 3 MB per file.",
+        "limits_other": "Fino a {{max}} caratteri per ciò che dici e {{maxBody}} per il testo; al massimo 1.000 righe e 3 MB per file."
+      },
+      "review": {
+        "new_one": "nuovo frammento",
+        "new_many": "di nuovi frammenti",
+        "new_other": "nuovi frammenti",
+        "duplicates_one": "già presente",
+        "duplicates_many": "già presenti",
+        "duplicates_other": "già presenti",
+        "conflicts_one": "conflitto",
+        "conflicts_many": "conflitti",
+        "conflicts_other": "conflitti",
+        "invalid_one": "non importabile",
+        "invalid_many": "non importabili",
+        "invalid_other": "non importabili",
+        "overLimit_one": "{{count}} nuovo frammento non ci sta (spazio rimasto: {{room}}).",
+        "overLimit_many": "{{count}} di nuovi frammenti non ci stanno (spazio rimasto: {{room}}).",
+        "overLimit_other": "{{count}} nuovi frammenti non ci stanno (spazio rimasto: {{room}}).",
+        "ignoredRows_one": "Vengono lette solo le prime 1.000 righe; {{count}} riga in più viene ignorata.",
+        "ignoredRows_many": "Vengono lette solo le prime 1.000 righe; {{count}} di righe in più vengono ignorate.",
+        "ignoredRows_other": "Vengono lette solo le prime 1.000 righe; {{count}} righe in più vengono ignorate.",
+        "showNew": "Mostra i nuovi frammenti",
+        "more_one": "e {{count}} altro",
+        "more_many": "e altri {{count}}",
+        "more_other": "e altri {{count}}",
+        "conflictsTitle": "Già salvato con un altro testo",
+        "conflictsHelp": "Seleziona quelli per cui il testo del file deve sostituire il tuo.",
+        "useAllFile": "Usa il testo del file per tutti",
+        "keepAllMine": "Mantieni tutti i miei",
+        "useFile": "Usa quello del file:",
+        "yours": "Il tuo:",
+        "showInvalid": "Mostra le righe non importabili",
+        "invalidRow": "Riga {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} frammento importato",
+        "title_many": "{{count}} di frammenti importati",
+        "title_other": "{{count}} frammenti importati",
+        "added_one": "{{count}} aggiunto",
+        "added_many": "{{count}} aggiunti",
+        "added_other": "{{count}} aggiunti",
+        "replaced_one": "{{count}} sostituito con il testo del file",
+        "replaced_many": "{{count}} sostituiti con il testo del file",
+        "replaced_other": "{{count}} sostituiti con il testo del file",
+        "skipped_one": "{{count}} già presente, saltato",
+        "skipped_many": "{{count}} già presenti, saltati",
+        "skipped_other": "{{count}} già presenti, saltati",
+        "kept_one": "{{count}} conflitto lasciato com’era",
+        "kept_many": "{{count}} di conflitti lasciati com’erano",
+        "kept_other": "{{count}} conflitti lasciati com’erano",
+        "invalid_one": "Impossibile importare {{count}} riga",
+        "invalid_many": "Impossibile importare {{count}} di righe",
+        "invalid_other": "Impossibile importare {{count}} righe",
+        "overLimit_one": "{{count}} non è entrato (l’elenco dei frammenti è pieno)",
+        "overLimit_many": "{{count}} non sono entrati (l’elenco dei frammenti è pieno)",
+        "overLimit_other": "{{count}} non sono entrati (l’elenco dei frammenti è pieno)"
+      }
+    },
+    "export": {
+      "open": "Esporta",
+      "fileName": "{{appName}} - frammenti.csv",
+      "done_one": "{{count}} frammento esportato.",
+      "done_many": "{{count}} di frammenti esportati.",
+      "done_other": "{{count}} frammenti esportati.",
+      "failed": "Impossibile esportare i frammenti. Riprova."
+    },
+    "undoFailed": "Non è stato possibile ripristinare “{{trigger}}”. Aggiungilo di nuovo.",
+    "undoSkipped": "“{{trigger}}” non è stato ripristinato: un altro frammento usa ora quella frase.",
+    "addNew": "Aggiungi",
+    "tabs": {
+      "all": "Tutti"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Statistiche",
+      "usage": "Uso",
+      "voice": "Voce"
+    },
+    "asOf": "I tuoi numeri al {{date}}",
+    "unavailable": "Al momento non è possibile leggere le statistiche. Appariranno tra poco.",
+    "save": {
+      "button": "Salva come immagine",
+      "fileName": "{{appName}} - statistiche {{date}}.png",
+      "filter": "Immagine PNG",
+      "done": "Immagine salvata.",
+      "failed": "Impossibile salvare l’immagine. Riprova."
+    },
+    "speed": {
+      "title": "Parole al minuto",
+      "notEnough": "Detta ancora un po’ per vedere la tua velocità.",
+      "measured": "{{ratio}}× la tua velocità di battitura di {{typing}} parole/min",
+      "average": "{{ratio}}× la velocità di chi digita in media ({{typing}} parole/min)",
+      "speaking": "Parlando",
+      "typing": "La tua battitura",
+      "typingAverage": "Battitura media"
+    },
+    "words": {
+      "title": "Parole totali",
+      "dictations_one": "in {{count, number}} dettatura",
+      "dictations_many": "in {{count, number}} di dettature",
+      "dictations_other": "in {{count, number}} dettature"
+    },
+    "fixes": {
+      "title": "Correzioni apportate",
+      "dictionary": "Correzioni del dizionario",
+      "ai": "Correzioni della pulizia AI"
+    },
+    "categories": {
+      "title": "Dove detti",
+      "empty": "Detta in qualche app per vedere dove vanno le tue parole.",
+      "words_one": "{{count, number}} parola",
+      "words_many": "{{count, number}} di parole",
+      "words_other": "{{count, number}} parole",
+      "documents": "Documenti",
+      "ai_prompts": "Prompt AI",
+      "email": "Email",
+      "work": "Messaggi di lavoro",
+      "personal": "Messaggi personali",
+      "other": "Tutto il resto",
+      "used": "Categorie usate"
+    },
+    "heatmap": {
+      "title": "La tua serie di giorni",
+      "current": "Serie attuale",
+      "longest": "Serie più lunga",
+      "days_one": "{{count, number}} giorno",
+      "days_many": "{{count, number}} di giorni",
+      "days_other": "{{count, number}} giorni",
+      "active_one": "{{count, number}} giorno con dettature nell’ultimo anno",
+      "active_many": "{{count, number}} di giorni con dettature nell’ultimo anno",
+      "active_other": "{{count, number}} giorni con dettature nell’ultimo anno",
+      "day_one": "{{date}}: {{count, number}} parola",
+      "day_many": "{{date}}: {{count, number}} di parole",
+      "day_other": "{{date}}: {{count, number}} parole",
+      "less": "Meno",
+      "more": "Più",
+      "band0": "Nessuna parola",
+      "band1": "Da 1 a 249 parole",
+      "band2": "Da 250 a 499 parole",
+      "band3": "Da 500 a 749 parole",
+      "band4": "750 parole o più",
+      "streak_one": "Serie attuale: {{count, number}} giorno",
+      "streak_many": "Serie attuale: {{count, number}} di giorni",
+      "streak_other": "Serie attuale: {{count, number}} giorni"
+    },
+    "voice": {
+      "locked": "Bloccato",
+      "phrase": "La tua frase",
+      "phraseIn_one": "In {{count, number}} dettatura",
+      "phraseIn_many": "In {{count, number}} di dettature",
+      "phraseIn_other": "In {{count, number}} dettature",
+      "peak": "Momento e app di punta",
+      "peakApp": "Più parole in {{app}}",
+      "word": "Parola più usata",
+      "uses_one": "Usata {{count, number}} volta",
+      "uses_many": "Usata {{count, number}} di volte",
+      "uses_other": "Usata {{count, number}} volte",
+      "corrected": "Parola più corretta",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Corretta {{count, number}} volta",
+      "fixed_many": "Corretta {{count, number}} di volte",
+      "fixed_other": "Corretta {{count, number}} volte",
+      "notEnough": "Non ci sono ancora abbastanza dettature.",
+      "footnote_one": "Calcolato su questo Mac in base alla tua ultima dettatura. Nulla lascia il tuo Mac.",
+      "footnote_many": "Calcolato su questo Mac in base alle tue ultime {{count, number}} di dettature. Nulla lascia il tuo Mac.",
+      "footnote_other": "Calcolato su questo Mac in base alle tue ultime {{count, number}} dettature. Nulla lascia il tuo Mac.",
+      "sample": {
+        "phrase": "una frase che dici spesso",
+        "peak": "un momento della giornata",
+        "word": "una parola preferita",
+        "corrected": "una parola che viene corretta"
+      },
+      "lockedTitle_one": "Il tuo profilo vocale si sblocca a {{goal}} parola",
+      "lockedTitle_many": "Il tuo profilo vocale si sblocca a {{goal}} di parole",
+      "lockedTitle_other": "Il tuo profilo vocale si sblocca a {{goal}} parole",
+      "lockedBody_one": "Continua a dettare: finora {{current}} di {{goal}} parola. Poi vedrai la frase che usi di più, quando e dove detti e le parole che {{appName}} corregge per te.",
+      "lockedBody_many": "Continua a dettare: finora {{current}} di {{goal}} di parole. Poi vedrai la frase che usi di più, quando e dove detti e le parole che {{appName}} corregge per te.",
+      "lockedBody_other": "Continua a dettare: finora {{current}} di {{goal}} parole. Poi vedrai la frase che usi di più, quando e dove detti e le parole che {{appName}} corregge per te."
+    },
+    "typing": {
+      "take": "Fai il test di battitura",
+      "retake": "Rifai il test di battitura"
+    },
+    "saved": {
+      "title": "Tempo risparmiato rispetto alla digitazione",
+      "basisMeasured": "{{speaking}} parole/min parlando contro {{typing}} parole/min digitando",
+      "basisAverage": "{{speaking}} parole/min parlando contro {{typing}} parole/min di digitazione media",
+      "basisEstimateMeasured": "Circa {{speaking}} parole/min parlando contro {{typing}} parole/min digitando",
+      "basisEstimateAverage": "Circa {{speaking}} parole/min parlando contro {{typing}} parole/min di digitazione media"
+    }
+  },
+  "history": {
+    "title": "Cronologia",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "rowLabel": "Dettatura delle {{time}}",
+    "loading": "Caricamento delle dettature…",
+    "loadingMore": "Caricamento…",
+    "unavailable": "La Cronologia non è ancora disponibile. Apparirà non appena l’app avrà finito di avviarsi.",
+    "empty": {
+      "body": "Tieni premuto fn in qualsiasi app e inizia a parlare. Ogni dettatura viene conservata qui, su questo Mac."
+    },
+    "noResults": {
+      "title": "Nessun risultato",
+      "body": "Nessuna dettatura contiene “{{query}}”."
+    },
+    "results_one": "{{count}} dettatura trovata",
+    "results_many": "{{count}} di dettature trovate",
+    "results_other": "{{count}} dettature trovate",
+    "resultsMore_one": "Viene mostrato {{count}} risultato recente. Scorri per vederne altri.",
+    "resultsMore_many": "Vengono mostrati i {{count}} di risultati più recenti. Scorri per vederne altri.",
+    "resultsMore_other": "Vengono mostrati i {{count}} risultati più recenti. Scorri per vederne altri.",
+    "search": {
+      "open": "Cerca nella Cronologia",
+      "label": "Cerca nelle dettature",
+      "placeholder": "Cerca dettature",
+      "close": "Chiudi ricerca"
+    },
+    "transcribeFile": "Trascrivi un file…",
+    "transcribeFailed": "Impossibile aprire il file. Riprova.",
+    "showMore": "Mostra di più",
+    "showLess": "Mostra meno",
+    "failed": "Trascrizione non riuscita. Scegli Ripeti trascrizione nel menu ⋮.",
+    "waitingForModel": "In attesa del modello vocale",
+    "notTranscribed": "Non ancora trascritta.",
+    "job": {
+      "waiting": "In attesa di trascrizione…",
+      "transcribing": "Trascrizione…",
+      "percent": "Trascrizione… {{percent}}%"
+    },
+    "tag": {
+      "file": "File",
+      "practice": "Esercizio",
+      "raw": "Prima della pulizia AI",
+      "flagged": "Segnalata"
+    },
+    "actions": {
+      "play": "Riproduci registrazione",
+      "hidePlayer": "Nascondi il lettore",
+      "copy": "Copia testo",
+      "copied": "Copiato",
+      "flag": "Parola errata? Correggi",
+      "more": "Altre azioni"
+    },
+    "menu": {
+      "label": "Azioni della dettatura",
+      "undoAi": "Annulla modifica AI",
+      "redoAi": "Ripeti modifica AI",
+      "retry": "Ripeti trascrizione",
+      "retryAt": {
+        "none": "Riprova senza pulizia",
+        "light": "Riprova con pulizia Leggera",
+        "medium": "Riprova con pulizia Media"
+      },
+      "saveAudio": "Salva audio con nome…",
+      "delete": "Elimina trascrizione"
+    },
+    "audio": {
+      "expired_one": "Audio rimosso dopo {{count}} giorno",
+      "expired_many": "Audio rimosso dopo {{count}} di giorni",
+      "expired_other": "Audio rimosso dopo {{count}} giorni",
+      "removed": "Audio rimosso",
+      "missing": "Nessuna registrazione per questa dettatura",
+      "filter": "Audio WAV",
+      "saved": "Registrazione salvata.",
+      "saveFailed": "Impossibile salvare la registrazione. Riprova."
+    },
+    "copyFailed": "Impossibile copiare il testo. Riprova.",
+    "actionFailed": "Operazione non riuscita. Riprova.",
+    "deleted": "Eliminata",
+    "undo": "Annulla",
+    "deleteFailed": "Impossibile eliminare la dettatura. Riprova.",
+    "undoFailed": "È troppo tardi per recuperare quella dettatura.",
+    "flag": {
+      "title": "Parola sbagliata?",
+      "description": "Scegli la parola trascritta male e digitala come dovrebbe essere. D’ora in poi il dizionario la correggerà.",
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "save": "Aggiungi al dizionario",
+      "pick": "Scegli la parola sbagliata (per più parole, scegli anche le successive)",
+      "noWords": "Questa dettatura non ha parole da scegliere.",
+      "correction": "Correggi la grafia",
+      "correctionFor": "Correggi la grafia di “{{word}}”",
+      "correctionPlaceholder": "Digitala come dovrebbe essere",
+      "kindLabel": "Cosa aggiungere",
+      "rule": "Sostituiscila ogni volta",
+      "ruleHint": "Aggiunge una sostituzione, così lo stesso errore viene corretto in ogni dettatura.",
+      "ruleHintFilled": "“{{from}}” diventa “{{to}}” in ogni dettatura.",
+      "word": "Insegna la grafia",
+      "wordHint": "Aggiunge la parola, così l’app la riconosce quando la pronunci.",
+      "duplicate": "È già presente nel dizionario.",
+      "failed": "Impossibile salvare. Riprova.",
+      "savedRule": "D’ora in poi “{{from}}” diventa “{{to}}”.",
+      "savedWord": "“{{word}}” è nel tuo dizionario.",
+      "openDictionary": "Apri Dizionario"
+    }
+  },
+  "scratchpad": {
+    "newNote": "Nuova nota",
+    "preferences": "Preferenze del Blocco note",
+    "hero": {
+      "title": "Spazio per i pensieri sparsi",
+      "body": "Scrivi una lista, prepara una risposta o ragiona ad alta voce su un’idea. Ogni nota si salva da sola."
+    },
+    "addToBar": "Aggiungi alla barra",
+    "addToBarHelp": "Mostra un pulsante Blocco note accanto a Detta sulla barra a riposo.",
+    "recents": "Recenti",
+    "searchLabel": "Cerca note",
+    "searchPlaceholder": "Cerca nelle note",
+    "loading": "Caricamento delle note…",
+    "empty": "Ancora nessuna nota",
+    "emptyHelp": "Crea una nota, poi scrivi o detta nella sua finestra mobile.",
+    "emptyNote": "Nota vuota",
+    "noResults": "Nessuna nota corrisponde alla tua ricerca.",
+    "untitled": "Nota senza titolo",
+    "pinned": "Fissate",
+    "pin": "Fissa nota",
+    "unpin": "Sblocca nota",
+    "editAction": "Modifica nota",
+    "edit": "Modifica {{name}}",
+    "delete": "Elimina nota",
+    "deleteConfirm": "Eliminare “{{name}}”? L’operazione non può essere annullata.",
+    "error": "Il Blocco note non è riuscito a completare l’azione. Il testo attuale è ancora qui; riprova.",
+    "shortcut": {
+      "label": "Abbreviazione di apertura",
+      "change": "Imposta abbreviazione",
+      "title": "Abbreviazione del Blocco note",
+      "help": "Apri il Blocco note da qualsiasi app. All’inizio non è impostata, quindi non intercetta alcun tasto finché non ne scegli uno.",
+      "close": "Chiudi finestra dell’abbreviazione",
+      "proposed": "Combinazione suggerita",
+      "ctrlOptionS": "Controllo + Opzione + S",
+      "use": "Usa Controllo + Opzione + S",
+      "chooseAnother": "Scegli un’altra abbreviazione",
+      "error": "Impossibile salvare l’abbreviazione. Prova un’altra combinazione."
+    },
+    "tabs": "Note aperte",
+    "tools": "Strumenti per le note",
+    "sidebar": "Mostra elenco note",
+    "polish": "Applica Polish alla nota",
+    "polishing": "Polish in corso…",
+    "textSize": "Cambia dimensione del testo (attuale: {{size}} punti)",
+    "expand": "Espandi la finestra della nota",
+    "shrink": "Ripristina dimensioni della finestra della nota",
+    "close": "Chiudi Blocco note",
+    "noteBody": "Testo della nota",
+    "notePlaceholder": "Scrivi o detta una nota…",
+    "saved": "Salvata",
+    "saving": "Salvataggio…",
+    "saveError": "Non ancora salvata",
+    "autosaveHelp": "Salva automaticamente",
+    "copy": "Copia",
+    "copied": "Copiato",
+    "record": "Registra",
+    "stop": "Interrompi",
+    "recordHint": "Detta in questa nota ({{key}})",
+    "recordHintNoKey": "Detta in questa nota",
+    "stopHint": "Interrompi la dettatura",
+    "gettingReady": "Preparazione…",
+    "polished": "Polish applicato alla nota",
+    "undo": "Annulla",
+    "polishNoChange": "Questa nota si legge già bene.",
+    "polishRefused": "Impossibile applicare Polish a questa nota.",
+    "polishNotReady": "Il modello di IA è ancora in preparazione. Riprova tra qualche minuto.",
+    "polishStale": "La nota è cambiata durante Polish, quindi non è stato sostituito nulla.",
+    "dismiss": "Chiudi"
+  },
+  "style": {
+    "tabsLabel": "Gruppi di stile",
+    "groups": {
+      "personal": {
+        "tab": "Personali",
+        "label": "Messaggi personali",
+        "bannerTitle": "Per le chat con amici e familiari"
+      },
+      "work": {
+        "tab": "Lavoro",
+        "label": "Messaggi di lavoro",
+        "bannerTitle": "Per le chat con i colleghi"
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "bannerTitle": "Per le tue email"
+      },
+      "other": {
+        "tab": "Altro",
+        "label": "Altro",
+        "bannerTitle": "Per tutto il resto"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formale",
+        "description": "Maiuscole + punteggiatura"
+      },
+      "relaxed": {
+        "label": "Informale",
+        "description": "Maiuscole + meno punteggiatura"
+      },
+      "very_relaxed": {
+        "label": "Molto informale",
+        "description": "Niente maiuscole + meno punteggiatura"
+      },
+      "upbeat": {
+        "label": "Energico",
+        "description": "Maiuscole + un po’ più di energia"
+      }
+    },
+    "presetsHeading": "Stile",
+    "presetsLegend": "Stile per {{group}}",
+    "after": "Cosa viene scritto:",
+    "englishOnly": "Gli stili si applicano alle dettature in inglese. La pulizia funziona in tutte le lingue.",
+    "apps": {
+      "heading": "Usato in queste app",
+      "listLabel": "App che usano lo stile {{group}}",
+      "addShort": "Aggiungi app",
+      "allOthers": "Anche tutte le app che non sono in un altro gruppo usano questo stile.",
+      "unavailable": "Impossibile caricare le app. Appariranno quando l’app sarà pronta.",
+      "chipLabel": "{{app}}: opzioni",
+      "menuLabel": "Opzioni per {{app}}",
+      "moveTo": "Sposta in",
+      "useDefault": "Torna al gruppo abituale ({{group}})",
+      "remove": "Rimuovi da {{group}}",
+      "autoSend": "Premi A capo dopo la dettatura",
+      "autoSendOn": "preme A capo dopo la dettatura",
+      "notInstalled": "non installato",
+      "aiChat": "Una chat AI: le tue parole vengono inserite pulite, senza stile.",
+      "moved": "{{app}} ora usa lo stile {{group}}.",
+      "removed": "{{app}} ora usa lo stile Altro.",
+      "added": "{{app}} ora usa lo stile {{group}}.",
+      "undo": "Annulla",
+      "changeFailed": "La modifica non è stata salvata. Riprova."
+    },
+    "sites": {
+      "addShort": "Aggiungi sito web",
+      "recent": {
+        "heading": "Siti web usati di recente",
+        "addLabel": "Aggiungi {{host}} a “{{group}}”"
+      },
+      "add": {
+        "title": "Aggiungi un sito web",
+        "description": "Scegli lo stile per un sito web nel tuo browser. Vale per tutto il sito, sottodomini inclusi.",
+        "label": "Sito web",
+        "hint": "Digita un dominio come github.com o incolla un indirizzo.",
+        "invalid": "Non sembra un sito web. Prova un dominio come example.com.",
+        "preview": "Aggiunge {{host}} e i suoi sottodomini.",
+        "already": "{{host}} ora è in “{{group}}”. Aggiungerlo qui lo sposta.",
+        "same": "{{host}} usa già “{{group}}”.",
+        "covered": "{{host}} fa parte di {{parent}} (“{{group}}”). Aggiungerlo gli dà uno stile tutto suo.",
+        "groupLabel": "Stile",
+        "submit": "Aggiungi a “{{group}}”"
+      },
+      "builtinNote": "Molti siti web comuni hanno già lo stile giusto senza comparire qui."
+    },
+    "picker": {
+      "title": "Aggiungi un’app a {{group}}",
+      "description": "Scegli un’app su questo Mac. Le sue dettature useranno lo stile {{group}}.",
+      "search": "Cerca app",
+      "listLabel": "App su questo Mac",
+      "loading": "Ricerca delle app…",
+      "failed": "Impossibile elencare le app di questo Mac.",
+      "none": "Nessuna app corrispondente.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Già qui",
+      "cancel": "Annulla",
+      "close": "Chiudi"
+    },
+    "cleanup": {
+      "tab": "Pulizia automatica",
+      "description": "Quanto vengono ripulite le tue parole, in ogni app e in ogni lingua. Lo stile di ciascun gruppo viene applicato in aggiunta.",
+      "bannerTitle": "La pulizia automatica vale per ogni dettatura",
+      "levels": {
+        "none": "Esattamente ciò che hai detto, errori compresi",
+        "light": "Toglie le parole riempitive e corregge la punteggiatura",
+        "medium": "Formulazione più scorrevole, stesso significato"
+      },
+      "mediumNote": "Con il modello di IA integrato, Media spesso dà lo stesso testo di Leggera.",
+      "note": "Le tue parole originali non vanno mai perse: nella cronologia apri il menu di una dettatura e scegli «Annulla modifica AI»."
+    },
+    "addMenu": "Aggiungi un’app o un sito web"
+  },
+  "onboardingFlow": {
+    "loading": "Preparazione in corso…",
+    "back": "Indietro",
+    "continue": "Continua",
+    "yes": "Sì",
+    "no": "No",
+    "navigationFailed": "Impossibile salvare questo passaggio. Riprova.",
+    "stepper": {
+      "label": "Avanzamento della configurazione",
+      "welcome": "Benvenuto",
+      "permissions": "Autorizzazioni",
+      "setup": "Configurazione",
+      "practice": "Prova",
+      "done": "(completato)",
+      "finish": "Fine"
+    },
+    "help": {
+      "chip": "Aiuto",
+      "title": "Aiuto per la configurazione",
+      "close": "Chiudi aiuto",
+      "done": "Capito",
+      "body": "Ogni passaggio richiede pochi secondi. Puoi tornare indietro in qualsiasi momento e, se esci, la configurazione riprende da dove l’avevi lasciata.",
+      "download": "Wispr Bro configura il riconoscimento vocale su questo Mac mentre completi questi passaggi. Tutto ciò che detti prima che sia pronto viene conservato e scritto non appena lo è."
+    },
+    "welcome": {
+      "title": "Parla e le tue parole appaiono",
+      "subtitle": "Tieni premuto un tasto, parla, rilascia. Il testo pulito appare ovunque tu stia scrivendo.",
+      "privacyTitle": "Tutto rimane su questo Mac",
+      "privacy": "Nessun account, nessun cloud, nessun tracciamento.",
+      "start": "Inizia",
+      "demoLabel": "Wispr Bro in azione"
+    },
+    "move": {
+      "title": "Sposta Wispr Bro in Applicazioni",
+      "body": "Gli aggiornamenti e i permessi funzionano meglio da lì. Wispr Bro si riapre da solo e prosegue.",
+      "action": "Sposta in Applicazioni",
+      "moving": "Spostamento…",
+      "skip": "Non ora",
+      "error": "Wispr Bro non è riuscito a spostarsi. Trascinalo in Applicazioni nel Finder, poi riaprilo."
+    },
+    "languages": {
+      "title": "Quali lingue parli?",
+      "subtitle": "Scegli tutte le lingue in cui detti.",
+      "listLabel": "Lingue",
+      "noMatch": "Nessuna lingua corrisponde a “{{query}}”.",
+      "count_one": "La dettatura funziona in {{count}} lingua. Potrai cambiare le tue lingue più avanti in Impostazioni.",
+      "count_many": "La dettatura funziona in {{count}} di lingue. Potrai cambiare le tue lingue più avanti in Impostazioni.",
+      "count_other": "La dettatura funziona in {{count}} lingue. Potrai cambiare le tue lingue più avanti in Impostazioni.",
+      "weak_one": "Il riconoscimento è meno preciso in {{languages}}. Dettare in questa lingua funziona comunque, ma aspettati più errori.",
+      "weak_many": "Il riconoscimento è meno preciso in {{languages}}. Dettare in queste lingue funziona comunque, ma aspettati più errori.",
+      "weak_other": "Il riconoscimento è meno preciso in {{languages}}. Dettare in queste lingue funziona comunque, ma aspettati più errori."
+    },
+    "permissions": {
+      "title": "Due autorizzazioni",
+      "subtitle": "macOS ti chiede di consentirle una sola volta. Ogni riga viene spuntata appena è attiva.",
+      "allowed": "Consentito",
+      "waiting": "In attesa di macOS…",
+      "openSettings": "Apri Impostazioni di Sistema",
+      "prompt": "La richiesta di macOS",
+      "pane": "In Impostazioni di Sistema",
+      "microphone": {
+        "title": "Microfono",
+        "why": "Così Wispr Bro può sentirti mentre detti.",
+        "action": "Consenti microfono",
+        "promptAlt": "Immagine della richiesta di accesso al microfono di macOS, con il pulsante Consenti evidenziato",
+        "paneAlt": "Immagine di Impostazioni di Sistema, Privacy e sicurezza, Microfono, con l’interruttore di Wispr Bro attivato",
+        "waitingHelp": "Fai clic su Consenti nella richiesta di macOS. Se non la vedi, apri Impostazioni di Sistema e attiva Wispr Bro in Microfono."
+      },
+      "accessibility": {
+        "title": "Accessibilità",
+        "why": "Così Wispr Bro può rilevare la tua abbreviazione e scrivere al posto tuo.",
+        "action": "Consenti Accessibilità",
+        "promptAlt": "Immagine della richiesta Accessibilità di macOS, con il pulsante Apri Impostazioni di Sistema evidenziato",
+        "paneAlt": "Immagine di Impostazioni di Sistema, Privacy e sicurezza, Accessibilità, con l’interruttore di Wispr Bro attivato",
+        "waitingHelp": "In Impostazioni di Sistema, attiva l’interruttore accanto a Wispr Bro. Potrebbe esserti chiesta la password."
+      }
+    },
+    "mic": {
+      "title": "Prova il microfono",
+      "guidance": "I microfoni con filo e integrati funzionano meglio. Le cuffie Bluetooth possono interrompersi o avere un suono ovattato.",
+      "question": "Le barre si muovono quando parli?",
+      "noHelp": "Scegli un altro microfono qui sotto, poi parla di nuovo.",
+      "change": "Cambia microfono",
+      "previewList": "I tuoi microfoni appaiono qui."
+    },
+    "shortcut": {
+      "title": "Prova l’abbreviazione",
+      "instruction": "Tieni premuto il tasto fn (🌐) sulla tastiera. Il tasto qui sotto si illumina mentre lo tieni premuto.",
+      "fallbackInstruction": "Tieni premuti insieme Controllo e Opzione. I tasti qui sotto si illuminano mentre li tieni premuti.",
+      "unboundInstruction": "Nessuna abbreviazione di dettatura impostata. Usa Modifica abbreviazione per sceglierne una.",
+      "keyLabel": "Il tasto fn",
+      "fallbackKeyLabel": "Controllo e Opzione",
+      "pressed": "Tasto premuto",
+      "notPressed": "In attesa del tasto…",
+      "worked": "Funziona. Il tasto si è illuminato.",
+      "question": "Il tasto si è illuminato?",
+      "edit": "Modifica abbreviazione",
+      "tryAgain": "Riprova",
+      "otherCauses": "Non è questo? Altre possibili cause:",
+      "changeFailed": "La modifica non è andata a buon fine. Riprova oppure usa Impostazioni di Sistema.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro non vede i tasti premuti",
+          "title": "Wispr Bro non vede ancora i tasti premuti",
+          "body": "Di solito significa che Accessibilità non è attiva per Wispr Bro. Attivala in Impostazioni di Sistema, poi torna qui e premi Riprova.",
+          "action": "Apri impostazioni Accessibilità"
+        },
+        "secure_input": {
+          "choice": "Un campo password o un’altra app blocca i tasti",
+          "title": "Un’altra app blocca i tasti premuti",
+          "body": "Quando è attivo un campo password o alcune app (gestori di password, Inserimento sicuro da tastiera di Terminale), macOS nasconde i tasti premuti a tutte le altre app. Chiudila o fai clic altrove, poi riprova.",
+          "active": "In questo momento un’altra app blocca i tasti premuti.",
+          "inactive": "Al momento nulla blocca i tasti premuti."
+        },
+        "globe": {
+          "choice": "Il tasto 🌐 apre le emoji o cambia tastiera",
+          "title": "macOS assegna al tasto 🌐 una sua funzione",
+          "body": "Quando premi 🌐, il Mac apre le emoji, cambia sorgente di input o avvia la dettatura di Apple. Wispr Bro può impostare “Premi il tasto 🌐 per” su “Non fare nulla”. La tua scelta viene ripristinata se smetti di usare fn per la dettatura.",
+          "consent": "Imposta 🌐 su “Non fare nulla”",
+          "changed": "Ora 🌐 da solo non fa nulla",
+          "open": "Apri impostazioni Tastiera"
+        },
+        "no_fn": {
+          "choice": "La mia tastiera non ha il tasto fn",
+          "title": "Usa invece Controllo e Opzione",
+          "body": "Alcune tastiere non hanno il tasto fn o 🌐. Per dettare, tieni premuti insieme Controllo e Opzione. Puoi cambiarlo in qualsiasi momento in Impostazioni.",
+          "action": "Usa Controllo + Opzione",
+          "changed": "Controllo + Opzione è la tua abbreviazione"
+        }
+      },
+      "customInstruction": "Tieni premuto {{keys}}. I tasti qui sotto si illuminano mentre li tieni premuti."
+    },
+    "practice": {
+      "title": "Prova: un’intera email, <em>a mani libere</em>",
+      "instruction": "Premi insieme fn e Spazio, poi parla. Premi di nuovo fn quando hai finito.",
+      "instructionFallback": "Premi insieme Controllo, Opzione e Spazio, poi parla. Premi di nuovo Controllo e Opzione quando hai finito.",
+      "instructionUnbound": "Nessuna abbreviazione di dettatura impostata, quindi questa prova non può iniziare. Saltala per ora e imposta un’abbreviazione in Impostazioni.",
+      "skip": "Salta",
+      "waiting": "In attesa che inizi a parlare…",
+      "listening": "In ascolto… premi fn quando hai finito.",
+      "listening_fallback": "In ascolto… premi Controllo e Opzione quando hai finito.",
+      "working": "Trascrizione…",
+      "queuedNote": "Le tue parole sono salve. Appariranno qui appena termina la configurazione e saranno comunque in Cronologia. Tra poco andremo avanti da soli.",
+      "nothing": "Non è arrivato nulla. Verifica che il microfono sia acceso e riprova.",
+      "filled": "Ecco la tua email. Aggiungi altro o continua.",
+      "composer": {
+        "title": "Nuovo messaggio",
+        "to": "A",
+        "recipient": "Sam",
+        "subject": "Oggetto",
+        "body": "Messaggio",
+        "trySaying": "Prova a dire: «{{text}}»",
+        "willAppear": "Le tue parole appariranno qui appena il modello vocale sarà pronto."
+      },
+      "instructionCustom": "Premi {{keys}} due volte rapidamente, poi parla. Premi di nuovo {{keys}} quando hai finito.",
+      "listening_custom": "In ascolto… premi {{keys}} quando hai finito.",
+      "queued": "Salvato. In attesa del modello vocale…",
+      "model": {
+        "title": "Preparazione del modello vocale",
+        "checking": "Verifica del download…",
+        "paused": "Download in pausa. Nuovo tentativo tra un momento…",
+        "failed": "Impossibile scaricare il modello vocale",
+        "underMinute": "manca meno di un minuto",
+        "minutesLeft_one": "mancano circa {{count}} min",
+        "minutesLeft_many": "mancano circa {{count}} min",
+        "minutesLeft_other": "mancano circa {{count}} min",
+        "bytes": "{{done}} di {{total}} MB",
+        "progressLabel": "Download del modello vocale",
+        "body": "Succede una sola volta. Puoi continuare con i passaggi successivi; quello che detti ora aspetta e compare quando è pronto.",
+        "retry": "Riprova"
+      }
+    },
+    "firstDictation": {
+      "title": "Tutto qui!",
+      "subtitle": "Ovunque puoi scrivere, ora puoi anche parlare.",
+      "lead": "Hai appena dettato il tuo primo testo.",
+      "typingLabel": "Digitando, in media",
+      "speakingLabel": "Parlando, in media",
+      "faster": "<n/>× <em>più veloce</em>",
+      "takeTest": "Fai il test di battitura",
+      "retakeTest": "Rifai il test di battitura",
+      "yourTypingLabel": "La tua digitazione",
+      "youSpokeLabel": "Hai parlato a"
+    },
+    "timeSaved": {
+      "headline_one": "Dettare potrebbe farti risparmiare circa {{hours}} ora a settimana",
+      "headline_many": "Dettare potrebbe farti risparmiare circa {{hours}} di ore a settimana",
+      "headline_other": "Dettare potrebbe farti risparmiare circa {{hours}} ore a settimana",
+      "sliderLabel": "Quante ore a settimana passi a digitare?",
+      "basisMeasured_one": "In base alla tua velocità di battitura di {{wpm}} parola al minuto e a una velocità di parola di circa {{speaking}} parole al minuto.",
+      "basisMeasured_many": "In base alla tua velocità di battitura di {{wpm}} di parole al minuto e a una velocità di parola di circa {{speaking}} parole al minuto.",
+      "basisMeasured_other": "In base alla tua velocità di battitura di {{wpm}} parole al minuto e a una velocità di parola di circa {{speaking}} parole al minuto.",
+      "basisAverage_one": "In base a una velocità di battitura media di {{wpm}} parola al minuto e a una velocità di parola di circa {{speaking}} parole al minuto.",
+      "basisAverage_many": "In base a una velocità di battitura media di {{wpm}} di parole al minuto e a una velocità di parola di circa {{speaking}} parole al minuto.",
+      "basisAverage_other": "In base a una velocità di battitura media di {{wpm}} parole al minuto e a una velocità di parola di circa {{speaking}} parole al minuto.",
+      "lead": "Dettare potrebbe farti risparmiare circa",
+      "perWeek_one": "<n/> ora <em>a settimana</em>",
+      "perWeek_many": "<n/> di ore <em>a settimana</em>",
+      "perWeek_other": "<n/> ore <em>a settimana</em>",
+      "hoursPerWeek_one": "{{hours}} ora a settimana",
+      "hoursPerWeek_many": "{{hours}} di ore a settimana",
+      "hoursPerWeek_other": "{{hours}} ore a settimana",
+      "math": "{{typed}} h di digitazione a {{wpm}} ppm ≈ {{voice}} h a voce a {{speaking}} ppm"
+    },
+    "typing": {
+      "title": "Quanto sei veloce a <em>digitare</em>?",
+      "skip": "Salta",
+      "language": "Lingua",
+      "wpm_one": "{{count}} parola al minuto",
+      "wpm_many": "{{count}} di parole al minuto",
+      "wpm_other": "{{count}} parole al minuto",
+      "inputLabel": "Digita qui il paragrafo",
+      "nothing": "Il testo non corrisponde al paragrafo. Riprova.",
+      "result_one": "Digiti circa {{count}} parola al minuto.",
+      "result_many": "Digiti circa {{count}} di parole al minuto.",
+      "result_other": "Digiti circa {{count}} parole al minuto.",
+      "tryAgain": "Riprova",
+      "recalculate": "Ricalcola",
+      "instruction_one": "Digita il paragrafo qui sotto come fai di solito. Il tempo parte dal primo tasto e dura {{seconds}} secondo.",
+      "instruction_many": "Digita il paragrafo qui sotto come fai di solito. Il tempo parte dal primo tasto e dura {{seconds}} di secondi.",
+      "instruction_other": "Digita il paragrafo qui sotto come fai di solito. Il tempo parte dal primo tasto e dura {{seconds}} secondi.",
+      "wpmUnit_one": "parola al minuto",
+      "wpmUnit_many": "di parole al minuto",
+      "wpmUnit_other": "parole al minuto",
+      "secondsUnit_one": "secondo rimanente",
+      "secondsUnit_many": "di secondi rimanenti",
+      "secondsUnit_other": "secondi rimanenti"
+    },
+    "summary": {
+      "title": "È tutto pronto",
+      "subtitle": "Tieni premuta la tua abbreviazione in qualsiasi app per dettare.",
+      "languages": "Lingue",
+      "shortcut": "Abbreviazione",
+      "shortcutFn": "Tieni premuto fn (🌐)",
+      "shortcutFallback": "Tieni premuti Controllo e Opzione",
+      "microphone": "Microfono",
+      "micDefault": "Il microfono predefinito del Mac",
+      "typing": "Velocità di battitura",
+      "typingWpm_one": "{{count}} parola al minuto",
+      "typingWpm_many": "{{count}} di parole al minuto",
+      "typingWpm_other": "{{count}} parole al minuto",
+      "typingSkipped": "Non misurato",
+      "notSet": "Non impostata",
+      "launchAtLogin": "Apri Wispr Bro al login",
+      "launchAtLoginHint": "Così la dettatura è pronta ogni volta che ti serve.",
+      "finish": "Inizia a dettare"
+    }
+  },
+  "whatsNew": {
+    "title": "Novità di {{version}}",
+    "label": "Note di rilascio di questa versione",
+    "close": "Chiudi",
+    "done": "Capito"
+  },
+  "share": {
+    "heading": "Fai conoscere {{appName}}",
+    "body": "{{appName}} è gratuito e open source e funziona interamente sul Mac. Non ci sono codici di invito e nulla viene tracciato: il link è uguale per tutti.",
+    "downloadLabel": "Link di download",
+    "brewLabel": "Installa con Homebrew",
+    "copyLink": "Copia il link di download",
+    "copyBrew": "Copia il comando Homebrew",
+    "copy": "Copia",
+    "copied": "Copiato",
+    "copyFailed": "Impossibile copiare. Seleziona il testo e copialo manualmente.",
+    "shareTitle": "Invialo a qualcuno",
+    "shareBody": "Messaggi, Mail, AirDrop e qualsiasi altro metodo di condivisione del Mac.",
+    "shareButton": "Condividi…",
+    "shareFailed": "Impossibile aprire il menu di condivisione."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "L’abbreviazione di dettatura non funziona più. Wispr Bro ha di nuovo bisogno dell’accesso ad Accessibilità.",
+      "stopped": "L’abbreviazione di dettatura non risponde più.",
+      "fix": "Risolvi"
+    },
+    "sheet": {
+      "title": "Ripristina l’abbreviazione",
+      "introPermission": "macOS ha disattivato l’accesso di Wispr Bro ad Accessibilità, quindi l’app non può rilevare la tua abbreviazione. Può succedere dopo un aggiornamento o se la voce è stata modificata in Impostazioni di Sistema.",
+      "introStopped": "Il rilevamento della tastiera di Wispr Bro si è interrotto. Ripartirà da solo non appena macOS lo consentirà.",
+      "pictureLabel": "Impostazioni di Sistema, Privacy e sicurezza, Accessibilità: la riga di Wispr Bro con l’interruttore attivato",
+      "pictureTitle": "Accessibilità",
+      "pictureBack": "Privacy e sicurezza",
+      "stepsTitle": "Riattivalo",
+      "step1": "Apri Impostazioni di Sistema › Privacy e sicurezza › Accessibilità.",
+      "step2": "Attiva Wispr Bro. Se è già attivo, disattivalo e riattivalo.",
+      "step3": "Torna qui. L’abbreviazione torna a funzionare entro pochi secondi, senza riavviare.",
+      "resetTitle": "Ancora non funziona?",
+      "resetBody": "Dopo un aggiornamento, macOS può conservare una voce vecchia che non corrisponde più all’app. Il ripristino rimuove la voce di Wispr Bro così puoi consentire di nuovo l’accesso.",
+      "resetStep1": "Scegli Ripristina e consenti di nuovo.",
+      "resetStep2": "Consenti Wispr Bro quando macOS lo chiede oppure attivalo nell’elenco che si apre.",
+      "resetFailed": "Impossibile ripristinare la voce. Nell’elenco, seleziona Wispr Bro e rimuovilo con il pulsante meno, poi aggiungilo di nuovo con il pulsante più.",
+      "openSettings": "Apri Impostazioni Accessibilità",
+      "reset": "Ripristina e consenti di nuovo",
+      "checkAgain": "Controlla di nuovo",
+      "relaunch": "Riavvia per completare",
+      "close": "Chiudi",
+      "status": {
+        "healthy": "L’abbreviazione funziona.",
+        "lost": "Non funziona ancora",
+        "recovering": "Riconnessione…",
+        "needsRelaunch": "L’accesso è stato ripristinato. Riavvia Wispr Bro per completare."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Cosa vuoi <em>provare</em> per primo?",
+    "subtitle": "Scegline una per vedere come funziona. Poi provala nelle tue app.",
+    "choicesLabel": "Modi per iniziare",
+    "choices": {
+      "ai_chat": "Chiedi a un assistente AI",
+      "note": "Prendi un appunto",
+      "message": "Rispondi a un messaggio",
+      "email": "Scrivi un’email",
+      "comment": "Pubblica un commento",
+      "document": "Scrivi la bozza di un documento",
+      "coding": "Dai istruzioni a uno strumento di programmazione"
+    },
+    "scene": {
+      "label": "Esempio: {{choice}}",
+      "said": "Tu dici",
+      "written": "{{appName}} scrive",
+      "pause": "Metti in pausa l’esempio",
+      "play": "Riproduci l’esempio"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "Chat AI",
+        "context": "In che cosa posso aiutarti?",
+        "said": "ehm allora puoi spiegarmi come funziona l’interesse composto tipo come se fossi alle prime armi",
+        "text": "Puoi spiegarmi come funziona l’interesse composto, come se fossi alle prime armi?"
+      },
+      "note": {
+        "app": "Note",
+        "context": "Lunedì",
+        "said": "promemoria chiamare il dentista e ehm ritirare i vestiti in tintoria entro le sei",
+        "text": "Promemoria: chiamare il dentista e ritirare i vestiti in tintoria entro le sei."
+      },
+      "message": {
+        "app": "Messaggi",
+        "context": "È confermato il pranzo?",
+        "said": "sì certo va bene per te alle dodici e mezza",
+        "text": "Sì, certo! Va bene per te alle 12:30?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "A: Priya · Oggetto: Giovedì",
+        "said": "ciao Priya grazie per gli appunti ti mando la bozza entro giovedì mattina",
+        "text": "Ciao Priya, grazie per gli appunti. Ti mando la bozza entro giovedì mattina."
+      },
+      "comment": {
+        "app": "Social",
+        "context": "Il nostro nuovo ufficio apre la settimana prossima!",
+        "said": "complimenti a tutto il team sembra fantastico",
+        "text": "Complimenti a tutto il team, sembra fantastico!"
+      },
+      "document": {
+        "app": "Documenti",
+        "context": "Piano del progetto",
+        "said": "l’obiettivo di questa fase è ehm rilasciare la beta a cinquanta tester entro la fine del mese",
+        "text": "L’obiettivo di questa fase è rilasciare la beta a cinquanta tester entro la fine del mese."
+      },
+      "coding": {
+        "app": "Editor di codice",
+        "context": "Chiedi all’agente",
+        "said": "il pulsante di login non funziona su mobile puoi capire perché e sistemarlo",
+        "text": "Il pulsante di login non funziona su mobile. Puoi capire perché e sistemarlo?"
+      }
+    },
+    "tryNow": "Provalo ora",
+    "later": "Forse più tardi",
+    "close": "Chiudi",
+    "noBar": "La barra di dettatura non è attiva, quindi non c’è nessun suggerimento da mostrare. Puoi comunque provare: apri l’app e tieni premuta la tua abbreviazione.",
+    "banner": {
+      "title": "Usalo nelle tue app",
+      "body": "{{hint}}. {{how}}",
+      "again": "Mostra di nuovo il suggerimento",
+      "stop": "Nascondi il suggerimento",
+      "other": "Prova qualcos’altro",
+      "active": "Il suggerimento è sullo schermo. Premi Esc per chiuderlo."
+    }
+  },
+  "checklist": {
+    "title": "Inizia",
+    "label": "Elenco dei passaggi di configurazione",
+    "progress": "{{done}} di {{total}} completati",
+    "hide": "Nascondi l’elenco",
+    "done": "Fatto",
+    "next": "Avanti",
+    "allDone": "Tutto pronto. Conosci le basi.",
+    "items": {
+      "try_in_app": {
+        "title": "Provalo in un’altra app",
+        "action": "Mostrami"
+      },
+      "add_word": {
+        "title": "Aggiungi una parola",
+        "action": "Mostrami",
+        "coachTitle": "Aggiungi la tua prima parola",
+        "coachBody": "Nomi, termini di prodotto e gergo che usi spesso. Vengono scritti esattamente come li scrivi tu."
+      },
+      "create_snippet": {
+        "title": "Crea un frammento",
+        "action": "Nuovo frammento",
+        "coachTitle": "Crea il tuo primo frammento",
+        "coachBody": "Pronuncia una frase breve e ottieni un testo più lungo: il tuo indirizzo, un link, una formula di chiusura."
+      },
+      "launch_at_login": {
+        "title": "Apri al login",
+        "action": "Attiva",
+        "body": "{{appName}} si avvia con il Mac, così la tua abbreviazione funziona sempre."
+      },
+      "try_transform": {
+        "title": "Prova una Trasformazione",
+        "action": "Mostrami",
+        "body": "Seleziona del testo e premi un’abbreviazione: viene riscritto sul posto."
+      },
+      "try_whisper": {
+        "title": "Prova a sussurrare",
+        "action": "Mostrami",
+        "body": "Detta a bassa voce quando ci sono altre persone intorno e trova il microfono giusto."
+      }
+    },
+    "coach": {
+      "close": "Chiudi",
+      "done": "Capito"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Chiudi la lezione",
+      "back": "Indietro",
+      "continue": "Continua",
+      "skip": "Salta",
+      "tryIt": "Provalo tu stesso",
+      "tryItOut": "Provalo",
+      "howItWorks": "Come funziona",
+      "progress": "Passaggio {{step}} di {{total}}",
+      "pause": "Metti in pausa animazione",
+      "play": "Riproduci animazione",
+      "turnOnFailed": "Attivazione non riuscita. Riprova oppure usa l’interruttore nella sua pagina.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "Trasformazioni",
+      "help": "Scopri le Trasformazioni",
+      "intro": {
+        "title": "Fai dire al tuo testo esattamente ciò che <em>intendi</em>",
+        "body": "Seleziona del testo in qualsiasi app e premi un’abbreviazione. Una trasformazione lo riscrive sul posto, direttamente su questo Mac.",
+        "continue": "Provalo"
+      },
+      "cards": {
+        "label": "Lo stesso testo, in tre modi",
+        "original": {
+          "name": "Originale",
+          "text": "allora praticamente volevo chiederti se magari possiamo spostare la revisione a giovedì perché i numeri non sono pronti e poi sam è via"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Possiamo spostare la revisione a giovedì? I numeri non sono ancora pronti e Sam è via."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Scrivi un messaggio breve e cordiale per chiedere di spostare la revisione a giovedì. Motivi: i numeri non sono pronti e Sam è via. Massimo due frasi."
+        }
+      },
+      "benefits": {
+        "label": "Cosa può fare una trasformazione",
+        "shorter": "Lo dice in meno parole",
+        "clearer": "Riscrive per chiarezza",
+        "order": "Organizza i punti in un ordine migliore",
+        "structure": "Aggiunge titoli ed elenchi",
+        "tone": "Mantiene il tuo tono",
+        "anywhere": "Funziona in qualsiasi app in cui scrivi"
+      },
+      "practice": {
+        "title": "<em>Seleziona</em> il testo, poi premi <kbd>{{shortcut}}</kbd>",
+        "body": "Seleziona il messaggio qui sotto (⌘A lo seleziona tutto), poi premi l’abbreviazione di Polish.",
+        "doneTitle": "Testo <em>riscritto</em>",
+        "doneBody": "Premi <kbd>{{view}}</kbd> per vedere le modifiche. <kbd>{{undo}}</kbd> le annulla.",
+        "app": "Chat con Jordan",
+        "context": "È confermata la revisione di domani?",
+        "fieldLabel": "La tua risposta a Jordan",
+        "draft": "ciao allora penso che forse dovremmo spostare la revisione a giovedì se per te va bene perché i numeri non sono ancora davvero pronti e non voglio mostrare cose fatte a metà",
+        "example": {
+          "polish": "Possiamo spostare la revisione a giovedì? I numeri non sono ancora pronti e preferirei non mostrare un lavoro incompleto.",
+          "prompt": "Scrivi una risposta breve e cortese per chiedere di spostare la revisione di domani a giovedì perché i numeri non sono pronti. Tono amichevole, meno di tre frasi."
+        },
+        "exampleNote": "La riscrittura non è ancora pronta su questo Mac, quindi qui vedi un esempio. Quando sarà pronta, la tua abbreviazione riscriverà il tuo testo allo stesso modo.",
+        "selectFirst": "Prima seleziona una parte del messaggio, poi premi di nuovo {{shortcut}}.",
+        "working": "Riscrittura…",
+        "spotlight": "Dopo ogni trasformazione, la barra in fondo allo schermo offre Mostra modifiche. Fai clic o premi {{view}}.",
+        "barLabel": "La barra",
+        "bar": {
+          "done": "Fatto",
+          "view": "Mostra modifiche"
+        },
+        "hideChanges": "Nascondi le modifiche"
+      },
+      "how": {
+        "select": {
+          "title": "<em>Seleziona</em> del testo in qualsiasi app",
+          "body": "Scrivi o detta come al solito: un’email, una chat, un documento. Poi seleziona ciò che vuoi riscrivere.",
+          "scene": "Animazione: viene selezionata la bozza di un’email."
+        },
+        "press": {
+          "title": "<em>Premi</em> <kbd>{{shortcut}}</kbd>",
+          "body": "Polish riscrive la selezione sul posto. Prompt Engineer ({{prompt}}) la trasforma in un prompt chiaro per un assistente AI.",
+          "scene": "Animazione: viene premuto {{shortcut}} e la bozza viene sostituita da una versione più chiara."
+        },
+        "changes": {
+          "title": "Vedi cosa è <em>cambiato</em>",
+          "body": "Premi {{view}} o fai clic su Mostra modifiche nella barra: le parole rimosse sono barrate, quelle nuove evidenziate. {{undo}} ripristina l’originale.",
+          "scene": "Animazione: un riquadro elenca le modifiche, con le parole rimosse barrate e quelle nuove evidenziate."
+        }
+      },
+      "scene": {
+        "app": "Mail: nuovo messaggio",
+        "draft": "ciao a tutti solo per dirvi che il lancio slitta alla settimana prossima perché abbiamo trovato un bug nel flusso di pagamento e vogliamo prima correggerlo",
+        "polished": "Ciao a tutti, il lancio slitta alla settimana prossima. Abbiamo trovato un bug nel flusso di pagamento e vogliamo prima correggerlo."
+      },
+      "finish": {
+        "turnOn": "Attiva Trasformazioni",
+        "done": "Fine"
+      }
+    },
+    "whisper": {
+      "title": "Dettare a bassa voce",
+      "help": "Impara a dettare a bassa voce",
+      "soft": {
+        "title": "Basta una voce <em>sommessa</em>",
+        "body": "Non serve alzare la voce. Sussurra e le tue parole diventano comunque testo pulito, così puoi dettare in un open space, in treno o mentre qualcuno dorme accanto a te.",
+        "app": "Note",
+        "spoken": "“ricordami di mandare le slide prima di pranzo e prenotare una sala per venerdì”",
+        "text": "Ricordami di mandare le slide prima di pranzo e prenotare una sala per venerdì.",
+        "scene": "Animazione: una frase sussurrata appare come testo digitato: “{{text}}”"
+      },
+      "how": {
+        "title": "Come <em>sussurrare</em> al tuo Mac",
+        "body": "Con il microfono integrato del Mac, quattro abitudini rendono facile sentire una voce sommessa.",
+        "distance": "Circa 30 cm (la lunghezza di un avambraccio) dal microfono",
+        "tips": {
+          "distance": {
+            "title": "Siediti vicino.",
+            "body": "Mettiti di fronte al Mac a circa un avambraccio di distanza. Sporgerti un po’ in avanti aiuta più che parlare più forte."
+          },
+          "breath": {
+            "title": "Sussurra con un po’ di fiato.",
+            "body": "Non il sussurro più flebile: un po’ più deciso, come se parlassi a qualcuno dall’altra parte di un tavolino."
+          },
+          "pace": {
+            "title": "Mantieni un ritmo costante.",
+            "body": "Pronuncia ogni parola per intero e non lasciare che la fine delle frasi si spenga."
+          },
+          "release": {
+            "title": "Rilascia per ultimo.",
+            "body": "Rilascia il tasto solo dopo l’ultima parola, così non va persa."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>Sussurra</em> questa email",
+        "body": "È una dettatura vera. Il testo finisce solo nel messaggio qui sotto, da nessun’altra parte.",
+        "doneTitle": "Ti ho sentito, anche <em>sussurrando</em>",
+        "doneBody": "Non serve altro. Continua per trovare il microfono più adatto a te.",
+        "instruction": "Tieni premuto {{key}}, sussurra l’email qui sotto, poi rilascia.",
+        "unbound": "Nessuna abbreviazione di dettatura impostata, quindi non puoi iniziare qui. Salta questo passaggio per ora e imposta un’abbreviazione in Impostazioni.",
+        "key": "fn",
+        "keyFallback": "Controllo e Opzione",
+        "sentenceLabel": "Sussurra:",
+        "sentence": "Ciao Sam, sono in una stanza silenziosa, quindi sto sussurrando questa email. Possiamo spostare la nostra chiamata al pomeriggio? Grazie mille.",
+        "app": "Nuovo messaggio",
+        "context": "A Sam, riguardo a oggi pomeriggio",
+        "fieldLabel": "La tua email sussurrata",
+        "placeholder": "Le tue parole sussurrate appaiono qui.",
+        "status": {
+          "idle": "In attesa che tu tenga premuto {{key}} e sussurri…",
+          "listening": "In ascolto… rilascia {{key}} quando hai finito.",
+          "working": "Trascrizione…",
+          "nothing": "Non è arrivato nulla. Verifica che il microfono sia acceso, poi riprova.",
+          "low": "È arrivato il {{percent}}% delle parole. Riprova:",
+          "passed": "È arrivato il {{percent}}% delle parole.",
+          "example": "Questo è un esempio di dettatura sussurrata."
+        },
+        "exampleNote": "Il riconoscimento vocale è ancora in fase di configurazione su questo Mac, quindi qui vedi un esempio. La tua dettatura viene salvata in Cronologia e trascritta non appena la configurazione termina.",
+        "tips": {
+          "title": "Qualche consiglio",
+          "closer": "Avvicinati un po’ al Mac, a circa 30 cm.",
+          "firmer": "Sussurra in modo un po’ più deciso, con più fiato dietro le parole.",
+          "volume": "Alza il volume di ingresso in Impostazioni di Sistema › Suono › Ingresso.",
+          "openSound": "Apri impostazioni Suono"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "Microfono integrato",
+          "why": "C’è già; siediti vicino e a casa fa il suo lavoro."
+        },
+        "wired_headset": {
+          "name": "Cuffie con filo",
+          "why": "Il microfono è proprio vicino alla bocca, quindi anche un sussurro delicato si sente, ovunque tu sia."
+        },
+        "wireless_earbuds": {
+          "name": "Auricolari wireless",
+          "why": "Niente da collegare e vengono ovunque con te."
+        },
+        "desk_usb": {
+          "name": "Microfono da scrivania o USB",
+          "why": "Il suono più nitido quando lavori sempre alla stessa scrivania e ti siedi vicino."
+        }
+      },
+      "quiz": {
+        "more": "Altro sui microfoni",
+        "comfortable": {
+          "title": "Scegli un microfono con cui ti senti a tuo agio",
+          "body": "Funzionano tutti. Scegli quello che indosseresti volentieri o terresti sulla scrivania."
+        },
+        "workplace": {
+          "title": "Dove lavori di solito?",
+          "body": "Sussurrare conta soprattutto quando ci sono persone vicino.",
+          "private": {
+            "label": "In un luogo riservato",
+            "hint": "Uno studio in casa o una stanza tutta per te"
+          },
+          "mixed": {
+            "label": "Un po' di tutto",
+            "hint": "A volte da solo, a volte con altre persone intorno"
+          },
+          "shared": {
+            "label": "Con altre persone intorno",
+            "hint": "Un open space, un bar, una stanza condivisa"
+          }
+        },
+        "moves": {
+          "title": "Ti sposti tra luoghi diversi?",
+          "body": "Se sì, è utile un microfono che viaggia con te.",
+          "one_desk": {
+            "label": "Resto sempre alla stessa scrivania",
+            "hint": "La stessa configurazione ogni giorno"
+          },
+          "different_places": {
+            "label": "Lavoro in posti diversi",
+            "hint": "Casa, ufficio, treni, bar"
+          }
+        },
+        "owned": {
+          "title": "Quali microfoni hai?",
+          "body": "Seleziona tutti quelli che hai. Mac mini e Mac Studio non hanno un microfono integrato.",
+          "continue": "Mostra il risultato"
+        }
+      },
+      "results": {
+        "title": "Il microfono <em>adatto</em> a te",
+        "body": "In base alle tue risposte. Nulla viene salvato o inviato.",
+        "bestLine": "Il più adatto: {{mic}}.",
+        "caption": "Come se la cava ogni tipo di microfono",
+        "columns": {
+          "quality": "Qualità del microfono",
+          "others": "Sussurrare vicino ad altri",
+          "home": "Sussurrare a casa",
+          "price": "Prezzo",
+          "best": "Il più adatto"
+        },
+        "notBest": "Non il più adatto",
+        "rating": {
+          "fair": "Discreto",
+          "good": "Buono",
+          "great": "Ottimo"
+        },
+        "price": {
+          "included": "Incluso nella maggior parte dei portatili",
+          "low": "Basso",
+          "medium": "Medio",
+          "owned": "Ne hai uno"
+        },
+        "copy": {
+          "label": "Copia i risultati",
+          "heading": "{{appName}}: il microfono adatto a me",
+          "best": "Il più adatto: {{mic}}",
+          "unanswered": "nessuna risposta",
+          "noneOwned": "nessuno"
+        },
+        "copied": "Copiato",
+        "copyFailed": "Impossibile copiare. Seleziona la tabella e copiala manualmente.",
+        "done": "Fine"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro ora usa un nuovo tipo di modello. Scarica la nuova versione per continuare a trascrivere. Le versioni precedenti verranno rimosse."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Così Wispr Bro può sentirti. L’audio viene trasformato in testo su questo Mac e non viene mai caricato online."
+        },
+        "accessibility": {
+          "why": "Così la tua scorciatoia funziona in ogni app e Wispr Bro può scrivere il testo dove si trova il cursore."
+        },
+        "turnOnMac": "Attiva Wispr Bro in Impostazioni di Sistema, poi torna qui.",
+        "relaunch": "La scorciatoia non risponde dopo questo passaggio? <relaunch>Riavvia Wispr Bro</relaunch> e tornerai subito qui."
+      },
+      "welcome": {
+        "noMatch": "Nessuna lingua corrisponde a “{{query}}”. I modelli di Wispr Bro coprono circa 100 lingue; altre sono nelle impostazioni.",
+        "chinese": {
+          "question": "Parli {{languages}}. Quali caratteri deve scrivere Wispr Bro?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro è nell’angolo per guidarti passo passo"
+      },
+      "done": {
+        "subMac": "Wispr Bro ora è nella barra dei menu. Tieni premuto o tocca <keys/> in qualsiasi app per parlare.",
+        "subTray": "Wispr Bro ora è nell’area di notifica. Tieni premuto o tocca <keys/> in qualsiasi app per parlare.",
+        "atLogin": "Avvia Wispr Bro quando accedo",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Scorciatoie di Wispr Bro",
+          "bindings": {
+            "transcribe": {
+              "name": "Scorciatoia trascrizione"
+            },
+            "cancel": {
+              "name": "Scorciatoia annulla"
+            }
+          }
+        },
+        "preferredLanguages": {
+          "description": "Le lingue che parli. Wispr Bro le usa per consigliare i modelli."
+        }
+      },
+      "models": {
+        "untestedNote": "Non testati con Wispr Bro. Potrebbero essere più lenti o fare più errori.",
+        "emptyYours": "Ancora nessun modello. Scegline uno qui sotto: si scarica e poi Wispr Bro lo usa.",
+        "deleteAskActive": "Eliminare {{name}}? Wispr Bro non potrà trascrivere finché non ne scegli un altro.",
+        "retiredNotice": {
+          "title": "I modelli precedenti non funzionano più con Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Riscansiona per trovare modelli aggiunti alla cartella dei modelli o alla cache di Hugging Face al di fuori di Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Avvia Wispr Bro automaticamente quando accedi al Mac."
+        },
+        "showTrayIcon": {
+          "description": "Mostra l’icona di Wispr Bro nella barra dei menu."
+        },
+        "experimentalToggle": {
+          "label": "Funzionalità sperimentali"
+        },
+        "startHidden": {
+          "label": "Avvia in background"
+        },
+        "pasteMethod": {
+          "title": "Metodo di incollaggio"
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Auto (consigliato)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Gestione appunti",
+          "options": {
+            "dontModify": "Non modificare gli appunti"
+          }
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Controlla automaticamente la disponibilità di nuove versioni di Wispr Bro",
+          "lockedDescription": "Disabilitato dalla configurazione di sistema (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Verifica se gli eventi della tastiera arrivano a Wispr Bro. Viene registrato solo il numero di eventi, mai quali tasti premi.",
+          "verdictOk": "Gli eventi dei tasti arrivano a Wispr Bro normalmente."
+        },
+        "liveLogs": {
+          "title": "Log in tempo reale"
+        },
+        "soundTheme": {
+          "label": "Tema sonoro"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Soglia di correzione parole"
+        },
+        "recordingRetention": {
+          "title": "Eliminazione automatica registrazioni"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Microfono sempre attivo"
+        },
+        "appendTrailingSpace": {
+          "label": "Aggiungi spazio finale"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Versione attuale di Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Mostra le note di rilascio dopo gli aggiornamenti di Wispr Bro"
+        },
+        "appDataDirectory": {
+          "description": "Cartella in cui Wispr Bro salva i propri dati",
+          "title": "Cartella dati app"
+        },
+        "supportDevelopment": {
+          "description": "Aiutaci a continuare a sviluppare Wispr Bro",
+          "title": "Supporta lo sviluppo"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Il riconoscimento vocale locale di Wispr Bro si basa su transcribe.cpp e ggml. Grazie a Georgi Gerganov e a tutti i collaboratori per il loro straordinario lavoro."
+          }
+        },
+        "sourceCode": {
+          "title": "Codice sorgente"
+        }
+      },
+      "sound": {
+        "audioFeedback": {
+          "label": "Feedback audio"
+        },
+        "outputDevice": {
+          "title": "Dispositivo di output"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "baseUrl": {
+            "title": "URL base"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Prompt selezionato"
+          },
+          "promptLabel": "Etichetta del prompt",
+          "promptInstructions": "Istruzioni del prompt",
+          "updatePrompt": "Aggiorna prompt",
+          "deletePrompt": "Elimina prompt",
+          "createPrompt": "Crea prompt"
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Novità in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Cambia la lingua dell’interfaccia di Wispr Bro",
+      "title": "Lingua applicazione"
+    },
+    "theme": {
+      "description": "Scegli se Wispr Bro segue il tema di sistema o resta chiaro o scuro"
+    },
+    "modelSelector": {
+      "modelReady": "Modello pronto",
+      "modelError": "Errore del modello",
+      "modelUnloaded": "Modello disattivato",
+      "noModelDownloadRequired": "Nessun modello - download richiesto"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Controllo aggiornamenti disabilitato"
+    }
+  }
+}

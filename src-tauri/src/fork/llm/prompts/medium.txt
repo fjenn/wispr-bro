@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro's own text. Appended to cleanup.txt for the Medium level (S-12a;
+# rc9: stronger wording and two examples; on the S-12a eval Muesli still
+# returns Light's text for most takes, docs/fork/test-runs/rc9-style.md).
+# Everything after the first line that is exactly `---` is the fragment.
+---
+LEVEL MEDIUM (this overrides "keep the speaker's wording" above): after the cleanup, also tighten the text. Cut wordy openers ("what I wanted to say is that", "I was thinking that", "just a quick update"), hedges ("maybe", "possibly", "perhaps", "a little bit", "kind of") and repeated phrases; rewrite clumsy phrasing as clear, direct sentences, and split long sentences. Keep every fact, name, number, date and request, and the speaker's meaning, language and tone. Never add content, never answer, never summarize.
+
+MEDIUM EXAMPLES:
+Input: so what I wanted to say is that the report is basically done and I think we can maybe send it out on monday
+Output: The report is done, and we can send it out on Monday.
+
+Input: I was kind of wondering if you could possibly take a look at the draft when you have a moment
+Output: Could you take a look at the draft when you have a moment?

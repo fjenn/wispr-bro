@@ -1,0 +1,129 @@
+{
+  "_comment": "Generated from src-tauri/src/fork/pill/geometry.rs; do not edit.",
+  "bars": 11,
+  "capsules": {
+    "card": {
+      "h": 76.0,
+      "w": 440.0
+    },
+    "diff": {
+      "h": 272.0,
+      "w": 560.0
+    },
+    "held": {
+      "h": 30.0,
+      "w": 72.0
+    },
+    "held_label": {
+      "h": 30.0,
+      "w": 72.0
+    },
+    "held_notice": {
+      "h": 30.0,
+      "w": 72.0
+    },
+    "locked": {
+      "h": 30.0,
+      "w": 100.0
+    },
+    "locked_label": {
+      "h": 30.0,
+      "w": 100.0
+    },
+    "locked_notice": {
+      "h": 30.0,
+      "w": 100.0
+    },
+    "message": {
+      "h": 30.0,
+      "w": 400.0
+    },
+    "rest": {
+      "h": 6.0,
+      "w": 38.0
+    },
+    "setup": {
+      "h": 30.0,
+      "w": 260.0
+    },
+    "status": {
+      "h": 30.0,
+      "w": 184.0
+    },
+    "word": {
+      "h": 30.0,
+      "w": 340.0
+    }
+  },
+  "diff": {
+    "chrome": 104.0,
+    "line": 24.0,
+    "maxH": 272.0,
+    "minH": 128.0
+  },
+  "edgeGap": 8.0,
+  "label": {
+    "gap": 8.0,
+    "h": 34.0
+  },
+  "shapes": {
+    "card": {
+      "h": 76.0,
+      "w": 440.0
+    },
+    "diff": {
+      "h": 272.0,
+      "w": 560.0
+    },
+    "held": {
+      "h": 30.0,
+      "w": 72.0
+    },
+    "held_label": {
+      "h": 72.0,
+      "w": 300.0
+    },
+    "held_notice": {
+      "h": 72.0,
+      "w": 460.0
+    },
+    "locked": {
+      "h": 30.0,
+      "w": 100.0
+    },
+    "locked_label": {
+      "h": 72.0,
+      "w": 300.0
+    },
+    "locked_notice": {
+      "h": 72.0,
+      "w": 460.0
+    },
+    "message": {
+      "h": 30.0,
+      "w": 400.0
+    },
+    "rest": {
+      "h": 6.0,
+      "w": 38.0
+    },
+    "setup": {
+      "h": 30.0,
+      "w": 260.0
+    },
+    "status": {
+      "h": 30.0,
+      "w": 184.0
+    },
+    "word": {
+      "h": 30.0,
+      "w": 340.0
+    }
+  },
+  "spring": {
+    "damping": 38.0,
+    "mass": 0.8,
+    "settleMs": 400.0,
+    "stiffness": 600.0
+  }
+}

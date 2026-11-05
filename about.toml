@@ -1,0 +1,71 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# cargo-about 0.9.3 config for the Rust licence register (F-03, R5 §4.12;
+# F-04 builds THIRD-PARTY-NOTICES.md on top of it).
+#   cargo about generate --fail --manifest-path src-tauri/Cargo.toml \
+#     -c about.toml about.hbs -o wb-licences.html
+#
+# `accepted` lists only free licences compatible with distributing the
+# combined app under GPL-3.0. A crate whose licence expression cannot be
+# satisfied from this list fails the job: GPL-2.0-only, unlicensed crates (no
+# licence field and no LICENSE file) and non-free licences are deliberately
+# absent. Never add a licence here without a licence-register entry
+# (docs/fork/LICENSE-REGISTER.md).
+
+accepted = [
+    "MIT",
+    "MIT-0",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "0BSD",
+    "BSL-1.0",
+    "CC0-1.0",
+    "Unlicense",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "MPL-2.0",
+    "LGPL-2.1-or-later",
+    "LGPL-3.0-or-later",
+    "GPL-3.0-or-later",
+    "GPL-3.0-only",
+    "AGPL-3.0-only",
+    "CDLA-Permissive-2.0",
+    "bzip2-1.0.6",
+    "NCSA",
+]
+
+# The shipped app targets (macOS first, R5 §2).
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]
+
+# Build tools and test-only crates are not distributed.
+ignore-build-dependencies = true
+ignore-dev-dependencies = true
+
+# Our own crate (and fork crates under src-tauri/crates/wb-*) are GPL-3.0.
+# Handy's crate metadata has no `license` field; F-04 leaves
+# src-tauri/Cargo.toml untouched (thin-layer rule): LICENSE and NOTICE state
+# the licence. scripts/wb-notices.ts (F-04) reads `accepted` below for npm
+# packages too.
+private = { ignore = true }
+
+# tauri-nspanel (git dependency, branch v2.1) has no `license` field, and
+# cargo-about's text scan misreads its LICENSE_APACHE-2.0 as "Pixar". The
+# repo ships LICENSE_MIT and LICENSE_APACHE-2.0 (dual MIT OR Apache-2.0,
+# checked by hand at commit da9c9a8). The checksums pin the files: if they
+# change, cargo-about fails again and the clarification must be re-reviewed.
+[tauri-nspanel.clarify]
+license = "MIT OR Apache-2.0"
+
+[[tauri-nspanel.clarify.git]]
+path = "LICENSE_MIT"
+license = "MIT"
+checksum = "35e740d8a0d71739293b136b9f289c6b05f21ff6b0584b9b691dd5de5233d7e8"
+
+[[tauri-nspanel.clarify.git]]
+path = "LICENSE_APACHE-2.0"
+license = "Apache-2.0"
+checksum = "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"

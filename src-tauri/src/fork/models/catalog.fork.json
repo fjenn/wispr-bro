@@ -1,0 +1,10 @@
+{
+  "_comment": "S-07a starter candidates (DEC-01, DEC-52, RS-09), in order of preference. Repository, revision, file, size and sha256 come from Handy's catalog (src-tauri/src/catalog/catalog.json) at the quant below (a candidate's own `quant` wins); a test checks every id is there. `unusableFor` lists languages RS-09 measured as unusable on that model (whisper-base Dutch: 63.6 % WER). The first candidate usable for every language the user speaks is downloaded first; with none, the first usable for the first language; else the last resort. S-07b: the English starter is parakeet-110m's Q4_K_M (90 MB instead of 135 MB, so §5.3 holds at 10 Mbit/s; RS-09 bench 8.0 % vs 6.5 % WER on short takes, 5.7 % vs 6.1 % on the 203 s take, within one speaker's noise); the policy swaps in the main model afterwards.",
+  "quant": "Q8_0",
+  "candidates": [
+    { "id": "parakeet-tdt_ctc-110m", "quant": "Q4_K_M", "unusableFor": [] },
+    { "id": "whisper-base", "unusableFor": ["nl"] },
+    { "id": "parakeet-tdt-0.6b-v3", "unusableFor": [] }
+  ],
+  "lastResort": "whisper-base"
+}

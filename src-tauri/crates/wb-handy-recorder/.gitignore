@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Built through src-tauri/Cargo.lock ([patch.crates-io]); a standalone
+# `cargo test` here writes its own lockfile and target dir, never committed.
+/target/
+/Cargo.lock

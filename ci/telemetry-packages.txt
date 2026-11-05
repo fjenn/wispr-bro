@@ -1,0 +1,29 @@
+# Banned telemetry / analytics / crash-upload packages (R5 §4.12, GPL
+# addendum §4). Checked by scripts/wb-guard-telemetry.ts against package names
+# in Cargo.lock, Cargo.toml, bun.lock, package.json and import specifiers.
+# Whole-name match only (never substrings): `*` matches within one name
+# segment, so `@segment/*` bans `@segment/analytics-next` while
+# `unicode-segmentation` passes. Rust `_` and `-` are treated as equal.
+sentry
+sentry-*
+@sentry/*
+tauri-plugin-sentry
+posthog-*
+posthog-js
+posthog-rs
+mixpanel*
+@aptabase/*
+tauri-plugin-aptabase
+telemetrydeck*
+firebase
+@firebase/*
+@amplitude/*
+amplitude-js
+@segment/*
+analytics-node
+@datadog/*
+dd-trace
+@bugsnag/*
+bugsnag*
+react-ga*
+@vercel/analytics

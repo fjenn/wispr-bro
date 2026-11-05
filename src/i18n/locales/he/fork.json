@@ -1,0 +1,2918 @@
+{
+  "debug": {
+    "title": "חלונית ניפוי באגים של ה-fork",
+    "description": "בדיקות פנימיות לשכבה של Wispr Bro. מוצגת רק בגרסאות ניפוי באגים או כשהאפליקציה הופעלה עם ‎--debug.",
+    "close": "סגור",
+    "runAgain": "הפעל שוב",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "מצב המודל",
+      "notReady": "עדיין לא מוכן: האפליקציה טרם סיימה לעלות."
+    },
+    "lastEvent": {
+      "title": "אירוע ה-ping האחרון",
+      "none": "עדיין לא התקבל אירוע."
+    },
+    "pending": "ממתין…",
+    "error": "שגיאה: {{message}}",
+    "csp": {
+      "title": "מדיניות אבטחת תוכן",
+      "description": "מנגנת קובץ שמע דרך פרוטוקול ה-asset, טוענת תמונות data: ו-blob:, קוראת לפקודת fork ובודקת שתמונה אסורה נחסמת.",
+      "run": "הפעל בדיקת CSP",
+      "running": "פועל…",
+      "pass": "עבר: אין הפרות CSP לא צפויות.",
+      "fail": "נכשל: ראה את הבדיקות למטה.",
+      "ok": "תקין ({{detail}})",
+      "failed": "נכשל ({{detail}})",
+      "noViolations": "לא נרשמו הפרות CSP.",
+      "violations_one": "הפרות CSP שנרשמו: {{count}}",
+      "violations_two": "הפרות CSP שנרשמו: {{count}}",
+      "violations_other": "הפרות CSP שנרשמו: {{count}}",
+      "checks": {
+        "media": "שמע (פרוטוקול asset)",
+        "dataImage": "תמונת data:",
+        "blobImage": "תמונת blob:",
+        "forkCommand": "פקודת fork",
+        "probe": "מקור חסום"
+      }
+    },
+    "notifications": {
+      "title": "עדכונים",
+      "permission": "הרשאת macOS: {{state}}",
+      "kind": "סוג",
+      "delay": "השהיה (שנ׳)",
+      "post": "שלח דוגמה",
+      "posted": "נשלח בעוד {{seconds}} שנ׳. עבור לאפליקציה אחרת כדי לראות עדכון של macOS."
+    },
+    "update": {
+      "title": "עדכונים",
+      "version": "גרסה",
+      "channel": "ערוץ",
+      "key": "מפתח חתימה",
+      "endpoints": "מקורות עדכון",
+      "checksOff": "בדיקת העדכונים כבויה (הגדרות › מתקדם, או שמתג השבתה מופעל).",
+      "check": "בדוק עכשיו",
+      "checking": "בודק…",
+      "install": "התקן את {{version}} והפעל מחדש",
+      "installing": "מוריד ומאמת…",
+      "installed": "גרסה {{version}} הותקנה. מפעיל מחדש…",
+      "available": "גרסה {{version}} זמינה.",
+      "upToDate": "מעודכן.",
+      "failed": "הבדיקה נכשלה: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "הגדרות ה-fork",
+      "loading": "טוען הגדרות…",
+      "loadError": "לא ניתן לקרוא את ההגדרות: {{message}}",
+      "setError": "השינוי לא נשמר: {{message}}",
+      "contextAwareness": "מודעות להקשר",
+      "contextAwarenessHint": "משתמש בשמות שמופיעים בטקסט ליד הסמן כדי לאיית אותם נכון. הטקסט הזה נשאר ב-Mac הזה ואף פעם לא נשמר.",
+      "transforms": "המרות",
+      "transformsHint": "הקיצור ⌥1 מלטש טקסט שנבחר, ⌥2 הופך אותו להנחיית AI ברורה יותר ו-⌥O מציג מה שינה השינוי האחרון. כשהאפשרות פעילה, המקשים האלה כבר לא מקלידים ¡, ™ ו-ø.",
+      "transformsSafeShortcuts": "השתמש ב-⌃⌥1 וב-⌃⌥2 במקום",
+      "transformsSafeShortcutsHint": "משאיר את ¡ ו-™ זמינים עם ⌥1 ו-⌥2.",
+      "cleanupLevel": "רמת ניקוי",
+      "levels": {
+        "none": "ללא",
+        "light": "קל",
+        "medium": "בינוני"
+      },
+      "all": "כל ההגדרות"
+    },
+    "bar": {
+      "title": "סרגל ההכתבה",
+      "alwaysShow": "הצג תמיד את הסרגל",
+      "alwaysShowHelp": "כשהאפשרות כבויה, הסרגל מופיע רק בזמן הכתבה.",
+      "position": "מיקום",
+      "positions": {
+        "bottom": "תחתית המסך",
+        "top": "ראש המסך"
+      },
+      "hideInRecordings": "הסתר את הסרגל בהקלטות מסך",
+      "hideInRecordingsHelp": "צילומי מסך, הקלטות מסך ושיתוף מסך לא יכללו את הסרגל.",
+      "hiddenUntil": "מוסתר עד {{time}}",
+      "showNow": "הצג שוב",
+      "resetPositions": "מרכז את הסרגל בכל המסכים"
+    },
+    "mic": {
+      "title": "מיקרופון",
+      "legend": "מיקרופון לשימוש",
+      "loading": "מחפש מיקרופונים…",
+      "loadError": "לא ניתן להציג את המיקרופונים: {{message}}",
+      "retry": "נסה שוב",
+      "recommended": "{{name}} (מומלץ)",
+      "auto": "זיהוי אוטומטי (הגדרת המערכת)",
+      "autoNow": "כעת: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "מיקרופונים חוטיים או מובנים עובדים הכי טוב; Bluetooth עלול להתנתק.",
+      "avoided": "קלט הצליל של ה-Mac מוגדר ל-{{name}}. מיקרופונים ב-Bluetooth עלולים להתנתק, לכן ההכתבה משתמשת במיקרופון המובנה.",
+      "useAnyway": "השתמש ב-{{name}} בכל זאת",
+      "inUse": "ההכתבה מאזינה דרך: {{name}}",
+      "chooseError": "לא ניתן להחליף מיקרופון: {{message}}",
+      "meter": {
+        "start": "בדוק מיקרופון",
+        "stop": "עצור בדיקה",
+        "label": "עוצמת המיקרופון",
+        "value": "{{percent}} אחוז",
+        "off": "לא בבדיקה",
+        "hint": "אמור משהו. הפסים אמורים לזוז בזמן שאתה מדבר.",
+        "errors": {
+          "permission_denied": "הגישה למיקרופון כבויה. יש להפעיל אותה בהגדרות המערכת › פרטיות ואבטחה › מיקרופון.",
+          "no_input_device": "לא נמצא מיקרופון.",
+          "failed": "המיקרופון לא הופעל. נסה מיקרופון אחר."
+        }
+      },
+      "loadErrorPlain": "לא ניתן להציג את המיקרופונים.",
+      "chooseErrorPlain": "לא ניתן להחליף מיקרופון."
+    },
+    "sound": {
+      "title": "צלילים",
+      "enabled": "השמע צליל כשההכתבה מתחילה ומסתיימת",
+      "enabledHelp": "צליל קצר כשהמיקרופון נדלק ונכבה.",
+      "theme": "צליל",
+      "themes": {
+        "marimba": "מרימבה",
+        "pop": "פופ",
+        "custom": "מותאם אישית"
+      },
+      "volume": "עוצמת קול",
+      "volumeValue": "{{percent}} אחוז",
+      "preview": "נגן",
+      "mute": "השתק את כל השמע בזמן הכתבה",
+      "muteHelp": "מוזיקה וסרטונים משתתקים בזמן שאתה מדבר וחוזרים אחר כך כמו שהיו."
+    },
+    "recovery": {
+      "title": "קיצורי שחזור",
+      "description": "קבל בחזרה את ההכתבה האחרונה, או שלח אותה, בלי לעזוב את המקלדת.",
+      "notSet": "לא הוגדר",
+      "current": "קיצור: {{shortcut}}",
+      "listening": "הקש קיצור…",
+      "listeningHelp": "הקש על המקשים או על כפתור העכבר הרצוי. Esc מבטל.",
+      "record": "הקלט",
+      "cancel": "ביטול",
+      "clear": "נקה",
+      "useDefault": "השתמש בברירת המחדל",
+      "unusable": "לא ניתן להשתמש בקיצור הזה. בחר קיצור אחר.",
+      "saveFailed": "לא ניתן לשמור את הקיצור.",
+      "recordFailed": "לא ניתן להקליט קיצור. ודא שלאפליקציה יש הרשאת נגישות.",
+      "pasteLast": {
+        "title": "הדבק את ההכתבה האחרונה",
+        "help": "מדביק שוב את ההכתבה האחרונה במקום שבו אתה מקליד."
+      },
+      "copyLast": {
+        "title": "העתק את ההכתבה האחרונה",
+        "help": "מעתיק את ההכתבה האחרונה ללוח."
+      },
+      "pressEnter": {
+        "title": "הקש Return",
+        "help": "מקיש Return בשבילך, למשל כדי לשלוח הודעה שהכתבת זה עתה.",
+        "mouse": "כפתור עכבר עדיין מבצע את הלחיצה הרגילה שלו באפליקציה שמתחת לסמן, לכן כפתור צד (אחורה או קדימה) עובד הכי טוב."
+      },
+      "undoCancel": {
+        "title": "בטל ביטול",
+        "help": "מחזיר הכתבה שביטלת זה עתה, כל עוד הסרגל מציג \"בטל\"."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "הגדרות",
+    "close": "סגור את ההגדרות",
+    "navigation": "מקטעי ההגדרות",
+    "sections": {
+      "general": "כללי",
+      "system": "מערכת",
+      "vibe": "וייב קודינג",
+      "privacy": "נתונים ופרטיות",
+      "advanced": "מתקדם",
+      "about": "אודות",
+      "hotkeys": "קיצורים"
+    },
+    "general": {
+      "shortcuts": "קיצורים",
+      "change": "שנה",
+      "microphone": "מיקרופון",
+      "languages": "השפות שלי",
+      "appearance": "שפת האפליקציה וערכת הנושא",
+      "typingHint": "משמש לחישוב הזמן שההכתבה חוסכת לך."
+    },
+    "system": {
+      "app": "התנהגות האפליקציה",
+      "alwaysBar": "הצג תמיד את הסרגל",
+      "showDock": "הצג את האפליקציה ב-Dock",
+      "showDockHint": "השאר את Wispr Bro ב-Dock אחרי שהחלון שלו נסגר.",
+      "sounds": "צלילים",
+      "notifications": "עדכונים",
+      "notificationKinds": {
+        "system": "עדכוני Mac",
+        "modelReady": "מודל הדיבור מוכן",
+        "updateReady": "עדכון מוכן",
+        "queuedReady": "הכתבות בתור מוכנות",
+        "suggestions": "הצעות",
+        "announcements": "הכרזות על תכונות",
+        "milestones": "אבני דרך",
+        "shortcutProblems": "בעיות בקיצורים"
+      },
+      "scratchpad": "טיוטה",
+      "scratchpadLabel": "כשהטיוטה נפתחת",
+      "scratchpadHint": "בחר מה הקיצור וכפתור הסרגל פותחים.",
+      "scratchpadOptions": {
+        "resume_last": "המשך את הפתק האחרון",
+        "new_note": "התחל פתק חדש"
+      },
+      "notificationsHint": "כל מתג שולט בהתראה הזו ב-Wispr Bro וב-Mac. \"עדכוני Mac\" מכבה רק את הבאנרים ב-Mac. התראות על קריסה ושחזור תמיד מופיעות ב-Wispr Bro.",
+      "dockKeptForTray": "סמל שורת התפריטים כבוי, ולכן סמל ה-Dock נשאר. הפעל את סמל שורת התפריטים כדי להסתיר אותו.",
+      "trayKeptForDock": "סמל ה-Dock כבוי, ולכן סמל שורת התפריטים נשאר. הפעל את \"הצג את האפליקציה ב-Dock\" כדי להסתיר אותו."
+    },
+    "vibe": {
+      "intro": "Wispr Bro קורא את שמות הקוד שהעורך מציג ואת שמות הקבצים והתיקיות של הפרויקט הפתוח שלך, ב-Mac הזה. הוא קורא שמות בלבד, ואף פעם לא את תוכן הקבצים שלך.",
+      "contextOff": "המודעות להקשר כבויה, ולכן לתכונות האלה אין מה לקרוא. הפעל אותה כדי להשתמש בהן.",
+      "recognize": "זיהוי שמות קוד",
+      "recognizeHint": "אמור שם שהעורך מציג, למשל \"get user by id\", והוא ייכתב כמו שהקוד שלך כותב אותו: getUserById.",
+      "setUp": "הגדר",
+      "change": "שנה עורכים",
+      "setUpFor": "הגדר עבור {{editors}}",
+      "fileTags": "תיוג קבצים בצ׳אט",
+      "fileTagsHint": "בצ׳אט של Cursor או Windsurf, אמירת \"index dot ts\" מתייגת את index.ts דרך תפריט ה-@ של העורך, לכל קובץ בפרויקט שלך. אם העורך לא מציע התאמה, @index.ts נכתב כטקסט.",
+      "fileTagsNeedsChat": "זמין אחרי שתוסיף את Cursor או Windsurf לעורכים שלך.",
+      "fileTagsNeedsSetup": "זמין אחרי הגדרת זיהוי שמות קוד.",
+      "setup": {
+        "title": "הגדרת זיהוי שמות קוד",
+        "stepEditors": "1. בחר את העורכים שאתה משתמש בהם",
+        "stepScreenReader": "2. הפעל בכל אחד מהם את מצב קורא המסך, כדי שישתפו את הטקסט שלהם עם Wispr Bro",
+        "openSettings": "פתח את הגדרות העורך עם ⌘ פסיק.",
+        "search": "חפש \"accessibility support\".",
+        "setOn": "הגדר את Editor: Accessibility Support ל-\"on\".",
+        "palette": "אפשר גם להריץ את \"Toggle Screen Reader Accessibility Mode\" מ-Command Palette‏ (⇧⌘P).",
+        "confirm": "הפעלתי את מצב קורא המסך בעורכים האלה",
+        "cancel": "ביטול",
+        "finish": "סיים את ההגדרה"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "פרטי מעצם התכנון",
+        "local": "ההכתבות והנתונים שלך נשארים ב-Mac הזה.",
+        "noCloud": "זיהוי הדיבור, הניקוי וההיסטוריה פועלים מקומית. אין חשבון, אין טלמטריה, אין הכתבה בענן ואין ניקוי בענן.",
+        "network": "מה משתמש ברשת",
+        "networkIntro": "Wispr Bro משתמש ברשת רק לשני הדברים האלה:",
+        "models": "הורדת מודלים של דיבור וניקוי מ-Hugging Face‏ (huggingface.co).",
+        "updates": "כשבדיקת עדכונים פעילה, חיפוש עדכונים לאפליקציה ב-GitHub‏ (github.com)."
+      },
+      "locations": {
+        "title": "איפה הנתונים שלך נמצאים",
+        "data": "נתוני האפליקציה וההגדרות",
+        "models": "מודלים שהורדו",
+        "recordings": "הקלטות",
+        "logs": "יומנים ודוחות קריסה",
+        "show": "הצג ב-Finder",
+        "loading": "מאתר…",
+        "failed": "לא ניתן לפתוח את התיקייה. נסה שוב."
+      },
+      "retention": {
+        "title": "כמה זמן לשמור היסטוריה",
+        "textLabel": "שמירת טקסט מוכתב",
+        "textHint": "רשומות ישנות יותר נמחקות אוטומטית. כברירת מחדל הטקסט נשמר לתמיד.",
+        "audioLabel": "שמירת הקלטות",
+        "audioHint": "כברירת מחדל השמע נמחק אחרי 14 יום; הטקסט נשאר.",
+        "options": {
+          "0": "לא לשמור שמע",
+          "1": "יום אחד",
+          "7": "7 ימים",
+          "14": "14 יום",
+          "30": "30 יום",
+          "90": "90 יום",
+          "365": "שנה",
+          "forever": "לתמיד"
+        }
+      },
+      "choices": {
+        "title": "אפשרויות פרטיות",
+        "context": "השתמש במודעות להקשר",
+        "contextHint": "קורא טקסט סמוך בזמן ההכתבה כדי לאיית שמות נכון. אף פעם לא נשמר או נרשם.",
+        "updates": "בדוק אם יש עדכונים לאפליקציה",
+        "updatesHint": "בודק ב-GitHub אם יש גרסאות חדשות. לא שולח הכתבות או מידע אישי.",
+        "learn": "למד מהתיקונים שלי",
+        "learnHint": "מציע מילים למילון לפי התיקונים שאתה עושה אחרי הכתבה."
+      },
+      "export": {
+        "title": "הנתונים שלך",
+        "hint": "קובץ zip עם ההיסטוריה, ההגדרות וההקלטות. מודלים ויומנים אינם כלולים.",
+        "button": "ייצא את הנתונים שלי",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "ארכיון zip",
+        "done": "הייצוא נשמר ומוצג ב-Finder.",
+        "failed": "לא ניתן לייצא את הנתונים שלך. דבר לא נמחק."
+      },
+      "delete": {
+        "button": "מחק את כל הנתונים שלי",
+        "title": "למחוק את כל הנתונים שלך?",
+        "warning": "פעולה זו מוחקת לצמיתות את ההיסטוריה, ההקלטות, ההגדרות, היומנים ודוחות הקריסה. לא ניתן לבטל אותה.",
+        "relaunch": "Wispr Bro יפסיק את פעולתו, ימחק את הנתונים ויופעל מחדש אל ההגדרה הראשונית.",
+        "models": "מחק גם את המודלים שהורדו",
+        "modelsHint": "השאר את האפשרות כבויה כדי לא להוריד שוב את מודלי הדיבור והניקוי.",
+        "confirmLabel": "הקלד {{word}} לאישור",
+        "cancel": "ביטול",
+        "confirm": "מחק הכול",
+        "failed": "המחיקה לא הושלמה. בדוק את הנתונים שנותרו לפני שתנסה שוב.",
+        "short": "מוחק את ההיסטוריה, ההקלטות וההגדרות. אי אפשר לבטל."
+      },
+      "diagnostics": {
+        "title": "דוחות קריסה ואבחון",
+        "hint": "דוחות קריסה נשארים במק הזה. שתף אבחון רק אם תבחר.",
+        "sanitized": "מסיר טקסט מוכתב, הנחיות, מילים מהמילון, כתובות דוא״ל, מפתחות ואת נתיב תיקיית הבית.",
+        "copy": "העתק נתוני אבחון",
+        "save": "שמור נתוני אבחון…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "נתוני אבחון מנוקים הועתקו.",
+        "saved": "נתוני אבחון מנוקים נשמרו.",
+        "failed": "לא ניתן להכין את נתוני האבחון. נסה שוב.",
+        "rowTitle": "שיתוף אבחון"
+      }
+    },
+    "advanced": {
+      "output": "פלט טקסט",
+      "transcription": "תמלול",
+      "barAndOverlay": "סרגל ההכתבה ושכבת העל",
+      "liveText": "הצג טקסט חי בסרגל",
+      "liveTextHint": "מציג את המילים שזוהו בזמן שאתה מדבר.",
+      "keyboard": "מנגנון המקלדת",
+      "prompts": "ספק הניקוי ועורך ההנחיות",
+      "history": "אחסון ההיסטוריה",
+      "updates": "עדכונים",
+      "updateChannel": "ערוץ עדכונים",
+      "updateChannelHint": "גרסאות בטא עשויות לכלול שינויים לא גמורים.",
+      "updateChannels": {
+        "stable": "יציב",
+        "beta": "בטא"
+      },
+      "storage": "מיקומי הנתונים והיומנים",
+      "experimental": "ניסיוני וניפוי באגים",
+      "debugMode": "כלי ניפוי באגים",
+      "debugModeHint": "הצג פקדי אבחון ואפשרויות לרישום מפורט.",
+      "forkDiagnostics": "אבחון הגדרות ה-fork",
+      "translateUnsupported": "{{model}} לא יכול לתרגם. בחר מודל שיכול, כמו Whisper או Canary, במודלי דיבור.",
+      "translateNoModel": "מודל הדיבור שלך לא יכול לתרגם. בחר מודל שיכול, כמו Whisper או Canary, במודלי דיבור."
+    },
+    "about": {
+      "tagline": "הכתבה מקומית, בלי חשבון ובלי עיבוד בענן.",
+      "version": "גרסה {{version}}",
+      "source": "הצג את קוד המקור",
+      "updates": "הערות עדכון",
+      "updatesTitle": "עדכונים",
+      "license": "תוכנה חופשית תחת GNU General Public License, גרסה 3 (GPL-3.0).",
+      "licenseLink": "הצג רישיון",
+      "credit": "מבוסס על Handy מאת CJ Pais, בשימוש לפי רישיון MIT. תודה לכל מי שעובד עליו.",
+      "creditLink": "Handy ב-GitHub",
+      "supportTitle": "תמיכה בפיתוח"
+    },
+    "hotkeys": {
+      "open": "קיצורים",
+      "loading": "טוען קיצורים…",
+      "secureInputHelp": "הקלטת הקיצור מושהית כל עוד הקלט המאובטח של macOS מגן על שדה סיסמה.",
+      "count": "{{count}} מתוך {{max}} מוגדרים",
+      "notSet": "לא הוגדר",
+      "current": "קיצור: {{shortcut}}",
+      "activationLabel": "הפעלת הקיצור",
+      "activations": {
+        "hold": "החזקה",
+        "double_tap": "הקשה כפולה",
+        "press": "לחיצה",
+        "toggle": "הפעלה/כיבוי"
+      },
+      "add": "הוסף קיצור",
+      "edit": "ערוך",
+      "delete": "מחק",
+      "reset": "אפס לברירות המחדל",
+      "resetting": "מאפס…",
+      "resetFailed": "לא ניתן לאפס את כל הקיצורים. נסה שוב.",
+      "done": "סיום",
+      "saveFailed": "לא ניתן לשמור את הקיצור.",
+      "conflict": "כבר בשימוש עבור {{action}}. בחר קיצור אחר.",
+      "invalid": "הקיצור הזה לא מזוהה.",
+      "unsupported": "אי אפשר להשתמש בצירוף הזה כקיצור לפעולה זו.",
+      "capture": {
+        "starting": "מתחיל לקלוט קיצור…",
+        "listening": "הקש קיצור…",
+        "listeningHelp": "הקש על צירוף המקשים או על כפתור העכבר הרצוי. Esc מבטל.",
+        "cancel": "ביטול",
+        "close": "חזרה",
+        "secure": "לא ניתן לקלוט קיצור כשהקלט המאובטח פעיל. צא משדה הסיסמה או כבה את ההזנה המאובטחת מהמקלדת, ואז נסה שוב.",
+        "failed": "לא ניתן להתחיל לקלוט קיצור. בדוק את הרשאת הנגישות ונסה שוב."
+      },
+      "actions": {
+        "dictate": "החזק כדי לדבר",
+        "hands_free": "הכתבה ללא ידיים",
+        "cancel": "בטל הכתבה",
+        "command_mode": "מצב פקודה",
+        "paste_last": "הדבק את ההכתבה האחרונה",
+        "copy_last": "העתק את ההכתבה האחרונה",
+        "press_enter": "הקש Return",
+        "undo_cancel": "בטל ביטול",
+        "transform": {
+          "polish": "Polish לטקסט שנבחר",
+          "prompt_engineer": "הפוך טקסט שנבחר להנחיית AI",
+          "view_changes": "הצג את שינויי ההמרה"
+        },
+        "scratchpad": {
+          "open": "פתח טיוטה"
+        }
+      },
+      "help": {
+        "dictate": "החזק את הקיצור בזמן שאתה מדבר; שחרר אותו כדי לסיים.",
+        "hands_free": "התחל ועצור הכתבה בלי להחזיק מקש.",
+        "cancel": "עצור את ההכתבה הנוכחית בלי להוסיף אותה.",
+        "command_mode": "החזק את הקיצור בזמן שאתה אומר איך לערוך או לכתוב טקסט.",
+        "paste_last": "הדבק שוב את ההכתבה האחרונה.",
+        "copy_last": "העתק את ההכתבה האחרונה ללוח.",
+        "press_enter": "מקיש Return היכן שאתה מקליד. כפתור צד של עכבר מתאים לכך.",
+        "undo_cancel": "משחזר הכתבה מיד אחרי שביטלת אותה.",
+        "transform": {
+          "polish": "כותב מחדש את הטקסט שנבחר עם Polish.",
+          "prompt_engineer": "כותב מחדש את הטקסט שנבחר כהנחיית AI ברורה.",
+          "view_changes": "הצג את ההמרה האחרונה, לפני ואחרי."
+        },
+        "scratchpad": {
+          "open": "המשך את הפתק האחרון או התחל פתק חדש."
+        }
+      },
+      "addFor": "הוספת קיצור עבור {{action}}",
+      "descriptionLimits": "ברוב הפעולות אפשר להגדיר עד {{max}} קיצורים. להחזק כדי לדבר, ביטול ומצב פקודה מקבלים קיצור אחד כל אחד, והכתבה ללא ידיים שניים. שינויים נשמרים תוך כדי.",
+      "limit_one": "לפעולה הזו יש קיצור אחד ({{count}}).",
+      "limit_two": "לפעולה הזו יש עד {{count}} קיצורים.",
+      "limit_other": "לפעולה הזו יש עד {{count}} קיצורים.",
+      "appleDictation": {
+        "title": "כיבוי ההכתבה של Apple בלחיצה כפולה על fn",
+        "description": "לחיצה כפולה לא תפעיל גם את ההכתבה של Apple.",
+        "active": "ההכתבה של Apple עדיין מופעלת בלחיצה כפולה על fn. בהגדרות המקלדת, הגדר את קיצור ההכתבה ל״כבוי״."
+      },
+      "key": {
+        "title": "מקש הכתבה",
+        "hint": "החזק כדי לדבר. הקש פעמיים להכתבה ללא ידיים.",
+        "prompt": "הקש על המקש או המקשים הרצויים",
+        "save": "שמור",
+        "invalid": "השתמש ב-fn, בשני מקשי שינוי כמו ⌃ ⌥, או במקש שינוי עם מקש נוסף כמו ⌥ Space.",
+        "more": "קיצורים נוספים"
+      }
+    },
+    "resetSetting": "אפס את {{setting}}",
+    "intro": {
+      "general": "קיצור המקלדת, המיקרופון, השפות והמראה של האפליקציה.",
+      "system": "איך Wispr Bro נפתח, נשמע ומעדכן אותך.",
+      "privacy": "הכול נשאר במק הזה. בחר מה נשמר ולכמה זמן.",
+      "advanced": "כוונון עדין של דיבור, ניקוי, פלט טקסט ועדכונים."
+    },
+    "navGroups": {
+      "app": "אפליקציה"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "ראשי"
+    },
+    "sidebar": {
+      "collapse": "כווץ את סרגל הצד",
+      "expand": "הרחב את סרגל הצד",
+      "suggested": "מילים מוצעות: {{count}}"
+    },
+    "header": {
+      "toDark": "עבור למראה כהה",
+      "toLight": "עבור למראה בהיר"
+    },
+    "notifications": {
+      "title": "עדכונים",
+      "empty": {
+        "title": "אין חדש",
+        "body": "עדכונים וטיפים יופיעו כאן."
+      },
+      "bellUnread_one": "עדכונים, {{count}} שלא נקרא",
+      "bellUnread_two": "עדכונים, {{count}} שלא נקראו",
+      "bellUnread_other": "עדכונים, {{count}} שלא נקראו",
+      "filter": {
+        "label": "הצג",
+        "all": "הכול",
+        "unread": "לא נקראו"
+      },
+      "more": "אפשרויות נוספות לעדכונים",
+      "markAllRead": "סמן הכול כנקרא",
+      "groups": {
+        "show": "הצג ברשימה זו",
+        "mac": "ב-Mac הזה"
+      },
+      "toggles": {
+        "suggestions": "הצעות",
+        "announcements": "הכרזות",
+        "milestones": "אבני דרך",
+        "system": "עדכוני Mac"
+      },
+      "list": "עדכונים",
+      "unreadDot": "לא נקרא",
+      "emptyUnread": {
+        "title": "אין חדש",
+        "body": "קראת הכול."
+      },
+      "loadFailed": "לא ניתן לטעון את העדכונים.",
+      "actionFailed": "זה לא עבד. נסה שוב.",
+      "copied": "ההכתבה האחרונה הועתקה",
+      "nothingToCopy": "עדיין אין הכתבה להעתקה",
+      "justNow": "ממש עכשיו"
+    },
+    "help": {
+      "title": "עזרה",
+      "updates": "עדכונים",
+      "whatsNew": "מה חדש",
+      "essentials": "היסודות",
+      "shortcuts": "קיצורים",
+      "microphone": "מיקרופון",
+      "languages": "שפות",
+      "documentation": "תיעוד",
+      "getInTouch": "יצירת קשר",
+      "reportProblem": "דווח על בעיה…",
+      "sendFeedback": "שלח משוב",
+      "report": {
+        "title": "דיווח על בעיה",
+        "body": "פעולה זו פותחת בדפדפן דיווח חדש ב-GitHub, עם גרסת האפליקציה ודגם ה-Mac כבר ממולאים. הוא אף פעם לא כולל משהו שהכתבת, ואפשר לקרוא ולשנות הכול לפני השליחה.",
+        "diagnosticsTitle": "נתוני אבחון (אופציונלי)",
+        "diagnosticsBody": "יומנים מנוקים עוזרים למצוא את הסיבה. הם אף פעם לא מכילים את ההכתבות שלך. העתק אותם כאן והדבק אותם בדיווח.",
+        "copy": "העתק נתוני אבחון",
+        "copied": "נתוני האבחון הועתקו. הדבק אותם בדיווח.",
+        "copyFailed": "לא ניתן להעתיק את נתוני האבחון.",
+        "open": "פתח את GitHub",
+        "cancel": "ביטול",
+        "close": "סגור"
+      }
+    },
+    "footer": {
+      "version": "גרסה {{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "מקטעי ההגדרות"
+    },
+    "pages": {
+      "dictation": {
+        "title": "הכתבה",
+        "banner": {
+          "title": "לדבר במקום להקליד",
+          "body": "החזק את fn בכל אפליקציה, אמור מה אתה רוצה לכתוב ושחרר. {{appName}} מכניס טקסט נקי במקום שבו נמצא הסמן.",
+          "quiet": "הכתבה בשקט: הראה לי איך"
+        },
+        "empty": {
+          "title": "ההכתבות שלך יופיעו כאן"
+        }
+      },
+      "insights": {
+        "title": "סטטיסטיקה",
+        "empty": {
+          "title": "הסטטיסטיקה צריכה כמה הכתבות",
+          "action": "עבור להכתבה"
+        }
+      },
+      "dictionary": {
+        "title": "מילון"
+      },
+      "snippets": {
+        "title": "קטעי טקסט"
+      },
+      "style": {
+        "title": "סגנון"
+      },
+      "transforms": {
+        "title": "המרות"
+      },
+      "scratchpad": {
+        "title": "טיוטה"
+      },
+      "share": {
+        "title": "שתף עם חבר"
+      },
+      "settings": {
+        "title": "הגדרות"
+      }
+    },
+    "featurePopup": {
+      "label": "חדש בגרסה זו",
+      "dismiss": "הבנתי",
+      "open": "הראה לי"
+    },
+    "update": {
+      "off": "בדיקת העדכונים כבויה",
+      "turnOn": "הפעל",
+      "notChecked": "טרם נבדק",
+      "check": "חפש עדכונים",
+      "checking": "מחפש עדכונים…",
+      "upToDate": "מעודכן",
+      "checkAgain": "בדוק שוב",
+      "checkFailed": "הבדיקה נכשלה",
+      "retry": "נסה שוב",
+      "downloading": "מוריד את {{version}}…",
+      "ready": "עדכון מוכן",
+      "restartNow": "הפעל מחדש עכשיו",
+      "installing": "מתקין את {{version}}…",
+      "installedWaiting": "גרסה {{version}} הותקנה · הפעלה מחדש אחרי ההכתבה הזו",
+      "restarting": "מפעיל מחדש…",
+      "installFailed": "העדכון לא הותקן",
+      "busy": "סיים קודם את ההכתבה.",
+      "actionFailed": "זה לא עבד. נסה שוב מאוחר יותר.",
+      "lastChecked": "נבדק לאחרונה {{time}}.",
+      "paused": "אחרי שלושה ניסיונות שנכשלו, העדכונים האוטומטיים מושהים עד {{time}}.",
+      "manualOnly": "זו גרסת פיתוח: עדכונים נבדקים רק כשאתה מבקש.",
+      "readyHint": "הוא יותקן מעצמו אחרי 20 דקות בלי הכתבה, או כשתצא מהאפליקציה.",
+      "policy": "עדכונים יורדים ברקע ומותקנים אחרי 20 דקות בלי הכתבה, או כשאתה יוצא מהאפליקציה.",
+      "needsPassword": "העותק הזה של האפליקציה נמצא בתיקייה שדורשת סיסמת מנהל כדי לשנות אותה, לכן עדכונים מותקנים רק כשתבחר \"הפעל מחדש עכשיו\"."
+    },
+    "support": {
+      "nav": "תמיכה ב-{{appName}}",
+      "title": "תמיכה ב-{{appName}}",
+      "free": "חינמי וקוד פתוח",
+      "sponsor": "חסות ב-GitHub",
+      "star": "כוכב ב-GitHub",
+      "contribute": "תרומה לפיתוח"
+    },
+    "notices": {
+      "more": "עוד {{count}}",
+      "nextLabel": "ההודעה הבאה:"
+    },
+    "appleDictationNote": {
+      "body": "כיבינו את הקיצור ״לחיצה כפולה על fn״ של ההכתבה של Apple כדי שהטקסט שלך לא יוקלד פעמיים. אפשר לשנות זאת בהגדרות › קיצורים."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "חדש",
+      "beta": "בטא"
+    },
+    "banner": {
+      "dismiss": "סגור"
+    },
+    "importWizard": {
+      "stepsLabel": "שלבי הייבוא",
+      "stepOf": "שלב {{step}} מתוך {{total}}: {{title}}",
+      "steps": {
+        "choose": "בחירת קובץ",
+        "columns": "התאמת עמודות",
+        "review": "בדיקה",
+        "done": "סיום"
+      },
+      "dropHint": "שחרר כאן קובץ ‎.csv, או בחר קובץ.",
+      "browse": "בחר קובץ ‎.csv",
+      "limit": "עד 3 MB.",
+      "formatLink": "הפורמט הנתמך",
+      "csvFilter": "קובץ CSV",
+      "fileSummary_one": "{{name}}: {{count}} שורה",
+      "fileSummary_two": "{{name}}: {{count}} שורות",
+      "fileSummary_other": "{{name}}: {{count}} שורות",
+      "hasHeader": "השורה הראשונה מכילה את שמות העמודות",
+      "optional": "(אופציונלי)",
+      "noColumn": "לא קיים בקובץ",
+      "column": "עמודה {{letter}}",
+      "columnNamed": "עמודה {{letter}}: {{name}}",
+      "mapRequired": "בחר עמודה לכל שדה חובה.",
+      "previewCaption_one": "תצוגה מקדימה של השורה הראשונה",
+      "previewCaption_two": "תצוגה מקדימה של {{count}} השורות הראשונות",
+      "previewCaption_other": "תצוגה מקדימה של {{count}} השורות הראשונות",
+      "rowHeader": "שורה",
+      "cancel": "ביטול",
+      "back": "חזרה",
+      "next": "הבא",
+      "import": "ייבא",
+      "done": "סיום",
+      "close": "סגור",
+      "errors": {
+        "notCsv": "זה לא קובץ ‎.csv. שמור את הגיליון כ-CSV ונסה שוב.",
+        "tooLarge": "גודל הקובץ {{size}} MB. הגודל המרבי הוא 3 MB.",
+        "unreadable": "לא ניתן לקרוא את הקובץ. ודא שזה קובץ CSV ונסה שוב.",
+        "empty": "אין בקובץ שורות לייבוא.",
+        "failed": "משהו השתבש. שום דבר לא יובא; נסה שוב."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "הכתבה",
+      "vocabulary": "מילון",
+      "help": "עזרה",
+      "file": "קובץ",
+      "edit": "עריכה",
+      "view": "תצוגה",
+      "window": "חלון",
+      "wordsDictated_one": "מילים שהוכתבו: {{count}}",
+      "wordsDictated_two": "מילים שהוכתבו: {{count}}",
+      "wordsDictated_other": "מילים שהוכתבו: {{count}}",
+      "copyLast": "העתק את ההכתבה האחרונה",
+      "copyLastPreview": "העתק את ההכתבה האחרונה: \"{{preview}}\"",
+      "copyLastConcealed": "העתק את ההכתבה האחרונה (הטקסט מוסתר)",
+      "microphone": "מיקרופון",
+      "languages": "שפות",
+      "moreLanguages": "הוסף או הסר שפות…",
+      "automaticMicrophone": "זיהוי אוטומטי (הגדרת המערכת)",
+      "noMicrophones": "לא נמצאו מיקרופונים",
+      "dictionaryWords_one": "מילים במילון: {{count}}",
+      "dictionaryWords_two": "מילים במילון: {{count}}",
+      "dictionaryWords_other": "מילים במילון: {{count}}",
+      "snippetCount_one": "קטעי טקסט: {{count}}",
+      "snippetCount_two": "קטעי טקסט: {{count}}",
+      "snippetCount_other": "קטעי טקסט: {{count}}",
+      "addWord": "הוסף מילה…",
+      "newSnippet": "קטע טקסט חדש…",
+      "documentation": "תיעוד",
+      "showIntro": "להציג שוב את ההיכרות",
+      "shortcuts": "קיצורים",
+      "reportProblem": "דווח על בעיה…",
+      "sendFeedback": "שלח משוב…",
+      "openApp": "פתח את {{appName}}",
+      "checkUpdates": "חפש עדכונים…",
+      "pasteLast": "הדבק את ההכתבה האחרונה",
+      "cancelDictation": "בטל הכתבה",
+      "shortcutsBlocked": "הקיצורים חסומים — פתח את ההגדרות",
+      "undo": "בטל",
+      "redo": "בצע שוב",
+      "cut": "גזור",
+      "copy": "העתק",
+      "paste": "הדבק",
+      "selectAll": "בחר הכל",
+      "minimize": "מזער",
+      "zoom": "הגדל/הקטן",
+      "closeWindow": "סגור חלון",
+      "fullScreen": "היכנס למסך מלא",
+      "services": "שירותים",
+      "hideOthers": "הסתר אחרים",
+      "showAll": "הצג הכל",
+      "about": "אודות {{appName}}",
+      "hide": "הסתר את {{appName}}",
+      "quitApp": "צא מ-{{appName}}",
+      "restartToUpdate": "הפעל מחדש כדי לעדכן לגרסה {{version}}",
+      "updatesOff": "בדיקת העדכונים כבויה…"
+    },
+    "tray": {
+      "version": "Wispr Bro גרסה {{version}}",
+      "versionDev": "Wispr Bro גרסה {{version}} (פיתוח)",
+      "shortcutLost": "הקיצור הפסיק לעבוד"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Escape",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Delete",
+        "forwardDelete": "Forward Delete",
+        "left": "חץ שמאלה",
+        "right": "חץ ימינה",
+        "up": "חץ למעלה",
+        "down": "חץ למטה",
+        "home": "Home",
+        "end": "End",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "כפתור עכבר שמאלי",
+        "mouseRight": "כפתור עכבר ימני",
+        "mouseMiddle": "כפתור עכבר אמצעי",
+        "mouseBack": "כפתור עכבר אחורה",
+        "mouseForward": "כפתור עכבר קדימה"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "ההכתבה מוכנה",
+        "body": "ההורדה של מודל הדיבור הסתיימה. החזק את fn בכל אפליקציה והתחל לדבר."
+      },
+      "updateReady": {
+        "title": "עדכון מוכן",
+        "body": "{{appName}} {{version}} יותקן בפעם הבאה שהאפליקציה תופעל מחדש."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} הכתבה מוכנה",
+        "title_two": "{{count}} הכתבות מוכנות",
+        "title_other": "{{count}} הכתבות מוכנות",
+        "body": "מה שאמרת בזמן שמודל הדיבור היה חסר תומלל."
+      },
+      "shortcutProblem": {
+        "title": "הקיצור שלך לא עובד",
+        "body": "{{appName}} לא הצליח להתחיל להאזין ל-fn. פתח את ההגדרות כדי לבדוק את הקיצור.",
+        "bodyPermission": "ל-{{appName}} נדרשת גישת נגישות כדי לשמוע את fn. יש להפעיל אותה בהגדרות המערכת."
+      },
+      "crashReport": {
+        "title": "{{appName}} נסגר באופן בלתי צפוי",
+        "body": "דוח קריסה נשמר ב-Mac הזה. שום דבר לא נשלח לשום מקום."
+      },
+      "dataRecovered": {
+        "title": "קובץ ההיסטוריה שלך תוקן",
+        "body": "לא ניתן היה לקרוא אותו, לכן נפתח קובץ חדש. הקובץ הפגום נשמר לצידו."
+      },
+      "milestoneWords": {
+        "title_one": "{{count}} מילה הוכתבה",
+        "title_two": "{{count}} מילים הוכתבו",
+        "title_other": "{{count}} מילים הוכתבו",
+        "body_one": "זו {{count}} מילה שלא היית צריך להקליד. כל הכבוד.",
+        "body_two": "אלה {{count}} מילים שלא היית צריך להקליד. כל הכבוד.",
+        "body_other": "אלה {{count}} מילים שלא היית צריך להקליד. כל הכבוד."
+      },
+      "milestoneStreak": {
+        "title_one": "רצף של {{count}} יום",
+        "title_two": "רצף של {{count}} ימים",
+        "title_other": "רצף של {{count}} ימים",
+        "body_one": "הכתבת {{count}} יום ברציפות.",
+        "body_two": "הכתבת {{count}} ימים ברציפות.",
+        "body_other": "הכתבת {{count}} ימים ברציפות."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "לדבר בלי להחזיק מקש",
+          "body": "הקש פעמיים על fn, או הקש fn ו-Space, למצב ללא ידיים. הקש שוב על fn כשתסיים."
+        },
+        "cancel": {
+          "title": "התחרטת?",
+          "body": "הקש Esc בזמן הדיבור וההכתבה תבוטל. שום דבר לא יודבק."
+        },
+        "history": {
+          "title": "כל הכתבה נשמרת",
+          "body": "ההכתבות שלך נשארות ב-Mac הזה. פתח את ההיסטוריה כדי להעתיק אחת מהן שוב."
+        },
+        "darkMode": {
+          "title": "בהיר או כהה",
+          "body": "כפתור הירח בראש החלון הזה מחליף את המראה."
+        },
+        "customWords": {
+          "title": "למד אותו את המילים שלך",
+          "body": "הוסף שמות ומונחים שאתה משתמש בהם הרבה, כדי שייכתבו נכון בכל פעם."
+        }
+      },
+      "slowerMac": {
+        "title": "ההכתבה עשויה להיות איטית יותר ב-Mac הזה",
+        "body": "אין מודל דיבור מהיר מספיק לשפות שלך ב-Mac הזה, לכן נעשה שימוש במודל המהיר ביותר. ייתכן שהטקסט יופיע מעט לאט יותר."
+      },
+      "features": {
+        "inbox": {
+          "title": "העדכונים שלך נמצאים כאן",
+          "body": "הורדות, אבני דרך וטיפים מרוכזים עכשיו מאחורי הפעמון. בחר בתפריט שלו מה תקבל."
+        }
+      },
+      "buttons": {
+        "copyLatest": "העתק את האחרונה",
+        "open": "פתח",
+        "openAccessibility": "פתח את ההגדרות"
+      },
+      "takeRecovered": {
+        "title_one": "הקלטה נשמרה כשהאפליקציה נסגרה",
+        "title_two": "{{count}} הקלטות נשמרו כשהאפליקציה נסגרה",
+        "title_other": "{{count}} הקלטות נשמרו כשהאפליקציה נסגרה",
+        "body_one": "עדיין הכתבת כש-{{appName}} נסגר. ההקלטה מתומללת עכשיו ותופיע בהיסטוריה.",
+        "body_two": "עדיין הכתבת כש-{{appName}} נסגר. ההקלטות מתומללות עכשיו ויופיעו בהיסטוריה.",
+        "body_other": "עדיין הכתבת כש-{{appName}} נסגר. ההקלטות מתומללות עכשיו ויופיעו בהיסטוריה."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "טיוטה"
+    },
+    "pill": {
+      "name": "סרגל ההכתבה",
+      "hint": "החזק את fn כדי להכתיב, או לחץ כדי להתחיל",
+      "hideForAnHour": "הסתר לשעה",
+      "slots": {
+        "dictate": {
+          "label": "הכתבה",
+          "tooltip": "החזק את fn כדי להכתיב"
+        },
+        "scratchpad": {
+          "label": "טיוטה",
+          "tooltip": "טיוטה"
+        }
+      },
+      "announce": {
+        "listening": "מאזין",
+        "transcribing": "מתמלל",
+        "cleaningUp": "מנקה את הטקסט",
+        "cancelled": "ההכתבה בוטלה",
+        "silenceWarning": "אין דיבור כבר זמן מה. ההכתבה תיעצר בקרוב.",
+        "lengthWarning": "ההכתבה נעצרת אחרי 30 דקות.",
+        "settingUp": "מכין את ההכתבה. המילים שלך נשמרות.",
+        "card": "ההכתבה מוכנה. אפשר להעתיק אותה מהסרגל.",
+        "micLostWarning": "המיקרופון התנתק. מה שאמרת עד עכשיו נשמר.",
+        "undo": "\"בטל\" מופיע בסרגל ההכתבה למשך 4 שניות.",
+        "diff": "שינויי ההמרה מוכנים לבדיקה.",
+        "secureInputWarning": "הקלט המאובטח פעיל. fn ו-Space לא יכולים לנעול את ההכתבה. Esc או כפתור הסגירה עדיין מבטלים.",
+        "inserted": "הטקסט הוכנס",
+        "newWord": "מילה חדשה: {{word}}. אפשר להוסיף אותה מסרגל ההכתבה, או מאוחר יותר במילון."
+      },
+      "message": {
+        "no_speech": "לא נשמע דיבור",
+        "mic_muted": "נקלט רק שקט. האם המיקרופון מושתק?",
+        "inserted_without_cleanup": "הוכנס ללא ניקוי",
+        "not_pasted": "לא הודבק. הטקסט נמצא בהיסטוריה.",
+        "transcription_failed": "לא ניתן לתמלל את זה",
+        "mic_denied": "הגישה למיקרופון כבויה",
+        "no_microphone": "לא נמצא מיקרופון",
+        "mic_failed": "המיקרופון לא הופעל",
+        "download_failed": "ההורדה נכשלה",
+        "check_connection": "בדוק את החיבור לאינטרנט",
+        "no_space": "אין מספיק מקום בדיסק כדי להגדיר הכתבה",
+        "cancelled": "בוטל",
+        "no_transcript": "עדיין אין הכתבה להדבקה",
+        "copied_last": "ההכתבה האחרונה הועתקה",
+        "copied_to_clipboard": "הועתק ללוח",
+        "transform_done": "בוצע",
+        "command_done": "בוצע",
+        "command_needs_text": "מצב פקודה עורך וכותב טקסט. בחר טקסט או לחץ בתוך שדה.",
+        "select_text_first": "בחר קודם טקסט",
+        "selection_too_long": "בחר עד 6,000 תווים",
+        "transform_focus_moved": "עברת למקום אחר, לכן שום דבר לא השתנה",
+        "transform_failed": "לא ניתן להמיר את הטקסט הזה",
+        "shortcut_lost": "הקיצור שלך הפסיק לעבוד",
+        "shortcut_stopped": "הקיצור שלך הפסיק להגיב",
+        "shortcut_back": "הקיצור שלך עובד שוב",
+        "transform_no_change": "אין מה לשנות",
+        "transform_not_applied": "לא ניתן להחיל את ההמרה הזו",
+        "transform_getting_ready": "ההמרות בהכנה. נסו שוב בעוד דקה."
+      },
+      "card": {
+        "no_text_field": "לחץ קודם בתוך שדה טקסט",
+        "focus_moved": "עברת למקום אחר, לכן שום דבר לא הודבק",
+        "secure_field": "לא הוקלד בשדה סיסמה",
+        "sleep": "לא הודבק: ה-Mac נכנס למצב שינה",
+        "screen_locked": "לא הודבק: המסך היה נעול",
+        "session_inactive": "לא הודבק: החלפת משתמש",
+        "paste_failed": "לא ניתן להדביק את הטקסט הזה",
+        "disk_full": "הדיסק מלא: ההקלטה נעצרה"
+      },
+      "word": {
+        "added": "נוספה למילון",
+        "full": "המילון מלא. המילה נשארת בהצעות."
+      }
+    },
+    "share": {
+      "message": "{{appName}} הוא כלי הכתבה חינמי שפועל כולו על ה-Mac. אפשר להוריד אותו כאן:"
+    },
+    "spotlight": {
+      "label": "השלב הבא",
+      "hint": {
+        "ai_chat": "פתח צ׳אט AI, כמו ChatGPT או Claude",
+        "note": "פתח את אפליקציית הפתקים שלך",
+        "message": "פתח צ׳אט, כמו Messages או Slack",
+        "email": "פתח את הדוא״ל שלך",
+        "comment": "פתח פוסט שאתה רוצה להגיב עליו",
+        "document": "פתח מסמך שאתה כותב",
+        "coding": "פתח את Cursor,‏ VS Code או עורך קוד אחר"
+      },
+      "how": "לחץ במקום שבו תרצה לכתוב, ואז החזק את fn ודבר.",
+      "howFallback": "לחץ במקום שבו תרצה לכתוב, ואז החזק את Control ו-Option ודבר.",
+      "escape": "הקש Esc כדי לסגור את הרמז."
+    }
+  },
+  "speechModels": {
+    "title": "מודלי דיבור",
+    "intro": "{{appName}} בוחר את מודל הדיבור שמתאים לשפות שלך ול-Mac הזה, ומחליף אותו בטוב יותר כשאפשר. אף פעם לא צריך לבחור בעצמך.",
+    "loading": "בודק את מודלי הדיבור…",
+    "current": "בשימוש: {{name}}",
+    "none": "עדיין אין מודל דיבור",
+    "phase": {
+      "checking": "בודק איזה מודל מתאים ל-Mac הזה…",
+      "settled": "זה המודל הטוב ביותר לשפות שלך ב-Mac הזה.",
+      "downloading": "מוריד מודל טוב יותר ברקע… {{percent}}%",
+      "downloadingNoPercent": "מוריד מודל טוב יותר ברקע…",
+      "waiting_to_swap": "מודל טוב יותר מוכן. הוא יוחלף כשאינך מכתיב.",
+      "paused": "לא ניתן היה להוריד את המודל הטוב יותר. ננסה שוב מאוחר יותר."
+    },
+    "next": "הבא: {{name}}",
+    "progressLabel": "הורדת מודל דיבור טוב יותר",
+    "slower": "ההכתבה עשויה להיות איטית יותר ב-Mac הזה: אין כאן מודל מהיר מספיק לשפות שלך, לכן נעשה שימוש במהיר ביותר.",
+    "pinned": "בחרת את המודל הזה בעצמך, לכן {{appName}} לא משנה אותו.",
+    "automatic": "בחר את המודל אוטומטית",
+    "automaticHint": "כבוי כשאתה בוחר מודל ברשימה למטה.",
+    "languages": "עבור: {{languages}}",
+    "machine": "ה-Mac הזה: {{chip}}, זיכרון {{ram}} GB",
+    "freeDisk": "{{gb}} GB פנויים למודלים",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "מעבד Intel"
+    },
+    "list": "כל המודלים"
+  },
+  "aiEngine": {
+    "title": "מנוע AI",
+    "loading": "בודק את מנוע ה-AI…",
+    "loadError": "לא ניתן לקרוא את מצב מנוע ה-AI: {{message}}",
+    "state": {
+      "unsupported": "ניקוי טקסט עם מנוע ה-AI המקומי לא זמין ב-Mac הזה.",
+      "missing_runtime": "מנוע ה-AI חסר בגרסה הזו.",
+      "waiting_for_speech_model": "מודל הניקוי יורד אחרי מודל הדיבור.",
+      "downloading": "מוריד את מודל הניקוי… {{percent}}%",
+      "verifying": "בודק את מודל הניקוי…",
+      "ready": "מוכן",
+      "download_failed": "לא ניתן להוריד את מודל הניקוי."
+    },
+    "progressLabel": "הורדת מודל הניקוי",
+    "model": "מודל: {{name}}",
+    "server": {
+      "stopped": "המנוע במנוחה: הוא מופעל כשאתה מכתיב.",
+      "starting": "המנוע מופעל…",
+      "ready": "המנוע פועל",
+      "failed": "הפעלת המנוע נכשלה; הוא ינסה שוב."
+    },
+    "cpuOnly": "פועל על המעבד (CPU)",
+    "downloadError": "שגיאה: {{message}}",
+    "retry": "נסה שוב",
+    "try": {
+      "label": "נסה על משפט",
+      "sample": "אממ אז חשבתי שאולי ניפגש ביום שישי לא רגע ביום חמישי כדי לעבור על ה ה תקציב",
+      "button": "נסה",
+      "running": "מנקה…",
+      "notReady": "זמין כשמודל הניקוי יהיה מוכן.",
+      "result": "טקסט נקי",
+      "empty": "(לא נשאר כלום אחרי הניקוי)",
+      "timing": "נוקה תוך {{ms}} אלפיות שנייה.",
+      "timingCold": "נוקה תוך {{ms}} אלפיות שנייה, אחרי {{start}} אלפיות שנייה להפעלת המנוע.",
+      "lowMemory": "אין כרגע מספיק זיכרון פנוי כדי להפעיל את מנוע ה-AI. סגור כמה אפליקציות ונסה שוב.",
+      "badReply": "לא ניתן היה להשתמש בתשובת המודל. הטקסט שלך היה מוכנס ללא ניקוי.",
+      "failed": "הניקוי נכשל: {{message}}",
+      "ranOnApple": "הופעל באמצעות Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "מוכן ב-Mac הזה. Wispr Bro משתמש בו כשמודל הניקוי שלו עדיין לא יכול לפעול, למשל בזמן ההורדה.",
+        "available_default": "מוכן ב-Mac הזה. Wispr Bro מנקה איתו את ההכתבות שלך.",
+        "device_not_eligible": "ה-Mac הזה לא יכול להריץ את Apple Intelligence. Wispr Bro משתמש במודל הניקוי שלו.",
+        "not_enabled": "Apple Intelligence כבוי בהגדרות המערכת. Wispr Bro משתמש במודל הניקוי שלו.",
+        "model_not_ready": "Apple Intelligence עדיין מכין את המודל שלו.",
+        "unsupported": "Apple Intelligence דורש macOS 26 ואילך. Wispr Bro משתמש במודל הניקוי שלו.",
+        "unknown": "Apple Intelligence לא זמין כרגע."
+      },
+      "counts": "מאז הפעלת האפליקציה: בקשות {{requests}}, נדחו {{refusals}}, הוגבלו {{rateLimited}}."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "שלום, {{name}}",
+      "anonymous": "שלום",
+      "edit": "שנה את השם בברכה"
+    },
+    "nameEditor": {
+      "label": "השם בברכה",
+      "field": "השם שלך",
+      "hint": "מוצג רק ב-Mac הזה.",
+      "save": "שמור",
+      "useAccountName": "השתמש בשם חשבון ה-Mac שלי",
+      "clear": "הסר את השם",
+      "saveFailed": "לא ניתן לשמור את השם. נסה שוב."
+    },
+    "stats": {
+      "label": "הנתונים שלך",
+      "totalWords": "סך כל המילים",
+      "wordsPerMinute": "מילים לדקה",
+      "streak": "ימים ברצף",
+      "notEnoughSpeech": "עדיין אין מספיק דיבור",
+      "unavailable": "עדיין לא זמין"
+    },
+    "voiceProfile": {
+      "title": "פרופיל הקול שלך",
+      "unlocked": "נפתח. ראה איך אתה מדבר בסטטיסטיקה.",
+      "open": "פתח את הסטטיסטיקה",
+      "progress_one": "{{current}} מתוך {{goal}} מילה",
+      "progress_two": "{{current}} מתוך {{goal}} מילים",
+      "progress_other": "{{current}} מתוך {{goal}} מילים",
+      "locked_one": "ייפתח ב-{{goal}} מילה. המשך להכתיב כדי לבנות אותו.",
+      "locked_two": "ייפתח ב-{{goal}} מילים. המשך להכתיב כדי לבנות אותו.",
+      "locked_other": "ייפתח ב-{{goal}} מילים. המשך להכתיב כדי לבנות אותו."
+    },
+    "history": {
+      "title": "ההכתבות שלך נשמרות ב-Mac הזה",
+      "body": "פתח את ההיסטוריה כדי להעתיק, להשמיע או לחפש אותן.",
+      "action": "פתח את ההיסטוריה"
+    }
+  },
+  "dictionary": {
+    "add": "הוסף מילה",
+    "added": "\"{{entry}}\" נוסף.",
+    "search": "חפש במילון",
+    "refresh": "רענן",
+    "shown_one": "מוצגת {{count}} רשומה",
+    "shown_two": "מוצגות {{count}} רשומות",
+    "shown_other": "מוצגות {{count}} רשומות",
+    "deleted": "\"{{entry}}\" נמחק.",
+    "deleteFailed": "לא ניתן למחוק את הרשומה. נסה שוב.",
+    "undo": "בטל",
+    "tabs": {
+      "label": "רשומות המילון",
+      "all": "הכול",
+      "mine": "נוספו על ידיך",
+      "suggested": "הצעות"
+    },
+    "sort": {
+      "label": "מיון",
+      "newest": "החדשות קודם",
+      "oldest": "הישנות קודם",
+      "az": "א עד ת",
+      "za": "ת עד א",
+      "used": "הכי בשימוש"
+    },
+    "banner": {
+      "title": "{{appName}} כותב את זה <em>בדרך שלך</em>.",
+      "lead": "הוסיפו מילה פעם אחת, או תקנו אותה כשהיא יוצאת שגויה, כדי ש<b>שמות, מונחי עבודה ומילים נדירות</b> ייכתבו נכון בכל פעם.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "מילים להוספה",
+      "add": "הוספת מילה"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "הופך ל-",
+      "used_one": "בשימוש {{count}} פעם",
+      "used_two": "בשימוש {{count}} פעמים",
+      "used_other": "בשימוש {{count}} פעמים",
+      "edit": "ערוך את {{entry}}",
+      "delete": "מחק את {{entry}}",
+      "accept": "הוסף את {{entry}} למילון",
+      "reject": "אל תלמד את {{entry}}"
+    },
+    "source": {
+      "import": "יובא",
+      "migrated": "מהמילים המותאמות הקודמות שלך",
+      "learn": "נלמד",
+      "flag": "מהכתבה שסומנה"
+    },
+    "empty": {
+      "title": "המילון שלך ריק",
+      "body": "הוסף את השמות, המילים וההחלפות ש-{{appName}} צריך להכיר. הם יחולו מההכתבה הבאה."
+    },
+    "emptySuggested": {
+      "title": "עדיין אין הצעות",
+      "body": "כש-{{appName}} יוכל ללמוד מהמילים שאתה מתקן, הן יופיעו כאן לאישורך.",
+      "bodyOn": "תקן שם או מונח שנכתב לא נכון בתיבת הטקסט מיד אחרי ההכתבה, ואז הקש Return או Tab או המשך הלאה. המילה שתיקנת תופיע כאן לאישורך."
+    },
+    "noMatch": {
+      "title": "אין התאמות",
+      "body": "אין רשומה שמכילה את \"{{query}}\".",
+      "action": "נקה את החיפוש"
+    },
+    "unavailable": {
+      "title": "המילון עדיין לא זמין",
+      "body": "הוא ייפתח ברגע שהאפליקציה תסיים לעלות.",
+      "brokenTitle": "לא ניתן לפתוח את המילון",
+      "brokenBody": "{{appName}} לא יכול לקרוא את קובץ הנתונים שלו כרגע. צא מהאפליקציה ופתח אותה מחדש. אם זה חוזר, בחר עזרה › דווח על בעיה."
+    },
+    "problem": {
+      "empty": "הקלד קודם מילה.",
+      "same_as_replacement": "ההחלפה זהה למילה.",
+      "control_character": "אי אפשר להשתמש כאן במעברי שורה ובטאבים.",
+      "full": "המילון שלך מלא. מחק קודם כמה רשומות.",
+      "too_long_one": "מילים יכולות להכיל עד {{max}} תו.",
+      "too_long_two": "מילים יכולות להכיל עד {{max}} תווים.",
+      "too_long_other": "מילים יכולות להכיל עד {{max}} תווים.",
+      "replacement_too_long_one": "החלפות יכולות להכיל עד {{maxReplacement}} תו.",
+      "replacement_too_long_two": "החלפות יכולות להכיל עד {{maxReplacement}} תווים.",
+      "replacement_too_long_other": "החלפות יכולות להכיל עד {{maxReplacement}} תווים."
+    },
+    "dialog": {
+      "addTitle": "הוסף למילון",
+      "editTitle": "ערוך רשומה במילון",
+      "description": "המילים ייכתבו בדיוק כמו שתכתוב אותן כאן.",
+      "replaceToggle": "החלף מילה",
+      "word": "מילה או שם",
+      "wordPlaceholder": "למשל Siobhán",
+      "from": "כשאני אומר",
+      "fromPlaceholder": "למשל תכלס",
+      "to": "כתוב",
+      "toPlaceholder": "למשל בפועל",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "עוזר למודל הדיבור לשמוע ולאיית אותה נכון.",
+      "ruleHint": "מתאים למילה שלמה, בלי קשר לאותיות גדולות או קטנות, וכותב את ההחלפה בדיוק כפי שהוקלדה.",
+      "cancel": "ביטול",
+      "add": "הוסף מילה",
+      "save": "שמור",
+      "close": "סגור",
+      "duplicate": "\"{{entry}}\" כבר נמצא במילון שלך.",
+      "conflictRule": "\"{{from}}\" כבר הופך ל-\"{{to}}\".",
+      "conflictWord": "\"{{word}}\" כבר נמצא במילון שלך באיות אחר.",
+      "replaceExisting": "החלף אותו",
+      "missing": "הרשומה הזו נמחקה בינתיים.",
+      "failed": "לא ניתן לשמור. נסה שוב.",
+      "failedStorage": "לא נשמר: {{appName}} לא יכול לפתוח את קובץ הנתונים שלו. צא מהאפליקציה, פתח אותה מחדש ונסה שוב. אם זה חוזר, בחר עזרה › דווח על בעיה.",
+      "failedStarting": "עדיין לא נשמר: {{appName}} עדיין מופעל. נסה שוב בעוד רגע."
+    },
+    "import": {
+      "open": "ייבא",
+      "title": "ייבוא מילון",
+      "description": "הבא מילים והחלפות מגיליון שנשמר כ-CSV.",
+      "fieldPhrase": "מילה, או מה שאתה אומר",
+      "fieldReplacement": "החלף ב-",
+      "format": {
+        "intro": "רשומה אחת בכל שורה:",
+        "columns": "העמודה הראשונה היא מילה או מה שאתה אומר; השנייה, אם מולאה, היא הטקסט שייכתב במקומה.",
+        "header": "אפשר לכלול שורה ראשונה עם שמות עמודות; את העמודות בוחרים בשלב הבא.",
+        "limits": "מילים עד 60 תווים, החלפות עד 200, קבצים עד 3 MB.",
+        "encoding": "שמור כ-CSV UTF-8 כדי שאותיות מנוקדות וכתבים אחרים יישמרו."
+      },
+      "review": {
+        "new_one": "רשומה חדשה",
+        "new_two": "רשומות חדשות",
+        "new_other": "רשומות חדשות",
+        "duplicates_one": "כבר קיימת",
+        "duplicates_two": "כבר קיימות",
+        "duplicates_other": "כבר קיימות",
+        "conflicts_one": "התנגשות",
+        "conflicts_two": "התנגשויות",
+        "conflicts_other": "התנגשויות",
+        "invalid_one": "לא ניתנת לייבוא",
+        "invalid_two": "לא ניתנות לייבוא",
+        "invalid_other": "לא ניתנות לייבוא",
+        "overLimit_one": "{{count}} רשומה חדשה לא תיכנס (מקום פנוי במילון: {{room}}).",
+        "overLimit_two": "{{count}} רשומות חדשות לא ייכנסו (מקום פנוי במילון: {{room}}).",
+        "overLimit_other": "{{count}} רשומות חדשות לא ייכנסו (מקום פנוי במילון: {{room}}).",
+        "showNew": "הצג את הרשומות החדשות",
+        "more_one": "ועוד {{count}}",
+        "more_two": "ועוד {{count}}",
+        "more_other": "ועוד {{count}}",
+        "conflictsTitle": "כבר במילון שלך, בצורה אחרת",
+        "conflictsHelp": "סמן את אלה שבהן גרסת הקובץ צריכה להחליף את שלך.",
+        "useAllFile": "השתמש בגרסת הקובץ לכולן",
+        "keepAllMine": "השאר את כל שלי",
+        "useFile": "השתמש בגרסת הקובץ:",
+        "yours": "שלך:",
+        "showInvalid": "הצג את השורות שלא ניתן לייבא",
+        "invalidRow": "שורה {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "יובאה {{count}} רשומה",
+        "title_two": "יובאו {{count}} רשומות",
+        "title_other": "יובאו {{count}} רשומות",
+        "added_one": "נוספה {{count}}",
+        "added_two": "נוספו {{count}}",
+        "added_other": "נוספו {{count}}",
+        "replaced_one": "{{count}} הוחלפה בגרסת הקובץ",
+        "replaced_two": "{{count}} הוחלפו בגרסת הקובץ",
+        "replaced_other": "{{count}} הוחלפו בגרסת הקובץ",
+        "skipped_one": "{{count}} כבר קיימת, דולגה",
+        "skipped_two": "{{count}} כבר קיימות, דולגו",
+        "skipped_other": "{{count}} כבר קיימות, דולגו",
+        "kept_one": "{{count}} התנגשות נשארה כפי שהייתה",
+        "kept_two": "{{count}} התנגשויות נשארו כפי שהיו",
+        "kept_other": "{{count}} התנגשויות נשארו כפי שהיו",
+        "invalid_one": "{{count}} שורה לא יובאה",
+        "invalid_two": "{{count}} שורות לא יובאו",
+        "invalid_other": "{{count}} שורות לא יובאו",
+        "overLimit_one": "{{count}} לא נכנסה (המילון מלא)",
+        "overLimit_two": "{{count}} לא נכנסו (המילון מלא)",
+        "overLimit_other": "{{count}} לא נכנסו (המילון מלא)"
+      }
+    },
+    "export": {
+      "open": "ייצא",
+      "fileName": "מילון {{appName}}.csv",
+      "done_one": "יוצאה {{count}} רשומה.",
+      "done_two": "יוצאו {{count}} רשומות.",
+      "done_other": "יוצאו {{count}} רשומות.",
+      "failed": "לא ניתן לייצא את המילון. נסה שוב."
+    },
+    "rejected": "\"{{entry}}\" לא יוצע שוב.",
+    "actionFailed": "זה לא עבד. נסה שוב.",
+    "learn": {
+      "toggle": "למד מהתיקונים שלי",
+      "hint": "במשך 30 שניות אחרי שהכתבה מודבקת, {{appName}} מזהה מילים שאתה מתקן בתיבת הטקסט ומציע אותן כאן. רק המילה שתיקנת נשמרת, אף פעם לא שאר הטקסט. שדות סיסמה, מנהלי סיסמאות, אפליקציות בנקאות וטרמינלים אף פעם לא נקראים."
+    },
+    "undoFailed": "לא ניתן היה לשחזר את \"{{entry}}\". הוסף אותו שוב.",
+    "undoSkipped": "\"{{entry}}\" לא שוחזר: המילון שלך כבר מכיל אותו.",
+    "addNew": "הוספה"
+  },
+  "pill": {
+    "region": "סרגל ההכתבה",
+    "listening": "מאזין",
+    "cancel": "בטל הכתבה",
+    "finish": "סיים הכתבה",
+    "transcribing": "מתמלל…",
+    "cleaningUp": "מנקה…",
+    "contextUsed": "טקסט סמוך עזר באיות",
+    "mic": "מיקרופון: {{name}}",
+    "fix": "תקן",
+    "dismiss": "סגור",
+    "warning": {
+      "silence": "אין דיבור כבר זמן מה, ייעצר בקרוב",
+      "length": "נעצר אחרי 30 דקות",
+      "mic_lost": "המיקרופון התנתק, מה שאמרת נשמר",
+      "secure_input": "קלט מאובטח פעיל · fn+Space לא נועל · Esc או ✕ מבטלים",
+      "secure_input_app": "ב-{{app}} פעיל קלט מאובטח · fn+Space לא נועל · Esc או ✕ מבטלים"
+    },
+    "settingUp": "מכין…",
+    "settingUpPercent": "מכין… {{percent}}%",
+    "settingUpHint": "המילים שלך נשמרות. הטקסט יופיע כאן כשההכתבה תהיה מוכנה.",
+    "cardReady": "ההכתבה שלך",
+    "cardMore_one": "ההכתבה שלך · עוד {{count}} בהיסטוריה",
+    "cardMore_two": "ההכתבה שלך · עוד {{count}} בהיסטוריה",
+    "cardMore_other": "ההכתבה שלך · עוד {{count}} בהיסטוריה",
+    "copy": "העתק",
+    "copied": "הועתק",
+    "retry": "נסה שוב",
+    "card": {
+      "hidden": "מוסתר, כי הוא נועד לשדה סיסמה"
+    },
+    "undo": "בטל",
+    "viewChanges": "הצג שינויים",
+    "sendsAutomatically": "נשלח אוטומטית",
+    "shortcutDetail": {
+      "permission": "הגישה לנגישות כבויה",
+      "stopped": "מאזין המקלדת נעצר"
+    },
+    "word": {
+      "new": "מילה חדשה",
+      "add": "הוספה",
+      "addLabel": "הוספת {{word}} למילון",
+      "notNow": "לא עכשיו"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "נסה",
+      "howItWorks": "איך זה עובד",
+      "title": "שכתוב כל טקסט שבחרת"
+    },
+    "enable": {
+      "title": "הפעלה"
+    },
+    "commandMode": {
+      "title": "מצב פקודה",
+      "help": "החזיקו את הקיצור ואמרו מה לכתוב או לשנות."
+    },
+    "auto": {
+      "title": "החלה אוטומטית אחרי הכתבה",
+      "choice": "ההמרה שתוחל",
+      "none": "בחר המרה",
+      "description": "כל הכתבה עוברת דרך ההמרה שבחרת."
+    },
+    "shortcuts": {
+      "warning": "כשההמרות פועלות, ⌥1, ⌥2 ו-⌥O מחליפים את התווים ¡, ™ ו-ø.",
+      "safe": "השתמש ב-⌃⌥ במקום"
+    },
+    "myTransforms": "ההמרות שלי",
+    "reset": "אפס לברירות המחדל",
+    "resetConfirm": "לאפס את Polish ואת Prompt Engineer ולהסיר את כל ההמרות המותאמות?",
+    "createNew": "יצירה",
+    "deleteConfirm": "למחוק את {{name}}? לא ניתן לבטל פעולה זו.",
+    "loading": "טוען את ההמרות שלך…",
+    "error": "לא ניתן לשמור את השינוי בהמרה. נסה שוב.",
+    "card": {
+      "delete": "מחק את {{name}}",
+      "createOwn": "יצירת המרה משלך",
+      "createOwnHint": "תאר מה היא צריכה לעשות"
+    },
+    "new": {
+      "name": "ההמרה שלי"
+    },
+    "editor": {
+      "title": "עריכת {{name}}",
+      "name": "שם",
+      "hotkey": "קיצור",
+      "addHotkey": "הוסף קיצור",
+      "example": "דוגמה",
+      "exampleInput": "טקסט להמרה",
+      "exampleText": "אממ תוכל לשלוח לי את הדוח מחר אולי נוכל לדבר על זה אז",
+      "preview": "תצוגה מקדימה",
+      "previewing": "מציג תצוגה מקדימה…",
+      "rules": "כללי עריכה",
+      "autosave": {
+        "saved": "שמירה אוטומטית · כל השינויים נשמרו",
+        "saving": "שמירה אוטומטית · שומר…",
+        "error": "שמירה אוטומטית · לא ניתן לשמור את השינוי האחרון"
+      },
+      "reset": "אפס",
+      "done": "סיום",
+      "close": "סגור את העורך",
+      "exactBadge": "מדויק · בלי AI",
+      "outcome": {
+        "no_change": "אין מה לשנות בטקסט הזה.",
+        "not_applied": "ה-AI המקומי לא הצליח לבצע זאת. נסה הוראה קצרה וספציפית יותר.",
+        "failed": "התשובה של ה-AI המקומי לא עברה את בדיקות הבטיחות. נסה שוב או נסח מחדש את ההוראה.",
+        "timeout": "ה-AI המקומי לקח יותר מדי זמן. נסה שוב.",
+        "no_engine": "ה-AI המקומי עדיין לא מוכן. שינויים מדויקים ממשיכים לעבוד."
+      },
+      "instruction": "מה היא צריכה לעשות?",
+      "instructionPlaceholder": "לדוגמה: החלף כל „A“ ב-0, או נסח בצורה ידידותית יותר",
+      "more": "אפשרויות נוספות"
+    },
+    "rules": {
+      "shorter": {
+        "title": "קצר יותר"
+      },
+      "clearer": {
+        "title": "ניסוח ברור יותר"
+      },
+      "better_order": {
+        "title": "סדר טוב יותר"
+      },
+      "headings_lists": {
+        "title": "הוסף כותרות ורשימות"
+      },
+      "keep_tone": {
+        "title": "שמור על הטון שלי"
+      }
+    },
+    "examples": {
+      "title": "דוגמאות כתיבה",
+      "fileType": "טקסט או Markdown",
+      "label": "דוגמת כתיבה {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "הדבק דוגמה",
+      "load": "טען ‎.txt או ‎.md",
+      "remove": "הסר את דוגמה {{number}}",
+      "readError": "בחר קובץ ‎.txt או ‎.md של עד {{chars}} תווים."
+    },
+    "diff": {
+      "changes_one": "{{count}} שינוי",
+      "changes_two": "{{count}} שינויים",
+      "changes_other": "{{count}} שינויים",
+      "configure": "הגדר",
+      "copy": "העתק",
+      "copied": "הועתק",
+      "retry": "נסה שוב",
+      "retrying": "מנסה שוב…",
+      "feedback": "דרג את ההמרה",
+      "good": "תוצאה טובה",
+      "bad": "תוצאה גרועה",
+      "simpleView": "מוצגת החלפה אחת לשינוי הגדול או המורכב הזה.",
+      "actionFailed": "הפעולה לא עבדה. הטקסט שלך עדיין כאן; נסה שוב."
+    },
+    "findReplace": {
+      "title": "חיפוש והחלפה",
+      "find": "חיפוש, שורה {{number}}",
+      "replace": "החלפה ב, שורה {{number}}",
+      "findPlaceholder": "חיפוש",
+      "replacePlaceholder": "החלפה ב",
+      "matchCase": "התאמת רישיות",
+      "remove": "הסרת שורה {{number}}",
+      "add": "הוספת החלפה"
+    },
+    "model": {
+      "downloading": "מכינים את ההמרות: הורדה חד־פעמית, {{percent}}%",
+      "verifying": "מכינים את ההמרות: בודקים את ההורדה…",
+      "ready": "ההמרות מוכנות",
+      "progressLabel": "הורדה עבור ההמרות",
+      "failed": "לא הצלחנו להוריד את מה שההמרות צריכות. בדקו את החיבור.",
+      "retry": "נסו שוב"
+    },
+    "subtitle": "בחרו טקסט בכל אפליקציה ולחצו על קיצור כדי לנסח אותו מחדש.",
+    "settings": {
+      "title": "הגדרות המרות"
+    },
+    "viewChanges": "כדי לראות את השינויים",
+    "builtin": {
+      "polish": "ברור וקצר יותר",
+      "prompt_engineer": "בונה הנחיה ברורה"
+    }
+  },
+  "cleanup": {
+    "title": "ניקוי",
+    "loading": "טוען את רמת הניקוי…",
+    "loadError": "לא ניתן לקרוא את רמת הניקוי: {{message}}",
+    "setError": "השינוי לא נשמר: {{message}}",
+    "notice": "הוכנס ללא ניקוי",
+    "picker": {
+      "legend": "כמה לנקות את המילים שלך?",
+      "recommended": "מומלץ",
+      "aiChat": "באפליקציות צ׳אט AI המילים שלך מוכנסות כפי שאמרת אותן, ללא ניקוי AI."
+    },
+    "levels": {
+      "none": {
+        "label": "ללא",
+        "description": "בדיוק מה שאמרת, רק עם רווחים ופקודות קוליות."
+      },
+      "light": {
+        "label": "קל",
+        "description": "מסיר מילות מילוי כמו \"אממ\" ו\"כאילו\", מתקן פיסוק ואותיות, ושומר על התיקונים שלך: \"בשתיים, בעצם בשלוש\" הופך ל\"בשלוש\"."
+      },
+      "medium": {
+        "label": "בינוני",
+        "description": "כל מה שב\"קל\", ובנוסף דקדוק וניסוח חלקים יותר. העובדות והמשמעות נשארות כפי שהן."
+      }
+    },
+    "last": {
+      "title": "ההכתבה האחרונה",
+      "none": "אין הכתבה מאז שהאפליקציה הופעלה.",
+      "applied_one": "נוקה תוך {{ms}} אלפיות שנייה, {{count}} שינוי.",
+      "applied_two": "נוקה תוך {{ms}} אלפיות שנייה, {{count}} שינויים.",
+      "applied_other": "נוקה תוך {{ms}} אלפיות שנייה, {{count}} שינויים.",
+      "checks": "בדיקות בטיחות שעצרו אותו: {{checks}}",
+      "partial_one": "נוקה חלקית ({{applied}} מתוך {{total}} פסקה); השאר כפי שנאמר: {{reason}}",
+      "partial_two": "נוקה חלקית ({{applied}} מתוך {{total}} פסקאות); השאר כפי שנאמר: {{reason}}",
+      "partial_other": "נוקה חלקית ({{applied}} מתוך {{total}} פסקאות); השאר כפי שנאמר: {{reason}}"
+    },
+    "why": {
+      "level_none": "הניקוי כבוי.",
+      "empty": "אין מה לנקות.",
+      "already_clean": "הטקסט כבר נקי, לכן לא היה צורך במנוע ה-AI.",
+      "ai_chat": "אפליקציית צ׳אט AI: הוכנס כפי שאמרת.",
+      "not_ready": "הוכנס ללא ניקוי: מודל הניקוי עדיין לא מוכן.",
+      "low_memory": "הוכנס ללא ניקוי: אין כרגע מספיק זיכרון פנוי.",
+      "guard": "הוכנס ללא ניקוי: הטקסט הנקי לא עבר את בדיקות הבטיחות.",
+      "timeout": "הוכנס ללא ניקוי: הניקוי נמשך זמן רב מדי.",
+      "error": "הוכנס ללא ניקוי: הייתה בעיה במנוע ה-AI."
+    },
+    "reason": {
+      "level_none": "הניקוי כבוי",
+      "empty": "אין מה לנקות",
+      "already_clean": "כבר נקי",
+      "ai_chat": "אפליקציית צ׳אט AI",
+      "not_ready": "מודל הניקוי עדיין לא מוכן",
+      "low_memory": "אין מספיק זיכרון פנוי",
+      "guard": "לא עבר את בדיקות הבטיחות",
+      "timeout": "הניקוי נמשך זמן רב מדי",
+      "error": "הייתה בעיה במנוע ה-AI"
+    }
+  },
+  "snippets": {
+    "add": "הוסף קטע טקסט",
+    "added": "\"{{trigger}}\" נוסף.",
+    "search": "חפש בקטעי הטקסט",
+    "refresh": "רענן",
+    "shown_one": "מוצג {{count}} קטע טקסט",
+    "shown_two": "מוצגים {{count}} קטעי טקסט",
+    "shown_other": "מוצגים {{count}} קטעי טקסט",
+    "deleted": "\"{{trigger}}\" נמחק.",
+    "deleteFailed": "לא ניתן למחוק את קטע הטקסט. נסה שוב.",
+    "undo": "בטל",
+    "counts": {
+      "snippets_one": "{{count}} קטע טקסט",
+      "snippets_two": "{{count}} קטעי טקסט",
+      "snippets_other": "{{count}} קטעי טקסט",
+      "uses_one": "בשימוש {{count}} פעם",
+      "uses_two": "בשימוש {{count}} פעמים",
+      "uses_other": "בשימוש {{count}} פעמים"
+    },
+    "sort": {
+      "label": "מיון",
+      "newest": "החדשים קודם",
+      "oldest": "הישנים קודם",
+      "az": "א עד ת",
+      "za": "ת עד א",
+      "used": "הכי בשימוש"
+    },
+    "banner": {
+      "title": "די להקליד את אותו הדבר <em>פעמיים</em>.",
+      "lead": "אמרו מילת מפתח קצרה ו-{{appName}} יכתוב את הטקסט המלא.",
+      "examplesLabel": "דוגמאות",
+      "cue1": "הכתובת שלי",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "החתימה שלי",
+      "text2": "בברכה, סאם",
+      "cue3": "קישור ליומן",
+      "text3": "בחרו זמן שנוח לכם: cal.example.com/sam",
+      "add": "הוספת קטע"
+    },
+    "entry": {
+      "becomes": "נכתב כ-",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} שורה",
+      "lines_two": "{{count}} שורות",
+      "lines_other": "{{count}} שורות",
+      "imported": "יובא",
+      "used_one": "בשימוש {{count}} פעם",
+      "used_two": "בשימוש {{count}} פעמים",
+      "used_other": "בשימוש {{count}} פעמים",
+      "edit": "ערוך את {{trigger}}",
+      "delete": "מחק את {{trigger}}"
+    },
+    "empty": {
+      "title": "עדיין אין קטעי טקסט",
+      "body": "שמור פעם אחת כתובת, חתימה או קישור. כשתאמר את צירוף ההפעלה, {{appName}} יכתוב אותם בשבילך."
+    },
+    "noMatch": {
+      "title": "אין התאמות",
+      "body": "אין קטע טקסט שמכיל את \"{{query}}\".",
+      "action": "נקה את החיפוש"
+    },
+    "unavailable": {
+      "title": "קטעי הטקסט עדיין לא זמינים",
+      "body": "הם ייפתחו ברגע שהאפליקציה תסיים לעלות."
+    },
+    "problem": {
+      "empty_trigger": "הקלד קודם מה תאמר.",
+      "trigger_not_spoken": "מה שאתה אומר חייב לכלול לפחות אות או ספרה אחת.",
+      "trigger_control_character": "מה שאתה אומר חייב להיכנס בשורה אחת.",
+      "empty_body": "הקלד את הטקסט שייכתב.",
+      "body_control_character": "הטקסט מכיל תו שלא ניתן לכתוב. הסר אותו ונסה שוב.",
+      "full": "רשימת קטעי הטקסט מלאה. מחק קודם כמה קטעי טקסט.",
+      "trigger_too_long_one": "מה שאתה אומר יכול להכיל עד {{max}} תו.",
+      "trigger_too_long_two": "מה שאתה אומר יכול להכיל עד {{max}} תווים.",
+      "trigger_too_long_other": "מה שאתה אומר יכול להכיל עד {{max}} תווים.",
+      "body_too_long_one": "הטקסט יכול להכיל עד {{maxBody}} תו.",
+      "body_too_long_two": "הטקסט יכול להכיל עד {{maxBody}} תווים.",
+      "body_too_long_other": "הטקסט יכול להכיל עד {{maxBody}} תווים."
+    },
+    "dialog": {
+      "addTitle": "הוסף קטע טקסט",
+      "editTitle": "ערוך קטע טקסט",
+      "description": "אמור את צירוף ההפעלה, והטקסט השמור ייכתב במקומו.",
+      "trigger": "כשאני אומר",
+      "triggerPlaceholder": "למשל הכתובת שלי",
+      "body": "כתוב",
+      "bodyPlaceholder": "הטקסט שייכתב. מעברי שורה נשמרים.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "עובד לבד או בתוך משפט, בלי קשר לאותיות גדולות או קטנות. בתוך משפט, סימני הפיסוק במה שאתה אומר חייבים להתאים בדיוק לטקסט המוכתב. הטקסט נכתב בדיוק כפי שנשמר.",
+      "cancel": "ביטול",
+      "add": "הוסף קטע טקסט",
+      "save": "שמור",
+      "close": "סגור",
+      "duplicate": "\"{{trigger}}\" כבר שמור עם הטקסט הזה.",
+      "conflict": "\"{{trigger}}\" כבר קיים כקטע טקסט עם טקסט אחר.",
+      "replaceExisting": "החלף אותו",
+      "missing": "קטע הטקסט הזה נמחק בינתיים.",
+      "failed": "לא ניתן לשמור. נסה שוב."
+    },
+    "import": {
+      "open": "ייבא",
+      "title": "ייבוא קטעי טקסט",
+      "description": "הבא קטעי טקסט מגיליון שנשמר כ-CSV.",
+      "fieldTrigger": "מה שאתה אומר",
+      "fieldBody": "הטקסט שייכתב",
+      "format": {
+        "intro": "קטע טקסט אחד בכל שורה:",
+        "columns": "העמודה הראשונה היא מה שאתה אומר; השנייה היא הטקסט שייכתב.",
+        "lines": "טקסט עם מעברי שורה מופיע בתוך מירכאות, כפי שאפליקציות גיליונות שומרות אותו.",
+        "encoding": "שמור כ-CSV UTF-8 כדי שאותיות מנוקדות וכתבים אחרים יישמרו.",
+        "limits_one": "עד {{max}} תו למה שאתה אומר ועד {{maxBody}} לטקסט; לכל היותר 1,000 שורות ו-3 MB לקובץ.",
+        "limits_two": "עד {{max}} תווים למה שאתה אומר ועד {{maxBody}} לטקסט; לכל היותר 1,000 שורות ו-3 MB לקובץ.",
+        "limits_other": "עד {{max}} תווים למה שאתה אומר ועד {{maxBody}} לטקסט; לכל היותר 1,000 שורות ו-3 MB לקובץ."
+      },
+      "review": {
+        "new_one": "קטע טקסט חדש",
+        "new_two": "קטעי טקסט חדשים",
+        "new_other": "קטעי טקסט חדשים",
+        "duplicates_one": "כבר קיים",
+        "duplicates_two": "כבר קיימים",
+        "duplicates_other": "כבר קיימים",
+        "conflicts_one": "התנגשות",
+        "conflicts_two": "התנגשויות",
+        "conflicts_other": "התנגשויות",
+        "invalid_one": "לא ניתן לייבוא",
+        "invalid_two": "לא ניתנים לייבוא",
+        "invalid_other": "לא ניתנים לייבוא",
+        "overLimit_one": "{{count}} קטע טקסט חדש לא ייכנס (מקום פנוי: {{room}}).",
+        "overLimit_two": "{{count}} קטעי טקסט חדשים לא ייכנסו (מקום פנוי: {{room}}).",
+        "overLimit_other": "{{count}} קטעי טקסט חדשים לא ייכנסו (מקום פנוי: {{room}}).",
+        "ignoredRows_one": "נקראות רק 1,000 השורות הראשונות; {{count}} שורה נוספת לא נכללה.",
+        "ignoredRows_two": "נקראות רק 1,000 השורות הראשונות; {{count}} שורות נוספות לא נכללו.",
+        "ignoredRows_other": "נקראות רק 1,000 השורות הראשונות; {{count}} שורות נוספות לא נכללו.",
+        "showNew": "הצג את קטעי הטקסט החדשים",
+        "more_one": "ועוד {{count}}",
+        "more_two": "ועוד {{count}}",
+        "more_other": "ועוד {{count}}",
+        "conflictsTitle": "כבר שמור עם טקסט אחר",
+        "conflictsHelp": "סמן את אלה שבהם הטקסט מהקובץ צריך להחליף את שלך.",
+        "useAllFile": "השתמש בטקסט מהקובץ לכולם",
+        "keepAllMine": "השאר את כל שלי",
+        "useFile": "השתמש בגרסת הקובץ:",
+        "yours": "שלך:",
+        "showInvalid": "הצג את השורות שלא ניתן לייבא",
+        "invalidRow": "שורה {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "יובא {{count}} קטע טקסט",
+        "title_two": "יובאו {{count}} קטעי טקסט",
+        "title_other": "יובאו {{count}} קטעי טקסט",
+        "added_one": "נוסף {{count}}",
+        "added_two": "נוספו {{count}}",
+        "added_other": "נוספו {{count}}",
+        "replaced_one": "{{count}} הוחלף בטקסט מהקובץ",
+        "replaced_two": "{{count}} הוחלפו בטקסט מהקובץ",
+        "replaced_other": "{{count}} הוחלפו בטקסט מהקובץ",
+        "skipped_one": "{{count}} כבר קיים, דולג",
+        "skipped_two": "{{count}} כבר קיימים, דולגו",
+        "skipped_other": "{{count}} כבר קיימים, דולגו",
+        "kept_one": "{{count}} התנגשות נשארה כפי שהייתה",
+        "kept_two": "{{count}} התנגשויות נשארו כפי שהיו",
+        "kept_other": "{{count}} התנגשויות נשארו כפי שהיו",
+        "invalid_one": "{{count}} שורה לא יובאה",
+        "invalid_two": "{{count}} שורות לא יובאו",
+        "invalid_other": "{{count}} שורות לא יובאו",
+        "overLimit_one": "{{count}} לא נכנס (רשימת קטעי הטקסט מלאה)",
+        "overLimit_two": "{{count}} לא נכנסו (רשימת קטעי הטקסט מלאה)",
+        "overLimit_other": "{{count}} לא נכנסו (רשימת קטעי הטקסט מלאה)"
+      }
+    },
+    "export": {
+      "open": "ייצא",
+      "fileName": "קטעי טקסט {{appName}}.csv",
+      "done_one": "יוצא {{count}} קטע טקסט.",
+      "done_two": "יוצאו {{count}} קטעי טקסט.",
+      "done_other": "יוצאו {{count}} קטעי טקסט.",
+      "failed": "לא ניתן לייצא את קטעי הטקסט. נסה שוב."
+    },
+    "undoFailed": "לא ניתן היה לשחזר את \"{{trigger}}\". הוסף אותו שוב.",
+    "undoSkipped": "\"{{trigger}}\" לא שוחזר: קטע טקסט אחר משתמש כעת בביטוי הזה.",
+    "addNew": "הוספה",
+    "tabs": {
+      "all": "הכול"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "סטטיסטיקה",
+      "usage": "שימוש",
+      "voice": "קול"
+    },
+    "asOf": "הנתונים שלך נכון ל-{{date}}",
+    "unavailable": "לא ניתן לקרוא את הסטטיסטיקה כרגע. היא תופיע בעוד רגע.",
+    "save": {
+      "button": "שמור כתמונה",
+      "fileName": "סטטיסטיקה {{appName}} {{date}}.png",
+      "filter": "תמונת PNG",
+      "done": "התמונה נשמרה.",
+      "failed": "לא ניתן לשמור את התמונה. נסה שוב."
+    },
+    "speed": {
+      "title": "מילים לדקה",
+      "notEnough": "הכתב עוד קצת כדי לראות את המהירות שלך.",
+      "measured": "פי {{ratio}} ממהירות ההקלדה שלך ({{typing}} מילים לדקה)",
+      "average": "פי {{ratio}} ממהירות של מקליד ממוצע ({{typing}} מילים לדקה)",
+      "speaking": "דיבור",
+      "typing": "ההקלדה שלך",
+      "typingAverage": "הקלדה ממוצעת"
+    },
+    "words": {
+      "title": "סך כל המילים",
+      "dictations_one": "ב-{{count, number}} הכתבה",
+      "dictations_two": "ב-{{count, number}} הכתבות",
+      "dictations_other": "ב-{{count, number}} הכתבות"
+    },
+    "fixes": {
+      "title": "תיקונים שבוצעו",
+      "dictionary": "תיקוני מילון",
+      "ai": "תיקוני ניקוי AI"
+    },
+    "categories": {
+      "title": "איפה אתה מכתיב",
+      "empty": "הכתב בכמה אפליקציות כדי לראות לאן המילים שלך הולכות.",
+      "words_one": "{{count, number}} מילה",
+      "words_two": "{{count, number}} מילים",
+      "words_other": "{{count, number}} מילים",
+      "documents": "מסמכים",
+      "ai_prompts": "הנחיות AI",
+      "email": "דוא״ל",
+      "work": "הודעות עבודה",
+      "personal": "הודעות אישיות",
+      "other": "כל השאר",
+      "used": "קטגוריות בשימוש"
+    },
+    "heatmap": {
+      "title": "הרצף שלך",
+      "current": "הרצף הנוכחי",
+      "longest": "הרצף הארוך ביותר",
+      "days_one": "{{count, number}} יום",
+      "days_two": "{{count, number}} ימים",
+      "days_other": "{{count, number}} ימים",
+      "active_one": "{{count, number}} יום עם הכתבה בשנה האחרונה",
+      "active_two": "{{count, number}} ימים עם הכתבה בשנה האחרונה",
+      "active_other": "{{count, number}} ימים עם הכתבה בשנה האחרונה",
+      "day_one": "{{date}}: {{count, number}} מילה",
+      "day_two": "{{date}}: {{count, number}} מילים",
+      "day_other": "{{date}}: {{count, number}} מילים",
+      "less": "פחות",
+      "more": "יותר",
+      "band0": "אין מילים",
+      "band1": "1 עד 249 מילים",
+      "band2": "250 עד 499 מילים",
+      "band3": "500 עד 749 מילים",
+      "band4": "750 מילים ומעלה",
+      "streak_one": "הרצף הנוכחי: {{count, number}} יום",
+      "streak_two": "הרצף הנוכחי: {{count, number}} ימים",
+      "streak_other": "הרצף הנוכחי: {{count, number}} ימים"
+    },
+    "voice": {
+      "locked": "נעול",
+      "phrase": "הביטוי שלך",
+      "phraseIn_one": "ב-{{count, number}} הכתבה",
+      "phraseIn_two": "ב-{{count, number}} הכתבות",
+      "phraseIn_other": "ב-{{count, number}} הכתבות",
+      "peak": "שעת השיא והאפליקציה",
+      "peakApp": "הכי הרבה מילים ב-{{app}}",
+      "word": "המילה הנפוצה ביותר",
+      "uses_one": "בשימוש {{count, number}} פעם",
+      "uses_two": "בשימוש {{count, number}} פעמים",
+      "uses_other": "בשימוש {{count, number}} פעמים",
+      "corrected": "המילה שתוקנה הכי הרבה",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "תוקנה {{count, number}} פעם",
+      "fixed_two": "תוקנה {{count, number}} פעמים",
+      "fixed_other": "תוקנה {{count, number}} פעמים",
+      "notEnough": "עדיין אין מספיק הכתבות.",
+      "footnote_one": "חושב ב-Mac הזה מתוך ההכתבה האחרונה שלך. שום דבר לא יוצא מה-Mac שלך.",
+      "footnote_two": "חושב ב-Mac הזה מתוך {{count, number}} ההכתבות האחרונות שלך. שום דבר לא יוצא מה-Mac שלך.",
+      "footnote_other": "חושב ב-Mac הזה מתוך {{count, number}} ההכתבות האחרונות שלך. שום דבר לא יוצא מה-Mac שלך.",
+      "sample": {
+        "phrase": "ביטוי שאתה אומר הרבה",
+        "peak": "שעה ביום",
+        "word": "מילה אהובה",
+        "corrected": "מילה שמתוקנת"
+      },
+      "lockedTitle_one": "פרופיל הקול שלך ייפתח ב-{{goal}} מילה",
+      "lockedTitle_two": "פרופיל הקול שלך ייפתח ב-{{goal}} מילים",
+      "lockedTitle_other": "פרופיל הקול שלך ייפתח ב-{{goal}} מילים",
+      "lockedBody_one": "המשך להכתיב: {{current}} מתוך {{goal}} מילה עד כה. אחר כך תראה את הביטוי שאתה משתמש בו הכי הרבה, מתי ואיפה אתה מכתיב, ואת המילים ש-{{appName}} מתקן בשבילך.",
+      "lockedBody_two": "המשך להכתיב: {{current}} מתוך {{goal}} מילים עד כה. אחר כך תראה את הביטוי שאתה משתמש בו הכי הרבה, מתי ואיפה אתה מכתיב, ואת המילים ש-{{appName}} מתקן בשבילך.",
+      "lockedBody_other": "המשך להכתיב: {{current}} מתוך {{goal}} מילים עד כה. אחר כך תראה את הביטוי שאתה משתמש בו הכי הרבה, מתי ואיפה אתה מכתיב, ואת המילים ש-{{appName}} מתקן בשבילך."
+    },
+    "typing": {
+      "take": "עשה את מבחן ההקלדה",
+      "retake": "לעשות שוב את מבחן ההקלדה"
+    },
+    "saved": {
+      "title": "זמן שנחסך לעומת הקלדה",
+      "basisMeasured": "דיבור {{speaking}} מילים לדקה לעומת הקלדה {{typing}} מילים לדקה",
+      "basisAverage": "דיבור {{speaking}} מילים לדקה לעומת הקלדה ממוצעת {{typing}} מילים לדקה",
+      "basisEstimateMeasured": "דיבור של כ־{{speaking}} מילים לדקה לעומת הקלדה {{typing}} מילים לדקה",
+      "basisEstimateAverage": "דיבור של כ־{{speaking}} מילים לדקה לעומת הקלדה ממוצעת {{typing}} מילים לדקה"
+    }
+  },
+  "history": {
+    "title": "היסטוריה",
+    "today": "היום",
+    "yesterday": "אתמול",
+    "rowLabel": "הכתבה ב-{{time}}",
+    "loading": "טוען את ההכתבות שלך…",
+    "loadingMore": "טוען עוד…",
+    "unavailable": "ההיסטוריה עדיין לא זמינה. היא תופיע ברגע שהאפליקציה תסיים לעלות.",
+    "empty": {
+      "body": "החזק את fn בכל אפליקציה והתחל לדבר. כל הכתבה נשמרת כאן, ב-Mac הזה."
+    },
+    "noResults": {
+      "title": "לא נמצא דבר",
+      "body": "אין הכתבה שמכילה את \"{{query}}\"."
+    },
+    "results_one": "נמצאה {{count}} הכתבה",
+    "results_two": "נמצאו {{count}} הכתבות",
+    "results_other": "נמצאו {{count}} הכתבות",
+    "resultsMore_one": "מוצגת {{count}} התאמה אחרונה. גלול כדי לראות עוד.",
+    "resultsMore_two": "מוצגות {{count}} ההתאמות האחרונות. גלול כדי לראות עוד.",
+    "resultsMore_other": "מוצגות {{count}} ההתאמות האחרונות. גלול כדי לראות עוד.",
+    "search": {
+      "open": "חפש בהיסטוריה",
+      "label": "חפש בהכתבות שלך",
+      "placeholder": "חיפוש בהכתבות",
+      "close": "סגור את החיפוש"
+    },
+    "transcribeFile": "תמלל קובץ…",
+    "transcribeFailed": "לא ניתן לפתוח את הקובץ. נסה שוב.",
+    "showMore": "הצג עוד",
+    "showLess": "הצג פחות",
+    "failed": "התמלול נכשל. בחר \"תמלל שוב\" בתפריט ⋮.",
+    "waitingForModel": "ממתין למודל הדיבור",
+    "notTranscribed": "עדיין לא תומלל.",
+    "job": {
+      "waiting": "ממתין לתמלול…",
+      "transcribing": "מתמלל…",
+      "percent": "מתמלל… {{percent}}%"
+    },
+    "tag": {
+      "file": "קובץ",
+      "practice": "תרגול",
+      "raw": "לפני ניקוי AI",
+      "flagged": "מסומן"
+    },
+    "actions": {
+      "play": "נגן את ההקלטה",
+      "hidePlayer": "הסתר את הנגן",
+      "copy": "העתק טקסט",
+      "copied": "הועתק",
+      "flag": "מילה שגויה? תקן אותה",
+      "more": "פעולות נוספות"
+    },
+    "menu": {
+      "label": "פעולות הכתבה",
+      "undoAi": "בטל את עריכת ה-AI",
+      "redoAi": "בצע שוב את עריכת ה-AI",
+      "retry": "תמלל שוב",
+      "retryAt": {
+        "none": "תמלל שוב ללא ניקוי",
+        "light": "תמלל שוב עם ניקוי קל",
+        "medium": "תמלל שוב עם ניקוי בינוני"
+      },
+      "saveAudio": "שמור שמע בשם…",
+      "delete": "מחק תמלול"
+    },
+    "audio": {
+      "expired_one": "השמע הוסר אחרי {{count}} יום",
+      "expired_two": "השמע הוסר אחרי {{count}} ימים",
+      "expired_other": "השמע הוסר אחרי {{count}} ימים",
+      "removed": "השמע הוסר",
+      "missing": "אין הקלטה להכתבה זו",
+      "filter": "שמע WAV",
+      "saved": "ההקלטה נשמרה.",
+      "saveFailed": "לא ניתן לשמור את ההקלטה. נסה שוב."
+    },
+    "copyFailed": "לא ניתן להעתיק את הטקסט. נסה שוב.",
+    "actionFailed": "זה לא עבד. נסה שוב.",
+    "deleted": "נמחקה",
+    "undo": "בטל",
+    "deleteFailed": "לא ניתן למחוק את ההכתבה. נסה שוב.",
+    "undoFailed": "כבר מאוחר מדי לשחזר את ההכתבה.",
+    "flag": {
+      "title": "מילה שגויה?",
+      "description": "בחר את המילה שיצאה שגויה והקלד אותה כמו שהיא צריכה להיות. מעכשיו המילון שלך יתקן אותה.",
+      "close": "סגור",
+      "cancel": "ביטול",
+      "save": "הוסף למילון",
+      "pick": "בחר את המילה השגויה (לכמה מילים, בחר גם את הבאות)",
+      "noWords": "אין בהכתבה הזו מילים לבחירה.",
+      "correction": "האיות הנכון",
+      "correctionFor": "האיות הנכון של \"{{word}}\"",
+      "correctionPlaceholder": "הקלד אותה כמו שהיא צריכה להיות",
+      "kindLabel": "מה להוסיף",
+      "rule": "החלף אותה בכל פעם",
+      "ruleHint": "מוסיף החלפה, כך שאותה טעות תתוקן בכל הכתבה.",
+      "ruleHintFilled": "\"{{from}}\" יהפוך ל-\"{{to}}\" בכל הכתבה.",
+      "word": "למד את האיות",
+      "wordHint": "מוסיף את המילה, כדי שהאפליקציה תזהה אותה כשאתה אומר אותה.",
+      "duplicate": "זה כבר נמצא במילון שלך.",
+      "failed": "לא ניתן לשמור. נסה שוב.",
+      "savedRule": "מעכשיו \"{{from}}\" יהפוך ל-\"{{to}}\".",
+      "savedWord": "\"{{word}}\" נמצא במילון שלך.",
+      "openDictionary": "פתח את המילון"
+    }
+  },
+  "scratchpad": {
+    "newNote": "פתק חדש",
+    "preferences": "העדפות הטיוטה",
+    "hero": {
+      "title": "מקום למחשבות חולפות",
+      "body": "כתבו רשימה, נסחו תשובה או חשבו על רעיון בקול. כל פתק נשמר מעצמו."
+    },
+    "addToBar": "הוסף לסרגל",
+    "addToBarHelp": "הצג כפתור טיוטה לצד \"הכתבה\" בסרגל במצב מנוחה.",
+    "recents": "אחרונים",
+    "searchLabel": "חפש פתקים",
+    "searchPlaceholder": "חיפוש בפתקים",
+    "loading": "טוען פתקים…",
+    "empty": "עדיין אין פתקים",
+    "emptyHelp": "התחל פתק, ואז הקלד או הכתב בחלון הצף שלו.",
+    "emptyNote": "פתק ריק",
+    "noResults": "אין פתקים שתואמים לחיפוש.",
+    "untitled": "פתק ללא כותרת",
+    "pinned": "מוצמדים",
+    "pin": "הצמד פתק",
+    "unpin": "בטל הצמדה",
+    "editAction": "ערוך פתק",
+    "edit": "ערוך את {{name}}",
+    "delete": "מחק פתק",
+    "deleteConfirm": "למחוק את \"{{name}}\"? לא ניתן לבטל פעולה זו.",
+    "error": "הטיוטה לא הצליחה להשלים את הפעולה. הטקסט הנוכחי שלך עדיין כאן; נסה שוב.",
+    "shortcut": {
+      "label": "קיצור לפתיחה",
+      "change": "הגדר קיצור",
+      "title": "קיצור לטיוטה",
+      "help": "פתח את הטיוטה מכל מקום. בהתחלה הקיצור לא מוגדר, כך שהוא לא תופס אף מקש עד שתבחר אחד.",
+      "close": "סגור את חלון הקיצור",
+      "proposed": "צירוף מוצע",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "השתמש ב-Control + Option + S",
+      "chooseAnother": "בחר קיצור אחר",
+      "error": "לא ניתן לשמור את הקיצור. נסה צירוף אחר."
+    },
+    "tabs": "פתקים פתוחים",
+    "tools": "כלי פתק",
+    "sidebar": "הצג את רשימת הפתקים",
+    "polish": "Polish לפתק",
+    "polishing": "מלטש…",
+    "textSize": "שנה את גודל הטקסט (כעת {{size}} נקודות)",
+    "expand": "הגדל את חלון הפתק",
+    "shrink": "החזר את גודל חלון הפתק",
+    "close": "סגור את הטיוטה",
+    "noteBody": "טקסט הפתק",
+    "notePlaceholder": "כתוב או הכתב פתק…",
+    "saved": "נשמר",
+    "saving": "שומר…",
+    "saveError": "עדיין לא נשמר",
+    "autosaveHelp": "נשמר אוטומטית",
+    "copy": "העתק",
+    "copied": "הועתק",
+    "record": "הקלטה",
+    "stop": "עצירה",
+    "recordHint": "הכתבה לפתק הזה ({{key}})",
+    "recordHintNoKey": "הכתבה לפתק הזה",
+    "stopHint": "עצירת ההכתבה",
+    "gettingReady": "בהכנה…",
+    "polished": "Polish הוחל על הפתק",
+    "undo": "ביטול",
+    "polishNoChange": "הפתק הזה כבר נקרא טוב.",
+    "polishRefused": "לא ניתן היה להחיל Polish על הפתק הזה.",
+    "polishNotReady": "מודל ה-AI עדיין בהכנה. נסו שוב בעוד כמה דקות.",
+    "polishStale": "הפתק השתנה בזמן Polish, ולכן שום דבר לא הוחלף.",
+    "dismiss": "סגירה"
+  },
+  "style": {
+    "tabsLabel": "קבוצות סגנון",
+    "groups": {
+      "personal": {
+        "tab": "הודעות אישיות",
+        "label": "הודעות אישיות",
+        "bannerTitle": "לצ׳אטים עם חברים ומשפחה"
+      },
+      "work": {
+        "tab": "הודעות עבודה",
+        "label": "הודעות עבודה",
+        "bannerTitle": "לצ׳אטים עם עמיתים"
+      },
+      "email": {
+        "tab": "דוא״ל",
+        "label": "דוא״ל",
+        "bannerTitle": "לדוא״ל שלך"
+      },
+      "other": {
+        "tab": "אחר",
+        "label": "אחר",
+        "bannerTitle": "לכל השאר"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "רשמי",
+        "description": "אותיות רישיות + פיסוק"
+      },
+      "relaxed": {
+        "label": "קליל",
+        "description": "אותיות רישיות + פחות פיסוק"
+      },
+      "very_relaxed": {
+        "label": "קליל מאוד",
+        "description": "בלי אותיות רישיות + פחות פיסוק"
+      },
+      "upbeat": {
+        "label": "נלהב",
+        "description": "אותיות רישיות + קצת יותר אנרגיה"
+      }
+    },
+    "presetsHeading": "סגנון",
+    "presetsLegend": "סגנון עבור {{group}}",
+    "after": "מה שנכתב:",
+    "englishOnly": "הסגנונות חלים על הכתבות באנגלית. הניקוי עובד בכל שפה.",
+    "apps": {
+      "heading": "בשימוש באפליקציות האלה",
+      "listLabel": "אפליקציות שמשתמשות בסגנון {{group}}",
+      "addShort": "הוסף אפליקציה",
+      "allOthers": "כל אפליקציה שאינה בקבוצה אחרת משתמשת גם היא בסגנון הזה.",
+      "unavailable": "לא ניתן לטעון את האפליקציות. הן יופיעו כשהאפליקציה תהיה מוכנה.",
+      "chipLabel": "{{app}}: אפשרויות",
+      "menuLabel": "אפשרויות עבור {{app}}",
+      "moveTo": "העבר אל",
+      "useDefault": "חזרה לקבוצה הרגילה שלה ({{group}})",
+      "remove": "הסר מ-{{group}}",
+      "autoSend": "הקש Return אחרי ההכתבה",
+      "autoSendOn": "מקיש Return אחרי ההכתבה",
+      "notInstalled": "לא מותקנת",
+      "aiChat": "צ׳אט AI: המילים שלך נכנסות נקיות, בלי סגנון.",
+      "moved": "{{app}} משתמשת עכשיו בסגנון {{group}}.",
+      "removed": "{{app}} משתמשת עכשיו בסגנון \"אחר\".",
+      "added": "{{app}} משתמשת עכשיו בסגנון {{group}}.",
+      "undo": "בטל",
+      "changeFailed": "השינוי לא נשמר. נסה שוב."
+    },
+    "sites": {
+      "addShort": "הוסף אתר",
+      "recent": {
+        "heading": "אתרים שהיו בשימוש לאחרונה",
+        "addLabel": "הוסף את {{host}} ל-\"{{group}}\""
+      },
+      "add": {
+        "title": "הוספת אתר",
+        "description": "בחר את הסגנון לאתר בדפדפן. הוא חל על כל האתר, כולל תת-דומיינים.",
+        "label": "אתר",
+        "hint": "הקלד דומיין כמו github.com, או הדבק כתובת.",
+        "invalid": "זה לא נראה כמו אתר. נסה דומיין כמו example.com.",
+        "preview": "מוסיף את {{host}} ואת תת-הדומיינים שלו.",
+        "already": "{{host}} נמצא עכשיו ב-\"{{group}}\". הוספה כאן תעביר אותו.",
+        "same": "{{host}} כבר משתמש ב-\"{{group}}\".",
+        "covered": "{{host}} הוא חלק מ-{{parent}} (\"{{group}}\"). הוספה תיתן לו סגנון משלו.",
+        "groupLabel": "סגנון",
+        "submit": "הוסף ל-\"{{group}}\""
+      },
+      "builtinNote": "אתרים נפוצים רבים כבר מקבלים את הסגנון הנכון בלי להופיע כאן."
+    },
+    "picker": {
+      "title": "הוסף אפליקציה ל-{{group}}",
+      "description": "בחר אפליקציה ב-Mac הזה. ההכתבות בה ישתמשו בסגנון {{group}}.",
+      "search": "חפש אפליקציות",
+      "listLabel": "אפליקציות ב-Mac הזה",
+      "loading": "מחפש אפליקציות…",
+      "failed": "לא ניתן להציג את האפליקציות ב-Mac הזה.",
+      "none": "אין אפליקציה תואמת.",
+      "inGroup": "ב-{{group}}",
+      "alreadyHere": "כבר כאן",
+      "cancel": "ביטול",
+      "close": "סגור"
+    },
+    "cleanup": {
+      "tab": "ניקוי אוטומטי",
+      "description": "כמה המילים שלך מסודרות, בכל אפליקציה ובכל שפה. הסגנון של כל קבוצה מוחל מעל זה.",
+      "bannerTitle": "הניקוי האוטומטי חל על כל הכתבה",
+      "levels": {
+        "none": "בדיוק מה שאמרת, כולל הטעויות",
+        "light": "מסיר מילות מילוי ומתקן פיסוק",
+        "medium": "ניסוח זורם יותר, אותה משמעות"
+      },
+      "mediumNote": "עם מודל ה-AI המובנה, „בינוני” נותן לעיתים קרובות את אותו הטקסט כמו „קל”.",
+      "note": "המילים המקוריות שלך לעולם לא הולכות לאיבוד: בהיסטוריה, פתחו את התפריט של הכתבה ובחרו „בטל את עריכת ה-AI”."
+    },
+    "addMenu": "הוספת אפליקציה או אתר"
+  },
+  "onboardingFlow": {
+    "loading": "מכין את הכול…",
+    "back": "חזרה",
+    "continue": "המשך",
+    "yes": "כן",
+    "no": "לא",
+    "navigationFailed": "לא ניתן לשמור את השלב. נסה שוב.",
+    "stepper": {
+      "label": "התקדמות ההגדרה",
+      "welcome": "ברוכים הבאים",
+      "permissions": "הרשאות",
+      "setup": "הגדרה",
+      "practice": "תרגול",
+      "done": "(הושלם)",
+      "finish": "סיום"
+    },
+    "help": {
+      "chip": "עזרה",
+      "title": "עזרה בהגדרה",
+      "close": "סגור את העזרה",
+      "done": "הבנתי",
+      "body": "כל שלב לוקח כמה שניות. אפשר לחזור אחורה בכל רגע, ואם תצא, ההגדרה תמשיך מאיפה שעצרת.",
+      "download": "Wispr Bro מגדיר זיהוי דיבור ב-Mac הזה בזמן שאתה עובר על השלבים האלה. כל מה שתכתיב לפני שהוא מוכן נשמר ויוקלד ברגע שיהיה מוכן."
+    },
+    "welcome": {
+      "title": "מדברים, והמילים מופיעות",
+      "subtitle": "מחזיקים מקש אחד, מדברים ומשחררים. טקסט נקי מופיע בכל מקום שבו אתה מקליד.",
+      "privacyTitle": "הכול נשאר ב-Mac הזה",
+      "privacy": "בלי חשבון, בלי ענן, בלי מעקב.",
+      "start": "בוא נתחיל",
+      "demoLabel": "Wispr Bro בפעולה"
+    },
+    "move": {
+      "title": "העבר את Wispr Bro ל\"יישומים\"",
+      "body": "עדכונים והרשאות עובדים הכי טוב משם. Wispr Bro ייפתח מחדש בעצמו וימשיך.",
+      "action": "העבר ל\"יישומים\"",
+      "moving": "מעביר…",
+      "skip": "לא עכשיו",
+      "error": "Wispr Bro לא הצליח להעביר את עצמו. גרור אותו ל\"יישומים\" ב-Finder, ואז פתח אותו שוב."
+    },
+    "languages": {
+      "title": "באילו שפות אתה מדבר?",
+      "subtitle": "בחר כל שפה שבה אתה מכתיב.",
+      "listLabel": "שפות",
+      "noMatch": "אין שפה שתואמת ל-\"{{query}}\".",
+      "count_one": "ההכתבה עובדת ב-{{count}} שפה. אפשר לשנות את השפות שלך מאוחר יותר בהגדרות.",
+      "count_two": "ההכתבה עובדת ב-{{count}} שפות. אפשר לשנות את השפות שלך מאוחר יותר בהגדרות.",
+      "count_other": "ההכתבה עובדת ב-{{count}} שפות. אפשר לשנות את השפות שלך מאוחר יותר בהגדרות.",
+      "weak_one": "הזיהוי פחות מדויק ב-{{languages}}. הכתבה בשפה הזו עדיין עובדת, אבל צפויות יותר טעויות.",
+      "weak_two": "הזיהוי פחות מדויק ב-{{languages}}. הכתבה בשפות האלה עדיין עובדת, אבל צפויות יותר טעויות.",
+      "weak_other": "הזיהוי פחות מדויק ב-{{languages}}. הכתבה בשפות האלה עדיין עובדת, אבל צפויות יותר טעויות."
+    },
+    "permissions": {
+      "title": "שתי הרשאות",
+      "subtitle": "macOS מבקש לאשר אותן פעם אחת. כל שורה מסומנת ברגע שההרשאה פעילה.",
+      "allowed": "מאושר",
+      "waiting": "ממתין ל-macOS…",
+      "openSettings": "פתח את הגדרות המערכת",
+      "prompt": "הבקשה של macOS",
+      "pane": "בהגדרות המערכת",
+      "microphone": {
+        "title": "מיקרופון",
+        "why": "כדי ש-Wispr Bro ישמע אותך בזמן ההכתבה.",
+        "action": "אשר גישה למיקרופון",
+        "promptAlt": "תמונה של בקשת המיקרופון של macOS, עם הכפתור \"אשר\" מודגש",
+        "paneAlt": "תמונה של הגדרות המערכת › פרטיות ואבטחה › מיקרופון, עם המתג של Wispr Bro מופעל",
+        "waitingHelp": "לחץ על \"אשר\" בבקשה של macOS. אם היא לא מופיעה, פתח את הגדרות המערכת והפעל את Wispr Bro תחת \"מיקרופון\"."
+      },
+      "accessibility": {
+        "title": "נגישות",
+        "why": "כדי ש-Wispr Bro יזהה את הקיצור שלך ויקליד בשבילך.",
+        "action": "אשר נגישות",
+        "promptAlt": "תמונה של בקשת הנגישות של macOS, עם הכפתור \"פתח את הגדרות המערכת\" מודגש",
+        "paneAlt": "תמונה של הגדרות המערכת › פרטיות ואבטחה › נגישות, עם המתג של Wispr Bro מופעל",
+        "waitingHelp": "בהגדרות המערכת, הפעל את המתג שליד Wispr Bro. ייתכן שתצטרך לבטל את הנעילה עם הסיסמה שלך."
+      }
+    },
+    "mic": {
+      "title": "בדוק את המיקרופון",
+      "guidance": "מיקרופונים חוטיים ומובנים עובדים הכי טוב. אוזניות Bluetooth עלולות להתנתק או להישמע עמומות.",
+      "question": "האם הפסים זזים כשאתה מדבר?",
+      "noHelp": "בחר מיקרופון אחר למטה, ואז דבר שוב.",
+      "change": "שנה מיקרופון",
+      "previewList": "המיקרופונים שלך יופיעו כאן."
+    },
+    "shortcut": {
+      "title": "בדוק את הקיצור",
+      "instruction": "לחץ והחזק את מקש fn‏ (🌐) במקלדת. המקש למטה נדלק כל עוד אתה מחזיק אותו.",
+      "fallbackInstruction": "לחץ והחזק את Control ו-Option יחד. המקשים למטה נדלקים כל עוד אתה מחזיק אותם.",
+      "unboundInstruction": "לא הוגדר קיצור להכתבה. השתמש ב\"ערוך קיצור\" כדי לבחור אחד.",
+      "keyLabel": "מקש fn",
+      "fallbackKeyLabel": "Control ו-Option",
+      "pressed": "המקש מוחזק",
+      "notPressed": "ממתין למקש…",
+      "worked": "זה עובד. המקש נדלק.",
+      "question": "האם המקש נדלק?",
+      "edit": "ערוך קיצור",
+      "tryAgain": "נסה שוב",
+      "otherCauses": "לא זה? סיבות אפשריות אחרות:",
+      "changeFailed": "השינוי לא בוצע. נסה שוב, או השתמש בהגדרות המערכת.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro לא רואה הקשות מקשים",
+          "title": "Wispr Bro עדיין לא רואה הקשות מקשים",
+          "body": "בדרך כלל זה אומר שהנגישות לא מופעלת עבור Wispr Bro. הפעל אותה בהגדרות המערכת, ואז חזור והקש \"נסה שוב\".",
+          "action": "פתח את הגדרות הנגישות"
+        },
+        "secure_input": {
+          "choice": "שדה סיסמה או אפליקציה אחרת חוסמים מקשים",
+          "title": "אפליקציה אחרת חוסמת הקשות מקשים",
+          "body": "כששדה סיסמה או אפליקציות מסוימות (מנהלי סיסמאות, \"הזנה מאובטחת מהמקלדת\" ב-Terminal) נמצאים במוקד, macOS מסתיר הקשות מכל אפליקציה אחרת. סגור אותם או לחץ במקום אחר, ואז נסה שוב.",
+          "active": "כרגע אפליקציה אחרת חוסמת הקשות מקשים.",
+          "inactive": "כרגע שום דבר לא חוסם הקשות מקשים."
+        },
+        "globe": {
+          "choice": "מקש 🌐 פותח אמוג׳י או מחליף מקלדת",
+          "title": "macOS נותן למקש 🌐 תפקיד משלו",
+          "body": "ה-Mac שלך פותח אמוג׳י, מחליף מקור קלט או מתחיל את ההכתבה של Apple כשאתה מקיש 🌐. Wispr Bro יכול להגדיר את \"הקשה על מקש 🌐 כדי\" ל\"לא לעשות דבר\". הבחירה שלך תוחזר אם תפסיק להשתמש ב-fn להכתבה.",
+          "consent": "הגדר את 🌐 ל\"לא לעשות דבר\"",
+          "changed": "המקש 🌐 כבר לא עושה דבר בעצמו",
+          "open": "פתח את הגדרות המקלדת"
+        },
+        "no_fn": {
+          "choice": "אין במקלדת שלי מקש fn",
+          "title": "השתמש ב-Control וב-Option במקום",
+          "body": "בחלק מהמקלדות אין מקש fn או 🌐. כדי להכתיב, החזק את Control ו-Option יחד. אפשר לשנות זאת בכל עת בהגדרות.",
+          "action": "השתמש ב-Control + Option",
+          "changed": "Control + Option הוא הקיצור שלך"
+        }
+      },
+      "customInstruction": "לחץ והחזק את {{keys}}. המקשים למטה נדלקים כל עוד אתה מחזיק אותם."
+    },
+    "practice": {
+      "title": "תרגול: אימייל שלם, <em>בלי ידיים</em>",
+      "instruction": "הקש fn ו-Space יחד, ואז דבר. הקש שוב fn כשתסיים.",
+      "instructionFallback": "הקש Control, Option ו-Space יחד, ואז דבר. הקש שוב Control ו-Option כשתסיים.",
+      "instructionUnbound": "לא הוגדר קיצור להכתבה, לכן אי אפשר להתחיל את התרגול. דלג עליו לעת עתה והגדר קיצור בהגדרות.",
+      "skip": "דלג",
+      "waiting": "ממתין שתתחיל לדבר…",
+      "listening": "מאזין… הקש fn כשתסיים.",
+      "listening_fallback": "מאזין… הקש Control ו-Option כשתסיים.",
+      "working": "כותב…",
+      "queuedNote": "המילים שלך נשמרות. הן יופיעו כאן ברגע שההגדרה תסתיים, ובכל מקרה הן נמצאות בהיסטוריה. נמשיך בעצמנו בעוד רגע.",
+      "nothing": "שום דבר לא נקלט. ודא שהמיקרופון פועל ונסה שוב.",
+      "filled": "זה הדוא״ל שלך. הוסף עוד, או המשך.",
+      "composer": {
+        "title": "הודעה חדשה",
+        "to": "אל",
+        "recipient": "סאם",
+        "subject": "נושא",
+        "body": "הודעה",
+        "trySaying": "נסו לומר: ”{{text}}“",
+        "willAppear": "המילים שלך יופיעו כאן ברגע שמודל הדיבור יהיה מוכן."
+      },
+      "instructionCustom": "הקש {{keys}} פעמיים במהירות, ואז דבר. הקש שוב {{keys}} כשתסיים.",
+      "listening_custom": "מאזין… הקש {{keys}} כשתסיים.",
+      "queued": "נשמר. ממתין למודל הדיבור…",
+      "model": {
+        "title": "מכינים את מודל הדיבור",
+        "checking": "בודקים את ההורדה…",
+        "paused": "ההורדה מושהית. ננסה שוב בעוד רגע…",
+        "failed": "לא ניתן היה להוריד את מודל הדיבור",
+        "underMinute": "נותרה פחות מדקה",
+        "minutesLeft_one": "נותרו כ־{{count}} דק׳",
+        "minutesLeft_two": "נותרו כ־{{count}} דק׳",
+        "minutesLeft_other": "נותרו כ־{{count}} דק׳",
+        "bytes": "{{done}} מתוך {{total}} MB",
+        "progressLabel": "הורדת מודל הדיבור",
+        "body": "זה קורה רק פעם אחת. אפשר להמשיך לשלבים הבאים; מה שתכתיב עכשיו ממתין ויופיע כשהמודל יהיה מוכן.",
+        "retry": "לנסות שוב"
+      }
+    },
+    "firstDictation": {
+      "title": "זהו!",
+      "subtitle": "בכל מקום שבו אפשר להקליד, אפשר עכשיו לדבר במקום.",
+      "lead": "הרגע הכתבת את הטקסט הראשון שלך.",
+      "typingLabel": "הקלדה, בממוצע",
+      "speakingLabel": "דיבור, בממוצע",
+      "faster": "<em>מהיר</em> פי <n/>",
+      "takeTest": "עשה את מבחן ההקלדה",
+      "retakeTest": "לעשות שוב את מבחן ההקלדה",
+      "yourTypingLabel": "ההקלדה שלך",
+      "youSpokeLabel": "דיברת בקצב"
+    },
+    "timeSaved": {
+      "headline_one": "הכתבה יכולה לחסוך לך כ-{{hours}} שעה בשבוע",
+      "headline_two": "הכתבה יכולה לחסוך לך כ-{{hours}} שעות בשבוע",
+      "headline_other": "הכתבה יכולה לחסוך לך כ-{{hours}} שעות בשבוע",
+      "sliderLabel": "כמה שעות בשבוע אתה מקליד?",
+      "basisMeasured_one": "על סמך מהירות ההקלדה שלך, {{wpm}} מילה לדקה, ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
+      "basisMeasured_two": "על סמך מהירות ההקלדה שלך, {{wpm}} מילים לדקה, ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
+      "basisMeasured_other": "על סמך מהירות ההקלדה שלך, {{wpm}} מילים לדקה, ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
+      "basisAverage_one": "על סמך מהירות הקלדה ממוצעת של {{wpm}} מילה לדקה ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
+      "basisAverage_two": "על סמך מהירות הקלדה ממוצעת של {{wpm}} מילים לדקה ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
+      "basisAverage_other": "על סמך מהירות הקלדה ממוצעת של {{wpm}} מילים לדקה ומהירות דיבור של כ-{{speaking}} מילים לדקה.",
+      "lead": "הכתבה יכולה לחסוך לך בערך",
+      "perWeek_one": "<n/> שעה <em>בשבוע</em>",
+      "perWeek_two": "<n/> שעות <em>בשבוע</em>",
+      "perWeek_other": "<n/> שעות <em>בשבוע</em>",
+      "hoursPerWeek_one": "{{hours}} שעה בשבוע",
+      "hoursPerWeek_two": "{{hours}} שעות בשבוע",
+      "hoursPerWeek_other": "{{hours}} שעות בשבוע",
+      "math": "{{typed}} ש׳ הקלדה ב־{{wpm}} מ/ד ≈ {{voice}} ש׳ בקול ב־{{speaking}} מ/ד"
+    },
+    "typing": {
+      "title": "כמה מהר אתה <em>מקליד</em>?",
+      "skip": "דלג",
+      "language": "שפה",
+      "wpm_one": "{{count}} מילה לדקה",
+      "wpm_two": "{{count}} מילים לדקה",
+      "wpm_other": "{{count}} מילים לדקה",
+      "inputLabel": "הקלד כאן את הפסקה",
+      "nothing": "שום דבר לא תאם לפסקה. נסה שוב.",
+      "result_one": "אתה מקליד כ-{{count}} מילה לדקה.",
+      "result_two": "אתה מקליד כ-{{count}} מילים לדקה.",
+      "result_other": "אתה מקליד כ-{{count}} מילים לדקה.",
+      "tryAgain": "נסה שוב",
+      "recalculate": "חשב מחדש",
+      "instruction_one": "הקלד את הפסקה למטה כמו שאתה מקליד בדרך כלל. השעון מתחיל בהקשה הראשונה ופועל {{seconds}} שנייה.",
+      "instruction_two": "הקלד את הפסקה למטה כמו שאתה מקליד בדרך כלל. השעון מתחיל בהקשה הראשונה ופועל {{seconds}} שניות.",
+      "instruction_other": "הקלד את הפסקה למטה כמו שאתה מקליד בדרך כלל. השעון מתחיל בהקשה הראשונה ופועל {{seconds}} שניות.",
+      "wpmUnit_one": "מילה לדקה",
+      "wpmUnit_two": "מילים לדקה",
+      "wpmUnit_other": "מילים לדקה",
+      "secondsUnit_one": "שנייה נותרה",
+      "secondsUnit_two": "שניות נותרו",
+      "secondsUnit_other": "שניות נותרו"
+    },
+    "summary": {
+      "title": "הכול מוכן",
+      "subtitle": "החזק את הקיצור שלך בכל יישום כדי להכתיב.",
+      "languages": "שפות",
+      "shortcut": "קיצור",
+      "shortcutFn": "החזקת fn‏ (🌐)",
+      "shortcutFallback": "החזקת Control ו-Option",
+      "microphone": "מיקרופון",
+      "micDefault": "מיקרופון ברירת המחדל של ה-Mac",
+      "typing": "מהירות הקלדה",
+      "typingWpm_one": "{{count}} מילה לדקה",
+      "typingWpm_two": "{{count}} מילים לדקה",
+      "typingWpm_other": "{{count}} מילים לדקה",
+      "typingSkipped": "לא נמדד",
+      "notSet": "לא הוגדר",
+      "launchAtLogin": "פתח את Wispr Bro בהתחברות",
+      "launchAtLoginHint": "כדי שההכתבה תהיה מוכנה בכל פעם שתצטרך אותה.",
+      "finish": "התחל להכתיב"
+    }
+  },
+  "whatsNew": {
+    "title": "מה חדש בגרסה {{version}}",
+    "label": "הערות גרסה לגרסה זו",
+    "close": "סגור",
+    "done": "הבנתי"
+  },
+  "share": {
+    "heading": "העבר את {{appName}} הלאה",
+    "body": "{{appName}} חינמי וקוד פתוח, והוא פועל כולו על ה-Mac. אין קוד הפניה ושום דבר לא נמדד: הקישור זהה לכולם.",
+    "downloadLabel": "קישור להורדה",
+    "brewLabel": "התקנה עם Homebrew",
+    "copyLink": "העתק את קישור ההורדה",
+    "copyBrew": "העתק את פקודת Homebrew",
+    "copy": "העתק",
+    "copied": "הועתק",
+    "copyFailed": "לא ניתן להעתיק. בחר את הטקסט והעתק אותו בעצמך.",
+    "shareTitle": "שלח למישהו",
+    "shareBody": "Messages,‏ Mail,‏ AirDrop וכל דרך שיתוף אחרת של ה-Mac.",
+    "shareButton": "שתף…",
+    "shareFailed": "לא ניתן לפתוח את חלון השיתוף."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "קיצור ההכתבה הפסיק לעבוד. Wispr Bro צריך שוב גישת נגישות.",
+      "stopped": "קיצור ההכתבה הפסיק להגיב.",
+      "fix": "תקן"
+    },
+    "sheet": {
+      "title": "תקן את הקיצור",
+      "introPermission": "macOS כיבה את גישת הנגישות של Wispr Bro, ולכן הוא לא מזהה את הקיצור. זה יכול לקרות אחרי עדכון או כשהרשומה שונתה בהגדרות המערכת.",
+      "introStopped": "מאזין המקלדת של Wispr Bro נעצר. הוא יופעל מחדש מעצמו ברגע ש-macOS יאפשר זאת.",
+      "pictureLabel": "הגדרות המערכת › פרטיות ואבטחה › נגישות: השורה של Wispr Bro עם המתג מופעל",
+      "pictureTitle": "נגישות",
+      "pictureBack": "פרטיות ואבטחה",
+      "stepsTitle": "הפעל אותה מחדש",
+      "step1": "פתח את הגדרות המערכת › פרטיות ואבטחה › נגישות.",
+      "step2": "הפעל את Wispr Bro. אם הוא כבר מופעל, כבה והפעל אותו שוב.",
+      "step3": "חזור לכאן. הקיצור יעבוד שוב תוך כמה שניות, בלי הפעלה מחדש.",
+      "resetTitle": "עדיין לא עובד?",
+      "resetBody": "אחרי עדכון, macOS עלול לשמור רשומה ישנה שכבר לא תואמת לאפליקציה. \"אפס\" מסיר את הרשומה של Wispr Bro כדי שתוכל לאשר אותה שוב.",
+      "resetStep1": "בחר \"אפס ואשר מחדש\".",
+      "resetStep2": "אשר את Wispr Bro כש-macOS מבקש, או הפעל אותו ברשימה שנפתחת.",
+      "resetFailed": "לא ניתן לאפס את הרשומה. ברשימה, בחר את Wispr Bro והסר אותו בכפתור המינוס, ואז הוסף אותו שוב בכפתור הפלוס.",
+      "openSettings": "פתח את הגדרות הנגישות",
+      "reset": "אפס ואשר מחדש",
+      "checkAgain": "בדוק שוב",
+      "relaunch": "הפעל מחדש כדי לסיים",
+      "close": "סגור",
+      "status": {
+        "healthy": "הקיצור שלך עובד.",
+        "lost": "עדיין לא עובד",
+        "recovering": "מתחבר מחדש…",
+        "needsRelaunch": "הגישה חזרה. הפעל מחדש את Wispr Bro כדי לסיים."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "מה תרצה <em>לנסות</em> קודם?",
+    "subtitle": "בחר אחד כדי לראות איך זה עובד. אחר כך נסה באפליקציה שלך.",
+    "choicesLabel": "דרכים להתחיל",
+    "choices": {
+      "ai_chat": "לשאול עוזר AI",
+      "note": "לרשום פתק",
+      "message": "לענות להודעה",
+      "email": "לכתוב דוא״ל",
+      "comment": "לפרסם תגובה",
+      "document": "לנסח מסמך",
+      "coding": "לתת הנחיה לכלי קוד"
+    },
+    "scene": {
+      "label": "דוגמה: {{choice}}",
+      "said": "אתה אומר",
+      "written": "{{appName}} כותב",
+      "pause": "השהה את הדוגמה",
+      "play": "הפעל את הדוגמה"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "צ׳אט AI",
+        "context": "במה אפשר לעזור?",
+        "said": "אממ אז אתה יכול להסביר איך עובדת ריבית דריבית כאילו אני חדש בזה",
+        "text": "אתה יכול להסביר איך עובדת ריבית דריבית, כאילו אני חדש בזה?"
+      },
+      "note": {
+        "app": "פתקים",
+        "context": "יום שני",
+        "said": "תזכורת לעצמי להתקשר לרופא השיניים ואה לאסוף את הניקוי היבש לפני שש",
+        "text": "תזכורת לעצמי: להתקשר לרופא השיניים ולאסוף את הניקוי היבש לפני שש."
+      },
+      "message": {
+        "app": "Messages",
+        "context": "אנחנו עדיין נפגשים לצהריים?",
+        "said": "כן בטח שתים עשרה וחצי מתאים לך",
+        "text": "כן, בטח! 12:30 מתאים לך?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "אל: פריה · נושא: יום חמישי",
+        "said": "היי פריה תודה על ההערות אשלח את הטיוטה עד יום חמישי בבוקר",
+        "text": "היי פריה, תודה על ההערות. אשלח את הטיוטה עד יום חמישי בבוקר."
+      },
+      "comment": {
+        "app": "רשת חברתית",
+        "context": "המשרד החדש שלנו נפתח בשבוע הבא!",
+        "said": "מזל טוב לכל הצוות זה נראה מדהים",
+        "text": "מזל טוב לכל הצוות, זה נראה מדהים!"
+      },
+      "document": {
+        "app": "מסמכים",
+        "context": "תוכנית הפרויקט",
+        "said": "המטרה של השלב הזה היא אממ לשחרר את הבטא לחמישים בודקים עד סוף החודש",
+        "text": "המטרה של השלב הזה היא לשחרר את הבטא לחמישים בודקים עד סוף החודש."
+      },
+      "coding": {
+        "app": "עורך קוד",
+        "context": "שאל את הסוכן",
+        "said": "כפתור ההתחברות לא עובד במובייל אתה יכול לבדוק למה ולתקן את זה",
+        "text": "כפתור ההתחברות לא עובד במובייל. אתה יכול לבדוק למה ולתקן את זה?"
+      }
+    },
+    "tryNow": "נסה עכשיו",
+    "later": "אולי אחר כך",
+    "close": "סגור",
+    "noBar": "סרגל ההכתבה לא פועל, לכן אין רמז להציג. עדיין אפשר לנסות: פתח את האפליקציה והחזק את הקיצור שלך.",
+    "banner": {
+      "title": "השתמש בזה באפליקציות שלך",
+      "body": "{{hint}}. {{how}}",
+      "again": "הצג שוב את הרמז",
+      "stop": "הסתר את הרמז",
+      "other": "נסה משהו אחר",
+      "active": "הרמז מוצג על המסך. הקש Esc כדי לסגור אותו."
+    }
+  },
+  "checklist": {
+    "title": "תחילת העבודה",
+    "label": "רשימת משימות להגדרה",
+    "progress": "{{done}} מתוך {{total}} הושלמו",
+    "hide": "הסתר את הרשימה",
+    "done": "הושלם",
+    "next": "הבא",
+    "allDone": "הכול מוכן. אתה מכיר את היסודות.",
+    "items": {
+      "try_in_app": {
+        "title": "נסה באפליקציה אחרת",
+        "action": "הראה לי"
+      },
+      "add_word": {
+        "title": "הוסף מילה",
+        "action": "הראה לי",
+        "coachTitle": "הוסף את המילה הראשונה שלך",
+        "coachBody": "שמות, מונחי מוצר וז׳רגון שאתה אומר הרבה. הם ייכתבו כמו שאתה כותב אותם."
+      },
+      "create_snippet": {
+        "title": "צור קטע טקסט",
+        "action": "קטע טקסט חדש",
+        "coachTitle": "צור את קטע הטקסט הראשון שלך",
+        "coachBody": "אמור צירוף קצר וקבל טקסט ארוך יותר: הכתובת שלך, קישור, חתימה."
+      },
+      "launch_at_login": {
+        "title": "פתיחה בהתחברות",
+        "action": "הפעל",
+        "body": "{{appName}} מופעל עם ה-Mac, כך שהקיצור שלך תמיד עובד."
+      },
+      "try_transform": {
+        "title": "נסה המרה",
+        "action": "הראה לי",
+        "body": "בחר טקסט והקש קיצור: הוא נכתב מחדש במקום."
+      },
+      "try_whisper": {
+        "title": "נסה ללחוש",
+        "action": "הראה לי",
+        "body": "הכתב בשקט כשיש אנשים סביבך, ומצא את המיקרופון המתאים."
+      }
+    },
+    "coach": {
+      "close": "סגור",
+      "done": "הבנתי"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "סגור את השיעור",
+      "back": "חזרה",
+      "continue": "המשך",
+      "skip": "דלג",
+      "tryIt": "נסה בעצמך",
+      "tryItOut": "נסה את זה",
+      "howItWorks": "איך זה עובד",
+      "progress": "שלב {{step}} מתוך {{total}}",
+      "pause": "השהה את האנימציה",
+      "play": "הפעל את האנימציה",
+      "turnOnFailed": "ההפעלה לא הצליחה. נסה שוב, או השתמש במתג בעמוד שלו.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "המרות",
+      "help": "למד על המרות",
+      "intro": {
+        "title": "שהכתיבה שלך תגיד בדיוק את מה שאתה <em>מתכוון</em>",
+        "body": "בחר טקסט בכל אפליקציה והקש קיצור. ההמרה כותבת אותו מחדש במקום, ממש ב-Mac הזה.",
+        "continue": "נסה את זה"
+      },
+      "cards": {
+        "label": "אותו טקסט, בשלוש דרכים",
+        "original": {
+          "name": "מקור",
+          "text": "אז בעצם רציתי לבדוק אם אולי נוכל לדחות את הסקירה ליום חמישי כי המספרים לא מוכנים וגם סאם לא כאן"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "נוכל להעביר את הסקירה ליום חמישי? המספרים עדיין לא מוכנים, וסאם לא כאן."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "כתוב הודעה קצרה וידידותית שמבקשת להעביר את הסקירה ליום חמישי. סיבות: המספרים לא מוכנים וסאם לא כאן. עד שני משפטים."
+        }
+      },
+      "benefits": {
+        "label": "מה המרה יכולה לעשות",
+        "shorter": "אומרת את זה בפחות מילים",
+        "clearer": "מנסחת מחדש לבהירות",
+        "order": "מסדרת את הנקודות טוב יותר",
+        "structure": "מוסיפה כותרות ורשימות",
+        "tone": "שומרת על הטון שלך",
+        "anywhere": "עובדת בכל אפליקציה שבה אתה כותב"
+      },
+      "practice": {
+        "title": "<em>בחר</em> את הטקסט, ואז הקש <kbd>{{shortcut}}</kbd>",
+        "body": "בחר את ההודעה למטה (‎⌘A בוחר את כולה), ואז הקש את הקיצור של Polish.",
+        "doneTitle": "הטקסט <em>נכתב מחדש</em>",
+        "doneBody": "הקש <kbd>{{view}}</kbd> כדי לראות את השינויים. <kbd>{{undo}}</kbd> מבטל אותם.",
+        "app": "צ׳אט עם ג׳ורדן",
+        "context": "אנחנו עדיין קובעים לסקירה מחר?",
+        "fieldLabel": "התשובה שלך לג׳ורדן",
+        "draft": "היי אז אני חושב שכדאי כנראה להעביר את הסקירה ליום חמישי אם זה בסדר כי המספרים עוד לא ממש מוכנים ואני לא רוצה להראות דברים חצי גמורים",
+        "example": {
+          "polish": "נוכל להעביר את הסקירה ליום חמישי? המספרים עדיין לא מוכנים, ואני מעדיף לא להציג עבודה לא גמורה.",
+          "prompt": "כתוב תשובה קצרה ומנומסת שמבקשת להעביר את הסקירה של מחר ליום חמישי כי המספרים לא מוכנים. שמור על טון ידידותי ועל פחות משלושה משפטים."
+        },
+        "exampleNote": "הכתיבה מחדש עדיין לא מוכנה ב-Mac הזה, לכן מוצגת כאן דוגמה. כשהיא תהיה מוכנה, הקיצור שלך יכתוב מחדש את הטקסט שלך באותו אופן.",
+        "selectFirst": "בחר קודם חלק מההודעה, ואז הקש שוב {{shortcut}}.",
+        "working": "כותב מחדש…",
+        "spotlight": "אחרי כל המרה, הסרגל בתחתית המסך מציע \"הצג שינויים\". לחץ עליו או הקש {{view}}.",
+        "barLabel": "הסרגל",
+        "bar": {
+          "done": "סיום",
+          "view": "הצג שינויים"
+        },
+        "hideChanges": "הסתר את השינויים"
+      },
+      "how": {
+        "select": {
+          "title": "<em>בחר</em> טקסט בכל אפליקציה",
+          "body": "כתוב או הכתב כרגיל: דוא״ל, צ׳אט, מסמך. ואז בחר את מה שתרצה לכתוב מחדש.",
+          "scene": "אנימציה: טיוטת דוא״ל נבחרת."
+        },
+        "press": {
+          "title": "<em>הקש</em> <kbd>{{shortcut}}</kbd>",
+          "body": "Polish כותב מחדש את הבחירה במקום. Prompt Engineer‏ ({{prompt}}) הופך אותה להנחיה ברורה לעוזר AI.",
+          "scene": "אנימציה: מקישים {{shortcut}} והטיוטה מוחלפת בגרסה ברורה יותר."
+        },
+        "changes": {
+          "title": "ראה מה <em>השתנה</em>",
+          "body": "הקש {{view}} או לחץ על \"הצג שינויים\" בסרגל: מילים שהוסרו מסומנות בקו חוצה, מילים חדשות מודגשות. {{undo}} מחזיר את המקור.",
+          "scene": "אנימציה: כרטיס מציג את השינויים, מילים שהוסרו בקו חוצה ומילים חדשות מודגשות."
+        }
+      },
+      "scene": {
+        "app": "Mail: הודעה חדשה",
+        "draft": "היי לכולם רק עדכון קצר שההשקה זזה לשבוע הבא כי מצאנו באג בתהליך התשלום ואנחנו רוצים לתקן אותו קודם",
+        "polished": "היי לכולם, ההשקה זזה לשבוע הבא. מצאנו באג בתהליך התשלום ואנחנו רוצים לתקן אותו קודם."
+      },
+      "finish": {
+        "turnOn": "הפעל המרות",
+        "done": "סיום"
+      }
+    },
+    "whisper": {
+      "title": "הכתבה בשקט",
+      "help": "למד להכתיב בשקט",
+      "soft": {
+        "title": "קול <em>רך</em> מספיק",
+        "body": "אין צורך להרים את הקול. לחש, והמילים שלך עדיין יהפכו לטקסט נקי, כך שאפשר להכתיב במשרד פתוח, ברכבת או כשמישהו ישן בקרבת מקום.",
+        "app": "פתקים",
+        "spoken": "\"תזכיר לי לשלוח את המצגת לפני הצהריים ולהזמין חדר ליום שישי\"",
+        "text": "תזכיר לי לשלוח את המצגת לפני הצהריים ולהזמין חדר ליום שישי.",
+        "scene": "אנימציה: משפט לחוש מופיע כטקסט מוקלד: \"{{text}}\""
+      },
+      "how": {
+        "title": "איך <em>ללחוש</em> ל-Mac",
+        "body": "עם המיקרופון המובנה של ה-Mac, ארבעה הרגלים עוזרים לשמוע קול שקט בקלות.",
+        "distance": "כ-30 ס״מ (בערך אורך אמה) מהמיקרופון",
+        "tips": {
+          "distance": {
+            "title": "שב קרוב.",
+            "body": "שב מול ה-Mac במרחק של אורך אמה בערך. התקרבות קלה עוזרת יותר מדיבור בקול רם יותר."
+          },
+          "breath": {
+            "title": "לחש עם קצת אוויר.",
+            "body": "לא הלחישה החלשה ביותר: קצת יותר יציבה, כאילו אתה מדבר עם מישהו מעבר לשולחן קטן."
+          },
+          "pace": {
+            "title": "שמור על קצב קבוע.",
+            "body": "אמור כל מילה במלואה ואל תיתן לסופי המשפטים לדעוך."
+          },
+          "release": {
+            "title": "שחרר אחרון.",
+            "body": "שחרר את המקש רק אחרי המילה האחרונה, כדי שהיא תישמר."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>לחש</em> את הדוא״ל הזה",
+        "body": "זו הכתבה אמיתית. הטקסט נכנס רק להודעה למטה, ולשום מקום אחר.",
+        "doneTitle": "שמעתי אותך, גם <em>בלחישה</em>",
+        "doneBody": "זה כל מה שצריך. המשך כדי למצוא את המיקרופון שמתאים לך.",
+        "instruction": "החזק את {{key}}, לחש את הדוא״ל שלמטה, ואז שחרר.",
+        "unbound": "לא הוגדר קיצור להכתבה, לכן אי אפשר להתחיל הקלטה כאן. דלג על השלב הזה לעת עתה והגדר קיצור בהגדרות.",
+        "key": "fn",
+        "keyFallback": "Control ו-Option",
+        "sentenceLabel": "לחש:",
+        "sentence": "היי סאם, אני בחדר שקט, אז אני לוחש את הדוא״ל הזה. נוכל להעביר את השיחה שלנו לאחר הצהריים? תודה רבה.",
+        "app": "הודעה חדשה",
+        "context": "אל סאם, בנושא אחר הצהריים",
+        "fieldLabel": "הדוא״ל שלחשת",
+        "placeholder": "המילים שלחשת יופיעו כאן.",
+        "status": {
+          "idle": "ממתין שתחזיק את {{key}} ותלחש…",
+          "listening": "מאזין… שחרר את {{key}} כשתסיים.",
+          "working": "כותב…",
+          "nothing": "שום דבר לא נקלט. ודא שהמיקרופון פועל, ואז נסה שוב.",
+          "low": "{{percent}}% מהמילים נקלטו. נסה פעם נוספת:",
+          "passed": "{{percent}}% מהמילים נקלטו.",
+          "example": "זו דוגמה להקלטה בלחישה."
+        },
+        "exampleNote": "זיהוי הדיבור עדיין מוגדר ב-Mac הזה, לכן מוצגת כאן דוגמה. ההקלטה שלך נשמרת בהיסטוריה ותיכתב ברגע שההגדרה תסתיים.",
+        "tips": {
+          "title": "כמה דברים שעוזרים",
+          "closer": "התקרב מעט ל-Mac, למרחק של כ-30 ס״מ.",
+          "firmer": "לחש קצת יותר בתקיפות, עם יותר אוויר מאחורי המילים.",
+          "volume": "הגבר את עוצמת הקלט בהגדרות המערכת › צליל › קלט.",
+          "openSound": "פתח את הגדרות הצליל"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "מיקרופון מובנה",
+          "why": "הוא כבר שם; שב קרוב והוא יעשה את העבודה בבית."
+        },
+        "wired_headset": {
+          "name": "אוזניות חוטיות",
+          "why": "המיקרופון נמצא ממש ליד הפה, כך שגם לחישה רכה נקלטת, בכל מקום."
+        },
+        "wireless_earbuds": {
+          "name": "אוזניות אלחוטיות",
+          "why": "אין מה לחבר, והן הולכות איתך לכל מקום."
+        },
+        "desk_usb": {
+          "name": "מיקרופון שולחני או USB",
+          "why": "הצליל הצלול ביותר כשאתה עובד ליד שולחן אחד ויושב קרוב אליו."
+        }
+      },
+      "quiz": {
+        "more": "עוד על מיקרופונים",
+        "comfortable": {
+          "title": "בחר מיקרופון שנוח לך להשתמש בו",
+          "body": "כולם עובדים. בחר את זה שתשמח לחבוש או להשאיר על השולחן."
+        },
+        "workplace": {
+          "title": "איפה אתה עובד בדרך כלל?",
+          "body": "לחישה חשובה במיוחד כשיש אנשים בקרבת מקום.",
+          "private": {
+            "label": "במקום פרטי",
+            "hint": "משרד ביתי או חדר משלך"
+          },
+          "mixed": {
+            "label": "קצת מזה וקצת מזה",
+            "hint": "לפעמים לבד, לפעמים עם אנשים מסביב"
+          },
+          "shared": {
+            "label": "ליד אנשים אחרים",
+            "hint": "משרד פתוח, בית קפה, חדר משותף"
+          }
+        },
+        "moves": {
+          "title": "אתה עובר בין מקומות?",
+          "body": "אם כן, מיקרופון שנוסע איתך עוזר.",
+          "one_desk": {
+            "label": "אני נשאר ליד שולחן אחד",
+            "hint": "אותו סידור בכל יום"
+          },
+          "different_places": {
+            "label": "אני עובד במקומות שונים",
+            "hint": "בית, משרד, רכבות, בתי קפה"
+          }
+        },
+        "owned": {
+          "title": "אילו מיקרופונים יש לך?",
+          "body": "בחר את כל מה שיש לך. ל-Mac mini ול-Mac Studio אין מיקרופון משלהם.",
+          "continue": "הצג את ההתאמה שלי"
+        }
+      },
+      "results": {
+        "title": "המיקרופון <em>שמתאים</em> לך",
+        "body": "על סמך התשובות שלך. שום דבר לא נשמר או נשלח.",
+        "bestLine": "ההתאמה הטובה ביותר: {{mic}}.",
+        "caption": "איך כל סוג מיקרופון מתפקד",
+        "columns": {
+          "quality": "איכות המיקרופון",
+          "others": "לחישה ליד אחרים",
+          "home": "לחישה בבית",
+          "price": "מחיר",
+          "best": "ההתאמה הטובה ביותר"
+        },
+        "notBest": "לא ההתאמה הטובה ביותר",
+        "rating": {
+          "fair": "סביר",
+          "good": "טוב",
+          "great": "מצוין"
+        },
+        "price": {
+          "included": "מגיע עם רוב המחשבים הניידים",
+          "low": "נמוך",
+          "medium": "בינוני",
+          "owned": "יש לך"
+        },
+        "copy": {
+          "label": "העתק את התוצאות",
+          "heading": "{{appName}}: המיקרופון שמתאים לי",
+          "best": "ההתאמה הטובה ביותר: {{mic}}",
+          "unanswered": "לא נענה",
+          "noneOwned": "אין"
+        },
+        "copied": "הועתק",
+        "copyFailed": "לא ניתן להעתיק. בחר את הטבלה והעתק אותה בעצמך.",
+        "done": "סיום"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro משתמש עכשיו בסוג חדש יותר של מודל. הורד את הגרסה החדשה כדי להמשיך לתמלל. גרסאות ישנות יוסרו."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "כדי ש-Wispr Bro ישמע אותך. השמע הופך לטקסט ב-Mac הזה ולעולם לא מועלה."
+        },
+        "accessibility": {
+          "why": "כדי שהקיצור יעבוד בכל אפליקציה, ו-Wispr Bro יוכל להקליד את הטקסט במקום שבו נמצא הסמן."
+        },
+        "turnOnMac": "הפעל את Wispr Bro בהגדרות המערכת, ואז חזור לכאן.",
+        "relaunch": "הקיצור לא מגיב אחרי זה? <relaunch>הפעל מחדש את Wispr Bro</relaunch> ותחזור בדיוק לכאן."
+      },
+      "welcome": {
+        "noMatch": "אין שפה שתואמת ל-\"{{query}}\". המודלים של Wispr Bro תומכים בכ-100 שפות; שפות נוספות נמצאות בהגדרות.",
+        "chinese": {
+          "question": "אתה מדבר {{languages}}. באילו תווים Wispr Bro צריך לכתוב?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro מחכה בפינה כדי ללוות אותך"
+      },
+      "done": {
+        "subMac": "Wispr Bro נמצא עכשיו בשורת התפריטים. החזק או הקש על <keys/> בכל אפליקציה כדי לדבר.",
+        "subTray": "Wispr Bro נמצא עכשיו במגש המערכת. החזק או הקש על <keys/> בכל אפליקציה כדי לדבר.",
+        "atLogin": "הפעל את Wispr Bro כשאני מתחבר",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "קיצורי Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "השפות שאתה מדבר. Wispr Bro משתמש בהן כדי להמליץ על מודלים."
+        }
+      },
+      "models": {
+        "untestedNote": "לא נבדקו עם Wispr Bro. הם עשויים להיות איטיים יותר או לטעות יותר.",
+        "emptyYours": "עדיין אין מודלים. בחר אחד למטה: הוא יורד, ואז Wispr Bro משתמש בו.",
+        "deleteAskActive": "למחוק את {{name}}? Wispr Bro לא יוכל לתמלל עד שתבחר מודל אחר.",
+        "retiredNotice": {
+          "title": "מודלים ישנים כבר לא עובדים עם Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "סרוק שוב אחר מודלים שנוספו לתיקיית המודלים או למטמון של Hugging Face מחוץ ל-Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "הפעל את Wispr Bro אוטומטית כשאתה מתחבר ל-Mac."
+        },
+        "showTrayIcon": {
+          "description": "הצג את הסמל של Wispr Bro בשורת התפריטים."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "בדוק אוטומטית אם יש גרסאות חדשות של Wispr Bro",
+          "lockedDescription": "מושבת על ידי תצורת המערכת (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "בודק אם אירועי מקלדת מגיעים ל-Wispr Bro. נרשם רק מספר האירועים — אף פעם לא אילו מקשים הקשת.",
+          "verdictOk": "אירועי מקלדת מגיעים ל-Wispr Bro כרגיל."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "הגרסה הנוכחית של Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "הצג הערות גרסה אחרי ש-Wispr Bro מתעדכן"
+        },
+        "appDataDirectory": {
+          "description": "המיקום שבו Wispr Bro שומר את הנתונים שלו"
+        },
+        "supportDevelopment": {
+          "description": "עזור לנו להמשיך לפתח את Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "זיהוי הדיבור המקומי של Wispr Bro מבוסס על transcribe.cpp ו-ggml. תודה על העבודה המדהימה של Georgi Gerganov והתורמים."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "חדש ב-Wispr Bro גרסה {{version}}"
+    },
+    "appLanguage": {
+      "description": "שנה את השפה של ממשק Wispr Bro"
+    },
+    "theme": {
+      "description": "בחר אם Wispr Bro יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה"
+    }
+  }
+}

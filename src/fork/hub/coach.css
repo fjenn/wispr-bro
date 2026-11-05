@@ -1,0 +1,75 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* driver.js coach marks in the Hub palette (S-30), light and dark. */
+.driver-popover.wb-coach {
+  background: var(--wb-surface);
+  color: var(--wb-ink);
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-md);
+  box-shadow: var(--wb-elev-1);
+  padding: 16px 18px 14px;
+  max-width: 300px;
+  font-family: inherit;
+}
+.driver-popover.wb-coach .driver-popover-title {
+  font-family: var(--wb-font-display);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  padding-inline-end: 20px;
+}
+.driver-popover.wb-coach .driver-popover-description {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--wb-ink-2);
+}
+.driver-popover.wb-coach .driver-popover-footer {
+  margin-top: 12px;
+}
+.driver-popover.wb-coach .driver-popover-footer button {
+  background: var(--wb-ink);
+  color: var(--wb-on-ink);
+  border: none;
+  border-radius: var(--wb-radius-sm);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: none;
+  cursor: pointer;
+}
+.driver-popover.wb-coach .driver-popover-close-btn {
+  color: var(--wb-ink-2);
+}
+.driver-popover.wb-coach button:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 2px;
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-bottom {
+  border-bottom-color: var(--wb-surface);
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-top {
+  border-top-color: var(--wb-surface);
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-left {
+  border-left-color: var(--wb-surface);
+}
+.driver-popover.wb-coach .driver-popover-arrow-side-right {
+  border-right-color: var(--wb-surface);
+}
+
+/* S-30 chaining: the next checklist row is pointed at, not started. */
+.wb-checklist-row[data-highlight] {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 1px;
+  animation: wb-checklist-pulse 1.4s ease-in-out 3;
+}
+@keyframes wb-checklist-pulse {
+  50% {
+    outline-offset: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-checklist-row[data-highlight] {
+    animation: none;
+  }
+}

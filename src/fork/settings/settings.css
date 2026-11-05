@@ -1,0 +1,196 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * Settings modal (Design W3; REFERENCE-SPEC §1 "Settings", SYSTEM-PLAN §7).
+ *
+ * 1. The modal's entrance and the section crossfade (motion rules 1 and 3).
+ *    Reduce Motion collapses both through the global rule in `tokens.css`.
+ * 2. Handy's setting components hosted in a row card (`HandyRow`,
+ *    `data-handy-content`). Handy's files are not edited (R5 §4.2): its
+ *    utilities read colour tokens, so the tokens are retuned on the row, and
+ *    the few looks no token reaches (row padding, type, the switch's size
+ *    and ring, field shapes) are set here. Unlayered, so these rules outrank
+ *    Tailwind's `utilities` layer whatever their specificity.
+ */
+
+/* 1. Motion ------------------------------------------------------------ */
+
+/* The modal's spring-in and scrim: the shared `.wb-modal` in tokens.css. */
+.wb-settings-section {
+  animation: wb-settings-section var(--wb-dur-base) var(--wb-ease-out);
+}
+@keyframes wb-settings-section {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* 2. Handy's rows ------------------------------------------------------- */
+
+.wb-handy {
+  /* Handy's palette on this row: ink for "on" and primary fills, the
+     accent for focus, white fields on the tinted card. */
+  --color-background-ui: var(--wb-ink);
+  --color-logo-primary: var(--wb-accent);
+  --color-wash: var(--wb-surface);
+  --color-background: var(--wb-surface);
+  --color-line: var(--wb-line);
+  --color-line-strong: var(--wb-line-strong);
+  --color-text: var(--wb-ink);
+  --color-ink-2: var(--wb-ink-2);
+  --color-ink-3: var(--wb-ink-3);
+}
+.wb-handy-row {
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-sm);
+  background: var(--wb-surface-tint);
+  color: var(--wb-ink);
+}
+/* Each of Handy's setting containers is one row; a component that renders
+   several (the cleanup provider) stacks them with hairlines. Sizes are in
+   rem, as the fork's `SettingRow` (Tailwind's `min-h-16 px-5 py-4 gap-4`),
+   so both rows scale with the Hub's root font together. */
+.wb-handy-row > div,
+.wb-handy-row > label {
+  min-height: 4rem;
+  padding: 1rem 1.25rem;
+  gap: 1rem;
+}
+.wb-handy-row > * + * {
+  border-top: 1px solid var(--wb-line);
+}
+.wb-handy-row h3 {
+  font-size: 15px;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.wb-handy-row h3 + p,
+.wb-handy-row .max-w-2\/3 > p {
+  margin-top: 0.125rem;
+  font-size: 14px;
+  line-height: 1.25rem;
+  color: var(--wb-ink-2);
+}
+.wb-handy-row .max-w-2\/3 {
+  max-width: 60%;
+}
+
+/* Handy's switch (a hidden `peer` checkbox and a drawn track) drawn like
+   the fork's `Switch`: 40 × 24 (2.5 × 1.5 rem, so it scales with the fork's),
+   a 20 knob 2 in from the edge, ink when on, the line-strong edge colour
+   when off, a 2 pt purple ring on keyboard focus only. */
+.wb-handy label > input.peer[type="checkbox"] + div {
+  width: 2.5rem;
+  height: 1.5rem;
+  background: var(--wb-line-strong);
+  box-shadow: none;
+  transition: background-color var(--wb-dur-fast);
+}
+.wb-handy label > input.peer[type="checkbox"]:checked + div {
+  background: var(--wb-ink);
+}
+.wb-handy label > input.peer[type="checkbox"] + div::after {
+  top: 0.125rem;
+  inset-inline-start: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 0;
+  background: var(--wb-light-surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: translate var(--wb-dur-base) var(--wb-ease-out);
+}
+.wb-handy label > input.peer[type="checkbox"]:checked + div::after {
+  translate: 1rem 0;
+  background: var(--wb-on-ink);
+}
+[dir="rtl"] .wb-handy label > input.peer[type="checkbox"]:checked + div::after {
+  translate: -1rem 0;
+}
+.wb-handy label > input.peer[type="checkbox"]:focus-visible + div {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 2px;
+}
+
+/* Handy's dropdown button and menu: a field like the fork's `Select`. */
+.wb-handy button[aria-expanded] {
+  min-height: 36px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--wb-line-strong);
+  border-radius: var(--wb-radius-sm);
+  background: var(--wb-surface);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--wb-ink);
+}
+.wb-handy button[aria-expanded]:hover:not(:disabled) {
+  border-color: var(--wb-ink-3);
+  background: var(--wb-surface);
+}
+.wb-handy button[aria-expanded] svg {
+  color: var(--wb-ink-3);
+}
+.wb-handy button[aria-expanded] + div {
+  padding: 4px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-1);
+  animation: wb-pop-in var(--wb-dur-base) var(--wb-ease-out);
+}
+.wb-handy button[aria-expanded] + div > button {
+  border-radius: var(--wb-radius-sm);
+  padding: 8px 10px;
+  font-size: 14px;
+}
+.wb-handy button[aria-expanded] + div > button:hover:not(:disabled) {
+  background: var(--wb-fill-hover);
+}
+
+/* react-select (the language pickers): a field with the fork's radius. */
+.wb-handy .app-select__control {
+  min-height: 36px;
+  border-radius: var(--wb-radius-sm);
+  background: var(--wb-surface);
+  border-color: var(--wb-line-strong);
+}
+.wb-handy .app-select__control--is-focused {
+  border-color: var(--wb-accent);
+  box-shadow: 0 0 0 1px var(--wb-accent);
+}
+.wb-handy .app-select__menu {
+  border-radius: var(--wb-radius-md);
+  box-shadow: var(--wb-elev-1);
+  overflow: hidden;
+}
+
+/* Handy's text and number fields. */
+.wb-handy
+  input:not([type="checkbox"], [type="radio"], [type="range"]):not(
+    .app-select__input
+  ),
+.wb-handy textarea {
+  min-height: 36px;
+  border-radius: var(--wb-radius-sm);
+  border-color: var(--wb-line-strong);
+  background: var(--wb-surface);
+  font-weight: 400;
+  font-size: 14px;
+}
+.wb-handy :is(input, textarea):not(:disabled):hover {
+  background: var(--wb-surface);
+}
+
+/* Handy's buttons: radius 8; its primary is an ink fill, so its text takes
+   the on-ink colour (Handy writes `text-white`, wrong on dark ink). */
+.wb-handy button:not([aria-expanded]) {
+  border-radius: var(--wb-radius-sm);
+}
+.wb-handy button.bg-background-ui {
+  color: var(--wb-on-ink);
+}
+
+/* A Handy setting that renders nothing here (Linux-only rows) leaves no
+   empty card behind. */
+.wb-handy-row:empty {
+  display: none;
+}

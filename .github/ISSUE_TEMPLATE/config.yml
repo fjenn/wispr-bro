@@ -1,0 +1,7 @@
+# Wispr Bro (S-26b): blank issues stay on, so Help › Report a problem and
+# Send feedback can open a prefilled form (`issues/new?title=…&body=…`).
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/fjenn/wispr-bro/tree/wispr-bro/docs/fork/user
+    about: How Wispr Bro works, shortcuts, languages and privacy

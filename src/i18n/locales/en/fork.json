@@ -1,0 +1,3043 @@
+{
+  "debug": {
+    "title": "Fork debug panel",
+    "description": "Internal checks for the Wispr Bro layer. Shown only in debug builds or when the app was started with --debug.",
+    "close": "Close",
+    "runAgain": "Run again",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Model status",
+      "notReady": "Not ready yet: the app has not finished starting."
+    },
+    "lastEvent": {
+      "title": "Last ping event",
+      "none": "No event received yet."
+    },
+    "pending": "Waiting…",
+    "error": "Error: {{message}}",
+    "csp": {
+      "title": "Content Security Policy",
+      "description": "Plays an audio file through the asset protocol, loads data: and blob: images, calls a fork command and checks that a disallowed image is blocked.",
+      "run": "Run CSP check",
+      "running": "Running…",
+      "pass": "Passed: no unexpected CSP violation.",
+      "fail": "Failed: see the checks below.",
+      "ok": "ok ({{detail}})",
+      "failed": "failed ({{detail}})",
+      "noViolations": "No CSP violations recorded.",
+      "violations_one": "{{count}} CSP violation recorded.",
+      "violations_other": "{{count}} CSP violations recorded.",
+      "checks": {
+        "media": "Audio (asset protocol)",
+        "dataImage": "data: image",
+        "blobImage": "blob: image",
+        "forkCommand": "Fork command",
+        "probe": "Blocked source"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "permission": "macOS permission: {{state}}",
+      "kind": "Kind",
+      "delay": "Delay (s)",
+      "post": "Post sample",
+      "posted": "Posting in {{seconds}} s. Switch to another app to see a macOS notification."
+    },
+    "update": {
+      "title": "Updates",
+      "version": "Version",
+      "channel": "Channel",
+      "key": "Signing key",
+      "endpoints": "Update feeds",
+      "checksOff": "Update checks are off (Settings › Advanced, or a kill switch is set).",
+      "check": "Check now",
+      "checking": "Checking…",
+      "install": "Install {{version}} and relaunch",
+      "installing": "Downloading and verifying…",
+      "installed": "{{version}} installed. Relaunching…",
+      "available": "{{version}} is available.",
+      "upToDate": "Up to date.",
+      "failed": "Couldn't check: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "Fork settings",
+      "loading": "Loading settings…",
+      "loadError": "Could not read the settings: {{message}}",
+      "setError": "That change was not saved: {{message}}",
+      "contextAwareness": "Context awareness",
+      "contextAwarenessHint": "Uses names in the text near your cursor to spell them right. That text stays on this Mac and is never saved.",
+      "transforms": "Transforms",
+      "transformsHint": "⌥1 polishes selected text, ⌥2 turns it into a clearer AI prompt and ⌥O shows what the last transform changed. While enabled, those keys no longer type ¡, ™ and ø.",
+      "transformsSafeShortcuts": "Use ⌃⌥1 and ⌃⌥2 instead",
+      "transformsSafeShortcutsHint": "Keeps ¡ and ™ available with ⌥1 and ⌥2.",
+      "cleanupLevel": "Cleanup level",
+      "levels": {
+        "none": "None",
+        "light": "Light",
+        "medium": "Medium"
+      },
+      "all": "All settings"
+    },
+    "bar": {
+      "title": "Dictation bar",
+      "alwaysShow": "Always show the bar",
+      "alwaysShowHelp": "When off, the bar appears only while you dictate.",
+      "position": "Position",
+      "positions": {
+        "bottom": "Bottom of the screen",
+        "top": "Top of the screen"
+      },
+      "hideInRecordings": "Hide the bar in screen recordings",
+      "hideInRecordingsHelp": "Screenshots, screen recordings and screen sharing leave the bar out.",
+      "hiddenUntil": "Hidden until {{time}}",
+      "showNow": "Show it again",
+      "resetPositions": "Center the bar on every display"
+    },
+    "mic": {
+      "title": "Microphone",
+      "legend": "Microphone to use",
+      "loading": "Looking for microphones…",
+      "loadError": "Couldn't list the microphones: {{message}}",
+      "retry": "Try again",
+      "recommended": "{{name}} (recommended)",
+      "auto": "Auto-detect (system setting)",
+      "autoNow": "Now: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Wired or built-in mics work best; Bluetooth can drop out.",
+      "avoided": "Your Mac's sound input is set to {{name}}. Bluetooth mics can cut out, so dictation uses the built-in mic instead.",
+      "useAnyway": "Use {{name}} anyway",
+      "inUse": "Dictation listens with: {{name}}",
+      "chooseError": "Couldn't switch microphones: {{message}}",
+      "meter": {
+        "start": "Test microphone",
+        "stop": "Stop test",
+        "label": "Microphone level",
+        "value": "{{percent}} percent",
+        "off": "Not testing",
+        "hint": "Say something. The bars should move while you talk.",
+        "errors": {
+          "permission_denied": "Microphone access is off. Turn it on in System Settings › Privacy & Security › Microphone.",
+          "no_input_device": "No microphone found.",
+          "failed": "The microphone didn't start. Try another one."
+        }
+      },
+      "loadErrorPlain": "Couldn't list the microphones.",
+      "chooseErrorPlain": "Couldn't switch microphones."
+    },
+    "sound": {
+      "title": "Sounds",
+      "enabled": "Play a sound when dictation starts and stops",
+      "enabledHelp": "A short tone when the mic turns on and off.",
+      "theme": "Sound",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Custom"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} percent",
+      "preview": "Play",
+      "mute": "Mute all audio while dictating",
+      "muteHelp": "Music and videos go quiet while you talk, then return unchanged."
+    },
+    "recovery": {
+      "title": "Recovery shortcuts",
+      "description": "Get your last dictation back, or send it, without leaving the keyboard.",
+      "notSet": "Not set",
+      "current": "Shortcut: {{shortcut}}",
+      "listening": "Press a shortcut…",
+      "listeningHelp": "Press the keys or the mouse button you want. Esc cancels.",
+      "record": "Record",
+      "cancel": "Cancel",
+      "clear": "Clear",
+      "useDefault": "Use default",
+      "unusable": "This shortcut can't be used. Pick another one.",
+      "saveFailed": "Couldn't save the shortcut.",
+      "recordFailed": "Couldn't record a shortcut. Check that the app may use Accessibility.",
+      "pasteLast": {
+        "title": "Paste last dictation",
+        "help": "Pastes your last dictation again where you're typing."
+      },
+      "copyLast": {
+        "title": "Copy last dictation",
+        "help": "Puts your last dictation on the clipboard."
+      },
+      "pressEnter": {
+        "title": "Press Return",
+        "help": "Presses Return for you, for example to send a message you just dictated.",
+        "mouse": "A mouse button still does its usual click in the app under the pointer, so a side button (back or forward) works best."
+      },
+      "undoCancel": {
+        "title": "Undo a cancel",
+        "help": "Brings back a dictation you just canceled, while the bar shows Undo."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "Settings",
+    "close": "Close settings",
+    "navigation": "Settings sections",
+    "sections": {
+      "general": "General",
+      "system": "System",
+      "vibe": "Vibe coding",
+      "privacy": "Data and Privacy",
+      "advanced": "Advanced",
+      "about": "About",
+      "hotkeys": "Shortcuts"
+    },
+    "general": {
+      "shortcuts": "Shortcuts",
+      "change": "Change",
+      "microphone": "Microphone",
+      "languages": "My languages",
+      "appearance": "App language and theme",
+      "typingHint": "Used to work out how much time dictating saves you."
+    },
+    "system": {
+      "app": "App behavior",
+      "alwaysBar": "Always show the bar",
+      "showDock": "Show app in Dock",
+      "showDockHint": "Keep Wispr Bro in the Dock after its window closes.",
+      "sounds": "Sounds",
+      "notifications": "Notifications",
+      "notificationKinds": {
+        "system": "Mac notifications",
+        "modelReady": "Speech model ready",
+        "updateReady": "Update ready",
+        "queuedReady": "Queued dictations ready",
+        "suggestions": "Suggestions",
+        "announcements": "Feature announcements",
+        "milestones": "Milestones",
+        "shortcutProblems": "Shortcut problems"
+      },
+      "scratchpad": "Scratchpad",
+      "scratchpadLabel": "When Scratchpad opens",
+      "scratchpadHint": "Choose what the shortcut and bar button open.",
+      "scratchpadOptions": {
+        "resume_last": "Resume my last note",
+        "new_note": "Start a new note"
+      },
+      "notificationsHint": "Each switch covers that notice in Wispr Bro and on the Mac. “Mac notifications” turns off only the Mac banners. Crash and recovery notices always appear in Wispr Bro.",
+      "dockKeptForTray": "The menu bar icon is off, so the Dock icon stays. Turn on the menu bar icon to hide it.",
+      "trayKeptForDock": "The Dock icon is off, so the menu bar icon stays. Turn on Show app in Dock to hide it."
+    },
+    "vibe": {
+      "intro": "Wispr Bro reads the code names your editor shows and the file and folder names of your open project, on this Mac. It reads names only, never what is in your files.",
+      "contextOff": "Context awareness is off, so these features have nothing to read. Turn it on to use them.",
+      "recognize": "Recognize code names",
+      "recognizeHint": "Say a name your editor shows, like “get user by id”, and it is written the way your code spells it: getUserById.",
+      "setUp": "Set up",
+      "change": "Change editors",
+      "setUpFor": "Set up for {{editors}}",
+      "fileTags": "Tag files in chat",
+      "fileTagsHint": "In Cursor or Windsurf chat, saying “index dot ts” tags index.ts through the editor’s @ menu, for any file in your project. If the editor offers no match, @index.ts is written as text.",
+      "fileTagsNeedsChat": "Available after you add Cursor or Windsurf to your editors.",
+      "fileTagsNeedsSetup": "Available after you set up code name recognition.",
+      "setup": {
+        "title": "Set up code name recognition",
+        "stepEditors": "1. Choose the editors you use",
+        "stepScreenReader": "2. Turn on screen reader mode in each of them, so they share their text with Wispr Bro",
+        "openSettings": "Open the editor's settings with ⌘ comma.",
+        "search": "Search for \"accessibility support\".",
+        "setOn": "Set Editor: Accessibility Support to \"on\".",
+        "palette": "You can also run \"Toggle Screen Reader Accessibility Mode\" from the Command Palette (⇧⌘P).",
+        "confirm": "I turned on screen reader mode in these editors",
+        "cancel": "Cancel",
+        "finish": "Finish setup"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "Private by design",
+        "local": "Your dictation and data stay on this Mac.",
+        "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
+        "network": "What uses the network",
+        "networkIntro": "Wispr Bro uses the network only for these two things:",
+        "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
+        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+      },
+      "locations": {
+        "title": "Where your data lives",
+        "data": "App data and settings",
+        "models": "Downloaded models",
+        "recordings": "Recordings",
+        "logs": "Logs and crash reports",
+        "show": "Show in Finder",
+        "loading": "Locating…",
+        "failed": "Could not open that folder. Try again."
+      },
+      "retention": {
+        "title": "How long to keep History",
+        "textLabel": "Keep dictated text",
+        "textHint": "Older entries are removed automatically. Text is kept forever by default.",
+        "audioLabel": "Keep recordings",
+        "audioHint": "Audio expires after 14 days by default; the text stays.",
+        "options": {
+          "0": "Never keep audio",
+          "1": "1 day",
+          "7": "7 days",
+          "14": "14 days",
+          "30": "30 days",
+          "90": "90 days",
+          "365": "1 year",
+          "forever": "Forever"
+        }
+      },
+      "choices": {
+        "title": "Privacy choices",
+        "context": "Use context awareness",
+        "contextHint": "Reads nearby text while you dictate to spell names right. Never saved or logged.",
+        "updates": "Check for app updates",
+        "updatesHint": "Asks GitHub for new versions. Sends no dictation or personal data.",
+        "learn": "Learn from my corrections",
+        "learnHint": "Suggests Dictionary words from fixes you make after a dictation."
+      },
+      "export": {
+        "title": "Your data",
+        "hint": "A zip of your History, settings and recordings. Models and logs are not included.",
+        "button": "Export my data",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Zip archive",
+        "done": "Export saved and shown in Finder.",
+        "failed": "Could not export your data. Nothing was deleted."
+      },
+      "delete": {
+        "button": "Delete all my data",
+        "title": "Delete all your data?",
+        "warning": "This permanently deletes History, recordings, settings, logs, and crash reports. This cannot be undone.",
+        "relaunch": "Wispr Bro will stop its work, erase the data, and relaunch into onboarding.",
+        "models": "Also delete downloaded models",
+        "modelsHint": "Keep this off to avoid downloading speech and cleanup models again.",
+        "confirmLabel": "Type {{word}} to confirm",
+        "cancel": "Cancel",
+        "confirm": "Delete everything",
+        "failed": "Delete all did not finish. Check the remaining data before trying again.",
+        "short": "Erase History, recordings and settings. This can't be undone."
+      },
+      "diagnostics": {
+        "title": "Crash reports and diagnostics",
+        "hint": "Crash reports stay on this Mac. Share diagnostics only if you choose.",
+        "sanitized": "Removes dictated text, prompts, dictionary words, emails, keys and your home path.",
+        "copy": "Copy diagnostics",
+        "save": "Save diagnostics…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Sanitized diagnostics copied.",
+        "saved": "Sanitized diagnostics saved.",
+        "failed": "Could not prepare diagnostics. Try again.",
+        "rowTitle": "Share diagnostics"
+      }
+    },
+    "advanced": {
+      "output": "Text output",
+      "transcription": "Transcription",
+      "barAndOverlay": "Dictation bar and overlay",
+      "liveText": "Show live text in the bar",
+      "liveTextHint": "Display the recognized words while you speak.",
+      "keyboard": "Keyboard backend",
+      "prompts": "Cleanup provider and prompt editor",
+      "history": "History storage",
+      "updates": "Updates",
+      "updateChannel": "Update channel",
+      "updateChannelHint": "Beta builds may include unfinished changes.",
+      "updateChannels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
+      "storage": "Data and log locations",
+      "experimental": "Experimental and debug",
+      "debugMode": "Debug tools",
+      "debugModeHint": "Show diagnostic controls and verbose logging options.",
+      "forkDiagnostics": "Fork settings diagnostics",
+      "translateUnsupported": "{{model}} can't translate. Choose a model that can, such as Whisper or Canary, in Speech models.",
+      "translateNoModel": "Your speech model can't translate. Choose a model that can, such as Whisper or Canary, in Speech models."
+    },
+    "about": {
+      "tagline": "Local dictation, with no account and no cloud processing.",
+      "version": "Version {{version}}",
+      "source": "View source code",
+      "updates": "Update notes",
+      "updatesTitle": "Updates",
+      "license": "Free software under the GNU General Public License, version 3 (GPL-3.0).",
+      "licenseLink": "View license",
+      "credit": "Built on Handy by CJ Pais, used under the MIT License. Thank you to everyone who works on it.",
+      "creditLink": "Handy on GitHub",
+      "supportTitle": "Support development"
+    },
+    "hotkeys": {
+      "open": "Shortcuts",
+      "loading": "Loading shortcuts…",
+      "secureInputHelp": "Capture pauses while macOS Secure Input protects a password field.",
+      "count": "{{count}} of {{max}} set",
+      "notSet": "Not set",
+      "current": "Shortcut: {{shortcut}}",
+      "activationLabel": "Shortcut activation",
+      "activations": {
+        "hold": "Hold",
+        "double_tap": "Double-tap",
+        "press": "Press",
+        "toggle": "Toggle"
+      },
+      "add": "Add shortcut",
+      "edit": "Edit",
+      "delete": "Delete",
+      "reset": "Reset to defaults",
+      "resetting": "Resetting…",
+      "resetFailed": "Could not reset every shortcut. Try again.",
+      "done": "Done",
+      "saveFailed": "Could not save that shortcut.",
+      "conflict": "Also used by {{action}}. Choose a different shortcut.",
+      "invalid": "This shortcut is not recognized.",
+      "unsupported": "This combination can't be used as a shortcut for this action.",
+      "capture": {
+        "starting": "Starting shortcut capture…",
+        "listening": "Press a shortcut…",
+        "listeningHelp": "Press the key combination or mouse button to use. Esc cancels.",
+        "cancel": "Cancel",
+        "close": "Back",
+        "secure": "Shortcut capture is unavailable while Secure Input is active. Leave the password field or turn off Secure Keyboard Entry, then try again.",
+        "failed": "Could not start shortcut capture. Check Accessibility permission and try again."
+      },
+      "actions": {
+        "dictate": "Hold to talk",
+        "hands_free": "Hands-free dictation",
+        "cancel": "Cancel dictation",
+        "command_mode": "Command Mode",
+        "paste_last": "Paste last dictation",
+        "copy_last": "Copy last dictation",
+        "press_enter": "Press Return",
+        "undo_cancel": "Undo a cancel",
+        "transform.polish": "Polish selected text",
+        "transform.prompt_engineer": "Turn selected text into an AI prompt",
+        "transform.view_changes": "View transform changes",
+        "scratchpad.open": "Open Scratchpad"
+      },
+      "help": {
+        "dictate": "Hold the shortcut while you speak; release it to finish.",
+        "hands_free": "Start and stop dictation without holding a key.",
+        "cancel": "Stop the current dictation without inserting it.",
+        "command_mode": "Hold the shortcut while you say how to edit or write text.",
+        "paste_last": "Paste your most recent dictation again.",
+        "copy_last": "Copy your most recent dictation to the clipboard.",
+        "press_enter": "Press Return where you are typing. A mouse side button works well.",
+        "undo_cancel": "Restore a dictation just after you cancel it.",
+        "transform.polish": "Rewrite the selected text with Polish.",
+        "transform.prompt_engineer": "Rewrite the selected text as a clear AI prompt.",
+        "transform.view_changes": "Review the latest transform before and after.",
+        "scratchpad.open": "Resume your last note or start a new one."
+      },
+      "addFor": "Add a shortcut for {{action}}",
+      "descriptionLimits": "Most actions take up to {{max}} shortcuts. Hold to talk, cancel and Command Mode take one each, hands-free two. Changes are saved as you make them.",
+      "limit_one": "This action takes {{count}} shortcut.",
+      "limit_other": "This action takes up to {{count}} shortcuts.",
+      "appleDictation": {
+        "title": "Turn off Apple Dictation on fn twice",
+        "description": "Stops a double tap from also starting Apple's Dictation.",
+        "active": "Apple's Dictation still starts on fn twice. In Keyboard settings, set the Dictation shortcut to Off."
+      },
+      "key": {
+        "title": "Dictation key",
+        "hint": "Hold to talk. Double-tap for hands-free.",
+        "prompt": "Press the key or keys you want",
+        "save": "Save",
+        "invalid": "Use fn, two modifier keys such as ⌃ ⌥, or a modifier with a key such as ⌥ Space.",
+        "more": "More shortcuts"
+      }
+    },
+    "resetSetting": "Reset {{setting}}",
+    "intro": {
+      "general": "Your shortcut, microphone, languages and how the app looks.",
+      "system": "How Wispr Bro starts, sounds and notifies you.",
+      "privacy": "Everything stays on this Mac. Choose what is kept, and for how long.",
+      "advanced": "Fine-tuning for speech, cleanup, text output and updates."
+    },
+    "navGroups": {
+      "app": "App"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "Main"
+    },
+    "sidebar": {
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "suggested": "Suggested words: {{count}}"
+    },
+    "header": {
+      "toDark": "Switch to dark appearance",
+      "toLight": "Switch to light appearance"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "empty": {
+        "title": "Nothing new",
+        "body": "Updates and tips will show up here."
+      },
+      "bellUnread_one": "Notifications, {{count}} unread",
+      "bellUnread_other": "Notifications, {{count}} unread",
+      "filter": {
+        "label": "Show",
+        "all": "All",
+        "unread": "Unread"
+      },
+      "more": "More notification options",
+      "markAllRead": "Mark all as read",
+      "groups": {
+        "show": "Show in this list",
+        "mac": "On this Mac"
+      },
+      "toggles": {
+        "suggestions": "Suggestions",
+        "announcements": "Announcements",
+        "milestones": "Milestones",
+        "system": "Mac notifications"
+      },
+      "list": "Notifications",
+      "unreadDot": "Unread",
+      "emptyUnread": {
+        "title": "Nothing new",
+        "body": "You have read everything."
+      },
+      "loadFailed": "Notifications could not be loaded.",
+      "actionFailed": "That did not work. Try again.",
+      "copied": "Latest dictation copied",
+      "nothingToCopy": "No dictation to copy yet",
+      "justNow": "Just now"
+    },
+    "help": {
+      "title": "Help",
+      "updates": "Updates",
+      "whatsNew": "What's new",
+      "essentials": "Essentials",
+      "shortcuts": "Shortcuts",
+      "microphone": "Microphone",
+      "languages": "Languages",
+      "documentation": "Documentation",
+      "getInTouch": "Get in touch",
+      "reportProblem": "Report a problem…",
+      "sendFeedback": "Send feedback",
+      "report": {
+        "title": "Report a problem",
+        "body": "This opens a new issue on GitHub in your browser, with your app version and Mac model filled in. It never includes anything you dictated, and you can read and change everything before you send it.",
+        "diagnosticsTitle": "Diagnostics (optional)",
+        "diagnosticsBody": "Sanitized logs help find the cause. They never contain your dictations. Copy them here, then paste them into the issue.",
+        "copy": "Copy diagnostics",
+        "copied": "Diagnostics copied. Paste them into the issue.",
+        "copyFailed": "Couldn't copy diagnostics.",
+        "open": "Open GitHub",
+        "cancel": "Cancel",
+        "close": "Close"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Settings sections"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Dictation",
+        "banner": {
+          "title": "Talk instead of typing",
+          "body": "Hold fn in any app, say what you want to write and let go. {{appName}} puts clean text where your cursor is.",
+          "quiet": "Dictate quietly: show me how"
+        },
+        "empty": {
+          "title": "Your dictations will show up here"
+        }
+      },
+      "insights": {
+        "title": "Insights",
+        "empty": {
+          "title": "Insights need a few dictations",
+          "action": "Go to Dictation"
+        }
+      },
+      "dictionary": {
+        "title": "Dictionary"
+      },
+      "snippets": {
+        "title": "Snippets"
+      },
+      "style": {
+        "title": "Style"
+      },
+      "transforms": {
+        "title": "Transforms"
+      },
+      "scratchpad": {
+        "title": "Scratchpad"
+      },
+      "share": {
+        "title": "Share with a friend"
+      },
+      "settings": {
+        "title": "Settings"
+      }
+    },
+    "featurePopup": {
+      "label": "New in this version",
+      "dismiss": "Got it",
+      "open": "Show me"
+    },
+    "update": {
+      "off": "Update checks off",
+      "turnOn": "Turn on",
+      "notChecked": "Not checked yet",
+      "check": "Check for updates",
+      "checking": "Checking for updates…",
+      "upToDate": "Up to date",
+      "checkAgain": "Check again",
+      "checkFailed": "Couldn't check",
+      "retry": "Retry",
+      "downloading": "Downloading {{version}}…",
+      "ready": "Update ready",
+      "restartNow": "Restart now",
+      "installing": "Installing {{version}}…",
+      "installedWaiting": "{{version}} installed · restarts after this dictation",
+      "restarting": "Restarting…",
+      "installFailed": "Update didn't install",
+      "busy": "Finish dictating first.",
+      "actionFailed": "That didn't work. Try again later.",
+      "lastChecked": "Last checked {{time}}.",
+      "paused": "After three failed attempts, automatic updates are paused until {{time}}.",
+      "manualOnly": "This is a development build: updates are checked only when you ask.",
+      "readyHint": "It installs by itself once you haven't dictated for 20 minutes, or when you quit.",
+      "policy": "Updates download in the background and install once you haven't dictated for 20 minutes, or when you quit.",
+      "needsPassword": "This copy of the app sits in a folder that needs an administrator password to change, so updates install only when you choose Restart now."
+    },
+    "support": {
+      "nav": "Support {{appName}}",
+      "title": "Support {{appName}}",
+      "free": "Free and open source",
+      "sponsor": "Sponsor on GitHub",
+      "star": "Star on GitHub",
+      "contribute": "Contribute"
+    },
+    "notices": {
+      "more": "{{count}} more",
+      "nextLabel": "Next notice:"
+    },
+    "appleDictationNote": {
+      "body": "We turned off Apple Dictation's “Press fn twice” so your text isn't typed twice. Change it in Settings › Shortcuts."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "New!",
+      "beta": "Beta"
+    },
+    "banner": {
+      "dismiss": "Dismiss"
+    },
+    "importWizard": {
+      "stepsLabel": "Import steps",
+      "stepOf": "Step {{step}} of {{total}}: {{title}}",
+      "steps": {
+        "choose": "Choose a file",
+        "columns": "Match columns",
+        "review": "Review",
+        "done": "Done"
+      },
+      "dropHint": "Drop a .csv file here, or choose one.",
+      "browse": "Choose a .csv file",
+      "limit": "Up to 3 MB.",
+      "formatLink": "Accepted format",
+      "csvFilter": "CSV file",
+      "fileSummary_one": "{{name}}: {{count}} row",
+      "fileSummary_other": "{{name}}: {{count}} rows",
+      "hasHeader": "The first row holds column names",
+      "optional": "(optional)",
+      "noColumn": "Not in this file",
+      "column": "Column {{letter}}",
+      "columnNamed": "Column {{letter}}: {{name}}",
+      "mapRequired": "Choose a column for each required field.",
+      "previewCaption_one": "Preview of the first row",
+      "previewCaption_other": "Preview of the first {{count}} rows",
+      "rowHeader": "Row",
+      "cancel": "Cancel",
+      "back": "Back",
+      "next": "Next",
+      "import": "Import",
+      "done": "Done",
+      "close": "Close",
+      "errors": {
+        "notCsv": "That isn't a .csv file. Save the sheet as CSV and try again.",
+        "tooLarge": "That file is {{size}} MB. Files can be up to 3 MB.",
+        "unreadable": "That file couldn't be read. Check that it is a CSV file and try again.",
+        "empty": "That file has no rows to import.",
+        "failed": "Something went wrong. Nothing was imported; please try again."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Dictation",
+      "vocabulary": "Dictionary",
+      "help": "Help",
+      "file": "File",
+      "edit": "Edit",
+      "view": "View",
+      "window": "Window",
+      "wordsDictated_one": "{{count}} word dictated",
+      "wordsDictated_other": "{{count}} words dictated",
+      "copyLast": "Copy last dictation",
+      "copyLastPreview": "Copy last dictation: “{{preview}}”",
+      "copyLastConcealed": "Copy last dictation (text hidden)",
+      "microphone": "Microphone",
+      "languages": "Languages",
+      "moreLanguages": "Add or remove languages…",
+      "automaticMicrophone": "Auto-detect (system setting)",
+      "noMicrophones": "No microphones found",
+      "dictionaryWords_one": "{{count}} dictionary word",
+      "dictionaryWords_other": "{{count}} dictionary words",
+      "snippetCount_one": "{{count}} snippet",
+      "snippetCount_other": "{{count}} snippets",
+      "addWord": "Add word…",
+      "newSnippet": "New snippet…",
+      "documentation": "Documentation",
+      "showIntro": "Show the intro again",
+      "shortcuts": "Shortcuts",
+      "reportProblem": "Report a problem…",
+      "sendFeedback": "Send feedback…",
+      "openApp": "Open {{appName}}",
+      "checkUpdates": "Check for updates…",
+      "pasteLast": "Paste last dictation",
+      "cancelDictation": "Cancel dictation",
+      "shortcutsBlocked": "Shortcuts blocked — open Settings",
+      "undo": "Undo",
+      "redo": "Redo",
+      "cut": "Cut",
+      "copy": "Copy",
+      "paste": "Paste",
+      "selectAll": "Select All",
+      "minimize": "Minimize",
+      "zoom": "Zoom",
+      "closeWindow": "Close Window",
+      "fullScreen": "Enter Full Screen",
+      "services": "Services",
+      "hideOthers": "Hide Others",
+      "showAll": "Show All",
+      "about": "About {{appName}}",
+      "hide": "Hide {{appName}}",
+      "quitApp": "Quit {{appName}}",
+      "restartToUpdate": "Restart to update to {{version}}",
+      "updatesOff": "Update checks are off…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Shortcut stopped working"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Escape",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Delete",
+        "forwardDelete": "Forward Delete",
+        "left": "Left Arrow",
+        "right": "Right Arrow",
+        "up": "Up Arrow",
+        "down": "Down Arrow",
+        "home": "Home",
+        "end": "End",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "Left mouse button",
+        "mouseRight": "Right mouse button",
+        "mouseMiddle": "Middle mouse button",
+        "mouseBack": "Back mouse button",
+        "mouseForward": "Forward mouse button"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dictation is ready",
+        "body": "The speech model finished downloading. Hold fn in any app and start talking."
+      },
+      "updateReady": {
+        "title": "Update ready",
+        "body": "{{appName}} {{version}} installs the next time the app restarts."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictation ready",
+        "title_other": "{{count}} dictations ready",
+        "body": "What you said while the speech model was missing has been transcribed."
+      },
+      "shortcutProblem": {
+        "title": "Your shortcut is not working",
+        "body": "{{appName}} could not start listening for fn. Open Settings to check your shortcut.",
+        "bodyPermission": "{{appName}} needs Accessibility access to hear fn. Turn it on in System Settings."
+      },
+      "crashReport": {
+        "title": "{{appName}} quit unexpectedly",
+        "body": "A crash report was saved on this Mac. Nothing was sent anywhere."
+      },
+      "dataRecovered": {
+        "title": "Your history file was repaired",
+        "body": "It could not be read, so a new one was started. The damaged file was kept next to it."
+      },
+      "milestoneWords": {
+        "title_one": "{{count}} word dictated",
+        "title_other": "{{count}} words dictated",
+        "body_one": "That is {{count}} word you did not have to type. Nice going.",
+        "body_other": "That is {{count}} words you did not have to type. Nice going."
+      },
+      "milestoneStreak": {
+        "title_one": "{{count}}-day streak",
+        "title_other": "{{count}}-day streak",
+        "body_one": "You have dictated on {{count}} day in a row.",
+        "body_other": "You have dictated on {{count}} days in a row."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Talk without holding a key",
+          "body": "Double-tap fn, or press fn and Space, for hands-free mode. Press fn again when you are done."
+        },
+        "cancel": {
+          "title": "Changed your mind?",
+          "body": "Press Esc while you talk and the dictation is dropped. Nothing is pasted."
+        },
+        "history": {
+          "title": "Every dictation is kept",
+          "body": "Your dictations stay on this Mac. Open History to copy one again."
+        },
+        "darkMode": {
+          "title": "Light or dark",
+          "body": "The moon button at the top of this window switches the appearance."
+        },
+        "customWords": {
+          "title": "Teach it your words",
+          "body": "Add names and terms you use often so they are spelled right every time."
+        }
+      },
+      "slowerMac": {
+        "title": "Dictation may be slower on this Mac",
+        "body": "No speech model is quick enough for your languages on this Mac, so the fastest one is used. Text can take a moment longer to appear."
+      },
+      "features": {
+        "inbox": {
+          "title": "Your notifications live here",
+          "body": "Downloads, milestones and tips now collect behind the bell. Choose what you get in its menu."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Copy latest",
+        "open": "Open",
+        "openAccessibility": "Open Settings"
+      },
+      "takeRecovered": {
+        "title_one": "A recording was saved when the app quit",
+        "title_other": "{{count}} recordings were saved when the app quit",
+        "body_one": "You were still dictating when {{appName}} closed. The recording is being transcribed and will appear in History.",
+        "body_other": "You were still dictating when {{appName}} closed. The recordings are being transcribed and will appear in History."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "Scratchpad"
+    },
+    "pill": {
+      "name": "Dictation bar",
+      "hint": "Hold fn to dictate, or click to start",
+      "hideForAnHour": "Hide for an hour",
+      "slots": {
+        "dictate": {
+          "label": "Dictate",
+          "tooltip": "Hold fn to dictate"
+        },
+        "scratchpad": {
+          "label": "Scratchpad",
+          "tooltip": "Scratchpad"
+        }
+      },
+      "announce": {
+        "listening": "Listening",
+        "transcribing": "Transcribing",
+        "cleaningUp": "Cleaning up your text",
+        "cancelled": "Dictation canceled",
+        "silenceWarning": "No speech for a while. Dictation stops soon.",
+        "lengthWarning": "Dictation stops at 30 minutes.",
+        "settingUp": "Setting up dictation. Your words are saved.",
+        "card": "Your dictation is ready. Copy it from the bar.",
+        "micLostWarning": "The microphone disconnected. What you said so far is kept.",
+        "undo": "Undo is on the dictation bar for 4 seconds.",
+        "diff": "Transform changes are ready to review.",
+        "secureInputWarning": "Secure Input is on. fn and Space can't lock dictation. Esc or the close button still cancels.",
+        "inserted": "Text inserted",
+        "newWord": "New word: {{word}}. Add it from the dictation bar, or later in Dictionary."
+      },
+      "message": {
+        "no_speech": "No speech heard",
+        "mic_muted": "Only silence came in. Is the mic muted?",
+        "inserted_without_cleanup": "Inserted without cleanup",
+        "not_pasted": "Not pasted. Your text is in History.",
+        "transcription_failed": "Couldn't transcribe that",
+        "mic_denied": "Microphone access is off",
+        "no_microphone": "No microphone found",
+        "mic_failed": "The microphone didn't start",
+        "download_failed": "Couldn't download",
+        "check_connection": "Check your internet connection",
+        "no_space": "Not enough disk space to set up dictation",
+        "cancelled": "Canceled",
+        "no_transcript": "No dictation to paste yet",
+        "copied_last": "Last dictation copied",
+        "copied_to_clipboard": "Copied to clipboard",
+        "transform_done": "Done",
+        "command_done": "Done",
+        "command_needs_text": "Command Mode edits and writes text. Select text or click into a field.",
+        "select_text_first": "Select text first",
+        "selection_too_long": "Select 6,000 characters or fewer",
+        "transform_focus_moved": "You moved on, so nothing changed",
+        "transform_failed": "Couldn't transform that text",
+        "shortcut_lost": "Your shortcut stopped working",
+        "shortcut_stopped": "Your shortcut stopped responding",
+        "shortcut_back": "Your shortcut works again",
+        "transform_no_change": "Nothing to change",
+        "transform_not_applied": "Couldn't apply this transform",
+        "transform_getting_ready": "Transforms are getting ready. Try again in a minute."
+      },
+      "card": {
+        "no_text_field": "Click into a text field first",
+        "focus_moved": "You moved on, so nothing was pasted",
+        "secure_field": "Not typed into a password field",
+        "sleep": "Not pasted: your Mac went to sleep",
+        "screen_locked": "Not pasted: the screen was locked",
+        "session_inactive": "Not pasted: you switched users",
+        "paste_failed": "Couldn't paste this text",
+        "disk_full": "Disk full: recording stopped"
+      },
+      "word": {
+        "added": "Added to Dictionary",
+        "full": "Dictionary is full. The word stays in Suggested."
+      }
+    },
+    "share": {
+      "message": "{{appName}} is free dictation that runs entirely on your Mac. Get it here:"
+    },
+    "spotlight": {
+      "label": "Next step",
+      "hint": {
+        "ai_chat": "Open an AI chat, like ChatGPT or Claude",
+        "note": "Open your notes app",
+        "message": "Open a chat, like Messages or Slack",
+        "email": "Open your email",
+        "comment": "Open a post you want to comment on",
+        "document": "Open a document you are writing",
+        "coding": "Open Cursor, VS Code or another code editor"
+      },
+      "how": "Click where you want to write, then hold fn and speak.",
+      "howFallback": "Click where you want to write, then hold Control and Option and speak.",
+      "escape": "Press Esc to close this hint."
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro now uses a newer kind of model. Download the new version to keep transcribing. Old versions will be removed."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "So Wispr Bro can hear you. Audio is turned into text on this Mac and never uploaded."
+        },
+        "accessibility": {
+          "why": "So your shortcut works in every app, and Wispr Bro can type the text where your cursor is."
+        },
+        "turnOnMac": "Turn on Wispr Bro in System Settings, then come back here.",
+        "relaunch": "Shortcut not responding after this? <relaunch>Relaunch Wispr Bro</relaunch> and you'll land right back here."
+      },
+      "welcome": {
+        "noMatch": "No language matches “{{query}}”. Wispr Bro's models cover about 100 languages; more are in settings.",
+        "chinese": {
+          "question": "You speak {{languages}}. Which characters should Wispr Bro write?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro's in the corner to help walk you through it"
+      },
+      "done": {
+        "subMac": "Wispr Bro's in your menu bar now. Hold or tap <keys/> in any app to talk.",
+        "subTray": "Wispr Bro's in your system tray now. Hold or tap <keys/> in any app to talk.",
+        "atLogin": "Start Wispr Bro when I log in",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro shortcuts",
+          "bindings": {
+            "transcribe": {
+              "name": "Transcribe shortcut"
+            },
+            "cancel": {
+              "name": "Cancel shortcut"
+            },
+            "transcribe_with_post_process": {
+              "name": "Post-processing hotkey"
+            }
+          }
+        },
+        "preferredLanguages": {
+          "description": "The languages you speak. Wispr Bro uses them to recommend models.",
+          "title": "Preferred languages"
+        },
+        "shortcutActivation": {
+          "title": "Shortcut behavior"
+        }
+      },
+      "models": {
+        "untestedNote": "Not tested with Wispr Bro. They may be slower or make more mistakes.",
+        "emptyYours": "No models yet. Pick one below: it downloads, then Wispr Bro uses it.",
+        "deleteAskActive": "Delete {{name}}? Wispr Bro can’t transcribe until you pick another.",
+        "retiredNotice": {
+          "title": "Old models no longer work with Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Rescan for models added to the models folder or Hugging Face cache outside Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Automatically start Wispr Bro when you log in to your Mac.",
+          "label": "Launch on startup"
+        },
+        "showTrayIcon": {
+          "description": "Show the Wispr Bro icon in the menu bar.",
+          "label": "Show tray icon"
+        },
+        "experimentalToggle": {
+          "label": "Experimental features"
+        },
+        "lazyStreamClose": {
+          "label": "Keep mic open between transcriptions"
+        },
+        "acceleration": {
+          "transcribe": {
+            "title": "Hardware acceleration"
+          }
+        },
+        "startHidden": {
+          "label": "Start hidden"
+        },
+        "overlay": {
+          "position": {
+            "title": "Overlay position"
+          }
+        },
+        "pasteMethod": {
+          "title": "Paste method",
+          "options": {
+            "externalScript": "External script"
+          }
+        },
+        "typingTool": {
+          "title": "Typing tool",
+          "options": {
+            "auto": "Auto (recommended)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Clipboard handling",
+          "options": {
+            "dontModify": "Don't modify clipboard",
+            "copyToClipboard": "Copy to clipboard"
+          }
+        },
+        "autoSubmit": {
+          "title": "Auto submit"
+        },
+        "modelUnload": {
+          "title": "Unload model"
+        },
+        "customWords": {
+          "title": "Custom words"
+        },
+        "voiceActivityDetection": {
+          "title": "Voice activity detection"
+        },
+        "longFormChunking": {
+          "title": "Long audio chunking"
+        },
+        "languageDetection": {
+          "title": "Limit Auto to my languages"
+        },
+        "vadBackend": {
+          "title": "Voice activity backend"
+        },
+        "fillerWordRemoval": {
+          "title": "Remove filler words"
+        },
+        "chineseScript": {
+          "title": "Chinese script",
+          "options": {
+            "asTranscribed": "As transcribed"
+          }
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Automatically check for new versions of Wispr Bro",
+          "lockedDescription": "Disabled by system configuration (WISPRBRO_DISABLE_UPDATER)",
+          "label": "Check for updates"
+        },
+        "keyboardDiagnostic": {
+          "description": "Checks whether keyboard events reach Wispr Bro. Only event counts are recorded — never which keys you press.",
+          "verdictOk": "Key events are reaching Wispr Bro normally.",
+          "title": "Keyboard diagnostic"
+        },
+        "logDirectory": {
+          "title": "Log directory"
+        },
+        "logLevel": {
+          "title": "Log level"
+        },
+        "liveLogs": {
+          "title": "Live logs"
+        },
+        "whatsNewPreview": {
+          "title": "Preview what's new"
+        },
+        "onboardingPreview": {
+          "title": "Preview onboarding",
+          "exitButton": "Exit preview"
+        },
+        "onboardingRun": {
+          "title": "Run onboarding"
+        },
+        "modelMigration": {
+          "title": "Model migration"
+        },
+        "soundTheme": {
+          "label": "Sound theme"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Word correction threshold"
+        },
+        "historyLimit": {
+          "title": "History limit"
+        },
+        "recordingRetention": {
+          "title": "Auto-delete recordings"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Always-on microphone"
+        },
+        "clamshellMicrophone": {
+          "title": "Clamshell microphone"
+        },
+        "postProcessingToggle": {
+          "label": "Post processing"
+        },
+        "muteWhileRecording": {
+          "label": "Mute while recording"
+        },
+        "appendTrailingSpace": {
+          "label": "Append trailing space"
+        },
+        "keyboardImplementation": {
+          "title": "Keyboard implementation"
+        },
+        "pasteDelay": {
+          "title": "Paste delay (before)"
+        },
+        "pasteDelayAfter": {
+          "title": "Paste delay (after)"
+        },
+        "holdThreshold": {
+          "title": "Hold threshold"
+        },
+        "reliablePaste": {
+          "title": "Reliable paste (beta)"
+        },
+        "recordingBuffer": {
+          "title": "Extra recording buffer"
+        },
+        "languageDetectionWindow": {
+          "title": "Language detection audio"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Current version of Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Show release notes after Wispr Bro updates",
+          "label": "Show what's new"
+        },
+        "appDataDirectory": {
+          "description": "Location where Wispr Bro stores its data",
+          "title": "App data directory"
+        },
+        "supportDevelopment": {
+          "description": "Help us continue building Wispr Bro",
+          "title": "Support development"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
+          }
+        },
+        "sourceCode": {
+          "title": "Source code"
+        }
+      },
+      "sound": {
+        "channel": {
+          "title": "Input channel"
+        },
+        "audioFeedback": {
+          "label": "Audio feedback"
+        },
+        "outputDevice": {
+          "title": "Output device"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "apiFormat": {
+            "title": "API format",
+            "options": {
+              "openai": "OpenAI compatible (chat completions)",
+              "anthropic": "Anthropic messages"
+            }
+          },
+          "apiKey": {
+            "title": "API key"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Selected prompt"
+          },
+          "createNew": "Create new prompt",
+          "promptLabel": "Prompt label",
+          "promptInstructions": "Prompt instructions",
+          "updatePrompt": "Update prompt",
+          "deletePrompt": "Delete prompt",
+          "createPrompt": "Create prompt"
+        }
+      },
+      "history": {
+        "openFolder": "Open recordings folder",
+        "transcribeFile": "Transcribe file"
+      }
+    },
+    "whatsNew": {
+      "title": "New in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Change the language of the Wispr Bro interface",
+      "title": "Application language"
+    },
+    "theme": {
+      "description": "Choose whether Wispr Bro follows your system theme or stays light or dark",
+      "title": "Application theme"
+    },
+    "sidebar": {
+      "postProcessing": "Post process"
+    },
+    "modelSelector": {
+      "modelReady": "Model ready",
+      "modelError": "Model error",
+      "modelUnloaded": "Model unloaded",
+      "noModelDownloadRequired": "No model - download required"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Update checking disabled",
+      "portableUpdateBrowseButton": "Open GitHub releases"
+    },
+    "errors": {
+      "micPermissionDeniedTitle": "Microphone access denied",
+      "noInputDeviceTitle": "No microphone found",
+      "pasteFailedTitle": "Failed to paste text",
+      "transcriptionFailedTitle": "Transcription failed"
+    }
+  },
+  "speechModels": {
+    "title": "Speech models",
+    "intro": "{{appName}} picks the speech model for your languages and this Mac, and swaps in a better one when it can. You never have to choose.",
+    "loading": "Checking the speech models…",
+    "current": "In use: {{name}}",
+    "none": "No speech model yet",
+    "phase": {
+      "checking": "Checking which model suits this Mac…",
+      "settled": "This is the best model for your languages on this Mac.",
+      "downloading": "Downloading a better model in the background… {{percent}}%",
+      "downloadingNoPercent": "Downloading a better model in the background…",
+      "waiting_to_swap": "A better model is ready. It is swapped in when you are not dictating.",
+      "paused": "The better model could not be downloaded. It is tried again later."
+    },
+    "next": "Next: {{name}}",
+    "progressLabel": "Better speech model download",
+    "slower": "Dictation may be slower on this Mac: no model is quick enough for your languages here, so the fastest one is used.",
+    "pinned": "You chose this model yourself, so {{appName}} leaves it alone.",
+    "automatic": "Choose the model automatically",
+    "automaticHint": "Turned off when you pick a model in the list below.",
+    "languages": "For: {{languages}}",
+    "machine": "This Mac: {{chip}}, {{ram}} GB memory",
+    "freeDisk": "{{gb}} GB free for models",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel processor"
+    },
+    "list": "All models"
+  },
+  "aiEngine": {
+    "title": "AI engine",
+    "loading": "Checking the AI engine…",
+    "loadError": "Could not read the AI engine state: {{message}}",
+    "state": {
+      "unsupported": "Text cleanup with the local AI engine is not available on this Mac.",
+      "missing_runtime": "The AI engine is missing from this build.",
+      "waiting_for_speech_model": "The cleanup model downloads after the speech model.",
+      "downloading": "Downloading the cleanup model… {{percent}}%",
+      "verifying": "Checking the cleanup model…",
+      "ready": "Ready",
+      "download_failed": "Couldn't download the cleanup model."
+    },
+    "progressLabel": "Cleanup model download",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Engine idle: it starts when you dictate.",
+      "starting": "Engine starting…",
+      "ready": "Engine running",
+      "failed": "Engine failed to start; it will try again."
+    },
+    "cpuOnly": "running on the CPU",
+    "downloadError": "Error: {{message}}",
+    "retry": "Retry",
+    "try": {
+      "label": "Try it on a sentence",
+      "sample": "um so I was thinking we could uh meet on friday no wait thursday to go over the the budget",
+      "button": "Try it",
+      "running": "Cleaning…",
+      "notReady": "Available once the cleanup model is ready.",
+      "result": "Cleaned text",
+      "empty": "(nothing left after cleanup)",
+      "timing": "Cleaned in {{ms}} ms.",
+      "timingCold": "Cleaned in {{ms}} ms, after {{start}} ms to start the engine.",
+      "lowMemory": "Not enough free memory to start the AI engine right now. Close some apps and try again.",
+      "badReply": "The model's reply could not be used. Your text would be inserted without cleanup.",
+      "failed": "Cleanup failed: {{message}}",
+      "ranOnApple": "Ran on Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Ready on this Mac. Wispr Bro uses it when its own cleanup model can't run yet, for example while it downloads.",
+        "available_default": "Ready on this Mac. Wispr Bro cleans your dictations with it.",
+        "device_not_eligible": "This Mac can't run Apple Intelligence. Wispr Bro uses its own cleanup model.",
+        "not_enabled": "Apple Intelligence is off in System Settings. Wispr Bro uses its own cleanup model.",
+        "model_not_ready": "Apple Intelligence is still getting its model ready.",
+        "unsupported": "Apple Intelligence needs macOS 26 or later. Wispr Bro uses its own cleanup model.",
+        "unknown": "Apple Intelligence isn't available right now."
+      },
+      "counts": "Since the app started: requests {{requests}}, declined {{refusals}}, throttled {{rateLimited}}."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "Hello, {{name}}",
+      "anonymous": "Hello",
+      "edit": "Change the name in the greeting"
+    },
+    "nameEditor": {
+      "label": "Name in the greeting",
+      "field": "Your name",
+      "hint": "Shown only on this Mac.",
+      "save": "Save",
+      "useAccountName": "Use my Mac account name",
+      "clear": "Remove the name",
+      "saveFailed": "The name could not be saved. Try again."
+    },
+    "stats": {
+      "label": "Your stats",
+      "totalWords": "Total words",
+      "wordsPerMinute": "Words per minute",
+      "streak": "Day streak",
+      "notEnoughSpeech": "Not enough speech yet",
+      "unavailable": "Not available yet"
+    },
+    "voiceProfile": {
+      "title": "Your voice profile",
+      "unlocked": "Unlocked. See how you speak in Insights.",
+      "open": "Open Insights",
+      "progress_one": "{{current}} of {{goal}} word",
+      "progress_other": "{{current}} of {{goal}} words",
+      "locked_one": "Unlocks at {{goal}} word. Keep dictating to build it.",
+      "locked_other": "Unlocks at {{goal}} words. Keep dictating to build it."
+    },
+    "history": {
+      "title": "Your dictations are saved on this Mac",
+      "body": "Open History to copy, play or search them.",
+      "action": "Open history"
+    }
+  },
+  "dictionary": {
+    "add": "Add word",
+    "added": "Added “{{entry}}”.",
+    "search": "Search your dictionary",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} entry shown",
+    "shown_other": "{{count}} entries shown",
+    "deleted": "Deleted “{{entry}}”.",
+    "deleteFailed": "That entry couldn't be deleted. Please try again.",
+    "undo": "Undo",
+    "tabs": {
+      "label": "Dictionary entries",
+      "all": "All",
+      "mine": "Added by you",
+      "suggested": "Suggested"
+    },
+    "sort": {
+      "label": "Sort",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "az": "A to Z",
+      "za": "Z to A",
+      "used": "Most used"
+    },
+    "banner": {
+      "title": "{{appName}} spells it <em>your</em> way.",
+      "lead": "Add a word once, or fix it when it comes out wrong, so your <b>names, work terms and rare words</b> are spelled right every time.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Words to add",
+      "add": "Add new word"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "becomes",
+      "used_one": "Used {{count}} time",
+      "used_other": "Used {{count}} times",
+      "edit": "Edit {{entry}}",
+      "delete": "Delete {{entry}}",
+      "accept": "Add {{entry}} to your dictionary",
+      "reject": "Don't learn {{entry}}"
+    },
+    "source": {
+      "import": "Imported",
+      "migrated": "From your earlier custom words",
+      "learn": "Learned",
+      "flag": "From a flagged dictation"
+    },
+    "empty": {
+      "title": "Your dictionary is empty",
+      "body": "Add the names, words and replacements {{appName}} should know. They apply to your next dictation."
+    },
+    "emptySuggested": {
+      "title": "No suggestions yet",
+      "body": "When {{appName}} can learn from the words you correct, they will show up here for you to approve.",
+      "bodyOn": "Fix a misspelled name or term in the text box right after dictating, then press Return, Tab or move on. The word you fixed shows up here for you to approve."
+    },
+    "noMatch": {
+      "title": "Nothing matches",
+      "body": "No entry contains “{{query}}”.",
+      "action": "Clear the search"
+    },
+    "unavailable": {
+      "title": "The dictionary isn't available yet",
+      "body": "It opens as soon as the app has finished starting.",
+      "brokenTitle": "Your dictionary can't be opened",
+      "brokenBody": "{{appName}} can't read its data file right now. Quit and reopen the app. If it keeps happening, choose Help › Report a problem."
+    },
+    "problem": {
+      "empty": "Type a word first.",
+      "same_as_replacement": "The replacement is the same as the word.",
+      "control_character": "Line breaks and tabs can't be used here.",
+      "full": "Your dictionary is full. Delete some entries first.",
+      "too_long_one": "Words can be up to {{max}} character.",
+      "too_long_other": "Words can be up to {{max}} characters.",
+      "replacement_too_long_one": "Replacements can be up to {{maxReplacement}} character.",
+      "replacement_too_long_other": "Replacements can be up to {{maxReplacement}} characters."
+    },
+    "dialog": {
+      "addTitle": "Add to dictionary",
+      "editTitle": "Edit dictionary entry",
+      "description": "Words are spelled the way you write them here.",
+      "replaceToggle": "Replace a word",
+      "word": "Word or name",
+      "wordPlaceholder": "e.g. Siobhán",
+      "from": "When I say",
+      "fromPlaceholder": "e.g. gonna",
+      "to": "Write",
+      "toPlaceholder": "e.g. going to",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Helps the speech model hear and spell it right.",
+      "ruleHint": "Matches the whole word, whatever the capitalization, and writes the replacement exactly as typed.",
+      "cancel": "Cancel",
+      "add": "Add word",
+      "save": "Save",
+      "close": "Close",
+      "duplicate": "“{{entry}}” is already in your dictionary.",
+      "conflictRule": "“{{from}}” already becomes “{{to}}”.",
+      "conflictWord": "“{{word}}” is already in your dictionary with another spelling.",
+      "replaceExisting": "Replace it",
+      "missing": "This entry was deleted in the meantime.",
+      "failed": "That couldn't be saved. Please try again.",
+      "failedStorage": "Not saved: {{appName}} can't open its data file. Quit and reopen the app, then try again. If it keeps happening, choose Help › Report a problem.",
+      "failedStarting": "Not saved yet: {{appName}} is still starting. Try again in a moment."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Import dictionary",
+      "description": "Bring in words and replacements from a spreadsheet saved as CSV.",
+      "fieldPhrase": "Word, or what you say",
+      "fieldReplacement": "Replace with",
+      "format": {
+        "intro": "One entry per row:",
+        "columns": "The first column is a word or what you say; the second, if filled, is the text to write instead.",
+        "header": "A first row with column names is fine; you choose the columns in the next step.",
+        "limits": "Words up to 60 characters, replacements up to 200, files up to 3 MB.",
+        "encoding": "Save as CSV UTF-8 so accents and other scripts come through."
+      },
+      "review": {
+        "new_one": "new entry",
+        "new_other": "new entries",
+        "duplicates_one": "already there",
+        "duplicates_other": "already there",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicts",
+        "invalid_one": "can't be imported",
+        "invalid_other": "can't be imported",
+        "overLimit_one": "{{count}} new entry won't fit (room left in your dictionary: {{room}}).",
+        "overLimit_other": "{{count}} new entries won't fit (room left in your dictionary: {{room}}).",
+        "showNew": "Show the new entries",
+        "more_one": "and {{count}} more",
+        "more_other": "and {{count}} more",
+        "conflictsTitle": "Already in your dictionary, differently",
+        "conflictsHelp": "Tick the ones where the file's version should replace yours.",
+        "useAllFile": "Use the file's version for all",
+        "keepAllMine": "Keep all of mine",
+        "useFile": "Use the file's:",
+        "yours": "Yours:",
+        "showInvalid": "Show the rows that can't be imported",
+        "invalidRow": "Row {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} entry imported",
+        "title_other": "{{count}} entries imported",
+        "added_one": "{{count}} added",
+        "added_other": "{{count}} added",
+        "replaced_one": "{{count}} replaced with the file's version",
+        "replaced_other": "{{count}} replaced with the file's version",
+        "skipped_one": "{{count}} already there, skipped",
+        "skipped_other": "{{count}} already there, skipped",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflicts kept as they were",
+        "invalid_one": "{{count}} row couldn't be imported",
+        "invalid_other": "{{count}} rows couldn't be imported",
+        "overLimit_one": "{{count}} didn't fit (the dictionary is full)",
+        "overLimit_other": "{{count}} didn't fit (the dictionary is full)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} dictionary.csv",
+      "done_one": "Exported {{count}} entry.",
+      "done_other": "Exported {{count}} entries.",
+      "failed": "The dictionary couldn't be exported. Please try again."
+    },
+    "rejected": "“{{entry}}” won't be suggested again.",
+    "actionFailed": "That didn't work. Please try again.",
+    "learn": {
+      "toggle": "Learn from my corrections",
+      "hint": "For 30 seconds after a dictation is pasted, {{appName}} notices words you fix in that text box and suggests them here. Only the word you fixed is kept, never the rest of the text. Password fields, password managers, banking apps and terminals are never read."
+    },
+    "undoFailed": "“{{entry}}” couldn't be restored. Please add it again.",
+    "undoSkipped": "“{{entry}}” wasn't restored: your dictionary already has it.",
+    "addNew": "Add new"
+  },
+  "pill": {
+    "region": "Dictation bar",
+    "listening": "Listening",
+    "cancel": "Cancel dictation",
+    "finish": "Finish dictation",
+    "transcribing": "Transcribing…",
+    "cleaningUp": "Cleaning up…",
+    "contextUsed": "Nearby text helped with spelling",
+    "mic": "Mic: {{name}}",
+    "fix": "Fix",
+    "dismiss": "Dismiss",
+    "warning": {
+      "silence": "No speech for a while, stopping soon",
+      "length": "Stops at 30 minutes",
+      "mic_lost": "Mic lost, keeping what you said",
+      "secure_input": "Secure Input is on · fn+Space can't lock · Esc or ✕ cancels",
+      "secure_input_app": "{{app}} has Secure Input on · fn+Space can't lock · Esc or ✕ cancels"
+    },
+    "settingUp": "Setting up…",
+    "settingUpPercent": "Setting up… {{percent}}%",
+    "settingUpHint": "Your words are saved. The text shows up here when dictation is ready.",
+    "cardReady": "Your dictation",
+    "cardMore_one": "Your dictation · {{count}} more in History",
+    "cardMore_other": "Your dictation · {{count}} more in History",
+    "copy": "Copy",
+    "copied": "Copied",
+    "retry": "Retry",
+    "card": {
+      "hidden": "Hidden, because it was meant for a password field"
+    },
+    "undo": "Undo",
+    "viewChanges": "View changes",
+    "sendsAutomatically": "Sends automatically",
+    "shortcutDetail": {
+      "permission": "Accessibility access is off",
+      "stopped": "The keyboard listener stopped"
+    },
+    "word": {
+      "new": "New word",
+      "add": "Add",
+      "addLabel": "Add {{word}} to Dictionary",
+      "notNow": "Not now"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "Try it",
+      "howItWorks": "How it works",
+      "title": "Rewrite anything you select"
+    },
+    "enable": {
+      "title": "Opt in"
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "help": "Hold the shortcut and say what to write or change."
+    },
+    "auto": {
+      "title": "Auto apply after dictation",
+      "choice": "Transform to apply",
+      "none": "Choose a transform",
+      "description": "Each dictation goes through the transform you pick."
+    },
+    "shortcuts": {
+      "warning": "⌥1, ⌥2 and ⌥O replace the characters ¡, ™ and ø while Transforms are on.",
+      "safe": "Use ⌃⌥ instead"
+    },
+    "myTransforms": "My Transforms",
+    "reset": "Reset to defaults",
+    "resetConfirm": "Reset Polish and Prompt Engineer and remove every custom transform?",
+    "createNew": "Create new",
+    "deleteConfirm": "Delete {{name}}? This cannot be undone.",
+    "loading": "Loading your transforms…",
+    "error": "That transform change could not be saved. Try again.",
+    "card": {
+      "delete": "Delete {{name}}",
+      "createOwn": "Create your own",
+      "createOwnHint": "Describe what it should do"
+    },
+    "new": {
+      "name": "My transform"
+    },
+    "editor": {
+      "title": "Edit {{name}}",
+      "name": "Name",
+      "hotkey": "Shortcut",
+      "addHotkey": "Add shortcut",
+      "example": "Example",
+      "exampleInput": "Text to transform",
+      "exampleText": "um could you send me the report tomorrow maybe we can talk about it then",
+      "preview": "Preview",
+      "previewing": "Previewing…",
+      "rules": "Editing rules",
+      "autosave": {
+        "saved": "Autosave · All changes saved",
+        "saving": "Autosave · Saving…",
+        "error": "Autosave · Couldn't save the latest change"
+      },
+      "reset": "Reset",
+      "done": "Done",
+      "close": "Close editor",
+      "exactBadge": "Exact · no AI",
+      "outcome": {
+        "no_change": "Nothing to change in this text.",
+        "not_applied": "The local AI couldn't do this one. Try a shorter, more specific instruction.",
+        "failed": "The local AI's answer didn't pass its safety checks. Try again or reword the instruction.",
+        "timeout": "The local AI took too long. Try again.",
+        "no_engine": "The local AI isn't ready yet. Exact changes still work."
+      },
+      "instruction": "What should it do?",
+      "instructionPlaceholder": "For example: replace all “A” with 0, or make it friendlier",
+      "more": "More options"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Shorter"
+      },
+      "clearer": {
+        "title": "Clearer wording"
+      },
+      "better_order": {
+        "title": "Better order"
+      },
+      "headings_lists": {
+        "title": "Add headings and lists"
+      },
+      "keep_tone": {
+        "title": "Keep my tone"
+      }
+    },
+    "examples": {
+      "title": "Writing examples",
+      "fileType": "Text or Markdown",
+      "label": "Writing example {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Paste an example",
+      "load": "Load .txt or .md",
+      "remove": "Remove example {{number}}",
+      "readError": "Choose a .txt or .md file with no more than {{chars}} characters."
+    },
+    "diff": {
+      "changes_one": "{{count}} change",
+      "changes_other": "{{count}} changes",
+      "configure": "Configure",
+      "copy": "Copy",
+      "copied": "Copied",
+      "retry": "Retry",
+      "retrying": "Retrying…",
+      "feedback": "Rate this transform",
+      "good": "Good result",
+      "bad": "Poor result",
+      "simpleView": "Showing one replacement for this large or complex change.",
+      "actionFailed": "That action didn't work. Your text is still here; try again."
+    },
+    "findReplace": {
+      "title": "Find and replace",
+      "find": "Find, row {{number}}",
+      "replace": "Replace with, row {{number}}",
+      "findPlaceholder": "Find",
+      "replacePlaceholder": "Replace with",
+      "matchCase": "Match case",
+      "remove": "Remove row {{number}}",
+      "add": "Add a replacement"
+    },
+    "model": {
+      "downloading": "Getting transforms ready: one-time download, {{percent}}%",
+      "verifying": "Getting transforms ready: checking the download…",
+      "ready": "Transforms are ready",
+      "progressLabel": "Transforms download",
+      "failed": "Couldn't download what transforms need. Check your connection.",
+      "retry": "Try again"
+    },
+    "subtitle": "Select text in any app and press a shortcut to rewrite it.",
+    "settings": {
+      "title": "Transform settings"
+    },
+    "viewChanges": "to view changes",
+    "builtin": {
+      "polish": "Clearer and shorter",
+      "prompt_engineer": "Builds a clear prompt"
+    }
+  },
+  "cleanup": {
+    "title": "Cleanup",
+    "loading": "Loading the cleanup level…",
+    "loadError": "Could not read the cleanup level: {{message}}",
+    "setError": "That change was not saved: {{message}}",
+    "notice": "Inserted without cleanup",
+    "picker": {
+      "legend": "How much should your words be cleaned up?",
+      "recommended": "Recommended",
+      "aiChat": "In AI chat apps your words are inserted as you said them, without AI cleanup."
+    },
+    "levels": {
+      "none": {
+        "label": "None",
+        "description": "Exactly what you said, with only spacing and voice commands applied."
+      },
+      "light": {
+        "label": "Light",
+        "description": "Removes fillers like “um” and “you know”, fixes punctuation and capitals, and keeps your corrections: “at 2, actually 3” becomes “at 3”."
+      },
+      "medium": {
+        "label": "Medium",
+        "description": "Everything in Light, plus smoother grammar and wording. Your facts and meaning stay the same."
+      }
+    },
+    "last": {
+      "title": "Last dictation",
+      "none": "No dictation since the app started.",
+      "applied_one": "Cleaned in {{ms}} ms, {{count}} change.",
+      "applied_other": "Cleaned in {{ms}} ms, {{count}} changes.",
+      "checks": "Safety checks that stopped it: {{checks}}",
+      "partial_one": "Cleaned in part ({{applied}} of {{total}} paragraph); the rest is as spoken: {{reason}}",
+      "partial_other": "Cleaned in part ({{applied}} of {{total}} paragraphs); the rest is as spoken: {{reason}}"
+    },
+    "why": {
+      "level_none": "Cleanup is off.",
+      "empty": "Nothing to clean up.",
+      "already_clean": "Already clean, so the AI engine was not needed.",
+      "ai_chat": "AI chat app: inserted as you said it.",
+      "not_ready": "Inserted without cleanup: the cleanup model is not ready yet.",
+      "low_memory": "Inserted without cleanup: not enough free memory right now.",
+      "guard": "Inserted without cleanup: the cleaned text did not pass the safety checks.",
+      "timeout": "Inserted without cleanup: cleanup took too long.",
+      "error": "Inserted without cleanup: the AI engine had a problem."
+    },
+    "reason": {
+      "level_none": "cleanup is off",
+      "empty": "nothing to clean up",
+      "already_clean": "already clean",
+      "ai_chat": "AI chat app",
+      "not_ready": "the cleanup model is not ready yet",
+      "low_memory": "not enough free memory",
+      "guard": "it did not pass the safety checks",
+      "timeout": "cleanup took too long",
+      "error": "the AI engine had a problem"
+    }
+  },
+  "snippets": {
+    "add": "Add snippet",
+    "added": "Added “{{trigger}}”.",
+    "search": "Search your snippets",
+    "refresh": "Refresh",
+    "shown_one": "{{count}} snippet shown",
+    "shown_other": "{{count}} snippets shown",
+    "deleted": "Deleted “{{trigger}}”.",
+    "deleteFailed": "That snippet couldn't be deleted. Please try again.",
+    "undo": "Undo",
+    "counts": {
+      "snippets_one": "{{count}} snippet",
+      "snippets_other": "{{count}} snippets",
+      "uses_one": "used {{count}} time",
+      "uses_other": "used {{count}} times"
+    },
+    "sort": {
+      "label": "Sort",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "az": "A to Z",
+      "za": "Z to A",
+      "used": "Most used"
+    },
+    "banner": {
+      "title": "Stop typing the same thing <em>twice</em>.",
+      "lead": "Say a short cue and {{appName}} writes the full text.",
+      "examplesLabel": "Examples",
+      "cue1": "my address",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "my sign-off",
+      "text2": "Best wishes, Sam",
+      "cue3": "calendar link",
+      "text3": "Pick any time that suits you: cal.example.com/sam",
+      "add": "Add new snippet"
+    },
+    "entry": {
+      "becomes": "is written as",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} line",
+      "lines_other": "{{count}} lines",
+      "imported": "Imported",
+      "used_one": "Used {{count}} time",
+      "used_other": "Used {{count}} times",
+      "edit": "Edit {{trigger}}",
+      "delete": "Delete {{trigger}}"
+    },
+    "empty": {
+      "title": "No snippets yet",
+      "body": "Save an address, a sign-off or a link once. When you say its cue, {{appName}} writes it for you."
+    },
+    "noMatch": {
+      "title": "Nothing matches",
+      "body": "No snippet contains “{{query}}”.",
+      "action": "Clear the search"
+    },
+    "unavailable": {
+      "title": "Snippets aren't available yet",
+      "body": "They open as soon as the app has finished starting."
+    },
+    "problem": {
+      "empty_trigger": "Type what you will say first.",
+      "trigger_not_spoken": "What you say needs at least one letter or number.",
+      "trigger_control_character": "What you say has to fit on one line.",
+      "empty_body": "Type the text to write.",
+      "body_control_character": "The text contains a character that can't be written. Remove it and try again.",
+      "full": "Your snippet list is full. Delete some snippets first.",
+      "trigger_too_long_one": "What you say can be up to {{max}} character.",
+      "trigger_too_long_other": "What you say can be up to {{max}} characters.",
+      "body_too_long_one": "The text can be up to {{maxBody}} character.",
+      "body_too_long_other": "The text can be up to {{maxBody}} characters."
+    },
+    "dialog": {
+      "addTitle": "Add snippet",
+      "editTitle": "Edit snippet",
+      "description": "Say the cue and the saved text is written instead.",
+      "trigger": "When I say",
+      "triggerPlaceholder": "e.g. my address",
+      "body": "Write",
+      "bodyPlaceholder": "The text to write. Line breaks are kept.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Works on its own or inside a sentence, whatever the capitalization. Inside a sentence, any punctuation in what you say must match the dictated text exactly. The text is written exactly as saved.",
+      "cancel": "Cancel",
+      "add": "Add snippet",
+      "save": "Save",
+      "close": "Close",
+      "duplicate": "“{{trigger}}” is already saved with this text.",
+      "conflict": "“{{trigger}}” is already a snippet with another text.",
+      "replaceExisting": "Replace it",
+      "missing": "This snippet was deleted in the meantime.",
+      "failed": "That couldn't be saved. Please try again."
+    },
+    "import": {
+      "open": "Import",
+      "title": "Import snippets",
+      "description": "Bring in snippets from a spreadsheet saved as CSV.",
+      "fieldTrigger": "What you say",
+      "fieldBody": "Text to write",
+      "format": {
+        "intro": "One snippet per row:",
+        "columns": "The first column is what you say; the second is the text to write.",
+        "lines": "A text with line breaks goes in quotes, as spreadsheet apps save it.",
+        "encoding": "Save as CSV UTF-8 so accents and other scripts come through.",
+        "limits_one": "Up to {{max}} character for what you say and {{maxBody}} for the text; at most 1,000 rows and 3 MB per file.",
+        "limits_other": "Up to {{max}} characters for what you say and {{maxBody}} for the text; at most 1,000 rows and 3 MB per file."
+      },
+      "review": {
+        "new_one": "new snippet",
+        "new_other": "new snippets",
+        "duplicates_one": "already there",
+        "duplicates_other": "already there",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicts",
+        "invalid_one": "can't be imported",
+        "invalid_other": "can't be imported",
+        "overLimit_one": "{{count}} new snippet won't fit (room left: {{room}}).",
+        "overLimit_other": "{{count}} new snippets won't fit (room left: {{room}}).",
+        "ignoredRows_one": "Only the first 1,000 rows are read; {{count}} more row is left out.",
+        "ignoredRows_other": "Only the first 1,000 rows are read; {{count}} more rows are left out.",
+        "showNew": "Show the new snippets",
+        "more_one": "and {{count}} more",
+        "more_other": "and {{count}} more",
+        "conflictsTitle": "Already saved with another text",
+        "conflictsHelp": "Tick the ones where the file's text should replace yours.",
+        "useAllFile": "Use the file's text for all",
+        "keepAllMine": "Keep all of mine",
+        "useFile": "Use the file's:",
+        "yours": "Yours:",
+        "showInvalid": "Show the rows that can't be imported",
+        "invalidRow": "Row {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} snippet imported",
+        "title_other": "{{count}} snippets imported",
+        "added_one": "{{count}} added",
+        "added_other": "{{count}} added",
+        "replaced_one": "{{count}} replaced with the file's text",
+        "replaced_other": "{{count}} replaced with the file's text",
+        "skipped_one": "{{count}} already there, skipped",
+        "skipped_other": "{{count}} already there, skipped",
+        "kept_one": "{{count}} conflict kept as it was",
+        "kept_other": "{{count}} conflicts kept as they were",
+        "invalid_one": "{{count}} row couldn't be imported",
+        "invalid_other": "{{count}} rows couldn't be imported",
+        "overLimit_one": "{{count}} didn't fit (your snippet list is full)",
+        "overLimit_other": "{{count}} didn't fit (your snippet list is full)"
+      }
+    },
+    "export": {
+      "open": "Export",
+      "fileName": "{{appName}} snippets.csv",
+      "done_one": "Exported {{count}} snippet.",
+      "done_other": "Exported {{count}} snippets.",
+      "failed": "The snippets couldn't be exported. Please try again."
+    },
+    "undoFailed": "“{{trigger}}” couldn't be restored. Please add it again.",
+    "undoSkipped": "“{{trigger}}” wasn't restored: another snippet now uses that phrase.",
+    "addNew": "Add new",
+    "tabs": {
+      "all": "All"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Insights",
+      "usage": "Usage",
+      "voice": "Voice"
+    },
+    "asOf": "Your numbers as of {{date}}",
+    "unavailable": "Insights can't be read right now. They will appear in a moment.",
+    "save": {
+      "button": "Save as image",
+      "fileName": "{{appName}} insights {{date}}.png",
+      "filter": "PNG image",
+      "done": "Saved the image.",
+      "failed": "The image could not be saved. Try again."
+    },
+    "speed": {
+      "title": "Words per minute",
+      "notEnough": "Dictate a little more to see your speed.",
+      "measured": "{{ratio}}× your typing speed of {{typing}} wpm",
+      "average": "{{ratio}}× the speed of an average typist ({{typing}} wpm)",
+      "speaking": "Speaking",
+      "typing": "Your typing",
+      "typingAverage": "Average typing"
+    },
+    "words": {
+      "title": "Total words",
+      "dictations_one": "in {{count, number}} dictation",
+      "dictations_other": "in {{count, number}} dictations"
+    },
+    "fixes": {
+      "title": "Fixes made",
+      "dictionary": "Dictionary fixes",
+      "ai": "AI cleanup fixes"
+    },
+    "categories": {
+      "title": "Where you dictate",
+      "empty": "Dictate in a few apps to see where your words go.",
+      "words_one": "{{count, number}} word",
+      "words_other": "{{count, number}} words",
+      "documents": "Documents",
+      "ai_prompts": "AI prompts",
+      "email": "Email",
+      "work": "Work messages",
+      "personal": "Personal messages",
+      "other": "Everything else",
+      "used": "Categories used"
+    },
+    "heatmap": {
+      "title": "Your streak",
+      "current": "Current streak",
+      "longest": "Longest streak",
+      "days_one": "{{count, number}} day",
+      "days_other": "{{count, number}} days",
+      "active_one": "{{count, number}} day with dictation in the last year",
+      "active_other": "{{count, number}} days with dictation in the last year",
+      "day_one": "{{date}}: {{count, number}} word",
+      "day_other": "{{date}}: {{count, number}} words",
+      "less": "Less",
+      "more": "More",
+      "band0": "No words",
+      "band1": "1 to 249 words",
+      "band2": "250 to 499 words",
+      "band3": "500 to 749 words",
+      "band4": "750 words or more",
+      "streak_one": "{{count, number}}-day streak",
+      "streak_other": "{{count, number}}-day streak"
+    },
+    "voice": {
+      "locked": "Locked",
+      "phrase": "Your phrase",
+      "phraseIn_one": "In {{count, number}} dictation",
+      "phraseIn_other": "In {{count, number}} dictations",
+      "peak": "Peak time and app",
+      "peakApp": "Most words in {{app}}",
+      "word": "Most used word",
+      "uses_one": "Used {{count, number}} time",
+      "uses_other": "Used {{count, number}} times",
+      "corrected": "Most corrected word",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Fixed {{count, number}} time",
+      "fixed_other": "Fixed {{count, number}} times",
+      "notEnough": "Not enough dictations yet.",
+      "footnote_one": "Worked out on this Mac from your latest dictation. Nothing leaves your Mac.",
+      "footnote_other": "Worked out on this Mac from your latest {{count, number}} dictations. Nothing leaves your Mac.",
+      "sample": {
+        "phrase": "a phrase you say often",
+        "peak": "a time of day",
+        "word": "a favorite word",
+        "corrected": "a word that gets fixed"
+      },
+      "lockedTitle_one": "Your voice profile unlocks at {{goal}} word",
+      "lockedTitle_other": "Your voice profile unlocks at {{goal}} words",
+      "lockedBody_one": "Keep dictating: {{current}} of {{goal}} word so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you.",
+      "lockedBody_other": "Keep dictating: {{current}} of {{goal}} words so far. Then you will see the phrase you use most, when and where you dictate, and the words {{appName}} fixes for you."
+    },
+    "typing": {
+      "take": "Take the typing test",
+      "retake": "Retake typing test"
+    },
+    "saved": {
+      "title": "Time saved vs typing",
+      "basisMeasured": "{{speaking}} wpm speaking vs {{typing}} wpm typing",
+      "basisAverage": "{{speaking}} wpm speaking vs {{typing}} wpm average typing",
+      "basisEstimateMeasured": "About {{speaking}} wpm speaking vs {{typing}} wpm typing",
+      "basisEstimateAverage": "About {{speaking}} wpm speaking vs {{typing}} wpm average typing"
+    }
+  },
+  "history": {
+    "title": "History",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "rowLabel": "Dictation at {{time}}",
+    "loading": "Loading your dictations…",
+    "loadingMore": "Loading more…",
+    "unavailable": "History is not available yet. It appears as soon as the app has finished starting.",
+    "empty": {
+      "body": "Hold fn in any app and start talking. Every dictation is kept here, on this Mac."
+    },
+    "noResults": {
+      "title": "Nothing found",
+      "body": "No dictation contains “{{query}}”."
+    },
+    "results_one": "{{count}} dictation found",
+    "results_other": "{{count}} dictations found",
+    "resultsMore_one": "Showing {{count}} recent match. Scroll for more.",
+    "resultsMore_other": "Showing the {{count}} most recent matches. Scroll for more.",
+    "search": {
+      "open": "Search history",
+      "label": "Search your dictations",
+      "placeholder": "Search dictations",
+      "close": "Close search"
+    },
+    "transcribeFile": "Transcribe a file…",
+    "transcribeFailed": "That file could not be opened. Please try again.",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "failed": "Transcription failed. Choose Retry transcription in the ⋮ menu.",
+    "waitingForModel": "Waiting for speech model",
+    "notTranscribed": "Not transcribed yet.",
+    "job": {
+      "waiting": "Waiting to transcribe…",
+      "transcribing": "Transcribing…",
+      "percent": "Transcribing… {{percent}}%"
+    },
+    "tag": {
+      "file": "File",
+      "practice": "Practice",
+      "raw": "Before AI cleanup",
+      "flagged": "Flagged"
+    },
+    "actions": {
+      "play": "Play recording",
+      "hidePlayer": "Hide the player",
+      "copy": "Copy text",
+      "copied": "Copied",
+      "flag": "Wrong word? Fix it",
+      "more": "More actions"
+    },
+    "menu": {
+      "label": "Dictation actions",
+      "undoAi": "Undo AI edit",
+      "redoAi": "Redo AI edit",
+      "retry": "Retry transcription",
+      "retryAt": {
+        "none": "Retry without cleanup",
+        "light": "Retry with Light cleanup",
+        "medium": "Retry with Medium cleanup"
+      },
+      "saveAudio": "Save audio as…",
+      "delete": "Delete transcript"
+    },
+    "audio": {
+      "expired_one": "Audio removed after {{count}} day",
+      "expired_other": "Audio removed after {{count}} days",
+      "removed": "Audio removed",
+      "missing": "No recording for this dictation",
+      "filter": "WAV audio",
+      "saved": "Recording saved.",
+      "saveFailed": "The recording could not be saved. Please try again."
+    },
+    "copyFailed": "The text could not be copied. Please try again.",
+    "actionFailed": "That did not work. Please try again.",
+    "deleted": "Deleted",
+    "undo": "Undo",
+    "deleteFailed": "That dictation could not be deleted. Please try again.",
+    "undoFailed": "It is too late to bring that dictation back.",
+    "flag": {
+      "title": "Wrong word?",
+      "description": "Pick the word that came out wrong and type it the way it should be. Your dictionary fixes it from now on.",
+      "close": "Close",
+      "cancel": "Cancel",
+      "save": "Add to dictionary",
+      "pick": "Pick the wrong word (pick the next one too for a few words)",
+      "noWords": "This dictation has no words to pick.",
+      "correction": "Correct spelling",
+      "correctionFor": "Correct spelling of “{{word}}”",
+      "correctionPlaceholder": "Type it the way it should be",
+      "kindLabel": "What to add",
+      "rule": "Replace it every time",
+      "ruleHint": "Adds a replacement, so the same mistake is fixed in every dictation.",
+      "ruleHintFilled": "“{{from}}” becomes “{{to}}” in every dictation.",
+      "word": "Teach the spelling",
+      "wordHint": "Adds the word, so the app can spot it when you say it.",
+      "duplicate": "That is already in your dictionary.",
+      "failed": "That could not be saved. Please try again.",
+      "savedRule": "From now on “{{from}}” becomes “{{to}}”.",
+      "savedWord": "“{{word}}” is in your dictionary.",
+      "openDictionary": "Open Dictionary"
+    }
+  },
+  "scratchpad": {
+    "newNote": "New note",
+    "preferences": "Scratchpad preferences",
+    "hero": {
+      "title": "Room for loose thoughts",
+      "body": "Keep a list, draft a reply or talk an idea through. Every note saves itself."
+    },
+    "addToBar": "Add to the bar",
+    "addToBarHelp": "Keep a Scratchpad button beside Dictate on the resting bar.",
+    "recents": "Recents",
+    "searchLabel": "Search notes",
+    "searchPlaceholder": "Search your notes",
+    "loading": "Loading notes…",
+    "empty": "No notes yet",
+    "emptyHelp": "Start a note, then type or dictate into its floating window.",
+    "emptyNote": "Empty note",
+    "noResults": "No notes match your search.",
+    "untitled": "Untitled note",
+    "pinned": "Pinned",
+    "pin": "Pin note",
+    "unpin": "Unpin note",
+    "editAction": "Edit note",
+    "edit": "Edit {{name}}",
+    "delete": "Delete note",
+    "deleteConfirm": "Delete “{{name}}”? This cannot be undone.",
+    "error": "Scratchpad could not complete that action. Your current text is still here; try again.",
+    "shortcut": {
+      "label": "Open shortcut",
+      "change": "Set shortcut",
+      "title": "Scratchpad shortcut",
+      "help": "Open Scratchpad from anywhere. It starts unset, so it never intercepts a key until you choose one.",
+      "close": "Close shortcut dialog",
+      "proposed": "Suggested combination",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Use Control + Option + S",
+      "chooseAnother": "Choose a different shortcut",
+      "error": "That shortcut could not be saved. Try another combination."
+    },
+    "tabs": "Open notes",
+    "tools": "Note tools",
+    "sidebar": "Show note list",
+    "polish": "Polish note",
+    "polishing": "Polishing…",
+    "textSize": "Change text size (currently {{size}} points)",
+    "expand": "Expand note window",
+    "shrink": "Restore note window size",
+    "close": "Close Scratchpad",
+    "noteBody": "Note text",
+    "notePlaceholder": "Write or dictate a note…",
+    "saved": "Saved",
+    "saving": "Saving…",
+    "saveError": "Not saved yet",
+    "autosaveHelp": "Saves automatically",
+    "copy": "Copy",
+    "copied": "Copied",
+    "record": "Record",
+    "stop": "Stop",
+    "recordHint": "Dictate into this note ({{key}})",
+    "recordHintNoKey": "Dictate into this note",
+    "stopHint": "Stop dictating",
+    "gettingReady": "Getting ready…",
+    "polished": "Note polished",
+    "undo": "Undo",
+    "polishNoChange": "This note already reads well.",
+    "polishRefused": "Couldn't polish this note.",
+    "polishNotReady": "The AI model is still getting ready. Try again in a few minutes.",
+    "polishStale": "The note changed while polishing, so nothing was replaced.",
+    "dismiss": "Dismiss"
+  },
+  "style": {
+    "tabsLabel": "Style groups",
+    "groups": {
+      "personal": {
+        "tab": "Personal messages",
+        "label": "Personal messages",
+        "bannerTitle": "For chats with friends and family"
+      },
+      "work": {
+        "tab": "Work messages",
+        "label": "Work messages",
+        "bannerTitle": "For chats with colleagues"
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "bannerTitle": "For your email"
+      },
+      "other": {
+        "tab": "Other",
+        "label": "Other",
+        "bannerTitle": "For everything else"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formal",
+        "description": "Caps + punctuation"
+      },
+      "relaxed": {
+        "label": "Casual",
+        "description": "Caps + less punctuation"
+      },
+      "very_relaxed": {
+        "label": "Very casual",
+        "description": "No caps + less punctuation"
+      },
+      "upbeat": {
+        "label": "Upbeat",
+        "description": "Caps + a bit more energy"
+      }
+    },
+    "presetsHeading": "Style",
+    "presetsLegend": "Style for {{group}}",
+    "after": "What gets written:",
+    "englishOnly": "Styles apply to dictations in English. Cleanup works in every language.",
+    "apps": {
+      "heading": "Used in these apps",
+      "listLabel": "Apps that use the {{group}} style",
+      "addShort": "Add app",
+      "allOthers": "Every app that is not in another group uses this style too.",
+      "unavailable": "The apps could not be loaded. They will appear when the app is ready.",
+      "chipLabel": "{{app}}: options",
+      "menuLabel": "Options for {{app}}",
+      "moveTo": "Move to",
+      "useDefault": "Back to its usual group ({{group}})",
+      "remove": "Remove from {{group}}",
+      "autoSend": "Press Return after dictating",
+      "autoSendOn": "presses Return after dictating",
+      "notInstalled": "not installed",
+      "aiChat": "An AI chat: your words go in cleaned, without a style.",
+      "moved": "{{app}} now uses the {{group}} style.",
+      "removed": "{{app}} now uses the Other style.",
+      "added": "{{app}} now uses the {{group}} style.",
+      "undo": "Undo",
+      "changeFailed": "That change was not saved. Please try again."
+    },
+    "sites": {
+      "addShort": "Add website",
+      "recent": {
+        "heading": "Recently used websites",
+        "addLabel": "Add {{host}} to {{group}}"
+      },
+      "add": {
+        "title": "Add a website",
+        "description": "Pick the style for a website in your browser. It covers the whole site, subdomains included.",
+        "label": "Website",
+        "hint": "Type a domain like github.com, or paste an address.",
+        "invalid": "That doesn’t look like a website. Try a domain like example.com.",
+        "preview": "Adds {{host}} and its subdomains.",
+        "already": "{{host}} is in {{group}} now. Adding it here moves it.",
+        "same": "{{host}} already uses {{group}}.",
+        "covered": "{{host}} is part of {{parent}} ({{group}}). Adding it gives it its own style.",
+        "groupLabel": "Style",
+        "submit": "Add to {{group}}"
+      },
+      "builtinNote": "Many common websites already get the right style without being listed here."
+    },
+    "picker": {
+      "title": "Add an app to {{group}}",
+      "description": "Pick an app on this Mac. Its dictations will use the {{group}} style.",
+      "search": "Search apps",
+      "listLabel": "Apps on this Mac",
+      "loading": "Looking for apps…",
+      "failed": "The apps on this Mac could not be listed.",
+      "none": "No app matches.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Already here",
+      "cancel": "Cancel",
+      "close": "Close"
+    },
+    "cleanup": {
+      "tab": "Auto cleanup",
+      "description": "How much your words are tidied up, in every app and every language. The style of each group is applied on top.",
+      "bannerTitle": "Auto cleanup applies to every dictation",
+      "levels": {
+        "none": "Exactly what you said, mistakes included",
+        "light": "Takes out fillers and fixes punctuation",
+        "medium": "Smoother wording, same meaning"
+      },
+      "mediumNote": "With the built-in AI model, Medium often gives the same text as Light.",
+      "note": "Your original words are never lost: in History, open a dictation’s menu and choose “Undo AI edit”."
+    },
+    "addMenu": "Add an app or website"
+  },
+  "onboardingFlow": {
+    "loading": "Getting things ready…",
+    "back": "Back",
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "navigationFailed": "That step could not be saved. Try again.",
+    "stepper": {
+      "label": "Setup progress",
+      "welcome": "Welcome",
+      "permissions": "Permissions",
+      "setup": "Setup",
+      "practice": "Practice",
+      "done": "(done)",
+      "finish": "Finish"
+    },
+    "help": {
+      "chip": "Help",
+      "title": "Help with setup",
+      "close": "Close help",
+      "done": "Got it",
+      "body": "Each step takes a few seconds. You can go back at any time, and if you quit, setup picks up where you left off.",
+      "download": "Wispr Bro sets up speech recognition on this Mac while you go through these steps. Anything you dictate before it is ready is kept and typed out once it is."
+    },
+    "welcome": {
+      "title": "Talk, and your words appear",
+      "subtitle": "Hold one key, speak, let go. Clean text lands wherever you are typing.",
+      "privacyTitle": "Everything stays on this Mac",
+      "privacy": "No account, no cloud, no tracking.",
+      "start": "Get started",
+      "demoLabel": "Wispr Bro in action"
+    },
+    "move": {
+      "title": "Move Wispr Bro to Applications",
+      "body": "Updates and permissions work best from there. Wispr Bro reopens by itself and carries on.",
+      "action": "Move to Applications",
+      "moving": "Moving…",
+      "skip": "Not now",
+      "error": "Wispr Bro could not move itself. Drag it into Applications in Finder, then open it again."
+    },
+    "languages": {
+      "title": "Which languages do you speak?",
+      "subtitle": "Pick every language you dictate in.",
+      "listLabel": "Languages",
+      "noMatch": "No language matches “{{query}}”.",
+      "count_one": "Dictation works in {{count}} language. You can change yours later in Settings.",
+      "count_other": "Dictation works in {{count}} languages. You can change yours later in Settings.",
+      "weak_one": "Recognition is less accurate in {{languages}}. Dictating in it still works, but expect more mistakes.",
+      "weak_other": "Recognition is less accurate in {{languages}}. Dictating in them still works, but expect more mistakes."
+    },
+    "permissions": {
+      "title": "Two permissions",
+      "subtitle": "macOS asks you to allow these once. Each row ticks as soon as it is on.",
+      "allowed": "Allowed",
+      "waiting": "Waiting for macOS…",
+      "openSettings": "Open System Settings",
+      "prompt": "The macOS prompt",
+      "pane": "In System Settings",
+      "microphone": {
+        "title": "Microphone",
+        "why": "So Wispr Bro can hear you while you dictate.",
+        "action": "Allow microphone",
+        "promptAlt": "Picture of the macOS microphone prompt, with the Allow button highlighted",
+        "paneAlt": "Picture of System Settings, Privacy and Security, Microphone, with the switch for Wispr Bro turned on",
+        "waitingHelp": "Click Allow in the macOS prompt. If you do not see it, open System Settings and turn on Wispr Bro under Microphone."
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "why": "So Wispr Bro can see your shortcut and type for you.",
+        "action": "Allow Accessibility",
+        "promptAlt": "Picture of the macOS Accessibility prompt, with the Open System Settings button highlighted",
+        "paneAlt": "Picture of System Settings, Privacy and Security, Accessibility, with the switch for Wispr Bro turned on",
+        "waitingHelp": "In System Settings, turn on the switch next to Wispr Bro. You may need to unlock with your password."
+      }
+    },
+    "mic": {
+      "title": "Test your microphone",
+      "guidance": "Wired and built-in microphones work best. Bluetooth headsets can drop out or sound muffled.",
+      "question": "Do the bars move when you talk?",
+      "noHelp": "Choose another microphone below, then talk again.",
+      "change": "Change microphone",
+      "previewList": "Your microphones appear here."
+    },
+    "shortcut": {
+      "title": "Test your shortcut",
+      "instruction": "Press and hold the fn key (🌐) on your keyboard. The key below lights up while you hold it.",
+      "fallbackInstruction": "Press and hold Control and Option together. The keys below light up while you hold them.",
+      "unboundInstruction": "No dictation shortcut is set. Use Edit shortcut to choose one.",
+      "keyLabel": "The fn key",
+      "fallbackKeyLabel": "Control and Option",
+      "pressed": "Key held",
+      "notPressed": "Waiting for the key…",
+      "worked": "It works. The key lit up.",
+      "question": "Did the key light up?",
+      "edit": "Edit shortcut",
+      "tryAgain": "Try again",
+      "otherCauses": "Not it? Other possible causes:",
+      "changeFailed": "That change did not go through. Try again, or use System Settings.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro cannot see key presses",
+          "title": "Wispr Bro cannot see key presses yet",
+          "body": "This usually means Accessibility is not on for Wispr Bro. Turn it on in System Settings, then come back and press Try again.",
+          "action": "Open Accessibility settings"
+        },
+        "secure_input": {
+          "choice": "A password field or another app is blocking keys",
+          "title": "Another app is blocking key presses",
+          "body": "While a password field or some apps (password managers, Terminal's Secure Keyboard Entry) have focus, macOS hides key presses from every other app. Close or click away from it, then try again.",
+          "active": "Right now, another app is blocking key presses.",
+          "inactive": "Nothing is blocking key presses right now."
+        },
+        "globe": {
+          "choice": "The 🌐 key opens emoji or switches the keyboard",
+          "title": "macOS gives the 🌐 key its own job",
+          "body": "Your Mac opens emoji, switches input source or starts Apple dictation when you press 🌐. Wispr Bro can set “Press 🌐 key to” to Do Nothing. Your choice is put back if you stop using fn for dictation.",
+          "consent": "Set 🌐 to Do Nothing",
+          "changed": "🌐 now does nothing on its own",
+          "open": "Open Keyboard settings"
+        },
+        "no_fn": {
+          "choice": "My keyboard has no fn key",
+          "title": "Use Control and Option instead",
+          "body": "Some keyboards have no fn or 🌐 key. Hold Control and Option together to dictate instead. You can change this any time in Settings.",
+          "action": "Use Control + Option",
+          "changed": "Control + Option is your shortcut"
+        }
+      },
+      "customInstruction": "Press and hold {{keys}}. The keys below light up while you hold them."
+    },
+    "practice": {
+      "title": "Practice: a whole email, <em>hands-free</em>",
+      "instruction": "Press fn and Space together, then talk. Press fn again when you're done.",
+      "instructionFallback": "Press Control, Option and Space together, then talk. Press Control and Option again when you're done.",
+      "instructionUnbound": "No dictation shortcut is set, so this practice can't start. Skip it for now and set a shortcut in Settings.",
+      "skip": "Skip",
+      "waiting": "Waiting for you to start talking…",
+      "listening": "Listening… press fn when you're done.",
+      "listening_fallback": "Listening… press Control and Option when you're done.",
+      "working": "Writing it down…",
+      "queuedNote": "Your words are saved. They appear here as soon as setup finishes, and they are in History either way. We'll move on by ourselves in a moment.",
+      "nothing": "Nothing came through. Check that your microphone is on and try again.",
+      "filled": "That's your email. Add more, or continue.",
+      "composer": {
+        "title": "New message",
+        "to": "To",
+        "recipient": "Sam",
+        "subject": "Subject",
+        "body": "Message",
+        "trySaying": "Try saying: “{{text}}”",
+        "willAppear": "Your words will appear here as soon as the speech model is ready."
+      },
+      "instructionCustom": "Press {{keys}} twice quickly, then talk. Press {{keys}} again when you're done.",
+      "listening_custom": "Listening… press {{keys}} when you're done.",
+      "queued": "Saved. Waiting for the speech model…",
+      "model": {
+        "title": "Getting your speech model ready",
+        "checking": "Checking the download…",
+        "paused": "Download paused. Trying again in a moment…",
+        "failed": "Couldn't download the speech model",
+        "underMinute": "less than a minute left",
+        "minutesLeft_one": "about {{count}} minute left",
+        "minutesLeft_other": "about {{count}} minutes left",
+        "bytes": "{{done}} of {{total}} MB",
+        "progressLabel": "Speech model download",
+        "body": "This happens only once. You can keep going with the next steps; anything you dictate now waits and appears when it's ready.",
+        "retry": "Retry"
+      }
+    },
+    "firstDictation": {
+      "title": "That's it!",
+      "subtitle": "Anywhere you can type, you can now talk instead.",
+      "lead": "You just dictated your first text.",
+      "typingLabel": "Typing, on average",
+      "speakingLabel": "Speaking, on average",
+      "faster": "<n/>× <em>faster</em>",
+      "takeTest": "Take the typing test",
+      "retakeTest": "Retake the typing test",
+      "yourTypingLabel": "Your typing",
+      "youSpokeLabel": "You spoke at"
+    },
+    "timeSaved": {
+      "headline_one": "Dictating could save you about {{hours}} hour a week",
+      "headline_other": "Dictating could save you about {{hours}} hours a week",
+      "sliderLabel": "How many hours a week do you type?",
+      "basisMeasured_one": "Based on your typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
+      "basisMeasured_other": "Based on your typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
+      "basisAverage_one": "Based on an average typing speed of {{wpm}} word a minute and a speaking speed of about {{speaking}} words a minute.",
+      "basisAverage_other": "Based on an average typing speed of {{wpm}} words a minute and a speaking speed of about {{speaking}} words a minute.",
+      "lead": "Dictating could save you about",
+      "perWeek_one": "<n/> hour <em>a week</em>",
+      "perWeek_other": "<n/> hours <em>a week</em>",
+      "hoursPerWeek_one": "{{hours}} hour a week",
+      "hoursPerWeek_other": "{{hours}} hours a week",
+      "math": "{{typed}} h of typing at {{wpm}} wpm ≈ {{voice}} h by voice at {{speaking}} wpm"
+    },
+    "typing": {
+      "title": "How fast do you <em>type</em>?",
+      "skip": "Skip",
+      "language": "Language",
+      "wpm_one": "{{count}} word a minute",
+      "wpm_other": "{{count}} words a minute",
+      "inputLabel": "Type the paragraph here",
+      "nothing": "Nothing matched the paragraph. Try again.",
+      "result_one": "You type about {{count}} word a minute.",
+      "result_other": "You type about {{count}} words a minute.",
+      "tryAgain": "Try again",
+      "recalculate": "Recalculate",
+      "instruction_one": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} second.",
+      "instruction_other": "Type the paragraph below as you normally would. The clock starts with your first key and runs for {{seconds}} seconds.",
+      "wpmUnit_one": "word a minute",
+      "wpmUnit_other": "words a minute",
+      "secondsUnit_one": "second left",
+      "secondsUnit_other": "seconds left"
+    },
+    "summary": {
+      "title": "You're all set",
+      "subtitle": "Hold your shortcut in any app to dictate.",
+      "languages": "Languages",
+      "shortcut": "Shortcut",
+      "shortcutFn": "Hold fn (🌐)",
+      "shortcutFallback": "Hold Control and Option",
+      "microphone": "Microphone",
+      "micDefault": "The Mac's default microphone",
+      "typing": "Typing speed",
+      "typingWpm_one": "{{count}} word a minute",
+      "typingWpm_other": "{{count}} words a minute",
+      "typingSkipped": "Not measured",
+      "notSet": "Not set",
+      "launchAtLogin": "Open Wispr Bro when you log in",
+      "launchAtLoginHint": "So dictation is ready whenever you need it.",
+      "finish": "Start dictating"
+    }
+  },
+  "whatsNew": {
+    "title": "What's new in {{version}}",
+    "label": "Release notes for this version",
+    "close": "Close",
+    "done": "Got it"
+  },
+  "share": {
+    "heading": "Pass {{appName}} on",
+    "body": "{{appName}} is free and open source, and it runs entirely on the Mac. There is no referral code and nothing is tracked: the link is the same for everyone.",
+    "downloadLabel": "Download link",
+    "brewLabel": "Install with Homebrew",
+    "copyLink": "Copy download link",
+    "copyBrew": "Copy Homebrew command",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
+    "shareTitle": "Send it to someone",
+    "shareBody": "Messages, Mail, AirDrop and any other way your Mac can share.",
+    "shareButton": "Share…",
+    "shareFailed": "Couldn't open the share sheet."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Your dictation shortcut stopped working. Wispr Bro needs Accessibility access again.",
+      "stopped": "Your dictation shortcut stopped responding.",
+      "fix": "Fix"
+    },
+    "sheet": {
+      "title": "Fix your shortcut",
+      "introPermission": "macOS turned off Wispr Bro's Accessibility access, so it can't notice your shortcut. This can happen after an update or when the entry was changed in System Settings.",
+      "introStopped": "Wispr Bro's keyboard listener stopped. It restarts on its own as soon as macOS allows it.",
+      "pictureLabel": "System Settings, Privacy & Security, Accessibility: the Wispr Bro row with its switch turned on",
+      "pictureTitle": "Accessibility",
+      "pictureBack": "Privacy & Security",
+      "stepsTitle": "Turn it back on",
+      "step1": "Open System Settings › Privacy & Security › Accessibility.",
+      "step2": "Turn on Wispr Bro. If it is already on, turn it off and on again.",
+      "step3": "Come back here. The shortcut works again within a few seconds, without restarting.",
+      "resetTitle": "Still not working?",
+      "resetBody": "After an update, macOS can keep an old entry that no longer matches the app. Reset removes Wispr Bro's entry so you can allow it again.",
+      "resetStep1": "Choose Reset and re-grant.",
+      "resetStep2": "Allow Wispr Bro when macOS asks, or turn it on in the list that opens.",
+      "resetFailed": "Couldn't reset the entry. In the list, select Wispr Bro and remove it with the minus button, then add it again with the plus button.",
+      "openSettings": "Open Accessibility Settings",
+      "reset": "Reset and re-grant",
+      "checkAgain": "Check again",
+      "relaunch": "Relaunch to finish",
+      "close": "Close",
+      "status": {
+        "healthy": "Your shortcut works.",
+        "lost": "Not working yet",
+        "recovering": "Reconnecting…",
+        "needsRelaunch": "Access is back. Relaunch Wispr Bro to finish."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "What do you want to <em>try</em> first?",
+    "subtitle": "Pick one to see how it goes. Then try it in your own app.",
+    "choicesLabel": "Ways to start",
+    "choices": {
+      "ai_chat": "Ask an AI assistant",
+      "note": "Jot a note",
+      "message": "Reply to a message",
+      "email": "Write an email",
+      "comment": "Post a comment",
+      "document": "Draft a document",
+      "coding": "Prompt a coding tool"
+    },
+    "scene": {
+      "label": "Example: {{choice}}",
+      "said": "You say",
+      "written": "{{appName}} writes",
+      "pause": "Pause the example",
+      "play": "Play the example"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI chat",
+        "context": "What can I help with?",
+        "said": "um so can you explain how compound interest works like I'm new to this",
+        "text": "Can you explain how compound interest works, like I'm new to this?"
+      },
+      "note": {
+        "app": "Notes",
+        "context": "Monday",
+        "said": "note to self call the dentist and uh pick up the dry cleaning before six",
+        "text": "Note to self: call the dentist and pick up the dry cleaning before six."
+      },
+      "message": {
+        "app": "Messages",
+        "context": "Are we still on for lunch?",
+        "said": "yes for sure is twelve thirty okay for you",
+        "text": "Yes, for sure! Is 12:30 okay for you?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "To: Priya · Subject: Thursday",
+        "said": "hi Priya thanks for the notes I'll send the draft by Thursday morning",
+        "text": "Hi Priya, thanks for the notes. I'll send the draft by Thursday morning."
+      },
+      "comment": {
+        "app": "Social",
+        "context": "Our new office opens next week!",
+        "said": "congrats to the whole team this looks amazing",
+        "text": "Congrats to the whole team, this looks amazing!"
+      },
+      "document": {
+        "app": "Docs",
+        "context": "Project plan",
+        "said": "the goal of this phase is to um ship the beta to fifty testers by the end of the month",
+        "text": "The goal of this phase is to ship the beta to fifty testers by the end of the month."
+      },
+      "coding": {
+        "app": "Code editor",
+        "context": "Ask the agent",
+        "said": "the login button doesn't work on mobile can you find out why and fix it",
+        "text": "The login button doesn't work on mobile. Can you find out why and fix it?"
+      }
+    },
+    "tryNow": "Try it now",
+    "later": "Maybe later",
+    "close": "Close",
+    "noBar": "The dictation bar is not running, so there is no hint to show. You can still try it: open the app and hold your shortcut.",
+    "banner": {
+      "title": "Use it in your own apps",
+      "body": "{{hint}}. {{how}}",
+      "again": "Show the hint again",
+      "stop": "Hide the hint",
+      "other": "Try something else",
+      "active": "The hint is on your screen. Press Esc to close it."
+    }
+  },
+  "checklist": {
+    "title": "Get started",
+    "label": "Setup checklist",
+    "progress": "{{done}} of {{total}} done",
+    "hide": "Hide the checklist",
+    "done": "Done",
+    "next": "Next",
+    "allDone": "All set. You know the basics.",
+    "items": {
+      "try_in_app": {
+        "title": "Try it in another app",
+        "action": "Show me"
+      },
+      "add_word": {
+        "title": "Add a word",
+        "action": "Show me",
+        "coachTitle": "Add your first word",
+        "coachBody": "Names, product terms and jargon you say often. They come out spelled the way you spell them."
+      },
+      "create_snippet": {
+        "title": "Create a snippet",
+        "action": "New snippet",
+        "coachTitle": "Create your first snippet",
+        "coachBody": "Say a short phrase and get a longer text: your address, a link, a sign-off."
+      },
+      "launch_at_login": {
+        "title": "Open at login",
+        "action": "Turn on",
+        "body": "{{appName}} starts with your Mac, so your shortcut always works."
+      },
+      "try_transform": {
+        "title": "Try a Transform",
+        "action": "Show me",
+        "body": "Select text and press a shortcut: it is rewritten in place."
+      },
+      "try_whisper": {
+        "title": "Try whispering",
+        "action": "Show me",
+        "body": "Dictate quietly when other people are around, and find the right microphone."
+      }
+    },
+    "coach": {
+      "close": "Close",
+      "done": "Got it"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Close the lesson",
+      "back": "Back",
+      "continue": "Continue",
+      "skip": "Skip",
+      "tryIt": "Try it yourself",
+      "tryItOut": "Try it out",
+      "howItWorks": "How it works",
+      "progress": "Step {{step}} of {{total}}",
+      "pause": "Pause animation",
+      "play": "Play animation",
+      "turnOnFailed": "That did not turn on. Try again, or use the switch on its page.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "Transforms",
+      "help": "Learn Transforms",
+      "intro": {
+        "title": "Make your writing say it the way you <em>mean</em> it",
+        "body": "Select text in any app and press a shortcut. A transform rewrites it in place, right on this Mac.",
+        "continue": "Try it out"
+      },
+      "cards": {
+        "label": "The same text, three ways",
+        "original": {
+          "name": "Original",
+          "text": "so basically i wanted to check if we could maybe push the review to thursday because the numbers arent ready and also sam is away"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Could we move the review to Thursday? The numbers aren't ready yet, and Sam is away."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Write a short, friendly note asking to move the review to Thursday. Reasons: the numbers aren't ready and Sam is away. Keep it to two sentences."
+        }
+      },
+      "benefits": {
+        "label": "What a transform can do",
+        "shorter": "Says it in fewer words",
+        "clearer": "Rewords for clarity",
+        "order": "Puts points in a better order",
+        "structure": "Adds headings and lists",
+        "tone": "Keeps your tone",
+        "anywhere": "Works in any app you write in"
+      },
+      "practice": {
+        "title": "<em>Select</em> the text, then press <kbd>{{shortcut}}</kbd>",
+        "body": "Select the message below (⌘A selects all of it), then press the Polish shortcut.",
+        "doneTitle": "Text <em>rewritten</em>",
+        "doneBody": "Press <kbd>{{view}}</kbd> to view the changes. <kbd>{{undo}}</kbd> undoes it.",
+        "app": "Chat with Jordan",
+        "context": "Are we still on for the review tomorrow?",
+        "fieldLabel": "Your reply to Jordan",
+        "draft": "hey so i think we should probably move the review to thursday if thats ok because the numbers arent really ready yet and i dont want to show half finished stuff",
+        "example": {
+          "polish": "Could we move the review to Thursday? The numbers aren't ready yet, and I'd rather not show unfinished work.",
+          "prompt": "Write a short, polite reply asking to move tomorrow's review to Thursday because the numbers aren't ready. Keep it friendly and under three sentences."
+        },
+        "exampleNote": "Rewriting is not ready on this Mac yet, so this shows an example. Once it is, your shortcut rewrites your own text the same way.",
+        "selectFirst": "Select some of the message first, then press {{shortcut}} again.",
+        "working": "Rewriting…",
+        "spotlight": "After every transform, the bar at the bottom of your screen offers View changes. Click it or press {{view}}.",
+        "barLabel": "The bar",
+        "bar": {
+          "done": "Done",
+          "view": "View changes"
+        },
+        "hideChanges": "Hide the changes"
+      },
+      "how": {
+        "select": {
+          "title": "<em>Select</em> text in any app",
+          "body": "Write or dictate as usual: an email, a chat, a document. Then select what you want rewritten.",
+          "scene": "Animation: a draft email is selected."
+        },
+        "press": {
+          "title": "<em>Press</em> <kbd>{{shortcut}}</kbd>",
+          "body": "Polish rewrites the selection in place. Prompt Engineer ({{prompt}}) turns it into a clear prompt for an AI assistant.",
+          "scene": "Animation: {{shortcut}} is pressed and the draft is replaced with a clearer version."
+        },
+        "changes": {
+          "title": "See what <em>changed</em>",
+          "body": "Press {{view}} or click View changes on the bar: removed words are struck out, new ones highlighted. {{undo}} puts your original back.",
+          "scene": "Animation: a card lists the changes, removed words struck out and new words highlighted."
+        }
+      },
+      "scene": {
+        "app": "Mail: new message",
+        "draft": "hi all just a quick note that the launch is moving to next week because we found a bug in the payment flow and want to fix it first",
+        "polished": "Hi all, the launch is moving to next week. We found a bug in the payment flow and want to fix it first."
+      },
+      "finish": {
+        "turnOn": "Turn on Transforms",
+        "done": "Done"
+      }
+    },
+    "whisper": {
+      "title": "Dictate quietly",
+      "help": "Learn to dictate quietly",
+      "soft": {
+        "title": "A <em>soft</em> voice is enough",
+        "body": "You don't have to speak up. Whisper, and your words still turn into clean text, so you can dictate in an open office, on a train or while someone sleeps nearby.",
+        "app": "Notes",
+        "spoken": "“remind me to send the slides before lunch and book a room for friday”",
+        "text": "Remind me to send the slides before lunch and book a room for Friday.",
+        "scene": "Animation: a whispered sentence appears as typed text: “{{text}}”"
+      },
+      "how": {
+        "title": "How to <em>whisper</em> to your Mac",
+        "body": "With the microphone built into your Mac, four habits make a quiet voice easy to hear.",
+        "distance": "About 30 cm (a forearm's length) from the microphone",
+        "tips": {
+          "distance": {
+            "title": "Sit close.",
+            "body": "Face your Mac at about a forearm's length. Leaning in a little helps more than speaking louder."
+          },
+          "breath": {
+            "title": "Whisper with some breath.",
+            "body": "Not the faintest whisper: a little firmer, as if talking to someone across a small table."
+          },
+          "pace": {
+            "title": "Keep a steady pace.",
+            "body": "Say each word fully and don't let the ends of sentences fade away."
+          },
+          "release": {
+            "title": "Let go last.",
+            "body": "Release the key only after your last word, so it is kept."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>Whisper</em> this email",
+        "body": "This is a real dictation. The text goes only into the message below, nowhere else.",
+        "doneTitle": "Heard you, even in a <em>whisper</em>",
+        "doneBody": "That is all it takes. Continue to find the microphone that suits you.",
+        "instruction": "Hold {{key}}, whisper the email below, then let go.",
+        "unbound": "No dictation shortcut is set, so a take can't start here. Skip this step for now and set a shortcut in Settings.",
+        "key": "fn",
+        "keyFallback": "Control and Option",
+        "sentenceLabel": "Whisper:",
+        "sentence": "Hi Sam, I'm in a quiet room, so I'm whispering this email. Could we move our call to the afternoon? Thanks a lot.",
+        "app": "New message",
+        "context": "To Sam, about this afternoon",
+        "fieldLabel": "Your whispered email",
+        "placeholder": "Your whispered words appear here.",
+        "status": {
+          "idle": "Waiting for you to hold {{key}} and whisper…",
+          "listening": "Listening… let go of {{key}} when you're done.",
+          "working": "Writing it down…",
+          "nothing": "Nothing came through. Check that your microphone is on, then try again.",
+          "low": "{{percent}}% of the words came through. Try once more:",
+          "passed": "{{percent}}% of the words came through.",
+          "example": "This is an example of a whispered take."
+        },
+        "exampleNote": "Speech recognition is still being set up on this Mac, so this shows an example. Your own take is saved in History and is written down as soon as setup finishes.",
+        "tips": {
+          "title": "A few things help",
+          "closer": "Move a little closer to your Mac, about 30 cm away.",
+          "firmer": "Whisper a bit firmer, with more breath behind the words.",
+          "volume": "Raise the input volume in System Settings › Sound › Input.",
+          "openSound": "Open Sound settings"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "Built-in microphone",
+          "why": "It is already there; sit close and it does the job at home."
+        },
+        "wired_headset": {
+          "name": "Wired headset",
+          "why": "The mic sits right by your mouth, so even a soft whisper comes through, wherever you are."
+        },
+        "wireless_earbuds": {
+          "name": "Wireless earbuds",
+          "why": "Nothing to plug in and they go everywhere with you."
+        },
+        "desk_usb": {
+          "name": "Desk or USB mic",
+          "why": "The clearest sound when you work at one desk and sit close to it."
+        }
+      },
+      "quiz": {
+        "more": "More about microphones",
+        "comfortable": {
+          "title": "Pick a microphone you'd be comfortable using",
+          "body": "All of them work. Choose the one you'd happily wear or keep on your desk."
+        },
+        "workplace": {
+          "title": "Where do you usually work?",
+          "body": "Whispering matters most when people are close by.",
+          "private": {
+            "label": "Somewhere private",
+            "hint": "A home office or a room to yourself"
+          },
+          "mixed": {
+            "label": "A bit of both",
+            "hint": "Sometimes alone, sometimes with people around"
+          },
+          "shared": {
+            "label": "Around other people",
+            "hint": "An open office, a café, a shared room"
+          }
+        },
+        "moves": {
+          "title": "Do you move between places?",
+          "body": "A microphone that travels with you helps if you do.",
+          "one_desk": {
+            "label": "I stay at one desk",
+            "hint": "The same setup every day"
+          },
+          "different_places": {
+            "label": "I work in different places",
+            "hint": "Home, office, trains, cafés"
+          }
+        },
+        "owned": {
+          "title": "Which microphones do you have?",
+          "body": "Pick every one you have. A Mac mini or Mac Studio has no microphone of its own.",
+          "continue": "See my match"
+        }
+      },
+      "results": {
+        "title": "Your microphone <em>match</em>",
+        "body": "Based on your answers. Nothing is saved or sent anywhere.",
+        "bestLine": "Best match: {{mic}}.",
+        "caption": "How each kind of microphone does",
+        "columns": {
+          "quality": "Mic quality",
+          "others": "Whispering around others",
+          "home": "Whispering at home",
+          "price": "Price",
+          "best": "Best match"
+        },
+        "notBest": "Not the best match",
+        "rating": {
+          "fair": "Fair",
+          "good": "Good",
+          "great": "Great"
+        },
+        "price": {
+          "included": "Comes with most laptops",
+          "low": "Low",
+          "medium": "Medium",
+          "owned": "You have one"
+        },
+        "copy": {
+          "label": "Copy results",
+          "heading": "{{appName}}: my microphone match",
+          "best": "Best match: {{mic}}",
+          "unanswered": "not answered",
+          "noneOwned": "none"
+        },
+        "copied": "Copied",
+        "copyFailed": "Could not copy. Select the table and copy it instead.",
+        "done": "Done"
+      }
+    }
+  }
+}

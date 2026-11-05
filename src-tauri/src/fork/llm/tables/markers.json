@@ -1,0 +1,319 @@
+{
+  "_about": "Word tables for the cleanup gate and guards (S-12a, fork/llm/markers.rs). Our own data, GPL-3.0-or-later with the repository. `hesitations`: sounds that are never content (an input of only these may clean to nothing). `fillers`: exactly the owner's filler policy table (eval/cleanup/README.md, \"Discourse markers\"): discourse markers and lead-ins that Light removes when they carry no content; they are never required back by the content-word check, and non-English prompts name them. `repairs`: self-correction markers; up to three words before one may be dropped by a correct repair, so the guards do not require them back. `stopwords`: the eval scorer's short lists (scripts/wb-eval-cleanup.ts), used to pick content words. `openers`: replies that start like an assistant (\"Sure, …\"), rejected unless the input starts the same way. `assistant_markers`: text that marks a reply about the transcript rather than the transcript; the first eight are Muesli's (Qwen3PostProcessor.swift, MIT, docs/fork/PORTS.md), the rest are prompt-framing echoes. Phrases are lower-case and matched whole-word. `frames` (optional): sentence-opening frames that say nothing (\"what I wanted to say is\"), a lead-in under the owner's policy; a cleanup may drop them at the start of a sentence, never elsewhere. `alternatives` (optional): the word for \"or\"; a repair right after it (\"put it in the drive or actually email it\") may replace the whole clause back to the sentence start.",
+  "languages": {
+    "en": {
+      "hesitations": [
+        "um",
+        "umm",
+        "uh",
+        "uhh",
+        "uhm",
+        "er",
+        "erm",
+        "ah",
+        "hmm",
+        "hm",
+        "mm",
+        "mhm"
+      ],
+      "fillers": [
+        "yeah",
+        "yes",
+        "okay",
+        "ok",
+        "so",
+        "basically",
+        "like",
+        "right",
+        "you know",
+        "i mean",
+        "well",
+        "hmm",
+        "ah",
+        "oh",
+        "let me think",
+        "actually"
+      ],
+      "frames": [
+        "what i wanted to say is that",
+        "what i wanted to say is",
+        "what i want to say is that",
+        "what i want to say is",
+        "what i meant to say is",
+        "i just wanted to say that",
+        "i just wanted to say",
+        "i just wanted to let you know that",
+        "i just wanted to let you know"
+      ],
+      "alternatives": ["or"],
+      "repairs": [
+        "no wait",
+        "wait no",
+        "wait",
+        "actually",
+        "sorry",
+        "i mean",
+        "scratch that",
+        "make that",
+        "or rather",
+        "no sorry",
+        "no",
+        "correction",
+        "rather",
+        "i meant"
+      ],
+      "stopwords": "a an the and or but if so of to in on at by for with from as is am are was were be been being it its this that these those there here i me my we our us you your he him his she her they them their what which who whom whose when where why how do does did done have has had having can could will would shall should may might must not no yes just than then too very also about into over under again up down out off all any each both few more most other some such only own same s t don't can't won't i'm it's that's let's i'll we'll you're they're i've we're isn't aren't wasn't didn't doesn't",
+      "openers": [
+        "sure",
+        "certainly",
+        "of course",
+        "absolutely",
+        "here is",
+        "here's",
+        "here are",
+        "i'd be happy",
+        "i would be happy",
+        "i'd be glad",
+        "i can help",
+        "i'm sorry",
+        "i am sorry",
+        "as an ai",
+        "great question",
+        "the answer is",
+        "okay, here",
+        "assistant:",
+        "answer:",
+        "response:",
+        "note:"
+      ]
+    },
+    "nl": {
+      "hesitations": ["eh", "ehm", "uh", "uhm", "hm", "hmm", "euh"],
+      "fillers": ["nou", "dus", "eh", "ehm", "zeg maar", "ja"],
+      "frames": [
+        "wat ik wilde zeggen is dat",
+        "wat ik wilde zeggen is",
+        "wat ik wil zeggen is dat",
+        "wat ik wil zeggen is"
+      ],
+      "alternatives": ["of"],
+      "repairs": [
+        "nee wacht",
+        "wacht even",
+        "wacht",
+        "nee sorry",
+        "sorry",
+        "ik bedoel",
+        "of eigenlijk",
+        "eigenlijk",
+        "pardon",
+        "nee",
+        "of nee",
+        "beter gezegd"
+      ],
+      "stopwords": "de het een en of maar als van te in op aan voor met uit is zijn was waren ik mij wij we jij je hij zij ze wat wie wanneer waar hoe niet geen ja nee ook nog al heel dat dit heb hebt heeft hebben kan kun kunt kunnen om naar deze die er wel zo nu u uw hun mijn ons onze bij dan door over",
+      "openers": [
+        "zeker",
+        "natuurlijk",
+        "hier is",
+        "hier zijn",
+        "graag",
+        "het antwoord is"
+      ]
+    },
+    "fr": {
+      "hesitations": ["euh", "heu", "hum", "bah", "hein", "uh", "um"],
+      "fillers": [
+        "alors",
+        "bon",
+        "ben",
+        "enfin",
+        "du coup",
+        "genre",
+        "quoi",
+        "euh"
+      ],
+      "frames": [
+        "ce que je voulais dire c'est que",
+        "ce que je voulais dire c'est",
+        "ce que je veux dire c'est que",
+        "ce que je veux dire c'est"
+      ],
+      "alternatives": ["ou"],
+      "repairs": [
+        "non attends",
+        "attends",
+        "non pardon",
+        "pardon",
+        "enfin",
+        "je veux dire",
+        "ou plutôt",
+        "plutôt",
+        "en fait",
+        "désolé",
+        "non",
+        "je voulais dire"
+      ],
+      "stopwords": "le la les un une des et ou mais si de du au aux en dans sur pour avec par comme est sont était être je me moi nous tu te toi il elle ils elles que qui quoi quand où comment ne pas oui non aussi très ce cette ces son sa ses mon ma mes ai as a on j'ai c'est qu'on qu'il nous vous leur lui y à",
+      "openers": [
+        "bien sûr",
+        "certainement",
+        "voici",
+        "voilà",
+        "avec plaisir",
+        "la réponse est"
+      ]
+    },
+    "de": {
+      "hesitations": ["äh", "ähm", "öh", "hm", "hmm", "eh", "ehm", "uh", "um"],
+      "fillers": ["also", "halt", "naja", "ähm", "äh", "sozusagen", "quasi"],
+      "repairs": [
+        "nein warte",
+        "warte",
+        "nein",
+        "ich meine",
+        "sorry",
+        "eigentlich",
+        "besser gesagt",
+        "oder besser",
+        "entschuldigung",
+        "quatsch"
+      ],
+      "stopwords": "der die das den dem des ein eine einen einem einer und oder aber wenn so von zu in im an am auf für mit aus als ist sind war waren sein bin bist es ich mich mir wir uns du dich dir er ihn ihm sie ihr ihnen was wer wie wo warum nicht kein keine ja nein auch noch schon nur sehr dass bitte",
+      "openers": [
+        "sicher",
+        "natürlich",
+        "gerne",
+        "hier ist",
+        "hier sind",
+        "die antwort ist"
+      ]
+    },
+    "es": {
+      "hesitations": ["eh", "em", "ehm", "mm", "este", "uh", "um"],
+      "fillers": ["pues", "bueno", "o sea", "este", "eh"],
+      "repairs": [
+        "no espera",
+        "espera",
+        "perdón",
+        "digo",
+        "o sea",
+        "mejor dicho",
+        "no",
+        "quiero decir",
+        "bueno no"
+      ],
+      "stopwords": "el la los las un una unos unas y o pero si de del a al en con por para como es son era fue ser estar está están yo me mi nosotros tú te tu él ella ellos ellas que qué quien cuando donde cómo no sí también muy lo le les se su sus este esta eso",
+      "openers": [
+        "claro",
+        "por supuesto",
+        "aquí está",
+        "aquí tienes",
+        "la respuesta es"
+      ]
+    },
+    "it": {
+      "hesitations": ["ehm", "eh", "uhm", "mmm", "uh", "um"],
+      "fillers": ["allora", "cioè", "tipo", "insomma", "ehm"],
+      "repairs": [
+        "no aspetta",
+        "aspetta",
+        "scusa",
+        "cioè",
+        "anzi",
+        "volevo dire",
+        "no",
+        "o meglio"
+      ],
+      "stopwords": "il lo la i gli le un una e o ma se di del della a al in con per come è sono era essere io mi noi tu ti lui lei loro che chi quando dove non sì anche molto questo questa",
+      "openers": ["certo", "certamente", "ecco", "ecco a te", "la risposta è"]
+    },
+    "pt": {
+      "hesitations": ["hum", "hã", "é", "ah", "eh", "uh", "um"],
+      "fillers": ["tipo", "né", "então", "é"],
+      "repairs": [
+        "não espera",
+        "espera",
+        "desculpa",
+        "quer dizer",
+        "aliás",
+        "ou melhor",
+        "não"
+      ],
+      "stopwords": "o a os as um uma e ou mas se de do da dos das em no na com por para como é são era ser estar eu me nós tu te você ele ela eles elas que quem quando onde não sim também muito este esta isso",
+      "openers": [
+        "claro",
+        "com certeza",
+        "aqui está",
+        "aqui estão",
+        "a resposta é"
+      ]
+    },
+    "sv": {
+      "hesitations": ["öh", "eh", "hm", "hmm", "äh", "uh", "um"],
+      "fillers": ["alltså", "liksom", "typ", "öh"],
+      "repairs": [
+        "nej vänta",
+        "vänta",
+        "förlåt",
+        "jag menar",
+        "eller snarare",
+        "nej"
+      ],
+      "stopwords": "en ett och eller men om av till i på för med från som är var vara jag mig vi oss du dig han hon de dem vad vem när var hur inte ja nej också mycket det den detta",
+      "openers": ["självklart", "visst", "här är", "svaret är"]
+    },
+    "pl": {
+      "hesitations": ["yyy", "eee", "hmm", "yy", "ee", "uh", "um"],
+      "fillers": ["no", "yyy", "eee", "jakby"],
+      "repairs": [
+        "nie czekaj",
+        "czekaj",
+        "przepraszam",
+        "to znaczy",
+        "a właściwie",
+        "znaczy",
+        "nie"
+      ],
+      "stopwords": "i oraz lub ale jeśli w we na z ze do od dla po jak jest są był była być ja mnie my nas ty ciebie on ona oni co kto kiedy gdzie nie tak też bardzo to ten ta że się",
+      "openers": ["oczywiście", "jasne", "oto", "odpowiedź to"]
+    },
+    "ja": {
+      "hesitations": ["えーと", "えっと", "あのー", "あの", "えー", "うーん"],
+      "fillers": ["えーと", "えっと", "あのー", "まあ"],
+      "repairs": ["いや", "じゃなくて", "間違えた", "ごめん", "というか"],
+      "stopwords": "の は が を に で と も へ や か な ね よ です ます した して いる ある この その あの それ これ",
+      "openers": ["もちろん", "はい、", "こちらが"]
+    },
+    "zh": {
+      "hesitations": ["嗯", "呃", "啊", "那个"],
+      "fillers": ["那个", "就是", "嗯"],
+      "repairs": ["不对", "不是", "我是说", "应该是", "说错了"],
+      "stopwords": "的 了 是 在 和 也 就 都 而 及 与 着 或 一个 我 你 他 她 我们 你们 他们 这 那 吗 呢 吧",
+      "openers": ["当然", "好的，", "以下是"]
+    },
+    "ko": {
+      "hesitations": ["음", "어", "그"],
+      "fillers": ["음", "어", "그러니까", "뭐"],
+      "repairs": ["아니", "아니 그게 아니라", "잠깐"],
+      "stopwords": "은 는 이 가 을 를 에 의 와 과 도 로 으로 하고 그리고 저 나 우리",
+      "openers": ["물론", "네,", "다음은"]
+    }
+  },
+  "assistant_markers": [
+    "the user is asking",
+    "**analysis:**",
+    "analysis:",
+    "**action plan:**",
+    "action plan:",
+    "grammar/spelling:",
+    "meaning:",
+    "remove the filler word",
+    "cleaned transcript",
+    "output only the cleaned",
+    "<transcript>",
+    "</transcript>",
+    "begin transcript",
+    "end transcript"
+  ]
+}

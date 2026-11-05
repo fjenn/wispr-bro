@@ -1,0 +1,320 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+//! Raw tap events → grammar inputs (pure). Which events matter depends on
+//! the active profile's trigger (`bindings.rs`): the fn key, or a held
+//! modifier pair such as Ctrl+Opt. Also the stuck-trigger guard of rule 9.
+//!
+//! Rules, from RS-01 and the ported vectors (OpenWhispr `FN_INTERRUPTED`,
+//! anarlog `decision.rs`, MIT; see `docs/fork/PORTS.md`):
+//! - The trigger going down/up is `FnDown`/`FnUp`; key repeats and
+//!   duplicate edges are absorbed by the grammar.
+//! - Every non-modifier key-down (and a mouse click with a modifier held,
+//!   which is all handy-keys reports) is `KeyDown`. Key-ups are not inputs.
+//!   A mouse button, or a key pressed with ⌘ or ⌃ held besides the
+//!   trigger's own modifiers, is [`Key::Nav`] (OT2-A: moving to another
+//!   app, window, tab or Space keeps a held take recording).
+//! - Other modifiers are not inputs: Shift/Cmd/Opt/Ctrl with fn neither
+//!   interrupt nor stop a take (DEC-31: Ctrl passes through while Command
+//!   Mode is off). For a modifier-pair trigger, adding a third modifier
+//!   neither ends nor starts the press.
+
+use handy_keys::{Hotkey, Key as HkKey, KeyEvent, Modifiers};
+use serde::Serialize;
+
+use super::processor::{Input, Key, Ms};
+
+/// What starts a press.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize)]
+pub enum Trigger {
+    /// The fn / 🌐 key (DEC-09 default).
+    Fn,
+    /// Two or more modifiers held together (fallback: Ctrl+Opt). Compound
+    /// bits only (`Modifiers::CTRL`, not `CTRL_LEFT`): either side counts.
+    Mods(#[serde(skip)] Modifiers),
+    /// Modifiers plus one key, such as ⌥Space or ⌃⌥D (Handy's own default
+    /// was ⌥Space). Down while the key is held with exactly these modifiers;
+    /// up when the key or any of the modifiers is released. At least one of
+    /// ⌃, ⌥ or ⌘ (Shift alone would swallow capitals), never fn.
+    Combo(#[serde(skip)] Modifiers, #[serde(skip)] HkKey),
+}
+
+impl Trigger {
+    /// Ctrl+Opt (the fallback profile, DEC-09).
+    pub const CTRL_OPT: Trigger = Trigger::Mods(Modifiers::CTRL.union(Modifiers::OPT));
+
+    /// The trigger as a modifier-only hotkey (for the blocking set).
+    pub fn modifiers(self) -> Modifiers {
+        match self {
+            Trigger::Fn => Modifiers::FN,
+            Trigger::Mods(m) | Trigger::Combo(m, _) => m,
+        }
+    }
+
+    /// The key a [`Trigger::Combo`] holds besides its modifiers.
+    pub fn key(self) -> Option<HkKey> {
+        match self {
+            Trigger::Combo(_, k) => Some(k),
+            _ => None,
+        }
+    }
+
+    /// From a hotkey: `fn` alone, ≥ 2 modifier groups without fn, or a key
+    /// with ⌃, ⌥ or ⌘ (and optionally more modifiers, never fn). A single
+    /// ordinary modifier (Shift, Opt, …) is not a trigger: it would fire on
+    /// every shortcut that uses it. Esc (cancel) and mouse buttons are never
+    /// part of a trigger.
+    pub fn from_hotkey(h: &Hotkey) -> Option<Trigger> {
+        let m = compound(h.modifiers);
+        if let Some(k) = h.key {
+            let usable = !m.contains(Modifiers::FN)
+                && m.intersects(Modifiers::CTRL | Modifiers::OPT | Modifiers::CMD)
+                && !matches!(
+                    k,
+                    HkKey::Escape
+                        | HkKey::MouseLeft
+                        | HkKey::MouseRight
+                        | HkKey::MouseMiddle
+                        | HkKey::MouseX1
+                        | HkKey::MouseX2
+                );
+            return usable.then_some(Trigger::Combo(m, k));
+        }
+        if m == Modifiers::FN {
+            return Some(Trigger::Fn);
+        }
+        if m.contains(Modifiers::FN) {
+            return None;
+        }
+        let groups = [
+            Modifiers::CMD,
+            Modifiers::SHIFT,
+            Modifiers::CTRL,
+            Modifiers::OPT,
+        ]
+        .iter()
+        .filter(|g| m.intersects(**g))
+        .count();
+        (groups >= 2).then_some(Trigger::Mods(m))
+    }
+
+    /// Whether `modifiers` (side-specific, as the tap reports them) hold the
+    /// whole trigger.
+    pub fn held_in(self, modifiers: Modifiers) -> bool {
+        match self {
+            Trigger::Fn => modifiers.contains(Modifiers::FN),
+            Trigger::Mods(m) | Trigger::Combo(m, _) => [
+                Modifiers::CMD,
+                Modifiers::SHIFT,
+                Modifiers::CTRL,
+                Modifiers::OPT,
+            ]
+            .iter()
+            .filter(|g| m.intersects(**g))
+            .all(|g| modifiers.intersects(*g)),
+        }
+    }
+}
+
+/// Side-specific bits folded into their compound group bits.
+pub fn compound(m: Modifiers) -> Modifiers {
+    let mut out = m & Modifiers::FN;
+    for g in [
+        Modifiers::CMD,
+        Modifiers::SHIFT,
+        Modifiers::CTRL,
+        Modifiers::OPT,
+    ] {
+        if m.intersects(g) {
+            out |= g;
+        }
+    }
+    out
+}
+
+/// One translated event.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Decision {
+    /// Not an input (modifier change, key-up, …).
+    Nothing,
+    /// Feed this to the grammar.
+    Input(Input),
+}
+
+/// Translates raw events for one trigger. Holds the trigger's last state.
+#[derive(Clone, Debug)]
+pub struct Translator {
+    trigger: Trigger,
+    down: bool,
+}
+
+impl Translator {
+    pub fn new(trigger: Trigger) -> Self {
+        Self {
+            trigger,
+            down: false,
+        }
+    }
+
+    pub fn trigger(&self) -> Trigger {
+        self.trigger
+    }
+
+    /// The trigger is down as far as the events say.
+    pub fn is_down(&self) -> bool {
+        self.down
+    }
+
+    /// Forgets the trigger state (stuck recovery synthesised a release).
+    pub fn force_up(&mut self) {
+        self.down = false;
+    }
+
+    pub fn translate(&mut self, ev: &KeyEvent) -> Decision {
+        if let Trigger::Combo(m, k) = self.trigger {
+            return self.combo(m, k, ev);
+        }
+        match ev.key {
+            // FlagsChanged of a modifier (key None), or of fn.
+            None => self.modifiers_changed(ev),
+            Some(k) if ev.is_key_down => {
+                Decision::Input(Input::KeyDown(self.classify_with(k, ev.modifiers)))
+            }
+            Some(_) => Decision::Nothing,
+        }
+    }
+
+    /// [`classify`], plus [`Key::Nav`] for mouse buttons and for keys held
+    /// with ⌘ or ⌃ beyond the trigger (a Ctrl+Opt trigger's own Ctrl does
+    /// not count).
+    pub fn classify_with(&self, k: HkKey, modifiers: Modifiers) -> Key {
+        match classify(k) {
+            Key::Other(name) if is_navigation(self.trigger, k, modifiers) => Key::Nav(name),
+            key => key,
+        }
+    }
+
+    /// A modifier+key trigger: its key-down with exactly its modifiers is
+    /// `FnDown`, its key-up or a modifier release `FnUp`; its auto-repeat
+    /// while down is absorbed. Other keys are ordinary `KeyDown`s.
+    fn combo(&mut self, m: Modifiers, k: HkKey, ev: &KeyEvent) -> Decision {
+        let was = self.down;
+        self.down = combo_down(was, m, k, ev);
+        match (was, self.down) {
+            (false, true) => Decision::Input(Input::FnDown),
+            (true, false) => Decision::Input(Input::FnUp),
+            _ if was && ev.key == Some(k) => Decision::Nothing,
+            _ => match ev.key {
+                Some(key) if ev.is_key_down => {
+                    Decision::Input(Input::KeyDown(self.classify_with(key, ev.modifiers)))
+                }
+                _ => Decision::Nothing,
+            },
+        }
+    }
+
+    fn modifiers_changed(&mut self, ev: &KeyEvent) -> Decision {
+        let now_down = match self.trigger {
+            // fn is tracked by its own edge, as in the RS-01 spike: Shift or
+            // Cmd going down while fn is held must not read as a release.
+            Trigger::Fn => match ev.changed_modifier {
+                Some(m) if m == Modifiers::FN => ev.is_key_down,
+                _ => self.down,
+            },
+            t => t.held_in(ev.modifiers),
+        };
+        if now_down == self.down {
+            return Decision::Nothing;
+        }
+        self.down = now_down;
+        Decision::Input(if now_down { Input::FnDown } else { Input::FnUp })
+    }
+}
+
+/// Whether a [`Trigger::Combo`] of `m` + `k` is down after `ev`, given
+/// whether it was down before (also the shortcut test's key light).
+pub fn combo_down(was: bool, m: Modifiers, k: HkKey, ev: &KeyEvent) -> bool {
+    match ev.key {
+        Some(key) if key == k => ev.is_key_down && (was || m.matches(ev.modifiers)),
+        None => was && Trigger::Mods(m).held_in(ev.modifiers),
+        Some(_) => was,
+    }
+}
+
+/// The grammar's view of a key.
+pub fn classify(k: HkKey) -> Key {
+    match k {
+        HkKey::Space => Key::Space,
+        HkKey::Escape => Key::Escape,
+        other => Key::Other(key_name(other)),
+    }
+}
+
+/// A mouse button, or a key pressed with ⌘ or ⌃ held that the trigger does
+/// not itself hold: an app, window, tab or Space switch, or a click into
+/// another place (OT2-A).
+pub fn is_navigation(trigger: Trigger, k: HkKey, modifiers: Modifiers) -> bool {
+    if matches!(
+        k,
+        HkKey::MouseLeft | HkKey::MouseRight | HkKey::MouseMiddle | HkKey::MouseX1 | HkKey::MouseX2
+    ) {
+        return true;
+    }
+    let extra = compound(modifiers).difference(compound(trigger.modifiers()));
+    extra.intersects(Modifiers::CMD.union(Modifiers::CTRL))
+}
+
+/// Key name for logs and effects.
+pub fn key_name(k: HkKey) -> String {
+    match k {
+        HkKey::Escape => "Escape".into(),
+        HkKey::Space => "Space".into(),
+        other => other.to_string(),
+    }
+}
+
+/// Key name for the log: ordinary typing (letters, digits, punctuation)
+/// with the trigger up is never recorded by name. The tap sees every
+/// keystroke on the Mac; the log only needs to know a key was pressed.
+pub fn logged_key_name(k: HkKey, trigger_down: bool) -> String {
+    let name = key_name(k);
+    let printable =
+        name.chars().count() == 1 || name.starts_with("Keypad") || name == "JisUnderscore";
+    if trigger_down || !printable {
+        name
+    } else {
+        "(typing)".into()
+    }
+}
+
+/// Rule 9: "if the tap thinks fn is down but the system's flag state says
+/// up for 1 s, synthesize the release".
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct StuckGuard {
+    /// Since when the tap and the system have disagreed.
+    since: Option<Ms>,
+}
+
+impl StuckGuard {
+    /// How long the disagreement must last.
+    pub const AFTER_MS: Ms = 1_000;
+    /// How often the engine looks while the trigger is down.
+    pub const POLL_MS: Ms = 250;
+
+    /// Returns true when the release should be synthesised now.
+    /// `physically_down` is `None` when the system state is unavailable.
+    pub fn observe(&mut self, now: Ms, tap_down: bool, physically_down: Option<bool>) -> bool {
+        match (tap_down, physically_down) {
+            (true, Some(false)) => {
+                let since = *self.since.get_or_insert(now);
+                if now.saturating_sub(since) >= Self::AFTER_MS {
+                    self.since = None;
+                    return true;
+                }
+                false
+            }
+            _ => {
+                self.since = None;
+                false
+            }
+        }
+    }
+}

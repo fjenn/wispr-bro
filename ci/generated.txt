@@ -1,0 +1,4 @@
+# Generated files exempt from the SPDX header rule (scripts/wb-guard-spdx.ts).
+# Globs; a pattern without `/` also matches the basename.
+*.gen.json
+src/fork/bindings.ts # tauri-specta export (fork::compose_invoke, debug builds)

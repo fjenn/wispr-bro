@@ -1,0 +1,723 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+//! Pipeline tests (R5 S-11): golden texts through every stage with Handy's
+//! real `text.rs` stages, the "no stage removes `\n`" property, protection
+//! of rule outputs, fail-open, and the per-take record.
+
+use super::counts::Stage;
+use super::rules::{Rule, RuleSet};
+use super::snippets::{Snippet, SnippetSet};
+use super::*;
+use crate::audio_toolkit::{
+    apply_custom_words, normalize_transcription_output, remove_filler_words, OutputLanguageEvidence,
+};
+
+/// Handy's `post_process_transcription_text` for English output, built from
+/// the same public `text.rs` functions (script conversion is a no-op for
+/// English).
+fn handy(custom_words: &[&str]) -> impl FnMut(String) -> String {
+    let words: Vec<String> = custom_words.iter().map(|w| w.to_string()).collect();
+    move |text: String| {
+        let corrected = if words.is_empty() {
+            text
+        } else {
+            apply_custom_words(&text, &words, 0.18)
+        };
+        let without = remove_filler_words(
+            &corrected,
+            &OutputLanguageEvidence::UserSelected("en".into()),
+            &None,
+            true,
+        );
+        normalize_transcription_output(&without)
+    }
+}
+
+fn rule(id: i64, from: &str, to: &str) -> Rule {
+    Rule {
+        id,
+        from: from.into(),
+        to: to.into(),
+    }
+}
+
+fn en(raw: &str, rules: &RuleSet, words: &[&str]) -> (String, counts::TextRecord) {
+    run(raw, Some("en"), rules, &mut handy(words))
+}
+
+#[test]
+fn handy_alone_flattens_every_newline() {
+    // AF-06, the reason for the wrapper.
+    assert_eq!(handy(&[])("one\ntwo\n\nthree".into()), "one two three");
+}
+
+#[test]
+fn golden_three_paragraph_email() {
+    let rules = RuleSet::new(vec![rule(1, "wispr bro", "Wispr Bro")]);
+    let raw = "Hi Anna, new paragraph, um, thanks for the notes on wispr bro. \
+               I'll send the draft Monday, scratch that, I'll send it Tuesday. \
+               New paragraph. Best, new line, Finn";
+    let (text, record) = en(raw, &rules, &[]);
+    assert_eq!(
+        text,
+        "Hi Anna,\n\nThanks for the notes on Wispr Bro. I'll send it Tuesday.\n\nBest,\nFinn"
+    );
+    assert_eq!(
+        record
+            .stages
+            .iter()
+            .map(|s| (s.stage, s.changes))
+            .collect::<Vec<_>>(),
+        [
+            (Stage::Rules, 1),
+            (Stage::Handy, 1),
+            (Stage::Commands, 3),
+            (Stage::Scratch, 1),
+            (Stage::Whitespace, 0),
+        ]
+    );
+    assert_eq!(record.dictionary_fixes(), 1);
+    assert_eq!(record.rule_hits[0].from_text, "wispr bro");
+}
+
+#[test]
+fn golden_two_line_chat_message() {
+    let (text, _) = en(
+        "Running late. New line. Start without me",
+        &RuleSet::empty(),
+        &[],
+    );
+    assert_eq!(text, "Running late.\nStart without me");
+}
+
+#[test]
+fn multi_line_input_survives_handy_stages() {
+    let (text, _) = en(
+        "um first line  here\nsecond uh line\n\nthird",
+        &RuleSet::empty(),
+        &[],
+    );
+    assert_eq!(text, "first line here\nsecond line\n\nthird");
+}
+
+#[test]
+fn rule_outputs_are_protected_from_fuzzy_custom_words() {
+    // Without protection Handy's fuzzy matcher would turn the rule's "Jon"
+    // into the custom word "John".
+    assert_eq!(handy(&["John"])("Jon".into()), "John");
+    let rules = RuleSet::new(vec![rule(1, "jonn", "Jon")]);
+    let (text, record) = en("ask jonn and jon", &rules, &["John"]);
+    assert_eq!(text, "ask Jon and John");
+    assert_eq!(record.dictionary_fixes(), 1);
+}
+
+#[test]
+fn rule_outputs_keep_their_newlines_and_fillers() {
+    // A rule output is literal: Handy's filler removal never sees it.
+    let rules = RuleSet::new(vec![rule(1, "my sign off", "Um, cheers,\nFinn")]);
+    let (text, _) = en("thanks, my sign off", &rules, &[]);
+    assert_eq!(text, "thanks, Um, cheers,\nFinn");
+}
+
+#[test]
+fn a_moved_placeholder_falls_back_to_unprotected_rules() {
+    // A stage that glues the placeholder to the word before it.
+    let mut glue = |t: String| t.replacen(" \u{E000}", "\u{E000}", 1);
+    let rules = RuleSet::new(vec![rule(1, "foo", "Bar")]);
+    let (text, record) = run("say foo now", Some("en"), &rules, &mut glue);
+    // The fallback ran the stage on the unprotected text: no placeholder
+    // leaked, the rule still applied.
+    assert_eq!(text, "say Bar now");
+    assert!(!placeholders::collides(&text));
+    assert_eq!(record.dictionary_fixes(), 1);
+}
+
+#[test]
+fn text_with_private_use_characters_is_not_protected_but_still_ruled() {
+    let rules = RuleSet::new(vec![rule(1, "foo", "Bar")]);
+    let (text, _) = en("foo \u{E000}", &rules, &[]);
+    assert_eq!(text, "Bar \u{E000}");
+}
+
+#[test]
+fn literal_escape_and_clause_edges_end_to_end() {
+    let (text, _) = en(
+        "We launched a new line of shoes. Type literally new line, please.",
+        &RuleSet::empty(),
+        &[],
+    );
+    assert_eq!(
+        text,
+        "We launched a new line of shoes. Type new line, please."
+    );
+}
+
+#[test]
+fn unknown_language_uses_every_table_and_none_for_untabled_ones() {
+    let (de, _) = run(
+        "Hallo. Neue Zeile. Tschüss",
+        None,
+        &RuleSet::empty(),
+        &mut |t| t,
+    );
+    assert_eq!(de, "Hallo.\nTschüss");
+    let (ru, _) = run(
+        "Привет. New line. Пока",
+        Some("ru"),
+        &RuleSet::empty(),
+        &mut |t| t,
+    );
+    assert_eq!(ru, "Привет. New line. Пока");
+}
+
+/// A small deterministic generator (no extra dev-dependency).
+struct Lcg(u64);
+impl Lcg {
+    fn next(&mut self, n: usize) -> usize {
+        self.0 = self
+            .0
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
+        ((self.0 >> 33) as usize) % n
+    }
+}
+
+const TOKENS: &[&str] = &[
+    "hello",
+    "um",
+    "uh",
+    "new",
+    "line",
+    "paragraph",
+    "scratch",
+    "that",
+    "question",
+    "mark",
+    "literally",
+    "a",
+    "the",
+    "I",
+    "I",
+    "I",
+    "wispr",
+    "bro",
+    ",",
+    ".",
+    "?",
+    "\n",
+    "\n",
+    "  ",
+    "new line",
+    "new paragraph",
+    "scratch that",
+    "Jon",
+    "jonn",
+    "東京",
+    "改行",
+    "\t",
+];
+
+fn random_text(g: &mut Lcg) -> String {
+    let n = 1 + g.next(40);
+    let mut s = String::new();
+    for _ in 0..n {
+        let t = TOKENS[g.next(TOKENS.len())];
+        if !s.is_empty() && !t.starts_with([',', '.', '?']) {
+            s.push(' ');
+        }
+        s.push_str(t);
+    }
+    s
+}
+
+fn newlines(s: &str) -> usize {
+    s.matches('\n').count()
+}
+
+#[test]
+fn property_no_stage_removes_a_newline() {
+    let rules = RuleSet::new(vec![
+        rule(1, "wispr bro", "Wispr Bro"),
+        rule(2, "jonn", "Jon\nX"),
+    ]);
+    let matcher = commands::Matcher::for_language(None);
+    // Handy's real stages compile their filler regexes on every call, so
+    // they run on every 8th text; the others use the same flattening
+    // behaviour (split on whitespace, join with one space) at no cost.
+    let flatten = |t: String| t.split_whitespace().collect::<Vec<_>>().join(" ");
+    let mut g = Lcg(0x5EED);
+    for i in 0..2_000 {
+        let raw = random_text(&mut g);
+        let mut stage: Box<dyn FnMut(String) -> String> = if i % 8 == 0 {
+            Box::new(handy(&["John"]))
+        } else {
+            Box::new(flatten)
+        };
+        // Each stage on its own.
+        let (ruled, _) = rules::apply(&rules, &raw, |r| r.to.clone());
+        assert!(
+            newlines(&ruled) >= newlines(&raw),
+            "rules: {raw:?} → {ruled:?}"
+        );
+        let handled = lines::per_line(&ruled, &mut stage);
+        assert!(
+            newlines(&handled) >= newlines(&ruled),
+            "handy: {ruled:?} → {handled:?}"
+        );
+        let (commanded, _) = commands::apply(&matcher, &handled);
+        assert!(
+            newlines(&commanded) >= newlines(&handled),
+            "commands: {handled:?} → {commanded:?}"
+        );
+        let (spaced, _) = whitespace::normalize(&commanded);
+        assert_eq!(
+            newlines(&spaced),
+            newlines(&commanded),
+            "whitespace: {commanded:?}"
+        );
+        // The whole pipeline (sanitize trims only the ends of the raw text).
+        let (out, _) = run(&raw, None, &rules, &mut stage);
+        let inner = newlines(raw.trim());
+        assert!(newlines(&out) >= inner, "pipeline: {raw:?} → {out:?}");
+        assert!(
+            !placeholders::collides(&out),
+            "placeholder leaked: {raw:?} → {out:?}"
+        );
+    }
+}
+
+#[test]
+fn a_panicking_stage_fails_open_to_handy() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    let mut calls = 0;
+    let flaky = |t: String| {
+        calls += 1;
+        if calls == 1 {
+            panic!("first call fails");
+        }
+        t.to_uppercase()
+    };
+    let out = process(
+        "unique panic text 7f3a".into(),
+        &OutputLanguageEvidence::UserSelected("en".into()),
+        flaky,
+    );
+    assert_eq!(out, "UNIQUE PANIC TEXT 7F3A");
+    let p = ledger().take_processed("UNIQUE PANIC TEXT 7F3A").unwrap();
+    assert_eq!(p.verbatim, "unique panic text 7f3a");
+    assert!(p.record.stages.is_empty());
+}
+
+#[test]
+fn process_notes_the_record_for_the_history_row() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    let out = process(
+        "  Note e1b2. New line. Done  ".into(),
+        &OutputLanguageEvidence::UserSelected("en".into()),
+        handy(&[]),
+    );
+    assert_eq!(out, "Note e1b2.\nDone");
+    let p = ledger().take_processed(&out).unwrap();
+    assert_eq!(p.verbatim, "  Note e1b2. New line. Done  ");
+    assert_eq!(
+        p.record.stages.iter().map(|s| s.stage).collect::<Vec<_>>(),
+        [
+            Stage::Rules,
+            Stage::Handy,
+            Stage::Commands,
+            Stage::Scratch,
+            Stage::Whitespace
+        ]
+    );
+}
+
+#[test]
+fn finish_restores_rules_after_an_llm_rewrite_and_rekeys_the_outcome() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    let rules = RuleSet::new(vec![rule(1, "voice typer", "Voicetypr")]);
+    let (kept, record) = en("voice typer is fast c4d1", &rules, &[]);
+    assert_eq!(kept, "Voicetypr is fast c4d1");
+    ledger().note_processed("voice typer is fast c4d1".into(), &kept, record);
+    // The LLM reverted the spelling and left two spaces.
+    let llm = "Well,  voice typer is fast c4d1.";
+    note_rewrite(&kept, llm);
+    ledger().await_outcome(991_001, llm);
+    let out = finish(llm.to_string());
+    assert_eq!(out, "Well, Voicetypr is fast c4d1.");
+    assert_eq!(ledger().take_awaiting(&out), Some(991_001));
+    // Without a registered rewrite only whitespace is touched.
+    assert_eq!(finish("plain  text b7e0".into()), "plain text b7e0");
+    let _ = ledger().take_processed(&kept);
+}
+
+#[test]
+fn rules_come_from_the_installed_source_and_are_cached() {
+    // Only this test installs a source; the others call `run` directly.
+    install_rule_source(|| {
+        vec![Rule {
+            id: 1,
+            from: "zq9".into(),
+            to: "ZQ-9".into(),
+        }]
+    });
+    let a = active_rules();
+    let b = active_rules();
+    assert!(Arc::ptr_eq(&a, &b));
+    assert_eq!(a.rules().len(), 1);
+}
+
+// ------------------------------------------------------------ S-17
+
+const PROBE_BODY: &str = "Alex Morgan\n12 Harbour Lane\nKiel 24103";
+
+fn probe_set() -> SnippetSet {
+    SnippetSet::new(vec![Snippet {
+        id: 1,
+        trigger: "zq probe address".into(),
+        body: PROBE_BODY.into(),
+    }])
+}
+
+#[test]
+fn snippet_bodies_never_pass_through_the_llm() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    // Before the LLM (`process`, from `finish_text`) no stage expands a
+    // snippet, whatever is installed.
+    install_probe_snippets();
+    let raw = "Please send it to zq probe address.";
+    let kept = process(
+        raw.into(),
+        &OutputLanguageEvidence::UserSelected("en".into()),
+        handy(&[]),
+    );
+    assert_eq!(kept, raw);
+    let _ = ledger().take_processed(&kept);
+
+    // The LLM step (S-12a; Handy's post-processing until then) gets that
+    // text: the trigger, never the saved text.
+    let mut llm_inputs: Vec<String> = Vec::new();
+    let mut llm = |t: &str| {
+        llm_inputs.push(t.to_owned());
+        format!("Hi Anna, {}", t.to_lowercase())
+    };
+    let rewritten = llm(&kept);
+
+    // After it, inside `deliver`, stage 11 expands the trigger.
+    let (out, done) = finish_with(&rewritten, None, &probe_set());
+    assert_eq!(
+        out,
+        "Hi Anna, please send it to Alex Morgan\n12 Harbour Lane\nKiel 24103."
+    );
+    assert_eq!(done.snippet_hits.len(), 1);
+    assert!(llm_inputs.iter().all(|t| !t.contains("Harbour")));
+}
+
+#[test]
+fn handy_calls_the_llm_before_the_delivery_that_expands_snippets() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    // The order lives in Handy's `actions.rs`: the LLM step (S-12a's
+    // `fork::llm::post_process` hook) and the history save run before
+    // `insert::deliver`, whose first line is `text::finish`; the LLM step's
+    // own stage 9 uses `text::after_llm`, which expands nothing. If an
+    // upstream merge or a later slice moves any of these, this fails.
+    let actions = include_str!("../../actions.rs");
+    let llm = actions
+        .find("crate::fork::llm::post_process(")
+        .expect("the S-12a LLM hook");
+    let save = actions
+        .find("hm.save_entry(")
+        .expect("Handy's history save");
+    let deliver = actions.find("insert::deliver(").expect("the S-04 hook");
+    assert!(llm < deliver && save < deliver);
+    // S-06: `deliver` is `deliver_as(…, Kind::Take)`, whose first step for
+    // a take (and an Undo) is stage 11's `finish`, before any paste path.
+    let insert = include_str!("../insert/mod.rs");
+    let hook = &insert[insert.find("pub fn deliver(").unwrap()..];
+    let first = hook
+        .lines()
+        .skip(1)
+        .find(|l| !l.trim().starts_with("//") && !l.contains("app_rules::take_armed(&text)"))
+        .unwrap();
+    assert!(
+        first.contains("deliver_as(text, app, Kind::Take)"),
+        "{first}"
+    );
+    let body = &insert[insert.find("pub fn deliver_as(").unwrap()..];
+    let finish = body
+        .find("let text = delivery_text(text, kind);")
+        .expect("takes go through finish first");
+    let prep = &insert[insert.find("pub(crate) fn delivery_text(").unwrap()..];
+    assert!(prep[..prep.find("\n}").unwrap()]
+        .contains("Kind::Take | Kind::Undo { .. } => crate::fork::text::finish(text)"));
+    let paste = body.find("mac::deliver(").expect("the macOS paste");
+    assert!(finish < paste);
+    let llm_code = include_str!("../llm/post_process.rs");
+    assert!(llm_code.contains("crate::fork::text::after_llm(output)"));
+    assert!(!llm_code.contains("crate::fork::text::finish("));
+}
+
+#[test]
+fn the_llm_steps_stage_9_expands_no_snippet() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    // S-12a restores dictionary spellings right after the LLM, before
+    // History saves the take: snippets must wait for `deliver`.
+    install_probe_snippets();
+    let text = "Restore zq probe address here f4a1";
+    assert_eq!(after_llm(text.to_string()), text);
+}
+
+fn install_probe_snippets() {
+    // The only test that installs snippets; its trigger appears in no other
+    // test's text.
+    install_snippets(
+        || {
+            vec![Snippet {
+                id: 1,
+                trigger: "zq probe address".into(),
+                body: PROBE_BODY.into(),
+            }]
+        },
+        |used| PROBE_USES.lock().unwrap().push(used),
+    );
+}
+
+static PROBE_USES: std::sync::Mutex<Vec<SnippetUse>> = std::sync::Mutex::new(Vec::new());
+
+#[test]
+fn finish_expands_installed_snippets_and_records_the_take() {
+    // The context slot is shared; an armed take elsewhere must not leak in.
+    let _l = crate::fork::context::awareness::tests::lock();
+    install_probe_snippets();
+    let text = "Ship it to zq   probe address please e5c2";
+    ledger().await_outcome(991_017, text);
+    let out = finish(text.to_string());
+    assert_eq!(
+        out,
+        "Ship it to Alex Morgan\n12 Harbour Lane\nKiel 24103 please e5c2"
+    );
+    // The paste outcome still finds the row by the inserted text.
+    assert_eq!(ledger().take_awaiting(&out), Some(991_017));
+    let uses = PROBE_USES.lock().unwrap();
+    let used = uses
+        .iter()
+        .find(|u| u.entry_id == Some(991_017))
+        .expect("the take's use");
+    assert_eq!(used.hits.len(), 1);
+    assert_eq!(used.inserted.as_deref(), Some(out.as_str()));
+    // Cached: the same list compiles once.
+    let (a, _) = active_snippets();
+    let (b, _) = active_snippets();
+    assert!(Arc::ptr_eq(&a, &b));
+}
+
+#[test]
+fn the_clipboard_gets_the_same_finished_text_as_a_paste() {
+    // fix/gloss: a take with no text field goes to the clipboard ("Copied
+    // to clipboard"); it carries the text a paste would insert, snippets
+    // and dictionary spellings included, not the raw transcript.
+    let _l = crate::fork::context::awareness::tests::lock();
+    install_probe_snippets();
+    let text = "Ship it to zq probe address please e5c3";
+    let pasted =
+        crate::fork::insert::delivery_text(text.to_string(), crate::fork::insert::Kind::Take);
+    assert_eq!(pasted, format!("Ship it to {PROBE_BODY} please e5c3"));
+    let copied = std::cell::RefCell::new(None);
+    let end = crate::fork::insert::end_card(
+        crate::fork::insert::deliver::CardReason::NoTextField,
+        &pasted,
+        |t| {
+            *copied.borrow_mut() = Some(t.to_owned());
+            Ok(1)
+        },
+    );
+    assert_eq!(end, crate::fork::insert::CardEnd::Copied);
+    assert_eq!(copied.into_inner().as_deref(), Some(pasted.as_str()));
+    // Paste-last (already final) is not expanded twice.
+    assert_eq!(
+        crate::fork::insert::delivery_text(pasted.clone(), crate::fork::insert::Kind::Again),
+        pasted
+    );
+}
+
+#[test]
+fn saved_text_keeps_its_spacing_and_is_not_rescanned() {
+    let set = SnippetSet::new(vec![
+        Snippet {
+            id: 1,
+            trigger: "my table".into(),
+            body: "Name    Age\n\n  Finn    40".into(),
+        },
+        Snippet {
+            id: 2,
+            trigger: "age".into(),
+            body: "AGE".into(),
+        },
+    ]);
+    // Stage 12 tidies the dictated text first; the saved text is inserted
+    // as written and never scanned again ("Age" inside it stays).
+    let (out, done) = finish_with("Here  is my table:", None, &set);
+    assert_eq!(out, "Here is Name    Age\n\n  Finn    40:");
+    assert_eq!(done.whitespace, 1);
+}
+
+#[test]
+fn the_fork_stages_stay_far_inside_the_latency_budget() {
+    // R5 §5.1: the whole deterministic path has ≤ 500 ms on M1. The fork's
+    // stages on a 200-word take with 100 rules (Handy's stages excluded)
+    // must cost a few milliseconds even in a debug build.
+    let rules = RuleSet::new(
+        (0..100)
+            .map(|i| rule(i, &format!("term{i} alpha"), &format!("Term{i}")))
+            .collect(),
+    );
+    let sentence = "so I talked to term7 alpha about the plan, new line, and we agreed. ";
+    let raw = sentence.repeat(200 / sentence.split_whitespace().count() + 1);
+    let started = std::time::Instant::now();
+    let rounds = 20;
+    for _ in 0..rounds {
+        let _ = run(&raw, Some("en"), &rules, &mut |t| t);
+    }
+    let per_take = started.elapsed() / rounds;
+    eprintln!("fork text stages: {per_take:?} per 200-word take with 100 rules");
+    assert!(
+        per_take < std::time::Duration::from_millis(50),
+        "{per_take:?}"
+    );
+}
+
+/// S-36: in a set-up editor, a spoken code name takes the editor's
+/// spelling and a spoken visible file name becomes a tag, through the real
+/// pipeline; a dictionary rule's output is never rewritten; the names go
+/// with the take.
+#[test]
+fn editor_names_spell_code_and_tag_files() {
+    use crate::fork::context::awareness;
+    let _l = awareness::tests::lock();
+    awareness::tests::armed_editor_take(&["getUserById", "user_id"], &["index.ts", "app.tsx"]);
+    let kept = process(
+        "rename get user by id in index dot ts and app dot tsx".into(),
+        &OutputLanguageEvidence::Unknown,
+        |t| t,
+    );
+    assert_eq!(kept, "rename getUserById in @index.ts and @app.tsx");
+    let p = ledger().take_processed(&kept).expect("processed");
+    assert!(p.context_used);
+    let described = p.record.describe();
+    // One code name and two file names respelled, then both tagged.
+    assert!(described.contains("identifiers=3"), "{described}");
+    assert!(described.contains("file_tags=2"), "{described}");
+    // After an LLM rewrite that wrote the name out, the tag comes back.
+    assert_eq!(
+        after_llm("Rename getUserById in index.ts.".into()),
+        "Rename getUserById in @index.ts."
+    );
+    awareness::on_take_over();
+    assert_eq!(after_llm("Fix index.ts.".into()), "Fix index.ts.");
+    // No editor take: nothing changes.
+    let plain = process(
+        "rename get user by id in index dot ts".into(),
+        &OutputLanguageEvidence::Unknown,
+        |t| t,
+    );
+    assert_eq!(plain, "rename get user by id in index dot ts");
+}
+
+// ------------------------------------------------------------ S-38
+
+fn words(list: &[&str]) -> Vec<String> {
+    list.iter().map(|w| w.to_string()).collect()
+}
+
+#[test]
+fn accent_words_are_the_non_ascii_words_with_an_ascii_key() {
+    let all = words(&[
+        "Siobhán",
+        "ChargeBee",
+        "Zoë",
+        "東京",
+        "Москва",
+        "Æ",
+        "José María",
+    ]);
+    assert_eq!(accent_words(&all), words(&["Siobhán", "Zoë", "José María"]));
+}
+
+/// The S-16 finding: Parakeet writes "Siobhan", Handy's fuzzy fix skips the
+/// word (ASCII only), and the accent stage spells it as the dictionary does.
+#[test]
+fn a_dictionary_word_with_accents_fixes_its_plain_spelling() {
+    let dictionary = words(&["Siobhán", "café", "José María"]);
+    let raw = "Siobhan said siobhan's cafe is better.\nCafe with Jose Maria, not jose.";
+    // Handy's stage gets the dictionary too (as `custom_words`), and leaves
+    // the accented words alone.
+    let (text, mut record) = en(
+        raw,
+        &RuleSet::new(vec![]),
+        &["Siobhán", "café", "José María"],
+    );
+    assert_eq!(text, raw);
+    let out = dictionary_accent_stage(text, &accent_words(&dictionary), &mut record);
+    assert_eq!(
+        out,
+        "Siobhán said Siobhán's café is better.\nCafé with José María, not jose."
+    );
+    let stage = record
+        .stages
+        .iter()
+        .find(|s| s.stage == Stage::DictionaryAccents)
+        .expect("stage recorded");
+    assert_eq!(stage.changes, 5);
+    assert!(record.describe().contains("dictionary_accents=5"));
+}
+
+#[test]
+fn the_accent_stage_never_turns_ordinary_words_into_dictionary_words() {
+    let dictionary = accent_words(&words(&["Renée", "Ångström", "naïve"]));
+    let mut record = counts::TextRecord::default();
+    // Different letters stay, a right spelling stays, and only letters
+    // change: punctuation, digits and line breaks are byte for byte.
+    let raw = "Renata and renew, Renée, naive!\n\n3 angstrom";
+    let out = dictionary_accent_stage(raw.into(), &dictionary, &mut record);
+    // A word spelled with a capital in the dictionary keeps it.
+    assert_eq!(out, "Renata and renew, Renée, naïve!\n\n3 Ångström");
+}
+
+#[test]
+fn rule_outputs_stay_untouched_by_the_accent_stage() {
+    let rules = RuleSet::new(vec![Rule {
+        id: 7,
+        from: "shiv on".into(),
+        to: "Siobhan".into(),
+    }]);
+    let (text, mut record) = en("shiv on met Siobhan", &rules, &[]);
+    assert_eq!(text, "Siobhan met Siobhan");
+    let out = dictionary_accent_stage(text, &words(&["Siobhán"]), &mut record);
+    // The user's rule asked for "Siobhan": it stays, the recognizer's word
+    // is spelled as the dictionary has it, and stage 9 still finds the rule
+    // output where it is.
+    assert_eq!(out, "Siobhan met Siobhán");
+    assert_eq!(record.provenance[0].target_start, 0);
+}
+
+#[test]
+fn the_accent_stage_reads_the_installed_word_source() {
+    let _l = crate::fork::context::awareness::tests::lock();
+    // Only this test installs a word source; the nonsense word reaches no
+    // other test's text.
+    install_word_source(|| vec!["Zqobhán".into(), "Plainword".into()]);
+    let kept = process(
+        "zqobhan here".into(),
+        &OutputLanguageEvidence::UserSelected("en".into()),
+        handy(&[]),
+    );
+    // Uninstalled before the asserts: a later test's record (under the same
+    // lock) must not grow a DictionaryAccents stage from this source.
+    *WORD_SOURCE.write().unwrap_or_else(|e| e.into_inner()) = None;
+    assert_eq!(kept, "Zqobhán here");
+    let _ = ledger().take_processed(&kept);
+}

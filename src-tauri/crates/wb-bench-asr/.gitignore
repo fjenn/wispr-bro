@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Built with a copy of src-tauri/Cargo.lock (see docs/fork/spikes/RS-09-asr-bench.md).
+/target/
+/Cargo.lock

@@ -1,0 +1,475 @@
+# Cleanup eval (F-10)
+
+A fixed, adversarial set of dictation transcripts and a runner that measures
+what the local LLM cleanup does to them. Every metric is computed by code
+from labels; there is **no LLM judge**. Source of truth: R5 §11.1 (metrics),
+§4.5 (guards), §7 RS-07 (thresholds), slice F-10.
+
+| File                                    | What                                                                   |
+| --------------------------------------- | ---------------------------------------------------------------------- |
+| `items.jsonl`                           | 271 items, one JSON object per line (schema below)                     |
+| `../../scripts/wb-eval-cleanup.ts`      | Runner, metric functions, guard stub, report writer                    |
+| `../../scripts/wb-eval-cleanup.test.ts` | Metric unit tests on hand-made items, harness and item self-tests      |
+| `reports/`                              | `<date>-<model>.md` and `.json` per run (gitignored except `.gitkeep`) |
+| `prompts/`                              | RS-07 prompt variants; each header names source, commit, licence       |
+| `../../scripts/wb-bench-cleanup.ts`     | RS-07 bake-off: starts `llama-server` per model, runs every variant    |
+
+## RS-07 bake-off (`wb-bench-cleanup.ts`)
+
+A bench harness on top of this runner: per model it spawns a pinned
+`llama-server` on `127.0.0.1` with the R5 §4.5 flags (`-c 4096 -np 1
+--cache-ram 256 --reasoning off --jinja --no-webui --offline`, scrubbed env,
+random API key, never `-hf`), waits for `/health`, runs each prompt in
+`prompts/` × JSON schema vs plain through `evaluate()` with the guard stub,
+samples the server's RSS with `ps`, and stops it. Upstream prompts keep their
+own user-message framing; `trimmed` uses the R5 §4.5 framing; fine-tunes also
+run their model-card template (`native-*.txt`). Results go to
+`reports/rs07-<date>/` (one scorer report per model × prompt × format, plus
+`summary.json`). `--rescore DIR` re-reads a saved run's raw outputs, re-applies
+the guard stub and the scorer with the current items, and writes
+`reports/<DIR name>-rescored/`; it reports any item whose output is missing.
+Findings: `docs/fork/spikes/RS-07-cleanup-bakeoff.md`.
+
+```bash
+bun scripts/wb-bench-cleanup.ts --server <llama-server> --model-dir ~/wb-bench/llm
+bun scripts/wb-bench-cleanup.ts --server <llama-server> --per-category 6   # stratified cut
+bun scripts/wb-bench-cleanup.ts --server <llama-server> --probe            # RS-06 flags, unix socket
+bun scripts/wb-bench-cleanup.ts --rescore eval/cleanup/reports/rs07-2026-10-29  # new labels, no models
+```
+
+## The shipped path (S-12a, `--replay`)
+
+The gate run uses the app's own code, not this runner's model client or the
+guard stub: the ignored Rust test `fork::llm::eval_run` sends every item
+through `fork::llm::post_process::clean` (lead-ins, the clean-text gate,
+blocks and the line fallback, the prompt builder, the guard chain, the
+deadlines) on the real `llama-server` sidecar via the real supervisor and
+transport, and writes one JSONL row per item × level (model reply, guard
+verdict, what the app would insert, Handy `lang_id` of the expected and
+actual output). The scorer then reads it:
+
+```bash
+cd src-tauri
+WB_LLAMA_SERVER=target/wb-sidecar/llama-server-aarch64-apple-darwin \
+WB_LLM_MODEL=~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf \
+WB_EVAL_OUT=../eval/cleanup/reports/s12a/run.jsonl \
+WB_EVAL_LEVELS=light,medium WB_EVAL_LANGUAGE=owner \
+  cargo test --lib fork::llm::eval_run -- --ignored --nocapture
+cd .. && bun scripts/wb-eval-cleanup.ts --replay eval/cleanup/reports/s12a/run.jsonl --level all
+```
+
+`WB_EVAL_LANGUAGE`: `owner` (the gate run) treats the language as unknown
+to the recognizer and lets the app guess it from the text among the
+owner's spoken languages (en, nl, fr, plus the item's), exactly as
+`plan()` does; `item` passes the labelled language as known (a user who
+picked their language); `none` gives no language at all. `WB_EVAL_IDS`
+limits the run to some ids.
+
+In replay mode **language kept** uses Handy's `lang_id` (whatlang,
+confidence ≥ 0.9), R5's definition, instead of the stand-in detector, with
+one refinement: an output that is the item's input unchanged (the
+deterministic text the app falls back to) counts as kept, since it cannot
+have changed language; the report also prints the strict number, where an
+undecided output counts as lost. The report adds a per-language table with
+each language's RS-07 gates.
+
+## Running
+
+```bash
+# No server: a deterministic fake model exercises the runner and metrics.
+bun run wb:eval:cleanup -- --dry-run                 # rule-based fake cleaner
+bun run wb:eval:cleanup -- --dry-run --fake echo     # returns the input unchanged
+bun run wb:eval:cleanup -- --dry-run --fake answerer # answers every instruction (guard test)
+
+# Against a running llama-server (or any OpenAI-compatible server).
+bun run wb:eval:cleanup -- --port 8080 --model qwen3.5-2b-q4_k_m --level all
+bun run wb:eval:cleanup -- --endpoint http://127.0.0.1:8080/v1/chat/completions \
+  --system-prompt prompts/light.txt --api-key "$LLAMA_API_KEY" --no-think
+
+bun run wb:eval:cleanup -- --help                    # every option
+bun test scripts/wb-eval-cleanup.test.ts             # metric + harness tests
+```
+
+Each request is `POST /v1/chat/completions` with `temperature: 0`, a fixed
+`seed` (default 42), `max_tokens` from the transcript length, and
+`response_format` = JSON schema `{ "text": string }` (llama-server enforces it
+with a grammar). The system prompt is a built-in default in our own words
+(`DEFAULT_SYSTEM_PROMPT`) or `--system-prompt FILE`, where `{{level}}` and
+`{{language}}` are replaced. The user message carries the transcript as a JSON
+field between `BEGIN TRANSCRIPT` / `END TRANSCRIPT` lines (R5 §4.5 framing).
+Requests run one at a time (the sidecar runs `-np 1`). `--no-think` adds
+`chat_template_kwargs.enable_thinking=false` for reasoning-capable templates.
+
+The runner prints one summary line per level and writes
+`eval/cleanup/reports/<YYYY-MM-DD>-<model>.md` (tables, RS-07 gates, failures)
+and `.json` (every item's raw reply, pre/post scores, guard reasons, latency).
+The JSON `meta` records the items' and prompt's sha256, so two reports are
+comparable only when both hashes match.
+
+## Item schema
+
+| Field             | Type                                                               | Meaning                                                                                            |
+| ----------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `id`              | string                                                             | `<category>-<nnn>`, stable; never reuse a retired id                                               |
+| `category`        | enum                                                               | See "Item set" below                                                                               |
+| `language`        | ISO 639-1                                                          | Spoken language (the label `language kept` checks)                                                 |
+| `level`           | `light` \| `medium`                                                | Level the item was written for; the runner evaluates the levels it is asked for                    |
+| `input`           | string                                                             | The transcript as the LLM stage receives it (stage 7 output, R5 §4.10; may contain `\n`)           |
+| `expected`        | `{ light, medium? }`                                               | Expected output per level; a missing `medium` falls back to `light`                                |
+| `expected_class`  | `unchanged` \| `edit`                                              | `unchanged`: input is already clean and must come back as is; `edit`: it must become `expected`    |
+| `is_instruction`  | bool                                                               | R5 `is_instruction`: the transcript is a question or a command (incl. imperatives in any category) |
+| `must_keep`       | string[]                                                           | R5 **protected spans**: names, numbers, URLs, e-mails, code spans, dictionary terms                |
+| `must_remove`     | string[]                                                           | R5 **filler spans**, one entry per occurrence                                                      |
+| `content_words`   | string[]                                                           | R5 **content-word list**: input words minus stopwords minus filler spans                           |
+| `allowed_changes` | (`whitespace` \| `case` \| `punctuation` \| `final_punctuation`)[] | Normalizations under which an output still counts as equal (restraint, edit accuracy)              |
+| `source`          | string                                                             | `original` for every current item                                                                  |
+| `labels`          | `{ first, second, revised? }`                                      | Who labelled it; `second: null` until the second pass; `revised`: label-policy revision tag        |
+| `notes`           | string?                                                            | Why the item is tricky                                                                             |
+
+Words are ICU word segments (`Intl.Segmenter`, the item's language),
+lower-cased, NFC. That works for Japanese and Chinese, which have no spaces.
+
+## Metric definitions
+
+R5 §11.1 defines five metrics (quoted in **bold** below); F-10 adds
+restraint, edit accuracy and latency (marked _F-10_), because the slice asks
+for them and they need no new labels. Each metric is computed on two outputs
+per item and level:
+
+- **pre-guard**: the model's `text` (or the raw reply if it is not valid JSON;
+  an empty string on a request error or timeout);
+- **post-guard**: what the user gets. If the guard chain rejects the reply,
+  the request failed, or the R5 deadline was missed, it is the item's `input`
+  (the deterministic stage-7 text, "Inserted without cleanup"); otherwise the
+  model's `text`.
+
+Gates use post-guard numbers; RS-07 model selection also reads pre-guard
+numbers. All rates are reported as value and `num/den`.
+
+### Content damage
+
+> **Content damage (per item, yes/no): a protected span is missing or changed
+> in the output (exact match after Unicode NFC; case-insensitive for words), or
+> content-word recall against the expected output is below 0.95. Rate =
+> damaged items / all items.**
+
+- A protected span is kept when it occurs in the output as a whole unit (the
+  characters around it are not letters or digits; CJK neighbours count as a
+  boundary). "Word spans" (only letters, marks, spaces, apostrophes, hyphens)
+  compare case-insensitively; anything with a digit, `@`, `/`, `.`, `` ` `` or
+  other symbol compares exactly. Both sides are NFC-normalized.
+- Content-word recall uses the reference set R = the item's `content_words`
+  that also occur in the expected output for that level (so the reparandum of
+  a self-repair, "at **2** actually 3", is not required back). Recall = |R ∩
+  output words| / |R|; 1 when R is empty.
+
+### Restraint (_F-10_)
+
+Among `expected_class = unchanged` items: the share whose output equals the
+input after the item's `allowed_changes` (always NFC + trim). Measures "already
+clean text stays unchanged". `whitespace` collapses spaces inside lines and
+trims lines (never removes `\n`); `case` lower-cases; `punctuation` drops
+punctuation that is not inside a token (`3.5`, `don't`, `a@b.c` keep theirs);
+`final_punctuation` drops a trailing `.!?。！？`.
+
+### Edit accuracy (_F-10_)
+
+Among `expected_class = edit` items: the share whose output equals
+`expected[level]` after `allowed_changes`. Most edit items allow
+`whitespace`, `punctuation` and `case`, so this measures the words (fillers
+gone, repairs applied, nothing else changed); code items allow less. The
+report also gives the mean word error rate (token Levenshtein distance /
+expected length) as a softer number.
+
+### Answer rate
+
+> **Among `is_instruction` items, the share where the output answers or
+> executes instead of transcribing: output word count > 1.5 × input word
+> count, or ≥ 3 content words that appear in neither the input nor the
+> expected output, or the output starts with an assistant marker from the
+> Muesli list.**
+
+- Content words of the output = its words minus stopwords minus filler
+  tokens; "expected output" = the expected outputs of all levels.
+- Assistant markers: until S-12a ports Muesli's list, `ASSISTANT_MARKERS` in
+  the runner is our own list (`sure`, `certainly`, `here is`, `as an ai`, …),
+  matched at the start after leading markdown/quotes, on a word boundary.
+- Refinement: a marker that the input itself starts with ("Sure, Thursday
+  works") does not count.
+
+### Filler removal
+
+> **Labelled filler spans absent from the output / all labelled filler spans
+> (Light and Medium only).**
+
+Per distinct filler f with n labelled occurrences, k occurrences that the
+expected output keeps (a verb "like") and o occurrences in the output
+(case-insensitive, whole unit): removed = clamp(n − max(0, o − k), 0, n). The
+runner only has Light and Medium, so the metric always applies.
+
+### Language kept
+
+> **Handy `lang_id` of the output equals the labelled language, over items
+> with ≥ 5 words.**
+
+Items count when the expected output has ≥ 5 words **and** the detector
+recognizes the expected output as the labelled language (otherwise the item
+cannot test the output and is excluded; the denominator is in the report).
+See "Gaps": the detector is a stand-in for Handy's `lang_id`.
+
+### Guard catch rate
+
+> **Damaging pre-guard outputs (content damage or answer) that the guard
+> chain rejected / all damaging pre-guard outputs.**
+
+"Answer" counts only for `is_instruction` items. The report also lists guard
+rejections of non-damaging outputs (false rejections), which cost cleanup
+quality without protecting anything, and the hits per guard check.
+
+### Latency (_F-10_)
+
+Wall time of each request (send to full reply), per level: p50, p95
+(nearest-rank, no interpolation), mean, max. The runner also counts
+**deadline misses** against R5 §4.5's `1.2 s + 25 ms × expected output
+tokens` (capped at 6 s; expected tokens ≈ input characters / 4) and, unless
+`--no-deadline`, treats a miss as fail-open in the post-guard output. Latency
+here is the LLM call only; R5 §5.1 budgets are key-up to text and are
+measured in S-12a / S-38.
+
+### RS-07 gates
+
+The report checks RS-07's pass criteria on post-guard output: Light content
+damage ≤ 2 %, answer rate ≤ 0.5 %, filler removal ≥ 90 %, language kept ≥ 99 %;
+Medium content damage ≤ 4 %; guard catch rate ≥ 90 %.
+
+## Guards: the stub and the gap
+
+`stubGuard` mirrors R5 §4.5's chain at a basic level so pre/post numbers mean
+something before S-10/S-12a exist. **The shipped guards are S-12a's
+`fork/llm/guards.rs`;** once they exist, the eval should call them (e.g. a
+small Rust CLI behind `--guard`), and this stub becomes a reference only.
+`--guard FILE.ts` loads any module exporting `guard(raw, ctx)`.
+
+| R5 §4.5 check (in order)                                                                       | Stub                                                                                                                                 |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| JSON parse                                                                                     | `{"text": string}` required                                                                                                          |
+| SpeakoFlow validators: empty, punctuation-only, channel name, prompt echo, > max(80, 3×) chars | All five; channel = `<\|…\|>` tokens or a leading `analysis`/`final`; echo = boundary markers or any 6-word run of the system prompt |
+| FreeFlow `appearsToHaveExecutedInstruction` (English)                                          | Input ends in `?` or starts with a question word/imperative, and < 50 % of its content words survive                                 |
+| BetterWispr `accepted()`: words 0.4×–1.2×+2, ≤ 25 % new tokens                                 | Both, on ICU word tokens                                                                                                             |
+| Muesli assistant markers                                                                       | Our own marker list (see Answer rate)                                                                                                |
+| Entity guard: digits, URLs, e-mails, code spans, dictionary terms, line count                  | All; every input entity must occur verbatim; no dictionary terms in F-10 items                                                       |
+| Language check (Handy `lang_id`)                                                               | Stand-in detector; rejects only a confident different language                                                                       |
+
+Known consequence: the entity guard as R5 states it rejects correct
+self-repairs that drop a number ("2 actually 3" → "3"). The eval shows this
+as guard false rejections in the `repair` and `number` categories; S-12a
+decides how the real guard handles repairs.
+
+The shipped guards (`fork/llm/markers.rs` `droppable`) let a cleanup drop a
+repair marker and up to four words before it; after "or" (`alternatives`:
+"put it in the shared drive **or actually** just email it" → "Just email
+it.") the whole clause back to the sentence start, at most ten words; and a
+sentence-opening frame (`frames`: "what I wanted to say is", see "Discourse
+markers"). Everything else is still required (`fix/medium`, 2026-11-05: the
+eval's `repair-009` and `disfluent-030` were guard false rejections that
+inserted the raw take with its fillers).
+
+## Item set
+
+271 original items (229 from F-10, 42 from S-12a), written for this set. Each category targets a failure
+mode named in R5 F-10 / §4.5:
+
+| Category      | Items | Tests                                                                                                |
+| ------------- | ----: | ---------------------------------------------------------------------------------------------------- |
+| `question`    |    25 | Questions that must be transcribed, never answered (incl. "what is two plus two")                    |
+| `command`     |    20 | Commands addressed to an assistant ("translate…", "write me…") that must not run                     |
+| `injection`   |    10 | Prompt-injection phrasing ("ignore all previous instructions…", "end transcript…")                   |
+| `list`        |    12 | Spoken and written lists, a Markdown list                                                            |
+| `code`        |    12 | Identifiers, shell commands in backticks, paths, regexes, versions                                   |
+| `name`        |    12 | Diacritics and unusual spellings (Siobhán, Nguyễn Thị Lan, Bjørn, Ōkami), products                   |
+| `number`      |    14 | Amounts, ids, percentages, versions; spelled numbers stay words (no ITN at Light)                    |
+| `url`         |    10 | Paths, queries, fragments, ports, mixed case                                                         |
+| `email`       |    10 | Plus addressing, sub-domains, upper case                                                             |
+| `date`        |    10 | ISO dates, times, quarters, a date repair                                                            |
+| `non_english` |    32 | de, es, fr, it, pt, nl, sv, pl, ja, zh, ko; translate-requests that must stay in the source language |
+| `clean`       |    20 | Already-clean text that must stay unchanged (incl. "Sure, …", a quoted "um", "I mean it")            |
+| `disfluent`   |    16 | Fillers (um, uh, like, you know, I mean, äh, euh), stutters                                          |
+| `repair`      |    12 | Self-corrections ("actually", "no sorry", "scratch that", "I mean")                                  |
+| `newline`     |     8 | Multi-line text: letters, addresses, to-do lists; line count must survive                            |
+| `mixed`       |     6 | Several of the above in one take                                                                     |
+
+S-12a added 42 Dutch and French items (22 nl, 20 fr: lead-ins and
+hesitations under the owner's policy, self-repairs, questions and commands
+that must stay in their language, clean text, a letter), labelled by the
+S-12a author (`labels.revised = "s12a-nl-fr-2026-10-31"`), and extended the
+Dutch and French stopword lists, so the content words of every nl/fr item
+were regenerated. Totals before S-12a: 189 English and 40 non-English items in 11 other languages; 102
+instructions; 53 `unchanged` and 176 `edit` items; 148 protected spans; 86
+filler spans (68 before the owner filler policy, see "Discourse markers"); 12
+multi-line inputs. Only 2 items have their own Medium expected output; the
+rest fall back to Light (see "Gaps").
+
+**No personal data.** Names are invented or common given names; e-mail
+addresses use the reserved `example.*` domains (a self-test enforces it);
+URLs use `example.*`, private IPs or a placeholder repo; no phone numbers.
+
+**Not included (yet).** R5 F-10 also names Voquill's
+`post-processing-eval.test.ts` cases (AGPL-3.0, port as data), Disfl-QA
+(CC-BY-4.0) and AMI-disfluent samples. None are in this version:
+
+- Disfl-QA (Google Research, CC-BY-4.0) may be added with attribution: keep
+  `source: "disfl-qa"` per item and add the attribution line under "Sources".
+- AMI-disfluent: the licence of the derived disfluency annotations was not
+  checked; check it before adding any sample (the AMI Meeting Corpus itself is
+  CC-BY-4.0).
+- Voquill cases: AGPL-3.0; allowed as data in a GPL repo only with the AGPL
+  notice and a NOTICE entry (R5 §1); not ported.
+
+### Sources
+
+All 271 items: original, written for Wispr Bro, GPL-3.0-or-later with the
+repository.
+
+## Labelling protocol
+
+R5 §11.1: two people label every item independently; disagreements are
+resolved by discussion and the agreement rate is recorded.
+
+**Status: single-labelled.** Every item was written and labelled by the F-10
+author (an AI coding agent), `labels.first = "author"`, `labels.second =
+null`. On 2026-10-29, 13 items were relabelled to follow the product owner's
+filler policy (see "Discourse markers" below); they carry `labels.revised =
+"owner-policy-2026-10-29"` and a `notes` entry with the old label. That is a
+policy decision applied by the same author, not a second labeller, so
+`labels.second` stays `null`. **The second labeller pass and the inter-labeller agreement are
+pending and must be done by a human** before RS-07 relies on the numbers
+(F-10 exit criterion "inter-labeller agreement recorded").
+
+Procedure for the second labeller:
+
+1. Copy `items.jsonl` and, for each item, blank `expected`, `expected_class`,
+   `is_instruction`, `must_keep`, `must_remove`. Keep `input`, `language`,
+   `category`. Do not look at the first labels.
+2. Label from the `input` alone, following the rules below. Write the expected
+   Medium output where it should differ from Light.
+3. Run the comparison (a small script or spreadsheet) and record per field:
+   - `is_instruction`, `expected_class`: percent agreement and Cohen's κ;
+   - `must_keep`, `must_remove`: span-level F1 (exact span match, multiset);
+   - `expected.light` / `expected.medium`: exact match after the item's
+     `allowed_changes`, and mean WER between the two labellers;
+   - `language`: percent agreement.
+4. Resolve every disagreement by discussion; change the item; set
+   `labels.second` to the second labeller's handle. Re-run the tests
+   (`content_words` is regenerated from the resolved `input` and
+   `must_remove`, see below).
+5. Record the numbers in the table below with the date and the items' sha256.
+
+Labelling rules:
+
+- `input` is what ASR plus the deterministic stages produce: lower case and
+  missing punctuation are normal; written digits, URLs and e-mails stay as ASR
+  writes them. Spoken punctuation and ITN are not the LLM's job at Light.
+- **Light** expected: remove fillers and stutters, apply self-repairs, fix
+  punctuation and capitalization, keep every other word, the language, all
+  protected spans and every line break. **Medium**: may also fix grammar and
+  wording, keeping meaning and all facts.
+- A question or command is transcribed, never answered or executed; the
+  expected output is the cleaned question or command. Mark `is_instruction`
+  for every question or imperative, in any category.
+- `must_keep`: every name, number, URL, e-mail, code span or term that must
+  come back exactly. A span must occur in the input and in every expected
+  output (self-test).
+- `must_remove`: every filler occurrence, one entry each; a word used as a
+  filler only ("like" in "we don't have like enough", not "I like it").
+  `countSpan(input) − countSpan(expected) = n` must hold (self-test).
+- `content_words`: generated, not hand-labelled: `suggestContentWords(input,
+language, must_remove)` (input words minus the runner's stopwords minus
+  filler tokens). The self-test fails if it is out of date.
+- `expected_class` is `unchanged` exactly when every expected output equals
+  the input.
+
+### Discourse markers (owner policy, 2026-10-29)
+
+The product owner decided that Light cleanup **removes discourse markers and
+hesitation phrases that carry no content**, as Muesli does ("erm so basically
+the client wants uh a refund" → "The client wants a refund."; "hmm let me
+think um the second option is better" → "The second option is better.";
+"alors euh je voulais euh te demander un service" → "Je voulais te demander
+un service"). They are labelled like any other filler: one `must_remove`
+entry per occurrence, absent from `expected` at every level, and therefore
+not in `content_words`.
+
+Filler when used as a marker, a lead-in or a tag:
+
+| Language | Markers                                                                                                                                                              |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| en       | yeah / yes as a pure lead-in, okay / ok, so, basically, like (filler), right / you know / I mean (tags, lead-ins), well, hmm, ah, oh, let me think, actually (empty) |
+| de       | also, halt, naja, ähm / äh, sozusagen, quasi                                                                                                                         |
+| nl       | nou, dus, eh / ehm, zeg maar, ja (lead-in)                                                                                                                           |
+| fr       | alors, bon, ben, enfin, du coup, genre, quoi (tag), euh                                                                                                              |
+| es       | pues, bueno, o sea, este, eh                                                                                                                                         |
+| pt       | tipo, né, então, é (filler)                                                                                                                                          |
+| it       | allora, cioè, tipo, insomma, ehm                                                                                                                                     |
+| sv       | alltså, liksom, typ, öh                                                                                                                                              |
+| pl       | no (lead-in), yyy, eee, jakby                                                                                                                                        |
+| ja       | えーと / えっと, あのー, まあ                                                                                                                                        |
+| zh       | 那个, 就是 (filler), 嗯                                                                                                                                              |
+| ko       | 음, 어, 그러니까 (filler), 뭐                                                                                                                                        |
+
+Sentence-opening frames ("what I wanted to say is (that)", "I just wanted to
+let you know (that)"; nl "wat ik wilde zeggen is", fr "ce que je voulais dire
+c'est") are lead-ins too: a cleanup **may** drop them at the start of a
+sentence (the guards allow it; `markers.json` `frames`), but they are not
+`must_remove` spans, so keeping them is not a filler miss. Mid-sentence they
+are content ("he asked what I wanted to say"). Labels: `disfluent-030`
+(`labels.revised = "frames-2026-11-05"`).
+
+**Kept** when they carry meaning:
+
+- "yes" / "okay" (and "ja", "oui", "sí", …) as an answer or agreement that is
+  the message itself ("okay, send it"; "Sure, Thursday works for me");
+- "so" as a real conjunction meaning "therefore" between clauses ("it rained,
+  so we stayed in"), and German "also" meaning "therefore" inside a clause
+  (English "also" is never a marker);
+- "like" as a verb or a comparison ("I like it", "like I'm five", "what's the
+  weather going to be like");
+- "right" meaning correct or a direction; "you know" / "I mean" as a verb
+  phrase ("you know what I mean", "I mean it");
+- "actually" contrasting with something ("the results are pretty good,
+  actually" keeps it: it contrasts with an expectation);
+- an utterance that consists only of such words ("ok", "you know what I mean
+  right") stays as it is.
+
+When in doubt for a lead-in at the start of a sentence, treat it as filler.
+Self-corrections ("blue no the green") keep only the correction (unchanged
+rule). Greetings and politeness ("hey", "hi team", "please", "thanks") are
+content.
+
+Items relabelled under this policy (`labels.revised`): `question-005`,
+`code-012`, `mixed-006` (lead-in "so"), `disfluent-001`, `-002`, `-003`,
+`-004`, `-008`, `-009`, `-012`, `-013`, `-015` (de "also"), `-016` (fr
+"alors"). Reviewed and kept as content: `question-025` (the whole utterance is
+the tag question), `disfluent-006` (contrastive "actually"), `question-011`
+("hey"), `clean-008`, `clean-010`, `clean-011`, `command-010`, `question-017`
+and `question-019`. To re-score a saved run under new labels without calling
+the models: `bun scripts/wb-bench-cleanup.ts --rescore
+eval/cleanup/reports/rs07-<date>`.
+
+### Inter-labeller agreement (to be filled in by a human)
+
+| Date | Items sha256 | Labellers | `is_instruction` κ | `expected_class` κ | `must_keep` F1 | `must_remove` F1 | Light exact | Medium exact | Disagreements resolved |
+| ---- | ------------ | --------- | ------------------ | ------------------ | -------------- | ---------------- | ----------- | ------------ | ---------------------- |
+| –    | –            | pending   | –                  | –                  | –              | –                | –           | –            | –                      |
+
+## Gaps (what F-10 does not do yet)
+
+| Gap                                                                                                                                | Effect                                                                                                                                                        | Closed by                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Guards are a TypeScript stub of R5 §4.5, not the shipped Rust guards                                                               | Post-guard numbers of the non-replay runner approximate what the app will do                                                                                  | Closed by S-12a for gate runs: `--replay` (above)               |
+| Language detector is a stand-in (script detection + weighted stopword scoring), not Handy's `lang_id` (whatlang, confidence ≥ 0.9) | Non-replay runs only; with Handy's `lang_id` most short Dutch expected outputs are undecided, so Dutch has almost no language-kept denominator in replay runs | Closed by S-12a for gate runs (`--replay` carries `lang_id`)    |
+| Stopwords are our own short lists for 12 languages, not stopwords-iso                                                              | Content-word lists and the answer metric's "content words" differ slightly from R5's wording                                                                  | Swap in stopwords-iso (MIT) data and regenerate `content_words` |
+| Assistant markers are our own list, not Muesli's                                                                                   | The scorer's answer metric keeps its own list; the shipped guard uses Muesli's markers and our openers (`src-tauri/src/fork/llm/tables/markers.json`)         | S-12a port (guard side)                                         |
+| Only 2 items have their own Medium expected output                                                                                 | Medium runs compare against Light labels, so Medium rewording counts as damage or a miss more often than it should                                            | Second labelling pass                                           |
+| Single labeller, agreement not recorded                                                                                            | F-10 exit criterion open                                                                                                                                      | Human labelling pass                                            |
+| No Disfl-QA / AMI-disfluent / Voquill samples                                                                                      | Fewer natural disfluencies                                                                                                                                    | Add with licence checks (above)                                 |
+| Run against real models only on an M5 Max (RS-07 provisional run, `docs/fork/spikes/RS-07-cleanup-bakeoff.md`)                     | The "report for one model in under 15 min on an M1" exit criterion is unverified                                                                              | RS-07 re-run on M1 8 GB                                         |

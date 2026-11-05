@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# RS-01 fn / Globe spike (R5 §7 RS-01, §4.8, DEC-09, DEC-44, DEC-47). A test
+# tool, not product code: it is never built into the app. It runs Handy's
+# hotkey manager as shipped plus the fork's own handy-keys blocking listener,
+# the S-01 fn grammar (src/grammar.rs) and a cold mic at T_show, and guides
+# the owner through the spike. See docs/fork/spikes/RS-01-procedure.md.
+
+[package]
+name = "wb-spike-fn"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+
+# Its own workspace root, so it never joins (or changes) the app's build.
+[workspace]
+
+[[bin]]
+name = "wb-spike-fn"
+path = "src/main.rs"
+
+# The app's own versions (src-tauri/Cargo.toml); Cargo.lock is a pruned copy
+# of src-tauri/Cargo.lock, so nothing new is downloaded.
+[dependencies]
+handy-keys = "=0.3.4"
+handy-recorder = "0.1"
+# handy-recorder's own cpal (already in the lockfile), used directly only for
+# RS-01 round 2's "prepared but not started" input unit (src/mic.rs).
+cpal = { package = "handy-cpal", version = "=0.18.2" }
+hound = "3.5.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+libc = "0.2"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+
+[profile.release]
+panic = "unwind"

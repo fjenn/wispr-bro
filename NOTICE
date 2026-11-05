@@ -1,0 +1,853 @@
+Wispr Bro
+Copyright (C) 2026 Wispr Bro contributors
+
+This file lists the copyright and licence notices for Wispr Bro, the
+third-party code it is built on or ports, and the separately licensed
+model weights and fonts it uses. The full list of Rust crates and npm
+packages, with their licence texts, is THIRD-PARTY-NOTICES.md (generated
+by scripts/wb-notices.ts and attached to every release).
+
+======================================================================
+1. Licence of Wispr Bro
+======================================================================
+
+Wispr Bro is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License version 3 as published
+by the Free Software Foundation. The full text is in LICENSE.
+
+- Files written for Wispr Bro carry
+  "SPDX-License-Identifier: GPL-3.0-or-later".
+- The distributed app as a whole is licensed under GPL-3.0 (version 3
+  only), because some ported parts are licensed "-only" (see section 3
+  and section 4).
+- Wispr Bro is distributed WITHOUT ANY WARRANTY; see sections 15 and 16
+  of LICENSE.
+- The corresponding source code of every release, including its build
+  scripts, is published with that release.
+
+======================================================================
+2. Handy (MIT)
+======================================================================
+
+Wispr Bro is a fork of Handy.
+
+  Handy, https://github.com/cjpais/Handy
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT. The full text, with this copyright notice, is in
+  LICENSES/MIT-Handy.txt.
+
+Handy's files keep their MIT licence; Wispr Bro's changes to them are
+small hooks listed in ci/hooks.txt. The Handy name, logo, icon and brand
+assets are not part of this licence and are not used as Wispr Bro's
+branding.
+
+======================================================================
+3. Ported source code
+======================================================================
+
+Code ported from other projects. Each ported file keeps its original
+copyright line and carries a "Modified by Wispr Bro contributors" notice.
+Details per port: docs/fork/PORTS.md.
+
+- src-tauri/src/fork/diagnostics/sanitizer.rs
+  Source: Voquill, https://github.com/voquill/voquill
+  Commit: a5dfbe0e3a35807271293a0ef02c91902abc0104
+  File:   apps/desktop/src-tauri/src/utils/log_sanitizer.rs
+  Copyright (c) 2025-present Voquill, Inc.
+  Licence: AGPL-3.0 (this file: AGPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026 (added rules and tests).
+
+- src-tauri/src/fork/text/rules.rs
+  Source: Voicetypr, https://github.com/ideaplexa/voicetypr
+  Commit: f86e571df5bd5c0a4d8950095167b45185fa59d4
+  File:   src-tauri/src/writing/library_rules.rs
+  Copyright (c) the Voicetypr authors
+  Licence: AGPL-3.0 (this file: AGPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026 (one aho-corasick automaton
+  over Unicode case-folded rules, caller-chosen replacement, no snippets
+  or language scopes, tests).
+
+- src-tauri/src/fork/text/tables/commands.*.json (data)
+  Source: MacParakeet, https://github.com/moona3k/macparakeet
+  Commit: 3ec699152f78df8adccba0cbff5cb968c9790947
+  File:   Sources/MacParakeetCore/TextProcessing/SpokenPunctuation.swift
+          (spoken punctuation phrases and literal prefixes; the matching
+          rules are re-expressed in src-tauri/src/fork/text/commands.rs)
+  Copyright (C) 2026 Daniel Moon
+  Licence: GPL-3.0
+  Modified by Wispr Bro contributors, 2026 (split per language; line,
+  paragraph and "scratch that" phrases and blocker words added).
+
+- src-tauri/src/fork/clipboard/restore.rs
+  Source: hex, https://github.com/anomalyco/hex (branch dev)
+  Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
+  File:   src/paste.rs (ClipboardRestore)
+  Copyright (c) 2026 Christopher Langton
+  and Handy, src-tauri/src/paste_tx/mod.rs (evaluate)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-hex.txt, LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (decisions returned instead of
+  acted on, per-target deadlines, tests).
+
+- src-tauri/src/fork/clipboard/target.rs
+  Source: hex, https://github.com/anomalyco/hex (branch dev)
+  Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
+  File:   src/paste.rs (chromium_major_versions)
+  Copyright (c) 2026 Christopher Langton
+  Licence: MIT (LICENSES/MIT-hex.txt)
+  Modified by Wispr Bro contributors, 2026 (Electron detection, target
+  class, tests).
+
+- src-tauri/src/fork/clipboard/keys.rs
+  Source: hex, https://github.com/anomalyco/hex (branch dev)
+  Commit: 3607595d92345af4be9f0eaa86ae3750c8851e39
+  Files:  src/keyboard.rs, crates/capture/src/capture/macos.rs
+  Copyright (c) 2026 Christopher Langton
+  and Handy, src-tauri/src/input.rs (layout-aware ⌘V key code)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-hex.txt, LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (injectable modifier wait, fn
+  in the modifier set, Return for auto-submit, tests).
+
+- src-tauri/crates/wb-apple-fm/swift/fork_apple_fm.swift,
+  src-tauri/crates/wb-apple-fm/src/lib.rs
+  Source: hex, https://github.com/anomalyco/hex
+  Commit: f316831775f63106d41200578c4a752fe8c3e174
+  Files:  src/apple_intelligence.swift, src/apple_intelligence.rs
+  Copyright (c) 2026 Christopher Langton
+  Licence: MIT (LICENSES/MIT-hex.txt)
+  and MacParakeet, https://github.com/moona3k/macparakeet
+  Commit: 3ec699152f78df8adccba0cbff5cb968c9790947
+  File:   Sources/MacParakeetCore/Services/LLM/
+          FoundationModelsAppleIntelligenceGenerator.swift (error mapping)
+  Copyright (C) 2026 Daniel Moon
+  Licence: GPL-3.0
+  and TypeWhisper, https://github.com/TypeWhisper/typewhisper-mac
+  Commit: 4620bb59a804a2aeeaf5607cf10aa437c7589504
+  File:   TypeWhisper/Services/LLM/FoundationModelsProvider.swift (prewarm)
+  Copyright (c) 2026 TypeWhisper
+  Licence: GPL-3.0-or-later (LICENSE)
+  Modified by Wispr Bro contributors, 2026 (one cleanup call with
+  wb_apple_fm_ symbols, request ids for cancelling, the prewarmed session
+  reused once, numeric error codes only, guided or plain replies, greedy
+  sampling, a Rust stub where the Swift part is not built).
+
+- src-tauri/crates/wb-apple-fm/build.rs
+  Source: Handy, src-tauri/build.rs (build_apple_intelligence_bridge)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (own crate and symbols, no stub
+  Swift file).
+
+- src/fork/onboarding/scenes/engine.ts
+  Source: Handy, src/components/onboarding/screens/Demo.tsx (scene engine)
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (one generic hook over any
+  script, word-by-word caption, pause/play).
+
+- src/fork/tutorials/scenes/beats.ts
+  Source: Handy, src/components/onboarding/screens/Demo.tsx (scene loop),
+  through src/fork/onboarding/scenes/engine.ts
+  Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-Handy.txt)
+  Modified by Wispr Bro contributors, 2026 (any beat names and script, no
+  caption logic).
+
+- src-tauri/crates/wb-handy-recorder/ (vendored crate)
+  Source: handy-recorder 0.1.0, https://github.com/handy-computer/handy-recorder
+  Commit: 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1 (crates/handy-recorder)
+  Copyright (c) 2026 handy-computer
+  Licence: MIT (the crate keeps its LICENSE file)
+  Modified by Wispr Bro contributors, 2026 (prepared microphone:
+  RecorderConfig::pause_when_idle, S-01 / DEC-53).
+
+- src-tauri/src/fork/shortcut/tests/ported.rs (test vectors only)
+  Hotkey state-machine test cases re-expressed for Wispr Bro's grammar;
+  no upstream code is copied. Sources:
+  anarlog, https://github.com/fastrepl/anarlog
+    a82755f4604fc30c9c89fe3e97f4195988d8ca46, crates/shortcut-macos/tests/processor.rs
+    Copyright (c) 2023-present Fastrepl, Inc. Licence: MIT
+  MacParakeet, https://github.com/moona3k/macparakeet
+    a388b7d449c722875f24e26df35acecf881dd35e, Tests/MacParakeetTests/Hotkey/
+    FnKeyStateMachineTests.swift, HotkeyGestureControllerTests.swift
+    Copyright (C) 2026 Daniel Moon. Licence: GPL-3.0
+  FluidVoice, https://github.com/altic-dev/FluidVoice
+    ea94c8a6736d453c764a2431503832b3fb134911,
+    Tests/FluidDictationIntegrationTests/HotkeyShortcutTests.swift
+    FluidVoice contributors. Licence: GPL-3.0
+  OpenWhispr, https://github.com/OpenWhispr/openwhispr
+    b9e9ebefac4b961456c269164a93ddfdd53438b9, resources/macos-globe-listener.swift,
+    main.js (FN_INTERRUPTED). Copyright (c) 2024 OpenWhispr Team. Licence: MIT
+  hex, https://github.com/anomalyco/hex
+    ed8c18e9a172a8a781a6999683085622897f0e83, src/keyboard.rs, src/suppression.rs
+    Copyright (c) 2026 Christopher Langton. Licence: MIT
+  Hex (legacy), https://github.com/kitlangton/Hex
+    3e300721b8784ea19ede0359d8fbcca94cfb6a04,
+    HexCore/Tests/HexCoreTests/HotKeyProcessorTests.swift
+    Copyright (c) 2025 Kit Langton. Licence: MIT
+  Modified by Wispr Bro contributors, 2026-10-30 (timings T=500 ms,
+  T_show=150 ms; expectations follow R5 S-01 where they differ).
+- src-tauri/src/fork/insert/spacing.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/smart_spacing/rules.rs (needs_leading_space and
+          its character classes)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-11-04 (leading space only; a
+  space only after a letter, digit, closing mark or spaced dash; the
+  dictation is never trimmed).
+- src-tauri/src/fork/stats/streak.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/managers/history.rs (compute_streaks)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026 (named result, day parsing,
+  tests).
+- src-tauri/src/fork/models/readiness.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/speech_readiness.rs (resolve and its tests)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (no cloud engine; a press
+  is recorded and queued instead of refused; names the model to switch to).
+- src-tauri/src/fork/recovery/undo.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/dictation_recovery.rs (the one-offer slot, the
+          half-second speech minimum and their tests)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (cancels only; a fixed
+  4 s window on a caller clock; audio in memory, Handy's WAV or a saved
+  row; Handy's short-take padding).
+
+- src-tauri/src/fork/shortcut/globe.rs
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   resources/macos-globe-listener.swift (GlobeSystemAction,
+          GlobePreferenceState: the Globe key's Do Nothing setting through
+          TISUpdateFnUsageType and its crash-safe restore marker)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026-11-02 (Rust; marker in the
+  app's data folder; applied only after consent in onboarding, held while
+  fn is the dictation trigger and restored when it stops being one).
+
+- src-tauri/src/fork/context/categories.json (data)
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   src/helpers/toneAppCategories.js (app and browser signatures,
+          whole-token matching rule, ported to categories.rs)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  and AudioWhisper, https://github.com/mazdak/AudioWhisper
+  Commit: 71fed3683d6e62f631c606003e57430622be0b2b
+  File:   Sources/Managers/AppCategoryManager.swift (bundle ids)
+  Copyright (c) 2024 AudioWhisper Contributors
+  Licence: MIT (LICENSES/MIT-AudioWhisper.txt)
+  Modified by Wispr Bro contributors, 2026 (mapped to Wispr Bro's style
+  groups and usage categories; documents and AI apps added).
+- src-tauri/src/fork/stats/tables/stopwords-iso.json (data)
+  Source: stopwords-iso, https://github.com/stopwords-iso/stopwords-iso
+  Version: npm stopwords-iso 1.1.0
+  File:   stopwords-iso.json (unmodified)
+  Copyright (c) 2020 Gene Diaz
+  Licence: MIT (LICENSES/MIT-stopwords-iso.txt)
+- src-tauri/src/fork/llm/process.rs, src-tauri/src/fork/llm/supervisor.rs,
+  src-tauri/src/fork/llm/chat.rs
+  Source: TypeWhisper, https://github.com/TypeWhisper/typewhisper-mac
+  Commit: 4620bb59a804a2aeeaf5607cf10aa437c7589504
+  Files:  TypeWhisperPluginSDK/Plugins/LlamaCppPlugin/LlamaCppServer.swift,
+          LlamaCppRuntime.swift (verification marker idea),
+          Tests/LlamaCppPluginTests.swift (acceptance list)
+  Copyright (c) 2026 TypeWhisper
+  Licence: GPL-3.0-or-later (LICENSE)
+  Modified by Wispr Bro contributors, 2026 (ported from Swift to Rust;
+  Unix-socket transport, kqueue watchdog instead of a shell script, CPU
+  fallback, backoff, idle stop, wake check, streamed replies for abort; no
+  runtime download).
+
+- src-tauri/src/fork/llm/prompt.rs (the cleanup system prompt)
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   src/locales/en/prompts.json ("cleanupPrompt")
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026 ({{agentName}} set to
+  "Assistant"; one line asking for a JSON reply appended).
+  The same text ships as src-tauri/src/fork/llm/prompts/cleanup.txt (S-12a).
+- src-tauri/src/fork/llm/guards.rs (S-12a guard chain)
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/actions.rs (transcription_allows_empty_output,
+          is_leaked_channel_name, echo_words, prompt_echo,
+          is_implausibly_long)
+  Copyright (c) 2026 Abhishek Barali, Copyright (c) 2025 CJ Pais
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  and FreeFlow, https://github.com/zachlatta/freeflow
+  Commit: 4ebd9366e9e2920928c65c879185e5f98af38806
+  File:   Sources/TranscriptTextCore.swift
+          (appearsToHaveExecutedInstruction, significantTokens)
+  Copyright (c) 2026 Zach Latta
+  Licence: MIT (LICENSES/MIT-FreeFlow.txt)
+  and BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  File:   Sources/BetterWisprCore/Transcription/TranscriptPolisher.swift
+          (accepted()); adapted there from VoiceInk,
+          https://github.com/Beingpax/VoiceInk at
+          c09cc1f677f40f2ee665843a61f07670210f012e
+  Licence: GPL-3.0 (LICENSE)
+  and Muesli, https://github.com/Muesli-HQ/muesli
+  Commit: e1b52117ffb1ab6980f7266b72d9cb9e706a5afb
+  File:   native/MuesliNative/Sources/MuesliNativeApp/Qwen3PostProcessor.swift
+          (assistant markers of shouldFallbackToInput; data in
+          src-tauri/src/fork/llm/tables/markers.json)
+  Copyright (c) 2026 Pranav Hari
+  Licence: MIT (LICENSES/MIT-Muesli.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (ported to one Rust
+  chain; multilingual word tables; filler- and repair-aware word band;
+  our own entity, formatting, content-word and language checks).
+- src-tauri/src/fork/transforms/run.rs (command-mode system prompt)
+  Source: FreeFlow, https://github.com/zachlatta/freeflow
+  Commit: 4ebd9366e9e2920928c65c879185e5f98af38806
+  File:   Sources/PostProcessingService.swift (commandModeSystemPrompt)
+  Copyright (c) 2026 Zach Latta
+  Licence: MIT (LICENSES/MIT-FreeFlow.txt)
+  Modified by Wispr Bro contributors, 2026-11-01 (JSON response framing
+  and built-in editing instructions).
+- src-tauri/src/fork/transforms/selection.rs (selection freshness and menu fallback)
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/selection.rs (sentinel freshness rule)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  and SelectedTextKit, https://github.com/tisfeng/SelectedTextKit
+  Commit: 93dc960a5ef8d52de98af41d4abd7a89576d091c
+  File:   Sources/SelectedTextKit/Accessibility/AXManager+Menu.swift
+          (enabled Copy menu item found by its command shortcut)
+  Copyright (c) 2024 tisfeng
+  Licence: MIT (LICENSES/MIT-SelectedTextKit.txt)
+  Modified by Wispr Bro contributors, 2026-11-01 (own sentinel, snapshot
+  and bounded polling; AXPress through the existing AX thread).
+- src-tauri/src/fork/llm/post_process.rs (the clean-text gate)
+  Source: open-flow, https://github.com/Robj1925/open-flow
+  Commit: 7055c59014ffaac3785e25532ee07ce39093490e
+  File:   Sources/OpenFlowCore/Postprocess/LLMCleanerStage.swift (needsCleanup)
+  Copyright (c) 2026 Rob J
+  Licence: MIT (LICENSES/MIT-open-flow.txt)
+  Modified by Wispr Bro contributors, 2026-10-31 (multilingual filler and
+  repair tables; unpunctuated text also needs the LLM).
+
+- src-tauri/src/fork/pill/panel.rs
+  Source: Tolkovo, https://github.com/kozliq/Tolkovo
+  Commit: ffc5b6231eacc0c5ba8ab59634ad0f2dd4b44b35
+  File:   src-tauri/src/tolkovo/pill.rs (panel set-up, Space observer)
+  Copyright (c) 2025 CJ Pais
+  Copyright (c) 2026 kozliq
+  Licence: MIT
+  Modified by Wispr Bro contributors, 2026-10-30 (web view only around a
+  take, exact sizes per state, no private activation API, S-03).
+
+- src-tauri/src/fork/text/snippets.rs (snippet matching)
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: fc786f41c91de8177ce7d9333d2834d973cc3c19
+  File:   src/utils/snippets.ts (buildMatcher, expandSnippets,
+          foldCapitalIDot)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026 (ported from TypeScript to
+  Rust on aho-corasick; Wispr Flow's alone/inline, possessive and
+  contraction rules; limits).
+
+- src-tauri/src/fork/ax/element.rs
+  Source: SpeakoFlow, https://github.com/AbhishekBarali/SpeakoFlow
+  Commit: 9818a17fcd124e5f1ea6d34780ddea9b154322d8
+  File:   src-tauri/src/smart_spacing/macos.rs (AX helpers, app helpers,
+          Secure Input)
+  Copyright (c) 2026 Abhishek Barali
+  Licence: MIT (LICENSES/MIT-SpeakoFlow.txt)
+  Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31 (timeout
+  as a parameter, raw-error reads, URL, bounds, setters, app families,
+  Secure Input holder; RS-04, S-05).
+
+- src-tauri/src/fork/ax/editable.rs
+  Source: OpenWhispr, https://github.com/OpenWhispr/openwhispr
+  Commit: b9e9ebefac4b961456c269164a93ddfdd53438b9
+  File:   resources/macos-text-monitor.swift (isEditableTextElement)
+  Copyright (c) 2024 OpenWhispr Team
+  Licence: MIT (LICENSES/MIT-OpenWhispr.txt)
+  Modified by Wispr Bro contributors, 2026-10-30 and 2026-10-31 (pure
+  verdict over read facts, fail-open rule, web, Electron, terminal,
+  Gecko and Finder cases; RS-04, S-05).
+
+- src-tauri/src/fork/ax/lease.rs, src-tauri/src/fork/ax/markers.rs
+  Source: VoiceInk, https://github.com/Beingpax/VoiceInk
+  Commit: 19546d2a7f85578f49efb538eb888b37ff2f8f8c
+  File:   VoiceInk/Infrastructure/SystemIntegration/Accessibility/
+          AccessibilityTextReader.swift (AccessibilityWebAccess lease
+          refcount; text-marker selection read)
+  Copyright (c) the VoiceInk authors
+  Licence: GPL-3.0 (files marked GPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026-10-30 (Swift to Rust; 60 s
+  hold after the last reader; RS-04, shipped by S-05).
+
+- src-tauri/src/fork/audio/mute.rs, src-tauri/src/fork/audio/mute_tests.rs
+  Source: Tambourine, https://github.com/kstonekuan/tambourine-voice
+  Commit: c54b527d5920b821e1f0ff837457d69405696b6b
+  Files:  app/src-tauri/src/audio_mute/mod.rs, audio_mute/macos.rs,
+          src/tests/audio_mute_tests.rs
+  Copyright (c) the Tambourine authors
+  Licence: AGPL-3.0 (these files: AGPL-3.0-only)
+  Modified by Wispr Bro contributors, 2026-10-31 (macOS controller only;
+  "already muted by the user" re-checked at the next mute; per-device
+  restore tests; Handy's set_mute/get_mute hooks and the exit restore,
+  S-08).
+
+- src-tauri/src/fork/audio/transport.rs (CoreAudio property readers)
+  Source: handy-recorder 0.1.0, https://github.com/handy-computer/handy-recorder
+  Commit: 1d975fe8c10f9a69d778cf16955c7e0699b4b8e1
+  File:   crates/handy-recorder/src/backend/headset_macos.rs
+  Copyright (c) 2026 handy-computer
+  Licence: MIT (src-tauri/crates/wb-handy-recorder/LICENSE)
+  Modified by Wispr Bro contributors, 2026-10-31 (device list with name,
+  transport and input streams; the transport classification is ours,
+  S-08).
+
+- src-tauri/src/fork/text/style_rules.rs (S-19a preset rules, stage 10)
+  Source: BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  File:   Sources/BetterWisprCore/Transcription/StyleFormatter.swift
+          (not one of BetterWispr's VoiceInk-derived files)
+  Copyright 2026 Kartik Labhshetwar
+  Licence: Apache-2.0 (LICENSES/Apache-2.0-BetterWispr.txt); BetterWispr
+  ships no NOTICE file.
+  Modified by Wispr Bro contributors, 2026-10-31 (Swift to Rust; the
+  greeting join is not ported, so no line break is removed; dictionary
+  words keep their case; the English gate is ours).
+
+- src-tauri/src/fork/context/app_rules.rs (S-19a rule precedence and
+  site patterns)
+  Source: BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  File:   Sources/BetterWisprCore/Domain/WritingMode.swift
+          (website(_:matches:), address, [WritingMode].match); adapted
+          there from VoiceInk, https://github.com/Beingpax/VoiceInk at
+          c09cc1f677f40f2ee665843a61f07670210f012e
+  Licence: GPL-3.0 (LICENSE)
+  Modified by Wispr Bro contributors, 2026-10-31 (Swift to Rust; one app
+  or site per rule with its style group; no modes or trigger words; the
+  built-in app table is the last tier).
+- src-tauri/src/fork/dictionary/learn/diff.rs,
+  src-tauri/src/fork/dictionary/learn/watcher.rs,
+  src-tauri/src/fork/dictionary/learn/review.rs,
+  src-tauri/src/fork/dictionary/learn/tests.rs (S-34 auto-learn)
+  Source: BetterWispr, https://github.com/opennookorg/betterwispr
+  Commit: 304335a073a98f7439e5f7b4fbc2c31b810b807e
+  Files:  Sources/BetterWisprCore/Transcription/CorrectionLearner.swift
+          (Copyright 2026 Kartik Labhshetwar, Apache-2.0,
+          LICENSES/Apache-2.0-BetterWispr.txt; it ports OpenWhispr
+          src/utils/correctionLearner.js at
+          4881a74d7273e3d12ca91a0b46204ad80ea03e9a, Copyright (c) 2024
+          OpenWhispr Team, MIT, LICENSES/MIT-OpenWhispr.txt),
+          Sources/BetterWisprCore/Integrations/CorrectionWatcher.swift and
+          Sources/BetterWisprCore/Transcription/CorrectionReviewer.swift
+          (GPL-3.0; adapted there from VoiceInk at
+          c09cc1f677f40f2ee665843a61f07670210f012e), and their tests
+  and VoiceInk, https://github.com/Beingpax/VoiceInk
+  Commit: c09cc1f677f40f2ee665843a61f07670210f012e
+  File:   VoiceInk/Features/Dictionary/AutoLearn/CorrectionDiffEngine.swift
+          (candidate checks)
+  Licence: GPL-3.0 (LICENSE)
+  Modified by Wispr Bro contributors, 2026-11-02 (Swift to Rust; learns
+  only after Return, Tab or a focus change within 30 s on the AX thread
+  and lease; S-20 exclusions; suggestions wait for the user's approval
+  instead of a model review; rejected entries never return).
+- src-tauri/src/fork/context/caret.rs,
+  src-tauri/src/fork/context/exclusions.json (password_manager_markers)
+  Source: FluidVoice, https://github.com/altic-dev/FluidVoice
+  Commit: ea94c8a6736d453c764a2431503832b3fb134911
+  Files:  Sources/Fluid/Services/DictationContextCapture.swift,
+          Tests/FluidDictationIntegrationTests/DictationContextCaptureTests.swift
+  FluidVoice contributors. Licence: GPL-3.0
+  Modified by Wispr Bro contributors, 2026-10-31 (Rust on the fork's AX
+  thread; the walk starts at the focused field; R5 S-20's 1,500-character
+  and 100 ms budgets; the caret window before, selected and after; Wispr's
+  exclusions; no OCR; only spelling hints leave the read, S-20).
+
+- src-tauri/src/fork/update/idle_gate.rs (behaviour and test cases only)
+  Source: MacParakeet, https://github.com/moona3k/macparakeet
+  Commit: b6ca965c348532232e71dd07d01bb0fbf6c0b995
+  Files:  Sources/MacParakeet/App/SparkleUpdateGuard.swift,
+          Tests/MacParakeetTests/App/SparkleUpdateGuardTests.swift
+  Copyright (C) 2026 Daniel Moon
+  Licence: GPL-3.0
+  Modified by Wispr Bro contributors, 2026-11-02 (no code copied: the
+  guard cases re-expressed in Rust for tauri-plugin-updater: dev versions
+  skip background checks, no install mid-take, relaunch veto; Wispr's
+  20-minute quiet window and the Hub-focus rule added, S-28).
+
+- src-tauri/src/fork/vendor/axwatch/ (vendored module)
+  Source: axwatch 0.1.0, https://github.com/AprilNEA/axwatch
+  Commit: 89f73ea349c21de6ee38b1c4089b3e4441d32723 (src/lib.rs, macos.rs,
+          fallback.rs)
+  Copyright (c) 2026 AprilNEA
+  Licence: MIT OR Apache-2.0 (LICENSE-MIT and LICENSE-APACHE beside it)
+  Modified by Wispr Bro contributors, 2026-11-02 (built as a module of the
+  app crate: `super::` paths, lint attributes, an ignored example, a
+  heartbeat test that waits instead of sleeping a fixed time).
+
+- src-tauri/src/fork/shortcut/health.rs (recovery triggers only)
+  The list of events after which the hotkey is re-checked follows VoiceInk,
+  https://github.com/Beingpax/VoiceInk,
+  VoiceInk/Features/Shortcuts/Coordination/ShortcutMonitor.swift
+  (GPL-3.0); no code is copied.
+
+======================================================================
+4. Files licensed AGPL-3.0-only
+======================================================================
+
+These files are marked "SPDX-License-Identifier: AGPL-3.0-only" and stay
+under the GNU Affero General Public License version 3. Combining them
+with the GPL-3.0 rest of the app is permitted by section 13 of both
+licences. Wispr Bro is a local app and offers no network-reachable
+interface; if it ever does, AGPL section 13 requires offering the source
+to its remote users.
+
+- src-tauri/src/fork/diagnostics/sanitizer.rs
+- src-tauri/src/fork/text/rules.rs
+- src-tauri/src/fork/audio/mute.rs
+- src-tauri/src/fork/audio/mute_tests.rs
+
+======================================================================
+5. Apache-2.0 NOTICE files
+======================================================================
+
+Apache-2.0 section 4(d) requires passing on the NOTICE file of an
+Apache-licensed work. As of F-04 none of the shipped Rust crates or npm
+runtime packages ships a NOTICE file. scripts/wb-notices.ts reproduces
+every NOTICE file it finds in THIRD-PARTY-NOTICES.md and fails if the
+package is not named in this section, so a new one is listed here as
+"- <package name>".
+
+- es-toolkit (MIT, not Apache-2.0; a Recharts dependency since S-25. Its
+  NOTICE carries the Lodash copyright and permission notice for the parts
+  derived from Lodash; it is reproduced in THIRD-PARTY-NOTICES.md.)
+
+======================================================================
+6. Model attributions
+======================================================================
+
+Speech-recognition model weights are separate works, downloaded from
+Hugging Face at first run; they are not covered by the GPL. The register
+of every model and asset, and which ones may be chosen silently, is
+docs/fork/LICENSE-REGISTER.md.
+
+6.1 CC-BY-4.0 models (may be silent defaults, DEC-26)
+
+- Parakeet Unified English 0.6B (catalog id parakeet-unified-en-0.6b)
+  Original model: nvidia/parakeet-unified-en-0.6b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-unified-en-0.6b
+  Files used: https://huggingface.co/handy-computer/parakeet-unified-en-0.6b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary 180M Flash (catalog id canary-180m-flash)
+  Original model: nvidia/canary-180m-flash by NVIDIA
+    https://huggingface.co/nvidia/canary-180m-flash
+  Files used: https://huggingface.co/handy-computer/canary-180m-flash-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet Ultra (catalog id parakeet-ultra)
+  Original model: moondream/parakeet-ultra by Moondream
+    https://huggingface.co/moondream/parakeet-ultra
+  Files used: https://huggingface.co/handy-computer/parakeet-ultra-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT 0.6B v3 (catalog id parakeet-tdt-0.6b-v3)
+  Original model: nvidia/parakeet-tdt-0.6b-v3 by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt-0.6b-v3-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT 0.6B v2 (catalog id parakeet-tdt-0.6b-v2)
+  Original model: nvidia/parakeet-tdt-0.6b-v2 by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt-0.6b-v2-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary 1B v2 (catalog id canary-1b-v2)
+  Original model: nvidia/canary-1b-v2 by NVIDIA
+    https://huggingface.co/nvidia/canary-1b-v2
+  Files used: https://huggingface.co/handy-computer/canary-1b-v2-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary-Qwen 2.5B (catalog id canary-qwen-2.5b)
+  Original model: nvidia/canary-qwen-2.5b by NVIDIA
+    https://huggingface.co/nvidia/canary-qwen-2.5b
+  Files used: https://huggingface.co/handy-computer/canary-qwen-2.5b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT-CTC 110M (catalog id parakeet-tdt_ctc-110m)
+  Original model: nvidia/parakeet-tdt_ctc-110m by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt_ctc-110m
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt_ctc-110m-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Canary 1B Flash (catalog id canary-1b-flash)
+  Original model: nvidia/canary-1b-flash by NVIDIA
+    https://huggingface.co/nvidia/canary-1b-flash
+  Files used: https://huggingface.co/handy-computer/canary-1b-flash-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet CTC 0.6B (catalog id parakeet-ctc-0.6b)
+  Original model: nvidia/parakeet-ctc-0.6b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-ctc-0.6b
+  Files used: https://huggingface.co/handy-computer/parakeet-ctc-0.6b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet CTC 1.1B (catalog id parakeet-ctc-1.1b)
+  Original model: nvidia/parakeet-ctc-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-ctc-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-ctc-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet Primeline (catalog id parakeet-primeline)
+  Original model: primeline/parakeet-primeline by primeLine
+    https://huggingface.co/primeline/parakeet-primeline
+  Files used: https://huggingface.co/handy-computer/parakeet-primeline-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet RNN-T 0.6B (catalog id parakeet-rnnt-0.6b)
+  Original model: nvidia/parakeet-rnnt-0.6b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-rnnt-0.6b
+  Files used: https://huggingface.co/handy-computer/parakeet-rnnt-0.6b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet RNN-T 1.1B (catalog id parakeet-rnnt-1.1b)
+  Original model: nvidia/parakeet-rnnt-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-rnnt-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-rnnt-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT-CTC 1.1B (catalog id parakeet-tdt_ctc-1.1b)
+  Original model: nvidia/parakeet-tdt_ctc-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt_ctc-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt_ctc-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+- Parakeet TDT 1.1B (catalog id parakeet-tdt-1.1b)
+  Original model: nvidia/parakeet-tdt-1.1b by NVIDIA
+    https://huggingface.co/nvidia/parakeet-tdt-1.1b
+  Files used: https://huggingface.co/handy-computer/parakeet-tdt-1.1b-gguf
+  Licence: CC-BY-4.0, https://creativecommons.org/licenses/by/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+6.2 CC-BY-SA-4.0 models (offered in the catalog, not a default)
+
+- Orukeet (catalog id orukeet)
+  Original model: oruk/orukeet by oruk
+    https://huggingface.co/oruk/orukeet
+  Files used: https://huggingface.co/handy-computer/orukeet-gguf
+  Licence: CC-BY-SA-4.0, https://creativecommons.org/licenses/by-sa/4.0/
+  Changes: converted to GGUF (and quantized) by the Handy project
+  (handy-computer); Wispr Bro downloads and runs these files unchanged.
+
+6.3 Other models
+
+The catalog's Apache-2.0 and MIT models (Whisper, Moonshine English,
+GigaAM, Granite Speech, Qwen3-ASR, Voxtral, Silero VAD, the ECAPA
+language detector and others) are not redistributed by Wispr Bro: the
+app downloads them unchanged from the handy-computer Hugging Face
+repositories, which carry their licences. The 12 non-English Moonshine models (non-commercial, although
+Handy's catalog says MIT) and models under non-commercial, NVIDIA Open
+Model or "other" licences are never chosen silently (DEC-27); see the
+register.
+
+6.4 Cleanup language models (S-10)
+
+Downloaded unchanged from their upstream Hugging Face repositories at a
+pinned revision and checked by sha256 (src-tauri/src/fork/llm/catalog.rs);
+not redistributed by Wispr Bro.
+
+- Muesli 2B v12, Q4_K_M (the cleanup model on Apple Silicon, DEC-03)
+  Files used: https://huggingface.co/Muesli-HQ/qwen35-2b-muesli-cleanup-v12-gguf
+  (revision e35af097be4f17d3673515fb321ce19aa300faf6)
+  Based on Qwen3.5-2B by the Qwen team, Alibaba Cloud.
+  Licence: Apache-2.0, https://www.apache.org/licenses/LICENSE-2.0
+
+- Qwen3.5-2B, Q4_K_M (custom transforms and Command Mode, downloaded on demand)
+  Original model: Qwen/Qwen3.5-2B by the Qwen team, Alibaba Cloud
+  Files used: https://huggingface.co/unsloth/Qwen3.5-2B-GGUF
+  (revision f6d5376be1edb4d416d56da11e5397a961aca8ae)
+  Licence: Apache-2.0, https://www.apache.org/licenses/LICENSE-2.0
+
+======================================================================
+7. Fonts
+======================================================================
+
+- Noto Sans CJK SC (subset, src/assets/fonts/cjk-subset.woff2, from Handy)
+  © 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name
+  'Source'.
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-NotoSansCJK.txt.
+
+- Figtree (latin and latin-ext subsets,
+  src/assets/fonts/fork/figtree-*.woff2, from the Fontsource package
+  @fontsource-variable/figtree 5.3.0; Design Phase 0)
+  Copyright 2022 The Figtree Project Authors
+  (https://github.com/erikdkennedy/figtree).
+  Licence: SIL Open Font License 1.1; text in LICENSES/OFL-1.1-Figtree.txt.
+
+- Inter (cyrillic, cyrillic-ext, greek, greek-ext and vietnamese subsets,
+  src/assets/fonts/fork/inter-*.woff2, from the Fontsource package
+  @fontsource-variable/inter 5.3.0; Design Phase 0)
+  Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter).
+  Licence: SIL Open Font License 1.1; text in LICENSES/OFL-1.1-Inter.txt.
+
+- EB Garamond (roman and italic; latin, latin-ext, cyrillic, cyrillic-ext,
+  greek and vietnamese subsets, src/assets/fonts/fork/eb-garamond-*.woff2,
+  from the Fontsource package @fontsource-variable/eb-garamond 5.3.0;
+  Design Phase 0)
+  Copyright 2017 The EB Garamond Project Authors
+  (https://github.com/octaviopardo/EBGaramond12).
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-EBGaramond.txt.
+
+- JetBrains Mono (latin, latin-ext, cyrillic and greek subsets,
+  src/assets/fonts/fork/jetbrains-mono-*.woff2, from the Fontsource package
+  @fontsource-variable/jetbrains-mono 5.3.0; Design Phase 0)
+  Copyright 2020 The JetBrains Mono Project Authors
+  (https://github.com/JetBrains/JetBrainsMono).
+  Licence: SIL Open Font License 1.1; text in
+  LICENSES/OFL-1.1-JetBrainsMono.txt.
+
+Fonts added by later slices are listed here, with their OFL text in
+LICENSES/, when they are added.
+
+======================================================================
+8. Bundled programs
+======================================================================
+
+- llama-server (Contents/MacOS/llama-server), the local language-model
+  runtime (S-10). Built by ci/llama-server/build.sh from llama.cpp tag
+  b11624 (commit af0579c78a07a555d84830d01da7b61cfadbc7ef),
+  https://github.com/ggml-org/llama.cpp, unmodified, statically linked.
+  It runs as a separate process; its source is that tag.
+  Components compiled into it:
+  - llama.cpp and ggml: Copyright (c) 2023-2026 The ggml authors.
+    Licence: MIT; text in LICENSES/MIT-llama.cpp.txt.
+  - cpp-httplib: Copyright (c) 2017 yhirose. Licence: MIT; text in
+    LICENSES/MIT-cpp-httplib.txt.
+  - JSON for Modern C++: Copyright (c) 2013-2025 Niels Lohmann.
+    Licence: MIT; text in LICENSES/MIT-nlohmann-json.txt.
+  - xxHash: Copyright (C) 2012-2023 Yann Collet. Licence: BSD-2-Clause;
+    text in LICENSES/BSD-2-Clause-xxHash.txt.
+  - subprocess.h (sheredom): public domain (Unlicense); text in
+    LICENSES/Unlicense-subprocess.txt.
+  - miniaudio: David Reid. Public domain (Unlicense) or MIT-0; text in
+    LICENSES/Unlicense-or-MIT-0-miniaudio.txt.
+  - stb_image: Sean Barrett. MIT or public domain (Unlicense); text in
+    LICENSES/MIT-or-Unlicense-stb_image.txt.
+  - SHA-1 by Steve Reid and SHA-256 by Igor Pavlov (from Crypto++):
+    public domain, as stated in the source files.
+
+======================================================================
+9. Art
+======================================================================
+
+Pictures bundled in src/assets/fork/art/ (Design W7). Sources, exact
+pages, changes and sha256 sums: docs/fork/LICENSE-REGISTER.md §2a and
+src/assets/fork/art/SHA256SUMS. Every photo was cropped, colour-graded
+(warmer, darker, less saturated), blurred in part, given film grain and
+re-encoded as WebP and AVIF by Wispr Bro.
+
+- Insights banner (photos/banner-insights@*): "Watch, pocket
+  (AM 1942.92-15)", photograph by Auckland War Memorial Museum Tāmaki
+  Paenga Hira (object made by Army & Navy C S Ltd; gift of Miss E G
+  Martin, 1942.92),
+  https://commons.wikimedia.org/wiki/File:Watch,_pocket_(AM_1942.92-15).jpg
+  Licence: Creative Commons Attribution 4.0 International (CC BY 4.0),
+  https://creativecommons.org/licenses/by/4.0/ . Changed as described
+  above.
+
+Released into the public domain under CC0 1.0
+(https://creativecommons.org/publicdomain/zero/1.0/); credited as a
+courtesy:
+
+- Home banner: "Microphone 1", freestocks.org (via Flickr),
+  https://commons.wikimedia.org/wiki/File:Microphone_1.jpg
+- Scratchpad banner: "Notebook writing man book person blur", PxHere,
+  https://commons.wikimedia.org/wiki/File:Notebook-writing-man-book-person-blur-1176206.jpg
+- Transforms banner: "Monarch Pioneer keyboard, 2021-02-09, 01", Cbaile19,
+  https://commons.wikimedia.org/wiki/File:Monarch_Pioneer_keyboard,_2021-02-09,_01.jpg
+- Style banner: "Metal movable types, Reading Mi BookStore, Dongguan,
+  December 2024", NAS 238 WMMNO,
+  https://commons.wikimedia.org/wiki/File:GD_廣東_Guangdong_東莞_Dongguan_民盈_國貿城_DC_Mall_shop_覔書店_Reading_Mi_BookStore_goods_活版字粒_Metal_movable_types_December_2024_R12S_01.jpg
+- Dictionary banner: "Thesaurus Graece Linguae", Jonund,
+  https://commons.wikimedia.org/wiki/File:Thesaurus_Graece_Linguae.jpg
+- Snippets banner: "Wooden Card Catalog Furniture", MarkBuckawicki,
+  https://commons.wikimedia.org/wiki/File:Wooden_Card_Catalog_Furniture.jpg
+- Whisper lesson photo: "Man writing while using his laptop 2",
+  Pixel.la Free Stock Photos,
+  https://commons.wikimedia.org/wiki/File:Man_writing_while_using_his_laptop_2.jpg
+- Characters (characters/*.svg): Open Doodles by Pablo Stanley,
+  https://www.opendoodles.com/ ; recoloured, cropped and simplified by
+  Wispr Bro.
+
+The mark, wordmark, background pattern, stickers and "How it works"
+pictures (brand/, stickers/, how/) were drawn for Wispr Bro and are
+licensed GPL-3.0-or-later with the rest of the app.
+
+======================================================================
+10. Trademarks shown in the app
+======================================================================
+
+GitHub mark. The Invertocat on the buttons that open Wispr Bro's GitHub
+project (Settings > About: View source code, View license, Handy on
+GitHub; the sidebar's Support menu: Star on GitHub) is GitHub's mark, a
+trademark of GitHub, Inc. It is drawn from GitHub's own file,
+GitHub_Invertocat_Black.svg in the logo package at
+https://brand.github.com (GitHub_Logos.zip, read 2026-11-04), unchanged
+except that it takes the button's single ink colour. GitHub's logo
+guidelines allow the Invertocat as a button that links to a project on
+GitHub; it is not licensed under the GPL and is not Wispr Bro's mark.
+Wispr Bro is not affiliated with or endorsed by GitHub.
+
+The install window's background in the disk image
+(src-tauri/icons-fork/dmg/background.png and background@2x.png, drawn by
+scripts/wb-release/dmg/background.ts) was made for Wispr Bro and is
+licensed GPL-3.0-or-later with the rest of the app.

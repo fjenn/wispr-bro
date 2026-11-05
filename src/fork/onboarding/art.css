@@ -1,0 +1,28 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * S-29a: the permission pictures (art/*.svg) are inlined and take the app's
+ * own tokens, so they follow the app theme (Light/Dark/System), not only
+ * the OS one. Abstract shapes only: no macOS text, no Apple artwork.
+ */
+.wbart-bg {
+  fill: var(--wb-fill-hover);
+}
+.wbart-panel {
+  fill: var(--wb-surface);
+  stroke: var(--wb-line-strong);
+}
+.wbart-side {
+  fill: var(--wb-panel);
+}
+.wbart-ink {
+  fill: var(--wb-ink);
+}
+.wbart-muted {
+  fill: var(--wb-ink-3);
+}
+.wbart-line {
+  fill: var(--wb-line);
+}
+.wbart-accent {
+  fill: var(--wb-ink);
+}

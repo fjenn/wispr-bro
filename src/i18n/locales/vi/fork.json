@@ -1,0 +1,2757 @@
+{
+  "debug": {
+    "title": "Bảng gỡ lỗi fork",
+    "description": "Các kiểm tra nội bộ cho lớp Wispr Bro. Chỉ hiển thị trong bản build gỡ lỗi hoặc khi ứng dụng được khởi động với --debug.",
+    "close": "Đóng",
+    "runAgain": "Chạy lại",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Trạng thái mô hình",
+      "notReady": "Chưa sẵn sàng: ứng dụng chưa khởi động xong."
+    },
+    "lastEvent": {
+      "title": "Sự kiện ping gần nhất",
+      "none": "Chưa nhận được sự kiện nào."
+    },
+    "pending": "Đang chờ…",
+    "error": "Lỗi: {{message}}",
+    "csp": {
+      "title": "Content Security Policy",
+      "description": "Phát một tệp âm thanh qua asset protocol, tải hình ảnh data: và blob:, gọi một lệnh fork và kiểm tra rằng hình ảnh không được phép bị chặn.",
+      "run": "Chạy kiểm tra CSP",
+      "running": "Đang chạy…",
+      "pass": "Đạt: không có vi phạm CSP bất ngờ.",
+      "fail": "Không đạt: xem các kiểm tra bên dưới.",
+      "ok": "ok ({{detail}})",
+      "failed": "thất bại ({{detail}})",
+      "noViolations": "Không ghi nhận vi phạm CSP nào.",
+      "violations_other": "Đã ghi nhận {{count}} vi phạm CSP.",
+      "checks": {
+        "media": "Âm thanh (asset protocol)",
+        "dataImage": "Hình ảnh data:",
+        "blobImage": "Hình ảnh blob:",
+        "forkCommand": "Lệnh fork",
+        "probe": "Nguồn bị chặn"
+      }
+    },
+    "notifications": {
+      "title": "Thông báo",
+      "permission": "Quyền macOS: {{state}}",
+      "kind": "Loại",
+      "delay": "Độ trễ (giây)",
+      "post": "Gửi mẫu",
+      "posted": "Gửi sau {{seconds}} giây. Chuyển sang ứng dụng khác để xem thông báo macOS."
+    },
+    "update": {
+      "title": "Cập nhật",
+      "version": "Phiên bản",
+      "channel": "Kênh",
+      "key": "Khóa ký",
+      "endpoints": "Nguồn cập nhật",
+      "checksOff": "Kiểm tra cập nhật đang tắt (Cài đặt › Nâng cao, hoặc kill switch đã được đặt).",
+      "check": "Kiểm tra ngay",
+      "checking": "Đang kiểm tra…",
+      "install": "Cài đặt {{version}} và mở lại",
+      "installing": "Đang tải về và xác minh…",
+      "installed": "Đã cài đặt {{version}}. Đang mở lại…",
+      "available": "Đã có {{version}}.",
+      "upToDate": "Đã cập nhật.",
+      "failed": "Không thể kiểm tra: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "Cài đặt fork",
+      "loading": "Đang tải cài đặt…",
+      "loadError": "Không thể đọc cài đặt: {{message}}",
+      "setError": "Thay đổi đó không được lưu: {{message}}",
+      "contextAwareness": "Nhận biết ngữ cảnh",
+      "contextAwarenessHint": "Dùng tên trong văn bản gần con trỏ để viết đúng chính tả. Văn bản đó ở lại trên máy Mac này và không bao giờ được lưu.",
+      "transforms": "Chuyển đổi",
+      "transformsHint": "⌥1 trau chuốt văn bản được chọn, ⌥2 biến nó thành lời nhắc AI rõ ràng hơn và ⌥O hiện những gì lần chuyển đổi gần nhất đã thay đổi. Khi bật, các phím này không còn gõ ¡, ™ và ø.",
+      "transformsSafeShortcuts": "Dùng ⌃⌥1 và ⌃⌥2 thay thế",
+      "transformsSafeShortcutsHint": "Giữ ¡ và ™ dùng được với ⌥1 và ⌥2.",
+      "cleanupLevel": "Mức dọn dẹp",
+      "levels": {
+        "none": "Không có",
+        "light": "Nhẹ",
+        "medium": "Trung bình"
+      },
+      "all": "Tất cả cài đặt"
+    },
+    "bar": {
+      "title": "Thanh đọc chính tả",
+      "alwaysShow": "Luôn hiển thị thanh",
+      "alwaysShowHelp": "Khi tắt, thanh chỉ xuất hiện trong lúc bạn đọc chính tả.",
+      "position": "Vị trí",
+      "positions": {
+        "bottom": "Cuối màn hình",
+        "top": "Đầu màn hình"
+      },
+      "hideInRecordings": "Ẩn thanh trong bản ghi màn hình",
+      "hideInRecordingsHelp": "Ảnh chụp màn hình, bản ghi màn hình và chia sẻ màn hình sẽ không có thanh.",
+      "hiddenUntil": "Ẩn đến {{time}}",
+      "showNow": "Hiển thị lại",
+      "resetPositions": "Căn giữa thanh trên mọi màn hình"
+    },
+    "mic": {
+      "title": "Micrô",
+      "legend": "Micrô sử dụng",
+      "loading": "Đang tìm micrô…",
+      "loadError": "Không thể liệt kê micrô: {{message}}",
+      "retry": "Thử lại",
+      "recommended": "{{name}} (khuyên dùng)",
+      "auto": "Tự phát hiện (cài đặt hệ thống)",
+      "autoNow": "Hiện tại: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Micrô có dây hoặc tích hợp hoạt động tốt nhất; Bluetooth có thể bị ngắt.",
+      "avoided": "Đầu vào âm thanh của máy Mac đang đặt là {{name}}. Micrô Bluetooth có thể bị ngắt, vì vậy Đọc chính tả dùng micrô tích hợp.",
+      "useAnyway": "Vẫn dùng {{name}}",
+      "inUse": "Đọc chính tả nghe bằng: {{name}}",
+      "chooseError": "Không thể chuyển micrô: {{message}}",
+      "meter": {
+        "start": "Kiểm tra micrô",
+        "stop": "Dừng kiểm tra",
+        "label": "Mức micrô",
+        "value": "{{percent}} phần trăm",
+        "off": "Không kiểm tra",
+        "hint": "Hãy nói gì đó. Các thanh sẽ chuyển động khi bạn nói.",
+        "errors": {
+          "permission_denied": "Quyền truy cập micrô đang tắt. Bật trong Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Micrô.",
+          "no_input_device": "Không tìm thấy micrô.",
+          "failed": "Micrô không khởi động. Hãy thử micrô khác."
+        }
+      },
+      "loadErrorPlain": "Không thể liệt kê micrô.",
+      "chooseErrorPlain": "Không thể đổi micrô."
+    },
+    "sound": {
+      "title": "Âm thanh",
+      "enabled": "Phát âm thanh khi đọc chính tả bắt đầu và dừng",
+      "enabledHelp": "Một âm ngắn khi micrô bật và tắt.",
+      "theme": "Âm thanh",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Tùy chỉnh"
+      },
+      "volume": "Âm lượng",
+      "volumeValue": "{{percent}} phần trăm",
+      "preview": "Phát",
+      "mute": "Tắt tiếng mọi âm thanh khi đọc chính tả",
+      "muteHelp": "Nhạc và video im lặng khi bạn nói, rồi trở lại như cũ."
+    },
+    "recovery": {
+      "title": "Phím tắt khôi phục",
+      "description": "Lấy lại bản đọc chính tả gần nhất, hoặc gửi đi, mà không rời bàn phím.",
+      "notSet": "Chưa đặt",
+      "current": "Phím tắt: {{shortcut}}",
+      "listening": "Nhấn một phím tắt…",
+      "listeningHelp": "Nhấn các phím hoặc nút chuột bạn muốn. Esc để hủy.",
+      "record": "Ghi",
+      "cancel": "Hủy",
+      "clear": "Xóa",
+      "useDefault": "Dùng mặc định",
+      "unusable": "Không dùng được phím tắt này. Hãy chọn phím khác.",
+      "saveFailed": "Không lưu được phím tắt.",
+      "recordFailed": "Không ghi được phím tắt. Hãy kiểm tra xem ứng dụng có quyền Trợ năng không.",
+      "pasteLast": {
+        "title": "Dán bản đọc chính tả gần nhất",
+        "help": "Dán lại bản đọc chính tả gần nhất vào chỗ bạn đang gõ."
+      },
+      "copyLast": {
+        "title": "Sao chép bản đọc chính tả gần nhất",
+        "help": "Đưa bản đọc chính tả gần nhất vào bảng nhớ tạm."
+      },
+      "pressEnter": {
+        "title": "Nhấn Return",
+        "help": "Nhấn Return thay bạn, ví dụ để gửi tin nhắn vừa đọc chính tả.",
+        "mouse": "Nút chuột vẫn nhấp như bình thường trong ứng dụng dưới con trỏ, nên nút bên (lùi hoặc tiến) là tốt nhất."
+      },
+      "undoCancel": {
+        "title": "Hoàn tác việc hủy",
+        "help": "Lấy lại bản đọc chính tả bạn vừa hủy, trong lúc thanh vẫn hiện Hoàn tác."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "Cài đặt",
+    "close": "Đóng cài đặt",
+    "navigation": "Các phần cài đặt",
+    "sections": {
+      "general": "Chung",
+      "system": "Hệ thống",
+      "vibe": "Vibe coding",
+      "privacy": "Dữ liệu và Quyền riêng tư",
+      "advanced": "Nâng cao",
+      "about": "Giới thiệu",
+      "hotkeys": "Phím tắt"
+    },
+    "general": {
+      "shortcuts": "Phím tắt",
+      "change": "Thay đổi",
+      "microphone": "Micrô",
+      "languages": "Ngôn ngữ của tôi",
+      "appearance": "Ngôn ngữ và chủ đề của ứng dụng",
+      "typingHint": "Dùng để tính thời gian bạn tiết kiệm được khi đọc chính tả."
+    },
+    "system": {
+      "app": "Hành vi ứng dụng",
+      "alwaysBar": "Luôn hiển thị thanh",
+      "showDock": "Hiện ứng dụng trong Dock",
+      "showDockHint": "Giữ Wispr Bro trong Dock sau khi cửa sổ đóng.",
+      "sounds": "Âm thanh",
+      "notifications": "Thông báo",
+      "notificationKinds": {
+        "system": "Thông báo của Mac",
+        "modelReady": "Mô hình giọng nói sẵn sàng",
+        "updateReady": "Bản cập nhật sẵn sàng",
+        "queuedReady": "Bản đọc chính tả trong hàng chờ đã sẵn sàng",
+        "suggestions": "Gợi ý",
+        "announcements": "Thông báo tính năng mới",
+        "milestones": "Cột mốc",
+        "shortcutProblems": "Sự cố phím tắt"
+      },
+      "scratchpad": "Bản nháp",
+      "scratchpadLabel": "Khi Bản nháp mở",
+      "scratchpadHint": "Chọn nội dung mà phím tắt và nút trên thanh sẽ mở.",
+      "scratchpadOptions": {
+        "resume_last": "Tiếp tục ghi chú gần nhất",
+        "new_note": "Bắt đầu ghi chú mới"
+      },
+      "notificationsHint": "Mỗi công tắc điều khiển thông báo đó trong Wispr Bro và trên Mac. “Thông báo của Mac” chỉ tắt biểu ngữ trên Mac. Thông báo sự cố và khôi phục luôn hiện trong Wispr Bro.",
+      "dockKeptForTray": "Biểu tượng trên thanh menu đang tắt nên biểu tượng Dock vẫn hiện. Bật biểu tượng trên thanh menu để ẩn nó.",
+      "trayKeptForDock": "Biểu tượng Dock đang tắt nên biểu tượng trên thanh menu vẫn hiện. Bật “Hiện ứng dụng trong Dock” để ẩn nó."
+    },
+    "vibe": {
+      "intro": "Wispr Bro đọc tên mã mà trình soạn thảo hiển thị và tên tệp, thư mục của dự án đang mở, ngay trên máy Mac này. Nó chỉ đọc tên, không bao giờ đọc nội dung tệp của bạn.",
+      "contextOff": "Nhận biết ngữ cảnh đang tắt nên các tính năng này không có gì để đọc. Hãy bật lên để sử dụng.",
+      "recognize": "Nhận dạng tên trong mã",
+      "recognizeHint": "Nói một tên mà trình sửa mã hiển thị, như “get user by id”, và tên đó được viết đúng như trong mã của bạn: getUserById.",
+      "setUp": "Thiết lập",
+      "change": "Đổi trình sửa mã",
+      "setUpFor": "Thiết lập cho {{editors}}",
+      "fileTags": "Gắn thẻ tệp trong chat",
+      "fileTagsHint": "Trong chat của Cursor hoặc Windsurf, nói “index dot ts” sẽ gắn thẻ index.ts qua menu @ của trình sửa mã, với bất kỳ tệp nào trong dự án của bạn. Nếu trình sửa mã không đưa ra kết quả khớp, @index.ts được viết dưới dạng văn bản.",
+      "fileTagsNeedsChat": "Có sau khi bạn thêm Cursor hoặc Windsurf vào danh sách trình sửa mã.",
+      "fileTagsNeedsSetup": "Có sau khi bạn thiết lập nhận dạng tên trong mã.",
+      "setup": {
+        "title": "Thiết lập nhận dạng tên trong mã",
+        "stepEditors": "1. Chọn các trình sửa mã bạn dùng",
+        "stepScreenReader": "2. Bật chế độ trình đọc màn hình trong từng trình sửa mã để chúng chia sẻ văn bản với Wispr Bro",
+        "openSettings": "Mở cài đặt của trình sửa mã bằng ⌘ dấu phẩy.",
+        "search": "Tìm “accessibility support”.",
+        "setOn": "Đặt Editor: Accessibility Support thành “on”.",
+        "palette": "Bạn cũng có thể chạy “Toggle Screen Reader Accessibility Mode” từ Command Palette (⇧⌘P).",
+        "confirm": "Tôi đã bật chế độ trình đọc màn hình trong các trình sửa mã này",
+        "cancel": "Hủy",
+        "finish": "Hoàn tất thiết lập"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "Riêng tư ngay từ thiết kế",
+        "local": "Bản đọc chính tả và dữ liệu của bạn ở lại trên máy Mac này.",
+        "noCloud": "Nhận dạng giọng nói, dọn dẹp và Lịch sử chạy cục bộ. Không có tài khoản, đo lường từ xa, đọc chính tả trên đám mây hay dọn dẹp trên đám mây.",
+        "network": "Những gì dùng mạng",
+        "networkIntro": "Wispr Bro chỉ dùng mạng cho hai việc sau:",
+        "models": "Tải về mô hình giọng nói và mô hình dọn dẹp từ Hugging Face (huggingface.co).",
+        "updates": "Khi bật kiểm tra cập nhật, tìm bản cập nhật ứng dụng trên GitHub (github.com)."
+      },
+      "locations": {
+        "title": "Nơi lưu dữ liệu của bạn",
+        "data": "Dữ liệu và cài đặt ứng dụng",
+        "models": "Mô hình đã tải về",
+        "recordings": "Bản ghi âm",
+        "logs": "Nhật ký và báo cáo sự cố",
+        "show": "Hiện trong Finder",
+        "loading": "Đang xác định vị trí…",
+        "failed": "Không thể mở thư mục đó. Hãy thử lại."
+      },
+      "retention": {
+        "title": "Giữ Lịch sử trong bao lâu",
+        "textLabel": "Giữ văn bản đọc chính tả",
+        "textHint": "Các mục cũ hơn được tự động xóa. Theo mặc định, văn bản được giữ vĩnh viễn.",
+        "audioLabel": "Giữ bản ghi âm",
+        "audioHint": "Theo mặc định âm thanh hết hạn sau 14 ngày; văn bản vẫn giữ.",
+        "options": {
+          "0": "Không bao giờ lưu âm thanh",
+          "1": "1 ngày",
+          "7": "7 ngày",
+          "14": "14 ngày",
+          "30": "30 ngày",
+          "90": "90 ngày",
+          "365": "1 năm",
+          "forever": "Vĩnh viễn"
+        }
+      },
+      "choices": {
+        "title": "Lựa chọn quyền riêng tư",
+        "context": "Dùng nhận biết ngữ cảnh",
+        "contextHint": "Đọc văn bản gần đó khi bạn đọc chính tả để viết đúng tên. Không bao giờ được lưu hay ghi nhật ký.",
+        "updates": "Kiểm tra cập nhật ứng dụng",
+        "updatesHint": "Hỏi GitHub về phiên bản mới. Không gửi nội dung đọc chính tả hay dữ liệu cá nhân.",
+        "learn": "Học từ những chỗ tôi sửa",
+        "learnHint": "Gợi ý từ cho từ điển dựa trên những chỗ bạn sửa sau khi đọc chính tả."
+      },
+      "export": {
+        "title": "Dữ liệu của bạn",
+        "hint": "Tệp zip gồm Lịch sử, cài đặt và bản ghi âm. Không bao gồm mô hình và nhật ký.",
+        "button": "Xuất dữ liệu của tôi",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Tệp lưu trữ zip",
+        "done": "Đã lưu bản xuất và hiển thị trong Finder.",
+        "failed": "Không thể xuất dữ liệu của bạn. Không có gì bị xóa."
+      },
+      "delete": {
+        "button": "Xóa tất cả dữ liệu của tôi",
+        "title": "Xóa tất cả dữ liệu của bạn?",
+        "warning": "Thao tác này xóa vĩnh viễn Lịch sử, bản ghi âm, cài đặt, nhật ký và báo cáo sự cố. Không thể hoàn tác.",
+        "relaunch": "Wispr Bro sẽ dừng công việc, xóa dữ liệu và mở lại vào phần thiết lập ban đầu.",
+        "models": "Xóa luôn các mô hình đã tải về",
+        "modelsHint": "Để tắt mục này để không phải tải lại mô hình giọng nói và mô hình dọn dẹp.",
+        "confirmLabel": "Nhập {{word}} để xác nhận",
+        "cancel": "Hủy",
+        "confirm": "Xóa tất cả",
+        "failed": "Chưa xóa xong tất cả. Hãy kiểm tra dữ liệu còn lại trước khi thử lại.",
+        "short": "Xóa Lịch sử, bản ghi âm và cài đặt. Không thể hoàn tác."
+      },
+      "diagnostics": {
+        "title": "Báo cáo sự cố và chẩn đoán",
+        "hint": "Báo cáo sự cố ở lại trên máy Mac này. Chỉ chia sẻ chẩn đoán khi bạn muốn.",
+        "sanitized": "Xóa văn bản đã đọc, prompt, từ trong từ điển, email, khóa và đường dẫn thư mục nhà của bạn.",
+        "copy": "Sao chép thông tin chẩn đoán",
+        "save": "Lưu thông tin chẩn đoán…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Đã sao chép thông tin chẩn đoán đã làm sạch.",
+        "saved": "Đã lưu thông tin chẩn đoán đã làm sạch.",
+        "failed": "Không thể chuẩn bị thông tin chẩn đoán. Hãy thử lại.",
+        "rowTitle": "Chia sẻ chẩn đoán"
+      }
+    },
+    "advanced": {
+      "output": "Đầu ra văn bản",
+      "transcription": "Chép lời",
+      "barAndOverlay": "Thanh đọc chính tả và lớp phủ",
+      "liveText": "Hiện văn bản trực tiếp trên thanh",
+      "liveTextHint": "Hiển thị các từ được nhận diện khi bạn nói.",
+      "keyboard": "Backend bàn phím",
+      "prompts": "Nhà cung cấp dọn dẹp và trình sửa lời nhắc",
+      "history": "Lưu trữ lịch sử",
+      "updates": "Cập nhật",
+      "updateChannel": "Kênh cập nhật",
+      "updateChannelHint": "Bản build Beta có thể chứa thay đổi chưa hoàn thiện.",
+      "updateChannels": {
+        "stable": "Ổn định",
+        "beta": "Beta"
+      },
+      "storage": "Vị trí dữ liệu và nhật ký",
+      "experimental": "Thử nghiệm và gỡ lỗi",
+      "debugMode": "Công cụ gỡ lỗi",
+      "debugModeHint": "Hiện các điều khiển chẩn đoán và tùy chọn ghi nhật ký chi tiết.",
+      "forkDiagnostics": "Chẩn đoán cài đặt fork",
+      "translateUnsupported": "{{model}} không thể dịch. Hãy chọn mô hình có thể dịch, như Whisper hoặc Canary, trong Mô hình giọng nói.",
+      "translateNoModel": "Mô hình giọng nói của bạn không thể dịch. Hãy chọn mô hình có thể dịch, như Whisper hoặc Canary, trong Mô hình giọng nói."
+    },
+    "about": {
+      "tagline": "Đọc chính tả cục bộ, không cần tài khoản và không xử lý trên đám mây.",
+      "version": "Phiên bản {{version}}",
+      "source": "Xem mã nguồn",
+      "updates": "Ghi chú cập nhật",
+      "updatesTitle": "Cập nhật",
+      "license": "Phần mềm tự do theo Giấy phép Công cộng GNU, phiên bản 3 (GPL-3.0).",
+      "licenseLink": "Xem giấy phép",
+      "credit": "Xây dựng trên Handy của CJ Pais, sử dụng theo Giấy phép MIT. Cảm ơn tất cả những người đã đóng góp.",
+      "creditLink": "Handy trên GitHub",
+      "supportTitle": "Hỗ trợ phát triển"
+    },
+    "hotkeys": {
+      "open": "Phím tắt",
+      "loading": "Đang tải các phím tắt…",
+      "secureInputHelp": "Việc ghi phím tắt tạm dừng khi Nhập liệu an toàn của macOS bảo vệ một trường mật khẩu.",
+      "count": "Đã đặt {{count}}/{{max}}",
+      "notSet": "Chưa đặt",
+      "current": "Phím tắt: {{shortcut}}",
+      "activationLabel": "Cách kích hoạt phím tắt",
+      "activations": {
+        "hold": "Giữ",
+        "double_tap": "Chạm hai lần",
+        "press": "Nhấn",
+        "toggle": "Bật/tắt"
+      },
+      "add": "Thêm phím tắt",
+      "edit": "Sửa",
+      "delete": "Xóa",
+      "reset": "Đặt lại về mặc định",
+      "resetting": "Đang đặt lại…",
+      "resetFailed": "Không thể đặt lại tất cả các phím tắt. Hãy thử lại.",
+      "done": "Xong",
+      "saveFailed": "Không thể lưu phím tắt đó.",
+      "conflict": "Cũng được dùng cho {{action}}. Hãy chọn phím tắt khác.",
+      "invalid": "Không nhận dạng được phím tắt này.",
+      "unsupported": "Không thể dùng tổ hợp này làm phím tắt cho thao tác này.",
+      "capture": {
+        "starting": "Đang bắt đầu ghi phím tắt…",
+        "listening": "Nhấn một phím tắt…",
+        "listeningHelp": "Nhấn tổ hợp phím hoặc nút chuột muốn dùng. Esc để hủy.",
+        "cancel": "Hủy",
+        "close": "Quay lại",
+        "secure": "Không thể ghi phím tắt khi Secure Input đang bật. Hãy rời khỏi trường mật khẩu hoặc tắt Secure Keyboard Entry, rồi thử lại.",
+        "failed": "Không thể bắt đầu ghi phím tắt. Hãy kiểm tra quyền Trợ năng và thử lại."
+      },
+      "actions": {
+        "dictate": "Giữ để nói",
+        "hands_free": "Đọc chính tả rảnh tay",
+        "cancel": "Hủy đọc chính tả",
+        "command_mode": "Command Mode",
+        "paste_last": "Dán bản đọc chính tả gần nhất",
+        "copy_last": "Sao chép bản đọc chính tả gần nhất",
+        "press_enter": "Nhấn Return",
+        "undo_cancel": "Hoàn tác việc hủy",
+        "transform": {
+          "polish": "Polish văn bản đã chọn",
+          "prompt_engineer": "Biến văn bản đã chọn thành lời nhắc AI",
+          "view_changes": "Xem thay đổi của chuyển đổi"
+        },
+        "scratchpad": {
+          "open": "Mở Bản nháp"
+        }
+      },
+      "help": {
+        "dictate": "Giữ phím tắt khi bạn nói; thả phím để kết thúc.",
+        "hands_free": "Bắt đầu và dừng đọc chính tả mà không cần giữ phím.",
+        "cancel": "Dừng bản đọc chính tả hiện tại mà không chèn vào.",
+        "command_mode": "Giữ phím tắt trong khi nói cách sửa hoặc viết văn bản.",
+        "paste_last": "Dán lại bản đọc chính tả gần nhất.",
+        "copy_last": "Sao chép bản đọc chính tả gần nhất vào bảng nhớ tạm.",
+        "press_enter": "Nhấn Return ở nơi bạn đang gõ. Nút bên của chuột rất hợp.",
+        "undo_cancel": "Khôi phục bản đọc chính tả ngay sau khi bạn hủy.",
+        "transform": {
+          "polish": "Viết lại văn bản đã chọn bằng Polish.",
+          "prompt_engineer": "Viết lại văn bản đã chọn thành lời nhắc AI rõ ràng.",
+          "view_changes": "Xem lại trước và sau của lần chuyển đổi gần nhất."
+        },
+        "scratchpad": {
+          "open": "Tiếp tục ghi chú gần nhất hoặc bắt đầu ghi chú mới."
+        }
+      },
+      "addFor": "Thêm phím tắt cho {{action}}",
+      "descriptionLimits": "Hầu hết thao tác có tối đa {{max}} phím tắt. Giữ để nói, hủy và Command Mode mỗi thao tác có một, đọc chính tả rảnh tay có hai. Thay đổi được lưu ngay khi bạn thực hiện.",
+      "limit_other": "Thao tác này có tối đa {{count}} phím tắt.",
+      "appleDictation": {
+        "title": "Tắt Đọc chính tả của Apple khi nhấn fn hai lần",
+        "description": "Nhấn đúp sẽ không khởi động thêm Đọc chính tả của Apple.",
+        "active": "Đọc chính tả của Apple vẫn bắt đầu khi nhấn fn hai lần. Trong cài đặt Bàn phím, đặt phím tắt Đọc chính tả thành Tắt."
+      },
+      "key": {
+        "title": "Phím đọc chính tả",
+        "hint": "Giữ để nói. Nhấn hai lần để đọc chính tả rảnh tay.",
+        "prompt": "Nhấn phím hoặc các phím bạn muốn",
+        "save": "Lưu",
+        "invalid": "Dùng fn, hai phím bổ trợ như ⌃ ⌥, hoặc một phím bổ trợ cùng một phím như ⌥ Space.",
+        "more": "Thêm phím tắt"
+      }
+    },
+    "resetSetting": "Đặt lại {{setting}}",
+    "intro": {
+      "general": "Phím tắt, micrô, ngôn ngữ của bạn và giao diện của ứng dụng.",
+      "system": "Cách Wispr Bro khởi động, phát âm thanh và thông báo cho bạn.",
+      "privacy": "Mọi thứ ở lại trên máy Mac này. Chọn những gì được giữ và trong bao lâu.",
+      "advanced": "Tinh chỉnh giọng nói, làm sạch, xuất văn bản và cập nhật."
+    },
+    "navGroups": {
+      "app": "Ứng dụng"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "Chính"
+    },
+    "sidebar": {
+      "collapse": "Thu gọn thanh bên",
+      "expand": "Mở rộng thanh bên",
+      "suggested": "Từ được gợi ý: {{count}}"
+    },
+    "header": {
+      "toDark": "Chuyển sang giao diện tối",
+      "toLight": "Chuyển sang giao diện sáng"
+    },
+    "notifications": {
+      "title": "Thông báo",
+      "empty": {
+        "title": "Không có gì mới",
+        "body": "Các bản cập nhật và mẹo sẽ hiện ở đây."
+      },
+      "bellUnread_other": "Thông báo, {{count}} chưa đọc",
+      "filter": {
+        "label": "Hiện",
+        "all": "Tất cả",
+        "unread": "Chưa đọc"
+      },
+      "more": "Tùy chọn thông báo khác",
+      "markAllRead": "Đánh dấu tất cả là đã đọc",
+      "groups": {
+        "show": "Hiện trong danh sách này",
+        "mac": "Trên máy Mac này"
+      },
+      "toggles": {
+        "suggestions": "Gợi ý",
+        "announcements": "Thông báo chung",
+        "milestones": "Cột mốc",
+        "system": "Thông báo của Mac"
+      },
+      "list": "Thông báo",
+      "unreadDot": "Chưa đọc",
+      "emptyUnread": {
+        "title": "Không có gì mới",
+        "body": "Bạn đã đọc hết."
+      },
+      "loadFailed": "Không thể tải thông báo.",
+      "actionFailed": "Không thành công. Hãy thử lại.",
+      "copied": "Đã sao chép bản đọc chính tả mới nhất",
+      "nothingToCopy": "Chưa có bản đọc chính tả nào để sao chép",
+      "justNow": "Vừa rồi"
+    },
+    "help": {
+      "title": "Trợ giúp",
+      "updates": "Cập nhật",
+      "whatsNew": "Có gì mới",
+      "essentials": "Những điều cơ bản",
+      "shortcuts": "Phím tắt",
+      "microphone": "Micrô",
+      "languages": "Ngôn ngữ",
+      "documentation": "Tài liệu",
+      "getInTouch": "Liên hệ",
+      "reportProblem": "Báo cáo vấn đề…",
+      "sendFeedback": "Gửi phản hồi",
+      "report": {
+        "title": "Báo cáo vấn đề",
+        "body": "Thao tác này mở một issue mới trên GitHub trong trình duyệt, với phiên bản ứng dụng và kiểu máy Mac đã điền sẵn. Nội dung không bao giờ chứa những gì bạn đã đọc chính tả, và bạn có thể đọc và sửa mọi thứ trước khi gửi.",
+        "diagnosticsTitle": "Chẩn đoán (tùy chọn)",
+        "diagnosticsBody": "Nhật ký đã làm sạch giúp tìm ra nguyên nhân. Chúng không bao giờ chứa bản đọc chính tả của bạn. Sao chép tại đây, rồi dán vào issue.",
+        "copy": "Sao chép thông tin chẩn đoán",
+        "copied": "Đã sao chép thông tin chẩn đoán. Hãy dán vào issue.",
+        "copyFailed": "Không thể sao chép thông tin chẩn đoán.",
+        "open": "Mở GitHub",
+        "cancel": "Hủy",
+        "close": "Đóng"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Các phần cài đặt"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Đọc chính tả",
+        "banner": {
+          "title": "Nói thay vì gõ",
+          "body": "Giữ fn trong bất kỳ ứng dụng nào, nói điều bạn muốn viết rồi thả ra. {{appName}} đặt văn bản gọn gàng vào vị trí con trỏ.",
+          "quiet": "Đọc chính tả khẽ: chỉ cho tôi cách làm"
+        },
+        "empty": {
+          "title": "Các bản đọc chính tả của bạn sẽ hiện ở đây"
+        }
+      },
+      "insights": {
+        "title": "Thống kê",
+        "empty": {
+          "title": "Thống kê cần vài bản đọc chính tả",
+          "action": "Đi tới Đọc chính tả"
+        }
+      },
+      "dictionary": {
+        "title": "Từ điển"
+      },
+      "snippets": {
+        "title": "Đoạn văn bản"
+      },
+      "style": {
+        "title": "Kiểu"
+      },
+      "transforms": {
+        "title": "Chuyển đổi"
+      },
+      "scratchpad": {
+        "title": "Bản nháp"
+      },
+      "share": {
+        "title": "Chia sẻ với bạn bè"
+      },
+      "settings": {
+        "title": "Cài đặt"
+      }
+    },
+    "featurePopup": {
+      "label": "Mới trong phiên bản này",
+      "dismiss": "Đã hiểu",
+      "open": "Cho tôi xem"
+    },
+    "update": {
+      "off": "Kiểm tra cập nhật đang tắt",
+      "turnOn": "Bật",
+      "notChecked": "Chưa kiểm tra",
+      "check": "Kiểm tra cập nhật",
+      "checking": "Đang kiểm tra cập nhật…",
+      "upToDate": "Đã cập nhật",
+      "checkAgain": "Kiểm tra lại",
+      "checkFailed": "Không thể kiểm tra",
+      "retry": "Thử lại",
+      "downloading": "Đang tải về {{version}}…",
+      "ready": "Bản cập nhật sẵn sàng",
+      "restartNow": "Khởi động lại ngay",
+      "installing": "Đang cài đặt {{version}}…",
+      "installedWaiting": "Đã cài đặt {{version}} · khởi động lại sau lần đọc chính tả này",
+      "restarting": "Đang khởi động lại…",
+      "installFailed": "Không cài đặt được bản cập nhật",
+      "busy": "Hãy đọc chính tả xong trước.",
+      "actionFailed": "Không thành công. Hãy thử lại sau.",
+      "lastChecked": "Kiểm tra lần cuối {{time}}.",
+      "paused": "Sau ba lần thất bại, cập nhật tự động tạm dừng đến {{time}}.",
+      "manualOnly": "Đây là bản build phát triển: chỉ kiểm tra cập nhật khi bạn yêu cầu.",
+      "readyHint": "Bản cập nhật tự cài đặt khi bạn không đọc chính tả trong 20 phút, hoặc khi bạn thoát.",
+      "policy": "Bản cập nhật được tải về trong nền và được cài đặt khi bạn không đọc chính tả trong 20 phút, hoặc khi bạn thoát.",
+      "needsPassword": "Bản sao ứng dụng này nằm trong thư mục cần mật khẩu quản trị viên để thay đổi, vì vậy bản cập nhật chỉ được cài khi bạn chọn Khởi động lại ngay."
+    },
+    "support": {
+      "nav": "Ủng hộ {{appName}}",
+      "title": "Ủng hộ {{appName}}",
+      "free": "Miễn phí và mã nguồn mở",
+      "sponsor": "Tài trợ trên GitHub",
+      "star": "Gắn sao trên GitHub",
+      "contribute": "Đóng góp"
+    },
+    "notices": {
+      "more": "Thêm {{count}}",
+      "nextLabel": "Thông báo tiếp theo:"
+    },
+    "appleDictationNote": {
+      "body": "Chúng tôi đã tắt “Nhấn fn hai lần” của Đọc chính tả Apple để văn bản của bạn không bị nhập hai lần. Thay đổi trong Cài đặt › Phím tắt."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "Mới!",
+      "beta": "Beta"
+    },
+    "banner": {
+      "dismiss": "Bỏ qua"
+    },
+    "importWizard": {
+      "stepsLabel": "Các bước nhập",
+      "stepOf": "Bước {{step}}/{{total}}: {{title}}",
+      "steps": {
+        "choose": "Chọn một tệp",
+        "columns": "Ghép cột",
+        "review": "Xem lại",
+        "done": "Xong"
+      },
+      "dropHint": "Thả tệp .csv vào đây, hoặc chọn một tệp.",
+      "browse": "Chọn một tệp .csv",
+      "limit": "Tối đa 3 MB.",
+      "formatLink": "Định dạng được chấp nhận",
+      "csvFilter": "Tệp CSV",
+      "fileSummary_other": "{{name}}: {{count}} dòng",
+      "hasHeader": "Hàng đầu tiên chứa tên cột",
+      "optional": "(tùy chọn)",
+      "noColumn": "Không có trong tệp này",
+      "column": "Cột {{letter}}",
+      "columnNamed": "Cột {{letter}}: {{name}}",
+      "mapRequired": "Chọn một cột cho mỗi trường bắt buộc.",
+      "previewCaption_other": "Xem trước {{count}} hàng đầu tiên",
+      "rowHeader": "Hàng",
+      "cancel": "Hủy",
+      "back": "Quay lại",
+      "next": "Tiếp",
+      "import": "Nhập",
+      "done": "Xong",
+      "close": "Đóng",
+      "errors": {
+        "notCsv": "Đó không phải tệp .csv. Hãy lưu bảng tính dưới dạng CSV và thử lại.",
+        "tooLarge": "Tệp đó có dung lượng {{size}} MB. Tệp có thể tối đa 3 MB.",
+        "unreadable": "Không thể đọc tệp đó. Hãy kiểm tra xem đó có phải tệp CSV không và thử lại.",
+        "empty": "Tệp đó không có hàng nào để nhập.",
+        "failed": "Đã xảy ra lỗi. Không có gì được nhập; vui lòng thử lại."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Đọc chính tả",
+      "vocabulary": "Từ điển",
+      "help": "Trợ giúp",
+      "file": "Tệp",
+      "edit": "Sửa",
+      "view": "Xem",
+      "window": "Cửa sổ",
+      "wordsDictated_other": "Đã đọc chính tả {{count}} từ",
+      "copyLast": "Sao chép bản đọc chính tả gần nhất",
+      "copyLastPreview": "Sao chép bản đọc chính tả gần nhất: “{{preview}}”",
+      "copyLastConcealed": "Sao chép bản đọc chính tả gần nhất (ẩn văn bản)",
+      "microphone": "Micrô",
+      "languages": "Ngôn ngữ",
+      "moreLanguages": "Thêm hoặc xóa ngôn ngữ…",
+      "automaticMicrophone": "Tự phát hiện (cài đặt hệ thống)",
+      "noMicrophones": "Không tìm thấy micrô",
+      "dictionaryWords_other": "{{count}} từ trong từ điển",
+      "snippetCount_other": "{{count}} đoạn văn bản",
+      "addWord": "Thêm từ…",
+      "newSnippet": "Đoạn văn bản mới…",
+      "documentation": "Tài liệu",
+      "showIntro": "Xem lại phần giới thiệu",
+      "shortcuts": "Phím tắt",
+      "reportProblem": "Báo cáo vấn đề…",
+      "sendFeedback": "Gửi phản hồi…",
+      "openApp": "Mở {{appName}}",
+      "checkUpdates": "Kiểm tra cập nhật…",
+      "pasteLast": "Dán bản đọc chính tả gần nhất",
+      "cancelDictation": "Hủy đọc chính tả",
+      "shortcutsBlocked": "Phím tắt bị chặn — mở Cài đặt",
+      "undo": "Hoàn tác",
+      "redo": "Làm lại",
+      "cut": "Cắt",
+      "copy": "Sao chép",
+      "paste": "Dán",
+      "selectAll": "Chọn tất cả",
+      "minimize": "Thu nhỏ",
+      "zoom": "Thu/Phóng",
+      "closeWindow": "Đóng cửa sổ",
+      "fullScreen": "Vào chế độ toàn màn hình",
+      "services": "Dịch vụ",
+      "hideOthers": "Ẩn các mục khác",
+      "showAll": "Hiện tất cả",
+      "about": "Giới thiệu về {{appName}}",
+      "hide": "Ẩn {{appName}}",
+      "quitApp": "Thoát {{appName}}",
+      "restartToUpdate": "Khởi động lại để cập nhật lên {{version}}",
+      "updatesOff": "Kiểm tra cập nhật đang tắt…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Phím tắt không còn hoạt động"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Escape",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Delete",
+        "forwardDelete": "Forward Delete",
+        "left": "Mũi tên trái",
+        "right": "Mũi tên phải",
+        "up": "Mũi tên lên",
+        "down": "Mũi tên xuống",
+        "home": "Home",
+        "end": "End",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "Nút chuột trái",
+        "mouseRight": "Nút chuột phải",
+        "mouseMiddle": "Nút chuột giữa",
+        "mouseBack": "Nút chuột Lùi",
+        "mouseForward": "Nút chuột Tiến"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Đọc chính tả đã sẵn sàng",
+        "body": "Mô hình giọng nói đã tải về xong. Giữ fn trong bất kỳ ứng dụng nào và bắt đầu nói."
+      },
+      "updateReady": {
+        "title": "Bản cập nhật sẵn sàng",
+        "body": "{{appName}} {{version}} sẽ được cài vào lần tới ứng dụng khởi động lại."
+      },
+      "queuedTakesReady": {
+        "title_other": "{{count}} bản đọc chính tả đã sẵn sàng",
+        "body": "Những gì bạn nói khi chưa có mô hình giọng nói đã được chép lời."
+      },
+      "shortcutProblem": {
+        "title": "Phím tắt của bạn không hoạt động",
+        "body": "{{appName}} không thể bắt đầu lắng nghe phím fn. Mở Cài đặt để kiểm tra phím tắt của bạn.",
+        "bodyPermission": "{{appName}} cần quyền Trợ năng để nghe phím fn. Hãy bật trong Cài đặt hệ thống."
+      },
+      "crashReport": {
+        "title": "{{appName}} đã thoát bất ngờ",
+        "body": "Đã lưu báo cáo sự cố trên máy Mac này. Không có gì được gửi đi đâu."
+      },
+      "dataRecovered": {
+        "title": "Tệp lịch sử của bạn đã được sửa chữa",
+        "body": "Không thể đọc tệp, vì vậy tệp mới đã được tạo. Tệp bị hỏng được giữ bên cạnh."
+      },
+      "milestoneWords": {
+        "title_other": "Đã đọc chính tả {{count}} từ",
+        "body_other": "Vậy là {{count}} từ bạn không cần phải gõ. Tuyệt lắm."
+      },
+      "milestoneStreak": {
+        "title_other": "Chuỗi {{count}} ngày",
+        "body_other": "Bạn đã đọc chính tả trong {{count}} ngày liên tiếp."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Nói mà không cần giữ phím",
+          "body": "Chạm hai lần vào fn, hoặc nhấn fn và Space, để dùng chế độ rảnh tay. Nhấn fn lần nữa khi xong."
+        },
+        "cancel": {
+          "title": "Đổi ý rồi?",
+          "body": "Nhấn Esc trong lúc nói và bản đọc chính tả sẽ bị bỏ. Không có gì được dán."
+        },
+        "history": {
+          "title": "Mọi bản đọc chính tả đều được giữ lại",
+          "body": "Các bản đọc chính tả của bạn ở lại trên máy Mac này. Mở Lịch sử để sao chép lại."
+        },
+        "darkMode": {
+          "title": "Sáng hoặc tối",
+          "body": "Nút hình mặt trăng ở đầu cửa sổ này dùng để đổi giao diện."
+        },
+        "customWords": {
+          "title": "Dạy cho ứng dụng các từ của bạn",
+          "body": "Thêm tên và thuật ngữ bạn hay dùng để chúng luôn được viết đúng chính tả."
+        }
+      },
+      "slowerMac": {
+        "title": "Đọc chính tả có thể chậm hơn trên máy Mac này",
+        "body": "Không có mô hình giọng nói nào đủ nhanh cho các ngôn ngữ của bạn trên máy Mac này, vì vậy mô hình nhanh nhất được dùng. Văn bản có thể hiện ra chậm hơn một chút."
+      },
+      "features": {
+        "inbox": {
+          "title": "Thông báo của bạn ở đây",
+          "body": "Tải về, cột mốc và mẹo giờ được gom vào biểu tượng chuông. Chọn những gì bạn muốn nhận trong menu của nó."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Sao chép bản mới nhất",
+        "open": "Mở",
+        "openAccessibility": "Mở Cài đặt"
+      },
+      "takeRecovered": {
+        "title_other": "Đã lưu {{count}} bản ghi âm khi ứng dụng thoát",
+        "body_other": "Bạn vẫn đang đọc chính tả khi {{appName}} đóng. Các bản ghi đang được chép lời và sẽ xuất hiện trong Lịch sử."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "Bản nháp"
+    },
+    "pill": {
+      "name": "Thanh đọc chính tả",
+      "hint": "Giữ fn để đọc chính tả hoặc bấm để bắt đầu",
+      "hideForAnHour": "Ẩn trong một giờ",
+      "slots": {
+        "dictate": {
+          "label": "Đọc chính tả",
+          "tooltip": "Giữ fn để đọc chính tả"
+        },
+        "scratchpad": {
+          "label": "Bản nháp",
+          "tooltip": "Bản nháp"
+        }
+      },
+      "announce": {
+        "listening": "Đang nghe",
+        "transcribing": "Đang chép lời",
+        "cleaningUp": "Đang dọn dẹp văn bản của bạn",
+        "cancelled": "Đã hủy đọc chính tả",
+        "silenceWarning": "Đã lâu không có lời nói. Đọc chính tả sắp dừng.",
+        "lengthWarning": "Đọc chính tả dừng sau 30 phút.",
+        "settingUp": "Đang thiết lập đọc chính tả. Lời bạn nói đã được lưu.",
+        "card": "Bản đọc chính tả của bạn đã sẵn sàng. Hãy sao chép từ thanh.",
+        "micLostWarning": "Micrô đã ngắt kết nối. Những gì bạn đã nói vẫn được giữ lại.",
+        "undo": "Hoàn tác hiện trên thanh đọc chính tả trong 4 giây.",
+        "diff": "Các thay đổi của chuyển đổi đã sẵn sàng để xem lại.",
+        "secureInputWarning": "Secure Input đang bật. fn và Space không thể khóa đọc chính tả. Esc hoặc nút đóng vẫn có thể hủy.",
+        "inserted": "Đã chèn văn bản",
+        "newWord": "Từ mới: {{word}}. Hãy thêm từ thanh đọc chính tả, hoặc sau trong Từ điển."
+      },
+      "message": {
+        "no_speech": "Không nghe thấy lời nói",
+        "mic_muted": "Chỉ có im lặng. Micrô có bị tắt tiếng không?",
+        "inserted_without_cleanup": "Đã chèn mà không dọn dẹp",
+        "not_pasted": "Chưa dán. Văn bản của bạn nằm trong Lịch sử.",
+        "transcription_failed": "Không thể chép lời đoạn đó",
+        "mic_denied": "Quyền truy cập micrô đang tắt",
+        "no_microphone": "Không tìm thấy micrô",
+        "mic_failed": "Micrô không khởi động được",
+        "download_failed": "Không tải xuống được",
+        "check_connection": "Hãy kiểm tra kết nối internet",
+        "no_space": "Không đủ dung lượng đĩa để thiết lập đọc chính tả",
+        "cancelled": "Đã hủy",
+        "no_transcript": "Chưa có bản đọc chính tả nào để dán",
+        "copied_last": "Đã sao chép bản đọc chính tả gần nhất",
+        "copied_to_clipboard": "Đã sao chép vào bảng nhớ tạm",
+        "transform_done": "Xong",
+        "command_done": "Xong",
+        "command_needs_text": "Command Mode sửa và viết văn bản. Hãy chọn văn bản hoặc bấm vào một trường.",
+        "select_text_first": "Chọn văn bản trước",
+        "selection_too_long": "Chọn tối đa 6.000 ký tự",
+        "transform_focus_moved": "Bạn đã chuyển đi chỗ khác nên không có gì thay đổi",
+        "transform_failed": "Không thể chuyển đổi văn bản đó",
+        "shortcut_lost": "Phím tắt của bạn đã ngừng hoạt động",
+        "shortcut_stopped": "Phím tắt của bạn đã ngừng phản hồi",
+        "shortcut_back": "Phím tắt của bạn đã hoạt động lại",
+        "transform_no_change": "Không có gì để thay đổi",
+        "transform_not_applied": "Không thể áp dụng chuyển đổi này",
+        "transform_getting_ready": "Đang chuẩn bị các phép biến đổi. Hãy thử lại sau một phút."
+      },
+      "card": {
+        "no_text_field": "Hãy bấm vào một trường văn bản trước",
+        "focus_moved": "Bạn đã chuyển đi chỗ khác nên không có gì được dán",
+        "secure_field": "Không gõ vào trường mật khẩu",
+        "sleep": "Chưa dán: máy Mac đã chuyển sang chế độ ngủ",
+        "screen_locked": "Chưa dán: màn hình đã khóa",
+        "session_inactive": "Chưa dán: bạn đã chuyển người dùng",
+        "paste_failed": "Không thể dán văn bản này",
+        "disk_full": "Ổ đĩa đầy: đã dừng ghi âm"
+      },
+      "word": {
+        "added": "Đã thêm vào Từ điển",
+        "full": "Từ điển đã đầy. Từ này vẫn nằm trong Gợi ý."
+      }
+    },
+    "share": {
+      "message": "{{appName}} là ứng dụng đọc chính tả miễn phí chạy hoàn toàn trên máy Mac của bạn. Tải về tại đây:"
+    },
+    "spotlight": {
+      "label": "Bước tiếp theo",
+      "hint": {
+        "ai_chat": "Mở một chat AI, như ChatGPT hoặc Claude",
+        "note": "Mở ứng dụng ghi chú của bạn",
+        "message": "Mở một cuộc trò chuyện, như Messages hoặc Slack",
+        "email": "Mở email của bạn",
+        "comment": "Mở bài đăng bạn muốn bình luận",
+        "document": "Mở tài liệu bạn đang viết",
+        "coding": "Mở Cursor, VS Code hoặc trình sửa mã khác"
+      },
+      "how": "Bấm vào chỗ bạn muốn viết, rồi giữ fn và nói.",
+      "howFallback": "Bấm vào chỗ bạn muốn viết, rồi giữ Control và Option và nói.",
+      "escape": "Nhấn Esc để đóng gợi ý này."
+    }
+  },
+  "speechModels": {
+    "title": "Mô hình giọng nói",
+    "intro": "{{appName}} chọn mô hình giọng nói cho các ngôn ngữ của bạn và máy Mac này, và thay bằng mô hình tốt hơn khi có thể. Bạn không bao giờ phải tự chọn.",
+    "loading": "Đang kiểm tra các mô hình giọng nói…",
+    "current": "Đang sử dụng: {{name}}",
+    "none": "Chưa có mô hình giọng nói nào",
+    "phase": {
+      "checking": "Đang kiểm tra mô hình nào phù hợp với máy Mac này…",
+      "settled": "Đây là mô hình tốt nhất cho các ngôn ngữ của bạn trên máy Mac này.",
+      "downloading": "Đang tải về mô hình tốt hơn trong nền… {{percent}}%",
+      "downloadingNoPercent": "Đang tải về mô hình tốt hơn trong nền…",
+      "waiting_to_swap": "Đã có mô hình tốt hơn. Mô hình sẽ được thay khi bạn không đọc chính tả.",
+      "paused": "Không thể tải về mô hình tốt hơn. Sẽ thử lại sau."
+    },
+    "next": "Tiếp theo: {{name}}",
+    "progressLabel": "Tải về mô hình giọng nói tốt hơn",
+    "slower": "Đọc chính tả có thể chậm hơn trên máy Mac này: không có mô hình nào đủ nhanh cho các ngôn ngữ của bạn ở đây, vì vậy mô hình nhanh nhất được dùng.",
+    "pinned": "Bạn đã tự chọn mô hình này, nên {{appName}} sẽ không thay đổi nó.",
+    "automatic": "Tự động chọn mô hình",
+    "automaticHint": "Tắt khi bạn chọn một mô hình trong danh sách dưới đây.",
+    "languages": "Cho: {{languages}}",
+    "machine": "Máy Mac này: {{chip}}, bộ nhớ {{ram}} GB",
+    "freeDisk": "{{gb}} GB trống cho mô hình",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Bộ xử lý Intel"
+    },
+    "list": "Tất cả mô hình"
+  },
+  "aiEngine": {
+    "title": "Công cụ AI",
+    "loading": "Đang kiểm tra công cụ AI…",
+    "loadError": "Không thể đọc trạng thái công cụ AI: {{message}}",
+    "state": {
+      "unsupported": "Tính năng dọn dẹp văn bản bằng công cụ AI cục bộ không có trên máy Mac này.",
+      "missing_runtime": "Bản build này thiếu công cụ AI.",
+      "waiting_for_speech_model": "Mô hình dọn dẹp được tải về sau mô hình giọng nói.",
+      "downloading": "Đang tải về mô hình dọn dẹp… {{percent}}%",
+      "verifying": "Đang kiểm tra mô hình dọn dẹp…",
+      "ready": "Sẵn sàng",
+      "download_failed": "Không thể tải về mô hình dọn dẹp."
+    },
+    "progressLabel": "Tải về mô hình dọn dẹp",
+    "model": "Mô hình: {{name}}",
+    "server": {
+      "stopped": "Công cụ đang chờ: sẽ khởi động khi bạn đọc chính tả.",
+      "starting": "Công cụ đang khởi động…",
+      "ready": "Công cụ đang chạy",
+      "failed": "Công cụ không khởi động được; sẽ thử lại."
+    },
+    "cpuOnly": "đang chạy trên CPU",
+    "downloadError": "Lỗi: {{message}}",
+    "retry": "Thử lại",
+    "try": {
+      "label": "Thử với một câu",
+      "sample": "ờ thì tôi đang nghĩ là mình có thể ừm gặp nhau thứ sáu à không thứ năm để xem lại cái cái ngân sách",
+      "button": "Thử xem",
+      "running": "Đang dọn dẹp…",
+      "notReady": "Có sau khi mô hình dọn dẹp sẵn sàng.",
+      "result": "Văn bản đã dọn dẹp",
+      "empty": "(không còn gì sau khi dọn dẹp)",
+      "timing": "Đã dọn dẹp trong {{ms}} ms.",
+      "timingCold": "Đã dọn dẹp trong {{ms}} ms, sau {{start}} ms khởi động công cụ.",
+      "lowMemory": "Hiện không đủ bộ nhớ trống để khởi động công cụ AI. Hãy đóng bớt ứng dụng và thử lại.",
+      "badReply": "Không thể dùng câu trả lời của mô hình. Văn bản của bạn sẽ được chèn mà không dọn dẹp.",
+      "failed": "Dọn dẹp thất bại: {{message}}",
+      "ranOnApple": "Đã chạy trên Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Đã sẵn sàng trên máy Mac này. Wispr Bro dùng nó khi mô hình dọn dẹp riêng chưa chạy được, ví dụ trong lúc đang tải về.",
+        "available_default": "Đã sẵn sàng trên máy Mac này. Wispr Bro dùng nó để dọn dẹp các bản đọc chính tả của bạn.",
+        "device_not_eligible": "Máy Mac này không chạy được Apple Intelligence. Wispr Bro dùng mô hình dọn dẹp riêng.",
+        "not_enabled": "Apple Intelligence đang tắt trong Cài đặt hệ thống. Wispr Bro dùng mô hình dọn dẹp riêng.",
+        "model_not_ready": "Apple Intelligence vẫn đang chuẩn bị mô hình của mình.",
+        "unsupported": "Apple Intelligence cần macOS 26 trở lên. Wispr Bro dùng mô hình dọn dẹp riêng.",
+        "unknown": "Apple Intelligence hiện không khả dụng."
+      },
+      "counts": "Từ khi ứng dụng khởi động: {{requests}} yêu cầu, {{refusals}} bị từ chối, {{rateLimited}} bị giới hạn."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "Xin chào, {{name}}",
+      "anonymous": "Xin chào",
+      "edit": "Đổi tên trong lời chào"
+    },
+    "nameEditor": {
+      "label": "Tên trong lời chào",
+      "field": "Tên của bạn",
+      "hint": "Chỉ hiển thị trên máy Mac này.",
+      "save": "Lưu",
+      "useAccountName": "Dùng tên tài khoản Mac của tôi",
+      "clear": "Xóa tên",
+      "saveFailed": "Không thể lưu tên. Hãy thử lại."
+    },
+    "stats": {
+      "label": "Thống kê của bạn",
+      "totalWords": "Tổng số từ",
+      "wordsPerMinute": "Từ mỗi phút",
+      "streak": "Chuỗi ngày",
+      "notEnoughSpeech": "Chưa đủ lời nói",
+      "unavailable": "Chưa có"
+    },
+    "voiceProfile": {
+      "title": "Hồ sơ giọng nói của bạn",
+      "unlocked": "Đã mở khóa. Xem cách bạn nói trong Thống kê.",
+      "open": "Mở Thống kê",
+      "progress_other": "{{current}}/{{goal}} từ",
+      "locked_other": "Mở khóa khi đạt {{goal}} từ. Tiếp tục đọc chính tả để xây dựng hồ sơ."
+    },
+    "history": {
+      "title": "Các bản đọc chính tả của bạn được lưu trên máy Mac này",
+      "body": "Mở Lịch sử để sao chép, phát hoặc tìm kiếm chúng.",
+      "action": "Mở Lịch sử"
+    }
+  },
+  "dictionary": {
+    "add": "Thêm từ",
+    "added": "Đã thêm “{{entry}}”.",
+    "search": "Tìm trong từ điển của bạn",
+    "refresh": "Làm mới",
+    "shown_other": "Đang hiện {{count}} mục",
+    "deleted": "Đã xóa “{{entry}}”.",
+    "deleteFailed": "Không thể xóa mục đó. Vui lòng thử lại.",
+    "undo": "Hoàn tác",
+    "tabs": {
+      "label": "Mục từ điển",
+      "all": "Tất cả",
+      "mine": "Do bạn thêm",
+      "suggested": "Gợi ý"
+    },
+    "sort": {
+      "label": "Sắp xếp",
+      "newest": "Mới nhất trước",
+      "oldest": "Cũ nhất trước",
+      "az": "A đến Z",
+      "za": "Z đến A",
+      "used": "Dùng nhiều nhất"
+    },
+    "banner": {
+      "title": "{{appName}} viết theo cách của <em>bạn</em>.",
+      "lead": "Thêm một từ một lần, hoặc sửa khi nó ra sai, để <b>tên riêng, thuật ngữ công việc và từ hiếm</b> của bạn luôn được viết đúng.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Từ cần thêm",
+      "add": "Thêm từ"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "thành",
+      "used_other": "Đã dùng {{count}} lần",
+      "edit": "Sửa {{entry}}",
+      "delete": "Xóa {{entry}}",
+      "accept": "Thêm {{entry}} vào từ điển của bạn",
+      "reject": "Không học {{entry}}"
+    },
+    "source": {
+      "import": "Đã nhập",
+      "migrated": "Từ các từ tùy chỉnh trước đây của bạn",
+      "learn": "Đã học",
+      "flag": "Từ một bản đọc chính tả được đánh dấu"
+    },
+    "empty": {
+      "title": "Từ điển của bạn đang trống",
+      "body": "Thêm tên, từ và mục thay thế mà {{appName}} cần biết. Chúng áp dụng từ lần đọc chính tả tiếp theo."
+    },
+    "emptySuggested": {
+      "title": "Chưa có gợi ý",
+      "body": "Khi {{appName}} có thể học từ những từ bạn sửa, chúng sẽ hiện ở đây để bạn duyệt.",
+      "bodyOn": "Sửa tên hoặc thuật ngữ bị sai chính tả trong ô văn bản ngay sau khi đọc chính tả, rồi nhấn Return, Tab hoặc chuyển đi. Từ bạn đã sửa sẽ hiện ở đây để bạn duyệt."
+    },
+    "noMatch": {
+      "title": "Không có gì khớp",
+      "body": "Không có mục nào chứa “{{query}}”.",
+      "action": "Xóa tìm kiếm"
+    },
+    "unavailable": {
+      "title": "Từ điển chưa sẵn sàng",
+      "body": "Từ điển sẽ mở ngay khi ứng dụng khởi động xong.",
+      "brokenTitle": "Không mở được từ điển",
+      "brokenBody": "Hiện {{appName}} không đọc được tệp dữ liệu của mình. Hãy thoát và mở lại ứng dụng. Nếu vẫn tiếp tục xảy ra, hãy chọn Trợ giúp › Báo cáo vấn đề."
+    },
+    "problem": {
+      "empty": "Hãy nhập một từ trước.",
+      "same_as_replacement": "Mục thay thế giống hệt từ đó.",
+      "control_character": "Không thể dùng ký tự xuống dòng và tab ở đây.",
+      "full": "Từ điển của bạn đã đầy. Xóa một số mục trước.",
+      "too_long_other": "Từ có thể dài tối đa {{max}} ký tự.",
+      "replacement_too_long_other": "Mục thay thế có thể dài tối đa {{maxReplacement}} ký tự."
+    },
+    "dialog": {
+      "addTitle": "Thêm vào từ điển",
+      "editTitle": "Sửa mục từ điển",
+      "description": "Từ được viết đúng như cách bạn nhập ở đây.",
+      "replaceToggle": "Thay thế một từ",
+      "word": "Từ hoặc tên",
+      "wordPlaceholder": "ví dụ: Siobhán",
+      "from": "Khi tôi nói",
+      "fromPlaceholder": "ví dụ: ko",
+      "to": "Viết",
+      "toPlaceholder": "ví dụ: không",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Giúp mô hình giọng nói nghe và viết đúng.",
+      "ruleHint": "Khớp toàn bộ từ, dù viết hoa hay viết thường, và viết mục thay thế đúng như đã nhập.",
+      "cancel": "Hủy",
+      "add": "Thêm từ",
+      "save": "Lưu",
+      "close": "Đóng",
+      "duplicate": "“{{entry}}” đã có trong từ điển của bạn.",
+      "conflictRule": "“{{from}}” đã được thay bằng “{{to}}”.",
+      "conflictWord": "“{{word}}” đã có trong từ điển của bạn với cách viết khác.",
+      "replaceExisting": "Thay thế",
+      "missing": "Mục này đã bị xóa trong lúc đó.",
+      "failed": "Không thể lưu. Vui lòng thử lại.",
+      "failedStorage": "Chưa lưu: {{appName}} không mở được tệp dữ liệu của mình. Hãy thoát và mở lại ứng dụng, rồi thử lại. Nếu vẫn tiếp tục xảy ra, hãy chọn Trợ giúp › Báo cáo vấn đề.",
+      "failedStarting": "Chưa lưu: {{appName}} vẫn đang khởi động. Hãy thử lại sau giây lát."
+    },
+    "import": {
+      "open": "Nhập",
+      "title": "Nhập từ điển",
+      "description": "Đưa các từ và mục thay thế vào từ một bảng tính lưu dưới dạng CSV.",
+      "fieldPhrase": "Từ, hoặc điều bạn nói",
+      "fieldReplacement": "Thay thế bằng",
+      "format": {
+        "intro": "Mỗi hàng một mục:",
+        "columns": "Cột đầu là một từ hoặc điều bạn nói; cột thứ hai, nếu có, là văn bản được viết thay vào.",
+        "header": "Hàng đầu chứa tên cột cũng không sao; bạn sẽ chọn cột ở bước tiếp theo.",
+        "limits": "Từ tối đa 60 ký tự, mục thay thế tối đa 200, tệp tối đa 3 MB.",
+        "encoding": "Lưu dưới dạng CSV UTF-8 để dấu và các hệ chữ khác hiển thị đúng."
+      },
+      "review": {
+        "new_other": "mục mới",
+        "duplicates_other": "đã có",
+        "conflicts_other": "xung đột",
+        "invalid_other": "không thể nhập",
+        "overLimit_other": "{{count}} mục mới sẽ không vừa (chỗ còn lại trong từ điển: {{room}}).",
+        "showNew": "Hiện các mục mới",
+        "more_other": "và {{count}} mục khác",
+        "conflictsTitle": "Đã có trong từ điển của bạn, nhưng khác",
+        "conflictsHelp": "Đánh dấu những mục mà phiên bản trong tệp nên thay cho phiên bản của bạn.",
+        "useAllFile": "Dùng phiên bản trong tệp cho tất cả",
+        "keepAllMine": "Giữ tất cả của tôi",
+        "useFile": "Dùng bản trong tệp:",
+        "yours": "Của bạn:",
+        "showInvalid": "Hiện các hàng không thể nhập",
+        "invalidRow": "Hàng {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_other": "Đã nhập {{count}} mục",
+        "added_other": "Đã thêm {{count}}",
+        "replaced_other": "{{count}} mục được thay bằng phiên bản trong tệp",
+        "skipped_other": "{{count}} mục đã có, đã bỏ qua",
+        "kept_other": "{{count}} xung đột được giữ nguyên",
+        "invalid_other": "{{count}} hàng không thể nhập",
+        "overLimit_other": "{{count}} mục không vừa (từ điển đã đầy)"
+      }
+    },
+    "export": {
+      "open": "Xuất",
+      "fileName": "{{appName}} từ điển.csv",
+      "done_other": "Đã xuất {{count}} mục.",
+      "failed": "Không thể xuất từ điển. Vui lòng thử lại."
+    },
+    "rejected": "“{{entry}}” sẽ không được đề xuất lại.",
+    "actionFailed": "Không thành công. Vui lòng thử lại.",
+    "learn": {
+      "toggle": "Học từ những chỗ tôi sửa",
+      "hint": "Trong 30 giây sau khi bản đọc chính tả được dán, {{appName}} nhận biết các từ bạn sửa trong ô văn bản đó và gợi ý chúng ở đây. Chỉ từ bạn sửa được giữ lại, không bao giờ giữ phần còn lại của văn bản. Trường mật khẩu, trình quản lý mật khẩu, ứng dụng ngân hàng và terminal không bao giờ bị đọc."
+    },
+    "undoFailed": "Không thể khôi phục “{{entry}}”. Vui lòng thêm lại.",
+    "undoSkipped": "“{{entry}}” không được khôi phục: từ điển của bạn đã có mục này.",
+    "addNew": "Thêm"
+  },
+  "pill": {
+    "region": "Thanh đọc chính tả",
+    "listening": "Đang nghe",
+    "cancel": "Hủy đọc chính tả",
+    "finish": "Kết thúc đọc chính tả",
+    "transcribing": "Đang chép lời…",
+    "cleaningUp": "Đang dọn dẹp…",
+    "contextUsed": "Văn bản lân cận đã giúp viết đúng chính tả",
+    "mic": "Micrô: {{name}}",
+    "fix": "Sửa",
+    "dismiss": "Bỏ qua",
+    "warning": {
+      "silence": "Đã lâu không có lời nói, sắp dừng",
+      "length": "Dừng sau 30 phút",
+      "mic_lost": "Mất micrô, vẫn giữ những gì bạn đã nói",
+      "secure_input": "Secure Input đang bật · không thể khóa bằng fn+Space · nhấn Esc hoặc ✕ để hủy",
+      "secure_input_app": "{{app}} đang bật Secure Input · không thể khóa bằng fn+Space · nhấn Esc hoặc ✕ để hủy"
+    },
+    "settingUp": "Đang thiết lập…",
+    "settingUpPercent": "Đang thiết lập… {{percent}}%",
+    "settingUpHint": "Lời bạn nói đã được lưu. Văn bản sẽ hiện ở đây khi Đọc chính tả sẵn sàng.",
+    "cardReady": "Bản đọc chính tả của bạn",
+    "cardMore_other": "Bản đọc chính tả của bạn · còn {{count}} trong Lịch sử",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "retry": "Thử lại",
+    "card": {
+      "hidden": "Đã ẩn vì nội dung này dành cho trường mật khẩu"
+    },
+    "undo": "Hoàn tác",
+    "viewChanges": "Xem thay đổi",
+    "sendsAutomatically": "Tự động gửi",
+    "shortcutDetail": {
+      "permission": "Quyền Trợ năng đang tắt",
+      "stopped": "Trình nghe bàn phím đã dừng"
+    },
+    "word": {
+      "new": "Từ mới",
+      "add": "Thêm",
+      "addLabel": "Thêm {{word}} vào Từ điển",
+      "notNow": "Để sau"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "Thử xem",
+      "howItWorks": "Cách hoạt động",
+      "title": "Viết lại bất kỳ đoạn văn bản nào bạn chọn"
+    },
+    "enable": {
+      "title": "Bật"
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "help": "Giữ phím tắt và nói nội dung cần viết hoặc thay đổi."
+    },
+    "auto": {
+      "title": "Tự động áp dụng sau khi đọc",
+      "choice": "Chuyển đổi được áp dụng",
+      "none": "Chọn một chuyển đổi",
+      "description": "Mỗi lần đọc đều đi qua chuyển đổi bạn chọn."
+    },
+    "shortcuts": {
+      "warning": "⌥1, ⌥2 và ⌥O thay thế các ký tự ¡, ™ và ø khi Chuyển đổi đang bật.",
+      "safe": "Dùng ⌃⌥ thay thế"
+    },
+    "myTransforms": "Chuyển đổi của tôi",
+    "reset": "Đặt lại về mặc định",
+    "resetConfirm": "Đặt lại Polish và Prompt Engineer và xóa mọi chuyển đổi tùy chỉnh?",
+    "createNew": "Tạo mới",
+    "deleteConfirm": "Xóa {{name}}? Không thể hoàn tác.",
+    "loading": "Đang tải các chuyển đổi của bạn…",
+    "error": "Không thể lưu thay đổi chuyển đổi đó. Hãy thử lại.",
+    "card": {
+      "delete": "Xóa {{name}}",
+      "createOwn": "Tự tạo",
+      "createOwnHint": "Mô tả việc nó cần làm"
+    },
+    "new": {
+      "name": "Chuyển đổi của tôi"
+    },
+    "editor": {
+      "title": "Sửa {{name}}",
+      "name": "Tên",
+      "hotkey": "Phím tắt",
+      "addHotkey": "Thêm phím tắt",
+      "example": "Ví dụ",
+      "exampleInput": "Văn bản cần chuyển đổi",
+      "exampleText": "ừm bạn gửi tôi bản báo cáo ngày mai được không có lẽ lúc đó mình bàn luôn",
+      "preview": "Xem trước",
+      "previewing": "Đang xem trước…",
+      "rules": "Quy tắc chỉnh sửa",
+      "autosave": {
+        "saved": "Tự động lưu · Đã lưu mọi thay đổi",
+        "saving": "Tự động lưu · Đang lưu…",
+        "error": "Tự động lưu · Không thể lưu thay đổi gần nhất"
+      },
+      "reset": "Đặt lại",
+      "done": "Xong",
+      "close": "Đóng trình sửa",
+      "exactBadge": "Chính xác · không dùng AI",
+      "outcome": {
+        "no_change": "Không có gì để thay đổi trong văn bản này.",
+        "not_applied": "AI cục bộ không làm được việc này. Hãy thử một hướng dẫn ngắn hơn, cụ thể hơn.",
+        "failed": "Câu trả lời của AI cục bộ không vượt qua các kiểm tra an toàn. Hãy thử lại hoặc diễn đạt lại hướng dẫn.",
+        "timeout": "AI cục bộ mất quá nhiều thời gian. Hãy thử lại.",
+        "no_engine": "AI cục bộ chưa sẵn sàng. Các thay đổi chính xác vẫn hoạt động."
+      },
+      "instruction": "Nó nên làm gì?",
+      "instructionPlaceholder": "Ví dụ: thay mọi chữ “A” bằng 0, hoặc viết thân thiện hơn",
+      "more": "Tùy chọn khác"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Ngắn hơn"
+      },
+      "clearer": {
+        "title": "Diễn đạt rõ hơn"
+      },
+      "better_order": {
+        "title": "Thứ tự tốt hơn"
+      },
+      "headings_lists": {
+        "title": "Thêm tiêu đề và danh sách"
+      },
+      "keep_tone": {
+        "title": "Giữ giọng điệu của tôi"
+      }
+    },
+    "examples": {
+      "title": "Văn mẫu",
+      "fileType": "Văn bản hoặc Markdown",
+      "label": "Văn mẫu {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Dán một ví dụ",
+      "load": "Tải .txt hoặc .md",
+      "remove": "Xóa ví dụ {{number}}",
+      "readError": "Chọn tệp .txt hoặc .md không quá {{chars}} ký tự."
+    },
+    "diff": {
+      "changes_other": "{{count}} thay đổi",
+      "configure": "Cấu hình",
+      "copy": "Sao chép",
+      "copied": "Đã sao chép",
+      "retry": "Thử lại",
+      "retrying": "Đang thử lại…",
+      "feedback": "Đánh giá chuyển đổi này",
+      "good": "Kết quả tốt",
+      "bad": "Kết quả kém",
+      "simpleView": "Đang hiện một thay thế duy nhất cho thay đổi lớn hoặc phức tạp này.",
+      "actionFailed": "Hành động đó không thành công. Văn bản của bạn vẫn ở đây; hãy thử lại."
+    },
+    "findReplace": {
+      "title": "Tìm và thay thế",
+      "find": "Tìm, hàng {{number}}",
+      "replace": "Thay bằng, hàng {{number}}",
+      "findPlaceholder": "Tìm",
+      "replacePlaceholder": "Thay bằng",
+      "matchCase": "Phân biệt chữ hoa/thường",
+      "remove": "Xóa hàng {{number}}",
+      "add": "Thêm một phép thay thế"
+    },
+    "model": {
+      "downloading": "Đang chuẩn bị các phép biến đổi: tải xuống một lần, {{percent}}%",
+      "verifying": "Đang chuẩn bị các phép biến đổi: đang kiểm tra bản tải xuống…",
+      "ready": "Các phép biến đổi đã sẵn sàng",
+      "progressLabel": "Tải xuống cho các phép biến đổi",
+      "failed": "Không thể tải xuống những gì các phép biến đổi cần. Hãy kiểm tra kết nối.",
+      "retry": "Thử lại"
+    },
+    "subtitle": "Chọn văn bản trong bất kỳ ứng dụng nào và nhấn phím tắt để viết lại.",
+    "settings": {
+      "title": "Cài đặt chuyển đổi"
+    },
+    "viewChanges": "để xem thay đổi",
+    "builtin": {
+      "polish": "Rõ hơn và ngắn hơn",
+      "prompt_engineer": "Tạo prompt rõ ràng"
+    }
+  },
+  "cleanup": {
+    "title": "Dọn dẹp",
+    "loading": "Đang tải mức dọn dẹp…",
+    "loadError": "Không thể đọc mức dọn dẹp: {{message}}",
+    "setError": "Thay đổi đó chưa được lưu: {{message}}",
+    "notice": "Đã chèn mà không dọn dẹp",
+    "picker": {
+      "legend": "Lời của bạn nên được dọn dẹp đến mức nào?",
+      "recommended": "Khuyên dùng",
+      "aiChat": "Trong các ứng dụng chat AI, lời của bạn được chèn đúng như bạn nói, không có dọn dẹp bằng AI."
+    },
+    "levels": {
+      "none": {
+        "label": "Không có",
+        "description": "Đúng như bạn đã nói, chỉ áp dụng khoảng trắng và lệnh bằng giọng nói."
+      },
+      "light": {
+        "label": "Nhẹ",
+        "description": "Bỏ các từ đệm như “ờ” và “kiểu như”, sửa dấu câu và chữ hoa, và giữ các chỗ bạn tự sửa: “lúc 2 giờ, à không 3 giờ” thành “lúc 3 giờ”."
+      },
+      "medium": {
+        "label": "Trung bình",
+        "description": "Mọi thứ của mức Nhẹ, cộng thêm ngữ pháp và cách diễn đạt trôi chảy hơn. Dữ kiện và ý nghĩa vẫn giữ nguyên."
+      }
+    },
+    "last": {
+      "title": "Bản đọc chính tả gần nhất",
+      "none": "Chưa có bản đọc chính tả nào từ khi ứng dụng khởi động.",
+      "applied_other": "Đã dọn dẹp trong {{ms}} ms, {{count}} thay đổi.",
+      "checks": "Các kiểm tra an toàn đã chặn: {{checks}}",
+      "partial_other": "Đã dọn dẹp một phần ({{applied}}/{{total}} đoạn); phần còn lại giữ như lời nói: {{reason}}"
+    },
+    "why": {
+      "level_none": "Dọn dẹp đang tắt.",
+      "empty": "Không có gì để dọn dẹp.",
+      "already_clean": "Đã gọn gàng nên không cần công cụ AI.",
+      "ai_chat": "Ứng dụng chat AI: được chèn đúng như bạn nói.",
+      "not_ready": "Đã chèn mà không dọn dẹp: mô hình dọn dẹp chưa sẵn sàng.",
+      "low_memory": "Đã chèn mà không dọn dẹp: hiện không đủ bộ nhớ trống.",
+      "guard": "Đã chèn mà không dọn dẹp: văn bản đã dọn dẹp không qua được kiểm tra an toàn.",
+      "timeout": "Đã chèn mà không dọn dẹp: dọn dẹp mất quá lâu.",
+      "error": "Đã chèn mà không dọn dẹp: công cụ AI gặp sự cố."
+    },
+    "reason": {
+      "level_none": "dọn dẹp đang tắt",
+      "empty": "không có gì để dọn dẹp",
+      "already_clean": "đã gọn gàng",
+      "ai_chat": "ứng dụng chat AI",
+      "not_ready": "mô hình dọn dẹp chưa sẵn sàng",
+      "low_memory": "không đủ bộ nhớ trống",
+      "guard": "không qua được kiểm tra an toàn",
+      "timeout": "dọn dẹp mất quá lâu",
+      "error": "công cụ AI gặp sự cố"
+    }
+  },
+  "snippets": {
+    "add": "Thêm đoạn văn bản",
+    "added": "Đã thêm “{{trigger}}”.",
+    "search": "Tìm đoạn văn bản của bạn",
+    "refresh": "Làm mới",
+    "shown_other": "Đang hiện {{count}} đoạn văn bản",
+    "deleted": "Đã xóa “{{trigger}}”.",
+    "deleteFailed": "Không thể xóa đoạn văn bản đó. Vui lòng thử lại.",
+    "undo": "Hoàn tác",
+    "counts": {
+      "snippets_other": "{{count}} đoạn văn bản",
+      "uses_other": "đã sử dụng {{count}} lần"
+    },
+    "sort": {
+      "label": "Sắp xếp",
+      "newest": "Mới nhất trước",
+      "oldest": "Cũ nhất trước",
+      "az": "A đến Z",
+      "za": "Z đến A",
+      "used": "Dùng nhiều nhất"
+    },
+    "banner": {
+      "title": "Đừng gõ một thứ <em>hai lần</em> nữa.",
+      "lead": "Nói một từ khóa ngắn và {{appName}} sẽ viết toàn bộ văn bản.",
+      "examplesLabel": "Ví dụ",
+      "cue1": "địa chỉ của tôi",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "lời chào cuối thư",
+      "text2": "Thân mến, Sam",
+      "cue3": "liên kết lịch",
+      "text3": "Hãy chọn thời gian phù hợp với bạn: cal.example.com/sam",
+      "add": "Thêm đoạn mẫu"
+    },
+    "entry": {
+      "becomes": "được viết là",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_other": "{{count}} dòng",
+      "imported": "Đã nhập",
+      "used_other": "Đã dùng {{count}} lần",
+      "edit": "Sửa {{trigger}}",
+      "delete": "Xóa {{trigger}}"
+    },
+    "empty": {
+      "title": "Chưa có đoạn văn bản nào",
+      "body": "Lưu một lần địa chỉ, lời chào cuối thư hoặc liên kết. Khi bạn nói câu gợi, {{appName}} sẽ viết giúp bạn."
+    },
+    "noMatch": {
+      "title": "Không có gì khớp",
+      "body": "Không có đoạn văn bản nào chứa “{{query}}”.",
+      "action": "Xóa tìm kiếm"
+    },
+    "unavailable": {
+      "title": "Đoạn văn bản chưa sẵn sàng",
+      "body": "Chúng sẽ mở ngay khi ứng dụng khởi động xong."
+    },
+    "problem": {
+      "empty_trigger": "Hãy nhập trước điều bạn sẽ nói.",
+      "trigger_not_spoken": "Điều bạn nói cần có ít nhất một chữ cái hoặc chữ số.",
+      "trigger_control_character": "Điều bạn nói phải nằm gọn trên một dòng.",
+      "empty_body": "Nhập văn bản cần viết.",
+      "body_control_character": "Văn bản chứa ký tự không thể viết. Hãy xóa ký tự đó và thử lại.",
+      "full": "Danh sách đoạn văn bản của bạn đã đầy. Hãy xóa bớt một số đoạn văn bản trước.",
+      "trigger_too_long_other": "Điều bạn nói có thể dài tối đa {{max}} ký tự.",
+      "body_too_long_other": "Văn bản có thể dài tối đa {{maxBody}} ký tự."
+    },
+    "dialog": {
+      "addTitle": "Thêm đoạn văn bản",
+      "editTitle": "Sửa đoạn văn bản",
+      "description": "Nói câu gợi và đoạn đã lưu sẽ được viết thay vào.",
+      "trigger": "Khi tôi nói",
+      "triggerPlaceholder": "ví dụ: địa chỉ của tôi",
+      "body": "Viết",
+      "bodyPlaceholder": "Văn bản cần viết. Dấu xuống dòng được giữ nguyên.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Dùng được riêng lẻ hoặc trong câu, dù viết hoa hay viết thường. Trong câu, dấu câu trong điều bạn nói phải khớp chính xác với văn bản được đọc chính tả. Văn bản được viết đúng như đã lưu.",
+      "cancel": "Hủy",
+      "add": "Thêm đoạn văn bản",
+      "save": "Lưu",
+      "close": "Đóng",
+      "duplicate": "“{{trigger}}” đã được lưu với văn bản này.",
+      "conflict": "“{{trigger}}” đã là một đoạn văn bản với nội dung khác.",
+      "replaceExisting": "Thay thế",
+      "missing": "Đoạn văn bản này đã bị xóa trong lúc đó.",
+      "failed": "Không thể lưu. Vui lòng thử lại."
+    },
+    "import": {
+      "open": "Nhập",
+      "title": "Nhập đoạn văn bản",
+      "description": "Đưa đoạn văn bản vào từ một bảng tính lưu dưới dạng CSV.",
+      "fieldTrigger": "Điều bạn nói",
+      "fieldBody": "Văn bản cần viết",
+      "format": {
+        "intro": "Mỗi hàng một đoạn văn bản:",
+        "columns": "Cột đầu là điều bạn nói; cột thứ hai là văn bản cần viết.",
+        "lines": "Văn bản có dấu xuống dòng được đặt trong dấu ngoặc kép, như cách các ứng dụng bảng tính lưu.",
+        "encoding": "Lưu dưới dạng CSV UTF-8 để dấu và các hệ chữ khác hiển thị đúng.",
+        "limits_other": "Tối đa {{max}} ký tự cho điều bạn nói và {{maxBody}} cho văn bản; tối đa 1.000 hàng và 3 MB mỗi tệp."
+      },
+      "review": {
+        "new_other": "đoạn văn bản mới",
+        "duplicates_other": "đã có",
+        "conflicts_other": "xung đột",
+        "invalid_other": "không thể nhập",
+        "overLimit_other": "{{count}} đoạn văn bản mới sẽ không vừa (chỗ còn lại: {{room}}).",
+        "ignoredRows_other": "Chỉ đọc 1.000 hàng đầu tiên; {{count}} hàng còn lại bị bỏ qua.",
+        "showNew": "Hiện các đoạn văn bản mới",
+        "more_other": "và {{count}} mục khác",
+        "conflictsTitle": "Đã lưu với văn bản khác",
+        "conflictsHelp": "Đánh dấu những mục mà nội dung trong tệp nên thay cho nội dung của bạn.",
+        "useAllFile": "Dùng nội dung trong tệp cho tất cả",
+        "keepAllMine": "Giữ tất cả của tôi",
+        "useFile": "Dùng bản trong tệp:",
+        "yours": "Của bạn:",
+        "showInvalid": "Hiện các hàng không thể nhập",
+        "invalidRow": "Hàng {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_other": "Đã nhập {{count}} đoạn văn bản",
+        "added_other": "Đã thêm {{count}}",
+        "replaced_other": "{{count}} mục được thay bằng nội dung trong tệp",
+        "skipped_other": "{{count}} mục đã có, đã bỏ qua",
+        "kept_other": "{{count}} xung đột được giữ nguyên",
+        "invalid_other": "{{count}} hàng không thể nhập",
+        "overLimit_other": "{{count}} mục không vừa (danh sách đoạn văn bản đã đầy)"
+      }
+    },
+    "export": {
+      "open": "Xuất",
+      "fileName": "{{appName}} đoạn văn bản.csv",
+      "done_other": "Đã xuất {{count}} đoạn văn bản.",
+      "failed": "Không thể xuất đoạn văn bản. Vui lòng thử lại."
+    },
+    "undoFailed": "Không thể khôi phục “{{trigger}}”. Vui lòng thêm lại.",
+    "undoSkipped": "“{{trigger}}” không được khôi phục: một đoạn văn bản khác hiện đang dùng cụm từ đó.",
+    "addNew": "Thêm",
+    "tabs": {
+      "all": "Tất cả"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Thống kê",
+      "usage": "Mức sử dụng",
+      "voice": "Giọng nói"
+    },
+    "asOf": "Số liệu của bạn tính đến {{date}}",
+    "unavailable": "Hiện không thể đọc Thống kê. Số liệu sẽ hiện ra sau giây lát.",
+    "save": {
+      "button": "Lưu dưới dạng hình ảnh",
+      "fileName": "{{appName}} thống kê {{date}}.png",
+      "filter": "Ảnh PNG",
+      "done": "Đã lưu hình ảnh.",
+      "failed": "Không thể lưu hình ảnh. Hãy thử lại."
+    },
+    "speed": {
+      "title": "Từ mỗi phút",
+      "notEnough": "Hãy đọc chính tả thêm một chút để xem tốc độ của bạn.",
+      "measured": "{{ratio}}× tốc độ gõ {{typing}} từ/phút của bạn",
+      "average": "{{ratio}}× tốc độ của người gõ trung bình ({{typing}} từ/phút)",
+      "speaking": "Nói",
+      "typing": "Bạn gõ",
+      "typingAverage": "Gõ trung bình"
+    },
+    "words": {
+      "title": "Tổng số từ",
+      "dictations_other": "trong {{count, number}} bản đọc chính tả"
+    },
+    "fixes": {
+      "title": "Số lần sửa",
+      "dictionary": "Sửa nhờ từ điển",
+      "ai": "Sửa nhờ dọn dẹp AI"
+    },
+    "categories": {
+      "title": "Nơi bạn đọc chính tả",
+      "empty": "Hãy đọc chính tả trong vài ứng dụng để xem lời của bạn đi đâu.",
+      "words_other": "{{count, number}} từ",
+      "documents": "Tài liệu",
+      "ai_prompts": "Lời nhắc AI",
+      "email": "Email",
+      "work": "Tin nhắn công việc",
+      "personal": "Tin nhắn cá nhân",
+      "other": "Mọi thứ khác",
+      "used": "Danh mục đã dùng"
+    },
+    "heatmap": {
+      "title": "Chuỗi ngày của bạn",
+      "current": "Chuỗi hiện tại",
+      "longest": "Chuỗi dài nhất",
+      "days_other": "{{count, number}} ngày",
+      "active_other": "{{count, number}} ngày có đọc chính tả trong năm qua",
+      "day_other": "{{date}}: {{count, number}} từ",
+      "less": "Ít hơn",
+      "more": "Nhiều hơn",
+      "band0": "Không có từ",
+      "band1": "1 đến 249 từ",
+      "band2": "250 đến 499 từ",
+      "band3": "500 đến 749 từ",
+      "band4": "750 từ trở lên",
+      "streak_other": "Chuỗi hiện tại: {{count, number}} ngày"
+    },
+    "voice": {
+      "locked": "Đã khóa",
+      "phrase": "Cụm từ của bạn",
+      "phraseIn_other": "Trong {{count, number}} bản đọc chính tả",
+      "peak": "Thời điểm và ứng dụng sôi nổi nhất",
+      "peakApp": "Nhiều từ nhất trong {{app}}",
+      "word": "Từ dùng nhiều nhất",
+      "uses_other": "Đã dùng {{count, number}} lần",
+      "corrected": "Từ bị sửa nhiều nhất",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_other": "Đã sửa {{count, number}} lần",
+      "notEnough": "Chưa đủ bản đọc chính tả.",
+      "footnote_other": "Được tính trên máy Mac này từ {{count, number}} bản đọc chính tả gần nhất. Không có gì rời khỏi máy Mac của bạn.",
+      "sample": {
+        "phrase": "một cụm từ bạn thường nói",
+        "peak": "một thời điểm trong ngày",
+        "word": "từ yêu thích",
+        "corrected": "một từ hay bị sửa"
+      },
+      "lockedTitle_other": "Hồ sơ giọng nói của bạn mở khóa khi đạt {{goal}} từ",
+      "lockedBody_other": "Tiếp tục đọc chính tả: đã có {{current}}/{{goal}} từ. Sau đó bạn sẽ thấy cụm từ bạn dùng nhiều nhất, khi nào và ở đâu bạn đọc chính tả, và những từ {{appName}} sửa giúp bạn."
+    },
+    "typing": {
+      "take": "Làm bài kiểm tra gõ",
+      "retake": "Làm lại bài kiểm tra gõ"
+    },
+    "saved": {
+      "title": "Thời gian tiết kiệm so với gõ phím",
+      "basisMeasured": "Nói {{speaking}} từ/phút so với gõ {{typing}} từ/phút",
+      "basisAverage": "Nói {{speaking}} từ/phút so với gõ trung bình {{typing}} từ/phút",
+      "basisEstimateMeasured": "Nói khoảng {{speaking}} từ/phút so với gõ {{typing}} từ/phút",
+      "basisEstimateAverage": "Nói khoảng {{speaking}} từ/phút so với gõ trung bình {{typing}} từ/phút"
+    }
+  },
+  "history": {
+    "title": "Lịch sử",
+    "today": "Hôm nay",
+    "yesterday": "Hôm qua",
+    "rowLabel": "Bản đọc chính tả lúc {{time}}",
+    "loading": "Đang tải các bản đọc chính tả…",
+    "loadingMore": "Đang tải thêm…",
+    "unavailable": "Lịch sử chưa sẵn sàng. Lịch sử sẽ hiện ngay khi ứng dụng khởi động xong.",
+    "empty": {
+      "body": "Giữ fn trong bất kỳ ứng dụng nào và bắt đầu nói. Mọi bản đọc chính tả được giữ ở đây, trên máy Mac này."
+    },
+    "noResults": {
+      "title": "Không tìm thấy gì",
+      "body": "Không có bản đọc chính tả nào chứa “{{query}}”."
+    },
+    "results_other": "Tìm thấy {{count}} bản đọc chính tả",
+    "resultsMore_other": "Đang hiện {{count}} kết quả khớp gần nhất. Cuộn để xem thêm.",
+    "search": {
+      "open": "Tìm trong Lịch sử",
+      "label": "Tìm bản đọc chính tả của bạn",
+      "placeholder": "Tìm bản đọc chính tả",
+      "close": "Đóng tìm kiếm"
+    },
+    "transcribeFile": "Chép lời một tệp…",
+    "transcribeFailed": "Không thể mở tệp đó. Vui lòng thử lại.",
+    "showMore": "Xem thêm",
+    "showLess": "Hiện ít hơn",
+    "failed": "Chép lời thất bại. Hãy chọn Chép lời lại trong menu ⋮.",
+    "waitingForModel": "Đang chờ mô hình giọng nói",
+    "notTranscribed": "Chưa được chép lời.",
+    "job": {
+      "waiting": "Đang chờ chép lời…",
+      "transcribing": "Đang chép lời…",
+      "percent": "Đang chép lời… {{percent}}%"
+    },
+    "tag": {
+      "file": "Tệp",
+      "practice": "Luyện tập",
+      "raw": "Trước khi dọn dẹp bằng AI",
+      "flagged": "Đã đánh dấu"
+    },
+    "actions": {
+      "play": "Phát bản ghi âm",
+      "hidePlayer": "Ẩn trình phát",
+      "copy": "Sao chép văn bản",
+      "copied": "Đã sao chép",
+      "flag": "Từ sai? Sửa lại",
+      "more": "Thao tác khác"
+    },
+    "menu": {
+      "label": "Thao tác với bản đọc chính tả",
+      "undoAi": "Hoàn tác chỉnh sửa AI",
+      "redoAi": "Làm lại chỉnh sửa AI",
+      "retry": "Chép lời lại",
+      "retryAt": {
+        "none": "Chép lời lại mà không dọn dẹp",
+        "light": "Chép lời lại với mức dọn dẹp Nhẹ",
+        "medium": "Chép lời lại với mức dọn dẹp Trung bình"
+      },
+      "saveAudio": "Lưu âm thanh dưới dạng…",
+      "delete": "Xóa bản chép lời"
+    },
+    "audio": {
+      "expired_other": "Đã xóa âm thanh sau {{count}} ngày",
+      "removed": "Đã xóa âm thanh",
+      "missing": "Bản đọc chính tả này không có bản ghi âm",
+      "filter": "Âm thanh WAV",
+      "saved": "Đã lưu bản ghi âm.",
+      "saveFailed": "Không thể lưu bản ghi âm. Vui lòng thử lại."
+    },
+    "copyFailed": "Không thể sao chép văn bản. Vui lòng thử lại.",
+    "actionFailed": "Không thành công. Vui lòng thử lại.",
+    "deleted": "Đã xóa",
+    "undo": "Hoàn tác",
+    "deleteFailed": "Không thể xóa bản đọc chính tả đó. Vui lòng thử lại.",
+    "undoFailed": "Đã quá muộn để lấy lại bản đọc chính tả đó.",
+    "flag": {
+      "title": "Từ sai?",
+      "description": "Chọn từ bị sai và nhập lại theo cách đúng. Từ điển của bạn sẽ sửa nó từ nay về sau.",
+      "close": "Đóng",
+      "cancel": "Hủy",
+      "save": "Thêm vào từ điển",
+      "pick": "Chọn từ sai (với vài từ, hãy chọn cả từ tiếp theo)",
+      "noWords": "Bản đọc chính tả này không có từ nào để chọn.",
+      "correction": "Chính tả đúng",
+      "correctionFor": "Chính tả đúng của “{{word}}”",
+      "correctionPlaceholder": "Nhập đúng như cách viết đúng",
+      "kindLabel": "Thêm gì",
+      "rule": "Luôn thay thế",
+      "ruleHint": "Thêm một mục thay thế để cùng lỗi đó được sửa trong mọi bản đọc chính tả.",
+      "ruleHintFilled": "“{{from}}” sẽ thành “{{to}}” trong mọi bản đọc chính tả.",
+      "word": "Dạy cách viết",
+      "wordHint": "Thêm từ này để ứng dụng nhận ra khi bạn nói.",
+      "duplicate": "Đó đã có trong từ điển của bạn rồi.",
+      "failed": "Không thể lưu. Vui lòng thử lại.",
+      "savedRule": "Từ nay “{{from}}” sẽ thành “{{to}}”.",
+      "savedWord": "“{{word}}” đã có trong từ điển của bạn.",
+      "openDictionary": "Mở Từ điển"
+    }
+  },
+  "scratchpad": {
+    "newNote": "Ghi chú mới",
+    "preferences": "Tùy chọn Bản nháp",
+    "hero": {
+      "title": "Chỗ cho những ý nghĩ chợt đến",
+      "body": "Ghi một danh sách, soạn nháp câu trả lời hoặc nói ra để nghĩ về một ý tưởng. Mọi ghi chú đều tự lưu."
+    },
+    "addToBar": "Thêm vào thanh",
+    "addToBarHelp": "Giữ nút Bản nháp cạnh Đọc chính tả trên thanh khi không hoạt động.",
+    "recents": "Gần đây",
+    "searchLabel": "Tìm ghi chú",
+    "searchPlaceholder": "Tìm ghi chú của bạn",
+    "loading": "Đang tải ghi chú…",
+    "empty": "Chưa có ghi chú nào",
+    "emptyHelp": "Bắt đầu một ghi chú, rồi gõ hoặc đọc chính tả vào cửa sổ nổi của nó.",
+    "emptyNote": "Ghi chú trống",
+    "noResults": "Không có ghi chú nào khớp với tìm kiếm của bạn.",
+    "untitled": "Ghi chú không tên",
+    "pinned": "Đã ghim",
+    "pin": "Ghim ghi chú",
+    "unpin": "Bỏ ghim ghi chú",
+    "editAction": "Sửa ghi chú",
+    "edit": "Sửa {{name}}",
+    "delete": "Xóa ghi chú",
+    "deleteConfirm": "Xóa “{{name}}”? Không thể hoàn tác.",
+    "error": "Bản nháp không thể hoàn tất thao tác đó. Văn bản hiện tại của bạn vẫn ở đây; hãy thử lại.",
+    "shortcut": {
+      "label": "Phím tắt mở",
+      "change": "Đặt phím tắt",
+      "title": "Phím tắt Bản nháp",
+      "help": "Mở Bản nháp từ bất cứ đâu. Ban đầu chưa được đặt, nên không bao giờ chặn phím nào cho đến khi bạn chọn.",
+      "close": "Đóng hộp thoại phím tắt",
+      "proposed": "Tổ hợp đề xuất",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Dùng Control + Option + S",
+      "chooseAnother": "Chọn một phím tắt khác",
+      "error": "Không thể lưu phím tắt đó. Hãy thử tổ hợp khác."
+    },
+    "tabs": "Ghi chú đang mở",
+    "tools": "Công cụ ghi chú",
+    "sidebar": "Hiện danh sách ghi chú",
+    "polish": "Polish ghi chú",
+    "polishing": "Đang Polish…",
+    "textSize": "Đổi cỡ chữ (hiện tại {{size}} điểm)",
+    "expand": "Mở rộng cửa sổ ghi chú",
+    "shrink": "Khôi phục kích thước cửa sổ ghi chú",
+    "close": "Đóng Bản nháp",
+    "noteBody": "Nội dung ghi chú",
+    "notePlaceholder": "Viết hoặc đọc chính tả ghi chú…",
+    "saved": "Đã lưu",
+    "saving": "Đang lưu…",
+    "saveError": "Chưa lưu",
+    "autosaveHelp": "Tự động lưu",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "record": "Ghi âm",
+    "stop": "Dừng",
+    "recordHint": "Đọc chính tả vào ghi chú này ({{key}})",
+    "recordHintNoKey": "Đọc chính tả vào ghi chú này",
+    "stopHint": "Dừng đọc chính tả",
+    "gettingReady": "Đang chuẩn bị…",
+    "polished": "Đã Polish ghi chú",
+    "undo": "Hoàn tác",
+    "polishNoChange": "Ghi chú này đã đọc tốt rồi.",
+    "polishRefused": "Không thể Polish ghi chú này.",
+    "polishNotReady": "Mô hình AI vẫn đang được chuẩn bị. Hãy thử lại sau vài phút.",
+    "polishStale": "Ghi chú đã thay đổi trong lúc Polish nên không có gì bị thay thế.",
+    "dismiss": "Đóng"
+  },
+  "style": {
+    "tabsLabel": "Nhóm kiểu",
+    "groups": {
+      "personal": {
+        "tab": "Tin nhắn cá nhân",
+        "label": "Tin nhắn cá nhân",
+        "bannerTitle": "Cho trò chuyện với bạn bè và gia đình"
+      },
+      "work": {
+        "tab": "Tin nhắn công việc",
+        "label": "Tin nhắn công việc",
+        "bannerTitle": "Cho trò chuyện với đồng nghiệp"
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "bannerTitle": "Cho email của bạn"
+      },
+      "other": {
+        "tab": "Khác",
+        "label": "Khác",
+        "bannerTitle": "Cho mọi thứ khác"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Trang trọng",
+        "description": "Viết hoa + dấu câu"
+      },
+      "relaxed": {
+        "label": "Thân mật",
+        "description": "Viết hoa + ít dấu câu hơn"
+      },
+      "very_relaxed": {
+        "label": "Rất thân mật",
+        "description": "Không viết hoa + ít dấu câu hơn"
+      },
+      "upbeat": {
+        "label": "Hào hứng",
+        "description": "Viết hoa + thêm chút năng lượng"
+      }
+    },
+    "presetsHeading": "Kiểu",
+    "presetsLegend": "Kiểu cho {{group}}",
+    "after": "Nội dung được viết:",
+    "englishOnly": "Các kiểu áp dụng cho bản đọc chính tả bằng tiếng Anh. Dọn dẹp hoạt động với mọi ngôn ngữ.",
+    "apps": {
+      "heading": "Dùng trong các ứng dụng này",
+      "listLabel": "Các ứng dụng dùng kiểu {{group}}",
+      "addShort": "Thêm ứng dụng",
+      "allOthers": "Mọi ứng dụng không thuộc nhóm khác cũng dùng kiểu này.",
+      "unavailable": "Không thể tải danh sách ứng dụng. Chúng sẽ hiện khi ứng dụng sẵn sàng.",
+      "chipLabel": "{{app}}: tùy chọn",
+      "menuLabel": "Tùy chọn cho {{app}}",
+      "moveTo": "Chuyển tới",
+      "useDefault": "Quay về nhóm thông thường ({{group}})",
+      "remove": "Xóa khỏi {{group}}",
+      "autoSend": "Nhấn Return sau khi đọc chính tả",
+      "autoSendOn": "nhấn Return sau khi đọc chính tả",
+      "notInstalled": "chưa được cài đặt",
+      "aiChat": "Một ứng dụng chat AI: lời của bạn được dọn dẹp, không áp dụng kiểu.",
+      "moved": "{{app}} giờ dùng kiểu {{group}}.",
+      "removed": "{{app}} giờ dùng kiểu Khác.",
+      "added": "{{app}} giờ dùng kiểu {{group}}.",
+      "undo": "Hoàn tác",
+      "changeFailed": "Thay đổi đó không được lưu. Vui lòng thử lại."
+    },
+    "sites": {
+      "addShort": "Thêm trang web",
+      "recent": {
+        "heading": "Trang web dùng gần đây",
+        "addLabel": "Thêm {{host}} vào “{{group}}”"
+      },
+      "add": {
+        "title": "Thêm trang web",
+        "description": "Chọn kiểu cho một trang web trong trình duyệt. Kiểu áp dụng cho toàn bộ trang, kể cả tên miền phụ.",
+        "label": "Trang web",
+        "hint": "Nhập tên miền như github.com, hoặc dán một địa chỉ.",
+        "invalid": "Đây có vẻ không phải là trang web. Hãy thử tên miền như example.com.",
+        "preview": "Thêm {{host}} và các tên miền phụ của nó.",
+        "already": "{{host}} hiện đang ở “{{group}}”. Thêm vào đây sẽ chuyển nó sang.",
+        "same": "{{host}} đã dùng “{{group}}”.",
+        "covered": "{{host}} thuộc {{parent}} (“{{group}}”). Thêm vào sẽ cho nó kiểu riêng.",
+        "groupLabel": "Kiểu",
+        "submit": "Thêm vào “{{group}}”"
+      },
+      "builtinNote": "Nhiều trang web phổ biến đã có kiểu phù hợp mà không cần liệt kê ở đây."
+    },
+    "picker": {
+      "title": "Thêm ứng dụng vào {{group}}",
+      "description": "Chọn một ứng dụng trên máy Mac này. Các bản đọc chính tả trong ứng dụng đó sẽ dùng kiểu {{group}}.",
+      "search": "Tìm ứng dụng",
+      "listLabel": "Ứng dụng trên máy Mac này",
+      "loading": "Đang tìm ứng dụng…",
+      "failed": "Không thể liệt kê các ứng dụng trên máy Mac này.",
+      "none": "Không có ứng dụng nào khớp.",
+      "inGroup": "Trong {{group}}",
+      "alreadyHere": "Đã ở đây",
+      "cancel": "Hủy",
+      "close": "Đóng"
+    },
+    "cleanup": {
+      "tab": "Tự động dọn dẹp",
+      "description": "Mức dọn dẹp lời của bạn, trong mọi ứng dụng và mọi ngôn ngữ. Kiểu của từng nhóm được áp dụng thêm bên trên.",
+      "bannerTitle": "Tự động dọn dẹp áp dụng cho mọi lần đọc",
+      "levels": {
+        "none": "Đúng những gì bạn nói, kể cả lỗi",
+        "light": "Bỏ từ đệm và sửa dấu câu",
+        "medium": "Câu chữ mượt hơn, giữ nguyên ý"
+      },
+      "mediumNote": "Với mô hình AI tích hợp, Trung bình thường cho cùng văn bản như Nhẹ.",
+      "note": "Lời gốc của bạn không bao giờ mất: trong Lịch sử, mở menu của một lần đọc và chọn “Hoàn tác chỉnh sửa AI”."
+    },
+    "addMenu": "Thêm ứng dụng hoặc trang web"
+  },
+  "onboardingFlow": {
+    "loading": "Đang chuẩn bị…",
+    "back": "Quay lại",
+    "continue": "Tiếp tục",
+    "yes": "Có",
+    "no": "Không",
+    "navigationFailed": "Không thể lưu bước đó. Hãy thử lại.",
+    "stepper": {
+      "label": "Tiến trình thiết lập",
+      "welcome": "Chào mừng",
+      "permissions": "Quyền",
+      "setup": "Thiết lập",
+      "practice": "Luyện tập",
+      "done": "(xong)",
+      "finish": "Hoàn tất"
+    },
+    "help": {
+      "chip": "Trợ giúp",
+      "title": "Trợ giúp thiết lập",
+      "close": "Đóng trợ giúp",
+      "done": "Đã hiểu",
+      "body": "Mỗi bước chỉ mất vài giây. Bạn có thể quay lại bất cứ lúc nào, và nếu bạn thoát, phần thiết lập sẽ tiếp tục từ chỗ bạn dừng.",
+      "download": "Wispr Bro thiết lập nhận dạng giọng nói trên máy Mac này trong lúc bạn làm các bước. Những gì bạn đọc chính tả trước khi sẵn sàng sẽ được giữ lại và gõ ra khi xong."
+    },
+    "welcome": {
+      "title": "Hãy nói, và lời của bạn hiện ra",
+      "subtitle": "Giữ một phím, nói, rồi thả ra. Văn bản gọn gàng xuất hiện ở bất cứ đâu bạn đang gõ.",
+      "privacyTitle": "Mọi thứ ở lại trên máy Mac này",
+      "privacy": "Không tài khoản, không đám mây, không theo dõi.",
+      "start": "Bắt đầu",
+      "demoLabel": "Wispr Bro khi hoạt động"
+    },
+    "move": {
+      "title": "Chuyển Wispr Bro vào thư mục Ứng dụng",
+      "body": "Cập nhật và quyền hoạt động tốt nhất từ đó. Wispr Bro sẽ tự mở lại và tiếp tục.",
+      "action": "Chuyển vào Ứng dụng",
+      "moving": "Đang di chuyển…",
+      "skip": "Để sau",
+      "error": "Wispr Bro không thể tự di chuyển. Hãy kéo nó vào Ứng dụng trong Finder, rồi mở lại."
+    },
+    "languages": {
+      "title": "Bạn nói những ngôn ngữ nào?",
+      "subtitle": "Chọn mọi ngôn ngữ bạn đọc chính tả.",
+      "listLabel": "Ngôn ngữ",
+      "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”.",
+      "count_other": "Đọc chính tả hỗ trợ {{count}} ngôn ngữ. Bạn có thể thay đổi ngôn ngữ của mình sau trong Cài đặt.",
+      "weak_other": "Nhận dạng kém chính xác hơn với {{languages}}. Đọc chính tả bằng các ngôn ngữ này vẫn được, nhưng sẽ có nhiều lỗi hơn."
+    },
+    "permissions": {
+      "title": "Hai quyền",
+      "subtitle": "macOS yêu cầu bạn cho phép các quyền này một lần. Mỗi hàng được đánh dấu ngay khi quyền được bật.",
+      "allowed": "Đã cho phép",
+      "waiting": "Đang chờ macOS…",
+      "openSettings": "Mở Cài đặt hệ thống",
+      "prompt": "Hộp thoại của macOS",
+      "pane": "Trong Cài đặt hệ thống",
+      "microphone": {
+        "title": "Micrô",
+        "why": "Để Wispr Bro có thể nghe bạn khi bạn đọc chính tả.",
+        "action": "Cho phép micrô",
+        "promptAlt": "Ảnh hộp thoại micrô của macOS, với nút Cho phép được làm nổi bật",
+        "paneAlt": "Ảnh Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Micrô, với công tắc của Wispr Bro đã bật",
+        "waitingHelp": "Bấm Cho phép trong hộp thoại của macOS. Nếu không thấy, hãy mở Cài đặt hệ thống và bật Wispr Bro trong mục Micrô."
+      },
+      "accessibility": {
+        "title": "Trợ năng",
+        "why": "Để Wispr Bro có thể nhận phím tắt của bạn và gõ thay bạn.",
+        "action": "Cho phép Trợ năng",
+        "promptAlt": "Ảnh hộp thoại Trợ năng của macOS, với nút Mở Cài đặt hệ thống được làm nổi bật",
+        "paneAlt": "Ảnh Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Trợ năng, với công tắc của Wispr Bro đã bật",
+        "waitingHelp": "Trong Cài đặt hệ thống, bật công tắc cạnh Wispr Bro. Có thể bạn cần mở khóa bằng mật khẩu."
+      }
+    },
+    "mic": {
+      "title": "Kiểm tra micrô",
+      "guidance": "Micrô có dây và micrô tích hợp hoạt động tốt nhất. Tai nghe Bluetooth có thể bị ngắt hoặc tiếng bị rè.",
+      "question": "Các thanh có di chuyển khi bạn nói không?",
+      "noHelp": "Chọn micrô khác bên dưới, rồi nói lại.",
+      "change": "Đổi micrô",
+      "previewList": "Micrô của bạn sẽ hiện ở đây."
+    },
+    "shortcut": {
+      "title": "Kiểm tra phím tắt",
+      "instruction": "Nhấn và giữ phím fn (🌐) trên bàn phím. Phím bên dưới sẽ sáng lên khi bạn giữ.",
+      "fallbackInstruction": "Nhấn và giữ đồng thời Control và Option. Các phím bên dưới sẽ sáng lên khi bạn giữ.",
+      "unboundInstruction": "Chưa đặt phím tắt đọc chính tả. Hãy dùng Sửa phím tắt để chọn.",
+      "keyLabel": "Phím fn",
+      "fallbackKeyLabel": "Control và Option",
+      "pressed": "Đang giữ phím",
+      "notPressed": "Đang chờ phím…",
+      "worked": "Hoạt động rồi. Phím đã sáng lên.",
+      "question": "Phím có sáng lên không?",
+      "edit": "Sửa phím tắt",
+      "tryAgain": "Thử lại",
+      "otherCauses": "Không phải? Các nguyên nhân khác có thể là:",
+      "changeFailed": "Thay đổi đó không thành công. Hãy thử lại, hoặc dùng Cài đặt hệ thống.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro không thấy được thao tác nhấn phím",
+          "title": "Wispr Bro chưa thấy được thao tác nhấn phím",
+          "body": "Điều này thường có nghĩa là Trợ năng chưa được bật cho Wispr Bro. Hãy bật trong Cài đặt hệ thống, rồi quay lại và nhấn Thử lại.",
+          "action": "Mở cài đặt Trợ năng"
+        },
+        "secure_input": {
+          "choice": "Một trường mật khẩu hoặc ứng dụng khác đang chặn phím",
+          "title": "Một ứng dụng khác đang chặn thao tác nhấn phím",
+          "body": "Khi trường mật khẩu hoặc một số ứng dụng (trình quản lý mật khẩu, Secure Keyboard Entry của Terminal) đang được chọn, macOS ẩn thao tác nhấn phím khỏi mọi ứng dụng khác. Hãy đóng hoặc bấm ra chỗ khác, rồi thử lại.",
+          "active": "Hiện có một ứng dụng khác đang chặn thao tác nhấn phím.",
+          "inactive": "Hiện không có gì chặn thao tác nhấn phím."
+        },
+        "globe": {
+          "choice": "Phím 🌐 mở biểu tượng cảm xúc hoặc chuyển bàn phím",
+          "title": "macOS gán cho phím 🌐 một chức năng riêng",
+          "body": "Máy Mac của bạn mở biểu tượng cảm xúc, chuyển nguồn nhập hoặc bắt đầu Đọc chính tả của Apple khi bạn nhấn 🌐. Wispr Bro có thể đặt “Nhấn phím 🌐 để” thành Không làm gì. Lựa chọn của bạn được khôi phục nếu bạn ngừng dùng fn để đọc chính tả.",
+          "consent": "Đặt 🌐 thành Không làm gì",
+          "changed": "🌐 giờ không tự làm gì nữa",
+          "open": "Mở cài đặt Bàn phím"
+        },
+        "no_fn": {
+          "choice": "Bàn phím của tôi không có phím fn",
+          "title": "Dùng Control và Option thay thế",
+          "body": "Một số bàn phím không có phím fn hoặc 🌐. Hãy giữ đồng thời Control và Option để đọc chính tả. Bạn có thể đổi lại bất cứ lúc nào trong Cài đặt.",
+          "action": "Dùng Control + Option",
+          "changed": "Control + Option là phím tắt của bạn"
+        }
+      },
+      "customInstruction": "Nhấn và giữ {{keys}}. Các phím bên dưới sẽ sáng lên khi bạn giữ."
+    },
+    "practice": {
+      "title": "Luyện tập: cả một email, <em>rảnh tay</em>",
+      "instruction": "Nhấn đồng thời fn và Space, rồi nói. Nhấn fn lần nữa khi bạn xong.",
+      "instructionFallback": "Nhấn đồng thời Control, Option và Space, rồi nói. Nhấn Control và Option lần nữa khi bạn xong.",
+      "instructionUnbound": "Chưa đặt phím tắt đọc chính tả nên không thể bắt đầu bài luyện tập. Hãy bỏ qua lúc này và đặt phím tắt trong Cài đặt.",
+      "skip": "Bỏ qua",
+      "waiting": "Đang chờ bạn bắt đầu nói…",
+      "listening": "Đang nghe… nhấn fn khi bạn xong.",
+      "listening_fallback": "Đang nghe… nhấn Control và Option khi bạn xong.",
+      "working": "Đang viết ra…",
+      "queuedNote": "Lời của bạn đã được lưu. Chúng sẽ hiện ở đây ngay khi thiết lập xong, và dù sao cũng có trong Lịch sử. Lát nữa chúng ta sẽ tự chuyển sang bước tiếp.",
+      "nothing": "Không nhận được gì. Hãy kiểm tra micrô đã bật chưa và thử lại.",
+      "filled": "Đó là email của bạn. Thêm nữa, hoặc tiếp tục.",
+      "composer": {
+        "title": "Tin nhắn mới",
+        "to": "Tới",
+        "recipient": "Sam",
+        "subject": "Chủ đề",
+        "body": "Nội dung",
+        "trySaying": "Thử nói: “{{text}}”",
+        "willAppear": "Lời của bạn sẽ hiện ở đây ngay khi mô hình giọng nói sẵn sàng."
+      },
+      "instructionCustom": "Nhấn nhanh {{keys}} hai lần, rồi nói. Nhấn {{keys}} lần nữa khi bạn xong.",
+      "listening_custom": "Đang nghe… nhấn {{keys}} khi bạn xong.",
+      "queued": "Đã lưu. Đang chờ mô hình giọng nói…",
+      "model": {
+        "title": "Đang chuẩn bị mô hình giọng nói",
+        "checking": "Đang kiểm tra tệp tải về…",
+        "paused": "Đã tạm dừng tải. Sẽ thử lại sau giây lát…",
+        "failed": "Không thể tải mô hình giọng nói",
+        "underMinute": "còn chưa đến một phút",
+        "minutesLeft_other": "còn khoảng {{count}} phút",
+        "bytes": "{{done}} / {{total}} MB",
+        "progressLabel": "Tải mô hình giọng nói",
+        "body": "Việc này chỉ diễn ra một lần. Bạn có thể tiếp tục các bước sau; những gì bạn đọc bây giờ sẽ chờ và hiện ra khi sẵn sàng.",
+        "retry": "Thử lại"
+      }
+    },
+    "firstDictation": {
+      "title": "Xong rồi!",
+      "subtitle": "Ở bất cứ đâu bạn có thể gõ, giờ bạn có thể nói.",
+      "lead": "Bạn vừa đọc chính tả văn bản đầu tiên.",
+      "typingLabel": "Gõ phím, trung bình",
+      "speakingLabel": "Nói, trung bình",
+      "faster": "<em>nhanh hơn</em> <n/> lần",
+      "takeTest": "Làm bài kiểm tra gõ",
+      "retakeTest": "Làm lại bài kiểm tra gõ",
+      "yourTypingLabel": "Tốc độ gõ của bạn",
+      "youSpokeLabel": "Bạn đã nói với tốc độ"
+    },
+    "timeSaved": {
+      "headline_other": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng {{hours}} giờ mỗi tuần",
+      "sliderLabel": "Mỗi tuần bạn gõ bao nhiêu giờ?",
+      "basisMeasured_other": "Dựa trên tốc độ gõ {{wpm}} từ/phút của bạn và tốc độ nói khoảng {{speaking}} từ/phút.",
+      "basisAverage_other": "Dựa trên tốc độ gõ trung bình {{wpm}} từ/phút và tốc độ nói khoảng {{speaking}} từ/phút.",
+      "lead": "Đọc chính tả có thể giúp bạn tiết kiệm khoảng",
+      "perWeek_other": "<n/> giờ <em>mỗi tuần</em>",
+      "hoursPerWeek_other": "{{hours}} giờ mỗi tuần",
+      "math": "{{typed}} giờ gõ ở {{wpm}} từ/phút ≈ {{voice}} giờ bằng giọng nói ở {{speaking}} từ/phút"
+    },
+    "typing": {
+      "title": "Bạn <em>gõ</em> nhanh đến mức nào?",
+      "skip": "Bỏ qua",
+      "language": "Ngôn ngữ",
+      "wpm_other": "{{count}} từ/phút",
+      "inputLabel": "Nhập đoạn văn ở đây",
+      "nothing": "Không có gì khớp với đoạn văn. Hãy thử lại.",
+      "result_other": "Bạn gõ khoảng {{count}} từ mỗi phút.",
+      "tryAgain": "Thử lại",
+      "recalculate": "Tính lại",
+      "instruction_other": "Gõ đoạn văn bên dưới như bạn vẫn thường gõ. Đồng hồ bắt đầu từ phím đầu tiên và chạy trong {{seconds}} giây.",
+      "wpmUnit_other": "từ mỗi phút",
+      "secondsUnit_other": "giây còn lại"
+    },
+    "summary": {
+      "title": "Mọi thứ đã sẵn sàng",
+      "subtitle": "Giữ phím tắt trong bất kỳ ứng dụng nào để đọc chính tả.",
+      "languages": "Ngôn ngữ",
+      "shortcut": "Phím tắt",
+      "shortcutFn": "Giữ fn (🌐)",
+      "shortcutFallback": "Giữ Control và Option",
+      "microphone": "Micrô",
+      "micDefault": "Micrô mặc định của máy Mac",
+      "typing": "Tốc độ gõ",
+      "typingWpm_other": "{{count}} từ/phút",
+      "typingSkipped": "Chưa đo",
+      "notSet": "Chưa đặt",
+      "launchAtLogin": "Mở Wispr Bro khi bạn đăng nhập",
+      "launchAtLoginHint": "Để Đọc chính tả luôn sẵn sàng khi bạn cần.",
+      "finish": "Bắt đầu đọc chính tả"
+    }
+  },
+  "whatsNew": {
+    "title": "Có gì mới trong {{version}}",
+    "label": "Ghi chú phát hành cho phiên bản này",
+    "close": "Đóng",
+    "done": "Đã hiểu"
+  },
+  "share": {
+    "heading": "Giới thiệu {{appName}} cho người khác",
+    "body": "{{appName}} miễn phí và mã nguồn mở, chạy hoàn toàn trên máy Mac. Không có mã giới thiệu và không theo dõi gì: liên kết giống nhau cho mọi người.",
+    "downloadLabel": "Liên kết tải về",
+    "brewLabel": "Cài đặt bằng Homebrew",
+    "copyLink": "Sao chép liên kết tải về",
+    "copyBrew": "Sao chép lệnh Homebrew",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "copyFailed": "Không thể sao chép. Hãy chọn văn bản và tự sao chép.",
+    "shareTitle": "Gửi cho ai đó",
+    "shareBody": "Tin nhắn, Mail, AirDrop và mọi cách chia sẻ khác trên máy Mac của bạn.",
+    "shareButton": "Chia sẻ…",
+    "shareFailed": "Không thể mở bảng chia sẻ."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Phím tắt đọc chính tả đã ngừng hoạt động. Wispr Bro cần lại quyền Trợ năng.",
+      "stopped": "Phím tắt đọc chính tả đã ngừng phản hồi.",
+      "fix": "Sửa"
+    },
+    "sheet": {
+      "title": "Sửa phím tắt",
+      "introPermission": "macOS đã tắt quyền Trợ năng của Wispr Bro nên ứng dụng không nhận ra phím tắt của bạn. Điều này có thể xảy ra sau khi cập nhật hoặc khi mục đó bị thay đổi trong Cài đặt hệ thống.",
+      "introStopped": "Trình nghe bàn phím của Wispr Bro đã dừng. Nó sẽ tự khởi động lại ngay khi macOS cho phép.",
+      "pictureLabel": "Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Trợ năng: hàng Wispr Bro với công tắc đã bật",
+      "pictureTitle": "Trợ năng",
+      "pictureBack": "Quyền riêng tư & Bảo mật",
+      "stepsTitle": "Bật lại",
+      "step1": "Mở Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Trợ năng.",
+      "step2": "Bật Wispr Bro. Nếu đã bật, hãy tắt rồi bật lại.",
+      "step3": "Quay lại đây. Phím tắt sẽ hoạt động lại sau vài giây, không cần khởi động lại.",
+      "resetTitle": "Vẫn chưa hoạt động?",
+      "resetBody": "Sau khi cập nhật, macOS có thể giữ một mục cũ không còn khớp với ứng dụng. Đặt lại sẽ xóa mục của Wispr Bro để bạn cho phép lại.",
+      "resetStep1": "Chọn Đặt lại và cấp quyền lại.",
+      "resetStep2": "Cho phép Wispr Bro khi macOS hỏi, hoặc bật nó trong danh sách vừa mở.",
+      "resetFailed": "Không thể đặt lại mục này. Trong danh sách, chọn Wispr Bro và xóa bằng nút trừ, rồi thêm lại bằng nút cộng.",
+      "openSettings": "Mở cài đặt Trợ năng",
+      "reset": "Đặt lại và cấp quyền lại",
+      "checkAgain": "Kiểm tra lại",
+      "relaunch": "Khởi động lại để hoàn tất",
+      "close": "Đóng",
+      "status": {
+        "healthy": "Phím tắt của bạn đang hoạt động.",
+        "lost": "Chưa hoạt động",
+        "recovering": "Đang kết nối lại…",
+        "needsRelaunch": "Đã có lại quyền. Khởi động lại Wispr Bro để hoàn tất."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Bạn muốn <em>thử</em> điều gì trước?",
+    "subtitle": "Chọn một mục để xem thử. Sau đó thử trong ứng dụng của bạn.",
+    "choicesLabel": "Các cách bắt đầu",
+    "choices": {
+      "ai_chat": "Hỏi một trợ lý AI",
+      "note": "Ghi nhanh một ghi chú",
+      "message": "Trả lời một tin nhắn",
+      "email": "Viết một email",
+      "comment": "Đăng một bình luận",
+      "document": "Soạn thảo tài liệu",
+      "coding": "Ra lệnh cho công cụ lập trình"
+    },
+    "scene": {
+      "label": "Ví dụ: {{choice}}",
+      "said": "Bạn nói",
+      "written": "{{appName}} viết",
+      "pause": "Tạm dừng ví dụ",
+      "play": "Phát ví dụ"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "Chat AI",
+        "context": "Tôi có thể giúp gì?",
+        "said": "ừm vậy bạn có thể giải thích lãi kép hoạt động thế nào kiểu như tôi mới biết về cái này",
+        "text": "Bạn có thể giải thích lãi kép hoạt động thế nào, kiểu như tôi mới biết về cái này không?"
+      },
+      "note": {
+        "app": "Ghi chú",
+        "context": "Thứ Hai",
+        "said": "nhắc bản thân gọi nha sĩ và ờ lấy đồ giặt khô trước sáu giờ",
+        "text": "Nhắc bản thân: gọi nha sĩ và lấy đồ giặt khô trước sáu giờ."
+      },
+      "message": {
+        "app": "Tin nhắn",
+        "context": "Trưa nay mình vẫn đi ăn chứ?",
+        "said": "ừ chắc chắn rồi mười hai rưỡi được không bạn",
+        "text": "Ừ, chắc chắn rồi! 12:30 được không bạn?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Tới: Priya · Chủ đề: Thứ Năm",
+        "said": "chào priya cảm ơn bạn về ghi chú mình sẽ gửi bản nháp trước sáng thứ năm",
+        "text": "Chào Priya, cảm ơn bạn về ghi chú. Mình sẽ gửi bản nháp trước sáng thứ Năm."
+      },
+      "comment": {
+        "app": "Mạng xã hội",
+        "context": "Văn phòng mới của chúng tôi khai trương tuần tới!",
+        "said": "chúc mừng cả đội trông tuyệt quá",
+        "text": "Chúc mừng cả đội, trông tuyệt quá!"
+      },
+      "document": {
+        "app": "Tài liệu",
+        "context": "Kế hoạch dự án",
+        "said": "mục tiêu của giai đoạn này là ừm gửi bản beta cho năm mươi người thử nghiệm trước cuối tháng",
+        "text": "Mục tiêu của giai đoạn này là gửi bản beta cho năm mươi người thử nghiệm trước cuối tháng."
+      },
+      "coding": {
+        "app": "Trình sửa mã",
+        "context": "Hỏi agent",
+        "said": "nút đăng nhập không hoạt động trên điện thoại bạn tìm giúp lý do và sửa được không",
+        "text": "Nút đăng nhập không hoạt động trên điện thoại. Bạn tìm giúp lý do và sửa được không?"
+      }
+    },
+    "tryNow": "Thử ngay",
+    "later": "Để sau",
+    "close": "Đóng",
+    "noBar": "Thanh đọc chính tả không chạy nên không có gợi ý để hiển thị. Bạn vẫn có thể thử: mở ứng dụng và giữ phím tắt.",
+    "banner": {
+      "title": "Dùng trong các ứng dụng của bạn",
+      "body": "{{hint}}. {{how}}",
+      "again": "Hiện lại gợi ý",
+      "stop": "Ẩn gợi ý",
+      "other": "Thử cái khác",
+      "active": "Gợi ý đang hiện trên màn hình. Nhấn Esc để đóng."
+    }
+  },
+  "checklist": {
+    "title": "Bắt đầu",
+    "label": "Danh sách thiết lập",
+    "progress": "Đã xong {{done}}/{{total}}",
+    "hide": "Ẩn danh sách",
+    "done": "Xong",
+    "next": "Tiếp",
+    "allDone": "Xong hết rồi. Bạn đã nắm được những điều cơ bản.",
+    "items": {
+      "try_in_app": {
+        "title": "Thử trong ứng dụng khác",
+        "action": "Cho tôi xem"
+      },
+      "add_word": {
+        "title": "Thêm một từ",
+        "action": "Cho tôi xem",
+        "coachTitle": "Thêm từ đầu tiên của bạn",
+        "coachBody": "Tên, thuật ngữ sản phẩm và biệt ngữ bạn hay nói. Chúng sẽ được viết đúng như cách bạn viết."
+      },
+      "create_snippet": {
+        "title": "Tạo đoạn văn bản",
+        "action": "Đoạn văn bản mới",
+        "coachTitle": "Tạo đoạn văn bản đầu tiên",
+        "coachBody": "Nói một cụm ngắn và nhận văn bản dài hơn: địa chỉ, một liên kết, lời chào cuối thư."
+      },
+      "launch_at_login": {
+        "title": "Mở khi đăng nhập",
+        "action": "Bật",
+        "body": "{{appName}} khởi động cùng máy Mac nên phím tắt luôn hoạt động."
+      },
+      "try_transform": {
+        "title": "Thử một Chuyển đổi",
+        "action": "Cho tôi xem",
+        "body": "Chọn văn bản và nhấn phím tắt: văn bản được viết lại ngay tại chỗ."
+      },
+      "try_whisper": {
+        "title": "Thử nói khẽ",
+        "action": "Cho tôi xem",
+        "body": "Đọc chính tả khẽ khi có người xung quanh, và tìm micrô phù hợp."
+      }
+    },
+    "coach": {
+      "close": "Đóng",
+      "done": "Đã hiểu"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Đóng bài học",
+      "back": "Quay lại",
+      "continue": "Tiếp tục",
+      "skip": "Bỏ qua",
+      "tryIt": "Tự thử",
+      "tryItOut": "Thử xem",
+      "howItWorks": "Cách hoạt động",
+      "progress": "Bước {{step}}/{{total}}",
+      "pause": "Tạm dừng hoạt ảnh",
+      "play": "Phát hoạt ảnh",
+      "turnOnFailed": "Không bật được. Hãy thử lại, hoặc dùng công tắc trên trang của nó.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "Chuyển đổi",
+      "help": "Tìm hiểu Chuyển đổi",
+      "intro": {
+        "title": "Để câu chữ nói đúng điều bạn <em>muốn</em>",
+        "body": "Chọn văn bản trong bất kỳ ứng dụng nào và nhấn phím tắt. Chuyển đổi sẽ viết lại ngay tại chỗ, ngay trên máy Mac này.",
+        "continue": "Thử xem"
+      },
+      "cards": {
+        "label": "Cùng một văn bản, ba cách",
+        "original": {
+          "name": "Bản gốc",
+          "text": "thì cơ bản là mình muốn hỏi xem có thể dời buổi duyệt sang thứ năm được không vì số liệu chưa xong và sam cũng đi vắng"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Mình có thể dời buổi duyệt sang thứ Năm không? Số liệu chưa xong, và Sam đang đi vắng."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Viết một lời nhắn ngắn, thân thiện để xin dời buổi duyệt sang thứ Năm. Lý do: số liệu chưa xong và Sam đi vắng. Giới hạn trong hai câu."
+        }
+      },
+      "benefits": {
+        "label": "Chuyển đổi có thể làm gì",
+        "shorter": "Nói gọn hơn",
+        "clearer": "Diễn đạt lại cho rõ",
+        "order": "Sắp xếp các ý hợp lý hơn",
+        "structure": "Thêm tiêu đề và danh sách",
+        "tone": "Giữ giọng văn của bạn",
+        "anywhere": "Hoạt động trong mọi ứng dụng bạn viết"
+      },
+      "practice": {
+        "title": "<em>Chọn</em> văn bản, rồi nhấn <kbd>{{shortcut}}</kbd>",
+        "body": "Chọn tin nhắn bên dưới (⌘A để chọn tất cả), rồi nhấn phím tắt Polish.",
+        "doneTitle": "Đã <em>viết lại</em> văn bản",
+        "doneBody": "Nhấn <kbd>{{view}}</kbd> để xem thay đổi. <kbd>{{undo}}</kbd> để hoàn tác.",
+        "app": "Chat với Jordan",
+        "context": "Mai mình vẫn duyệt như kế hoạch chứ?",
+        "fieldLabel": "Trả lời của bạn cho Jordan",
+        "draft": "này mình nghĩ chắc mình nên dời buổi duyệt sang thứ năm nếu được vì số liệu thật ra chưa xong và mình không muốn đưa ra thứ làm dở",
+        "example": {
+          "polish": "Mình có thể dời buổi duyệt sang thứ Năm không? Số liệu chưa xong, và mình không muốn trình bày phần việc còn dang dở.",
+          "prompt": "Viết một câu trả lời ngắn, lịch sự để xin dời buổi duyệt ngày mai sang thứ Năm vì số liệu chưa xong. Giữ giọng thân thiện và dưới ba câu."
+        },
+        "exampleNote": "Tính năng viết lại chưa sẵn sàng trên máy Mac này nên đây là một ví dụ. Khi sẵn sàng, phím tắt sẽ viết lại văn bản của chính bạn theo cách tương tự.",
+        "selectFirst": "Hãy chọn một phần tin nhắn trước, rồi nhấn {{shortcut}} lần nữa.",
+        "working": "Đang viết lại…",
+        "spotlight": "Sau mỗi chuyển đổi, thanh ở cuối màn hình hiện Xem thay đổi. Bấm vào đó hoặc nhấn {{view}}.",
+        "barLabel": "Thanh",
+        "bar": {
+          "done": "Xong",
+          "view": "Xem thay đổi"
+        },
+        "hideChanges": "Ẩn thay đổi"
+      },
+      "how": {
+        "select": {
+          "title": "<em>Chọn</em> văn bản trong bất kỳ ứng dụng nào",
+          "body": "Viết hoặc đọc chính tả như thường lệ: email, chat, tài liệu. Rồi chọn phần bạn muốn viết lại.",
+          "scene": "Hoạt ảnh: một bản nháp email được chọn."
+        },
+        "press": {
+          "title": "<em>Nhấn</em> <kbd>{{shortcut}}</kbd>",
+          "body": "Polish viết lại phần đã chọn ngay tại chỗ. Prompt Engineer ({{prompt}}) biến nó thành lời nhắc rõ ràng cho trợ lý AI.",
+          "scene": "Hoạt ảnh: {{shortcut}} được nhấn và bản nháp được thay bằng phiên bản rõ ràng hơn."
+        },
+        "changes": {
+          "title": "Xem những gì đã <em>thay đổi</em>",
+          "body": "Nhấn {{view}} hoặc bấm Xem thay đổi trên thanh: từ bị xóa được gạch ngang, từ mới được làm nổi bật. {{undo}} khôi phục bản gốc.",
+          "scene": "Hoạt ảnh: một thẻ liệt kê các thay đổi, từ bị xóa được gạch ngang và từ mới được làm nổi bật."
+        }
+      },
+      "scene": {
+        "app": "Mail: tin nhắn mới",
+        "draft": "chào mọi người chỉ báo nhanh là buổi ra mắt dời sang tuần sau vì chúng tôi phát hiện lỗi trong quy trình thanh toán và muốn sửa trước",
+        "polished": "Chào mọi người, buổi ra mắt dời sang tuần sau. Chúng tôi phát hiện lỗi trong quy trình thanh toán và muốn sửa trước."
+      },
+      "finish": {
+        "turnOn": "Bật Chuyển đổi",
+        "done": "Xong"
+      }
+    },
+    "whisper": {
+      "title": "Đọc chính tả khẽ",
+      "help": "Học cách đọc chính tả khẽ",
+      "soft": {
+        "title": "Giọng <em>nhỏ</em> là đủ",
+        "body": "Bạn không cần nói to. Chỉ cần thì thầm, lời của bạn vẫn thành văn bản gọn gàng, nên bạn có thể đọc chính tả ở văn phòng mở, trên tàu hay khi có người đang ngủ gần đó.",
+        "app": "Ghi chú",
+        "spoken": "“nhắc tôi gửi slide trước giờ ăn trưa và đặt phòng cho thứ sáu”",
+        "text": "Nhắc tôi gửi slide trước giờ ăn trưa và đặt phòng cho thứ Sáu.",
+        "scene": "Hoạt ảnh: một câu nói thầm hiện ra dưới dạng văn bản đã gõ: “{{text}}”"
+      },
+      "how": {
+        "title": "Cách <em>nói thầm</em> với máy Mac",
+        "body": "Với micrô tích hợp trên máy Mac, bốn thói quen giúp giọng nhỏ dễ nghe hơn.",
+        "distance": "Khoảng 30 cm (chừng một cẳng tay) tính từ micrô",
+        "tips": {
+          "distance": {
+            "title": "Ngồi gần.",
+            "body": "Ngồi đối diện máy Mac, cách khoảng một cẳng tay. Hơi nghiêng người về trước giúp ích hơn là nói to hơn."
+          },
+          "breath": {
+            "title": "Thì thầm có hơi.",
+            "body": "Đừng thì thầm quá nhỏ: chắc giọng hơn một chút, như đang nói với người ngồi bên kia một chiếc bàn nhỏ."
+          },
+          "pace": {
+            "title": "Giữ tốc độ ổn định.",
+            "body": "Nói trọn từng từ và đừng để cuối câu nhỏ dần đi."
+          },
+          "release": {
+            "title": "Thả phím sau cùng.",
+            "body": "Chỉ thả phím sau từ cuối cùng để từ đó được giữ lại."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>Thì thầm</em> email này",
+        "body": "Đây là lần đọc chính tả thật. Văn bản chỉ đi vào tin nhắn bên dưới, không đi đâu khác.",
+        "doneTitle": "Đã nghe thấy, kể cả khi bạn <em>thì thầm</em>",
+        "doneBody": "Chỉ cần vậy thôi. Tiếp tục để tìm micrô phù hợp với bạn.",
+        "instruction": "Giữ {{key}}, thì thầm email bên dưới, rồi thả ra.",
+        "unbound": "Chưa đặt phím tắt đọc chính tả nên không thể bắt đầu ghi ở đây. Hãy bỏ qua bước này lúc này và đặt phím tắt trong Cài đặt.",
+        "key": "fn",
+        "keyFallback": "Control và Option",
+        "sentenceLabel": "Thì thầm:",
+        "sentence": "Chào Sam, mình đang ở trong phòng yên tĩnh nên đang thì thầm email này. Mình dời cuộc gọi sang buổi chiều được không? Cảm ơn nhiều.",
+        "app": "Tin nhắn mới",
+        "context": "Gửi Sam, về chiều nay",
+        "fieldLabel": "Email bạn thì thầm",
+        "placeholder": "Những lời bạn thì thầm sẽ hiện ở đây.",
+        "status": {
+          "idle": "Đang chờ bạn giữ {{key}} và thì thầm…",
+          "listening": "Đang nghe… thả {{key}} khi bạn xong.",
+          "working": "Đang viết ra…",
+          "nothing": "Không nhận được gì. Hãy kiểm tra micrô đã bật chưa, rồi thử lại.",
+          "low": "Đã nhận được {{percent}}% số từ. Thử thêm lần nữa:",
+          "passed": "Đã nhận được {{percent}}% số từ.",
+          "example": "Đây là ví dụ về một lần ghi thì thầm."
+        },
+        "exampleNote": "Nhận dạng giọng nói vẫn đang được thiết lập trên máy Mac này nên đây là một ví dụ. Bản ghi của bạn được lưu trong Lịch sử và sẽ được viết ra ngay khi thiết lập xong.",
+        "tips": {
+          "title": "Vài điều có ích",
+          "closer": "Ngồi gần máy Mac hơn một chút, khoảng 30 cm.",
+          "firmer": "Thì thầm chắc giọng hơn một chút, có thêm hơi sau mỗi từ.",
+          "volume": "Tăng âm lượng đầu vào trong Cài đặt hệ thống › Âm thanh › Đầu vào.",
+          "openSound": "Mở cài đặt Âm thanh"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "Micrô tích hợp",
+          "why": "Đã có sẵn; ngồi gần thì đủ dùng ở nhà."
+        },
+        "wired_headset": {
+          "name": "Tai nghe có dây",
+          "why": "Micrô nằm ngay cạnh miệng, nên dù thì thầm nhỏ cũng nghe được, ở bất cứ đâu."
+        },
+        "wireless_earbuds": {
+          "name": "Tai nghe không dây",
+          "why": "Không cần cắm gì và đi đâu cũng mang theo được."
+        },
+        "desk_usb": {
+          "name": "Micrô để bàn hoặc USB",
+          "why": "Âm thanh rõ nhất khi bạn làm việc ở một bàn cố định và ngồi gần nó."
+        }
+      },
+      "quiz": {
+        "more": "Thêm về micrô",
+        "comfortable": {
+          "title": "Chọn micrô bạn thấy thoải mái khi dùng",
+          "body": "Loại nào cũng dùng được. Hãy chọn loại bạn sẵn lòng đeo hoặc để trên bàn."
+        },
+        "workplace": {
+          "title": "Bạn thường làm việc ở đâu?",
+          "body": "Thì thầm quan trọng nhất khi có người ở gần.",
+          "private": {
+            "label": "Ở nơi riêng tư",
+            "hint": "Văn phòng tại nhà hoặc phòng riêng"
+          },
+          "mixed": {
+            "label": "Cả hai một chút",
+            "hint": "Lúc một mình, lúc có người xung quanh"
+          },
+          "shared": {
+            "label": "Ở giữa người khác",
+            "hint": "Văn phòng mở, quán cà phê, phòng chung"
+          }
+        },
+        "moves": {
+          "title": "Bạn có hay di chuyển giữa các nơi không?",
+          "body": "Nếu có, một micrô mang theo được sẽ hữu ích.",
+          "one_desk": {
+            "label": "Tôi ngồi một bàn cố định",
+            "hint": "Mỗi ngày cùng một thiết lập"
+          },
+          "different_places": {
+            "label": "Tôi làm việc ở những nơi khác nhau",
+            "hint": "Nhà, văn phòng, tàu, quán cà phê"
+          }
+        },
+        "owned": {
+          "title": "Bạn có những micrô nào?",
+          "body": "Chọn tất cả những gì bạn có. Mac mini hoặc Mac Studio không có micrô riêng.",
+          "continue": "Xem loại hợp với tôi"
+        }
+      },
+      "results": {
+        "title": "Micrô <em>hợp</em> với bạn",
+        "body": "Dựa trên câu trả lời của bạn. Không có gì được lưu hay gửi đi đâu.",
+        "bestLine": "Hợp nhất: {{mic}}.",
+        "caption": "Hiệu quả của từng loại micrô",
+        "columns": {
+          "quality": "Chất lượng micrô",
+          "others": "Thì thầm khi có người xung quanh",
+          "home": "Thì thầm ở nhà",
+          "price": "Giá",
+          "best": "Hợp nhất"
+        },
+        "notBest": "Không phải lựa chọn hợp nhất",
+        "rating": {
+          "fair": "Tạm được",
+          "good": "Tốt",
+          "great": "Rất tốt"
+        },
+        "price": {
+          "included": "Có sẵn trên hầu hết laptop",
+          "low": "Thấp",
+          "medium": "Trung bình",
+          "owned": "Bạn đã có"
+        },
+        "copy": {
+          "label": "Sao chép kết quả",
+          "heading": "{{appName}}: micrô hợp với tôi",
+          "best": "Hợp nhất: {{mic}}",
+          "unanswered": "chưa trả lời",
+          "noneOwned": "không có"
+        },
+        "copied": "Đã sao chép",
+        "copyFailed": "Không thể sao chép. Hãy chọn bảng và tự sao chép.",
+        "done": "Xong"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro hiện dùng loại mô hình mới hơn. Hãy tải phiên bản mới để tiếp tục chép lời. Các phiên bản cũ sẽ bị xóa."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Để Wispr Bro nghe được bạn. Âm thanh được chuyển thành văn bản ngay trên máy Mac này và không bao giờ được tải lên."
+        },
+        "accessibility": {
+          "why": "Để phím tắt của bạn hoạt động trong mọi ứng dụng, và Wispr Bro có thể gõ văn bản vào nơi con trỏ của bạn đang đứng."
+        },
+        "turnOnMac": "Bật Wispr Bro trong Cài đặt hệ thống, rồi quay lại đây.",
+        "relaunch": "Phím tắt không phản hồi sau bước này? <relaunch>Mở lại Wispr Bro</relaunch> và bạn sẽ quay lại đúng chỗ này."
+      },
+      "welcome": {
+        "noMatch": "Không có ngôn ngữ nào khớp với “{{query}}”. Các mô hình của Wispr Bro hỗ trợ khoảng 100 ngôn ngữ; còn nhiều ngôn ngữ khác trong cài đặt.",
+        "chinese": {
+          "question": "Bạn nói {{languages}}. Wispr Bro nên viết bằng chữ nào?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro ở ngay góc màn hình để hướng dẫn bạn"
+      },
+      "done": {
+        "subMac": "Wispr Bro giờ đã ở trên thanh menu. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
+        "subTray": "Wispr Bro giờ đã ở trong khay hệ thống. Giữ hoặc nhấn <keys/> trong bất kỳ ứng dụng nào để nói.",
+        "atLogin": "Khởi động Wispr Bro khi tôi đăng nhập",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Phím tắt Wispr Bro"
+        },
+        "preferredLanguages": {
+          "description": "Các ngôn ngữ bạn nói. Wispr Bro dùng chúng để đề xuất mô hình."
+        }
+      },
+      "models": {
+        "untestedNote": "Chưa được kiểm thử với Wispr Bro. Chúng có thể chậm hơn hoặc mắc nhiều lỗi hơn.",
+        "emptyYours": "Chưa có mô hình nào. Hãy chọn một mô hình bên dưới: nó sẽ được tải xuống, rồi Wispr Bro sẽ dùng nó.",
+        "deleteAskActive": "Xóa {{name}}? Wispr Bro không thể chép lời cho đến khi bạn chọn mô hình khác.",
+        "retiredNotice": {
+          "title": "Các mô hình cũ không còn hoạt động với Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Tự động khởi động Wispr Bro khi bạn đăng nhập vào máy Mac."
+        },
+        "showTrayIcon": {
+          "description": "Hiển thị biểu tượng Wispr Bro trên thanh menu."
+        },
+        "clipboardHandling": {
+          "title": "Xử lý clipboard",
+          "options": {
+            "dontModify": "Không sửa đổi clipboard"
+          }
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Tự động kiểm tra phiên bản mới của Wispr Bro",
+          "lockedDescription": "Đã bị vô hiệu hóa bởi cấu hình hệ thống (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kiểm tra xem các sự kiện bàn phím có đến được Wispr Bro hay không. Chỉ số lượng sự kiện được ghi lại — không bao giờ ghi lại bạn bấm phím nào.",
+          "verdictOk": "Các sự kiện phím đang đến Wispr Bro bình thường."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Phiên bản hiện tại của Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Hiển thị ghi chú phát hành sau khi Wispr Bro cập nhật"
+        },
+        "appDataDirectory": {
+          "description": "Vị trí Wispr Bro lưu trữ dữ liệu"
+        },
+        "supportDevelopment": {
+          "description": "Giúp chúng tôi tiếp tục xây dựng Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Tính năng chuyển giọng nói thành văn bản cục bộ của Wispr Bro được xây dựng trên transcribe.cpp và ggml. Cảm ơn công sức tuyệt vời của Georgi Gerganov và các cộng tác viên."
+          }
+        }
+      },
+      "postProcessing": {
+        "prompts": {
+          "createNew": "Tạo prompt mới",
+          "promptLabel": "Nhãn prompt",
+          "promptInstructions": "Hướng dẫn prompt",
+          "deletePrompt": "Xóa prompt",
+          "createPrompt": "Tạo prompt"
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Điểm mới trong Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Thay đổi ngôn ngữ giao diện của Wispr Bro"
+    },
+    "theme": {
+      "description": "Chọn xem Wispr Bro theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối"
+    },
+    "modelSelector": {
+      "modelReady": "Mô hình sẵn sàng",
+      "modelError": "Lỗi mô hình",
+      "modelUnloaded": "Mô hình đã gỡ",
+      "noModelDownloadRequired": "Chưa có mô hình - cần tải xuống"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Mac test S-11.1: a WebKit contenteditable body like a mail editor's.
+     The window title carries the body text for scripts/wb-s11/take.sh. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>S11 compose</title>
+    <style>
+      body {
+        font:
+          15px -apple-system,
+          sans-serif;
+        margin: 24px;
+      }
+      #body {
+        border: 1px solid #999;
+        min-height: 200px;
+        padding: 8px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <p>S-11 test compose body (contenteditable).</p>
+    <div id="body" contenteditable="true"></div>
+    <script>
+      const el = document.getElementById("body");
+      const show = () => {
+        document.title = "S11|" + encodeURIComponent(el.innerText);
+      };
+      el.addEventListener("input", show);
+      window.addEventListener("load", () => {
+        el.focus();
+        show();
+      });
+    </script>
+  </body>
+</html>

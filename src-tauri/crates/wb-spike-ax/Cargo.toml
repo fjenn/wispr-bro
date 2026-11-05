@@ -1,0 +1,65 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# RS-04 Accessibility (AX) matrix spike (R5 §7 RS-04, §4.6, S-05). A test
+# tool, not product code: it is never built into the app. `src/ax/` is the
+# prototype of the fork's `fork/ax/` layer (W-05) so S-05 can lift it; the
+# rest is the guided owner session and the scoring against the RS-04
+# criteria. See docs/fork/spikes/RS-04-procedure.md.
+
+[package]
+name = "wb-spike-ax"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+
+# Its own workspace root, so it never joins (or changes) the app's build.
+[workspace]
+
+[[bin]]
+name = "wb-spike-ax"
+path = "src/main.rs"
+
+# objc2 family at the app's versions (src-tauri/Cargo.lock: objc2 0.6.4,
+# objc2-* 0.3.2). objc2-application-services is the one new crate R4 names
+# for W-05 (Zlib OR Apache-2.0 OR MIT), same feature set SpeakoFlow uses.
+[dependencies]
+objc2 = "=0.6.4"
+objc2-application-services = { version = "=0.3.2", default-features = false, features = [
+  "std",
+  "libc",
+  "HIServices",
+  "AXUIElement",
+  "AXValue",
+  "AXError",
+] }
+objc2-core-foundation = { version = "=0.3.2", default-features = false, features = [
+  "std",
+  "CFBase",
+  "CFString",
+  "CFNumber",
+  "CFArray",
+  "CFRunLoop",
+  "CFDate",
+  "CFCGTypes",
+  "CFURL",
+  "CFAttributedString",
+] }
+objc2-foundation = { version = "=0.3.2", default-features = false, features = [
+  "std",
+  "NSString",
+  "NSArray",
+] }
+objc2-app-kit = { version = "=0.3.2", default-features = false, features = [
+  "std",
+  "libc",
+  "NSWorkspace",
+  "NSRunningApplication",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+libc = "0.2"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+
+[profile.release]
+panic = "unwind"

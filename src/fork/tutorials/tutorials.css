@@ -1,0 +1,611 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* Lessons (S-31, S-32; Design W5): the lesson sheet's size, the example
+   cards and ticker, the drawn composer, the drawn bar and its spotlight, the
+   How it works stage and the soft-voice scene. Our own drawing; tokens only
+   (light, dark, Increase Contrast), Reduce Motion stills everything. */
+
+/* The sheet keeps the reference's proportion of the window (~ 80 % × 84 %)
+   instead of filling our smaller default window. Unlayered, so it wins
+   over the Sheet's own size utilities. */
+.wb-lesson-sheet {
+  max-width: min(940px, 82vw);
+  height: min(640px, calc(100dvh - 6rem));
+}
+
+/* ---------- Examples: Original / Polish / Prompt Engineer ---------- */
+
+.wb-lesson-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+}
+@media (max-width: 720px) {
+  .wb-lesson-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.wb-lesson-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-2);
+  padding: 18px 18px 20px;
+}
+/* The middle card sits a little lower, like a hand of cards. */
+.wb-lesson-card[data-kind="polish"] {
+  margin-top: 14px;
+}
+.wb-lesson-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--wb-ink);
+}
+.wb-lesson-card[data-kind="polish"] p {
+  color: var(--wb-ink);
+}
+.wb-lesson-card p {
+  font-size: 13px;
+  line-height: 19px;
+  color: var(--wb-ink-2);
+}
+/* Benefits ticker: one slow line of ticks, paused on hover or by its button. */
+.wb-ticker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wb-ticker-view {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 48px,
+    black calc(100% - 48px),
+    transparent 100%
+  );
+}
+.wb-ticker-track {
+  display: flex;
+  width: max-content;
+  gap: 28px;
+  animation: wb-ticker 32s linear infinite;
+}
+[dir="rtl"] .wb-ticker-track {
+  animation-name: wb-ticker-rtl;
+}
+.wb-ticker[data-paused] .wb-ticker-track,
+.wb-ticker-view:hover .wb-ticker-track {
+  animation-play-state: paused;
+}
+.wb-ticker-track ul {
+  display: flex;
+  gap: 28px;
+}
+.wb-ticker-track li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--wb-ink-2);
+}
+.wb-ticker-track li svg {
+  color: var(--wb-ink);
+}
+@keyframes wb-ticker {
+  to {
+    transform: translateX(calc(-50% - 14px));
+  }
+}
+@keyframes wb-ticker-rtl {
+  to {
+    transform: translateX(calc(50% + 14px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-ticker-view {
+    mask-image: none;
+  }
+  .wb-ticker-track {
+    animation: none;
+    width: auto;
+  }
+  .wb-ticker-track ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 8px;
+  }
+  .wb-ticker-track ul[aria-hidden] {
+    display: none;
+  }
+}
+
+/* ---------- The drawn composer ---------- */
+
+.wb-practice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding-bottom: 6px;
+}
+.wb-practice-window {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-2);
+  overflow: hidden;
+  text-align: start;
+}
+.wb-practice-tools,
+.wb-practice-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 14px;
+  color: var(--wb-ink-3);
+}
+.wb-practice-tools {
+  border-bottom: 1px solid var(--wb-line);
+  background: var(--wb-surface-tint);
+}
+.wb-practice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--wb-line);
+  background: var(--wb-surface-tint);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--wb-ink);
+}
+.wb-practice-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px 4px;
+}
+.wb-practice[data-variant="mail"] .wb-practice-body {
+  padding-bottom: 16px;
+}
+.wb-practice-thread {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.wb-practice-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--wb-ink-3);
+}
+.wb-practice-context {
+  max-width: 85%;
+  border-radius: 14px;
+  border-end-start-radius: 4px;
+  background: var(--wb-surface-tint);
+  padding: 7px 12px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--wb-ink);
+}
+.wb-practice-field {
+  width: 100%;
+  resize: none;
+  border: 0;
+  border-radius: var(--wb-radius-sm);
+  background: transparent;
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--wb-ink);
+  user-select: text;
+}
+.wb-practice[data-variant="mail"] .wb-practice-field {
+  border: 1px solid var(--wb-line-strong);
+  background: var(--wb-surface);
+  padding: 10px 12px;
+}
+.wb-practice-field::placeholder {
+  color: var(--wb-ink-3);
+  font-style: italic;
+}
+.wb-practice-field:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 2px;
+}
+.wb-practice-field::selection {
+  background: var(--wb-accent-soft);
+  color: var(--wb-ink);
+}
+
+/* ---------- The drawn bar (REFERENCE-SPEC §7, our drawing) ---------- */
+
+/* Spotlight on the bar: everything else in the practice dims, with a round
+   cut-out around the bar (REFERENCE-SPEC §7 "Spotlight"). */
+.wb-lesson-dim {
+  position: absolute;
+  inset: -40px -64px -24px;
+  z-index: 1;
+  border: 0;
+  cursor: default;
+  background: radial-gradient(
+    circle 92px at 50% calc(100% - 39px),
+    transparent 0 97%,
+    rgb(0 0 0 / 0.5) 100%
+  );
+  /* Soft edges, so the dim reads as the screen dimming, not a box. */
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      black 56px,
+      black calc(100% - 56px),
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 36px,
+      black calc(100% - 20px),
+      transparent
+    );
+  mask-composite: intersect;
+  animation: wb-lesson-fade var(--wb-dur-slow) var(--wb-ease-out);
+}
+.wb-lesson-bar[data-spot] {
+  box-shadow:
+    0 2px 8px rgb(0 0 0 / 0.35),
+    0 0 0 6px rgb(255 255 255 / 0.18);
+}
+@keyframes wb-lesson-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The changes card under the practice (View changes). */
+.wb-lesson-changes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-surface);
+  box-shadow: var(--wb-elev-2);
+  padding: 14px 16px 16px;
+  font-size: 14px;
+  animation: wb-lesson-rise var(--wb-dur-slow) var(--wb-ease-out);
+}
+@keyframes wb-lesson-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---------- How it works: a dark stage, like a player ---------- */
+
+.wb-lesson-scene {
+  position: relative;
+}
+.wb-lesson-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 300px;
+  padding: 28px 24px 22px;
+  border-radius: var(--wb-radius-md);
+  background:
+    radial-gradient(
+      120% 90% at 85% 0%,
+      rgb(154 114 186 / 0.35),
+      transparent 60%
+    ),
+    radial-gradient(90% 80% at 0% 100%, rgb(46 92 92 / 0.45), transparent 60%),
+    var(--wb-hud-2);
+  overflow: hidden;
+}
+.wb-scene-control {
+  position: absolute;
+  inset-inline-start: 12px;
+  bottom: 12px;
+  z-index: 3;
+}
+/* The drawn app window is `scenes.css`'s (the first-use scenes'); on the
+   dark How it works stage it is a little wider with a deeper shadow. */
+.wb-lesson-stage .wb-scene-window {
+  max-width: 460px;
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
+}
+.wb-scene-draft {
+  min-height: 92px;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--wb-light-ink);
+}
+.wb-scene-draft mark {
+  color: inherit;
+  background: transparent;
+  border-radius: 3px;
+  transition: background-color var(--wb-dur-slow) var(--wb-ease-out);
+}
+.wb-lesson-stage[data-beat="selecting"] .wb-scene-draft mark {
+  background: rgb(154 114 186 / 0.18);
+}
+.wb-lesson-stage[data-beat="selected"] .wb-scene-draft mark,
+.wb-lesson-stage[data-beat="keys"] .wb-scene-draft mark,
+.wb-lesson-stage[data-beat="working"] .wb-scene-draft mark {
+  background: rgb(154 114 186 / 0.32);
+}
+.wb-scene-keys {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  display: flex;
+  gap: 8px;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition:
+    opacity var(--wb-dur-base) var(--wb-ease-out),
+    transform var(--wb-dur-base) var(--wb-ease-out);
+}
+.wb-lesson-stage[data-beat="keys"] .wb-scene-keys,
+.wb-lesson-stage[data-beat="undo"] .wb-scene-keys {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.wb-scene-keys span {
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  height: 52px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: var(--wb-hud);
+  color: var(--wb-on-hud);
+  font-size: 20px;
+  font-weight: 500;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.14),
+    0 10px 24px rgb(0 0 0 / 0.35);
+}
+.wb-scene-diff {
+  position: absolute;
+  inset-inline: 12%;
+  top: 16%;
+  border-radius: var(--wb-radius-lg);
+  background: var(--wb-hud-2);
+  color: var(--wb-on-hud);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 18px 40px rgb(0 0 0 / 0.4);
+  padding: 14px 16px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--wb-dur-slow) var(--wb-ease-out),
+    transform var(--wb-dur-slow) var(--wb-ease-out);
+}
+.wb-lesson-stage[data-beat="diff"] .wb-scene-diff {
+  opacity: 1;
+  transform: none;
+}
+/* The changes card on the stage looks like the bar's (pill.css). */
+.wb-scene-diff ins {
+  background: var(--wb-hud-insert);
+  color: var(--wb-on-hud);
+}
+.wb-scene-diff del {
+  background: var(--wb-hud-delete);
+  color: var(--wb-on-hud-delete);
+  text-decoration-color: var(--wb-on-hud-delete);
+}
+.wb-scene-diff h4 {
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--wb-on-hud-2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-scene-draft mark,
+  .wb-scene-keys,
+  .wb-scene-diff {
+    transition: none;
+  }
+  .wb-lesson-dim,
+  .wb-lesson-changes {
+    animation: none;
+  }
+}
+
+/* ---------- S-32: the soft-voice scene ---------- */
+
+.wb-whisper-caption {
+  margin: 0;
+  max-width: 460px;
+  text-align: center;
+  font-family: var(--wb-font-display);
+  font-size: 20px;
+  line-height: 1.35;
+  font-style: italic;
+  color: var(--wb-on-hud);
+  opacity: 0.3;
+  transition: opacity var(--wb-dur-slow) var(--wb-ease-out);
+}
+.wb-whisper-stage[data-beat="words"] .wb-whisper-caption,
+.wb-whisper-stage[data-beat="landed"] .wb-whisper-caption {
+  opacity: 1;
+}
+.wb-whisper-landing {
+  opacity: 0;
+  transition: opacity var(--wb-dur-slow) var(--wb-ease-out);
+}
+.wb-whisper-stage[data-beat="landed"] .wb-whisper-landing {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-whisper-caption,
+  .wb-whisper-landing {
+    transition: none;
+  }
+}
+
+/* ---------- S-32: the microphone table (a column per microphone) ---------- */
+
+.wb-mic-table {
+  margin-inline: auto;
+  border-collapse: separate;
+  border-spacing: 8px 0;
+  font-size: 13px;
+  color: var(--wb-ink);
+}
+.wb-mic-table thead th,
+.wb-mic-table td {
+  position: relative;
+  min-width: 112px;
+  padding: 7px 10px;
+  text-align: center;
+  vertical-align: middle;
+  background: var(--wb-surface);
+  border-inline: 1px solid var(--wb-line);
+}
+.wb-mic-table thead th {
+  padding-top: 12px;
+  border-top: 1px solid var(--wb-line);
+  border-start-start-radius: var(--wb-radius-sm);
+  border-start-end-radius: var(--wb-radius-sm);
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 600;
+  vertical-align: bottom;
+}
+.wb-mic-table tbody tr:last-child td {
+  border-bottom: 1px solid var(--wb-line);
+  border-end-start-radius: var(--wb-radius-sm);
+  border-end-end-radius: var(--wb-radius-sm);
+  padding-bottom: 14px;
+}
+.wb-mic-table tbody th {
+  padding: 7px 8px 7px 0;
+  text-align: end;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--wb-ink-2);
+  max-width: 120px;
+}
+.wb-mic-table .wb-mic-corner {
+  background: transparent;
+  border: 0;
+}
+/* The Best match column: a green band on top and a green edge. */
+.wb-mic-table [data-best] {
+  border-color: var(--wb-success);
+  border-inline-width: 1.5px;
+  background: color-mix(in srgb, var(--wb-success) 6%, var(--wb-surface));
+}
+.wb-mic-table thead th[data-best] {
+  border-top-width: 1.5px;
+}
+.wb-mic-table tbody tr:last-child td[data-best] {
+  border-bottom-width: 1.5px;
+}
+.wb-mic-band {
+  position: absolute;
+  inset-inline: -1.5px;
+  bottom: 100%;
+  border-start-start-radius: var(--wb-radius-sm);
+  border-start-end-radius: var(--wb-radius-sm);
+  background: color-mix(in srgb, var(--wb-success) 82%, var(--wb-light-ink));
+  color: var(--wb-on-ink);
+  padding: 3px 6px;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+}
+
+/* The sentence to whisper: set like a quote, in the display italic. */
+.wb-whisper-script {
+  max-width: 480px;
+  text-align: center;
+  font-family: var(--wb-font-display);
+  font-size: 20px;
+  line-height: 27px;
+  font-style: italic;
+  color: var(--wb-ink);
+  quotes: auto;
+}
+.wb-whisper-script::before {
+  content: open-quote;
+}
+.wb-whisper-script::after {
+  content: close-quote;
+}
+
+/* ---------- Image slots (W7 photos; a token gradient until then) ---------- */
+
+.wb-art-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--wb-radius-md);
+  overflow: hidden;
+  background: var(--wb-hero);
+  box-shadow: var(--wb-elev-2);
+}
+.wb-art-slot[data-placeholder] {
+  background:
+    radial-gradient(
+      70% 90% at 78% 18%,
+      rgb(240 237 230 / 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      60% 70% at 12% 100%,
+      rgb(154 114 186 / 0.3),
+      transparent 65%
+    ),
+    var(--wb-hero-grade), var(--wb-hero);
+}
+.wb-art-slot picture,
+.wb-art-slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wb-art-slot-overlay {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 0 24px;
+}

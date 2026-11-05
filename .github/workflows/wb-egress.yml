@@ -1,0 +1,122 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro runtime egress test (F-03, R5 §1 and §4.12), nightly and on
+# demand (F-02's wb-release.yml calls it before publishing).
+#
+# 1. Release build with the identity overlay (`wb:build`, .app only,
+#    unsigned, no updater artifacts).
+# 2. scripts/wb-egress/session.ts (as root): a pf anchor blocks and logs
+#    (pflog0) every outbound TCP/UDP packet of a dedicated fresh user except
+#    loopback, DNS and the resolved IPs of the R5 §1 hosts; DNS queries are
+#    captured with process metadata (pktap). The app runs as that user with
+#    a fresh profile and WISPRBRO_SELFCHECK=1: launch → self-check (IPC +
+#    identity) → launch-time update check → 2 min idle. Fails on any blocked
+#    packet, any app DNS query outside §1, or a missing/failed self-check.
+#    The runner's own traffic is not blocked (it runs as the login user).
+# 3. Bundle-host guard on dist/ and the Mach-O binary.
+#
+# Not covered yet (TODO, later slices): skip onboarding (S-29a); 5 dictation
+# takes from WAV fixtures (needs a fork audio-injection test hook, S-01/S-04);
+# open every Hub page (S-13); model download from a local HF mock on loopback
+# (needs the fork::net mirror hook, F-08/S-07a). Until F-08 lands, step 3
+# fails on Handy's cloud-provider and blob.handy.computer hosts (pending
+# entries in ci/inert-hosts.txt) — expected red.
+#
+# Unverified: whether a second, non-console macOS user can start the GUI app
+# on a hosted runner. If not, run manually with mode=observe (app as the
+# runner user, no pf block, DNS capture only) and fix the isolation.
+
+name: "wb-egress"
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "isolated (pf block for a dedicated user) or observe (DNS capture only)"
+        required: false
+        default: isolated
+        type: choice
+        options: [isolated, observe]
+      idle:
+        description: "idle seconds after the self-check"
+        required: false
+        default: "120"
+  workflow_call:
+
+concurrency:
+  group: wb-egress
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  egress:
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      EGRESS_USER: wbegress
+      EGRESS_OUT: ${{ github.workspace }}/egress-out
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+          key: egress-release
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Release build (overlay identity, .app only)
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+        run: >
+          bun run wb:build --
+          --bundles app
+          --config '{"bundle":{"createUpdaterArtifacts":false}}'
+
+      - name: Locate the app
+        id: app
+        run: |
+          app="$(find src-tauri/target/release/bundle/macos -maxdepth 1 -name '*.app' | head -1)"
+          test -n "$app" || { echo "no .app produced"; exit 1; }
+          echo "path=$PWD/$app" >> "$GITHUB_OUTPUT"
+          ls "$app/Contents/MacOS"
+
+      - name: Create the fresh egress user
+        if: ${{ (inputs.mode || 'isolated') == 'isolated' }}
+        run: |
+          pw="$(openssl rand -hex 16)"
+          sudo sysadminctl -addUser "$EGRESS_USER" -password "$pw" -home "/Users/$EGRESS_USER"
+          sudo createhomedir -c -u "$EGRESS_USER"
+          id "$EGRESS_USER"
+
+      - name: Egress session (launch, self-check, update check, idle)
+        run: |
+          sudo "$(command -v bun)" scripts/wb-egress/session.ts \
+            --app "${{ steps.app.outputs.path }}" \
+            --user "$EGRESS_USER" \
+            --mode "${{ inputs.mode || 'isolated' }}" \
+            --idle "${{ inputs.idle || '120' }}" \
+            --out "$EGRESS_OUT"
+
+      - name: Bundle-host guard (dist + Mach-O strings)
+        if: ${{ always() && steps.app.outcome == 'success' }}
+        run: bun scripts/wb-guard-bundle-hosts.ts --dist dist --binary "${{ steps.app.outputs.path }}"
+
+      - name: Upload egress logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wb-egress-logs
+          path: egress-out/
+          retention-days: 14

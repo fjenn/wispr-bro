@@ -1,0 +1,80 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* The bar spotlight (S-30; Design W4): a dim with a circular cut-out
+   around the bar, and the hint as a black HUD card in the bar's type. */
+.wb-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  animation: wb-spotlight-in var(--wb-dur-slow) var(--wb-ease-out);
+  font-family: var(--wb-font-ui, -apple-system, system-ui, sans-serif);
+}
+.wb-spotlight-dim {
+  position: absolute;
+  inset: 0;
+}
+.wb-spotlight-shade {
+  fill: rgb(0 0 0 / 0.55);
+}
+/* A barely-there rim, so the circle reads on dark wallpapers. */
+.wb-spotlight-ring {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.18);
+  stroke-width: 1;
+}
+.wb-spotlight-hint {
+  position: absolute;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 12px 18px 11px;
+  border-radius: 18px;
+  background: var(--wb-hud);
+  color: var(--wb-on-hud);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  text-align: center;
+  animation: wb-spotlight-hint-in var(--wb-dur-slow) var(--wb-ease-out)
+    var(--wb-dur-fast) both;
+}
+.wb-spotlight-hint p {
+  margin: 0;
+}
+.wb-spotlight-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--wb-hud-accent);
+}
+.wb-spotlight-title {
+  margin-top: 2px !important;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.wb-spotlight-how {
+  margin-top: 4px !important;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--wb-on-hud-2, rgb(255 255 255 / 0.74));
+}
+.wb-spotlight-esc {
+  margin-top: 6px !important;
+  font-size: 13px;
+  color: var(--wb-on-hud-2, rgb(255 255 255 / 0.74));
+}
+@keyframes wb-spotlight-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wb-spotlight-hint-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-spotlight,
+  .wb-spotlight-hint {
+    animation: none;
+  }
+}

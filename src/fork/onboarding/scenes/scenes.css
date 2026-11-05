@@ -1,0 +1,182 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/* First-use scenes (S-30; Design W5): a drawn app on a colourful wallpaper
+   (our own mesh gradient), the bar under it and the spoken words as a dark
+   caption pill. The wallpaper and the drawn app look the same in both
+   themes, like a screenshot; the chrome around them follows the theme. */
+.wb-scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.wb-scene-stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 340px;
+  padding: 28px 28px 22px;
+  border-radius: var(--wb-radius-md);
+  overflow: hidden;
+  background: var(--wb-wallpaper);
+}
+/* A soft sheen so the gradient reads as a wallpaper, not a flat fill. */
+.wb-scene-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 80% at 50% 120%,
+    rgb(255 255 255 / 0.22),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+.wb-scene-window {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  background: var(--wb-light-surface);
+  color: var(--wb-light-ink);
+  box-shadow:
+    0 0 0 0.5px rgb(0 0 0 / 0.12),
+    0 20px 44px rgb(20 16 40 / 0.28);
+  overflow: hidden;
+  text-align: start;
+}
+.wb-scene-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--wb-light-line);
+  background: var(--wb-light-chrome);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wb-light-ink-2);
+}
+.wb-scene-dots {
+  display: inline-flex;
+  gap: 5px;
+  margin-inline-end: 4px;
+}
+.wb-scene-dots i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--wb-light-line-2);
+}
+.wb-scene-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.wb-scene-context {
+  margin: 0;
+  align-self: flex-start;
+  max-width: 90%;
+  border-radius: 12px;
+  border-end-start-radius: 4px;
+  background: var(--wb-light-chrome);
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--wb-light-ink-2);
+}
+.wb-scene-field {
+  min-height: 72px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--wb-light-line-2);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--wb-light-ink);
+}
+.wb-scene-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin-inline-start: 1px;
+  vertical-align: -0.18em;
+  background: var(--wb-light-ink);
+  animation: wb-scene-blink 1s steps(1) infinite;
+}
+.wb-scene-landed {
+  animation: wb-scene-land var(--wb-dur-slow) var(--wb-ease-out);
+}
+/* The words being said, under the bar. */
+.wb-scene-caption {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  max-width: min(440px, 100%);
+  min-height: 34px;
+  padding: 7px 14px;
+  border-radius: 17px;
+  background: rgb(0 0 0 / 0.82);
+  color: var(--wb-light-surface);
+  text-align: start;
+}
+.wb-scene-caption-label {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.7);
+}
+.wb-scene-caption-words {
+  font-size: 14px;
+  line-height: 20px;
+}
+.wb-scene-caption-words > span {
+  opacity: 0.3;
+  transition: opacity var(--wb-dur-fast) linear;
+}
+.wb-scene-caption-words > span.is-on {
+  opacity: 1;
+}
+/* Room under the caption for the pause button (Mac wave 6: a two-line
+   caption ran under it in WebKit). */
+.wb-scene-stage--controls {
+  padding-bottom: 52px;
+}
+.wb-scene-pause {
+  position: absolute;
+  inset-inline-start: 12px;
+  bottom: 12px;
+  z-index: 2;
+}
+@keyframes wb-scene-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes wb-scene-land {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wb-scene-caret,
+  .wb-scene-landed {
+    animation: none;
+  }
+  .wb-scene-caption-words > span {
+    transition: none;
+  }
+}
+
+/* The chooser sheet: the reference's proportion of the window. */
+.wb-chooser-sheet {
+  max-width: min(940px, 84vw);
+  height: min(620px, calc(100dvh - 6rem));
+}

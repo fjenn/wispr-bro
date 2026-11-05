@@ -1,0 +1,82 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * Onboarding styles that Tailwind classes cannot express (Design W1).
+ *
+ * The dark stage (celebration, time saved, typing test) is dark in either
+ * theme: `tokens.css` points every active token at its dark value under
+ * `.wb-stage-dark`; this also gives native controls their dark look.
+ */
+.wb-stage-dark {
+  color-scheme: dark;
+}
+
+/*
+ * The time-saved slider: a 6 pt track filled in purple up to the thumb
+ * (`--wb-fill`, set inline) and a white 20 pt thumb with a soft shadow.
+ */
+.wb-onb-range {
+  --wb-fill: 50%;
+  appearance: none;
+  width: 100%;
+  height: 24px;
+  background: transparent;
+  cursor: pointer;
+}
+.wb-onb-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--wb-accent) var(--wb-fill),
+    var(--wb-line-2) var(--wb-fill)
+  );
+}
+[dir="rtl"] .wb-onb-range::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to left,
+    var(--wb-accent) var(--wb-fill),
+    var(--wb-line-2) var(--wb-fill)
+  );
+}
+.wb-onb-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border-radius: 9999px;
+  background: var(--wb-light-surface);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.2),
+    0 1px 4px rgba(0, 0, 0, 0.35);
+  transition: transform var(--wb-dur-fast) var(--wb-ease-out);
+}
+.wb-onb-range:active::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+.wb-onb-range:focus-visible {
+  outline: 2px solid var(--wb-accent);
+  outline-offset: 4px;
+  border-radius: 9999px;
+}
+
+/*
+ * Each step moves focus to its heading for keyboard and VoiceOver users
+ * (`OnboardingFlow`); the heading is not a control, so no ring is drawn
+ * on it (Chromium shows `:focus-visible` after a programmatic focus).
+ */
+[data-testid="wb-onboarding"] h1[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/*
+ * The one emphasised word of a sans onboarding title ("…, *hands-free*")
+ * is set in the display serif's italic, a touch larger to match the sans
+ * x-height (the UI sans has no italic of its own).
+ */
+[data-testid="wb-onboarding"] .type-heading-xl em {
+  font-family: var(--wb-font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.14em;
+  letter-spacing: -0.01em;
+}

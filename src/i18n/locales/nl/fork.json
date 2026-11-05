@@ -1,0 +1,2836 @@
+{
+  "debug": {
+    "title": "Fork-debugpaneel",
+    "description": "Interne controles voor de Wispr Bro-laag. Alleen zichtbaar in debugbuilds of als de app met --debug is gestart.",
+    "close": "Sluit",
+    "runAgain": "Voer opnieuw uit",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Modelstatus",
+      "notReady": "Nog niet klaar: de app is nog niet volledig gestart."
+    },
+    "lastEvent": {
+      "title": "Laatste ping-gebeurtenis",
+      "none": "Nog geen gebeurtenis ontvangen."
+    },
+    "pending": "Wachten…",
+    "error": "Fout: {{message}}",
+    "csp": {
+      "title": "Inhoudsbeveiligingsbeleid",
+      "description": "Speelt een audiobestand af via het asset-protocol, laadt data:- en blob:-afbeeldingen, roept een fork-opdracht aan en controleert of een niet-toegestane afbeelding wordt geblokkeerd.",
+      "run": "Voer CSP-controle uit",
+      "running": "Bezig…",
+      "pass": "Geslaagd: geen onverwachte CSP-schending.",
+      "fail": "Mislukt: zie de controles hieronder.",
+      "ok": "ok ({{detail}})",
+      "failed": "mislukt ({{detail}})",
+      "noViolations": "Geen CSP-schendingen geregistreerd.",
+      "violations_one": "{{count}} CSP-schending geregistreerd.",
+      "violations_other": "{{count}} CSP-schendingen geregistreerd.",
+      "checks": {
+        "media": "Audio (asset-protocol)",
+        "dataImage": "data:-afbeelding",
+        "blobImage": "blob:-afbeelding",
+        "forkCommand": "Fork-opdracht",
+        "probe": "Geblokkeerde bron"
+      }
+    },
+    "notifications": {
+      "title": "Meldingen",
+      "permission": "macOS-toestemming: {{state}}",
+      "kind": "Soort",
+      "delay": "Vertraging (s)",
+      "post": "Verstuur voorbeeld",
+      "posted": "Wordt over {{seconds}} s verstuurd. Schakel naar een andere app om een macOS-melding te zien."
+    },
+    "update": {
+      "title": "Updates",
+      "version": "Versie",
+      "channel": "Kanaal",
+      "key": "Ondertekeningssleutel",
+      "endpoints": "Updatefeeds",
+      "checksOff": "Controle op updates staat uit (Instellingen › Geavanceerd, of er is een noodschakelaar ingesteld).",
+      "check": "Controleer nu",
+      "checking": "Controleren…",
+      "install": "Installeer {{version}} en start opnieuw",
+      "installing": "Downloaden en controleren…",
+      "installed": "{{version}} geïnstalleerd. Opnieuw starten…",
+      "available": "{{version}} is beschikbaar.",
+      "upToDate": "Up-to-date.",
+      "failed": "Kan niet controleren: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "Fork-instellingen",
+      "loading": "Instellingen laden…",
+      "loadError": "Kon de instellingen niet lezen: {{message}}",
+      "setError": "Die wijziging is niet bewaard: {{message}}",
+      "contextAwareness": "Contextbewustzijn",
+      "contextAwarenessHint": "Gebruikt namen in de tekst rond je cursor om ze goed te spellen. Die tekst blijft op deze Mac en wordt nooit bewaard.",
+      "transforms": "Transformaties",
+      "transformsHint": "⌥1 schaaft geselecteerde tekst bij, ⌥2 maakt er een duidelijkere AI-prompt van en ⌥O toont wat de laatste transformatie heeft veranderd. Zolang dit aanstaat, typen die toetsen geen ¡, ™ en ø meer.",
+      "transformsSafeShortcuts": "Gebruik in plaats daarvan ⌃⌥1 en ⌃⌥2",
+      "transformsSafeShortcutsHint": "Houdt ¡ en ™ beschikbaar met ⌥1 en ⌥2.",
+      "cleanupLevel": "Opschoonniveau",
+      "levels": {
+        "none": "Geen",
+        "light": "Licht",
+        "medium": "Gemiddeld"
+      },
+      "all": "Alle instellingen"
+    },
+    "bar": {
+      "title": "Dicteerbalk",
+      "alwaysShow": "Toon de balk altijd",
+      "alwaysShowHelp": "Als dit uitstaat, verschijnt de balk alleen tijdens het dicteren.",
+      "position": "Positie",
+      "positions": {
+        "bottom": "Onder in het scherm",
+        "top": "Boven in het scherm"
+      },
+      "hideInRecordings": "Verberg de balk in schermopnames",
+      "hideInRecordingsHelp": "Schermafbeeldingen, schermopnames en scherm delen laten de balk weg.",
+      "hiddenUntil": "Verborgen tot {{time}}",
+      "showNow": "Toon opnieuw",
+      "resetPositions": "Centreer de balk op elk beeldscherm"
+    },
+    "mic": {
+      "title": "Microfoon",
+      "legend": "Te gebruiken microfoon",
+      "loading": "Microfoons zoeken…",
+      "loadError": "Kan de microfoons niet weergeven: {{message}}",
+      "retry": "Probeer opnieuw",
+      "recommended": "{{name}} (aanbevolen)",
+      "auto": "Automatisch (systeeminstelling)",
+      "autoNow": "Nu: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Bekabelde of ingebouwde microfoons werken het best; Bluetooth kan wegvallen.",
+      "avoided": "De geluidsinvoer van je Mac staat op {{name}}. Bluetooth-microfoons kunnen wegvallen, dus dicteren gebruikt in plaats daarvan de ingebouwde microfoon.",
+      "useAnyway": "Gebruik {{name}} toch",
+      "inUse": "Dicteren luistert via: {{name}}",
+      "chooseError": "Kan niet van microfoon wisselen: {{message}}",
+      "meter": {
+        "start": "Test microfoon",
+        "stop": "Stop test",
+        "label": "Microfoonniveau",
+        "value": "{{percent}} procent",
+        "off": "Test staat uit",
+        "hint": "Zeg iets. De balkjes moeten bewegen terwijl je praat.",
+        "errors": {
+          "permission_denied": "Microfoontoegang staat uit. Zet deze aan in Systeeminstellingen › Privacy en beveiliging › Microfoon.",
+          "no_input_device": "Geen microfoon gevonden.",
+          "failed": "De microfoon is niet gestart. Probeer een andere."
+        }
+      },
+      "loadErrorPlain": "Kan de microfoons niet ophalen.",
+      "chooseErrorPlain": "Kan niet van microfoon wisselen."
+    },
+    "sound": {
+      "title": "Geluiden",
+      "enabled": "Speel een geluid af als dicteren start en stopt",
+      "enabledHelp": "Een korte toon als de microfoon aan- en uitgaat.",
+      "theme": "Geluid",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Aangepast"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} procent",
+      "preview": "Speel af",
+      "mute": "Zet alle audio stil tijdens het dicteren",
+      "muteHelp": "Muziek en video’s worden stil terwijl je praat en komen daarna ongewijzigd terug."
+    },
+    "recovery": {
+      "title": "Hersteltoetscombinaties",
+      "description": "Haal je laatste dictee terug of verstuur het, zonder je handen van het toetsenbord te halen.",
+      "notSet": "Niet ingesteld",
+      "current": "Toetscombinatie: {{shortcut}}",
+      "listening": "Druk op een toetscombinatie…",
+      "listeningHelp": "Druk op de toetsen of de muisknop die je wilt. Esc annuleert.",
+      "record": "Neem op",
+      "cancel": "Annuleer",
+      "clear": "Wis",
+      "useDefault": "Gebruik standaard",
+      "unusable": "Deze toetscombinatie kan niet worden gebruikt. Kies een andere.",
+      "saveFailed": "Kan de toetscombinatie niet bewaren.",
+      "recordFailed": "Kan geen toetscombinatie opnemen. Controleer of de app Toegankelijkheid mag gebruiken.",
+      "pasteLast": {
+        "title": "Plak laatste dictee",
+        "help": "Plakt je laatste dictee opnieuw waar je aan het typen bent."
+      },
+      "copyLast": {
+        "title": "Kopieer laatste dictee",
+        "help": "Zet je laatste dictee op het klembord."
+      },
+      "pressEnter": {
+        "title": "Druk op Return",
+        "help": "Drukt voor je op Return, bijvoorbeeld om een bericht te versturen dat je net hebt gedicteerd.",
+        "mouse": "Een muisknop klikt nog steeds gewoon in de app onder de aanwijzer, dus een zijknop (terug of vooruit) werkt het best."
+      },
+      "undoCancel": {
+        "title": "Herstel een annulering",
+        "help": "Haalt een dictee terug dat je net hebt geannuleerd, zolang de balk “Herstel” toont."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "Instellingen",
+    "close": "Sluit instellingen",
+    "navigation": "Onderdelen van instellingen",
+    "sections": {
+      "general": "Algemeen",
+      "system": "Systeem",
+      "vibe": "Vibe coding",
+      "privacy": "Gegevens en privacy",
+      "advanced": "Geavanceerd",
+      "about": "Over",
+      "hotkeys": "Toetscombinaties"
+    },
+    "general": {
+      "shortcuts": "Toetscombinaties",
+      "change": "Wijzig",
+      "microphone": "Microfoon",
+      "languages": "Mijn talen",
+      "appearance": "Taal en thema van de app",
+      "typingHint": "Hiermee wordt berekend hoeveel tijd dicteren je bespaart."
+    },
+    "system": {
+      "app": "Gedrag van de app",
+      "alwaysBar": "Toon de balk altijd",
+      "showDock": "Toon app in Dock",
+      "showDockHint": "Houd Wispr Bro in het Dock nadat het venster is gesloten.",
+      "sounds": "Geluiden",
+      "notifications": "Meldingen",
+      "notificationKinds": {
+        "system": "Mac-meldingen",
+        "modelReady": "Spraakmodel klaar",
+        "updateReady": "Update klaar",
+        "queuedReady": "Dictees in de wachtrij klaar",
+        "suggestions": "Suggesties",
+        "announcements": "Nieuwe functies",
+        "milestones": "Mijlpalen",
+        "shortcutProblems": "Problemen met toetscombinaties"
+      },
+      "scratchpad": "Kladblok",
+      "scratchpadLabel": "Als het Kladblok opent",
+      "scratchpadHint": "Kies wat de toetscombinatie en de knop in de balk openen.",
+      "scratchpadOptions": {
+        "resume_last": "Ga verder met mijn laatste notitie",
+        "new_note": "Begin een nieuwe notitie"
+      },
+      "notificationsHint": "Elke schakelaar regelt die melding in Wispr Bro en op de Mac. “Mac-meldingen” zet alleen de banners op de Mac uit. Meldingen over crashes en herstel verschijnen altijd in Wispr Bro.",
+      "dockKeptForTray": "Het pictogram in de menubalk staat uit, dus het Dock-pictogram blijft staan. Zet het pictogram in de menubalk aan om het te verbergen.",
+      "trayKeptForDock": "Het Dock-pictogram staat uit, dus het pictogram in de menubalk blijft staan. Zet Toon app in Dock aan om het te verbergen."
+    },
+    "vibe": {
+      "intro": "Wispr Bro leest de codenamen die je editor toont en de bestands- en mapnamen van je geopende project, op deze Mac. Het leest alleen namen, nooit wat er in je bestanden staat.",
+      "contextOff": "Contextbewustzijn staat uit, dus deze functies hebben niets om te lezen. Zet het aan om ze te gebruiken.",
+      "recognize": "Herken codenamen",
+      "recognizeHint": "Zeg een naam die je editor toont, zoals “get user by id”, en die wordt geschreven zoals je code hem spelt: getUserById.",
+      "setUp": "Stel in",
+      "change": "Wijzig editors",
+      "setUpFor": "Stel in voor {{editors}}",
+      "fileTags": "Tag bestanden in chat",
+      "fileTagsHint": "In de chat van Cursor of Windsurf tagt “index dot ts” het bestand index.ts via het @-menu van de editor, voor elk bestand in je project. Biedt de editor geen overeenkomst, dan wordt @index.ts als tekst geschreven.",
+      "fileTagsNeedsChat": "Beschikbaar nadat je Cursor of Windsurf aan je editors hebt toegevoegd.",
+      "fileTagsNeedsSetup": "Beschikbaar nadat je herkenning van codenamen hebt ingesteld.",
+      "setup": {
+        "title": "Stel herkenning van codenamen in",
+        "stepEditors": "1. Kies de editors die je gebruikt",
+        "stepScreenReader": "2. Zet in elk ervan de schermlezermodus aan, zodat ze hun tekst met Wispr Bro delen",
+        "openSettings": "Open de instellingen van de editor met ⌘ komma.",
+        "search": "Zoek naar “accessibility support”.",
+        "setOn": "Zet “Editor: Accessibility Support” op “on”.",
+        "palette": "Je kunt ook “Toggle Screen Reader Accessibility Mode” uitvoeren vanuit het Command Palette (⇧⌘P).",
+        "confirm": "Ik heb de schermlezermodus in deze editors aangezet",
+        "cancel": "Annuleer",
+        "finish": "Voltooi configuratie"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "Privé vanaf de basis",
+        "local": "Je dictees en gegevens blijven op deze Mac.",
+        "noCloud": "Spraakherkenning, opschonen en Geschiedenis werken lokaal. Er is geen account, geen telemetrie, geen dicteren in de cloud en geen opschonen in de cloud.",
+        "network": "Wat het netwerk gebruikt",
+        "networkIntro": "Wispr Bro gebruikt het netwerk alleen voor deze twee dingen:",
+        "models": "Spraak- en opschoonmodellen downloaden van Hugging Face (huggingface.co).",
+        "updates": "Als controle op updates aanstaat, op GitHub (github.com) zoeken naar app-updates."
+      },
+      "locations": {
+        "title": "Waar je gegevens staan",
+        "data": "Appgegevens en instellingen",
+        "models": "Gedownloade modellen",
+        "recordings": "Opnames",
+        "logs": "Logs en crashverslagen",
+        "show": "Toon in Finder",
+        "loading": "Zoeken…",
+        "failed": "Kan die map niet openen. Probeer het opnieuw."
+      },
+      "retention": {
+        "title": "Hoe lang Geschiedenis wordt bewaard",
+        "textLabel": "Bewaar gedicteerde tekst",
+        "textHint": "Oudere items worden automatisch verwijderd. Standaard wordt tekst voor altijd bewaard.",
+        "audioLabel": "Bewaar opnames",
+        "audioHint": "Audio verloopt standaard na 14 dagen; de tekst blijft.",
+        "options": {
+          "0": "Bewaar nooit audio",
+          "1": "1 dag",
+          "7": "7 dagen",
+          "14": "14 dagen",
+          "30": "30 dagen",
+          "90": "90 dagen",
+          "365": "1 jaar",
+          "forever": "Altijd"
+        }
+      },
+      "choices": {
+        "title": "Privacykeuzes",
+        "context": "Gebruik contextbewustzijn",
+        "contextHint": "Leest tekst in de buurt tijdens het dicteren om namen goed te spellen. Nooit bewaard of gelogd.",
+        "updates": "Controleer op app-updates",
+        "updatesHint": "Vraagt GitHub om nieuwe versies. Stuurt geen dictaat of persoonlijke gegevens.",
+        "learn": "Leer van mijn correcties",
+        "learnHint": "Stelt woorden voor het woordenboek voor op basis van je verbeteringen na een dictaat."
+      },
+      "export": {
+        "title": "Je gegevens",
+        "hint": "Een zip met je geschiedenis, instellingen en opnames. Modellen en logs zitten er niet in.",
+        "button": "Exporteer mijn gegevens",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Zip-archief",
+        "done": "Export bewaard en getoond in de Finder.",
+        "failed": "Kan je gegevens niet exporteren. Er is niets verwijderd."
+      },
+      "delete": {
+        "button": "Verwijder al mijn gegevens",
+        "title": "Al je gegevens verwijderen?",
+        "warning": "Hiermee worden Geschiedenis, opnames, instellingen, logs en crashrapporten definitief verwijderd. Dit kan niet ongedaan worden gemaakt.",
+        "relaunch": "Wispr Bro stopt met wat het aan het doen is, wist de gegevens en start opnieuw met de introductie.",
+        "models": "Verwijder ook gedownloade modellen",
+        "modelsHint": "Laat dit uit, dan hoef je spraak- en opschoonmodellen niet opnieuw te downloaden.",
+        "confirmLabel": "Typ {{word}} om te bevestigen",
+        "cancel": "Annuleer",
+        "confirm": "Verwijder alles",
+        "failed": "“Verwijder alles” is niet voltooid. Controleer de resterende gegevens voordat je het opnieuw probeert.",
+        "short": "Wist geschiedenis, opnames en instellingen. Dit kan niet ongedaan worden."
+      },
+      "diagnostics": {
+        "title": "Crashrapporten en diagnostiek",
+        "hint": "Crashrapporten blijven op deze Mac. Deel diagnose alleen als je dat wilt.",
+        "sanitized": "Haalt gedicteerde tekst, prompts, woordenboekwoorden, e-mailadressen, sleutels en je thuismap-pad weg.",
+        "copy": "Kopieer diagnostiek",
+        "save": "Bewaar diagnostiek…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Opgeschoonde diagnostiek gekopieerd.",
+        "saved": "Opgeschoonde diagnostiek bewaard.",
+        "failed": "Kan diagnostiek niet voorbereiden. Probeer het opnieuw.",
+        "rowTitle": "Diagnose delen"
+      }
+    },
+    "advanced": {
+      "output": "Tekstuitvoer",
+      "transcription": "Transcriptie",
+      "barAndOverlay": "Dicteerbalk en overlay",
+      "liveText": "Toon live tekst in de balk",
+      "liveTextHint": "Toon de herkende woorden terwijl je praat.",
+      "keyboard": "Toetsenbord-backend",
+      "prompts": "Opschoonaanbieder en prompteditor",
+      "history": "Opslag van Geschiedenis",
+      "updates": "Updates",
+      "updateChannel": "Kanaal voor updates",
+      "updateChannelHint": "Bètaversies kunnen onafgemaakte wijzigingen bevatten.",
+      "updateChannels": {
+        "stable": "Stabiel",
+        "beta": "Bèta"
+      },
+      "storage": "Locaties van gegevens en logs",
+      "experimental": "Experimenteel en debug",
+      "debugMode": "Debugtools",
+      "debugModeHint": "Toon diagnostische bediening en opties voor uitgebreide logging.",
+      "forkDiagnostics": "Diagnostiek van fork-instellingen",
+      "translateUnsupported": "{{model}} kan niet vertalen. Kies bij Spraakmodellen een model dat dat wel kan, zoals Whisper of Canary.",
+      "translateNoModel": "Je spraakmodel kan niet vertalen. Kies bij Spraakmodellen een model dat dat wel kan, zoals Whisper of Canary."
+    },
+    "about": {
+      "tagline": "Lokaal dicteren, zonder account en zonder verwerking in de cloud.",
+      "version": "Versie {{version}}",
+      "source": "Bekijk broncode",
+      "updates": "Release-opmerkingen",
+      "updatesTitle": "Updates",
+      "license": "Vrije software onder de GNU General Public License, versie 3 (GPL-3.0).",
+      "licenseLink": "Bekijk licentie",
+      "credit": "Gebouwd op Handy van CJ Pais, gebruikt onder de MIT-licentie. Dank aan iedereen die eraan werkt.",
+      "creditLink": "Handy op GitHub",
+      "supportTitle": "Steun de ontwikkeling"
+    },
+    "hotkeys": {
+      "open": "Toetscombinaties",
+      "loading": "Toetscombinaties laden…",
+      "secureInputHelp": "Opnemen pauzeert zolang Secure Input van macOS een wachtwoordveld beschermt.",
+      "count": "{{count}} van {{max}} ingesteld",
+      "notSet": "Niet ingesteld",
+      "current": "Toetscombinatie: {{shortcut}}",
+      "activationLabel": "Activering",
+      "activations": {
+        "hold": "Houd ingedrukt",
+        "double_tap": "Tik twee keer",
+        "press": "Druk",
+        "toggle": "Aan/uit"
+      },
+      "add": "Voeg toetscombinatie toe",
+      "edit": "Wijzig",
+      "delete": "Verwijder",
+      "reset": "Herstel standaardwaarden",
+      "resetting": "Herstellen…",
+      "resetFailed": "Kan niet alle toetscombinaties herstellen. Probeer het opnieuw.",
+      "done": "Gereed",
+      "saveFailed": "Kan die toetscombinatie niet bewaren.",
+      "conflict": "Wordt al gebruikt door {{action}}. Kies een andere toetscombinatie.",
+      "invalid": "Deze toetscombinatie wordt niet herkend.",
+      "unsupported": "Deze combinatie kan niet als toetscombinatie voor deze actie worden gebruikt.",
+      "capture": {
+        "starting": "Opnemen van toetscombinatie starten…",
+        "listening": "Druk op een toetscombinatie…",
+        "listeningHelp": "Druk op de toetscombinatie of muisknop die je wilt gebruiken. Esc annuleert.",
+        "cancel": "Annuleer",
+        "close": "Terug",
+        "secure": "Toetscombinaties opnemen kan niet zolang beveiligde invoer actief is. Verlaat het wachtwoordveld of zet “Beveiligde toetsenbordinvoer” uit en probeer het opnieuw.",
+        "failed": "Kan het opnemen van toetscombinaties niet starten. Controleer de toestemming voor Toegankelijkheid en probeer het opnieuw."
+      },
+      "actions": {
+        "dictate": "Ingedrukt houden om te praten",
+        "hands_free": "Handsfree dicteren",
+        "cancel": "Annuleer dicteren",
+        "command_mode": "Opdrachtmodus",
+        "paste_last": "Plak laatste dictee",
+        "copy_last": "Kopieer laatste dictee",
+        "press_enter": "Druk op Return",
+        "undo_cancel": "Herstel een annulering",
+        "transform": {
+          "polish": "Polish op geselecteerde tekst",
+          "prompt_engineer": "Maak AI-prompt van selectie",
+          "view_changes": "Bekijk wijzigingen van transformatie"
+        },
+        "scratchpad": {
+          "open": "Open Kladblok"
+        }
+      },
+      "help": {
+        "dictate": "Houd de toetscombinatie ingedrukt terwijl je praat en laat los om te stoppen.",
+        "hands_free": "Start en stop het dicteren zonder een toets ingedrukt te houden.",
+        "cancel": "Stop het huidige dictee zonder het in te voegen.",
+        "command_mode": "Houd de toetscombinatie ingedrukt terwijl je zegt hoe tekst moet worden bewerkt of geschreven.",
+        "paste_last": "Plak je meest recente dictee opnieuw.",
+        "copy_last": "Kopieer je meest recente dictee naar het klembord.",
+        "press_enter": "Drukt op Return waar je typt. Een zijknop van de muis werkt goed.",
+        "undo_cancel": "Haal een dictee terug vlak nadat je het hebt geannuleerd.",
+        "transform": {
+          "polish": "Herschrijf de geselecteerde tekst met Polish.",
+          "prompt_engineer": "Herschrijf de geselecteerde tekst als een duidelijke AI-prompt.",
+          "view_changes": "Bekijk de laatste transformatie van voor en na."
+        },
+        "scratchpad": {
+          "open": "Ga verder met je laatste notitie of begin een nieuwe."
+        }
+      },
+      "addFor": "Toetscombinatie toevoegen voor {{action}}",
+      "descriptionLimits": "De meeste acties hebben tot {{max}} toetscombinaties. Ingedrukt houden om te praten, annuleren en Opdrachtmodus hebben er elk één, handsfree dicteren twee. Wijzigingen worden direct opgeslagen.",
+      "limit_one": "Deze actie heeft {{count}} toetscombinatie.",
+      "limit_other": "Deze actie heeft maximaal {{count}} toetscombinaties.",
+      "appleDictation": {
+        "title": "Dicteren van Apple bij twee keer fn uitschakelen",
+        "description": "Twee keer tikken start niet ook Dicteren van Apple.",
+        "active": "Dicteren van Apple start nog steeds bij twee keer fn. Zet in de toetsenbordinstellingen de toetscombinatie voor Dicteren op Uit."
+      },
+      "key": {
+        "title": "Dicteertoets",
+        "hint": "Ingedrukt houden om te praten. Tik twee keer voor handsfree.",
+        "prompt": "Druk op de toets of toetsen die je wilt",
+        "save": "Bewaar",
+        "invalid": "Gebruik fn, twee speciale toetsen zoals ⌃ ⌥, of een speciale toets met een toets zoals ⌥ Space.",
+        "more": "Meer toetscombinaties"
+      }
+    },
+    "resetSetting": "Herstel {{setting}}",
+    "intro": {
+      "general": "Je toetscombinatie, microfoon, talen en hoe de app eruitziet.",
+      "system": "Hoe Wispr Bro opstart, klinkt en je meldingen stuurt.",
+      "privacy": "Alles blijft op deze Mac. Kies wat bewaard blijft, en hoelang.",
+      "advanced": "Fijnafstelling voor spraak, opschonen, tekstuitvoer en updates."
+    },
+    "navGroups": {
+      "app": "App"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "Hoofdmenu"
+    },
+    "sidebar": {
+      "collapse": "Vouw navigatiekolom in",
+      "expand": "Vouw navigatiekolom uit",
+      "suggested": "Voorgestelde woorden: {{count}}"
+    },
+    "header": {
+      "toDark": "Schakel naar donkere weergave",
+      "toLight": "Schakel naar lichte weergave"
+    },
+    "notifications": {
+      "title": "Meldingen",
+      "empty": {
+        "title": "Niets nieuws",
+        "body": "Updates en tips verschijnen hier."
+      },
+      "bellUnread_one": "Meldingen, {{count}} ongelezen",
+      "bellUnread_other": "Meldingen, {{count}} ongelezen",
+      "filter": {
+        "label": "Toon",
+        "all": "Alle",
+        "unread": "Ongelezen"
+      },
+      "more": "Meer opties voor meldingen",
+      "markAllRead": "Markeer alles als gelezen",
+      "groups": {
+        "show": "Toon in deze lijst",
+        "mac": "Op deze Mac"
+      },
+      "toggles": {
+        "suggestions": "Suggesties",
+        "announcements": "Aankondigingen",
+        "milestones": "Mijlpalen",
+        "system": "Mac-meldingen"
+      },
+      "list": "Meldingen",
+      "unreadDot": "Ongelezen",
+      "emptyUnread": {
+        "title": "Niets nieuws",
+        "body": "Je hebt alles gelezen."
+      },
+      "loadFailed": "Meldingen konden niet worden geladen.",
+      "actionFailed": "Dat is niet gelukt. Probeer het opnieuw.",
+      "copied": "Laatste dictee gekopieerd",
+      "nothingToCopy": "Nog geen dictee om te kopiëren",
+      "justNow": "Zojuist"
+    },
+    "help": {
+      "title": "Help",
+      "updates": "Updates",
+      "whatsNew": "Nieuw",
+      "essentials": "Basis",
+      "shortcuts": "Toetscombinaties",
+      "microphone": "Microfoon",
+      "languages": "Talen",
+      "documentation": "Documentatie",
+      "getInTouch": "Neem contact op",
+      "reportProblem": "Meld een probleem…",
+      "sendFeedback": "Feedback verzenden",
+      "report": {
+        "title": "Meld een probleem",
+        "body": "Hiermee open je in je browser een nieuwe issue op GitHub, met je appversie en Mac-model al ingevuld. Er staat nooit iets in wat je hebt gedicteerd, en je kunt alles lezen en aanpassen voordat je het verstuurt.",
+        "diagnosticsTitle": "Diagnostiek (optioneel)",
+        "diagnosticsBody": "Opgeschoonde logs helpen de oorzaak te vinden. Ze bevatten nooit je dictees. Kopieer ze hier en plak ze daarna in de issue.",
+        "copy": "Kopieer diagnostiek",
+        "copied": "Diagnostiek gekopieerd. Plak het in de issue.",
+        "copyFailed": "Kan diagnostiek niet kopiëren.",
+        "open": "Open GitHub",
+        "cancel": "Annuleer",
+        "close": "Sluit"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Onderdelen van instellingen"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Dicteren",
+        "banner": {
+          "title": "Praat in plaats van te typen",
+          "body": "Houd in een willekeurige app fn ingedrukt, zeg wat je wilt schrijven en laat los. {{appName}} zet nette tekst waar je cursor staat.",
+          "quiet": "Zacht dicteren: laat zien hoe"
+        },
+        "empty": {
+          "title": "Je dictees verschijnen hier"
+        }
+      },
+      "insights": {
+        "title": "Statistieken",
+        "empty": {
+          "title": "Statistieken hebben een paar dictees nodig",
+          "action": "Ga naar Dicteren"
+        }
+      },
+      "dictionary": {
+        "title": "Woordenboek"
+      },
+      "snippets": {
+        "title": "Tekstfragmenten"
+      },
+      "style": {
+        "title": "Stijl"
+      },
+      "transforms": {
+        "title": "Transformaties"
+      },
+      "scratchpad": {
+        "title": "Kladblok"
+      },
+      "share": {
+        "title": "Deel met een vriend"
+      },
+      "settings": {
+        "title": "Instellingen"
+      }
+    },
+    "featurePopup": {
+      "label": "Nieuw in deze versie",
+      "dismiss": "Oké",
+      "open": "Laat zien"
+    },
+    "update": {
+      "off": "Controle op updates staat uit",
+      "turnOn": "Zet aan",
+      "notChecked": "Nog niet gecontroleerd",
+      "check": "Controleer op updates",
+      "checking": "Zoeken naar updates…",
+      "upToDate": "Up-to-date",
+      "checkAgain": "Controleer opnieuw",
+      "checkFailed": "Kan niet controleren",
+      "retry": "Probeer opnieuw",
+      "downloading": "{{version}} downloaden…",
+      "ready": "Update klaar",
+      "restartNow": "Start nu opnieuw",
+      "installing": "{{version}} installeren…",
+      "installedWaiting": "{{version}} geïnstalleerd · start opnieuw na dit dictee",
+      "restarting": "Opnieuw starten…",
+      "installFailed": "Update is niet geïnstalleerd",
+      "busy": "Rond eerst het dicteren af.",
+      "actionFailed": "Dat is niet gelukt. Probeer het later opnieuw.",
+      "lastChecked": "Laatst gecontroleerd: {{time}}.",
+      "paused": "Na drie mislukte pogingen zijn automatische updates gepauzeerd tot {{time}}.",
+      "manualOnly": "Dit is een ontwikkelversie: er wordt alleen op updates gecontroleerd als je daarom vraagt.",
+      "readyHint": "De update installeert zichzelf zodra je 20 minuten niet hebt gedicteerd, of als je stopt.",
+      "policy": "Updates worden op de achtergrond gedownload en geïnstalleerd zodra je 20 minuten niet hebt gedicteerd, of als je stopt.",
+      "needsPassword": "Deze kopie van de app staat in een map waarvoor een beheerderswachtwoord nodig is, dus updates worden alleen geïnstalleerd als je “Start nu opnieuw” kiest."
+    },
+    "support": {
+      "nav": "Steun {{appName}}",
+      "title": "Steun {{appName}}",
+      "free": "Gratis en open source",
+      "sponsor": "Sponsor op GitHub",
+      "star": "Geef een ster op GitHub",
+      "contribute": "Bijdragen"
+    },
+    "notices": {
+      "more": "Nog {{count}}",
+      "nextLabel": "Volgende melding:"
+    },
+    "appleDictationNote": {
+      "body": "We hebben 'Druk twee keer op fn' voor Dicteren van Apple uitgeschakeld, zodat je tekst niet dubbel wordt getypt. Wijzig dit in Instellingen › Toetscombinaties."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "Nieuw!",
+      "beta": "Bèta"
+    },
+    "banner": {
+      "dismiss": "Sluit"
+    },
+    "importWizard": {
+      "stepsLabel": "Importstappen",
+      "stepOf": "Stap {{step}} van {{total}}: {{title}}",
+      "steps": {
+        "choose": "Kies een bestand",
+        "columns": "Koppel kolommen",
+        "review": "Controleer",
+        "done": "Gereed"
+      },
+      "dropHint": "Sleep hier een .csv-bestand naartoe of kies er een.",
+      "browse": "Kies een .csv-bestand",
+      "limit": "Tot 3 MB.",
+      "formatLink": "Ondersteunde opmaak",
+      "csvFilter": "CSV-bestand",
+      "fileSummary_one": "{{name}}: {{count}} rij",
+      "fileSummary_other": "{{name}}: {{count}} rijen",
+      "hasHeader": "De eerste rij bevat kolomnamen",
+      "optional": "(optioneel)",
+      "noColumn": "Niet in dit bestand",
+      "column": "Kolom {{letter}}",
+      "columnNamed": "Kolom {{letter}}: {{name}}",
+      "mapRequired": "Kies een kolom voor elk verplicht veld.",
+      "previewCaption_one": "Voorvertoning van de eerste rij",
+      "previewCaption_other": "Voorvertoning van de eerste {{count}} rijen",
+      "rowHeader": "Rij",
+      "cancel": "Annuleer",
+      "back": "Terug",
+      "next": "Volgende",
+      "import": "Importeer",
+      "done": "Gereed",
+      "close": "Sluit",
+      "errors": {
+        "notCsv": "Dat is geen .csv-bestand. Bewaar het werkblad als CSV en probeer het opnieuw.",
+        "tooLarge": "Dat bestand is {{size}} MB. Bestanden mogen maximaal 3 MB zijn.",
+        "unreadable": "Dat bestand kan niet worden gelezen. Controleer of het een CSV-bestand is en probeer het opnieuw.",
+        "empty": "Dat bestand bevat geen rijen om te importeren.",
+        "failed": "Er is iets misgegaan. Er is niets geïmporteerd; probeer het opnieuw."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Dicteren",
+      "vocabulary": "Woordenboek",
+      "help": "Help",
+      "file": "Bestand",
+      "edit": "Wijzig",
+      "view": "Weergave",
+      "window": "Venster",
+      "wordsDictated_one": "{{count}} woord gedicteerd",
+      "wordsDictated_other": "{{count}} woorden gedicteerd",
+      "copyLast": "Kopieer laatste dictee",
+      "copyLastPreview": "Kopieer laatste dictee: “{{preview}}”",
+      "copyLastConcealed": "Kopieer laatste dictee (tekst verborgen)",
+      "microphone": "Microfoon",
+      "languages": "Talen",
+      "moreLanguages": "Voeg talen toe of verwijder ze…",
+      "automaticMicrophone": "Automatisch (systeeminstelling)",
+      "noMicrophones": "Geen microfoons gevonden",
+      "dictionaryWords_one": "{{count}} woord in woordenboek",
+      "dictionaryWords_other": "{{count}} woorden in woordenboek",
+      "snippetCount_one": "{{count}} tekstfragment",
+      "snippetCount_other": "{{count}} tekstfragmenten",
+      "addWord": "Voeg woord toe…",
+      "newSnippet": "Nieuw tekstfragment…",
+      "documentation": "Documentatie",
+      "showIntro": "Introductie opnieuw tonen",
+      "shortcuts": "Toetscombinaties",
+      "reportProblem": "Meld een probleem…",
+      "sendFeedback": "Stuur feedback…",
+      "openApp": "Open {{appName}}",
+      "checkUpdates": "Zoek naar updates…",
+      "pasteLast": "Plak laatste dictee",
+      "cancelDictation": "Annuleer dicteren",
+      "shortcutsBlocked": "Toetscombinaties geblokkeerd – open Instellingen",
+      "undo": "Herstel",
+      "redo": "Opnieuw",
+      "cut": "Knip",
+      "copy": "Kopieer",
+      "paste": "Plak",
+      "selectAll": "Selecteer alles",
+      "minimize": "Minimaliseer",
+      "zoom": "Zoom",
+      "closeWindow": "Sluit venster",
+      "fullScreen": "Activeer schermvullende weergave",
+      "services": "Voorzieningen",
+      "hideOthers": "Verberg andere",
+      "showAll": "Toon alles",
+      "about": "Over {{appName}}",
+      "hide": "Verberg {{appName}}",
+      "quitApp": "Stop {{appName}}",
+      "restartToUpdate": "Start opnieuw om bij te werken naar {{version}}",
+      "updatesOff": "Controle op updates staat uit…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Toetscombinatie werkt niet meer"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Escape",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Verwijder",
+        "forwardDelete": "Verwijder vooruit",
+        "left": "Pijl-links",
+        "right": "Pijl-rechts",
+        "up": "Pijl-omhoog",
+        "down": "Pijl-omlaag",
+        "home": "Home",
+        "end": "Einde",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "Linkermuisknop",
+        "mouseRight": "Rechtermuisknop",
+        "mouseMiddle": "Middelste muisknop",
+        "mouseBack": "Muisknop Terug",
+        "mouseForward": "Muisknop Vooruit"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dicteren is klaar voor gebruik",
+        "body": "Het spraakmodel is gedownload. Houd in een willekeurige app fn ingedrukt en begin te praten."
+      },
+      "updateReady": {
+        "title": "Update klaar",
+        "body": "{{appName}} {{version}} wordt geïnstalleerd als de app de volgende keer opnieuw start."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} dictee klaar",
+        "title_other": "{{count}} dictees klaar",
+        "body": "Wat je zei terwijl het spraakmodel ontbrak, is uitgeschreven."
+      },
+      "shortcutProblem": {
+        "title": "Je toetscombinatie werkt niet",
+        "body": "{{appName}} kan niet naar fn luisteren. Open Instellingen om je toetscombinatie te controleren.",
+        "bodyPermission": "{{appName}} heeft toegang tot Toegankelijkheid nodig om fn te horen. Zet dit aan in Systeeminstellingen."
+      },
+      "crashReport": {
+        "title": "{{appName}} is onverwachts gestopt",
+        "body": "Er is een crashrapport op deze Mac bewaard. Er is niets verstuurd."
+      },
+      "dataRecovered": {
+        "title": "Je geschiedenisbestand is hersteld",
+        "body": "Het kon niet worden gelezen, dus er is een nieuw bestand begonnen. Het beschadigde bestand staat ernaast."
+      },
+      "milestoneWords": {
+        "title_one": "{{count}} woord gedicteerd",
+        "title_other": "{{count}} woorden gedicteerd",
+        "body_one": "Dat is {{count}} woord dat je niet hoefde te typen. Goed bezig.",
+        "body_other": "Dat zijn {{count}} woorden die je niet hoefde te typen. Goed bezig."
+      },
+      "milestoneStreak": {
+        "title_one": "Reeks van {{count}} dag",
+        "title_other": "Reeks van {{count}} dagen",
+        "body_one": "Je hebt {{count}} dag achter elkaar gedicteerd.",
+        "body_other": "Je hebt {{count}} dagen achter elkaar gedicteerd."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Praat zonder een toets ingedrukt te houden",
+          "body": "Tik twee keer op fn, of druk op fn en Space, om handsfree te dicteren. Druk nog een keer op fn als je klaar bent."
+        },
+        "cancel": {
+          "title": "Bedacht?",
+          "body": "Druk op Esc terwijl je praat en het dictee wordt weggegooid. Er wordt niets geplakt."
+        },
+        "history": {
+          "title": "Elk dictee wordt bewaard",
+          "body": "Je dictees blijven op deze Mac. Open Geschiedenis om er een opnieuw te kopiëren."
+        },
+        "darkMode": {
+          "title": "Licht of donker",
+          "body": "Met de maanknop boven in dit venster wissel je de weergave."
+        },
+        "customWords": {
+          "title": "Leer het je eigen woorden",
+          "body": "Voeg namen en woorden toe die je vaak gebruikt zodat ze elke keer goed worden gespeld."
+        }
+      },
+      "slowerMac": {
+        "title": "Dicteren kan trager zijn op deze Mac",
+        "body": "Geen enkel spraakmodel is snel genoeg voor je talen op deze Mac, dus het snelste wordt gebruikt. Het kan iets langer duren voordat tekst verschijnt."
+      },
+      "features": {
+        "inbox": {
+          "title": "Hier vind je je meldingen",
+          "body": "Downloads, mijlpalen en tips verzamelen zich nu achter het belletje. Kies in het menu wat je wilt ontvangen."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Kopieer laatste",
+        "open": "Open",
+        "openAccessibility": "Open Instellingen"
+      },
+      "takeRecovered": {
+        "title_one": "Er is een opname bewaard toen de app stopte",
+        "title_other": "Er zijn {{count}} opnames bewaard toen de app stopte",
+        "body_one": "Je was nog aan het dicteren toen {{appName}} werd gesloten. De opname wordt uitgeschreven en verschijnt in Geschiedenis.",
+        "body_other": "Je was nog aan het dicteren toen {{appName}} werd gesloten. De opnamen worden uitgeschreven en verschijnen in Geschiedenis."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "Kladblok"
+    },
+    "pill": {
+      "name": "Dicteerbalk",
+      "hint": "Houd fn ingedrukt om te dicteren, of klik om te starten",
+      "hideForAnHour": "Verberg een uur",
+      "slots": {
+        "dictate": {
+          "label": "Dicteer",
+          "tooltip": "Houd fn ingedrukt om te dicteren"
+        },
+        "scratchpad": {
+          "label": "Kladblok",
+          "tooltip": "Kladblok"
+        }
+      },
+      "announce": {
+        "listening": "Luistert",
+        "transcribing": "Transcriberen",
+        "cleaningUp": "Je tekst wordt opgeschoond",
+        "cancelled": "Dicteren geannuleerd",
+        "silenceWarning": "Al een tijdje geen spraak. Het dicteren stopt zo.",
+        "lengthWarning": "Dicteren stopt na 30 minuten.",
+        "settingUp": "Dicteren wordt ingesteld. Je woorden zijn bewaard.",
+        "card": "Je dictee is klaar. Kopieer het vanuit de balk.",
+        "micLostWarning": "De microfoon is losgekoppeld. Wat je tot nu toe zei, blijft bewaard.",
+        "undo": "“Herstel” staat 4 seconden op de dicteerbalk.",
+        "diff": "De wijzigingen van de transformatie zijn klaar om te bekijken.",
+        "secureInputWarning": "Beveiligde invoer staat aan. fn en Space kunnen het dicteren niet vastzetten. Esc of de sluitknop annuleert nog steeds.",
+        "inserted": "Tekst ingevoegd",
+        "newWord": "Nieuw woord: {{word}}. Voeg het toe via de dicteerbalk of later in Woordenboek."
+      },
+      "message": {
+        "no_speech": "Geen spraak gehoord",
+        "mic_muted": "Er kwam alleen stilte binnen. Staat de microfoon op stil?",
+        "inserted_without_cleanup": "Ingevoegd zonder opschonen",
+        "not_pasted": "Niet geplakt. Je tekst staat in Geschiedenis.",
+        "transcription_failed": "Kan dat niet transcriberen",
+        "mic_denied": "Microfoontoegang staat uit",
+        "no_microphone": "Geen microfoon gevonden",
+        "mic_failed": "De microfoon is niet gestart",
+        "download_failed": "Downloaden mislukt",
+        "check_connection": "Controleer je internetverbinding",
+        "no_space": "Niet genoeg schijfruimte om dicteren in te stellen",
+        "cancelled": "Geannuleerd",
+        "no_transcript": "Nog geen dictee om te plakken",
+        "copied_last": "Laatste dictee gekopieerd",
+        "copied_to_clipboard": "Gekopieerd naar het klembord",
+        "transform_done": "Gereed",
+        "command_done": "Gereed",
+        "command_needs_text": "Opdrachtmodus bewerkt en schrijft tekst. Selecteer tekst of klik in een veld.",
+        "select_text_first": "Selecteer eerst tekst",
+        "selection_too_long": "Selecteer maximaal 6000 tekens",
+        "transform_focus_moved": "Je bent verder gegaan, dus niets is veranderd",
+        "transform_failed": "Kan die tekst niet transformeren",
+        "shortcut_lost": "Je toetscombinatie werkt niet meer",
+        "shortcut_stopped": "Je toetscombinatie reageert niet meer",
+        "shortcut_back": "Je toetscombinatie werkt weer",
+        "transform_no_change": "Niets te wijzigen",
+        "transform_not_applied": "Transformatie niet toegepast",
+        "transform_getting_ready": "Transformaties worden klaargezet. Probeer het over een minuut opnieuw."
+      },
+      "card": {
+        "no_text_field": "Klik eerst in een tekstveld",
+        "focus_moved": "Je bent verdergegaan, dus er is niets geplakt",
+        "secure_field": "Niet in een wachtwoordveld getypt",
+        "sleep": "Niet geplakt: je Mac is in sluimerstand gegaan",
+        "screen_locked": "Niet geplakt: het scherm was vergrendeld",
+        "session_inactive": "Niet geplakt: je bent van gebruiker gewisseld",
+        "paste_failed": "Kan deze tekst niet plakken",
+        "disk_full": "Schijf vol: opname gestopt"
+      },
+      "word": {
+        "added": "Toegevoegd aan Woordenboek",
+        "full": "Het woordenboek is vol. Het woord blijft bij Voorgesteld."
+      }
+    },
+    "share": {
+      "message": "{{appName}} is gratis dicteersoftware die volledig op je Mac werkt. Download het hier:"
+    },
+    "spotlight": {
+      "label": "Volgende stap",
+      "hint": {
+        "ai_chat": "Open een AI-chat, zoals ChatGPT of Claude",
+        "note": "Open je notitie-app",
+        "message": "Open een chat, zoals Berichten of Slack",
+        "email": "Open je e-mail",
+        "comment": "Open een bericht waarop je wilt reageren",
+        "document": "Open een document waaraan je schrijft",
+        "coding": "Open Cursor, VS Code of een andere codeeditor"
+      },
+      "how": "Klik waar je wilt schrijven, houd fn ingedrukt en praat.",
+      "howFallback": "Klik waar je wilt schrijven, houd Control en Option ingedrukt en praat.",
+      "escape": "Druk op Esc om deze tip te sluiten."
+    }
+  },
+  "speechModels": {
+    "title": "Spraakmodellen",
+    "intro": "{{appName}} kiest het spraakmodel voor je talen en deze Mac, en wisselt naar een beter model zodra dat kan. Je hoeft nooit zelf te kiezen.",
+    "loading": "Spraakmodellen controleren…",
+    "current": "In gebruik: {{name}}",
+    "none": "Nog geen spraakmodel",
+    "phase": {
+      "checking": "Controleren welk model bij deze Mac past…",
+      "settled": "Dit is het beste model voor je talen op deze Mac.",
+      "downloading": "Beter model downloaden op de achtergrond… {{percent}}%",
+      "downloadingNoPercent": "Beter model downloaden op de achtergrond…",
+      "waiting_to_swap": "Er staat een beter model klaar. Het wordt gewisseld als je niet aan het dicteren bent.",
+      "paused": "Het betere model kon niet worden gedownload. Dit wordt later opnieuw geprobeerd."
+    },
+    "next": "Volgende: {{name}}",
+    "progressLabel": "Download van beter spraakmodel",
+    "slower": "Dicteren kan trager zijn op deze Mac: geen enkel model is hier snel genoeg voor je talen, dus het snelste wordt gebruikt.",
+    "pinned": "Je hebt dit model zelf gekozen, dus {{appName}} laat het met rust.",
+    "automatic": "Kies het model automatisch",
+    "automaticHint": "Gaat uit als je hieronder een model kiest.",
+    "languages": "Voor: {{languages}}",
+    "machine": "Deze Mac: {{chip}}, {{ram}} GB geheugen",
+    "freeDisk": "{{gb}} GB vrij voor modellen",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel-processor"
+    },
+    "list": "Alle modellen"
+  },
+  "aiEngine": {
+    "title": "AI-engine",
+    "loading": "AI-engine controleren…",
+    "loadError": "Kan de status van de AI-engine niet lezen: {{message}}",
+    "state": {
+      "unsupported": "Tekst opschonen met de lokale AI-engine is niet beschikbaar op deze Mac.",
+      "missing_runtime": "De AI-engine ontbreekt in deze build.",
+      "waiting_for_speech_model": "Het opschoonmodel wordt na het spraakmodel gedownload.",
+      "downloading": "Opschoonmodel downloaden… {{percent}}%",
+      "verifying": "Opschoonmodel controleren…",
+      "ready": "Gereed",
+      "download_failed": "Kan het opschoonmodel niet downloaden."
+    },
+    "progressLabel": "Download van opschoonmodel",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Engine inactief: start zodra je dicteert.",
+      "starting": "Engine starten…",
+      "ready": "Engine actief",
+      "failed": "Engine kon niet starten; er wordt het opnieuw geprobeerd."
+    },
+    "cpuOnly": "draait op de CPU",
+    "downloadError": "Fout: {{message}}",
+    "retry": "Probeer opnieuw",
+    "try": {
+      "label": "Probeer het op een zin",
+      "sample": "eh dus ik dacht dat we uh vrijdag nee wacht donderdag konden afspreken om het het budget door te nemen",
+      "button": "Probeer",
+      "running": "Opschonen…",
+      "notReady": "Beschikbaar zodra het opschoonmodel klaar is.",
+      "result": "Opgeschoonde tekst",
+      "empty": "(niets over na opschonen)",
+      "timing": "Opgeschoond in {{ms}} ms.",
+      "timingCold": "Opgeschoond in {{ms}} ms, na {{start}} ms om de engine te starten.",
+      "lowMemory": "Er is nu niet genoeg vrij geheugen om de AI-engine te starten. Sluit een paar apps en probeer het opnieuw.",
+      "badReply": "Het antwoord van het model was niet bruikbaar. Je tekst zou zonder opschonen worden ingevoegd.",
+      "failed": "Opschonen mislukt: {{message}}",
+      "ranOnApple": "Uitgevoerd via Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Klaar op deze Mac. Wispr Bro gebruikt het zolang zijn eigen opschoonmodel nog niet kan draaien, bijvoorbeeld tijdens het downloaden.",
+        "available_default": "Klaar op deze Mac. Wispr Bro schoont je dictees ermee op.",
+        "device_not_eligible": "Deze Mac kan Apple Intelligence niet draaien. Wispr Bro gebruikt zijn eigen opschoonmodel.",
+        "not_enabled": "Apple Intelligence staat uit in Systeeminstellingen. Wispr Bro gebruikt zijn eigen opschoonmodel.",
+        "model_not_ready": "Apple Intelligence is zijn model nog aan het klaarmaken.",
+        "unsupported": "Apple Intelligence vereist macOS 26 of nieuwer. Wispr Bro gebruikt zijn eigen opschoonmodel.",
+        "unknown": "Apple Intelligence is nu niet beschikbaar."
+      },
+      "counts": "Sinds de app is gestart: verzoeken {{requests}}, geweigerd {{refusals}}, afgeremd {{rateLimited}}."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "Hallo, {{name}}",
+      "anonymous": "Hallo",
+      "edit": "Wijzig de naam in de groet"
+    },
+    "nameEditor": {
+      "label": "Naam in de groet",
+      "field": "Je naam",
+      "hint": "Alleen zichtbaar op deze Mac.",
+      "save": "Bewaar",
+      "useAccountName": "Gebruik de naam van mijn Mac-account",
+      "clear": "Verwijder de naam",
+      "saveFailed": "De naam kon niet worden bewaard. Probeer het opnieuw."
+    },
+    "stats": {
+      "label": "Je statistieken",
+      "totalWords": "Woorden in totaal",
+      "wordsPerMinute": "Woorden per minuut",
+      "streak": "Dagen op rij",
+      "notEnoughSpeech": "Nog niet genoeg gesproken",
+      "unavailable": "Nog niet beschikbaar"
+    },
+    "voiceProfile": {
+      "title": "Je stemprofiel",
+      "unlocked": "Ontgrendeld. Bekijk in Statistieken hoe je spreekt.",
+      "open": "Open Statistieken",
+      "progress_one": "{{current}} van {{goal}} woord",
+      "progress_other": "{{current}} van {{goal}} woorden",
+      "locked_one": "Wordt ontgrendeld bij {{goal}} woord. Blijf dicteren om het op te bouwen.",
+      "locked_other": "Wordt ontgrendeld bij {{goal}} woorden. Blijf dicteren om het op te bouwen."
+    },
+    "history": {
+      "title": "Je dictees worden op deze Mac bewaard",
+      "body": "Open Geschiedenis om ze te kopiëren, af te spelen of te doorzoeken.",
+      "action": "Open Geschiedenis"
+    }
+  },
+  "dictionary": {
+    "add": "Voeg woord toe",
+    "added": "“{{entry}}” toegevoegd.",
+    "search": "Zoek in je woordenboek",
+    "refresh": "Vernieuw",
+    "shown_one": "{{count}} item getoond",
+    "shown_other": "{{count}} items getoond",
+    "deleted": "“{{entry}}” verwijderd.",
+    "deleteFailed": "Dat item kon niet worden verwijderd. Probeer het opnieuw.",
+    "undo": "Herstel",
+    "tabs": {
+      "label": "Items in woordenboek",
+      "all": "Alle",
+      "mine": "Door jou toegevoegd",
+      "suggested": "Voorgesteld"
+    },
+    "sort": {
+      "label": "Sorteer",
+      "newest": "Nieuwste eerst",
+      "oldest": "Oudste eerst",
+      "az": "A tot Z",
+      "za": "Z tot A",
+      "used": "Meest gebruikt"
+    },
+    "banner": {
+      "title": "{{appName}} spelt het op <em>jouw</em> manier.",
+      "lead": "Voeg een woord één keer toe, of verbeter het als het verkeerd uitkomt, zodat je <b>namen, vaktermen en zeldzame woorden</b> altijd goed gespeld zijn.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Woorden om toe te voegen",
+      "add": "Woord toevoegen"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "wordt",
+      "used_one": "Gebruikt {{count}} keer",
+      "used_other": "Gebruikt {{count}} keer",
+      "edit": "Wijzig {{entry}}",
+      "delete": "Verwijder {{entry}}",
+      "accept": "Voeg {{entry}} toe aan je woordenboek",
+      "reject": "Leer {{entry}} niet"
+    },
+    "source": {
+      "import": "Geïmporteerd",
+      "migrated": "Uit je eerdere eigen woorden",
+      "learn": "Geleerd",
+      "flag": "Uit een gemarkeerd dictee"
+    },
+    "empty": {
+      "title": "Je woordenboek is leeg",
+      "body": "Voeg de namen, woorden en vervangingen toe die {{appName}} moet kennen. Ze gelden vanaf je volgende dictee."
+    },
+    "emptySuggested": {
+      "title": "Nog geen suggesties",
+      "body": "Zodra {{appName}} kan leren van de woorden die je verbetert, verschijnen ze hier zodat je ze kunt goedkeuren.",
+      "bodyOn": "Verbeter direct na het dicteren een verkeerd gespelde naam of term in het tekstveld en druk op Return of Tab, of ga gewoon verder. Het verbeterde woord verschijnt hier zodat je het kunt goedkeuren."
+    },
+    "noMatch": {
+      "title": "Geen resultaten",
+      "body": "Geen enkel item bevat “{{query}}”.",
+      "action": "Wis de zoekopdracht"
+    },
+    "unavailable": {
+      "title": "Het woordenboek is nog niet beschikbaar",
+      "body": "Het opent zodra de app volledig is gestart.",
+      "brokenTitle": "Je woordenboek kan niet worden geopend",
+      "brokenBody": "{{appName}} kan zijn gegevensbestand nu niet lezen. Stop de app en open hem opnieuw. Blijft het gebeuren, kies dan Help › Meld een probleem."
+    },
+    "problem": {
+      "empty": "Typ eerst een woord.",
+      "same_as_replacement": "De vervanging is hetzelfde als het woord.",
+      "control_character": "Regeleinden en tabs kunnen hier niet worden gebruikt.",
+      "full": "Je woordenboek is vol. Verwijder eerst enkele items.",
+      "too_long_one": "Woorden mogen maximaal {{max}} teken lang zijn.",
+      "too_long_other": "Woorden mogen maximaal {{max}} tekens lang zijn.",
+      "replacement_too_long_one": "Vervangingen mogen maximaal {{maxReplacement}} teken lang zijn.",
+      "replacement_too_long_other": "Vervangingen mogen maximaal {{maxReplacement}} tekens lang zijn."
+    },
+    "dialog": {
+      "addTitle": "Voeg toe aan woordenboek",
+      "editTitle": "Wijzig woordenboekitem",
+      "description": "Woorden worden gespeld zoals je ze hier schrijft.",
+      "replaceToggle": "Vervang een woord",
+      "word": "Woord of naam",
+      "wordPlaceholder": "bijv. Siobhán",
+      "from": "Als ik zeg",
+      "fromPlaceholder": "bijv. ff",
+      "to": "Schrijf",
+      "toPlaceholder": "bijv. even",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Helpt het spraakmodel het goed te horen en te spellen.",
+      "ruleHint": "Komt overeen met het hele woord, ongeacht hoofdletters, en schrijft de vervanging precies zoals getypt.",
+      "cancel": "Annuleer",
+      "add": "Voeg woord toe",
+      "save": "Bewaar",
+      "close": "Sluit",
+      "duplicate": "“{{entry}}” staat al in je woordenboek.",
+      "conflictRule": "“{{from}}” wordt al “{{to}}”.",
+      "conflictWord": "“{{word}}” staat al in je woordenboek met een andere spelling.",
+      "replaceExisting": "Vervang het",
+      "missing": "Dit item is intussen verwijderd.",
+      "failed": "Dat kon niet worden bewaard. Probeer het opnieuw.",
+      "failedStorage": "Niet bewaard: {{appName}} kan zijn gegevensbestand niet openen. Stop de app, open hem opnieuw en probeer het dan nog eens. Blijft het gebeuren, kies dan Help › Meld een probleem.",
+      "failedStarting": "Nog niet bewaard: {{appName}} is nog aan het opstarten. Probeer het zo opnieuw."
+    },
+    "import": {
+      "open": "Importeer",
+      "title": "Importeer woordenboek",
+      "description": "Haal woorden en vervangingen op uit een spreadsheet die als CSV is bewaard.",
+      "fieldPhrase": "Woord, of wat je zegt",
+      "fieldReplacement": "Vervang met",
+      "format": {
+        "intro": "Eén item per rij:",
+        "columns": "De eerste kolom is een woord of wat je zegt; de tweede, indien ingevuld, is de tekst die in plaats daarvan wordt geschreven.",
+        "header": "Een eerste rij met kolomnamen is geen probleem; je kiest de kolommen in de volgende stap.",
+        "limits": "Woorden tot 60 tekens, vervangingen tot 200, bestanden tot 3 MB.",
+        "encoding": "Bewaar als “CSV UTF-8” zodat accenten en andere schriften goed overkomen."
+      },
+      "review": {
+        "new_one": "nieuw item",
+        "new_other": "nieuwe items",
+        "duplicates_one": "bestaat al",
+        "duplicates_other": "bestaan al",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicten",
+        "invalid_one": "kan niet worden geïmporteerd",
+        "invalid_other": "kan niet worden geïmporteerd",
+        "overLimit_one": "{{count}} nieuw item past niet (ruimte over in je woordenboek: {{room}}).",
+        "overLimit_other": "{{count}} nieuwe items passen niet (ruimte over in je woordenboek: {{room}}).",
+        "showNew": "Toon de nieuwe items",
+        "more_one": "en nog {{count}}",
+        "more_other": "en nog {{count}}",
+        "conflictsTitle": "Al in je woordenboek, maar anders",
+        "conflictsHelp": "Vink aan waar de versie uit het bestand die van jou moet vervangen.",
+        "useAllFile": "Gebruik overal de versie uit het bestand",
+        "keepAllMine": "Behoud al de mijne",
+        "useFile": "Uit het bestand:",
+        "yours": "Van jou:",
+        "showInvalid": "Toon de rijen die niet kunnen worden geïmporteerd",
+        "invalidRow": "Rij {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} item geïmporteerd",
+        "title_other": "{{count}} items geïmporteerd",
+        "added_one": "{{count}} toegevoegd",
+        "added_other": "{{count}} toegevoegd",
+        "replaced_one": "{{count}} vervangen door de versie uit het bestand",
+        "replaced_other": "{{count}} vervangen door de versie uit het bestand",
+        "skipped_one": "{{count}} al aanwezig, overgeslagen",
+        "skipped_other": "{{count}} al aanwezig, overgeslagen",
+        "kept_one": "{{count}} conflict ongewijzigd gelaten",
+        "kept_other": "{{count}} conflicten ongewijzigd gelaten",
+        "invalid_one": "{{count}} rij kon niet worden geïmporteerd",
+        "invalid_other": "{{count}} rijen konden niet worden geïmporteerd",
+        "overLimit_one": "{{count}} paste niet (het woordenboek is vol)",
+        "overLimit_other": "{{count}} pasten niet (het woordenboek is vol)"
+      }
+    },
+    "export": {
+      "open": "Exporteer",
+      "fileName": "{{appName}} woordenboek.csv",
+      "done_one": "{{count}} item geëxporteerd.",
+      "done_other": "{{count}} items geëxporteerd.",
+      "failed": "Het woordenboek kon niet worden geëxporteerd. Probeer het opnieuw."
+    },
+    "rejected": "“{{entry}}” wordt niet meer voorgesteld.",
+    "actionFailed": "Dat is niet gelukt. Probeer het opnieuw.",
+    "learn": {
+      "toggle": "Leer van mijn correcties",
+      "hint": "Tot 30 seconden nadat een dictee is geplakt, merkt {{appName}} woorden op die je in dat tekstveld verbetert en stelt ze hier voor. Alleen het verbeterde woord wordt bewaard, nooit de rest van de tekst. Wachtwoordvelden, wachtwoordbeheerders, bankapps en terminals worden nooit gelezen."
+    },
+    "undoFailed": "“{{entry}}” kon niet worden hersteld. Voeg het opnieuw toe.",
+    "undoSkipped": "“{{entry}}” is niet hersteld: je woordenboek bevat het al.",
+    "addNew": "Toevoegen"
+  },
+  "pill": {
+    "region": "Dicteerbalk",
+    "listening": "Luistert",
+    "cancel": "Annuleer dicteren",
+    "finish": "Rond dicteren af",
+    "transcribing": "Transcriberen…",
+    "cleaningUp": "Opschonen…",
+    "contextUsed": "Tekst in de buurt hielp bij de spelling",
+    "mic": "Microfoon: {{name}}",
+    "fix": "Herstel",
+    "dismiss": "Sluit",
+    "warning": {
+      "silence": "Al een tijdje geen spraak, stopt zo",
+      "length": "Stopt na 30 minuten",
+      "mic_lost": "Microfoon kwijt, wat je zei blijft bewaard",
+      "secure_input": "Beveiligde invoer staat aan · fn+Space zet niet vast · Esc of ✕ annuleert",
+      "secure_input_app": "{{app}} gebruikt beveiligde invoer · fn+Space zet niet vast · Esc of ✕ annuleert"
+    },
+    "settingUp": "Instellen…",
+    "settingUpPercent": "Instellen… {{percent}}%",
+    "settingUpHint": "Je woorden zijn bewaard. De tekst verschijnt hier zodra dicteren klaar is.",
+    "cardReady": "Je dictee",
+    "cardMore_one": "Je dictee · nog {{count}} in Geschiedenis",
+    "cardMore_other": "Je dictee · nog {{count}} in Geschiedenis",
+    "copy": "Kopieer",
+    "copied": "Gekopieerd",
+    "retry": "Probeer opnieuw",
+    "card": {
+      "hidden": "Verborgen, omdat het bedoeld was voor een wachtwoordveld"
+    },
+    "undo": "Herstel",
+    "viewChanges": "Bekijk wijzigingen",
+    "sendsAutomatically": "Verstuurt automatisch",
+    "shortcutDetail": {
+      "permission": "Toegang tot Toegankelijkheid staat uit",
+      "stopped": "De toetsenbordbewaking is gestopt"
+    },
+    "word": {
+      "new": "Nieuw woord",
+      "add": "Voeg toe",
+      "addLabel": "Voeg {{word}} toe aan Woordenboek",
+      "notNow": "Niet nu"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "Probeer het",
+      "howItWorks": "Hoe het werkt",
+      "title": "Herschrijf elke tekst die je selecteert"
+    },
+    "enable": {
+      "title": "Inschakelen"
+    },
+    "commandMode": {
+      "title": "Opdrachtmodus",
+      "help": "Houd de sneltoets ingedrukt en zeg wat er geschreven of veranderd moet worden."
+    },
+    "auto": {
+      "title": "Automatisch toepassen na dicteren",
+      "choice": "Toe te passen transformatie",
+      "none": "Kies een transformatie",
+      "description": "Elk dictaat gaat door de transformatie die je kiest."
+    },
+    "shortcuts": {
+      "warning": "⌥1, ⌥2 en ⌥O vervangen de tekens ¡, ™ en ø zolang Transformaties aanstaan.",
+      "safe": "Gebruik in plaats daarvan ⌃⌥"
+    },
+    "myTransforms": "Mijn transformaties",
+    "reset": "Herstel standaardwaarden",
+    "resetConfirm": "Polish en Prompt Engineer herstellen en alle eigen transformaties verwijderen?",
+    "createNew": "Nieuw maken",
+    "deleteConfirm": "{{name}} verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "loading": "Je transformaties laden…",
+    "error": "Die transformatiewijziging kon niet worden bewaard. Probeer het opnieuw.",
+    "card": {
+      "delete": "Verwijder {{name}}",
+      "createOwn": "Maak je eigen",
+      "createOwnHint": "Beschrijf wat hij moet doen"
+    },
+    "new": {
+      "name": "Mijn transformatie"
+    },
+    "editor": {
+      "title": "Wijzig {{name}}",
+      "name": "Naam",
+      "hotkey": "Toetscombinatie",
+      "addHotkey": "Voeg toetscombinatie toe",
+      "example": "Voorbeeld",
+      "exampleInput": "Tekst om te transformeren",
+      "exampleText": "eh kun je me het rapport morgen sturen misschien kunnen we het er dan over hebben",
+      "preview": "Voorvertoning",
+      "previewing": "Voorvertoning maken…",
+      "rules": "Wijzigingsregels",
+      "autosave": {
+        "saved": "Automatisch bewaren · Alle wijzigingen bewaard",
+        "saving": "Automatisch bewaren · Bewaren…",
+        "error": "Automatisch bewaren · Laatste wijziging kon niet worden bewaard"
+      },
+      "reset": "Herstel",
+      "done": "Gereed",
+      "close": "Sluit editor",
+      "exactBadge": "Exact · zonder AI",
+      "outcome": {
+        "no_change": "Er valt niets te wijzigen in deze tekst.",
+        "not_applied": "De lokale AI kon dit niet. Probeer een kortere, specifiekere instructie.",
+        "failed": "Het antwoord van de lokale AI heeft de veiligheidscontroles niet doorstaan. Probeer het opnieuw of formuleer de instructie anders.",
+        "timeout": "De lokale AI deed er te lang over. Probeer het opnieuw.",
+        "no_engine": "De lokale AI is nog niet klaar. Exacte wijzigingen werken nog wel."
+      },
+      "instruction": "Wat moet hij doen?",
+      "instructionPlaceholder": "Bijvoorbeeld: vervang alle ‘A’ door 0, of maak het vriendelijker",
+      "more": "Meer opties"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Korter"
+      },
+      "clearer": {
+        "title": "Duidelijker formuleren"
+      },
+      "better_order": {
+        "title": "Betere volgorde"
+      },
+      "headings_lists": {
+        "title": "Voeg kopjes en lijsten toe"
+      },
+      "keep_tone": {
+        "title": "Behoud mijn toon"
+      }
+    },
+    "examples": {
+      "title": "Schrijfvoorbeelden",
+      "fileType": "Tekst of Markdown",
+      "label": "Schrijfvoorbeeld {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Plak een voorbeeld",
+      "load": "Laad .txt of .md",
+      "remove": "Verwijder voorbeeld {{number}}",
+      "readError": "Kies een .txt- of .md-bestand met maximaal {{chars}} tekens."
+    },
+    "diff": {
+      "changes_one": "{{count}} wijziging",
+      "changes_other": "{{count}} wijzigingen",
+      "configure": "Configureer",
+      "copy": "Kopieer",
+      "copied": "Gekopieerd",
+      "retry": "Probeer opnieuw",
+      "retrying": "Opnieuw proberen…",
+      "feedback": "Beoordeel deze transformatie",
+      "good": "Goed resultaat",
+      "bad": "Slecht resultaat",
+      "simpleView": "Voor deze grote of complexe wijziging wordt één vervanging getoond.",
+      "actionFailed": "Die actie is niet gelukt. Je tekst staat nog hier; probeer het opnieuw."
+    },
+    "findReplace": {
+      "title": "Zoeken en vervangen",
+      "find": "Zoeken, rij {{number}}",
+      "replace": "Vervangen door, rij {{number}}",
+      "findPlaceholder": "Zoeken",
+      "replacePlaceholder": "Vervangen door",
+      "matchCase": "Hoofdlettergevoelig",
+      "remove": "Rij {{number}} verwijderen",
+      "add": "Vervanging toevoegen"
+    },
+    "model": {
+      "downloading": "Transformaties klaarzetten: eenmalige download, {{percent}}%",
+      "verifying": "Transformaties klaarzetten: download controleren…",
+      "ready": "Transformaties zijn klaar",
+      "progressLabel": "Download voor transformaties",
+      "failed": "Wat transformaties nodig hebben, kon niet worden gedownload. Controleer je verbinding.",
+      "retry": "Opnieuw proberen"
+    },
+    "subtitle": "Selecteer tekst in een app en druk op een sneltoets om hem te herschrijven.",
+    "settings": {
+      "title": "Instellingen voor transformaties"
+    },
+    "viewChanges": "om de wijzigingen te zien",
+    "builtin": {
+      "polish": "Duidelijker en korter",
+      "prompt_engineer": "Maakt een duidelijke prompt"
+    }
+  },
+  "cleanup": {
+    "title": "Opschonen",
+    "loading": "Opschoonniveau laden…",
+    "loadError": "Kan het opschoonniveau niet lezen: {{message}}",
+    "setError": "Die wijziging is niet bewaard: {{message}}",
+    "notice": "Ingevoegd zonder opschonen",
+    "picker": {
+      "legend": "Hoeveel moeten je woorden worden opgeschoond?",
+      "recommended": "Aanbevolen",
+      "aiChat": "In AI-chatapps worden je woorden ingevoegd zoals je ze zei, zonder opschonen met AI."
+    },
+    "levels": {
+      "none": {
+        "label": "Geen",
+        "description": "Precies wat je zei, alleen met spaties en spraakopdrachten toegepast."
+      },
+      "light": {
+        "label": "Licht",
+        "description": "Verwijdert stopwoorden zoals “eh” en “weet je”, verbetert leestekens en hoofdletters, en neemt je correcties over: “om 2, nee, om 3” wordt “om 3”."
+      },
+      "medium": {
+        "label": "Gemiddeld",
+        "description": "Alles van Licht, plus vloeiendere grammatica en formulering. Je feiten en betekenis blijven hetzelfde."
+      }
+    },
+    "last": {
+      "title": "Laatste dictee",
+      "none": "Geen dictee sinds de app is gestart.",
+      "applied_one": "Opgeschoond in {{ms}} ms, {{count}} wijziging.",
+      "applied_other": "Opgeschoond in {{ms}} ms, {{count}} wijzigingen.",
+      "checks": "Tegengehouden door veiligheidscontroles: {{checks}}",
+      "partial_one": "Gedeeltelijk opgeschoond ({{applied}} van {{total}} alinea); de rest staat er zoals gezegd: {{reason}}",
+      "partial_other": "Gedeeltelijk opgeschoond ({{applied}} van {{total}} alinea’s); de rest staat er zoals gezegd: {{reason}}"
+    },
+    "why": {
+      "level_none": "Opschonen is uit.",
+      "empty": "Niets om op te schonen.",
+      "already_clean": "Al schoon, dus de AI-engine was niet nodig.",
+      "ai_chat": "AI-chatapp: ingevoegd zoals je het zei.",
+      "not_ready": "Ingevoegd zonder opschonen: het opschoonmodel is nog niet klaar.",
+      "low_memory": "Ingevoegd zonder opschonen: er is nu niet genoeg vrij geheugen.",
+      "guard": "Ingevoegd zonder opschonen: de opgeschoonde tekst kwam niet door de veiligheidscontroles.",
+      "timeout": "Ingevoegd zonder opschonen: opschonen duurde te lang.",
+      "error": "Ingevoegd zonder opschonen: de AI-engine had een probleem."
+    },
+    "reason": {
+      "level_none": "opschonen staat uit",
+      "empty": "niets om op te schonen",
+      "already_clean": "al schoon",
+      "ai_chat": "AI-chatapp",
+      "not_ready": "het opschoonmodel is nog niet klaar",
+      "low_memory": "niet genoeg vrij geheugen",
+      "guard": "het kwam niet door de veiligheidscontroles",
+      "timeout": "opschonen duurde te lang",
+      "error": "de AI-engine had een probleem"
+    }
+  },
+  "snippets": {
+    "add": "Voeg tekstfragment toe",
+    "added": "“{{trigger}}” toegevoegd.",
+    "search": "Zoek in je tekstfragmenten",
+    "refresh": "Vernieuw",
+    "shown_one": "{{count}} tekstfragment getoond",
+    "shown_other": "{{count}} tekstfragmenten getoond",
+    "deleted": "“{{trigger}}” verwijderd.",
+    "deleteFailed": "Dat tekstfragment kon niet worden verwijderd. Probeer het opnieuw.",
+    "undo": "Herstel",
+    "counts": {
+      "snippets_one": "{{count}} tekstfragment",
+      "snippets_other": "{{count}} tekstfragmenten",
+      "uses_one": "{{count}} keer gebruikt",
+      "uses_other": "{{count}} keer gebruikt"
+    },
+    "sort": {
+      "label": "Sorteer",
+      "newest": "Nieuwste eerst",
+      "oldest": "Oudste eerst",
+      "az": "A tot Z",
+      "za": "Z tot A",
+      "used": "Meest gebruikt"
+    },
+    "banner": {
+      "title": "Typ nooit meer <em>twee keer</em> hetzelfde.",
+      "lead": "Zeg een kort trefwoord en {{appName}} schrijft de hele tekst.",
+      "examplesLabel": "Voorbeelden",
+      "cue1": "mijn adres",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "mijn afsluiting",
+      "text2": "Groetjes, Sam",
+      "cue3": "agendalink",
+      "text3": "Kies een tijd die jou uitkomt: cal.example.com/sam",
+      "add": "Snippet toevoegen"
+    },
+    "entry": {
+      "becomes": "wordt geschreven als",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} regel",
+      "lines_other": "{{count}} regels",
+      "imported": "Geïmporteerd",
+      "used_one": "{{count}} keer gebruikt",
+      "used_other": "{{count}} keer gebruikt",
+      "edit": "Wijzig {{trigger}}",
+      "delete": "Verwijder {{trigger}}"
+    },
+    "empty": {
+      "title": "Nog geen tekstfragmenten",
+      "body": "Bewaar één keer een adres, afsluiting of link. Als je het trefwoord zegt, schrijft {{appName}} het voor je."
+    },
+    "noMatch": {
+      "title": "Geen resultaten",
+      "body": "Geen enkel tekstfragment bevat “{{query}}”.",
+      "action": "Wis de zoekopdracht"
+    },
+    "unavailable": {
+      "title": "Tekstfragmenten zijn nog niet beschikbaar",
+      "body": "Ze openen zodra de app volledig is gestart."
+    },
+    "problem": {
+      "empty_trigger": "Typ eerst wat je gaat zeggen.",
+      "trigger_not_spoken": "Wat je zegt moet minstens één letter of cijfer bevatten.",
+      "trigger_control_character": "Wat je zegt moet op één regel passen.",
+      "empty_body": "Typ de tekst die geschreven moet worden.",
+      "body_control_character": "De tekst bevat een teken dat niet kan worden geschreven. Verwijder het en probeer het opnieuw.",
+      "full": "Je lijst met tekstfragmenten is vol. Verwijder eerst een paar tekstfragmenten.",
+      "trigger_too_long_one": "Wat je zegt mag maximaal {{max}} teken lang zijn.",
+      "trigger_too_long_other": "Wat je zegt mag maximaal {{max}} tekens lang zijn.",
+      "body_too_long_one": "De tekst mag maximaal {{maxBody}} teken lang zijn.",
+      "body_too_long_other": "De tekst mag maximaal {{maxBody}} tekens lang zijn."
+    },
+    "dialog": {
+      "addTitle": "Voeg tekstfragment toe",
+      "editTitle": "Wijzig tekstfragment",
+      "description": "Zeg het trefwoord en in plaats daarvan wordt de bewaarde tekst geschreven.",
+      "trigger": "Als ik zeg",
+      "triggerPlaceholder": "bijv. mijn adres",
+      "body": "Schrijf",
+      "bodyPlaceholder": "De tekst die geschreven wordt. Regeleinden blijven behouden.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Werkt los of midden in een zin, ongeacht hoofdletters. Midden in een zin moeten leestekens in wat je zegt precies overeenkomen met de gedicteerde tekst. De tekst wordt precies zo geschreven als hij is bewaard.",
+      "cancel": "Annuleer",
+      "add": "Voeg tekstfragment toe",
+      "save": "Bewaar",
+      "close": "Sluit",
+      "duplicate": "“{{trigger}}” is al bewaard met deze tekst.",
+      "conflict": "“{{trigger}}” is al een tekstfragment met een andere tekst.",
+      "replaceExisting": "Vervang het",
+      "missing": "Dit tekstfragment is intussen verwijderd.",
+      "failed": "Dat kon niet worden bewaard. Probeer het opnieuw."
+    },
+    "import": {
+      "open": "Importeer",
+      "title": "Importeer tekstfragmenten",
+      "description": "Haal tekstfragmenten op uit een spreadsheet die als CSV is bewaard.",
+      "fieldTrigger": "Wat je zegt",
+      "fieldBody": "Te schrijven tekst",
+      "format": {
+        "intro": "Eén tekstfragment per rij:",
+        "columns": "De eerste kolom is wat je zegt; de tweede is de tekst die geschreven wordt.",
+        "lines": "Tekst met regeleinden staat tussen aanhalingstekens, zoals spreadsheetapps hem bewaren.",
+        "encoding": "Bewaar als “CSV UTF-8” zodat accenten en andere schriften goed overkomen.",
+        "limits_one": "Tot {{max}} teken voor wat je zegt en {{maxBody}} voor de tekst; maximaal 1000 rijen en 3 MB per bestand.",
+        "limits_other": "Tot {{max}} tekens voor wat je zegt en {{maxBody}} voor de tekst; maximaal 1000 rijen en 3 MB per bestand."
+      },
+      "review": {
+        "new_one": "nieuw tekstfragment",
+        "new_other": "nieuwe tekstfragmenten",
+        "duplicates_one": "bestaat al",
+        "duplicates_other": "bestaan al",
+        "conflicts_one": "conflict",
+        "conflicts_other": "conflicten",
+        "invalid_one": "kan niet worden geïmporteerd",
+        "invalid_other": "kan niet worden geïmporteerd",
+        "overLimit_one": "{{count}} nieuw tekstfragment past niet (ruimte over: {{room}}).",
+        "overLimit_other": "{{count}} nieuwe tekstfragmenten passen niet (ruimte over: {{room}}).",
+        "ignoredRows_one": "Alleen de eerste 1000 rijen worden gelezen; nog {{count}} rij wordt overgeslagen.",
+        "ignoredRows_other": "Alleen de eerste 1000 rijen worden gelezen; nog {{count}} rijen worden overgeslagen.",
+        "showNew": "Toon de nieuwe tekstfragmenten",
+        "more_one": "en nog {{count}}",
+        "more_other": "en nog {{count}}",
+        "conflictsTitle": "Al bewaard met een andere tekst",
+        "conflictsHelp": "Vink aan waar de tekst uit het bestand die van jou moet vervangen.",
+        "useAllFile": "Gebruik overal de tekst uit het bestand",
+        "keepAllMine": "Behoud al de mijne",
+        "useFile": "Uit het bestand:",
+        "yours": "Van jou:",
+        "showInvalid": "Toon de rijen die niet kunnen worden geïmporteerd",
+        "invalidRow": "Rij {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} tekstfragment geïmporteerd",
+        "title_other": "{{count}} tekstfragmenten geïmporteerd",
+        "added_one": "{{count}} toegevoegd",
+        "added_other": "{{count}} toegevoegd",
+        "replaced_one": "{{count}} vervangen door de tekst uit het bestand",
+        "replaced_other": "{{count}} vervangen door de tekst uit het bestand",
+        "skipped_one": "{{count}} al aanwezig, overgeslagen",
+        "skipped_other": "{{count}} al aanwezig, overgeslagen",
+        "kept_one": "{{count}} conflict ongewijzigd gelaten",
+        "kept_other": "{{count}} conflicten ongewijzigd gelaten",
+        "invalid_one": "{{count}} rij kon niet worden geïmporteerd",
+        "invalid_other": "{{count}} rijen konden niet worden geïmporteerd",
+        "overLimit_one": "{{count}} paste niet (je lijst met tekstfragmenten is vol)",
+        "overLimit_other": "{{count}} pasten niet (je lijst met tekstfragmenten is vol)"
+      }
+    },
+    "export": {
+      "open": "Exporteer",
+      "fileName": "{{appName}} tekstfragmenten.csv",
+      "done_one": "{{count}} tekstfragment geëxporteerd.",
+      "done_other": "{{count}} tekstfragmenten geëxporteerd.",
+      "failed": "De tekstfragmenten konden niet worden geëxporteerd. Probeer het opnieuw."
+    },
+    "undoFailed": "“{{trigger}}” kon niet worden hersteld. Voeg het opnieuw toe.",
+    "undoSkipped": "“{{trigger}}” is niet hersteld: een ander tekstfragment gebruikt die zin nu.",
+    "addNew": "Toevoegen",
+    "tabs": {
+      "all": "Alle"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Statistieken",
+      "usage": "Gebruik",
+      "voice": "Stem"
+    },
+    "asOf": "Je cijfers op {{date}}",
+    "unavailable": "Statistieken kunnen nu niet worden gelezen. Ze verschijnen zo.",
+    "save": {
+      "button": "Bewaar als afbeelding",
+      "fileName": "{{appName}} statistieken {{date}}.png",
+      "filter": "PNG-afbeelding",
+      "done": "Afbeelding bewaard.",
+      "failed": "De afbeelding kon niet worden bewaard. Probeer het opnieuw."
+    },
+    "speed": {
+      "title": "Woorden per minuut",
+      "notEnough": "Dicteer nog wat meer om je snelheid te zien.",
+      "measured": "{{ratio}}× je typsnelheid van {{typing}} wpm",
+      "average": "{{ratio}}× de snelheid van een gemiddelde typist ({{typing}} wpm)",
+      "speaking": "Spreken",
+      "typing": "Jouw typen",
+      "typingAverage": "Gemiddeld typen"
+    },
+    "words": {
+      "title": "Woorden in totaal",
+      "dictations_one": "in {{count, number}} dictee",
+      "dictations_other": "in {{count, number}} dictees"
+    },
+    "fixes": {
+      "title": "Correcties",
+      "dictionary": "Correcties door woordenboek",
+      "ai": "Correcties door AI-opschoning"
+    },
+    "categories": {
+      "title": "Waar je dicteert",
+      "empty": "Dicteer in een paar apps om te zien waar je woorden heen gaan.",
+      "words_one": "{{count, number}} woord",
+      "words_other": "{{count, number}} woorden",
+      "documents": "Documenten",
+      "ai_prompts": "AI-prompts",
+      "email": "E-mail",
+      "work": "Werkberichten",
+      "personal": "Persoonlijke berichten",
+      "other": "Al het andere",
+      "used": "Gebruikte categorieën"
+    },
+    "heatmap": {
+      "title": "Je reeks",
+      "current": "Huidige reeks",
+      "longest": "Langste reeks",
+      "days_one": "{{count, number}} dag",
+      "days_other": "{{count, number}} dagen",
+      "active_one": "{{count, number}} dag met dicteren in het afgelopen jaar",
+      "active_other": "{{count, number}} dagen met dicteren in het afgelopen jaar",
+      "day_one": "{{date}}: {{count, number}} woord",
+      "day_other": "{{date}}: {{count, number}} woorden",
+      "less": "Minder",
+      "more": "Meer",
+      "band0": "Geen woorden",
+      "band1": "1 tot 249 woorden",
+      "band2": "250 tot 499 woorden",
+      "band3": "500 tot 749 woorden",
+      "band4": "750 woorden of meer",
+      "streak_one": "Huidige reeks: {{count, number}} dag",
+      "streak_other": "Huidige reeks: {{count, number}} dagen"
+    },
+    "voice": {
+      "locked": "Vergrendeld",
+      "phrase": "Je uitdrukking",
+      "phraseIn_one": "In {{count, number}} dictee",
+      "phraseIn_other": "In {{count, number}} dictees",
+      "peak": "Piekmoment en app",
+      "peakApp": "Meeste woorden in {{app}}",
+      "word": "Meest gebruikt woord",
+      "uses_one": "{{count, number}} keer gebruikt",
+      "uses_other": "{{count, number}} keer gebruikt",
+      "corrected": "Meest verbeterd woord",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "{{count, number}} keer verbeterd",
+      "fixed_other": "{{count, number}} keer verbeterd",
+      "notEnough": "Nog niet genoeg dictees.",
+      "footnote_one": "Berekend op deze Mac uit je laatste dictee. Er gaat niets van je Mac af.",
+      "footnote_other": "Berekend op deze Mac uit je laatste {{count, number}} dictees. Er gaat niets van je Mac af.",
+      "sample": {
+        "phrase": "een uitdrukking die je vaak zegt",
+        "peak": "een tijdstip",
+        "word": "een lievelingswoord",
+        "corrected": "een woord dat vaak wordt verbeterd"
+      },
+      "lockedTitle_one": "Je stemprofiel wordt ontgrendeld bij {{goal}} woord",
+      "lockedTitle_other": "Je stemprofiel wordt ontgrendeld bij {{goal}} woorden",
+      "lockedBody_one": "Blijf dicteren: tot nu toe {{current}} van {{goal}} woord. Daarna zie je de uitdrukking die je het meest gebruikt, wanneer en waar je dicteert, en de woorden die {{appName}} voor je verbetert.",
+      "lockedBody_other": "Blijf dicteren: tot nu toe {{current}} van {{goal}} woorden. Daarna zie je de uitdrukking die je het meest gebruikt, wanneer en waar je dicteert, en de woorden die {{appName}} voor je verbetert."
+    },
+    "typing": {
+      "take": "Doe de typetest",
+      "retake": "Typetest opnieuw doen"
+    },
+    "saved": {
+      "title": "Tijd bespaard ten opzichte van typen",
+      "basisMeasured": "{{speaking}} wpm spreken tegenover {{typing}} wpm typen",
+      "basisAverage": "{{speaking}} wpm spreken tegenover {{typing}} wpm gemiddeld typen",
+      "basisEstimateMeasured": "Ongeveer {{speaking}} wpm spreken tegenover {{typing}} wpm typen",
+      "basisEstimateAverage": "Ongeveer {{speaking}} wpm spreken tegenover {{typing}} wpm gemiddeld typen"
+    }
+  },
+  "history": {
+    "title": "Geschiedenis",
+    "today": "Vandaag",
+    "yesterday": "Gisteren",
+    "rowLabel": "Dictee om {{time}}",
+    "loading": "Je dictees laden…",
+    "loadingMore": "Meer laden…",
+    "unavailable": "Geschiedenis is nog niet beschikbaar. Deze verschijnt zodra de app volledig is gestart.",
+    "empty": {
+      "body": "Houd in een willekeurige app fn ingedrukt en begin te praten. Elk dictee wordt hier bewaard, op deze Mac."
+    },
+    "noResults": {
+      "title": "Niets gevonden",
+      "body": "Geen enkel dictee bevat “{{query}}”."
+    },
+    "results_one": "{{count}} dictee gevonden",
+    "results_other": "{{count}} dictees gevonden",
+    "resultsMore_one": "{{count}} recente overeenkomst wordt getoond. Scrol voor meer.",
+    "resultsMore_other": "De {{count}} meest recente overeenkomsten worden getoond. Scrol voor meer.",
+    "search": {
+      "open": "Doorzoek Geschiedenis",
+      "label": "Doorzoek je dictees",
+      "placeholder": "Zoek in dictees",
+      "close": "Sluit zoeken"
+    },
+    "transcribeFile": "Transcribeer een bestand…",
+    "transcribeFailed": "Dat bestand kon niet worden geopend. Probeer het opnieuw.",
+    "showMore": "Toon meer",
+    "showLess": "Weergeven minder",
+    "failed": "Transcriptie mislukt. Kies “Herhaal transcriptie” in het menu ⋮.",
+    "waitingForModel": "Wacht op spraakmodel",
+    "notTranscribed": "Nog niet uitgeschreven.",
+    "job": {
+      "waiting": "Wachten op transcriptie…",
+      "transcribing": "Transcriberen…",
+      "percent": "Transcriberen… {{percent}}%"
+    },
+    "tag": {
+      "file": "Bestand",
+      "practice": "Oefening",
+      "raw": "Voor AI-opschoning",
+      "flagged": "Gemarkeerd"
+    },
+    "actions": {
+      "play": "Speel opname af",
+      "hidePlayer": "Verberg de speler",
+      "copy": "Kopieer tekst",
+      "copied": "Gekopieerd",
+      "flag": "Fout woord? Verbeter het",
+      "more": "Meer acties"
+    },
+    "menu": {
+      "label": "Acties voor dictee",
+      "undoAi": "Herstel AI-bewerking",
+      "redoAi": "Voer AI-bewerking opnieuw uit",
+      "retry": "Herhaal transcriptie",
+      "retryAt": {
+        "none": "Herhaal zonder opschonen",
+        "light": "Herhaal met licht opschonen",
+        "medium": "Herhaal met gemiddeld opschonen"
+      },
+      "saveAudio": "Bewaar audio als…",
+      "delete": "Verwijder transcript"
+    },
+    "audio": {
+      "expired_one": "Audio verwijderd na {{count}} dag",
+      "expired_other": "Audio verwijderd na {{count}} dagen",
+      "removed": "Audio verwijderd",
+      "missing": "Geen opname voor dit dictee",
+      "filter": "WAV-audio",
+      "saved": "Opname bewaard.",
+      "saveFailed": "De opname kon niet worden bewaard. Probeer het opnieuw."
+    },
+    "copyFailed": "De tekst kon niet worden gekopieerd. Probeer het opnieuw.",
+    "actionFailed": "Dat is niet gelukt. Probeer het opnieuw.",
+    "deleted": "Verwijderd",
+    "undo": "Herstel",
+    "deleteFailed": "Dat dictee kon niet worden verwijderd. Probeer het opnieuw.",
+    "undoFailed": "Het is te laat om dat dictee terug te halen.",
+    "flag": {
+      "title": "Fout woord?",
+      "description": "Kies het woord dat verkeerd is overgekomen en typ het zoals het moet zijn. Je woordenboek verbetert het vanaf nu.",
+      "close": "Sluit",
+      "cancel": "Annuleer",
+      "save": "Voeg toe aan woordenboek",
+      "pick": "Kies het verkeerde woord (kies ook het volgende bij meerdere woorden)",
+      "noWords": "Dit dictee bevat geen woorden om te kiezen.",
+      "correction": "Juiste spelling",
+      "correctionFor": "Juiste spelling van “{{word}}”",
+      "correctionPlaceholder": "Typ het zoals het moet zijn",
+      "kindLabel": "Wat toevoegen",
+      "rule": "Vervang het elke keer",
+      "ruleHint": "Voegt een vervanging toe, zodat dezelfde fout in elk dictee wordt verbeterd.",
+      "ruleHintFilled": "“{{from}}” wordt “{{to}}” in elk dictee.",
+      "word": "Leer de spelling",
+      "wordHint": "Voegt het woord toe, zodat de app het herkent als je het zegt.",
+      "duplicate": "Dat zit al in je woordenboek.",
+      "failed": "Dat kon niet worden bewaard. Probeer het opnieuw.",
+      "savedRule": "Vanaf nu wordt “{{from}}” “{{to}}”.",
+      "savedWord": "“{{word}}” staat in je woordenboek.",
+      "openDictionary": "Open Woordenboek"
+    }
+  },
+  "scratchpad": {
+    "newNote": "Nieuwe notitie",
+    "preferences": "Voorkeuren voor Kladblok",
+    "hero": {
+      "title": "Ruimte voor losse gedachten",
+      "body": "Maak een lijstje, schrijf een concept voor een antwoord of denk hardop over een idee. Elke notitie bewaart zichzelf."
+    },
+    "addToBar": "Voeg toe aan de balk",
+    "addToBarHelp": "Toon een Kladblok-knop naast “Dicteer” op de balk in rust.",
+    "recents": "Recent",
+    "searchLabel": "Zoek notities",
+    "searchPlaceholder": "Zoek in je notities",
+    "loading": "Notities laden…",
+    "empty": "Geen notities nog",
+    "emptyHelp": "Begin een notitie en typ of dicteer in het zwevende venster.",
+    "emptyNote": "Lege notitie",
+    "noResults": "Geen notities komen overeen met je zoekopdracht.",
+    "untitled": "Naamloze notitie",
+    "pinned": "Vastgezet",
+    "pin": "Zet notitie vast",
+    "unpin": "Maak notitie los",
+    "editAction": "Wijzig notitie",
+    "edit": "Wijzig {{name}}",
+    "delete": "Verwijder notitie",
+    "deleteConfirm": "“{{name}}” verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "error": "Kladblok kon die actie niet voltooien. Je huidige tekst staat er nog; probeer het opnieuw.",
+    "shortcut": {
+      "label": "Toetscombinatie om te openen",
+      "change": "Stel toetscombinatie in",
+      "title": "Toetscombinatie voor Kladblok",
+      "help": "Open Kladblok vanaf elke plek. Standaard is er geen toetscombinatie, dus er wordt geen toets onderschept totdat je er een kiest.",
+      "close": "Sluit venster voor toetscombinatie",
+      "proposed": "Voorgestelde combinatie",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Gebruik Control + Option + S",
+      "chooseAnother": "Kies een andere toetscombinatie",
+      "error": "Die toetscombinatie kon niet worden bewaard. Probeer een andere combinatie."
+    },
+    "tabs": "Open notities",
+    "tools": "Notitiegereedschap",
+    "sidebar": "Toon notitielijst",
+    "polish": "Polish op notitie",
+    "polishing": "Polish bezig…",
+    "textSize": "Wijzig tekstgrootte (nu {{size}} punten)",
+    "expand": "Vergroot notitievenster",
+    "shrink": "Herstel grootte van notitievenster",
+    "close": "Sluit Kladblok",
+    "noteBody": "Notitietekst",
+    "notePlaceholder": "Schrijf of dicteer een notitie…",
+    "saved": "Bewaard",
+    "saving": "Bewaren…",
+    "saveError": "Nog niet bewaard",
+    "autosaveHelp": "Wordt automatisch bewaard",
+    "copy": "Kopieer",
+    "copied": "Gekopieerd",
+    "record": "Opnemen",
+    "stop": "Stop",
+    "recordHint": "Dicteer in deze notitie ({{key}})",
+    "recordHintNoKey": "Dicteer in deze notitie",
+    "stopHint": "Stop met dicteren",
+    "gettingReady": "Bezig met voorbereiden…",
+    "polished": "Polish toegepast op notitie",
+    "undo": "Ongedaan maken",
+    "polishNoChange": "Deze notitie leest al goed.",
+    "polishRefused": "Polish kon niet worden toegepast op deze notitie.",
+    "polishNotReady": "Het AI-model wordt nog voorbereid. Probeer het over een paar minuten opnieuw.",
+    "polishStale": "De notitie is tijdens Polish gewijzigd, dus er is niets vervangen.",
+    "dismiss": "Sluiten"
+  },
+  "style": {
+    "tabsLabel": "Stijlgroepen",
+    "groups": {
+      "personal": {
+        "tab": "Persoonlijke berichten",
+        "label": "Persoonlijke berichten",
+        "bannerTitle": "Voor chats met vrienden en familie"
+      },
+      "work": {
+        "tab": "Werkberichten",
+        "label": "Werkberichten",
+        "bannerTitle": "Voor chats met collega’s"
+      },
+      "email": {
+        "tab": "E-mail",
+        "label": "E-mail",
+        "bannerTitle": "Voor je e-mail"
+      },
+      "other": {
+        "tab": "Overig",
+        "label": "Overig",
+        "bannerTitle": "Voor al het andere"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formeel",
+        "description": "Hoofdletters + leestekens"
+      },
+      "relaxed": {
+        "label": "Informeel",
+        "description": "Hoofdletters + minder leestekens"
+      },
+      "very_relaxed": {
+        "label": "Heel informeel",
+        "description": "Geen hoofdletters + minder leestekens"
+      },
+      "upbeat": {
+        "label": "Enthousiast",
+        "description": "Hoofdletters + iets meer energie"
+      }
+    },
+    "presetsHeading": "Stijl",
+    "presetsLegend": "Stijl voor {{group}}",
+    "after": "Wat er wordt geschreven:",
+    "englishOnly": "Stijlen gelden voor dictees in het Engels. Opschonen werkt in elke taal.",
+    "apps": {
+      "heading": "Gebruikt in deze apps",
+      "listLabel": "Apps met de stijl “{{group}}”",
+      "addShort": "Voeg app toe",
+      "allOthers": "Elke app die niet in een andere groep staat, gebruikt deze stijl ook.",
+      "unavailable": "De apps konden niet worden geladen. Ze verschijnen wanneer de app klaar is.",
+      "chipLabel": "{{app}}: opties",
+      "menuLabel": "Opties voor {{app}}",
+      "moveTo": "Verplaats naar",
+      "useDefault": "Terug naar de gebruikelijke groep ({{group}})",
+      "remove": "Verwijder uit {{group}}",
+      "autoSend": "Druk op Return na dicteren",
+      "autoSendOn": "drukt op Return na dicteren",
+      "notInstalled": "niet geïnstalleerd",
+      "aiChat": "Een AI-chat: je woorden worden opgeschoond ingevoegd, zonder stijl.",
+      "moved": "{{app}} gebruikt nu de stijl “{{group}}”.",
+      "removed": "{{app}} gebruikt nu de stijl “Overig”.",
+      "added": "{{app}} gebruikt nu de stijl “{{group}}”.",
+      "undo": "Herstel",
+      "changeFailed": "Die wijziging is niet bewaard. Probeer het opnieuw."
+    },
+    "sites": {
+      "addShort": "Voeg website toe",
+      "recent": {
+        "heading": "Recent gebruikte websites",
+        "addLabel": "Voeg {{host}} toe aan “{{group}}”"
+      },
+      "add": {
+        "title": "Voeg een website toe",
+        "description": "Kies de stijl voor een website in je browser. Die geldt voor de hele site, subdomeinen inbegrepen.",
+        "label": "Website",
+        "hint": "Typ een domein zoals github.com of plak een adres.",
+        "invalid": "Dat lijkt geen website. Probeer een domein zoals example.com.",
+        "preview": "Voegt {{host}} en zijn subdomeinen toe.",
+        "already": "{{host}} staat nu in “{{group}}”. Als je het hier toevoegt, wordt het verplaatst.",
+        "same": "{{host}} gebruikt al “{{group}}”.",
+        "covered": "{{host}} hoort bij {{parent}} (“{{group}}”). Als je het toevoegt, krijgt het een eigen stijl.",
+        "groupLabel": "Stijl",
+        "submit": "Voeg toe aan “{{group}}”"
+      },
+      "builtinNote": "Veel bekende websites krijgen al de juiste stijl zonder dat ze hier staan."
+    },
+    "picker": {
+      "title": "Voeg een app toe aan {{group}}",
+      "description": "Kies een app op deze Mac. Dictees in die app gebruiken de stijl “{{group}}”.",
+      "search": "Zoek apps",
+      "listLabel": "Apps op deze Mac",
+      "loading": "Apps zoeken…",
+      "failed": "De apps op deze Mac konden niet worden weergegeven.",
+      "none": "Geen app gevonden.",
+      "inGroup": "In {{group}}",
+      "alreadyHere": "Al hier",
+      "cancel": "Annuleer",
+      "close": "Sluit"
+    },
+    "cleanup": {
+      "tab": "Automatisch opschonen",
+      "description": "Hoeveel je woorden worden opgeschoond, in elke app en elke taal. De stijl van elke groep komt daar nog bovenop.",
+      "bannerTitle": "Automatisch opschonen geldt voor elk dictaat",
+      "levels": {
+        "none": "Precies wat je zei, fouten inbegrepen",
+        "light": "Haalt stopwoorden weg en verbetert de interpunctie",
+        "medium": "Vloeiender verwoord, zelfde betekenis"
+      },
+      "mediumNote": "Met het ingebouwde AI-model geeft Gemiddeld vaak dezelfde tekst als Licht.",
+      "note": "Je oorspronkelijke woorden gaan nooit verloren: open in de geschiedenis het menu van een dictaat en kies ‘Herstel AI-bewerking’."
+    },
+    "addMenu": "App of website toevoegen"
+  },
+  "onboardingFlow": {
+    "loading": "Voorbereiden…",
+    "back": "Terug",
+    "continue": "Ga door",
+    "yes": "Ja",
+    "no": "Nee",
+    "navigationFailed": "Die stap kon niet worden bewaard. Probeer het opnieuw.",
+    "stepper": {
+      "label": "Voortgang van configuratie",
+      "welcome": "Welkom",
+      "permissions": "Toestemmingen",
+      "setup": "Configuratie",
+      "practice": "Oefenen",
+      "done": "(gereed)",
+      "finish": "Afronden"
+    },
+    "help": {
+      "chip": "Help",
+      "title": "Hulp bij configuratie",
+      "close": "Sluit help",
+      "done": "Oké",
+      "body": "Elke stap duurt een paar seconden. Je kunt altijd teruggaan, en als je stopt, gaat de configuratie verder waar je was gebleven.",
+      "download": "Wispr Bro stelt spraakherkenning in op deze Mac terwijl je deze stappen doorloopt. Alles wat je dicteert voordat het klaar is, wordt bewaard en uitgetypt zodra het klaar is."
+    },
+    "welcome": {
+      "title": "Praat, en je woorden verschijnen",
+      "subtitle": "Houd één toets ingedrukt, praat en laat los. Nette tekst verschijnt waar je aan het typen bent.",
+      "privacyTitle": "Alles blijft op deze Mac",
+      "privacy": "Geen account, geen cloud, geen tracking.",
+      "start": "Begin",
+      "demoLabel": "Wispr Bro in actie"
+    },
+    "move": {
+      "title": "Verplaats Wispr Bro naar Apps",
+      "body": "Updates en toestemmingen werken daar het best. Wispr Bro opent vanzelf opnieuw en gaat verder.",
+      "action": "Verplaats naar Apps",
+      "moving": "Verplaatsen…",
+      "skip": "Niet nu",
+      "error": "Wispr Bro kon zichzelf niet verplaatsen. Sleep het in de Finder naar Apps en open het opnieuw."
+    },
+    "languages": {
+      "title": "Welke talen spreek je?",
+      "subtitle": "Kies elke taal waarin je dicteert.",
+      "listLabel": "Talen",
+      "noMatch": "Geen taal komt overeen met “{{query}}”.",
+      "count_one": "Dicteren werkt in {{count}} taal. Je kunt je talen later wijzigen in Instellingen.",
+      "count_other": "Dicteren werkt in {{count}} talen. Je kunt je talen later wijzigen in Instellingen.",
+      "weak_one": "Herkenning is minder nauwkeurig in {{languages}}. Dicteren in die taal werkt nog, maar verwacht meer fouten.",
+      "weak_other": "Herkenning is minder nauwkeurig in {{languages}}. Dicteren in die talen werkt nog, maar verwacht meer fouten."
+    },
+    "permissions": {
+      "title": "Twee toestemmingen",
+      "subtitle": "macOS vraagt je deze één keer toe te staan. Elke rij wordt afgevinkt zodra hij aanstaat.",
+      "allowed": "Toegestaan",
+      "waiting": "Wachten op macOS…",
+      "openSettings": "Open Systeeminstellingen",
+      "prompt": "De melding van macOS",
+      "pane": "In Systeeminstellingen",
+      "microphone": {
+        "title": "Microfoon",
+        "why": "Zodat Wispr Bro je kan horen terwijl je dicteert.",
+        "action": "Sta microfoon toe",
+        "promptAlt": "Afbeelding van de microfoonmelding van macOS, met de knop “Sta toe” gemarkeerd",
+        "paneAlt": "Afbeelding van Systeeminstellingen, Privacy en beveiliging, Microfoon, met de schakelaar voor Wispr Bro aan",
+        "waitingHelp": "Klik op “Sta toe” in de melding van macOS. Zie je die niet, open dan Systeeminstellingen en zet Wispr Bro aan onder Microfoon."
+      },
+      "accessibility": {
+        "title": "Toegankelijkheid",
+        "why": "Zodat Wispr Bro je toetscombinatie ziet en voor je kan typen.",
+        "action": "Sta Toegankelijkheid toe",
+        "promptAlt": "Afbeelding van de Toegankelijkheidsmelding van macOS, met de knop “Open Systeeminstellingen” gemarkeerd",
+        "paneAlt": "Afbeelding van Systeeminstellingen, Privacy en beveiliging, Toegankelijkheid, met de schakelaar voor Wispr Bro aan",
+        "waitingHelp": "Zet in Systeeminstellingen de schakelaar naast Wispr Bro aan. Mogelijk moet je eerst ontgrendelen met je wachtwoord."
+      }
+    },
+    "mic": {
+      "title": "Test je microfoon",
+      "guidance": "Bekabelde en ingebouwde microfoons werken het best. Bluetooth-headsets kunnen wegvallen of dof klinken.",
+      "question": "Bewegen de balkjes als je praat?",
+      "noHelp": "Kies hieronder een andere microfoon en praat opnieuw.",
+      "change": "Wijzig microfoon",
+      "previewList": "Je microfoons worden hier weergegeven."
+    },
+    "shortcut": {
+      "title": "Test je toetscombinatie",
+      "instruction": "Houd de fn-toets (🌐) op je toetsenbord ingedrukt. De toets hieronder licht op zolang je hem vasthoudt.",
+      "fallbackInstruction": "Houd Control en Option tegelijk ingedrukt. De toetsen hieronder lichten op zolang je ze vasthoudt.",
+      "unboundInstruction": "Er is geen toetscombinatie voor dicteren ingesteld. Kies er een met “Wijzig toetscombinatie”.",
+      "keyLabel": "De fn-toets",
+      "fallbackKeyLabel": "Control en Option",
+      "pressed": "Toets ingedrukt",
+      "notPressed": "Wacht op de toets…",
+      "worked": "Het werkt. De toets lichtte op.",
+      "question": "Lichtte de toets op?",
+      "edit": "Wijzig toetscombinatie",
+      "tryAgain": "Probeer opnieuw",
+      "otherCauses": "Dat is het niet? Andere mogelijke oorzaken:",
+      "changeFailed": "Die wijziging is niet gelukt. Probeer het opnieuw of gebruik Systeeminstellingen.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro ziet geen toetsaanslagen",
+          "title": "Wispr Bro ziet nog geen toetsaanslagen",
+          "body": "Meestal betekent dit dat Toegankelijkheid niet aanstaat voor Wispr Bro. Zet het aan in Systeeminstellingen, kom terug en klik op “Probeer opnieuw”.",
+          "action": "Open instellingen voor Toegankelijkheid"
+        },
+        "secure_input": {
+          "choice": "Een wachtwoordveld of andere app blokkeert toetsen",
+          "title": "Een andere app blokkeert toetsaanslagen",
+          "body": "Zolang een wachtwoordveld of bepaalde apps (wachtwoordbeheerders, “Beveiligde toetsenbordinvoer” in Terminal) actief zijn, verbergt macOS toetsaanslagen voor alle andere apps. Sluit het of klik ergens anders en probeer het opnieuw.",
+          "active": "Op dit moment blokkeert een andere app toetsaanslagen.",
+          "inactive": "Op dit moment blokkeert niets de toetsaanslagen."
+        },
+        "globe": {
+          "choice": "De 🌐-toets opent emoji of wisselt van toetsenbord",
+          "title": "macOS geeft de 🌐-toets een eigen functie",
+          "body": "Je Mac opent emoji, wisselt van invoerbron of start dicteren van Apple als je op 🌐 drukt. Wispr Bro kan “Druk op 🌐-toets om” instellen op “Doe niets”. Je eigen keuze komt terug als je fn niet meer gebruikt om te dicteren.",
+          "consent": "Stel 🌐 in op “Doe niets”",
+          "changed": "🌐 doet nu zelf niets meer",
+          "open": "Open toetsenbordinstellingen"
+        },
+        "no_fn": {
+          "choice": "Mijn toetsenbord heeft geen fn-toets",
+          "title": "Gebruik Control en Option in plaats daarvan",
+          "body": "Sommige toetsenborden hebben geen fn- of 🌐-toets. Houd in plaats daarvan Control en Option tegelijk ingedrukt om te dicteren. Je kunt dit altijd wijzigen in Instellingen.",
+          "action": "Gebruik Control + Option",
+          "changed": "Control + Option is je toetscombinatie"
+        }
+      },
+      "customInstruction": "Houd {{keys}} ingedrukt. De toetsen hieronder lichten op zolang je ze vasthoudt."
+    },
+    "practice": {
+      "title": "Oefenen: een hele e-mail, <em>handsfree</em>",
+      "instruction": "Druk tegelijk op fn en Space en praat. Druk nog een keer op fn als je klaar bent.",
+      "instructionFallback": "Druk tegelijk op Control, Option en Space en praat. Druk nog een keer op Control en Option als je klaar bent.",
+      "instructionUnbound": "Er is geen toetscombinatie voor dicteren ingesteld, dus deze oefening kan niet starten. Sla haar nu over en stel een toetscombinatie in bij Instellingen.",
+      "skip": "Sla over",
+      "waiting": "Wachten tot je begint te praten…",
+      "listening": "Luistert… druk op fn als je klaar bent.",
+      "listening_fallback": "Luistert… druk op Control en Option als je klaar bent.",
+      "working": "Uitschrijven…",
+      "queuedNote": "Je woorden zijn bewaard. Ze verschijnen hier zodra het instellen klaar is, en staan hoe dan ook in Geschiedenis. Zo dadelijk gaan we vanzelf verder.",
+      "nothing": "Er kwam niets door. Controleer of je microfoon aanstaat en probeer het opnieuw.",
+      "filled": "Dat is je e-mail. Voeg meer toe of ga verder.",
+      "composer": {
+        "title": "Nieuw bericht",
+        "to": "Aan",
+        "recipient": "Sam",
+        "subject": "Onderwerp",
+        "body": "Bericht",
+        "trySaying": "Zeg bijvoorbeeld: ‘{{text}}’",
+        "willAppear": "Je woorden verschijnen hier zodra het spraakmodel klaar is."
+      },
+      "instructionCustom": "Druk twee keer snel op {{keys}} en praat. Druk nog een keer op {{keys}} als je klaar bent.",
+      "listening_custom": "Luistert… druk op {{keys}} als je klaar bent.",
+      "queued": "Bewaard. Wachten op het spraakmodel…",
+      "model": {
+        "title": "Je spraakmodel wordt klaargezet",
+        "checking": "Download controleren…",
+        "paused": "Download gepauzeerd. Zo meteen opnieuw…",
+        "failed": "Het spraakmodel kon niet worden gedownload",
+        "underMinute": "nog minder dan een minuut",
+        "minutesLeft_one": "nog ongeveer {{count}} min",
+        "minutesLeft_other": "nog ongeveer {{count}} min",
+        "bytes": "{{done}} van {{total}} MB",
+        "progressLabel": "Download van het spraakmodel",
+        "body": "Dit gebeurt maar één keer. Je kunt verder met de volgende stappen; wat je nu dicteert, wacht en verschijnt zodra het klaar is.",
+        "retry": "Opnieuw proberen"
+      }
+    },
+    "firstDictation": {
+      "title": "Zo simpel is het!",
+      "subtitle": "Overal waar je kunt typen, kun je nu ook praten.",
+      "lead": "Je hebt net je eerste tekst gedicteerd.",
+      "typingLabel": "Typen, gemiddeld",
+      "speakingLabel": "Praten, gemiddeld",
+      "faster": "<n/>× <em>sneller</em>",
+      "takeTest": "Doe de typetest",
+      "retakeTest": "Typetest opnieuw doen",
+      "yourTypingLabel": "Jouw typen",
+      "youSpokeLabel": "Je sprak met"
+    },
+    "timeSaved": {
+      "headline_one": "Dicteren kan je ongeveer {{hours}} uur per week besparen",
+      "headline_other": "Dicteren kan je ongeveer {{hours}} uur per week besparen",
+      "sliderLabel": "Hoeveel uur per week typ je?",
+      "basisMeasured_one": "Op basis van je typsnelheid van {{wpm}} woord per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
+      "basisMeasured_other": "Op basis van je typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
+      "basisAverage_one": "Op basis van een gemiddelde typsnelheid van {{wpm}} woord per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
+      "basisAverage_other": "Op basis van een gemiddelde typsnelheid van {{wpm}} woorden per minuut en een spreeksnelheid van ongeveer {{speaking}} woorden per minuut.",
+      "lead": "Met dicteren bespaar je ongeveer",
+      "perWeek_one": "<n/> uur <em>per week</em>",
+      "perWeek_other": "<n/> uur <em>per week</em>",
+      "hoursPerWeek_one": "{{hours}} uur per week",
+      "hoursPerWeek_other": "{{hours}} uur per week",
+      "math": "{{typed}} u typen op {{wpm}} wpm ≈ {{voice}} u met je stem op {{speaking}} wpm"
+    },
+    "typing": {
+      "title": "Hoe snel <em>typ</em> je?",
+      "skip": "Sla over",
+      "language": "Taal",
+      "wpm_one": "{{count}} woord per minuut",
+      "wpm_other": "{{count}} woorden per minuut",
+      "inputLabel": "Typ de alinea hier",
+      "nothing": "Niets kwam overeen met de alinea. Probeer het opnieuw.",
+      "result_one": "Je typt ongeveer {{count}} woord per minuut.",
+      "result_other": "Je typt ongeveer {{count}} woorden per minuut.",
+      "tryAgain": "Probeer opnieuw",
+      "recalculate": "Bereken opnieuw",
+      "instruction_one": "Typ de alinea hieronder zoals je normaal doet. De klok start bij je eerste toetsaanslag en loopt {{seconds}} seconde.",
+      "instruction_other": "Typ de alinea hieronder zoals je normaal doet. De klok start bij je eerste toetsaanslag en loopt {{seconds}} seconden.",
+      "wpmUnit_one": "woord per minuut",
+      "wpmUnit_other": "woorden per minuut",
+      "secondsUnit_one": "seconde over",
+      "secondsUnit_other": "seconden over"
+    },
+    "summary": {
+      "title": "Je bent er klaar voor",
+      "subtitle": "Houd je toetscombinatie ingedrukt in een willekeurige app om te dicteren.",
+      "languages": "Talen",
+      "shortcut": "Toetscombinatie",
+      "shortcutFn": "Houd fn (🌐) ingedrukt",
+      "shortcutFallback": "Houd Control en Option ingedrukt",
+      "microphone": "Microfoon",
+      "micDefault": "De standaardmicrofoon van de Mac",
+      "typing": "Typsnelheid",
+      "typingWpm_one": "{{count}} woord per minuut",
+      "typingWpm_other": "{{count}} woorden per minuut",
+      "typingSkipped": "Niet gemeten",
+      "notSet": "Niet ingesteld",
+      "launchAtLogin": "Open Wispr Bro als je inlogt",
+      "launchAtLoginHint": "Zo is dicteren klaar wanneer je het nodig hebt.",
+      "finish": "Begin met dicteren"
+    }
+  },
+  "whatsNew": {
+    "title": "Nieuw in {{version}}",
+    "label": "Release-opmerkingen voor deze versie",
+    "close": "Sluit",
+    "done": "OK"
+  },
+  "share": {
+    "heading": "Geef {{appName}} door",
+    "body": "{{appName}} is gratis en open source, en werkt volledig op de Mac. Er is geen verwijzingscode en er wordt niets gevolgd: de link is voor iedereen hetzelfde.",
+    "downloadLabel": "Downloadlink",
+    "brewLabel": "Installeer met Homebrew",
+    "copyLink": "Kopieer downloadlink",
+    "copyBrew": "Kopieer Homebrew-opdracht",
+    "copy": "Kopieer",
+    "copied": "Gekopieerd",
+    "copyFailed": "Kopiëren mislukt. Selecteer de tekst en kopieer hem zelf.",
+    "shareTitle": "Stuur het naar iemand",
+    "shareBody": "Berichten, Mail, AirDrop en elke andere manier waarop je Mac kan delen.",
+    "shareButton": "Deel…",
+    "shareFailed": "Kan het deelmenu niet openen."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Je toetscombinatie voor dicteren werkt niet meer. Wispr Bro heeft opnieuw toegang tot Toegankelijkheid nodig.",
+      "stopped": "Je toetscombinatie voor dicteren reageert niet meer.",
+      "fix": "Herstel"
+    },
+    "sheet": {
+      "title": "Herstel je toetscombinatie",
+      "introPermission": "macOS heeft de toegang van Wispr Bro tot Toegankelijkheid uitgezet, dus de app merkt je toetscombinatie niet meer op. Dit kan gebeuren na een update of als het item in Systeeminstellingen is gewijzigd.",
+      "introStopped": "De toetsenbordbewaking van Wispr Bro is gestopt. Deze start vanzelf opnieuw zodra macOS dat toestaat.",
+      "pictureLabel": "Systeeminstellingen, Privacy en beveiliging, Toegankelijkheid: de rij van Wispr Bro met de schakelaar aan",
+      "pictureTitle": "Toegankelijkheid",
+      "pictureBack": "Privacy en beveiliging",
+      "stepsTitle": "Zet het weer aan",
+      "step1": "Open Systeeminstellingen › Privacy en beveiliging › Toegankelijkheid.",
+      "step2": "Zet Wispr Bro aan. Staat het al aan, zet het dan uit en weer aan.",
+      "step3": "Kom hier terug. De toetscombinatie werkt binnen een paar seconden weer, zonder herstart.",
+      "resetTitle": "Werkt het nog steeds niet?",
+      "resetBody": "Na een update kan macOS een oud item bewaren dat niet meer bij de app past. “Stel opnieuw in” verwijdert het item van Wispr Bro zodat je opnieuw toestemming kunt geven.",
+      "resetStep1": "Kies “Stel opnieuw in en geef toestemming”.",
+      "resetStep2": "Sta Wispr Bro toe als macOS erom vraagt, of zet het aan in de lijst die opent.",
+      "resetFailed": "Kan het item niet opnieuw instellen. Selecteer Wispr Bro in de lijst, verwijder het met de minknop en voeg het opnieuw toe met de plusknop.",
+      "openSettings": "Open instellingen voor Toegankelijkheid",
+      "reset": "Stel opnieuw in en geef toestemming",
+      "checkAgain": "Controleer opnieuw",
+      "relaunch": "Start opnieuw om te voltooien",
+      "close": "Sluit",
+      "status": {
+        "healthy": "Je toetscombinatie werkt.",
+        "lost": "Werkt nog niet",
+        "recovering": "Opnieuw verbinden…",
+        "needsRelaunch": "Toegang is terug. Start Wispr Bro opnieuw om te voltooien."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Wat wil je eerst <em>proberen</em>?",
+    "subtitle": "Kies er een om te zien hoe het werkt. Probeer het daarna in je eigen app.",
+    "choicesLabel": "Manieren om te beginnen",
+    "choices": {
+      "ai_chat": "Vraag een AI-assistent",
+      "note": "Noteer iets",
+      "message": "Beantwoord een bericht",
+      "email": "Schrijf een e-mail",
+      "comment": "Plaats een reactie",
+      "document": "Schrijf een document",
+      "coding": "Geef een codeertool een prompt"
+    },
+    "scene": {
+      "label": "Voorbeeld: {{choice}}",
+      "said": "Je zegt",
+      "written": "{{appName}} schrijft",
+      "pause": "Pauzeer het voorbeeld",
+      "play": "Speel het voorbeeld af"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI-chat",
+        "context": "Waarmee kan ik helpen?",
+        "said": "eh dus kun je uitleggen hoe samengestelde rente werkt alsof ik er nieuw in ben",
+        "text": "Kun je uitleggen hoe samengestelde rente werkt, alsof ik er nieuw in ben?"
+      },
+      "note": {
+        "app": "Notities",
+        "context": "Maandag",
+        "said": "notitie voor mezelf tandarts bellen en eh de stomerij ophalen voor zessen",
+        "text": "Notitie voor mezelf: tandarts bellen en de stomerij ophalen voor zessen."
+      },
+      "message": {
+        "app": "Berichten",
+        "context": "Gaat de lunch nog door?",
+        "said": "ja zeker is half een goed voor jou",
+        "text": "Ja, zeker! Is 12.30 uur goed voor jou?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Aan: Priya · Onderwerp: Donderdag",
+        "said": "hoi priya bedankt voor de aantekeningen ik stuur het concept uiterlijk donderdagochtend",
+        "text": "Hoi Priya, bedankt voor de aantekeningen. Ik stuur het concept uiterlijk donderdagochtend."
+      },
+      "comment": {
+        "app": "Sociale media",
+        "context": "Ons nieuwe kantoor gaat volgende week open!",
+        "said": "gefeliciteerd aan het hele team dit ziet er geweldig uit",
+        "text": "Gefeliciteerd aan het hele team, dit ziet er geweldig uit!"
+      },
+      "document": {
+        "app": "Docs",
+        "context": "Projectplan",
+        "said": "het doel van deze fase is om eh de bèta voor het eind van de maand naar vijftig testers te sturen",
+        "text": "Het doel van deze fase is om de bèta voor het eind van de maand naar vijftig testers te sturen."
+      },
+      "coding": {
+        "app": "Codeeditor",
+        "context": "Vraag de agent",
+        "said": "de inlogknop werkt niet op mobiel kun je uitzoeken waarom en het oplossen",
+        "text": "De inlogknop werkt niet op mobiel. Kun je uitzoeken waarom en het oplossen?"
+      }
+    },
+    "tryNow": "Probeer het nu",
+    "later": "Misschien later",
+    "close": "Sluit",
+    "noBar": "De dicteerbalk is niet actief, dus er is geen hint om te tonen. Je kunt het toch proberen: open de app en houd je toetscombinatie ingedrukt.",
+    "banner": {
+      "title": "Gebruik het in je eigen apps",
+      "body": "{{hint}}. {{how}}",
+      "again": "Toon de tip opnieuw",
+      "stop": "Verberg de tip",
+      "other": "Probeer iets anders",
+      "active": "De tip staat op je scherm. Druk op Esc om hem te sluiten."
+    }
+  },
+  "checklist": {
+    "title": "Aan de slag",
+    "label": "Checklist voor configuratie",
+    "progress": "{{done}} van {{total}} gereed",
+    "hide": "Verberg de checklist",
+    "done": "Gereed",
+    "next": "Volgende",
+    "allDone": "Helemaal klaar. Je kent de basis.",
+    "items": {
+      "try_in_app": {
+        "title": "Probeer het in een andere app",
+        "action": "Laat zien"
+      },
+      "add_word": {
+        "title": "Voeg een woord toe",
+        "action": "Laat zien",
+        "coachTitle": "Voeg je eerste woord toe",
+        "coachBody": "Namen, producttermen en vakjargon die je vaak zegt. Ze worden gespeld zoals jij ze spelt."
+      },
+      "create_snippet": {
+        "title": "Maak een tekstfragment",
+        "action": "Nieuw tekstfragment",
+        "coachTitle": "Maak je eerste tekstfragment",
+        "coachBody": "Zeg een korte zin en krijg een langere tekst: je adres, een link, een afsluiting."
+      },
+      "launch_at_login": {
+        "title": "Open bij inloggen",
+        "action": "Zet aan",
+        "body": "{{appName}} start samen met je Mac, zodat je toetscombinatie altijd werkt."
+      },
+      "try_transform": {
+        "title": "Probeer een Transformatie",
+        "action": "Laat zien",
+        "body": "Selecteer tekst en druk op een toetscombinatie: de tekst wordt ter plekke herschreven."
+      },
+      "try_whisper": {
+        "title": "Probeer te fluisteren",
+        "action": "Laat zien",
+        "body": "Dicteer zacht als er anderen in de buurt zijn, en vind de juiste microfoon."
+      }
+    },
+    "coach": {
+      "close": "Sluit",
+      "done": "OK"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Sluit de les",
+      "back": "Terug",
+      "continue": "Ga door",
+      "skip": "Sla over",
+      "tryIt": "Probeer het zelf",
+      "tryItOut": "Probeer het uit",
+      "howItWorks": "Hoe het werkt",
+      "progress": "Stap {{step}} van {{total}}",
+      "pause": "Pauzeer animatie",
+      "play": "Speel animatie af",
+      "turnOnFailed": "Dat is niet ingeschakeld. Probeer het opnieuw, of gebruik de schakelaar op de bijbehorende pagina.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "Transformaties",
+      "help": "Leer Transformaties kennen",
+      "intro": {
+        "title": "Laat je tekst zeggen wat je <em>bedoelt</em>",
+        "body": "Selecteer tekst in een willekeurige app en druk op een toetscombinatie. Een transformatie herschrijft hem ter plekke, gewoon op deze Mac.",
+        "continue": "Probeer het uit"
+      },
+      "cards": {
+        "label": "Dezelfde tekst, op drie manieren",
+        "original": {
+          "name": "Origineel",
+          "text": "dus eigenlijk wilde ik vragen of we de review misschien naar donderdag kunnen schuiven want de cijfers zijn nog niet klaar en sam is er ook niet"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Kunnen we de review naar donderdag verplaatsen? De cijfers zijn nog niet klaar en Sam is er niet."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Schrijf een korte, vriendelijke boodschap met de vraag om de review naar donderdag te verplaatsen. Redenen: de cijfers zijn nog niet klaar en Sam is er niet. Maximaal twee zinnen."
+        }
+      },
+      "benefits": {
+        "label": "Wat een transformatie kan doen",
+        "shorter": "Zegt het in minder woorden",
+        "clearer": "Formuleert duidelijker",
+        "order": "Zet punten in een betere volgorde",
+        "structure": "Voegt kopjes en lijsten toe",
+        "tone": "Behoudt je toon",
+        "anywhere": "Werkt in elke app waarin je schrijft"
+      },
+      "practice": {
+        "title": "<em>Selecteer</em> de tekst en druk dan op <kbd>{{shortcut}}</kbd>",
+        "body": "Selecteer het bericht hieronder (⌘A selecteert alles) en druk dan op de toetscombinatie voor Polish.",
+        "doneTitle": "Tekst <em>herschreven</em>",
+        "doneBody": "Druk op <kbd>{{view}}</kbd> om de wijzigingen te bekijken. <kbd>{{undo}}</kbd> maakt het ongedaan.",
+        "app": "Chat met Jordan",
+        "context": "Gaat de review morgen nog door?",
+        "fieldLabel": "Je antwoord aan Jordan",
+        "draft": "hé dus ik denk dat we de review beter naar donderdag kunnen verplaatsen als dat goed is want de cijfers zijn nog niet echt klaar en ik wil geen half werk laten zien",
+        "example": {
+          "polish": "Kunnen we de review naar donderdag verplaatsen? De cijfers zijn nog niet klaar en ik laat liever geen onaf werk zien.",
+          "prompt": "Schrijf een kort, beleefd antwoord met de vraag om de review van morgen naar donderdag te verplaatsen, omdat de cijfers nog niet klaar zijn. Houd het vriendelijk en korter dan drie zinnen."
+        },
+        "exampleNote": "Herschrijven is op deze Mac nog niet klaar, dus hier zie je een voorbeeld. Zodra het klaar is, herschrijft je toetscombinatie je eigen tekst op dezelfde manier.",
+        "selectFirst": "Selecteer eerst een deel van het bericht en druk dan opnieuw op {{shortcut}}.",
+        "working": "Herschrijven…",
+        "spotlight": "Na elke transformatie biedt de balk onder in je scherm “Bekijk wijzigingen” aan. Klik erop of druk op {{view}}.",
+        "barLabel": "De balk",
+        "bar": {
+          "done": "Gereed",
+          "view": "Bekijk wijzigingen"
+        },
+        "hideChanges": "Verberg de wijzigingen"
+      },
+      "how": {
+        "select": {
+          "title": "<em>Selecteer</em> tekst in een willekeurige app",
+          "body": "Schrijf of dicteer zoals altijd: een e-mail, een chat, een document. Selecteer dan wat je herschreven wilt hebben.",
+          "scene": "Animatie: een concept-e-mail wordt geselecteerd."
+        },
+        "press": {
+          "title": "<em>Druk</em> op <kbd>{{shortcut}}</kbd>",
+          "body": "Polish herschrijft de selectie ter plekke. Prompt Engineer ({{prompt}}) maakt er een duidelijke prompt voor een AI-assistent van.",
+          "scene": "Animatie: {{shortcut}} wordt ingedrukt en het concept wordt vervangen door een duidelijkere versie."
+        },
+        "changes": {
+          "title": "Bekijk wat er <em>veranderd</em> is",
+          "body": "Druk op {{view}} of klik op “Bekijk wijzigingen” in de balk: verwijderde woorden zijn doorgestreept, nieuwe woorden gemarkeerd. {{undo}} zet je origineel terug.",
+          "scene": "Animatie: een kaart toont de wijzigingen, met verwijderde woorden doorgestreept en nieuwe woorden gemarkeerd."
+        }
+      },
+      "scene": {
+        "app": "Mail: nieuw bericht",
+        "draft": "hoi allemaal even kort de lancering schuift naar volgende week omdat we een bug in het betaalproces hebben gevonden en die eerst willen oplossen",
+        "polished": "Hoi allemaal, de lancering schuift naar volgende week. We hebben een bug in het betaalproces gevonden en willen die eerst oplossen."
+      },
+      "finish": {
+        "turnOn": "Zet Transformaties aan",
+        "done": "Gereed"
+      }
+    },
+    "whisper": {
+      "title": "Dicteer zacht",
+      "help": "Leer zacht te dicteren",
+      "soft": {
+        "title": "Een <em>zachte</em> stem is genoeg",
+        "body": "Je hoeft niet hard te praten. Fluister, en je woorden worden toch nette tekst. Zo kun je dicteren in een open kantoor, in de trein of als er iemand naast je slaapt.",
+        "app": "Notities",
+        "spoken": "“herinner me eraan om de slides voor de lunch te sturen en een ruimte voor vrijdag te boeken”",
+        "text": "Herinner me eraan om de slides voor de lunch te sturen en een ruimte voor vrijdag te boeken.",
+        "scene": "Animatie: een gefluisterde zin verschijnt als getypte tekst: “{{text}}”"
+      },
+      "how": {
+        "title": "Zo <em>fluister</em> je tegen je Mac",
+        "body": "Met de ingebouwde microfoon van je Mac maken vier gewoontes een zachte stem goed verstaanbaar.",
+        "distance": "Ongeveer 30 cm (een onderarmlengte) van de microfoon",
+        "tips": {
+          "distance": {
+            "title": "Zit dichtbij.",
+            "body": "Zit ongeveer een onderarmlengte voor je Mac. Een beetje naar voren leunen helpt meer dan harder praten."
+          },
+          "breath": {
+            "title": "Fluister met wat adem.",
+            "body": "Niet het zachtste gefluister: iets krachtiger, alsof je met iemand aan een klein tafeltje praat."
+          },
+          "pace": {
+            "title": "Houd een rustig tempo aan.",
+            "body": "Spreek elk woord helemaal uit en laat het eind van een zin niet wegsterven."
+          },
+          "release": {
+            "title": "Laat als laatste los.",
+            "body": "Laat de toets pas los na je laatste woord, zodat dat bewaard blijft."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>Fluister</em> deze e-mail",
+        "body": "Dit is een echt dictee. De tekst komt alleen in het bericht hieronder terecht, nergens anders.",
+        "doneTitle": "Gehoord, zelfs <em>gefluisterd</em>",
+        "doneBody": "Meer is er niet nodig. Ga verder om de microfoon te vinden die bij je past.",
+        "instruction": "Houd {{key}} ingedrukt, fluister de e-mail hieronder en laat dan los.",
+        "unbound": "Er is geen toetscombinatie voor dicteren ingesteld, dus hier kan geen opname starten. Sla deze stap nu over en stel een toetscombinatie in bij Instellingen.",
+        "key": "fn",
+        "keyFallback": "Control en Option",
+        "sentenceLabel": "Fluister:",
+        "sentence": "Hoi Sam, ik zit in een stille ruimte, dus ik fluister deze e-mail. Kunnen we ons gesprek naar de middag verplaatsen? Alvast bedankt.",
+        "app": "Nieuw bericht",
+        "context": "Aan Sam, over vanmiddag",
+        "fieldLabel": "Je gefluisterde e-mail",
+        "placeholder": "Je gefluisterde woorden verschijnen hier.",
+        "status": {
+          "idle": "Wachten tot je {{key}} ingedrukt houdt en fluistert…",
+          "listening": "Luistert… laat {{key}} los als je klaar bent.",
+          "working": "Uitschrijven…",
+          "nothing": "Er kwam niets door. Controleer of je microfoon aanstaat en probeer het opnieuw.",
+          "low": "{{percent}}% van de woorden kwam door. Probeer het nog een keer:",
+          "passed": "{{percent}}% van de woorden kwam door.",
+          "example": "Dit is een voorbeeld van een gefluisterde opname."
+        },
+        "exampleNote": "Spraakherkenning wordt nog ingesteld op deze Mac, dus hier zie je een voorbeeld. Je eigen opname staat in Geschiedenis en wordt uitgeschreven zodra het instellen klaar is.",
+        "tips": {
+          "title": "Een paar dingen helpen",
+          "closer": "Ga wat dichter bij je Mac zitten, op ongeveer 30 cm.",
+          "firmer": "Fluister iets krachtiger, met meer adem achter de woorden.",
+          "volume": "Verhoog het invoervolume in Systeeminstellingen › Geluid › Invoer.",
+          "openSound": "Open instellingen voor Geluid"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "Ingebouwde microfoon",
+          "why": "Hij zit er al in; ga dichtbij zitten en thuis volstaat hij prima."
+        },
+        "wired_headset": {
+          "name": "Bekabelde headset",
+          "why": "De microfoon zit direct bij je mond, dus zelfs een zachte fluistering komt door, waar je ook bent."
+        },
+        "wireless_earbuds": {
+          "name": "Draadloze oordopjes",
+          "why": "Niets om aan te sluiten, en je neemt ze overal mee naartoe."
+        },
+        "desk_usb": {
+          "name": "Bureau- of USB-microfoon",
+          "why": "Het helderste geluid als je aan één bureau werkt en er dichtbij zit."
+        }
+      },
+      "quiz": {
+        "more": "Meer over microfoons",
+        "comfortable": {
+          "title": "Kies een microfoon die je prettig vindt om te gebruiken",
+          "body": "Ze werken allemaal. Kies degene die je graag draagt of op je bureau zet."
+        },
+        "workplace": {
+          "title": "Waar werk je meestal?",
+          "body": "Fluisteren is vooral belangrijk als er mensen in de buurt zijn.",
+          "private": {
+            "label": "Op een rustige plek",
+            "hint": "Een thuiskantoor of een kamer voor jezelf"
+          },
+          "mixed": {
+            "label": "Een beetje van beide",
+            "hint": "Soms alleen, soms met mensen om je heen"
+          },
+          "shared": {
+            "label": "Tussen andere mensen",
+            "hint": "Een open kantoor, een café, een gedeelde kamer"
+          }
+        },
+        "moves": {
+          "title": "Werk je op verschillende plekken?",
+          "body": "Dan helpt een microfoon die met je meereist.",
+          "one_desk": {
+            "label": "Ik werk aan één bureau",
+            "hint": "Elke dag dezelfde opstelling"
+          },
+          "different_places": {
+            "label": "Ik werk op verschillende plaatsen",
+            "hint": "Thuis, kantoor, treinen, cafés"
+          }
+        },
+        "owned": {
+          "title": "Welke microfoons heb je?",
+          "body": "Kies alle microfoons die je hebt. Een Mac mini of Mac Studio heeft zelf geen microfoon.",
+          "continue": "Toon mijn match"
+        }
+      },
+      "results": {
+        "title": "Je <em>microfoonmatch</em>",
+        "body": "Op basis van je antwoorden. Niets wordt bewaard of verstuurd.",
+        "bestLine": "Beste match: {{mic}}.",
+        "caption": "Hoe elk soort microfoon presteert",
+        "columns": {
+          "quality": "Microfoonkwaliteit",
+          "others": "Fluisteren tussen anderen",
+          "home": "Fluisteren thuis",
+          "price": "Prijs",
+          "best": "Beste match"
+        },
+        "notBest": "Niet de beste match",
+        "rating": {
+          "fair": "Voldoende",
+          "good": "Goed",
+          "great": "Geweldig"
+        },
+        "price": {
+          "included": "Zit in de meeste laptops",
+          "low": "Laag",
+          "medium": "Gemiddeld",
+          "owned": "Je hebt er één"
+        },
+        "copy": {
+          "label": "Kopieer resultaten",
+          "heading": "{{appName}}: mijn microfoonmatch",
+          "best": "Beste match: {{mic}}",
+          "unanswered": "niet beantwoord",
+          "noneOwned": "geen"
+        },
+        "copied": "Gekopieerd",
+        "copyFailed": "Kopiëren mislukt. Selecteer de tabel en kopieer hem zelf.",
+        "done": "Gereed"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro gebruikt nu een nieuwer soort model. Download de nieuwe versie om te blijven transcriberen. Oude versies worden verwijderd."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Zodat Wispr Bro je kan horen. Audio wordt op deze Mac omgezet in tekst en nooit geüpload."
+        },
+        "accessibility": {
+          "why": "Zodat je toetscombinatie in elke app werkt en Wispr Bro de tekst kan typen waar je cursor staat."
+        },
+        "turnOnMac": "Zet Wispr Bro aan in Systeeminstellingen en kom dan hier terug.",
+        "relaunch": "Reageert de toetscombinatie hierna niet? <relaunch>Start Wispr Bro opnieuw</relaunch> en je komt direct weer hier uit."
+      },
+      "welcome": {
+        "noMatch": "Geen taal gevonden voor “{{query}}”. De modellen van Wispr Bro dekken ongeveer 100 talen; meer vind je in de instellingen.",
+        "chinese": {
+          "question": "Je spreekt {{languages}}. Welke tekens moet Wispr Bro schrijven?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro staat in de hoek om je er doorheen te helpen"
+      },
+      "done": {
+        "subMac": "Wispr Bro staat nu in je menubalk. Houd <keys/> ingedrukt of tik erop in elke app om te praten.",
+        "subTray": "Wispr Bro staat nu in je systeemvak. Houd <keys/> ingedrukt of tik erop in elke app om te praten.",
+        "atLogin": "Wispr Bro starten als ik inlog",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Toetscombinaties"
+        },
+        "preferredLanguages": {
+          "description": "De talen die je spreekt. Wispr Bro gebruikt ze om modellen aan te bevelen."
+        }
+      },
+      "models": {
+        "untestedNote": "Niet getest met Wispr Bro. Ze kunnen langzamer zijn of meer fouten maken.",
+        "emptyYours": "Nog geen modellen. Kies hieronder een model: het wordt gedownload en daarna gebruikt Wispr Bro het.",
+        "deleteAskActive": "{{name}} verwijderen? Wispr Bro kan pas weer transcriberen als je een ander model kiest.",
+        "retiredNotice": {
+          "title": "Oude modellen werken niet meer met Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Scannen naar modellen die buiten Wispr Bro om zijn toegevoegd aan de modellenmap of Hugging Face-cache"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Wispr Bro automatisch starten zodra je inlogt op je Mac."
+        },
+        "showTrayIcon": {
+          "description": "Toon het Wispr Bro-pictogram in de menubalk."
+        },
+        "typingTool": {
+          "options": {
+            "auto": "Automatisch (aanbevolen)"
+          }
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Automatisch controleren op nieuwe versies van Wispr Bro",
+          "lockedDescription": "Uitgeschakeld door systeemconfiguratie (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Controleert of toetsenbordgebeurtenissen Wispr Bro bereiken. Alleen het aantal gebeurtenissen wordt vastgelegd — nooit welke toetsen je indrukt.",
+          "verdictOk": "Toetsgebeurtenissen bereiken Wispr Bro normaal."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Huidige versie van Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Toon release-opmerkingen nadat Wispr Bro is bijgewerkt"
+        },
+        "appDataDirectory": {
+          "description": "Locatie waar Wispr Bro de gegevens opslaat"
+        },
+        "supportDevelopment": {
+          "description": "Help ons om te blijven bouwen aan Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro's lokale spraak-naar-tekst is gebouwd op transcribe.cpp en ggml. Met dank aan het geweldige werk van Georgi Gerganov en alle bijdragers."
+          }
+        },
+        "title": "Over Wispr Bro"
+      }
+    },
+    "whatsNew": {
+      "title": "Nieuw in Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Wijzig de taal van de Wispr Bro-interface"
+    },
+    "theme": {
+      "description": "Kies of Wispr Bro het systeemthema volgt of licht of donker blijft"
+    },
+    "sidebar": {
+      "about": "Over Wispr Bro"
+    }
+  }
+}

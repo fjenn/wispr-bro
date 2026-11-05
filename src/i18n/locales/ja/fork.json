@@ -1,0 +1,2736 @@
+{
+  "debug": {
+    "title": "フォークのデバッグパネル",
+    "description": "Wispr Bro レイヤーの内部チェックです。デバッグビルド、または --debug を付けてアプリを起動した場合にのみ表示されます。",
+    "close": "閉じる",
+    "runAgain": "もう一度実行",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "モデルの状況",
+      "notReady": "まだ準備ができていません：アプリの起動が完了していません。"
+    },
+    "lastEvent": {
+      "title": "最後の Ping イベント",
+      "none": "まだイベントを受信していません。"
+    },
+    "pending": "待機中…",
+    "error": "エラー：{{message}}",
+    "csp": {
+      "title": "コンテンツセキュリティポリシー",
+      "description": "asset プロトコル経由でオーディオファイルを再生し、data: と blob: の画像を読み込み、フォークのコマンドを呼び出して、許可されていない画像がブロックされることを確認します。",
+      "run": "CSP チェックを実行",
+      "running": "実行中…",
+      "pass": "合格：予期しない CSP 違反はありません。",
+      "fail": "不合格：下のチェック結果を確認してください。",
+      "ok": "OK（{{detail}}）",
+      "failed": "失敗（{{detail}}）",
+      "noViolations": "CSP 違反は記録されていません。",
+      "violations_other": "{{count}} 件の CSP 違反が記録されました。",
+      "checks": {
+        "media": "オーディオ（asset プロトコル）",
+        "dataImage": "data: 画像",
+        "blobImage": "blob: 画像",
+        "forkCommand": "フォークのコマンド",
+        "probe": "ブロックされたソース"
+      }
+    },
+    "notifications": {
+      "title": "通知",
+      "permission": "macOS の許可：{{state}}",
+      "kind": "種類",
+      "delay": "遅延（秒）",
+      "post": "サンプルを送信",
+      "posted": "{{seconds}} 秒後に送信します。macOS の通知を表示するには、ほかのアプリに切り替えてください。"
+    },
+    "update": {
+      "title": "アップデート",
+      "version": "バージョン",
+      "channel": "チャンネル",
+      "key": "署名鍵",
+      "endpoints": "アップデートフィード",
+      "checksOff": "アップデートの確認はオフです（設定 › 詳細、またはキルスイッチが設定されています）。",
+      "check": "今すぐ確認",
+      "checking": "確認中…",
+      "install": "{{version}} をインストールして再起動",
+      "installing": "ダウンロードして検証中…",
+      "installed": "{{version}} をインストールしました。再起動しています…",
+      "available": "{{version}} を利用できます。",
+      "upToDate": "最新の状態です。",
+      "failed": "確認できませんでした：{{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "フォークの設定",
+      "loading": "設定を読み込み中…",
+      "loadError": "設定を読み込めませんでした：{{message}}",
+      "setError": "変更は保存されませんでした：{{message}}",
+      "contextAwareness": "コンテキスト認識",
+      "contextAwarenessHint": "カーソル付近のテキストにある名前を参照して、正しく表記します。そのテキストはこの Mac から出ることはなく、保存もされません。",
+      "transforms": "書き換え",
+      "transformsHint": "⌥1 で選択したテキストを Polish し、⌥2 でより明確な AI プロンプトに書き換え、⌥O で最後の書き換えの変更内容を表示します。有効にしている間、これらのキーで ¡、™、ø は入力されなくなります。",
+      "transformsSafeShortcuts": "代わりに ⌃⌥1 と ⌃⌥2 を使用",
+      "transformsSafeShortcutsHint": "⌥1 と ⌥2 で ¡ と ™ を入力できるままにします。",
+      "cleanupLevel": "整形のレベル",
+      "levels": {
+        "none": "なし",
+        "light": "軽め",
+        "medium": "標準"
+      },
+      "all": "すべての設定"
+    },
+    "bar": {
+      "title": "音声入力バー",
+      "alwaysShow": "バーを常に表示",
+      "alwaysShowHelp": "オフのときは、音声入力中だけバーが表示されます。",
+      "position": "位置",
+      "positions": {
+        "bottom": "画面の下",
+        "top": "画面の上"
+      },
+      "hideInRecordings": "画面収録でバーを隠す",
+      "hideInRecordingsHelp": "スクリーンショット、画面収録、画面共有にバーは含まれません。",
+      "hiddenUntil": "{{time}} まで非表示",
+      "showNow": "もう一度表示",
+      "resetPositions": "すべてのディスプレイでバーを中央に配置"
+    },
+    "mic": {
+      "title": "マイク",
+      "legend": "使用するマイク",
+      "loading": "マイクを検索中…",
+      "loadError": "マイクの一覧を取得できませんでした：{{message}}",
+      "retry": "再試行",
+      "recommended": "{{name}}（推奨）",
+      "auto": "自動検出（システム設定）",
+      "autoNow": "現在：{{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "有線マイクか内蔵マイクが最適です。Bluetooth は途切れることがあります。",
+      "avoided": "Mac のサウンド入力は {{name}} に設定されています。Bluetooth マイクは途切れることがあるため、音声入力には内蔵マイクを使用します。",
+      "useAnyway": "{{name}} を使用する",
+      "inUse": "音声入力に使用中のマイク：{{name}}",
+      "chooseError": "マイクを切り替えられませんでした：{{message}}",
+      "meter": {
+        "start": "マイクをテスト",
+        "stop": "テストを停止",
+        "label": "マイクのレベル",
+        "value": "{{percent}} パーセント",
+        "off": "テストしていません",
+        "hint": "何か話してください。話している間はバーが動きます。",
+        "errors": {
+          "permission_denied": "マイクへのアクセスがオフです。システム設定 › プライバシーとセキュリティ › マイクでオンにしてください。",
+          "no_input_device": "マイクが見つかりません。",
+          "failed": "マイクを開始できませんでした。別のマイクを試してください。"
+        }
+      },
+      "loadErrorPlain": "マイクの一覧を取得できませんでした。",
+      "chooseErrorPlain": "マイクを切り替えられませんでした。"
+    },
+    "sound": {
+      "title": "サウンド",
+      "enabled": "音声入力の開始時と終了時にサウンドを再生",
+      "enabledHelp": "マイクのオンとオフで短い音が鳴ります。",
+      "theme": "サウンド",
+      "themes": {
+        "marimba": "マリンバ",
+        "pop": "ポップ",
+        "custom": "カスタム"
+      },
+      "volume": "音量",
+      "volumeValue": "{{percent}} パーセント",
+      "preview": "再生",
+      "mute": "音声入力中はすべてのオーディオを消音",
+      "muteHelp": "話している間は音楽や動画が静かになり、終わると元に戻ります。"
+    },
+    "recovery": {
+      "title": "復旧用ショートカット",
+      "description": "キーボードから手を離さずに、最後の音声入力を取り戻したり送信したりできます。",
+      "notSet": "未設定",
+      "current": "ショートカット：{{shortcut}}",
+      "listening": "ショートカットを押してください…",
+      "listeningHelp": "使いたいキーかマウスボタンを押してください。Esc でキャンセルします。",
+      "record": "記録",
+      "cancel": "キャンセル",
+      "clear": "消去",
+      "useDefault": "デフォルトを使用",
+      "unusable": "このショートカットは使用できません。別のショートカットを選んでください。",
+      "saveFailed": "ショートカットを保存できませんでした。",
+      "recordFailed": "ショートカットを記録できませんでした。アプリにアクセシビリティの使用が許可されているか確認してください。",
+      "pasteLast": {
+        "title": "最後の音声入力をペースト",
+        "help": "最後の音声入力を、入力中の場所にもう一度ペーストします。"
+      },
+      "copyLast": {
+        "title": "最後の音声入力をコピー",
+        "help": "最後の音声入力をクリップボードにコピーします。"
+      },
+      "pressEnter": {
+        "title": "Return キーを押す",
+        "help": "代わりに Return キーを押します。音声入力したばかりのメッセージを送信するときなどに使います。",
+        "mouse": "マウスボタンはポインタの下にあるアプリでも通常どおりクリックとして働くため、サイドボタン（戻る／進む）がおすすめです。"
+      },
+      "undoCancel": {
+        "title": "キャンセルを取り消す",
+        "help": "バーに「取り消す」が表示されている間、キャンセルしたばかりの音声入力を元に戻します。"
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "設定",
+    "close": "設定を閉じる",
+    "navigation": "設定のセクション",
+    "sections": {
+      "general": "一般",
+      "system": "システム",
+      "vibe": "バイブコーディング",
+      "privacy": "データとプライバシー",
+      "advanced": "詳細",
+      "about": "情報",
+      "hotkeys": "ショートカット"
+    },
+    "general": {
+      "shortcuts": "ショートカット",
+      "change": "変更",
+      "microphone": "マイク",
+      "languages": "使用する言語",
+      "appearance": "アプリの言語とテーマ",
+      "typingHint": "音声入力で節約できる時間の計算に使います。"
+    },
+    "system": {
+      "app": "アプリの動作",
+      "alwaysBar": "バーを常に表示",
+      "showDock": "Dock にアプリを表示",
+      "showDockHint": "ウインドウを閉じたあとも Wispr Bro を Dock に表示します。",
+      "sounds": "サウンド",
+      "notifications": "通知",
+      "notificationKinds": {
+        "system": "Mac の通知",
+        "modelReady": "音声認識モデルの準備完了",
+        "updateReady": "アップデートの準備完了",
+        "queuedReady": "待機中の音声入力の準備完了",
+        "suggestions": "提案",
+        "announcements": "新機能のお知らせ",
+        "milestones": "達成記録",
+        "shortcutProblems": "ショートカットの問題"
+      },
+      "scratchpad": "メモパッド",
+      "scratchpadLabel": "メモパッドを開いたとき",
+      "scratchpadHint": "ショートカットとバーのボタンで開く内容を選択します。",
+      "scratchpadOptions": {
+        "resume_last": "最後のメモを再開",
+        "new_note": "新規メモを作成"
+      },
+      "notificationsHint": "各スイッチは、その通知を Wispr Bro 内と Mac の両方に対して切り替えます。「Mac の通知」をオフにすると、Mac のバナーだけが止まります。クラッシュと復元の通知は常に Wispr Bro 内に表示されます。",
+      "dockKeptForTray": "メニューバーのアイコンがオフのため、Dock のアイコンは表示されたままです。非表示にするには、メニューバーのアイコンをオンにしてください。",
+      "trayKeptForDock": "Dock のアイコンがオフのため、メニューバーのアイコンは表示されたままです。非表示にするには、「Dock にアプリを表示」をオンにしてください。"
+    },
+    "vibe": {
+      "intro": "Wispr Bro は、エディタに表示されたコード名と、開いているプロジェクトのファイル名・フォルダ名をこの Mac 上で読みます。読むのは名前だけで、ファイルの中身は読みません。",
+      "contextOff": "コンテキスト認識がオフのため、これらの機能は何も読み取れません。使用するにはオンにしてください。",
+      "recognize": "コード上の名前を認識",
+      "recognizeHint": "「get user by id」のようにエディタに表示されている名前を言うと、コードでの表記どおり getUserById と入力されます。",
+      "setUp": "設定",
+      "change": "エディタを変更",
+      "setUpFor": "{{editors}} 用に設定",
+      "fileTags": "チャットでファイルをタグ付け",
+      "fileTagsHint": "Cursor または Windsurf のチャットで「index dot ts」と言うと、プロジェクト内のどのファイルでも、エディタの @ メニューで index.ts をタグ付けします。エディタに一致する候補がない場合は、@index.ts がテキストとして入力されます。",
+      "fileTagsNeedsChat": "エディタに Cursor または Windsurf を追加すると利用できます。",
+      "fileTagsNeedsSetup": "コード上の名前の認識を設定すると利用できます。",
+      "setup": {
+        "title": "コード上の名前の認識を設定",
+        "stepEditors": "1. 使用するエディタを選択します",
+        "stepScreenReader": "2. 各エディタでスクリーンリーダーモードをオンにして、テキストを Wispr Bro と共有できるようにします",
+        "openSettings": "⌘ + カンマでエディタの設定を開きます。",
+        "search": "「accessibility support」を検索します。",
+        "setOn": "「Editor: Accessibility Support」を「on」に設定します。",
+        "palette": "コマンドパレット（⇧⌘P）から「Toggle Screen Reader Accessibility Mode」を実行することもできます。",
+        "confirm": "これらのエディタでスクリーンリーダーモードをオンにしました",
+        "cancel": "キャンセル",
+        "finish": "設定を完了"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "プライバシーを重視した設計",
+        "local": "音声入力の内容とデータはこの Mac から出ることはありません。",
+        "noCloud": "音声認識、整形、履歴はすべてローカルで処理されます。アカウント、テレメトリ、クラウドでの音声入力やクラウドでの整形はありません。",
+        "network": "ネットワークを使うもの",
+        "networkIntro": "Wispr Bro がネットワークを使用するのは次の 2 つの目的だけです：",
+        "models": "Hugging Face（huggingface.co）から音声認識モデルと整形モデルをダウンロードする。",
+        "updates": "アップデートの確認がオンの場合に、GitHub（github.com）でアプリのアップデートを確認する。"
+      },
+      "locations": {
+        "title": "データの保存場所",
+        "data": "アプリのデータと設定",
+        "models": "ダウンロード済みのモデル",
+        "recordings": "録音",
+        "logs": "ログとクラッシュレポート",
+        "show": "Finder に表示",
+        "loading": "場所を確認中…",
+        "failed": "フォルダを開けませんでした。もう一度お試しください。"
+      },
+      "retention": {
+        "title": "履歴の保存期間",
+        "textLabel": "音声入力したテキストを保存",
+        "textHint": "古い項目は自動的に削除されます。デフォルトでは、テキストは無期限に保存されます。",
+        "audioLabel": "録音を保存",
+        "audioHint": "オーディオはデフォルトで 14 日後に削除されます。テキストは残ります。",
+        "options": {
+          "0": "オーディオを保存しない",
+          "1": "1 日",
+          "7": "7 日",
+          "14": "14 日",
+          "30": "30 日",
+          "90": "90 日",
+          "365": "1 年",
+          "forever": "無期限"
+        }
+      },
+      "choices": {
+        "title": "プライバシーの選択",
+        "context": "コンテキスト認識を使用",
+        "contextHint": "名前を正しく書くため、音声入力中に近くのテキストを読みます。保存もログ記録もされません。",
+        "updates": "アプリのアップデートを確認",
+        "updatesHint": "GitHub で新しいバージョンを確認します。音声入力の内容や個人データは送信しません。",
+        "learn": "修正内容から学習",
+        "learnHint": "音声入力のあとに修正した単語を、辞書に追加するよう提案します。"
+      },
+      "export": {
+        "title": "データ",
+        "hint": "履歴、設定、録音の zip。モデルとログは含まれません。",
+        "button": "データを書き出す",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "ZIP アーカイブ",
+        "done": "書き出したファイルを保存し、Finder に表示しました。",
+        "failed": "データを書き出せませんでした。何も削除されていません。"
+      },
+      "delete": {
+        "button": "すべてのデータを削除",
+        "title": "すべてのデータを削除しますか？",
+        "warning": "履歴、録音、設定、ログ、クラッシュレポートが完全に削除されます。この操作は取り消せません。",
+        "relaunch": "Wispr Bro は処理を停止してデータを消去し、再起動して初期設定を始めます。",
+        "models": "ダウンロード済みのモデルも削除",
+        "modelsHint": "音声認識モデルと整形モデルを再ダウンロードしなくて済むように、オフのままにしておいてください。",
+        "confirmLabel": "確認のため {{word}} と入力してください",
+        "cancel": "キャンセル",
+        "confirm": "すべて削除",
+        "failed": "すべての削除を完了できませんでした。もう一度試す前に、残っているデータを確認してください。",
+        "short": "履歴、録音、設定を消去します。元に戻せません。"
+      },
+      "diagnostics": {
+        "title": "クラッシュレポートと診断情報",
+        "hint": "クラッシュレポートはこの Mac に残ります。診断情報は必要なときだけ共有できます。",
+        "sanitized": "音声入力したテキスト、プロンプト、辞書の単語、メール、キー、ホームフォルダのパスを除去します。",
+        "copy": "診断情報をコピー",
+        "save": "診断情報を保存…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "個人情報を取り除いた診断情報をコピーしました。",
+        "saved": "個人情報を取り除いた診断情報を保存しました。",
+        "failed": "診断情報を準備できませんでした。もう一度お試しください。",
+        "rowTitle": "診断情報を共有"
+      }
+    },
+    "advanced": {
+      "output": "テキスト出力",
+      "transcription": "文字起こし",
+      "barAndOverlay": "音声入力バーとオーバーレイ",
+      "liveText": "バーにリアルタイムでテキストを表示",
+      "liveTextHint": "話している間、認識された単語を表示します。",
+      "keyboard": "キーボードのバックエンド",
+      "prompts": "整形のプロバイダとプロンプトエディタ",
+      "history": "履歴の保存",
+      "updates": "アップデート",
+      "updateChannel": "アップデートチャンネル",
+      "updateChannelHint": "ベータ版には未完成の変更が含まれる場合があります。",
+      "updateChannels": {
+        "stable": "安定版",
+        "beta": "ベータ版"
+      },
+      "storage": "データとログの場所",
+      "experimental": "実験的機能とデバッグ",
+      "debugMode": "デバッグツール",
+      "debugModeHint": "診断用のコントロールと詳細ログのオプションを表示します。",
+      "forkDiagnostics": "フォークの設定の診断",
+      "translateUnsupported": "{{model}} は翻訳に対応していません。「音声認識モデル」で、Whisper や Canary など対応しているモデルを選んでください。",
+      "translateNoModel": "現在の音声認識モデルは翻訳に対応していません。「音声認識モデル」で、Whisper や Canary など対応しているモデルを選んでください。"
+    },
+    "about": {
+      "tagline": "ローカルで動く音声入力。アカウントもクラウド処理も不要です。",
+      "version": "バージョン {{version}}",
+      "source": "ソースコードを表示",
+      "updates": "アップデートノート",
+      "updatesTitle": "アップデート",
+      "license": "GNU General Public License バージョン 3（GPL-3.0）に基づくフリーソフトウェアです。",
+      "licenseLink": "ライセンスを表示",
+      "credit": "CJ Pais による Handy をベースに、MIT ライセンスのもとで使用しています。開発に携わるすべての方に感謝します。",
+      "creditLink": "GitHub の Handy",
+      "supportTitle": "開発を支援"
+    },
+    "hotkeys": {
+      "open": "ショートカット",
+      "loading": "ショートカットを読み込み中…",
+      "secureInputHelp": "macOS のセキュア入力がパスワード欄を保護している間は、ショートカットの記録が一時停止します。",
+      "count": "{{count}}/{{max}} 件設定済み",
+      "notSet": "未設定",
+      "current": "ショートカット：{{shortcut}}",
+      "activationLabel": "ショートカットの動作",
+      "activations": {
+        "hold": "長押し",
+        "double_tap": "ダブルタップ",
+        "press": "押す",
+        "toggle": "切り替え"
+      },
+      "add": "ショートカットを追加",
+      "edit": "編集",
+      "delete": "削除",
+      "reset": "デフォルトに戻す",
+      "resetting": "リセット中…",
+      "resetFailed": "一部のショートカットをリセットできませんでした。もう一度お試しください。",
+      "done": "完了",
+      "saveFailed": "ショートカットを保存できませんでした。",
+      "conflict": "「{{action}}」でも使用されています。別のショートカットを選んでください。",
+      "invalid": "このショートカットは認識できません。",
+      "unsupported": "この組み合わせは、この操作のショートカットとして使用できません。",
+      "capture": {
+        "starting": "ショートカットの記録を開始中…",
+        "listening": "ショートカットを押してください…",
+        "listeningHelp": "使用するキーの組み合わせかマウスボタンを押してください。Esc でキャンセルします。",
+        "cancel": "キャンセル",
+        "close": "戻る",
+        "secure": "セキュア入力が有効な間は、ショートカットを記録できません。パスワードフィールドから移動するか、「セキュアキーボード入力」をオフにしてから、もう一度お試しください。",
+        "failed": "ショートカットの記録を開始できませんでした。アクセシビリティの許可を確認して、もう一度お試しください。"
+      },
+      "actions": {
+        "dictate": "押しながら話す",
+        "hands_free": "ハンズフリー音声入力",
+        "cancel": "音声入力をキャンセル",
+        "command_mode": "コマンドモード",
+        "paste_last": "最後の音声入力をペースト",
+        "copy_last": "最後の音声入力をコピー",
+        "press_enter": "Return キーを押す",
+        "undo_cancel": "キャンセルを取り消す",
+        "transform": {
+          "polish": "選択したテキストを Polish",
+          "prompt_engineer": "選択したテキストを AI プロンプトに書き換え",
+          "view_changes": "書き換えの変更内容を表示"
+        },
+        "scratchpad": {
+          "open": "メモパッドを開く"
+        }
+      },
+      "help": {
+        "dictate": "話している間はショートカットを押したままにし、離すと終了します。",
+        "hands_free": "キーを押したままにせずに音声入力を開始・停止します。",
+        "cancel": "現在の音声入力を、挿入せずに停止します。",
+        "command_mode": "ショートカットを押しながら、テキストの編集内容や書きたい内容を話します。",
+        "paste_last": "直前の音声入力をもう一度ペーストします。",
+        "copy_last": "直前の音声入力をクリップボードにコピーします。",
+        "press_enter": "入力中の場所で Return を押します。マウスのサイドボタンに向いています。",
+        "undo_cancel": "キャンセルした直後の音声入力を元に戻します。",
+        "transform": {
+          "polish": "選択したテキストを Polish で書き換えます。",
+          "prompt_engineer": "選択したテキストを明確な AI プロンプトに書き換えます。",
+          "view_changes": "最新の書き換えの前後を確認します。"
+        },
+        "scratchpad": {
+          "open": "前回のメモを続けるか、新しいメモを始めます。"
+        }
+      },
+      "addFor": "{{action}}のショートカットを追加",
+      "descriptionLimits": "ほとんどの操作には最大 {{max}} 個のショートカットを設定できます。「押しながら話す」、キャンセル、コマンドモードは各 1 個、ハンズフリー音声入力は 2 個です。変更はその場で保存されます。",
+      "limit_other": "この操作には最大 {{count}} 個のショートカットを設定できます。",
+      "appleDictation": {
+        "title": "fnを2回押したときのAppleの音声入力をオフにする",
+        "description": "ダブルタップでAppleの音声入力まで起動しないようにします。",
+        "active": "fnを2回押すとAppleの音声入力がまだ起動します。キーボード設定で音声入力のショートカットを「オフ」にしてください。"
+      },
+      "key": {
+        "title": "音声入力キー",
+        "hint": "押したまま話します。2回押すとハンズフリーになります。",
+        "prompt": "使いたいキーを押してください",
+        "save": "保存",
+        "invalid": "fn、⌃ ⌥ のような 2 つの修飾キー、または ⌥ Space のような修飾キーとキーの組み合わせを使ってください。",
+        "more": "その他のショートカット"
+      }
+    },
+    "resetSetting": "{{setting}} をリセット",
+    "intro": {
+      "general": "ショートカット、マイク、言語、アプリの見た目。",
+      "system": "Wispr Bro の起動、サウンド、通知の設定。",
+      "privacy": "すべてこの Mac に残ります。何をどのくらい保存するかを選べます。",
+      "advanced": "音声、整形、テキスト出力、アップデートの細かな設定。"
+    },
+    "navGroups": {
+      "app": "アプリ"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "メイン"
+    },
+    "sidebar": {
+      "collapse": "サイドバーを折りたたむ",
+      "expand": "サイドバーを展開",
+      "suggested": "提案された単語：{{count}}"
+    },
+    "header": {
+      "toDark": "ダークモードに切り替え",
+      "toLight": "ライトモードに切り替え"
+    },
+    "notifications": {
+      "title": "通知",
+      "empty": {
+        "title": "新しい通知はありません",
+        "body": "アップデートやヒントがここに表示されます。"
+      },
+      "bellUnread_other": "通知、未読 {{count}} 件",
+      "filter": {
+        "label": "表示",
+        "all": "すべて",
+        "unread": "未読"
+      },
+      "more": "その他の通知オプション",
+      "markAllRead": "すべて既読にする",
+      "groups": {
+        "show": "このリストに表示",
+        "mac": "この Mac で"
+      },
+      "toggles": {
+        "suggestions": "提案",
+        "announcements": "お知らせ",
+        "milestones": "達成記録",
+        "system": "Mac の通知"
+      },
+      "list": "通知",
+      "unreadDot": "未読",
+      "emptyUnread": {
+        "title": "新しい通知はありません",
+        "body": "すべて既読です。"
+      },
+      "loadFailed": "通知を読み込めませんでした。",
+      "actionFailed": "操作を完了できませんでした。もう一度お試しください。",
+      "copied": "最新の音声入力をコピーしました",
+      "nothingToCopy": "コピーできる音声入力はまだありません",
+      "justNow": "たった今"
+    },
+    "help": {
+      "title": "ヘルプ",
+      "updates": "アップデート",
+      "whatsNew": "新機能",
+      "essentials": "基本",
+      "shortcuts": "ショートカット",
+      "microphone": "マイク",
+      "languages": "言語",
+      "documentation": "ドキュメント",
+      "getInTouch": "お問い合わせ",
+      "reportProblem": "問題を報告…",
+      "sendFeedback": "フィードバックを送信",
+      "report": {
+        "title": "問題を報告",
+        "body": "ブラウザで GitHub の新しい Issue が開き、アプリのバージョンと Mac のモデルがあらかじめ入力されます。音声入力した内容が含まれることはなく、送信する前にすべての内容を確認して変更できます。",
+        "diagnosticsTitle": "診断情報（任意）",
+        "diagnosticsBody": "個人情報を取り除いたログは原因の特定に役立ちます。音声入力の内容は含まれません。ここでコピーして、Issue にペーストしてください。",
+        "copy": "診断情報をコピー",
+        "copied": "診断情報をコピーしました。Issue にペーストしてください。",
+        "copyFailed": "診断情報をコピーできませんでした。",
+        "open": "GitHub を開く",
+        "cancel": "キャンセル",
+        "close": "閉じる"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "設定のセクション"
+    },
+    "pages": {
+      "dictation": {
+        "title": "音声入力",
+        "banner": {
+          "title": "入力する代わりに話す",
+          "body": "どのアプリでも fn を押しながら書きたい内容を話し、指を離します。{{appName}} が、整えたテキストをカーソルの位置に入力します。",
+          "quiet": "小声で音声入力：方法を見る"
+        },
+        "empty": {
+          "title": "音声入力した内容はここに表示されます"
+        }
+      },
+      "insights": {
+        "title": "統計",
+        "empty": {
+          "title": "統計には数回の音声入力が必要です",
+          "action": "音声入力へ"
+        }
+      },
+      "dictionary": {
+        "title": "辞書"
+      },
+      "snippets": {
+        "title": "スニペット"
+      },
+      "style": {
+        "title": "スタイル"
+      },
+      "transforms": {
+        "title": "書き換え"
+      },
+      "scratchpad": {
+        "title": "メモパッド"
+      },
+      "share": {
+        "title": "友達に紹介"
+      },
+      "settings": {
+        "title": "設定"
+      }
+    },
+    "featurePopup": {
+      "label": "このバージョンの新機能",
+      "dismiss": "OK",
+      "open": "見てみる"
+    },
+    "update": {
+      "off": "アップデートの確認はオフ",
+      "turnOn": "オンにする",
+      "notChecked": "まだ確認していません",
+      "check": "アップデートを確認",
+      "checking": "アップデートを確認中…",
+      "upToDate": "最新の状態です",
+      "checkAgain": "もう一度確認",
+      "checkFailed": "確認できませんでした",
+      "retry": "再試行",
+      "downloading": "{{version}} をダウンロード中…",
+      "ready": "アップデートの準備完了",
+      "restartNow": "今すぐ再起動",
+      "installing": "{{version}} をインストール中…",
+      "installedWaiting": "{{version}} をインストール済み · この音声入力のあとに再起動します",
+      "restarting": "再起動中…",
+      "installFailed": "アップデートをインストールできませんでした",
+      "busy": "先に音声入力を終了してください。",
+      "actionFailed": "操作を完了できませんでした。あとでもう一度お試しください。",
+      "lastChecked": "最終確認：{{time}}",
+      "paused": "3 回失敗したため、自動アップデートは {{time}} まで一時停止しています。",
+      "manualOnly": "これは開発ビルドです：アップデートは手動で確認した場合にのみ確認されます。",
+      "readyHint": "20 分間音声入力をしなかったとき、またはアプリを終了したときに自動でインストールされます。",
+      "policy": "アップデートはバックグラウンドでダウンロードされ、20 分間音声入力をしていないときか、アプリを終了したときにインストールされます。",
+      "needsPassword": "このアプリは変更に管理者パスワードが必要なフォルダにあるため、アップデートは「今すぐ再起動」を選んだときにのみインストールされます。"
+    },
+    "support": {
+      "nav": "{{appName}} を支援",
+      "title": "{{appName}} を支援",
+      "free": "無料のオープンソース",
+      "sponsor": "GitHub でスポンサーになる",
+      "star": "GitHub でスターを付ける",
+      "contribute": "開発に参加"
+    },
+    "notices": {
+      "more": "他 {{count}} 件",
+      "nextLabel": "次のお知らせ:"
+    },
+    "appleDictationNote": {
+      "body": "テキストが二重に入力されないよう、Appleの音声入力の「fnキーを2回押す」をオフにしました。設定 › ショートカットで変更できます。"
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "新機能",
+      "beta": "ベータ"
+    },
+    "banner": {
+      "dismiss": "閉じる"
+    },
+    "importWizard": {
+      "stepsLabel": "読み込みの手順",
+      "stepOf": "ステップ {{step}}/{{total}}：{{title}}",
+      "steps": {
+        "choose": "ファイルを選択",
+        "columns": "列の対応付け",
+        "review": "確認",
+        "done": "完了"
+      },
+      "dropHint": ".csv ファイルをここにドロップするか、ファイルを選択してください。",
+      "browse": ".csv ファイルを選択",
+      "limit": "最大 3 MB。",
+      "formatLink": "対応フォーマット",
+      "csvFilter": "CSV ファイル",
+      "fileSummary_other": "{{name}}：{{count}} 行",
+      "hasHeader": "1 行目は列名",
+      "optional": "（任意）",
+      "noColumn": "このファイルにはありません",
+      "column": "列 {{letter}}",
+      "columnNamed": "列 {{letter}}：{{name}}",
+      "mapRequired": "必須の各項目に列を選択してください。",
+      "previewCaption_other": "最初の {{count}} 行のプレビュー",
+      "rowHeader": "行",
+      "cancel": "キャンセル",
+      "back": "戻る",
+      "next": "次へ",
+      "import": "読み込む",
+      "done": "完了",
+      "close": "閉じる",
+      "errors": {
+        "notCsv": ".csv ファイルではありません。シートを CSV 形式で保存して、もう一度お試しください。",
+        "tooLarge": "このファイルは {{size}} MB です。ファイルサイズの上限は 3 MB です。",
+        "unreadable": "ファイルを読み込めませんでした。CSV ファイルであることを確認して、もう一度お試しください。",
+        "empty": "このファイルには読み込める行がありません。",
+        "failed": "問題が発生しました。何も読み込まれていません。もう一度お試しください。"
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "音声入力",
+      "vocabulary": "辞書",
+      "help": "ヘルプ",
+      "file": "ファイル",
+      "edit": "編集",
+      "view": "表示",
+      "window": "ウインドウ",
+      "wordsDictated_other": "{{count}} 語を音声入力",
+      "copyLast": "最後の音声入力をコピー",
+      "copyLastPreview": "最後の音声入力をコピー：「{{preview}}」",
+      "copyLastConcealed": "最後の音声入力をコピー（テキスト非表示）",
+      "microphone": "マイク",
+      "languages": "言語",
+      "moreLanguages": "言語を追加／削除…",
+      "automaticMicrophone": "自動検出（システム設定）",
+      "noMicrophones": "マイクが見つかりません",
+      "dictionaryWords_other": "辞書の単語 {{count}} 個",
+      "snippetCount_other": "スニペット {{count}} 個",
+      "addWord": "単語を追加…",
+      "newSnippet": "新規スニペット…",
+      "documentation": "ドキュメント",
+      "showIntro": "紹介をもう一度表示",
+      "shortcuts": "ショートカット",
+      "reportProblem": "問題を報告…",
+      "sendFeedback": "フィードバックを送信…",
+      "openApp": "{{appName}} を開く",
+      "checkUpdates": "アップデートを確認…",
+      "pasteLast": "最後の音声入力をペースト",
+      "cancelDictation": "音声入力をキャンセル",
+      "shortcutsBlocked": "ショートカットがブロックされています — 設定を開く",
+      "undo": "取り消す",
+      "redo": "やり直す",
+      "cut": "カット",
+      "copy": "コピー",
+      "paste": "ペースト",
+      "selectAll": "すべてを選択",
+      "minimize": "しまう",
+      "zoom": "拡大／縮小",
+      "closeWindow": "ウインドウを閉じる",
+      "fullScreen": "フルスクリーンにする",
+      "services": "サービス",
+      "hideOthers": "ほかを非表示",
+      "showAll": "すべてを表示",
+      "about": "{{appName}} について",
+      "hide": "{{appName}} を非表示",
+      "quitApp": "{{appName}} を終了",
+      "restartToUpdate": "再起動して {{version}} にアップデート",
+      "updatesOff": "アップデートの確認はオフです…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}}（開発版）",
+      "shortcutLost": "ショートカットが機能しなくなりました"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Esc",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Delete",
+        "forwardDelete": "Forward Delete",
+        "left": "左矢印",
+        "right": "右矢印",
+        "up": "上矢印",
+        "down": "下矢印",
+        "home": "Home",
+        "end": "End",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "マウスの左ボタン",
+        "mouseRight": "マウスの右ボタン",
+        "mouseMiddle": "マウスの中央ボタン",
+        "mouseBack": "マウスの戻るボタン",
+        "mouseForward": "マウスの進むボタン"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "音声入力の準備ができました",
+        "body": "音声認識モデルのダウンロードが完了しました。どのアプリでも fn を押したまま話し始めてください。"
+      },
+      "updateReady": {
+        "title": "アップデートの準備完了",
+        "body": "{{appName}} {{version}} は、次回アプリを再起動したときにインストールされます。"
+      },
+      "queuedTakesReady": {
+        "title_other": "{{count}} 件の音声入力の準備ができました",
+        "body": "音声認識モデルがなかった間に話した内容を文字起こししました。"
+      },
+      "shortcutProblem": {
+        "title": "ショートカットが機能していません",
+        "body": "{{appName}} は fn の監視を開始できませんでした。設定を開いてショートカットを確認してください。",
+        "bodyPermission": "{{appName}} が fn を検知するには、アクセシビリティへのアクセスが必要です。システム設定でオンにしてください。"
+      },
+      "crashReport": {
+        "title": "{{appName}} が予期しない理由で終了しました",
+        "body": "クラッシュレポートをこの Mac に保存しました。どこにも送信されていません。"
+      },
+      "dataRecovered": {
+        "title": "履歴ファイルを修復しました",
+        "body": "履歴ファイルを読み込めなかったため、新しいファイルを作成しました。破損したファイルは同じ場所に残してあります。"
+      },
+      "milestoneWords": {
+        "title_other": "{{count}} 語を音声入力",
+        "body_other": "{{count}} 語を入力せずに済みました。その調子です。"
+      },
+      "milestoneStreak": {
+        "title_other": "{{count}} 日連続",
+        "body_other": "{{count}} 日連続で音声入力しています。"
+      },
+      "tips": {
+        "handsFree": {
+          "title": "キーを押さずに話す",
+          "body": "fn をダブルタップするか、fn と Space を押すと、ハンズフリーモードになります。終わったら、もう一度 fn を押します。"
+        },
+        "cancel": {
+          "title": "やめたくなったときは",
+          "body": "話している途中で Esc を押すと、その音声入力は破棄され、何もペーストされません。"
+        },
+        "history": {
+          "title": "すべての音声入力が保存されます",
+          "body": "音声入力の内容はこの Mac に保存されます。履歴を開くと、もう一度コピーできます。"
+        },
+        "darkMode": {
+          "title": "ライトまたはダーク",
+          "body": "このウインドウの上部にある月のボタンで外観を切り替えられます。"
+        },
+        "customWords": {
+          "title": "よく使う言葉を登録",
+          "body": "よく使う名前や用語を追加しておくと、毎回正しく表記されます。"
+        }
+      },
+      "slowerMac": {
+        "title": "この Mac では音声入力が遅くなる場合があります",
+        "body": "この Mac には、使用する言語で十分に速く動作する音声認識モデルがないため、最も速いモデルを使用します。テキストの表示に少し時間がかかることがあります。"
+      },
+      "features": {
+        "inbox": {
+          "title": "通知はここにまとまります",
+          "body": "ダウンロード、達成記録、ヒントはベルのアイコンにまとめて表示されるようになりました。受け取る通知はそのメニューで選択できます。"
+        }
+      },
+      "buttons": {
+        "copyLatest": "最新をコピー",
+        "open": "開く",
+        "openAccessibility": "設定を開く"
+      },
+      "takeRecovered": {
+        "title_other": "アプリの終了時に {{count}} 件の録音を保存しました",
+        "body_other": "{{appName}} が終了したとき、まだ音声入力の途中でした。録音は文字起こし中で、完了すると履歴に表示されます。"
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "メモパッド"
+    },
+    "pill": {
+      "name": "音声入力バー",
+      "hint": "fn を押したまま音声入力、またはクリックして開始",
+      "hideForAnHour": "1 時間非表示",
+      "slots": {
+        "dictate": {
+          "label": "音声入力",
+          "tooltip": "fn を押したまま音声入力"
+        },
+        "scratchpad": {
+          "label": "メモパッド",
+          "tooltip": "メモパッド"
+        }
+      },
+      "announce": {
+        "listening": "聞き取り中",
+        "transcribing": "文字起こし中",
+        "cleaningUp": "テキストを整形中",
+        "cancelled": "音声入力をキャンセルしました",
+        "silenceWarning": "しばらく音声がありません。まもなく音声入力を停止します。",
+        "lengthWarning": "音声入力は 30 分で停止します。",
+        "settingUp": "音声入力を準備しています。話した内容は保存されています。",
+        "card": "音声入力の準備ができました。バーからコピーしてください。",
+        "micLostWarning": "マイクの接続が切れました。ここまで話した内容は保持されます。",
+        "undo": "音声入力バーに「取り消す」が 4 秒間表示されます。",
+        "diff": "書き換えの変更内容を確認できます。",
+        "secureInputWarning": "セキュア入力がオンです。fn と Space で音声入力を固定できません。Esc か閉じるボタンでキャンセルはできます。",
+        "inserted": "テキストを挿入しました",
+        "newWord": "新しい単語：{{word}}。音声入力バーから追加するか、後で辞書で追加できます。"
+      },
+      "message": {
+        "no_speech": "音声が聞き取れませんでした",
+        "mic_muted": "無音しか入力されませんでした。マイクがミュートになっていませんか？",
+        "inserted_without_cleanup": "整形せずに入力しました",
+        "not_pasted": "ペーストされませんでした。テキストは履歴にあります。",
+        "transcription_failed": "文字起こしできませんでした",
+        "mic_denied": "マイクへのアクセスがオフです",
+        "no_microphone": "マイクが見つかりません",
+        "mic_failed": "マイクを開始できませんでした",
+        "download_failed": "ダウンロードできませんでした",
+        "check_connection": "インターネット接続を確認してください",
+        "no_space": "音声入力の準備に必要なディスク容量が足りません",
+        "cancelled": "キャンセルしました",
+        "no_transcript": "ペーストできる音声入力はまだありません",
+        "copied_last": "最後の音声入力をコピーしました",
+        "copied_to_clipboard": "クリップボードにコピーしました",
+        "transform_done": "完了",
+        "command_done": "完了",
+        "command_needs_text": "コマンドモードはテキストを編集・作成します。テキストを選択するか、入力フィールドをクリックしてください。",
+        "select_text_first": "先にテキストを選択してください",
+        "selection_too_long": "選択できるのは 6,000 文字までです",
+        "transform_focus_moved": "ほかの場所に移動したため、変更されませんでした",
+        "transform_failed": "テキストを書き換えられませんでした",
+        "shortcut_lost": "ショートカットが機能しなくなりました",
+        "shortcut_stopped": "ショートカットが応答しなくなりました",
+        "shortcut_back": "ショートカットが再び機能しています",
+        "transform_no_change": "変更する箇所がありません",
+        "transform_not_applied": "この書き換えを適用できませんでした",
+        "transform_getting_ready": "変換を準備しています。1分ほどしてからもう一度お試しください。"
+      },
+      "card": {
+        "no_text_field": "先にテキストフィールドをクリックしてください",
+        "focus_moved": "ほかの場所に移動したため、ペーストされませんでした",
+        "secure_field": "パスワードフィールドには入力しませんでした",
+        "sleep": "ペーストされていません：Mac がスリープしました",
+        "screen_locked": "ペーストされていません：画面がロックされました",
+        "session_inactive": "ペーストされていません：ユーザが切り替わりました",
+        "paste_failed": "このテキストをペーストできませんでした",
+        "disk_full": "ディスクがいっぱいです：録音を停止しました"
+      },
+      "word": {
+        "added": "辞書に追加しました",
+        "full": "辞書がいっぱいです。単語は「提案」に残ります。"
+      }
+    },
+    "share": {
+      "message": "{{appName}} は、Mac 上だけで動作する無料の音声入力アプリです。こちらから入手できます："
+    },
+    "spotlight": {
+      "label": "次のステップ",
+      "hint": {
+        "ai_chat": "ChatGPT や Claude などの AI チャットを開きます",
+        "note": "メモアプリを開きます",
+        "message": "メッセージや Slack などのチャットを開きます",
+        "email": "メールを開きます",
+        "comment": "コメントしたい投稿を開きます",
+        "document": "作成中の書類を開きます",
+        "coding": "Cursor、VS Code などのコードエディタを開きます"
+      },
+      "how": "書きたい場所をクリックし、fn を押したまま話します。",
+      "howFallback": "書きたい場所をクリックし、Control と Option を押したまま話します。",
+      "escape": "Esc キーを押すと、このヒントを閉じます。"
+    }
+  },
+  "speechModels": {
+    "title": "音声認識モデル",
+    "intro": "{{appName}} は、使用する言語とこの Mac に合った音声認識モデルを選び、可能になればより良いモデルに切り替えます。自分で選ぶ必要はありません。",
+    "loading": "音声認識モデルを確認中…",
+    "current": "使用中：{{name}}",
+    "none": "音声認識モデルがまだありません",
+    "phase": {
+      "checking": "この Mac に合うモデルを確認中…",
+      "settled": "この Mac で、使用する言語に最適なモデルです。",
+      "downloading": "より良いモデルをバックグラウンドでダウンロード中… {{percent}}%",
+      "downloadingNoPercent": "より良いモデルをバックグラウンドでダウンロード中…",
+      "waiting_to_swap": "より良いモデルの準備ができました。音声入力をしていないときに切り替わります。",
+      "paused": "より良いモデルをダウンロードできませんでした。あとで再試行します。"
+    },
+    "next": "次のモデル：{{name}}",
+    "progressLabel": "より良い音声認識モデルのダウンロード",
+    "slower": "この Mac では音声入力が遅くなる場合があります：使用する言語で十分に速く動作するモデルがないため、最も速いモデルを使用します。",
+    "pinned": "このモデルは手動で選択されたため、{{appName}} は変更しません。",
+    "automatic": "モデルを自動的に選択",
+    "automaticHint": "下のリストからモデルを選ぶとオフになります。",
+    "languages": "対象言語：{{languages}}",
+    "machine": "この Mac：{{chip}}、メモリ {{ram}} GB",
+    "freeDisk": "モデル用の空き容量：{{gb}} GB",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple シリコン",
+      "intel": "Intel プロセッサ"
+    },
+    "list": "すべてのモデル"
+  },
+  "aiEngine": {
+    "title": "AI エンジン",
+    "loading": "AI エンジンを確認中…",
+    "loadError": "AI エンジンの状態を読み込めませんでした：{{message}}",
+    "state": {
+      "unsupported": "この Mac では、ローカル AI エンジンによるテキストの整形を利用できません。",
+      "missing_runtime": "このビルドには AI エンジンが含まれていません。",
+      "waiting_for_speech_model": "整形モデルは音声認識モデルのあとにダウンロードされます。",
+      "downloading": "整形モデルをダウンロード中… {{percent}}%",
+      "verifying": "整形モデルを確認中…",
+      "ready": "準備完了",
+      "download_failed": "整形モデルをダウンロードできませんでした。"
+    },
+    "progressLabel": "整形モデルのダウンロード",
+    "model": "モデル：{{name}}",
+    "server": {
+      "stopped": "エンジンは待機中です：音声入力を始めると起動します。",
+      "starting": "エンジンを起動中…",
+      "ready": "エンジン実行中",
+      "failed": "エンジンを起動できませんでした。再試行します。"
+    },
+    "cpuOnly": "CPU で実行中",
+    "downloadError": "エラー：{{message}}",
+    "retry": "再試行",
+    "try": {
+      "label": "例文で試す",
+      "sample": "えーと、それで、金曜日に、あ、違う、木曜日に会って、その、その予算を確認できたらと思ってたんだけど",
+      "button": "試す",
+      "running": "整形中…",
+      "notReady": "整形モデルの準備ができると利用できます。",
+      "result": "整形後のテキスト",
+      "empty": "（整形後に何も残りませんでした）",
+      "timing": "{{ms}} ミリ秒で整形しました。",
+      "timingCold": "{{ms}} ミリ秒で整形しました（エンジンの起動に {{start}} ミリ秒）。",
+      "lowMemory": "空きメモリが不足しているため、現在 AI エンジンを起動できません。いくつかのアプリを終了して、もう一度お試しください。",
+      "badReply": "モデルの応答を使用できませんでした。テキストは整形されずに挿入されます。",
+      "failed": "整形できませんでした：{{message}}",
+      "ranOnApple": "Apple Intelligence で実行しました。"
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "この Mac で利用できます。Wispr Bro は、独自の整形モデルをまだ実行できない場合（ダウンロード中など）にこれを使用します。",
+        "available_default": "この Mac で利用できます。Wispr Bro はこれを使って音声入力の内容を整形します。",
+        "device_not_eligible": "この Mac では Apple Intelligence を実行できません。Wispr Bro は独自の整形モデルを使用します。",
+        "not_enabled": "Apple Intelligence はシステム設定でオフになっています。Wispr Bro は独自の整形モデルを使用します。",
+        "model_not_ready": "Apple Intelligence はまだモデルを準備中です。",
+        "unsupported": "Apple Intelligence には macOS 26 以降が必要です。Wispr Bro は独自の整形モデルを使用します。",
+        "unknown": "Apple Intelligence は現在利用できません。"
+      },
+      "counts": "アプリの起動以降：リクエスト {{requests}}、拒否 {{refusals}}、制限 {{rateLimited}}。"
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "こんにちは、{{name}} さん",
+      "anonymous": "こんにちは",
+      "edit": "あいさつの名前を変更"
+    },
+    "nameEditor": {
+      "label": "あいさつに表示する名前",
+      "field": "名前",
+      "hint": "この Mac にのみ表示されます。",
+      "save": "保存",
+      "useAccountName": "Mac のアカウント名を使用",
+      "clear": "名前を削除",
+      "saveFailed": "名前を保存できませんでした。もう一度お試しください。"
+    },
+    "stats": {
+      "label": "統計",
+      "totalWords": "合計語数",
+      "wordsPerMinute": "1 分あたりの語数",
+      "streak": "連続日数",
+      "notEnoughSpeech": "まだ発話が足りません",
+      "unavailable": "まだ利用できません"
+    },
+    "voiceProfile": {
+      "title": "音声プロファイル",
+      "unlocked": "利用可能になりました。統計で話し方を確認できます。",
+      "open": "統計を開く",
+      "progress_other": "{{current}}/{{goal}} 語",
+      "locked_other": "{{goal}} 語で利用可能になります。音声入力を続けて作成しましょう。"
+    },
+    "history": {
+      "title": "音声入力の内容はこの Mac に保存されています",
+      "body": "履歴を開くと、コピー、再生、検索ができます。",
+      "action": "履歴を開く"
+    }
+  },
+  "dictionary": {
+    "add": "単語を追加",
+    "added": "「{{entry}}」を追加しました。",
+    "search": "辞書を検索",
+    "refresh": "更新",
+    "shown_other": "{{count}} 件の項目を表示中",
+    "deleted": "「{{entry}}」を削除しました。",
+    "deleteFailed": "項目を削除できませんでした。もう一度お試しください。",
+    "undo": "取り消す",
+    "tabs": {
+      "label": "辞書の項目",
+      "all": "すべて",
+      "mine": "自分で追加",
+      "suggested": "提案"
+    },
+    "sort": {
+      "label": "並べ替え",
+      "newest": "新しい順",
+      "oldest": "古い順",
+      "az": "A→Z",
+      "za": "Z→A",
+      "used": "使用回数順"
+    },
+    "banner": {
+      "title": "{{appName}}は<em>あなたの</em>書き方で綴ります。",
+      "lead": "単語を一度追加するか、間違って入力されたときに直すだけで、<b>名前や仕事の用語、珍しい単語</b>が毎回正しく書かれます。",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "追加する単語",
+      "add": "単語を追加"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "置き換え後",
+      "used_other": "{{count}} 回使用",
+      "edit": "{{entry}} を編集",
+      "delete": "{{entry}} を削除",
+      "accept": "{{entry}} を辞書に追加",
+      "reject": "{{entry}} を学習しない"
+    },
+    "source": {
+      "import": "読み込み",
+      "migrated": "以前のカスタム単語から",
+      "learn": "学習",
+      "flag": "フラグを付けた音声入力から"
+    },
+    "empty": {
+      "title": "辞書は空です",
+      "body": "{{appName}} に覚えさせたい名前、単語、置き換えを追加してください。次の音声入力から適用されます。"
+    },
+    "emptySuggested": {
+      "title": "提案はまだありません",
+      "body": "{{appName}} が修正内容から学習できるようになると、修正した単語がここに表示され、承認できるようになります。",
+      "bodyOn": "音声入力の直後に、テキストボックス内で誤って表記された名前や用語を修正し、Return キーか Tab キーを押すか、ほかの場所に移動します。修正した単語がここに表示され、承認できます。"
+    },
+    "noMatch": {
+      "title": "一致する項目はありません",
+      "body": "「{{query}}」を含む項目はありません。",
+      "action": "検索をクリア"
+    },
+    "unavailable": {
+      "title": "辞書はまだ利用できません",
+      "body": "アプリの起動が完了するとすぐに開きます。",
+      "brokenTitle": "辞書を開けません",
+      "brokenBody": "{{appName}} は現在データファイルを読み込めません。アプリを終了して開き直してください。繰り返し起きる場合は、ヘルプ › 問題を報告 を選んでください。"
+    },
+    "problem": {
+      "empty": "先に単語を入力してください。",
+      "same_as_replacement": "置き換え後のテキストが単語と同じです。",
+      "control_character": "改行とタブはここでは使用できません。",
+      "full": "辞書がいっぱいです。先にいくつかの項目を削除してください。",
+      "too_long_other": "単語は {{max}} 文字までです。",
+      "replacement_too_long_other": "置き換え後のテキストは {{maxReplacement}} 文字までです。"
+    },
+    "dialog": {
+      "addTitle": "辞書に追加",
+      "editTitle": "辞書の項目を編集",
+      "description": "ここで入力したとおりに表記されます。",
+      "replaceToggle": "単語を置き換える",
+      "word": "単語または名前",
+      "wordPlaceholder": "例：Siobhán",
+      "from": "話す言葉",
+      "fromPlaceholder": "例：かぶしきがいしゃ",
+      "to": "入力するテキスト",
+      "toPlaceholder": "例：株式会社",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "音声認識モデルが正しく聞き取り、正しく表記できるようになります。",
+      "ruleHint": "大文字と小文字に関係なく単語全体と一致し、入力したとおりのテキストに置き換えます。",
+      "cancel": "キャンセル",
+      "add": "単語を追加",
+      "save": "保存",
+      "close": "閉じる",
+      "duplicate": "「{{entry}}」はすでに辞書にあります。",
+      "conflictRule": "「{{from}}」はすでに「{{to}}」に置き換えられるよう設定されています。",
+      "conflictWord": "「{{word}}」は別の表記ですでに辞書にあります。",
+      "replaceExisting": "置き換える",
+      "missing": "この項目はその間に削除されました。",
+      "failed": "保存できませんでした。もう一度お試しください。",
+      "failedStorage": "保存されていません：{{appName}} がデータファイルを開けません。アプリを終了して開き直してから、もう一度お試しください。繰り返し起きる場合は、ヘルプ › 問題を報告 を選んでください。",
+      "failedStarting": "まだ保存されていません：{{appName}} は起動中です。少し待ってからもう一度お試しください。"
+    },
+    "import": {
+      "open": "読み込む",
+      "title": "辞書を読み込む",
+      "description": "CSV 形式で保存したスプレッドシートから、単語と置き換えを読み込みます。",
+      "fieldPhrase": "単語または話す言葉",
+      "fieldReplacement": "置き換え後",
+      "format": {
+        "intro": "1 行に 1 項目：",
+        "columns": "1 列目は単語または話す言葉、2 列目（入力されている場合）は代わりに入力するテキストです。",
+        "header": "1 行目が列名でも問題ありません。列は次のステップで選択します。",
+        "limits": "単語は 60 文字まで、置き換え後のテキストは 200 文字まで、ファイルは 3 MB までです。",
+        "encoding": "アクセント記号やほかの文字が正しく読み込まれるよう、「CSV UTF-8」形式で保存してください。"
+      },
+      "review": {
+        "new_other": "新しい項目",
+        "duplicates_other": "登録済み",
+        "conflicts_other": "競合",
+        "invalid_other": "読み込み不可",
+        "overLimit_other": "{{count}} 件の新しい項目は追加できません（辞書の空き：{{room}} 件）。",
+        "showNew": "新しい項目を表示",
+        "more_other": "ほか {{count}} 件",
+        "conflictsTitle": "辞書に別の内容で登録済み",
+        "conflictsHelp": "ファイルの内容で置き換える項目にチェックを付けてください。",
+        "useAllFile": "すべてファイルの内容を使用",
+        "keepAllMine": "すべて現在の内容を保持",
+        "useFile": "ファイルの内容：",
+        "yours": "現在の内容：",
+        "showInvalid": "読み込めない行を表示",
+        "invalidRow": "{{row}} 行目（{{phrase}}）：{{reason}}"
+      },
+      "done": {
+        "title_other": "{{count}} 件の項目を読み込みました",
+        "added_other": "{{count}} 件を追加",
+        "replaced_other": "{{count}} 件をファイルの内容で置き換え",
+        "skipped_other": "{{count}} 件は登録済みのためスキップ",
+        "kept_other": "{{count}} 件の競合は変更せずに保持",
+        "invalid_other": "{{count}} 行を読み込めませんでした",
+        "overLimit_other": "{{count}} 件は追加できませんでした（辞書がいっぱいです）"
+      }
+    },
+    "export": {
+      "open": "書き出す",
+      "fileName": "{{appName}} 辞書.csv",
+      "done_other": "{{count}} 件の項目を書き出しました。",
+      "failed": "辞書を書き出せませんでした。もう一度お試しください。"
+    },
+    "rejected": "「{{entry}}」は今後提案されません。",
+    "actionFailed": "操作を完了できませんでした。もう一度お試しください。",
+    "learn": {
+      "toggle": "修正内容から学習",
+      "hint": "音声入力がペーストされてから 30 秒間、{{appName}} はそのテキストボックスで修正された単語を検出し、ここに提案します。保持されるのは修正した単語だけで、ほかのテキストは保持されません。パスワードフィールド、パスワードマネージャ、銀行アプリ、ターミナルが読み取られることはありません。"
+    },
+    "undoFailed": "「{{entry}}」を元に戻せませんでした。もう一度追加してください。",
+    "undoSkipped": "「{{entry}}」は元に戻されませんでした。辞書にすでに登録されています。",
+    "addNew": "追加"
+  },
+  "pill": {
+    "region": "音声入力バー",
+    "listening": "聞き取り中",
+    "cancel": "音声入力をキャンセル",
+    "finish": "音声入力を終了",
+    "transcribing": "文字起こし中…",
+    "cleaningUp": "整形中…",
+    "contextUsed": "周囲のテキストを表記の参考にしました",
+    "mic": "マイク：{{name}}",
+    "fix": "修正",
+    "dismiss": "閉じる",
+    "warning": {
+      "silence": "しばらく音声がないため、まもなく停止します",
+      "length": "30 分で停止します",
+      "mic_lost": "マイクが切断されました。話した内容は保持されます",
+      "secure_input": "セキュア入力がオン · fn+Space で固定不可 · Esc か ✕ でキャンセル",
+      "secure_input_app": "{{app}} でセキュア入力がオン · fn+Space で固定不可 · Esc か ✕ でキャンセル"
+    },
+    "settingUp": "準備中…",
+    "settingUpPercent": "準備中… {{percent}}%",
+    "settingUpHint": "話した内容は保存されています。音声入力の準備ができると、ここにテキストが表示されます。",
+    "cardReady": "音声入力の内容",
+    "cardMore_other": "音声入力の内容 · 履歴にほか {{count}} 件",
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "retry": "再試行",
+    "card": {
+      "hidden": "パスワードフィールド用の入力のため非表示"
+    },
+    "undo": "取り消す",
+    "viewChanges": "変更内容を表示",
+    "sendsAutomatically": "自動で送信します",
+    "shortcutDetail": {
+      "permission": "アクセシビリティへのアクセスがオフです",
+      "stopped": "キーボードの監視が停止しました"
+    },
+    "word": {
+      "new": "新しい単語",
+      "add": "追加",
+      "addLabel": "{{word}} を辞書に追加",
+      "notNow": "後で"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "試す",
+      "howItWorks": "仕組み",
+      "title": "選択したテキストを書き換えます"
+    },
+    "enable": {
+      "title": "オンにする"
+    },
+    "commandMode": {
+      "title": "コマンドモード",
+      "help": "ショートカットを押したまま、書く内容や変更点を話します。"
+    },
+    "auto": {
+      "title": "音声入力後に自動で適用",
+      "choice": "適用する書き換え",
+      "none": "書き換えを選択",
+      "description": "すべての音声入力を選んだ書き換えに通します。"
+    },
+    "shortcuts": {
+      "warning": "書き換えがオンの間、⌥1、⌥2、⌥O で ¡、™、ø の文字は入力されなくなります。",
+      "safe": "代わりに ⌃⌥ を使用"
+    },
+    "myTransforms": "自分の書き換え",
+    "reset": "デフォルトに戻す",
+    "resetConfirm": "Polish と Prompt Engineer をリセットし、カスタムの書き換えをすべて削除しますか？",
+    "createNew": "新規作成",
+    "deleteConfirm": "{{name}} を削除しますか？この操作は取り消せません。",
+    "loading": "書き換えを読み込み中…",
+    "error": "書き換えの変更を保存できませんでした。もう一度お試しください。",
+    "card": {
+      "delete": "{{name}} を削除",
+      "createOwn": "自分で作成",
+      "createOwnHint": "何をするかを書いてください"
+    },
+    "new": {
+      "name": "自分の書き換え"
+    },
+    "editor": {
+      "title": "{{name}} を編集",
+      "name": "名前",
+      "hotkey": "ショートカット",
+      "addHotkey": "ショートカットを追加",
+      "example": "例",
+      "exampleInput": "書き換えるテキスト",
+      "exampleText": "えーと、明日レポートを送ってもらえますか、そのときに話せたらいいかなと",
+      "preview": "プレビュー",
+      "previewing": "プレビュー中…",
+      "rules": "編集ルール",
+      "autosave": {
+        "saved": "自動保存 · すべての変更を保存しました",
+        "saving": "自動保存 · 保存中…",
+        "error": "自動保存 · 最新の変更を保存できませんでした"
+      },
+      "reset": "リセット",
+      "done": "完了",
+      "close": "エディタを閉じる",
+      "exactBadge": "正確 · AI なし",
+      "outcome": {
+        "no_change": "このテキストには変更する箇所がありません。",
+        "not_applied": "ローカル AI ではこれを処理できませんでした。より短く具体的な指示をお試しください。",
+        "failed": "ローカル AI の回答が安全性チェックに通りませんでした。もう一度試すか、指示の言い方を変えてください。",
+        "timeout": "ローカル AI の処理に時間がかかりすぎました。もう一度お試しください。",
+        "no_engine": "ローカル AI はまだ準備できていません。正確な変更は引き続き使えます。"
+      },
+      "instruction": "何をしますか？",
+      "instructionPlaceholder": "例: すべての「A」を 0 に置き換える、または親しみやすくする",
+      "more": "その他のオプション"
+    },
+    "rules": {
+      "shorter": {
+        "title": "短くする"
+      },
+      "clearer": {
+        "title": "わかりやすい表現"
+      },
+      "better_order": {
+        "title": "順序を整える"
+      },
+      "headings_lists": {
+        "title": "見出しとリストを追加"
+      },
+      "keep_tone": {
+        "title": "トーンを保つ"
+      }
+    },
+    "examples": {
+      "title": "文章の例",
+      "fileType": "テキストまたは Markdown",
+      "label": "文章の例 {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "例をペースト",
+      "load": ".txt または .md を読み込む",
+      "remove": "例 {{number}} を削除",
+      "readError": "{{chars}} 文字以内の .txt または .md ファイルを選択してください。"
+    },
+    "diff": {
+      "changes_other": "{{count}} 件の変更",
+      "configure": "設定",
+      "copy": "コピー",
+      "copied": "コピーしました",
+      "retry": "再試行",
+      "retrying": "再試行中…",
+      "feedback": "この書き換えを評価",
+      "good": "良い結果",
+      "bad": "良くない結果",
+      "simpleView": "変更が大きいか複雑なため、まとめて 1 つの置き換えとして表示しています。",
+      "actionFailed": "操作を完了できませんでした。テキストはそのまま残っています。もう一度お試しください。"
+    },
+    "findReplace": {
+      "title": "検索と置換",
+      "find": "検索、{{number}} 行目",
+      "replace": "置換後の文字列、{{number}} 行目",
+      "findPlaceholder": "検索",
+      "replacePlaceholder": "置換後の文字列",
+      "matchCase": "大文字と小文字を区別",
+      "remove": "{{number}} 行目を削除",
+      "add": "置換を追加"
+    },
+    "model": {
+      "downloading": "変換を準備中：初回のみのダウンロード、{{percent}}%",
+      "verifying": "変換を準備中：ダウンロードを確認しています…",
+      "ready": "変換の準備ができました",
+      "progressLabel": "変換用のダウンロード",
+      "failed": "変換に必要なデータをダウンロードできませんでした。接続を確認してください。",
+      "retry": "再試行"
+    },
+    "subtitle": "どのアプリでもテキストを選択し、ショートカットを押すと書き換えられます。",
+    "settings": {
+      "title": "書き換えの設定"
+    },
+    "viewChanges": "で変更を表示",
+    "builtin": {
+      "polish": "より明確で短く",
+      "prompt_engineer": "明確なプロンプトを作成"
+    }
+  },
+  "cleanup": {
+    "title": "整形",
+    "loading": "整形レベルを読み込み中…",
+    "loadError": "整形レベルを読み込めませんでした：{{message}}",
+    "setError": "変更を保存できませんでした：{{message}}",
+    "notice": "整形せずに入力しました",
+    "picker": {
+      "legend": "どの程度整形しますか？",
+      "recommended": "おすすめ",
+      "aiChat": "AI チャットアプリでは、AI による整形は行わず、話したとおりに入力されます。"
+    },
+    "levels": {
+      "none": {
+        "label": "なし",
+        "description": "話したとおりに入力し、スペースと音声コマンドだけを適用します。"
+      },
+      "light": {
+        "label": "軽め",
+        "description": "「えー」「あのー」などのつなぎ言葉を削除し、句読点や大文字を修正します。言い直しも反映され、「2 時、いや 3 時に」は「3 時に」になります。"
+      },
+      "medium": {
+        "label": "標準",
+        "description": "「軽め」の内容に加え、文法と言い回しをより自然にします。事実や意味は変わりません。"
+      }
+    },
+    "last": {
+      "title": "最後の音声入力",
+      "none": "アプリの起動後、音声入力はまだありません。",
+      "applied_other": "{{ms}} ミリ秒で整形、{{count}} 件の変更。",
+      "checks": "整形を止めた安全チェック：{{checks}}",
+      "partial_other": "一部を整形しました（{{total}} 段落中 {{applied}} 段落）。残りは話したとおりです：{{reason}}"
+    },
+    "why": {
+      "level_none": "整形はオフです。",
+      "empty": "整形する内容がありません。",
+      "already_clean": "すでに整っているため、AI エンジンは使用しませんでした。",
+      "ai_chat": "AI チャットアプリ：話したとおりに入力しました。",
+      "not_ready": "整形せずに入力しました：整形モデルの準備がまだできていません。",
+      "low_memory": "整形せずに入力しました：現在、空きメモリが足りません。",
+      "guard": "整形せずに入力しました：整形後のテキストが安全チェックを通過しませんでした。",
+      "timeout": "整形せずに入力しました：整形に時間がかかりすぎました。",
+      "error": "整形せずに入力しました：AI エンジンで問題が発生しました。"
+    },
+    "reason": {
+      "level_none": "整形がオフ",
+      "empty": "整形する内容がない",
+      "already_clean": "すでに整っている",
+      "ai_chat": "AI チャットアプリ",
+      "not_ready": "整形モデルの準備ができていない",
+      "low_memory": "空きメモリが足りない",
+      "guard": "安全チェックを通過しなかった",
+      "timeout": "整形に時間がかかりすぎた",
+      "error": "AI エンジンで問題が発生した"
+    }
+  },
+  "snippets": {
+    "add": "スニペットを追加",
+    "added": "「{{trigger}}」を追加しました。",
+    "search": "スニペットを検索",
+    "refresh": "更新",
+    "shown_other": "{{count}} 件のスニペットを表示中",
+    "deleted": "「{{trigger}}」を削除しました。",
+    "deleteFailed": "スニペットを削除できませんでした。もう一度お試しください。",
+    "undo": "取り消す",
+    "counts": {
+      "snippets_other": "{{count}} 件のスニペット",
+      "uses_other": "{{count}} 回使用"
+    },
+    "sort": {
+      "label": "並べ替え",
+      "newest": "新しい順",
+      "oldest": "古い順",
+      "az": "A～Z",
+      "za": "Z～A",
+      "used": "よく使う順"
+    },
+    "banner": {
+      "title": "同じことを<em>二度</em>入力するのはやめましょう。",
+      "lead": "短いキーワードを言うと、{{appName}} が全文を入力します。",
+      "examplesLabel": "例",
+      "cue1": "自分の住所",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "結びの挨拶",
+      "text2": "よろしくお願いします、Sam",
+      "cue3": "カレンダーのリンク",
+      "text3": "ご都合のよい時間をお選びください: cal.example.com/sam",
+      "add": "スニペットを追加"
+    },
+    "entry": {
+      "becomes": "の入力内容",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_other": "{{count}} 行",
+      "imported": "読み込み",
+      "used_other": "{{count}} 回使用",
+      "edit": "「{{trigger}}」を編集",
+      "delete": "「{{trigger}}」を削除"
+    },
+    "empty": {
+      "title": "スニペットはまだありません",
+      "body": "住所、結びのあいさつ、リンクなどを一度保存しておくと、キーフレーズを話すだけで {{appName}} が入力します。"
+    },
+    "noMatch": {
+      "title": "一致する項目はありません",
+      "body": "「{{query}}」を含むスニペットはありません。",
+      "action": "検索をクリア"
+    },
+    "unavailable": {
+      "title": "スニペットはまだ利用できません",
+      "body": "アプリの起動が完了するとすぐに開きます。"
+    },
+    "problem": {
+      "empty_trigger": "先に話す言葉を入力してください。",
+      "trigger_not_spoken": "話す言葉には、文字か数字が 1 つ以上必要です。",
+      "trigger_control_character": "話す言葉は 1 行に収めてください。",
+      "empty_body": "入力するテキストを入力してください。",
+      "body_control_character": "テキストに入力できない文字が含まれています。その文字を削除して、もう一度お試しください。",
+      "full": "スニペットがいっぱいです。先にいくつかのスニペットを削除してください。",
+      "trigger_too_long_other": "話す言葉は {{max}} 文字までです。",
+      "body_too_long_other": "テキストは {{maxBody}} 文字までです。"
+    },
+    "dialog": {
+      "addTitle": "スニペットを追加",
+      "editTitle": "スニペットを編集",
+      "description": "キーフレーズを話すと、代わりに保存したテキストが入力されます。",
+      "trigger": "話す言葉",
+      "triggerPlaceholder": "例：自分の住所",
+      "body": "入力するテキスト",
+      "bodyPlaceholder": "入力するテキスト。改行も保持されます。",
+      "counter": "{{count}}/{{max}}",
+      "hint": "単独でも文の途中でも使え、大文字と小文字は区別しません。文の途中で使う場合は、話す言葉に含まれる句読点が音声入力されたテキストと完全に一致する必要があります。テキストは保存したとおりに入力されます。",
+      "cancel": "キャンセル",
+      "add": "スニペットを追加",
+      "save": "保存",
+      "close": "閉じる",
+      "duplicate": "「{{trigger}}」はすでにこのテキストで保存されています。",
+      "conflict": "「{{trigger}}」はすでに別のテキストのスニペットとして登録されています。",
+      "replaceExisting": "置き換える",
+      "missing": "このスニペットはその間に削除されました。",
+      "failed": "保存できませんでした。もう一度お試しください。"
+    },
+    "import": {
+      "open": "読み込む",
+      "title": "スニペットを読み込む",
+      "description": "CSV 形式で保存したスプレッドシートからスニペットを読み込みます。",
+      "fieldTrigger": "話す言葉",
+      "fieldBody": "入力するテキスト",
+      "format": {
+        "intro": "1 行に 1 スニペット：",
+        "columns": "1 列目は話す言葉、2 列目は入力するテキストです。",
+        "lines": "改行を含むテキストは、スプレッドシートアプリが保存するときと同じように引用符で囲みます。",
+        "encoding": "アクセント記号やほかの文字が正しく読み込まれるよう、「CSV UTF-8」形式で保存してください。",
+        "limits_other": "話す言葉は {{max}} 文字まで、テキストは {{maxBody}} 文字まで。1 ファイルあたり最大 1,000 行、3 MB までです。"
+      },
+      "review": {
+        "new_other": "新しいスニペット",
+        "duplicates_other": "登録済み",
+        "conflicts_other": "競合",
+        "invalid_other": "読み込み不可",
+        "overLimit_other": "{{count}} 件の新しいスニペットは追加できません（空き：{{room}} 件）。",
+        "ignoredRows_other": "読み込むのは最初の 1,000 行だけです。残りの {{count}} 行は読み込まれません。",
+        "showNew": "新しいスニペットを表示",
+        "more_other": "ほか {{count}} 件",
+        "conflictsTitle": "別のテキストで保存済み",
+        "conflictsHelp": "ファイルのテキストで置き換える項目にチェックを付けてください。",
+        "useAllFile": "すべてファイルのテキストを使用",
+        "keepAllMine": "すべて現在の内容を保持",
+        "useFile": "ファイルの内容：",
+        "yours": "現在の内容：",
+        "showInvalid": "読み込めない行を表示",
+        "invalidRow": "{{row}} 行目（{{trigger}}）：{{reason}}"
+      },
+      "done": {
+        "title_other": "{{count}} 件のスニペットを読み込みました",
+        "added_other": "{{count}} 件を追加",
+        "replaced_other": "{{count}} 件をファイルのテキストで置き換え",
+        "skipped_other": "{{count}} 件は登録済みのためスキップ",
+        "kept_other": "{{count}} 件の競合は変更せずに保持",
+        "invalid_other": "{{count}} 行を読み込めませんでした",
+        "overLimit_other": "{{count}} 件は追加できませんでした（スニペットがいっぱいです）"
+      }
+    },
+    "export": {
+      "open": "書き出す",
+      "fileName": "{{appName}} スニペット.csv",
+      "done_other": "{{count}} 件のスニペットを書き出しました。",
+      "failed": "スニペットを書き出せませんでした。もう一度お試しください。"
+    },
+    "undoFailed": "「{{trigger}}」を元に戻せませんでした。もう一度追加してください。",
+    "undoSkipped": "「{{trigger}}」は元に戻されませんでした。別のスニペットがすでにそのフレーズを使っています。",
+    "addNew": "追加",
+    "tabs": {
+      "all": "すべて"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "統計",
+      "usage": "使用状況",
+      "voice": "音声"
+    },
+    "asOf": "{{date}} 時点のデータ",
+    "unavailable": "現在、統計を読み込めません。まもなく表示されます。",
+    "save": {
+      "button": "画像として保存",
+      "fileName": "{{appName}} 統計 {{date}}.png",
+      "filter": "PNG イメージ",
+      "done": "画像を保存しました。",
+      "failed": "画像を保存できませんでした。もう一度お試しください。"
+    },
+    "speed": {
+      "title": "1分あたりの語数",
+      "notEnough": "もう少し音声入力すると、速度が表示されます。",
+      "measured": "タイピング速度（{{typing}} 語／分）の {{ratio}} 倍",
+      "average": "平均的なタイピング速度（{{typing}} 語／分）の {{ratio}} 倍",
+      "speaking": "話す",
+      "typing": "あなたのタイピング",
+      "typingAverage": "平均的なタイピング"
+    },
+    "words": {
+      "title": "合計語数",
+      "dictations_other": "{{count, number}} 回の音声入力"
+    },
+    "fixes": {
+      "title": "修正数",
+      "dictionary": "辞書による修正",
+      "ai": "AI 整形による修正"
+    },
+    "categories": {
+      "title": "音声入力した場所",
+      "empty": "いくつかのアプリで音声入力すると、どこで使ったかが表示されます。",
+      "words_other": "{{count, number}} 語",
+      "documents": "書類",
+      "ai_prompts": "AI プロンプト",
+      "email": "メール",
+      "work": "仕事のメッセージ",
+      "personal": "個人のメッセージ",
+      "other": "その他",
+      "used": "使用したカテゴリ"
+    },
+    "heatmap": {
+      "title": "連続記録",
+      "current": "現在の連続日数",
+      "longest": "最長連続日数",
+      "days_other": "{{count, number}} 日",
+      "active_other": "過去 1 年間で音声入力した日：{{count, number}} 日",
+      "day_other": "{{date}}：{{count, number}} 語",
+      "less": "少",
+      "more": "多",
+      "band0": "0 語",
+      "band1": "1～249 語",
+      "band2": "250～499 語",
+      "band3": "500～749 語",
+      "band4": "750 語以上",
+      "streak_other": "現在の連続日数：{{count, number}} 日"
+    },
+    "voice": {
+      "locked": "ロック中",
+      "phrase": "口ぐせ",
+      "phraseIn_other": "{{count, number}} 回の音声入力で使用",
+      "peak": "よく使う時間帯とアプリ",
+      "peakApp": "{{app}} で最も多く入力",
+      "word": "最もよく使う単語",
+      "uses_other": "{{count, number}} 回使用",
+      "corrected": "最もよく修正される単語",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_other": "{{count, number}} 回修正",
+      "notEnough": "音声入力の回数がまだ足りません。",
+      "footnote_other": "最新 {{count, number}} 回の音声入力をもとに、この Mac 上で集計しました。データが Mac の外に出ることはありません。",
+      "sample": {
+        "phrase": "よく使うフレーズ",
+        "peak": "時間帯",
+        "word": "お気に入りの単語",
+        "corrected": "よく修正される単語"
+      },
+      "lockedTitle_other": "{{goal}} 語に達すると音声プロファイルが表示されます",
+      "lockedBody_other": "音声入力を続けましょう。現在 {{current}}／{{goal}} 語です。達成すると、最もよく使うフレーズ、音声入力する時間帯と場所、{{appName}} が修正した単語を確認できます。"
+    },
+    "typing": {
+      "take": "タイピングテストを受ける",
+      "retake": "タイピングテストをもう一度"
+    },
+    "saved": {
+      "title": "タイピングと比べて節約できた時間",
+      "basisMeasured": "話す速度 {{speaking}} 語／分 対 タイピング {{typing}} 語／分",
+      "basisAverage": "話す速度 {{speaking}} 語／分 対 平均的なタイピング {{typing}} 語／分",
+      "basisEstimateMeasured": "話す速度 約 {{speaking}} 語／分 対 タイピング {{typing}} 語／分",
+      "basisEstimateAverage": "話す速度 約 {{speaking}} 語／分 対 平均的なタイピング {{typing}} 語／分"
+    }
+  },
+  "history": {
+    "title": "履歴",
+    "today": "今日",
+    "yesterday": "昨日",
+    "rowLabel": "{{time}} の音声入力",
+    "loading": "音声入力を読み込み中…",
+    "loadingMore": "さらに読み込み中…",
+    "unavailable": "履歴はまだ利用できません。アプリの起動が完了するとすぐに表示されます。",
+    "empty": {
+      "body": "どのアプリでも fn を押したまま話してください。すべての音声入力は、この Mac 上のここに保存されます。"
+    },
+    "noResults": {
+      "title": "見つかりませんでした",
+      "body": "「{{query}}」を含む音声入力はありません。"
+    },
+    "results_other": "{{count}} 件の音声入力が見つかりました",
+    "resultsMore_other": "一致した最新の {{count}} 件を表示しています。スクロールするとさらに表示されます。",
+    "search": {
+      "open": "履歴を検索",
+      "label": "音声入力を検索",
+      "placeholder": "音声入力を検索",
+      "close": "検索を閉じる"
+    },
+    "transcribeFile": "ファイルを文字起こし…",
+    "transcribeFailed": "ファイルを開けませんでした。もう一度お試しください。",
+    "showMore": "さらに表示",
+    "showLess": "表示を減らす",
+    "failed": "文字起こしに失敗しました。⋮ メニューの「文字起こしを再試行」を選択してください。",
+    "waitingForModel": "音声認識モデルを待っています",
+    "notTranscribed": "まだ文字起こしされていません。",
+    "job": {
+      "waiting": "文字起こしを待機中…",
+      "transcribing": "文字起こし中…",
+      "percent": "文字起こし中… {{percent}}%"
+    },
+    "tag": {
+      "file": "ファイル",
+      "practice": "練習",
+      "raw": "AI 整形前",
+      "flagged": "フラグ付き"
+    },
+    "actions": {
+      "play": "録音を再生",
+      "hidePlayer": "プレーヤーを隠す",
+      "copy": "テキストをコピー",
+      "copied": "コピーしました",
+      "flag": "単語が違う？修正する",
+      "more": "そのほかの操作"
+    },
+    "menu": {
+      "label": "音声入力の操作",
+      "undoAi": "AI による編集を取り消す",
+      "redoAi": "AI による編集をやり直す",
+      "retry": "文字起こしを再試行",
+      "retryAt": {
+        "none": "整形なしで再試行",
+        "light": "「軽め」の整形で再試行",
+        "medium": "「標準」の整形で再試行"
+      },
+      "saveAudio": "音声を別名で保存…",
+      "delete": "文字起こしを削除"
+    },
+    "audio": {
+      "expired_other": "音声は {{count}} 日後に削除されました",
+      "removed": "音声は削除されました",
+      "missing": "この音声入力には録音がありません",
+      "filter": "WAV オーディオ",
+      "saved": "録音を保存しました。",
+      "saveFailed": "録音を保存できませんでした。もう一度お試しください。"
+    },
+    "copyFailed": "テキストをコピーできませんでした。もう一度お試しください。",
+    "actionFailed": "操作を完了できませんでした。もう一度お試しください。",
+    "deleted": "削除しました",
+    "undo": "取り消す",
+    "deleteFailed": "音声入力を削除できませんでした。もう一度お試しください。",
+    "undoFailed": "この音声入力は、もう元に戻せません。",
+    "flag": {
+      "title": "単語が違いますか？",
+      "description": "誤って入力された単語を選び、正しい表記を入力してください。今後は辞書によって修正されます。",
+      "close": "閉じる",
+      "cancel": "キャンセル",
+      "save": "辞書に追加",
+      "pick": "誤った単語を選択（複数の単語の場合は続く単語も選択）",
+      "noWords": "この音声入力には選択できる単語がありません。",
+      "correction": "正しい表記",
+      "correctionFor": "「{{word}}」の正しい表記",
+      "correctionPlaceholder": "正しい表記を入力",
+      "kindLabel": "追加する内容",
+      "rule": "毎回置き換える",
+      "ruleHint": "置き換えを追加し、すべての音声入力で同じ間違いを修正します。",
+      "ruleHintFilled": "すべての音声入力で「{{from}}」が「{{to}}」になります。",
+      "word": "表記を教える",
+      "wordHint": "単語を追加し、話したときにアプリが認識できるようにします。",
+      "duplicate": "すでに辞書にあります。",
+      "failed": "保存できませんでした。もう一度お試しください。",
+      "savedRule": "今後は「{{from}}」が「{{to}}」になります。",
+      "savedWord": "「{{word}}」を辞書に追加しました。",
+      "openDictionary": "辞書を開く"
+    }
+  },
+  "scratchpad": {
+    "newNote": "新規メモ",
+    "preferences": "メモパッドの設定",
+    "hero": {
+      "title": "ふと浮かんだ考えの置き場所",
+      "body": "リストを作る、返信の下書きを書く、声に出して考えをまとめる。メモはすべて自動で保存されます。"
+    },
+    "addToBar": "バーに追加",
+    "addToBarHelp": "待機中のバーで、「音声入力」の横にメモパッドボタンを表示します。",
+    "recents": "最近使った項目",
+    "searchLabel": "メモを検索",
+    "searchPlaceholder": "メモを検索",
+    "loading": "メモを読み込み中…",
+    "empty": "メモはまだありません",
+    "emptyHelp": "メモを作成し、フローティングウインドウに入力または音声入力してください。",
+    "emptyNote": "空のメモ",
+    "noResults": "検索に一致するメモはありません。",
+    "untitled": "名称未設定のメモ",
+    "pinned": "ピンで固定",
+    "pin": "メモをピンで固定",
+    "unpin": "メモのピンを外す",
+    "editAction": "メモを編集",
+    "edit": "「{{name}}」を編集",
+    "delete": "メモを削除",
+    "deleteConfirm": "「{{name}}」を削除しますか？この操作は取り消せません。",
+    "error": "メモパッドで操作を完了できませんでした。現在のテキストはそのまま残っています。もう一度お試しください。",
+    "shortcut": {
+      "label": "開くショートカット",
+      "change": "ショートカットを設定",
+      "title": "メモパッドのショートカット",
+      "help": "どこからでもメモパッドを開けます。初期状態では未設定なので、設定するまでキー操作を横取りすることはありません。",
+      "close": "ショートカットのダイアログを閉じる",
+      "proposed": "おすすめの組み合わせ",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Control + Option + S を使用",
+      "chooseAnother": "別のショートカットを選択",
+      "error": "ショートカットを保存できませんでした。別の組み合わせをお試しください。"
+    },
+    "tabs": "開いているメモ",
+    "tools": "メモのツール",
+    "sidebar": "メモの一覧を表示",
+    "polish": "メモを Polish",
+    "polishing": "Polish 中…",
+    "textSize": "文字サイズを変更（現在 {{size}} ポイント）",
+    "expand": "メモウインドウを拡大",
+    "shrink": "メモウインドウのサイズを元に戻す",
+    "close": "メモパッドを閉じる",
+    "noteBody": "メモのテキスト",
+    "notePlaceholder": "メモを入力または音声入力…",
+    "saved": "保存済み",
+    "saving": "保存中…",
+    "saveError": "まだ保存されていません",
+    "autosaveHelp": "自動的に保存されます",
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "record": "録音",
+    "stop": "停止",
+    "recordHint": "このメモに音声入力（{{key}}）",
+    "recordHintNoKey": "このメモに音声入力",
+    "stopHint": "音声入力を停止",
+    "gettingReady": "準備中…",
+    "polished": "メモに Polish を適用しました",
+    "undo": "取り消す",
+    "polishNoChange": "このメモはすでに読みやすい状態です。",
+    "polishRefused": "このメモに Polish を適用できませんでした。",
+    "polishNotReady": "AI モデルはまだ準備中です。数分後にもう一度お試しください。",
+    "polishStale": "Polish の実行中にメモが変更されたため、何も置き換えていません。",
+    "dismiss": "閉じる"
+  },
+  "style": {
+    "tabsLabel": "スタイルのグループ",
+    "groups": {
+      "personal": {
+        "tab": "個人のメッセージ",
+        "label": "個人のメッセージ",
+        "bannerTitle": "友人や家族とのチャット向け"
+      },
+      "work": {
+        "tab": "仕事のメッセージ",
+        "label": "仕事のメッセージ",
+        "bannerTitle": "同僚とのチャット向け"
+      },
+      "email": {
+        "tab": "メール",
+        "label": "メール",
+        "bannerTitle": "メール向け"
+      },
+      "other": {
+        "tab": "その他",
+        "label": "その他",
+        "bannerTitle": "その他すべて向け"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "フォーマル",
+        "description": "大文字 + 句読点"
+      },
+      "relaxed": {
+        "label": "カジュアル",
+        "description": "大文字 + 少なめの句読点"
+      },
+      "very_relaxed": {
+        "label": "とてもカジュアル",
+        "description": "小文字 + 少なめの句読点"
+      },
+      "upbeat": {
+        "label": "明るく",
+        "description": "大文字 + 少し元気に"
+      }
+    },
+    "presetsHeading": "スタイル",
+    "presetsLegend": "{{group}}のスタイル",
+    "after": "入力される内容：",
+    "englishOnly": "スタイルは英語の音声入力に適用されます。整形はすべての言語で機能します。",
+    "apps": {
+      "heading": "使用するアプリ",
+      "listLabel": "{{group}}のスタイルを使用するアプリ",
+      "addShort": "アプリを追加",
+      "allOthers": "ほかのグループに含まれないすべてのアプリも、このスタイルを使用します。",
+      "unavailable": "アプリを読み込めませんでした。アプリの準備ができると表示されます。",
+      "chipLabel": "{{app}}：オプション",
+      "menuLabel": "{{app}} のオプション",
+      "moveTo": "移動先",
+      "useDefault": "通常のグループ（{{group}}）に戻す",
+      "remove": "{{group}}から削除",
+      "autoSend": "音声入力後に Return キーを押す",
+      "autoSendOn": "音声入力後に Return キーを押します",
+      "notInstalled": "未インストール",
+      "aiChat": "AI チャット：スタイルは適用されず、整形された言葉が入力されます。",
+      "moved": "{{app}} で{{group}}のスタイルを使用するようになりました。",
+      "removed": "{{app}} で「その他」のスタイルを使用するようになりました。",
+      "added": "{{app}} で{{group}}のスタイルを使用するようになりました。",
+      "undo": "取り消す",
+      "changeFailed": "変更を保存できませんでした。もう一度お試しください。"
+    },
+    "sites": {
+      "addShort": "ウェブサイトを追加",
+      "recent": {
+        "heading": "最近使ったウェブサイト",
+        "addLabel": "{{host}} を「{{group}}」に追加"
+      },
+      "add": {
+        "title": "ウェブサイトを追加",
+        "description": "ブラウザで開くウェブサイトのスタイルを選びます。サブドメインを含むサイト全体に適用されます。",
+        "label": "ウェブサイト",
+        "hint": "github.com のようなドメインを入力するか、アドレスをペーストしてください。",
+        "invalid": "ウェブサイトではないようです。example.com のようなドメインを試してください。",
+        "preview": "{{host}} とそのサブドメインを追加します。",
+        "already": "{{host}} は現在「{{group}}」にあります。ここに追加すると移動します。",
+        "same": "{{host}} はすでに「{{group}}」を使用しています。",
+        "covered": "{{host}} は {{parent}}（「{{group}}」）の一部です。追加すると独自のスタイルになります。",
+        "groupLabel": "スタイル",
+        "submit": "「{{group}}」に追加"
+      },
+      "builtinNote": "よく使われる多くのウェブサイトは、ここに表示されていなくても適切なスタイルが使われます。"
+    },
+    "picker": {
+      "title": "{{group}}にアプリを追加",
+      "description": "この Mac 上のアプリを選択してください。そのアプリでの音声入力に{{group}}のスタイルが使用されます。",
+      "search": "アプリを検索",
+      "listLabel": "この Mac 上のアプリ",
+      "loading": "アプリを探しています…",
+      "failed": "この Mac 上のアプリを一覧表示できませんでした。",
+      "none": "一致するアプリはありません。",
+      "inGroup": "{{group}}内",
+      "alreadyHere": "追加済み",
+      "cancel": "キャンセル",
+      "close": "閉じる"
+    },
+    "cleanup": {
+      "tab": "自動整形",
+      "description": "すべてのアプリとすべての言語で、どの程度整形するかを設定します。各グループのスタイルはその上に適用されます。",
+      "bannerTitle": "自動整形はすべての音声入力に適用されます",
+      "levels": {
+        "none": "話したとおり、言い間違いもそのまま",
+        "light": "つなぎ言葉を除き、句読点を整えます",
+        "medium": "より自然な言い回しで、意味はそのまま"
+      },
+      "mediumNote": "内蔵の AI モデルでは、「標準」は「軽め」と同じテキストになることがよくあります。",
+      "note": "元の言葉が失われることはありません。履歴で音声入力のメニューを開き、「AI による編集を取り消す」を選んでください。"
+    },
+    "addMenu": "アプリまたはWebサイトを追加"
+  },
+  "onboardingFlow": {
+    "loading": "準備しています…",
+    "back": "戻る",
+    "continue": "続ける",
+    "yes": "はい",
+    "no": "いいえ",
+    "navigationFailed": "このステップを保存できませんでした。もう一度お試しください。",
+    "stepper": {
+      "label": "設定の進行状況",
+      "welcome": "ようこそ",
+      "permissions": "アクセス許可",
+      "setup": "設定",
+      "practice": "練習",
+      "done": "（完了）",
+      "finish": "完了"
+    },
+    "help": {
+      "chip": "ヘルプ",
+      "title": "設定のヘルプ",
+      "close": "ヘルプを閉じる",
+      "done": "OK",
+      "body": "各ステップは数秒で終わります。いつでも前に戻れます。途中で終了しても、続きから設定を再開できます。",
+      "download": "これらのステップを進めている間に、Wispr Bro がこの Mac で音声認識の設定を行います。準備が整う前に音声入力した内容は保存され、準備が整うと入力されます。"
+    },
+    "welcome": {
+      "title": "話すだけで、文字になる",
+      "subtitle": "キーを 1 つ押したまま話して、離すだけ。入力中の場所に整ったテキストが入ります。",
+      "privacyTitle": "すべてこの Mac 上に",
+      "privacy": "アカウント不要、クラウドなし、トラッキングなし。",
+      "start": "はじめる",
+      "demoLabel": "Wispr Bro の動作例"
+    },
+    "move": {
+      "title": "Wispr Bro を“アプリケーション”に移動",
+      "body": "アップデートやアクセス許可はそこからが最も確実です。Wispr Bro は自動で開き直して続行します。",
+      "action": "“アプリケーション”に移動",
+      "moving": "移動中…",
+      "skip": "今はしない",
+      "error": "Wispr Bro を移動できませんでした。Finder で“アプリケーション”にドラッグしてから、もう一度開いてください。"
+    },
+    "languages": {
+      "title": "どの言語を話しますか？",
+      "subtitle": "音声入力に使う言語をすべて選んでください。",
+      "listLabel": "言語",
+      "noMatch": "「{{query}}」に一致する言語はありません。",
+      "count_other": "音声入力は {{count}} の言語に対応しています。言語はあとから設定で変更できます。",
+      "weak_other": "{{languages}} では認識の精度が下がります。音声入力は使用できますが、誤りが多くなる場合があります。"
+    },
+    "permissions": {
+      "title": "2 つのアクセス許可",
+      "subtitle": "macOS から一度だけ許可を求められます。オンになると各行にチェックが付きます。",
+      "allowed": "許可済み",
+      "waiting": "macOS を待っています…",
+      "openSettings": "システム設定を開く",
+      "prompt": "macOS のダイアログ",
+      "pane": "システム設定",
+      "microphone": {
+        "title": "マイク",
+        "why": "音声入力中に Wispr Bro が声を聞き取れるようにします。",
+        "action": "マイクを許可",
+        "promptAlt": "macOS のマイクのダイアログの画像。「許可」ボタンが強調表示されています",
+        "paneAlt": "システム設定の「プライバシーとセキュリティ」＞「マイク」の画像。Wispr Bro のスイッチがオンになっています",
+        "waitingHelp": "macOS のダイアログで「許可」をクリックしてください。表示されない場合は、システム設定を開き、「マイク」で Wispr Bro をオンにしてください。"
+      },
+      "accessibility": {
+        "title": "アクセシビリティ",
+        "why": "Wispr Bro がショートカットを検知して代わりに入力できるようにします。",
+        "action": "アクセシビリティを許可",
+        "promptAlt": "macOS のアクセシビリティのダイアログの画像。「システム設定を開く」ボタンが強調表示されています",
+        "paneAlt": "システム設定の「プライバシーとセキュリティ」＞「アクセシビリティ」の画像。Wispr Bro のスイッチがオンになっています",
+        "waitingHelp": "システム設定で、Wispr Bro の横にあるスイッチをオンにしてください。パスワードでロックを解除する必要がある場合があります。"
+      }
+    },
+    "mic": {
+      "title": "マイクをテスト",
+      "guidance": "有線マイクや内蔵マイクが最適です。Bluetooth ヘッドセットは接続が途切れたり、音がこもったりすることがあります。",
+      "question": "話すとバーが動きますか？",
+      "noHelp": "下で別のマイクを選択して、もう一度話してください。",
+      "change": "マイクを変更",
+      "previewList": "ここにマイクが表示されます。"
+    },
+    "shortcut": {
+      "title": "ショートカットをテスト",
+      "instruction": "キーボードの fn キー（🌐）を押したままにしてください。押している間、下のキーが点灯します。",
+      "fallbackInstruction": "Control キーと Option キーを同時に押したままにしてください。押している間、下のキーが点灯します。",
+      "unboundInstruction": "音声入力のショートカットが設定されていません。「ショートカットを編集」で設定してください。",
+      "keyLabel": "fn キー",
+      "fallbackKeyLabel": "Control と Option",
+      "pressed": "キーを押しています",
+      "notPressed": "キーを待っています…",
+      "worked": "成功です。キーが点灯しました。",
+      "question": "キーは点灯しましたか？",
+      "edit": "ショートカットを編集",
+      "tryAgain": "もう一度試す",
+      "otherCauses": "解決しない場合は、ほかの原因が考えられます：",
+      "changeFailed": "変更を適用できませんでした。もう一度試すか、システム設定を使用してください。",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro がキー操作を検知できない",
+          "title": "Wispr Bro はまだキー操作を検知できません",
+          "body": "多くの場合、Wispr Bro のアクセシビリティがオンになっていないことが原因です。システム設定でオンにしてから戻り、「もう一度試す」を押してください。",
+          "action": "アクセシビリティ設定を開く"
+        },
+        "secure_input": {
+          "choice": "パスワードフィールドまたはほかのアプリがキーをブロックしている",
+          "title": "ほかのアプリがキー操作をブロックしています",
+          "body": "パスワードフィールドや一部のアプリ（パスワードマネージャ、ターミナルの“セキュリティ保護されたキーボード入力”など）が選択されている間、macOS はキー操作をほかのすべてのアプリから隠します。そのアプリを閉じるか、別の場所をクリックしてから、もう一度お試しください。",
+          "active": "現在、ほかのアプリがキー操作をブロックしています。",
+          "inactive": "現在、キー操作をブロックしているものはありません。"
+        },
+        "globe": {
+          "choice": "🌐 キーで絵文字が開く、またはキーボードが切り替わる",
+          "title": "macOS が 🌐 キーに別の機能を割り当てています",
+          "body": "この Mac では、🌐 を押すと絵文字が開く、入力ソースが切り替わる、または Apple の音声入力が始まります。Wispr Bro で「🌐 キーを押して」を「何もしない」に設定できます。fn を音声入力に使わなくなった場合は、元の設定に戻ります。",
+          "consent": "🌐 を「何もしない」に設定",
+          "changed": "🌐 キー単独では何も起こらなくなりました",
+          "open": "キーボード設定を開く"
+        },
+        "no_fn": {
+          "choice": "キーボードに fn キーがない",
+          "title": "代わりに Control と Option を使用",
+          "body": "fn キーや 🌐 キーがないキーボードもあります。その場合は Control と Option を同時に押したまま音声入力してください。この設定はいつでも設定で変更できます。",
+          "action": "Control + Option を使用",
+          "changed": "ショートカットは Control + Option です"
+        }
+      },
+      "customInstruction": "{{keys}} を押したままにしてください。押している間、下のキーが点灯します。"
+    },
+    "practice": {
+      "title": "練習：メール 1 通を<em>ハンズフリー</em>で",
+      "instruction": "fn と Space を同時に押してから話してください。終わったらもう一度 fn を押します。",
+      "instructionFallback": "Control、Option、Space を同時に押してから話してください。終わったらもう一度 Control と Option を押します。",
+      "instructionUnbound": "音声入力のショートカットが設定されていないため、この練習は開始できません。今はスキップして、設定でショートカットを設定してください。",
+      "skip": "スキップ",
+      "waiting": "話し始めるのを待っています…",
+      "listening": "聞き取り中… 話し終えたら fn を押してください。",
+      "listening_fallback": "聞き取り中… 話し終えたら Control と Option を押してください。",
+      "working": "書き起こしています…",
+      "queuedNote": "話した内容は保存されています。設定が完了するとすぐにここに表示され、いずれにしても履歴に残ります。まもなく自動的に次へ進みます。",
+      "nothing": "何も入力されませんでした。マイクがオンになっていることを確認して、もう一度お試しください。",
+      "filled": "メールができました。さらに追加するか、続けてください。",
+      "composer": {
+        "title": "新規メッセージ",
+        "to": "宛先",
+        "recipient": "サム",
+        "subject": "件名",
+        "body": "メッセージ",
+        "trySaying": "「{{text}}」と話してみましょう",
+        "willAppear": "音声モデルの準備ができしだい、ここに表示されます。"
+      },
+      "instructionCustom": "{{keys}} をすばやく 2 回押してから話してください。終わったらもう一度 {{keys}} を押します。",
+      "listening_custom": "聞き取り中… 話し終えたら {{keys}} を押してください。",
+      "queued": "保存しました。音声モデルを待っています…",
+      "model": {
+        "title": "音声モデルを準備しています",
+        "checking": "ダウンロードを確認しています…",
+        "paused": "ダウンロードを一時停止中。まもなく再試行します…",
+        "failed": "音声モデルをダウンロードできませんでした",
+        "underMinute": "残り 1 分未満",
+        "minutesLeft_other": "残り約 {{count}} 分",
+        "bytes": "{{done}} / {{total}} MB",
+        "progressLabel": "音声モデルのダウンロード",
+        "body": "これは最初の一度だけです。次のステップに進めます。今話した内容は待機し、準備ができると表示されます。",
+        "retry": "もう一度試す"
+      }
+    },
+    "firstDictation": {
+      "title": "できました！",
+      "subtitle": "入力できる場所ならどこでも、話して入力できます。",
+      "lead": "初めてのテキストを音声入力しました。",
+      "typingLabel": "タイピング（平均）",
+      "speakingLabel": "発話（平均）",
+      "faster": "<n/> 倍<em>速い</em>",
+      "takeTest": "タイピングテストを受ける",
+      "retakeTest": "タイピングテストをもう一度",
+      "yourTypingLabel": "あなたのタイピング",
+      "youSpokeLabel": "あなたの話す速さ"
+    },
+    "timeSaved": {
+      "headline_other": "音声入力で 1 週間に約 {{hours}} 時間を節約できます",
+      "sliderLabel": "1 週間に何時間タイピングしますか？",
+      "basisMeasured_other": "タイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
+      "basisAverage_other": "平均的なタイピング速度 1 分あたり {{wpm}} 語、話す速度 1 分あたり約 {{speaking}} 語として計算しています。",
+      "lead": "音声入力で節約できる時間は",
+      "perWeek_other": "<em>週</em>約 <n/> 時間",
+      "hoursPerWeek_other": "週 {{hours}} 時間",
+      "math": "{{wpm}} 語/分で入力 {{typed}} 時間 ≈ {{speaking}} 語/分の音声で {{voice}} 時間"
+    },
+    "typing": {
+      "title": "<em>タイピング</em>の速さは？",
+      "skip": "スキップ",
+      "language": "言語",
+      "wpm_other": "1 分あたり {{count}} 語",
+      "inputLabel": "ここに段落を入力",
+      "nothing": "段落と一致する入力がありませんでした。もう一度お試しください。",
+      "result_other": "タイピング速度は 1 分あたり約 {{count}} 語です。",
+      "tryAgain": "もう一度試す",
+      "recalculate": "再計算",
+      "instruction_other": "下の段落をいつもどおりに入力してください。最初のキーを押した時点から {{seconds}} 秒間計測します。",
+      "wpmUnit_other": "語/分",
+      "secondsUnit_other": "残り秒数"
+    },
+    "summary": {
+      "title": "準備ができました",
+      "subtitle": "どのアプリでもショートカットを押したままにすると音声入力できます。",
+      "languages": "言語",
+      "shortcut": "ショートカット",
+      "shortcutFn": "fn（🌐）を押したまま",
+      "shortcutFallback": "Control と Option を押したまま",
+      "microphone": "マイク",
+      "micDefault": "Mac のデフォルトのマイク",
+      "typing": "タイピング速度",
+      "typingWpm_other": "1 分あたり {{count}} 語",
+      "typingSkipped": "未計測",
+      "notSet": "未設定",
+      "launchAtLogin": "ログイン時に Wispr Bro を開く",
+      "launchAtLoginHint": "必要なときにいつでも音声入力を使えるようにします。",
+      "finish": "音声入力を始める"
+    }
+  },
+  "whatsNew": {
+    "title": "{{version}} の新機能",
+    "label": "このバージョンのリリースノート",
+    "close": "閉じる",
+    "done": "OK"
+  },
+  "share": {
+    "heading": "{{appName}} を紹介する",
+    "body": "{{appName}} は無料のオープンソースで、すべて Mac 上で動作します。紹介コードはなく、何も追跡されません。リンクは誰にとっても同じです。",
+    "downloadLabel": "ダウンロードリンク",
+    "brewLabel": "Homebrew でインストール",
+    "copyLink": "ダウンロードリンクをコピー",
+    "copyBrew": "Homebrew コマンドをコピー",
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "copyFailed": "コピーできませんでした。テキストを選択してコピーしてください。",
+    "shareTitle": "ほかの人に送る",
+    "shareBody": "メッセージ、メール、AirDrop など、Mac で使える方法で共有できます。",
+    "shareButton": "共有…",
+    "shareFailed": "共有シートを開けませんでした。"
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "音声入力のショートカットが機能しなくなりました。Wispr Bro にアクセシビリティを再度許可する必要があります。",
+      "stopped": "音声入力のショートカットが反応しなくなりました。",
+      "fix": "修正"
+    },
+    "sheet": {
+      "title": "ショートカットを修正",
+      "introPermission": "macOS によって Wispr Bro のアクセシビリティがオフになったため、ショートカットを検知できません。アップデート後や、システム設定で項目が変更されたときに起こることがあります。",
+      "introStopped": "Wispr Bro のキーボード監視が停止しました。macOS が許可するとすぐに自動的に再開します。",
+      "pictureLabel": "システム設定の「プライバシーとセキュリティ」＞「アクセシビリティ」：Wispr Bro の行のスイッチがオンになっています",
+      "pictureTitle": "アクセシビリティ",
+      "pictureBack": "プライバシーとセキュリティ",
+      "stepsTitle": "もう一度オンにする",
+      "step1": "「システム設定」＞「プライバシーとセキュリティ」＞「アクセシビリティ」を開きます。",
+      "step2": "Wispr Bro をオンにします。すでにオンの場合は、一度オフにしてからもう一度オンにします。",
+      "step3": "ここに戻ります。再起動しなくても、数秒でショートカットが再び機能します。",
+      "resetTitle": "まだ機能しない場合",
+      "resetBody": "アップデート後、macOS がアプリと一致しなくなった古い項目を残していることがあります。リセットすると Wispr Bro の項目が削除され、もう一度許可できるようになります。",
+      "resetStep1": "「リセットして再許可」を選択します。",
+      "resetStep2": "macOS に確認されたら Wispr Bro を許可するか、開いたリストでオンにします。",
+      "resetFailed": "項目をリセットできませんでした。リストで Wispr Bro を選択してマイナスボタンで削除し、プラスボタンでもう一度追加してください。",
+      "openSettings": "アクセシビリティ設定を開く",
+      "reset": "リセットして再許可",
+      "checkAgain": "もう一度確認",
+      "relaunch": "再起動して完了",
+      "close": "閉じる",
+      "status": {
+        "healthy": "ショートカットは機能しています。",
+        "lost": "まだ機能していません",
+        "recovering": "再接続中…",
+        "needsRelaunch": "アクセスが戻りました。Wispr Bro を再起動して完了してください。"
+      }
+    }
+  },
+  "firstUse": {
+    "title": "まず何を<em>試し</em>ますか？",
+    "subtitle": "1 つ選んで様子を見てみましょう。そのあと、普段使っているアプリで試してください。",
+    "choicesLabel": "始め方",
+    "choices": {
+      "ai_chat": "AI アシスタントに質問",
+      "note": "メモを取る",
+      "message": "メッセージに返信",
+      "email": "メールを書く",
+      "comment": "コメントを投稿",
+      "document": "書類の下書き",
+      "coding": "コーディングツールに指示"
+    },
+    "scene": {
+      "label": "例：{{choice}}",
+      "said": "話した内容",
+      "written": "{{appName}} が入力",
+      "pause": "例を一時停止",
+      "play": "例を再生"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI チャット",
+        "context": "何かお手伝いできることはありますか？",
+        "said": "えーと 複利の仕組みって 初心者にもわかるように説明してもらえますか",
+        "text": "複利の仕組みを、初心者にもわかるように説明してもらえますか？"
+      },
+      "note": {
+        "app": "メモ",
+        "context": "月曜日",
+        "said": "自分用メモ 歯医者に電話して えー 6 時までにクリーニングを取りに行く",
+        "text": "自分用メモ：歯医者に電話して、6 時までにクリーニングを取りに行く。"
+      },
+      "message": {
+        "app": "メッセージ",
+        "context": "ランチの予定、まだ大丈夫？",
+        "said": "もちろん 12 時半で大丈夫",
+        "text": "もちろん！12 時半で大丈夫？"
+      },
+      "email": {
+        "app": "メール",
+        "context": "宛先：Priya · 件名：木曜日",
+        "said": "Priya さん メモをありがとうございます 木曜日の午前中までに下書きを送ります",
+        "text": "Priya さん、メモをありがとうございます。木曜日の午前中までに下書きを送ります。"
+      },
+      "comment": {
+        "app": "SNS",
+        "context": "新しいオフィスが来週オープンします！",
+        "said": "チームの皆さん おめでとうございます すごく素敵ですね",
+        "text": "チームの皆さん、おめでとうございます。すごく素敵ですね！"
+      },
+      "document": {
+        "app": "書類",
+        "context": "プロジェクト計画",
+        "said": "このフェーズの目標は えー 月末までに 50 人のテスターにベータ版を配布することです",
+        "text": "このフェーズの目標は、月末までに 50 人のテスターにベータ版を配布することです。"
+      },
+      "coding": {
+        "app": "コードエディタ",
+        "context": "エージェントに質問",
+        "said": "モバイルでログインボタンが動かないので 原因を調べて直してもらえますか",
+        "text": "モバイルでログインボタンが動きません。原因を調べて直してもらえますか？"
+      }
+    },
+    "tryNow": "今すぐ試す",
+    "later": "あとで",
+    "close": "閉じる",
+    "noBar": "音声入力バーが動作していないため、ヒントを表示できません。それでも試すことはできます。アプリを開いて、ショートカットを押したままにしてください。",
+    "banner": {
+      "title": "普段のアプリで使ってみましょう",
+      "body": "{{hint}}. {{how}}",
+      "again": "ヒントをもう一度表示",
+      "stop": "ヒントを隠す",
+      "other": "ほかのことを試す",
+      "active": "ヒントが画面に表示されています。Esc キーを押すと閉じます。"
+    }
+  },
+  "checklist": {
+    "title": "はじめに",
+    "label": "設定のチェックリスト",
+    "progress": "{{total}} 件中 {{done}} 件完了",
+    "hide": "チェックリストを隠す",
+    "done": "完了",
+    "next": "次へ",
+    "allDone": "完了です。基本はばっちりです。",
+    "items": {
+      "try_in_app": {
+        "title": "ほかのアプリで試す",
+        "action": "見てみる"
+      },
+      "add_word": {
+        "title": "単語を追加",
+        "action": "見てみる",
+        "coachTitle": "最初の単語を追加しましょう",
+        "coachBody": "よく口にする名前、製品名、専門用語など。自分の表記どおりに入力されます。"
+      },
+      "create_snippet": {
+        "title": "スニペットを作成",
+        "action": "新規スニペット",
+        "coachTitle": "最初のスニペットを作成しましょう",
+        "coachBody": "短いフレーズを話すだけで、住所、リンク、結びのあいさつなどの長いテキストを入力できます。"
+      },
+      "launch_at_login": {
+        "title": "ログイン時に開く",
+        "action": "オンにする",
+        "body": "{{appName}} が Mac と一緒に起動するので、ショートカットがいつでも使えます。"
+      },
+      "try_transform": {
+        "title": "書き換えを試す",
+        "action": "見てみる",
+        "body": "テキストを選択してショートカットを押すと、その場で書き換えられます。"
+      },
+      "try_whisper": {
+        "title": "ささやき声で試す",
+        "action": "見てみる",
+        "body": "周りに人がいるときに小声で音声入力する方法と、適したマイクの選び方を確認します。"
+      }
+    },
+    "coach": {
+      "close": "閉じる",
+      "done": "OK"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "レッスンを閉じる",
+      "back": "戻る",
+      "continue": "続ける",
+      "skip": "スキップ",
+      "tryIt": "自分で試す",
+      "tryItOut": "試してみる",
+      "howItWorks": "仕組み",
+      "progress": "ステップ {{step}}／{{total}}",
+      "pause": "アニメーションを一時停止",
+      "play": "アニメーションを再生",
+      "turnOnFailed": "オンにできませんでした。もう一度試すか、そのページのスイッチを使用してください。",
+      "sheetLabel": "{{lesson}}：{{mode}}"
+    },
+    "transforms": {
+      "title": "書き換え",
+      "help": "書き換えについて",
+      "intro": {
+        "title": "伝えたいことが、<em>伝わる</em>文章に",
+        "body": "どのアプリでもテキストを選択してショートカットを押すと、この Mac 上でその場で書き換えられます。",
+        "continue": "試してみる"
+      },
+      "cards": {
+        "label": "同じテキストを 3 通りで",
+        "original": {
+          "name": "元のテキスト",
+          "text": "えっと要するにレビューを木曜にずらせないかなと思って 数字がまだ揃ってないしサムもいないので"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "レビューを木曜日に変更できますか？数字がまだ揃っておらず、サムも不在です。"
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "レビューを木曜日に変更してほしいと頼む、短く親しみやすいメッセージを書いてください。理由：数字がまだ揃っていないこと、サムが不在であること。2 文以内にしてください。"
+        }
+      },
+      "benefits": {
+        "label": "書き換えでできること",
+        "shorter": "より少ない言葉で伝える",
+        "clearer": "わかりやすく言い換える",
+        "order": "要点を適切な順序に並べる",
+        "structure": "見出しとリストを追加する",
+        "tone": "トーンを保つ",
+        "anywhere": "文章を書くどのアプリでも使える"
+      },
+      "practice": {
+        "title": "テキストを<em>選択</em>して <kbd>{{shortcut}}</kbd> を押す",
+        "body": "下のメッセージを選択し（⌘A ですべて選択）、Polish のショートカットを押してください。",
+        "doneTitle": "テキストを<em>書き換え</em>ました",
+        "doneBody": "<kbd>{{view}}</kbd> を押すと変更を表示します。<kbd>{{undo}}</kbd> で取り消せます。",
+        "app": "Jordan とのチャット",
+        "context": "明日のレビュー、予定どおりで大丈夫？",
+        "fieldLabel": "Jordan への返信",
+        "draft": "あのさレビューなんだけどもし大丈夫なら木曜にずらしたほうがいいと思う 数字がまだちゃんと揃ってなくて中途半端なものを見せたくないから",
+        "example": {
+          "polish": "レビューを木曜日に変更できますか？数字がまだ揃っておらず、未完成のものはお見せしたくありません。",
+          "prompt": "数字がまだ揃っていないため、明日のレビューを木曜日に変更してほしいと頼む、短く丁寧な返信を書いてください。親しみやすい口調で、3 文未満にしてください。"
+        },
+        "exampleNote": "この Mac ではまだ書き換えの準備ができていないため、例を表示しています。準備ができると、ショートカットで自分のテキストも同じように書き換えられます。",
+        "selectFirst": "先にメッセージの一部を選択してから、もう一度 {{shortcut}} を押してください。",
+        "working": "書き換え中…",
+        "spotlight": "書き換えのあとは毎回、画面下部のバーに「変更を表示」が表示されます。クリックするか {{view}} を押してください。",
+        "barLabel": "バー",
+        "bar": {
+          "done": "完了",
+          "view": "変更を表示"
+        },
+        "hideChanges": "変更を隠す"
+      },
+      "how": {
+        "select": {
+          "title": "どのアプリでもテキストを<em>選択</em>",
+          "body": "メール、チャット、書類など、いつもどおりに入力または音声入力し、書き換えたい部分を選択します。",
+          "scene": "アニメーション：メールの下書きが選択されます。"
+        },
+        "press": {
+          "title": "<kbd>{{shortcut}}</kbd> を<em>押す</em>",
+          "body": "Polish は選択範囲をその場で書き換えます。Prompt Engineer（{{prompt}}）は、AI アシスタント向けのわかりやすいプロンプトに変換します。",
+          "scene": "アニメーション：{{shortcut}} が押され、下書きがよりわかりやすい文章に置き換わります。"
+        },
+        "changes": {
+          "title": "<em>変更</em>内容を確認",
+          "body": "{{view}} を押すか、バーの「変更を表示」をクリックします。削除された語には取り消し線が付き、新しい語は強調表示されます。{{undo}} で元のテキストに戻ります。",
+          "scene": "アニメーション：カードに変更内容が一覧表示され、削除された語には取り消し線、新しい語には強調表示が付きます。"
+        }
+      },
+      "scene": {
+        "app": "メール：新規メッセージ",
+        "draft": "みなさんちょっとお知らせなんですが 決済フローでバグが見つかってまずそれを直したいのでリリースは来週に延びます",
+        "polished": "みなさん、リリースは来週に延期します。決済フローでバグが見つかったため、先に修正します。"
+      },
+      "finish": {
+        "turnOn": "書き換えをオンにする",
+        "done": "完了"
+      }
+    },
+    "whisper": {
+      "title": "静かに音声入力",
+      "help": "静かに音声入力する方法",
+      "soft": {
+        "title": "<em>小さな声</em>で十分です",
+        "body": "声を張る必要はありません。ささやき声でも整ったテキストになるので、オープンオフィスや電車の中、近くで誰かが寝ているときでも音声入力できます。",
+        "app": "メモ",
+        "spoken": "「お昼の前にスライドを送ることと 金曜日の会議室を予約することをリマインドして」",
+        "text": "お昼の前にスライドを送ることと、金曜日の会議室を予約することをリマインドして。",
+        "scene": "アニメーション：ささやいた文がテキストとして入力されます：「{{text}}」"
+      },
+      "how": {
+        "title": "Mac に<em>ささやき声</em>で話すには",
+        "body": "Mac の内蔵マイクを使う場合、次の 4 つのコツで小さな声でも聞き取りやすくなります。",
+        "distance": "マイクから約 30 cm（前腕ほどの長さ）",
+        "tips": {
+          "distance": {
+            "title": "近くに座る。",
+            "body": "前腕ほどの距離で Mac に向かいます。大きな声で話すより、少し身を乗り出すほうが効果的です。"
+          },
+          "breath": {
+            "title": "息を乗せてささやく。",
+            "body": "かすかな声ではなく、小さなテーブル越しに話しかけるように、少ししっかりした声で。"
+          },
+          "pace": {
+            "title": "一定のペースで話す。",
+            "body": "1 語ずつはっきり発音し、文末が消えないようにします。"
+          },
+          "release": {
+            "title": "キーは最後に離す。",
+            "body": "最後の言葉まで話し終えてからキーを離すと、最後まで入力されます。"
+          }
+        }
+      },
+      "practice": {
+        "title": "このメールを<em>ささやき声</em>で",
+        "body": "これは実際の音声入力です。テキストは下のメッセージにだけ入力され、ほかの場所には入りません。",
+        "doneTitle": "<em>ささやき声</em>でも聞き取れました",
+        "doneBody": "これだけです。続けて、自分に合ったマイクを見つけましょう。",
+        "instruction": "{{key}} を押したまま下のメールをささやき、話し終えたら離してください。",
+        "unbound": "音声入力のショートカットが設定されていないため、ここでは録音を開始できません。今はこのステップをスキップして、設定でショートカットを設定してください。",
+        "key": "fn",
+        "keyFallback": "Control と Option",
+        "sentenceLabel": "ささやく文：",
+        "sentence": "サムさん、静かな部屋にいるので、このメールはささやき声で話しています。打ち合わせを午後に変更できますか？よろしくお願いします。",
+        "app": "新規メッセージ",
+        "context": "サムへ、今日の午後について",
+        "fieldLabel": "ささやき声で入力したメール",
+        "placeholder": "ささやいた言葉がここに表示されます。",
+        "status": {
+          "idle": "{{key}} を押したままささやくのを待っています…",
+          "listening": "聞き取り中… 話し終えたら {{key}} を離してください。",
+          "working": "書き起こしています…",
+          "nothing": "何も入力されませんでした。マイクがオンになっていることを確認して、もう一度お試しください。",
+          "low": "認識できたのは {{percent}}% でした。もう一度試してみましょう：",
+          "passed": "{{percent}}% を認識できました。",
+          "example": "これはささやき声で入力した例です。"
+        },
+        "exampleNote": "この Mac ではまだ音声認識の設定中のため、例を表示しています。録音した内容は履歴に保存され、設定が完了するとすぐに文字起こしされます。",
+        "tips": {
+          "title": "次のことを試してください",
+          "closer": "Mac に少し近づき、約 30 cm の距離にします。",
+          "firmer": "もう少ししっかり、息を乗せてささやきます。",
+          "volume": "「システム設定」＞「サウンド」＞「入力」で入力音量を上げます。",
+          "openSound": "サウンド設定を開く"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "内蔵マイク",
+          "why": "すでに備わっています。近くに座れば、自宅では十分に使えます。"
+        },
+        "wired_headset": {
+          "name": "有線ヘッドセット",
+          "why": "マイクが口のすぐそばにあるので、どこにいても小さなささやき声まで届きます。"
+        },
+        "wireless_earbuds": {
+          "name": "ワイヤレスイヤホン",
+          "why": "接続の手間がなく、どこへでも持ち歩けます。"
+        },
+        "desk_usb": {
+          "name": "卓上マイク／USB マイク",
+          "why": "決まった机で、マイクの近くに座って作業するなら最もクリアな音質です。"
+        }
+      },
+      "quiz": {
+        "more": "マイクについて詳しく",
+        "comfortable": {
+          "title": "使いやすいマイクを選びましょう",
+          "body": "どれでも機能します。気軽に身に着けられるもの、または机に置いておきたいものを選んでください。"
+        },
+        "workplace": {
+          "title": "普段はどこで作業しますか？",
+          "body": "ささやき声が最も役立つのは、近くに人がいるときです。",
+          "private": {
+            "label": "プライベートな場所",
+            "hint": "自宅の仕事部屋や個室"
+          },
+          "mixed": {
+            "label": "両方",
+            "hint": "1 人のときもあれば、周りに人がいるときもある"
+          },
+          "shared": {
+            "label": "ほかの人がいる場所",
+            "hint": "オープンオフィス、カフェ、共有スペース"
+          }
+        },
+        "moves": {
+          "title": "場所を移動して作業しますか？",
+          "body": "移動が多い場合は、持ち歩けるマイクが便利です。",
+          "one_desk": {
+            "label": "いつも同じ机",
+            "hint": "毎日同じ環境"
+          },
+          "different_places": {
+            "label": "いろいろな場所で作業する",
+            "hint": "自宅、オフィス、電車、カフェ"
+          }
+        },
+        "owned": {
+          "title": "どのマイクを持っていますか？",
+          "body": "持っているものをすべて選択してください。Mac mini と Mac Studio にはマイクが内蔵されていません。",
+          "continue": "結果を見る"
+        }
+      },
+      "results": {
+        "title": "<em>おすすめ</em>のマイク",
+        "body": "回答に基づく結果です。何も保存・送信されません。",
+        "bestLine": "最適：{{mic}}。",
+        "caption": "マイクの種類ごとの比較",
+        "columns": {
+          "quality": "マイクの品質",
+          "others": "人のいる場所でのささやき声",
+          "home": "自宅でのささやき声",
+          "price": "価格",
+          "best": "最適"
+        },
+        "notBest": "最適ではない",
+        "rating": {
+          "fair": "まずまず",
+          "good": "良い",
+          "great": "とても良い"
+        },
+        "price": {
+          "included": "ほとんどのノートブックに付属",
+          "low": "安価",
+          "medium": "中程度",
+          "owned": "所有済み"
+        },
+        "copy": {
+          "label": "結果をコピー",
+          "heading": "{{appName}}：おすすめのマイク",
+          "best": "最適：{{mic}}",
+          "unanswered": "未回答",
+          "noneOwned": "なし"
+        },
+        "copied": "コピーしました",
+        "copyFailed": "コピーできませんでした。表を選択してコピーしてください。",
+        "done": "完了"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro は新しい種類のモデルを使用するようになりました。文字起こしを続けるには、新しいバージョンをダウンロードしてください。古いバージョンは削除されます。"
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Wispr Bro が声を聞き取れるようにします。音声はこの Mac 上でテキストに変換され、アップロードされることはありません。"
+        },
+        "accessibility": {
+          "why": "どのアプリでもショートカットが機能し、Wispr Bro がカーソル位置にテキストを入力できるようにします。"
+        },
+        "turnOnMac": "システム設定で Wispr Bro をオンにしてから、ここに戻ってください。",
+        "relaunch": "このあとショートカットが反応しない場合は、<relaunch>Wispr Bro を再起動</relaunch>してください。この画面に戻ります。"
+      },
+      "welcome": {
+        "noMatch": "「{{query}}」に一致する言語はありません。Wispr Bro のモデルは約 100 の言語に対応しています。ほかの言語は設定で選べます。",
+        "chinese": {
+          "question": "{{languages}}を話すようですね。Wispr Bro にどちらの文字で書かせますか？"
+        }
+      },
+      "try": {
+        "subtitle": "画面の隅で Wispr Bro が手順を案内します"
+      },
+      "done": {
+        "subMac": "Wispr Bro はメニューバーにあります。どのアプリでも <keys/> を押したまま、またはタップして話してください。",
+        "subTray": "Wispr Bro はシステムトレイにあります。どのアプリでも <keys/> を押したまま、またはタップして話してください。",
+        "atLogin": "ログイン時に Wispr Bro を起動",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro のショートカット"
+        },
+        "preferredLanguages": {
+          "description": "話す言語です。Wispr Bro はこれをもとにモデルをおすすめします。"
+        }
+      },
+      "models": {
+        "untestedNote": "Wispr Bro でテストされていません。動作が遅かったり、誤りが多かったりする場合があります。",
+        "emptyYours": "モデルはまだありません。下から選択するとダウンロードされ、Wispr Bro で使用されます。",
+        "deleteAskActive": "{{name}} を削除しますか？別のモデルを選択するまで、Wispr Bro は文字起こしできません。",
+        "retiredNotice": {
+          "title": "古いモデルは Wispr Bro で使用できなくなりました"
+        },
+        "rescan": {
+          "tooltip": "Wispr Bro 以外で models フォルダまたは Hugging Face のキャッシュに追加されたモデルを再スキャンします"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Mac にログインしたときに Wispr Bro を自動的に起動します。"
+        },
+        "showTrayIcon": {
+          "description": "メニューバーに Wispr Bro のアイコンを表示します。"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Wispr Bro の新しいバージョンを自動的に確認します",
+          "lockedDescription": "システム構成により無効になっています（WISPRBRO_DISABLE_UPDATER）"
+        },
+        "keyboardDiagnostic": {
+          "description": "キーボードイベントが Wispr Bro に届いているかを確認します。記録されるのはイベントの数だけで、押したキーは記録されません。",
+          "verdictOk": "キーイベントは Wispr Bro に正常に届いています。"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Wispr Bro の現在のバージョン"
+        },
+        "whatsNewUpdates": {
+          "description": "Wispr Bro のアップデート後にリリースノートを表示します"
+        },
+        "appDataDirectory": {
+          "description": "Wispr Bro がデータを保存する場所"
+        },
+        "supportDevelopment": {
+          "description": "Wispr Bro の開発を支援してください"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bro のローカル文字起こしは transcribe.cpp と ggml をもとに構築されています。Georgi Gerganov 氏と貢献者の皆様の素晴らしい成果に感謝します。"
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Wispr Bro v{{version}} の新機能"
+    },
+    "appLanguage": {
+      "description": "Wispr Bro のインターフェイスの言語を変更します"
+    },
+    "theme": {
+      "description": "Wispr Bro の外観をシステムに合わせるか、ライトまたはダークに固定するかを選択します"
+    }
+  }
+}

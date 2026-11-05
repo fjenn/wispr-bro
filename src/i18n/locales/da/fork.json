@@ -1,0 +1,2827 @@
+{
+  "debug": {
+    "title": "Fork-fejlfindingspanel",
+    "description": "Interne kontroller af Wispr Bro-laget. Vises kun i debug-builds, eller når appen er startet med --debug.",
+    "close": "Luk",
+    "runAgain": "Kør igen",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Modelstatus",
+      "notReady": "Ikke klar endnu: Appen er ikke færdig med at starte."
+    },
+    "lastEvent": {
+      "title": "Seneste ping-hændelse",
+      "none": "Ingen hændelse modtaget endnu."
+    },
+    "pending": "Venter…",
+    "error": "Fejl: {{message}}",
+    "csp": {
+      "title": "Content Security Policy",
+      "description": "Afspiller en lydfil via asset-protokollen, indlæser data:- og blob:-billeder, kalder en fork-kommando og tjekker, at et ikke-tilladt billede bliver blokeret.",
+      "run": "Kør CSP-tjek",
+      "running": "Kører…",
+      "pass": "Bestået: ingen uventede CSP-overtrædelser.",
+      "fail": "Mislykkedes: Se tjekkene nedenfor.",
+      "ok": "ok ({{detail}})",
+      "failed": "mislykkedes ({{detail}})",
+      "noViolations": "Ingen CSP-overtrædelser registreret.",
+      "violations_one": "{{count}} CSP-overtrædelse registreret.",
+      "violations_other": "{{count}} CSP-overtrædelser registreret.",
+      "checks": {
+        "media": "Lyd (asset-protokol)",
+        "dataImage": "data:-billede",
+        "blobImage": "blob:-billede",
+        "forkCommand": "Fork-kommando",
+        "probe": "Blokkeret kilde"
+      }
+    },
+    "notifications": {
+      "title": "Meddelelser",
+      "permission": "macOS-tilladelse: {{state}}",
+      "kind": "Type",
+      "delay": "Forsinkelse (s)",
+      "post": "Send eksempel",
+      "posted": "Sender om {{seconds}} s. Skift til en anden app for at se en macOS-meddelelse."
+    },
+    "update": {
+      "title": "Opdateringer",
+      "version": "Version",
+      "channel": "Kanal",
+      "key": "Signeringsnøgle",
+      "endpoints": "Opdateringsfeeds",
+      "checksOff": "Søgning efter opdateringer er slået fra (Indstillinger › Avanceret, eller en nødafbryder er sat).",
+      "check": "Tjek nu",
+      "checking": "Tjekker…",
+      "install": "Installer {{version}} og genstart",
+      "installing": "Henter og verificerer…",
+      "installed": "{{version}} er installeret. Genstarter…",
+      "available": "{{version}} er tilgængelig.",
+      "upToDate": "Opdateret.",
+      "failed": "Kunne ikke tjekke: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "Fork-indstillinger",
+      "loading": "Indlæser indstillinger…",
+      "loadError": "Kunne ikke læse indstillingerne: {{message}}",
+      "setError": "Ændringen blev ikke gemt: {{message}}",
+      "contextAwareness": "Kontekstbevidsthed",
+      "contextAwarenessHint": "Bruger navne i teksten omkring din markør til at stave dem rigtigt. Teksten bliver på denne Mac og gemmes aldrig.",
+      "transforms": "Transformationer",
+      "transformsHint": "⌥1 finpudser den valgte tekst, ⌥2 gør den til en tydeligere AI-prompt, og ⌥O viser, hvad den seneste transformation ændrede. Når det er slået til, skriver de taster ikke længere ¡, ™ og ø.",
+      "transformsSafeShortcuts": "Brug ⌃⌥1 og ⌃⌥2 i stedet",
+      "transformsSafeShortcutsHint": "Så er ¡ og ™ stadig tilgængelige med ⌥1 og ⌥2.",
+      "cleanupLevel": "Oprydningsniveau",
+      "levels": {
+        "none": "Ingen",
+        "light": "Let",
+        "medium": "Middel"
+      },
+      "all": "Alle indstillinger"
+    },
+    "bar": {
+      "title": "Dikteringsbjælke",
+      "alwaysShow": "Vis altid bjælken",
+      "alwaysShowHelp": "Når det er slået fra, vises bjælken kun, mens du dikterer.",
+      "position": "Placering",
+      "positions": {
+        "bottom": "Nederst på skærmen",
+        "top": "Øverst på skærmen"
+      },
+      "hideInRecordings": "Skjul bjælken i skærmoptagelser",
+      "hideInRecordingsHelp": "Skærmbilleder, skærmoptagelser og skærmdeling udelader bjælken.",
+      "hiddenUntil": "Skjult indtil {{time}}",
+      "showNow": "Vis den igen",
+      "resetPositions": "Centrer bjælken på alle skærme"
+    },
+    "mic": {
+      "title": "Mikrofon",
+      "legend": "Mikrofon, der skal bruges",
+      "loading": "Søger efter mikrofoner…",
+      "loadError": "Kunne ikke vise mikrofonerne: {{message}}",
+      "retry": "Prøv igen",
+      "recommended": "{{name}} (anbefalet)",
+      "auto": "Registrer automatisk (systemindstilling)",
+      "autoNow": "Nu: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Mikrofoner med kabel eller indbyggede mikrofoner fungerer bedst; Bluetooth kan falde ud.",
+      "avoided": "Lydinput på din Mac er sat til {{name}}. Bluetooth-mikrofoner kan falde ud, så diktering bruger den indbyggede mikrofon i stedet.",
+      "useAnyway": "Brug {{name}} alligevel",
+      "inUse": "Diktering lytter med: {{name}}",
+      "chooseError": "Kunne ikke skifte mikrofon: {{message}}",
+      "meter": {
+        "start": "Test mikrofon",
+        "stop": "Stop test",
+        "label": "Mikrofonniveau",
+        "value": "{{percent}} procent",
+        "off": "Tester ikke",
+        "hint": "Sig noget. Bjælkerne bør bevæge sig, mens du taler.",
+        "errors": {
+          "permission_denied": "Adgang til mikrofonen er slået fra. Slå den til i Systemindstillinger › Anonymitet & sikkerhed › Mikrofon.",
+          "no_input_device": "Ingen mikrofon fundet.",
+          "failed": "Mikrofonen startede ikke. Prøv en anden."
+        }
+      },
+      "loadErrorPlain": "Kunne ikke vise mikrofonerne.",
+      "chooseErrorPlain": "Kunne ikke skifte mikrofon."
+    },
+    "sound": {
+      "title": "Lyde",
+      "enabled": "Afspil en lyd, når diktering starter og stopper",
+      "enabledHelp": "En kort tone, når mikrofonen tænder og slukker.",
+      "theme": "Lyd",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Egendefineret"
+      },
+      "volume": "Lydstyrke",
+      "volumeValue": "{{percent}} procent",
+      "preview": "Afspil",
+      "mute": "Slå al lyd fra under diktering",
+      "muteHelp": "Musik og video bliver stille, mens du taler, og vender så uændret tilbage."
+    },
+    "recovery": {
+      "title": "Gendannelsesgenveje",
+      "description": "Få din seneste diktering tilbage, eller send den, uden at slippe tastaturet.",
+      "notSet": "Ikke angivet",
+      "current": "Genvej: {{shortcut}}",
+      "listening": "Tryk på en genvej…",
+      "listeningHelp": "Tryk på de taster eller den museknap, du vil bruge. Esc annullerer.",
+      "record": "Optag",
+      "cancel": "Annuller",
+      "clear": "Ryd",
+      "useDefault": "Brug standard",
+      "unusable": "Denne genvej kan ikke bruges. Vælg en anden.",
+      "saveFailed": "Genvejen kunne ikke gemmes.",
+      "recordFailed": "Der kunne ikke optages en genvej. Tjek, at appen må bruge Tilgængelighed.",
+      "pasteLast": {
+        "title": "Indsæt seneste diktering",
+        "help": "Indsætter din seneste diktering igen, hvor du skriver."
+      },
+      "copyLast": {
+        "title": "Kopiér seneste diktering",
+        "help": "Lægger din seneste diktering på udklipsholderen."
+      },
+      "pressEnter": {
+        "title": "Tryk på Retur",
+        "help": "Trykker på Retur for dig, for eksempel for at sende en besked, du lige har dikteret.",
+        "mouse": "En museknap klikker stadig som normalt i appen under markøren, så en sideknap (tilbage eller frem) virker bedst."
+      },
+      "undoCancel": {
+        "title": "Fortryd en annullering",
+        "help": "Henter en diktering tilbage, som du lige har annulleret, mens bjælken viser Fortryd."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "Indstillinger",
+    "close": "Luk indstillinger",
+    "navigation": "Sektioner i indstillinger",
+    "sections": {
+      "general": "Generelt",
+      "system": "System",
+      "vibe": "Vibe coding",
+      "privacy": "Data og anonymitet",
+      "advanced": "Avanceret",
+      "about": "Om",
+      "hotkeys": "Genveje"
+    },
+    "general": {
+      "shortcuts": "Genveje",
+      "change": "Skift",
+      "microphone": "Mikrofon",
+      "languages": "Mine sprog",
+      "appearance": "Appsprog og tema",
+      "typingHint": "Bruges til at beregne, hvor meget tid diktering sparer dig."
+    },
+    "system": {
+      "app": "Appens adfærd",
+      "alwaysBar": "Vis altid bjælken",
+      "showDock": "Vis app i Dock",
+      "showDockHint": "Behold Wispr Bro i Dock, når vinduet er lukket.",
+      "sounds": "Lyde",
+      "notifications": "Meddelelser",
+      "notificationKinds": {
+        "system": "Mac-meddelelser",
+        "modelReady": "Talmodel klar",
+        "updateReady": "Opdatering klar",
+        "queuedReady": "Dikteringer i kø er klar",
+        "suggestions": "Forslag",
+        "announcements": "Nye funktioner",
+        "milestones": "Milepæle",
+        "shortcutProblems": "Problemer med genveje"
+      },
+      "scratchpad": "Kladdeblok",
+      "scratchpadLabel": "Når Kladdeblok åbnes",
+      "scratchpadHint": "Vælg, hvad genvejen og knappen på bjælken åbner.",
+      "scratchpadOptions": {
+        "resume_last": "Fortsæt min seneste note",
+        "new_note": "Start en ny note"
+      },
+      "notificationsHint": "Hver kontakt styrer den pågældende besked i Wispr Bro og på Mac’en. ”Mac-meddelelser” slår kun Mac-bannerne fra. Beskeder om nedbrud og gendannelse vises altid i Wispr Bro.",
+      "dockKeptForTray": "Ikonet i menulinjen er slået fra, så Dock-ikonet bliver. Slå ikonet i menulinjen til for at skjule det.",
+      "trayKeptForDock": "Dock-ikonet er slået fra, så ikonet i menulinjen bliver. Slå Vis app i Dock til for at skjule det."
+    },
+    "vibe": {
+      "intro": "Wispr Bro læser de kodenavne, din editor viser, og fil- og mappenavnene i dit åbne projekt, på denne Mac. Den læser kun navne, aldrig indholdet af dine filer.",
+      "contextOff": "Kontekstbevidsthed er slået fra, så disse funktioner har intet at læse. Slå den til for at bruge dem.",
+      "recognize": "Genkend kodenavne",
+      "recognizeHint": "Sig et navn, din editor viser, f.eks. ”get user by id”, så skrives det, som din kode staver det: getUserById.",
+      "setUp": "Konfigurer",
+      "change": "Skift editorer",
+      "setUpFor": "Konfigurer til {{editors}}",
+      "fileTags": "Tag filer i chat",
+      "fileTagsHint": "I Cursor- eller Windsurf-chatten tagger ”index dot ts” filen index.ts via editorens @-menu, for enhver fil i dit projekt. Hvis editoren ikke finder et match, skrives @index.ts som tekst.",
+      "fileTagsNeedsChat": "Tilgængelig, når du har føjet Cursor eller Windsurf til dine editorer.",
+      "fileTagsNeedsSetup": "Tilgængelig, når du har konfigureret genkendelse af kodenavne.",
+      "setup": {
+        "title": "Konfigurer genkendelse af kodenavne",
+        "stepEditors": "1. Vælg de editorer, du bruger",
+        "stepScreenReader": "2. Slå skærmlæsertilstand til i hver af dem, så de deler deres tekst med Wispr Bro",
+        "openSettings": "Åbn editorens indstillinger med ⌘ komma.",
+        "search": "Søg efter ”accessibility support”.",
+        "setOn": "Sæt ”Editor: Accessibility Support” til ”on”.",
+        "palette": "Du kan også køre ”Toggle Screen Reader Accessibility Mode” fra Command Palette (⇧⌘P).",
+        "confirm": "Jeg har slået skærmlæsertilstand til i disse editorer",
+        "cancel": "Annuller",
+        "finish": "Afslut konfiguration"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "Privat fra starten",
+        "local": "Din diktering og dine data bliver på denne Mac.",
+        "noCloud": "Talegenkendelse, oprydning og Historik kører lokalt. Der er ingen konto, ingen telemetri, ingen diktering i skyen og ingen oprydning i skyen.",
+        "network": "Hvad bruger netværket",
+        "networkIntro": "Wispr Bro bruger kun netværket til disse to ting:",
+        "models": "Hente tale- og oprydningsmodeller fra Hugging Face (huggingface.co).",
+        "updates": "Søge efter appopdateringer på GitHub (github.com), når søgning efter opdateringer er slået til."
+      },
+      "locations": {
+        "title": "Hvor dine data ligger",
+        "data": "Appdata og indstillinger",
+        "models": "Hentede modeller",
+        "recordings": "Optagelser",
+        "logs": "Logfiler og nedbrudsrapporter",
+        "show": "Vis i Finder",
+        "loading": "Finder placering…",
+        "failed": "Kunne ikke åbne mappen. Prøv igen."
+      },
+      "retention": {
+        "title": "Hvor længe Historik gemmes",
+        "textLabel": "Behold dikteret tekst",
+        "textHint": "Ældre poster fjernes automatisk. Som standard gemmes tekst for altid.",
+        "audioLabel": "Behold optagelser",
+        "audioHint": "Lyd udløber som standard efter 14 dage; teksten bliver.",
+        "options": {
+          "0": "Behold aldrig lyd",
+          "1": "1 dag",
+          "7": "7 dage",
+          "14": "14 dage",
+          "30": "30 dage",
+          "90": "90 dage",
+          "365": "1 år",
+          "forever": "For evigt"
+        }
+      },
+      "choices": {
+        "title": "Valg om anonymitet",
+        "context": "Brug kontekstbevidsthed",
+        "contextHint": "Læser tekst i nærheden, mens du dikterer, for at stave navne rigtigt. Aldrig gemt eller logget.",
+        "updates": "Søg efter appopdateringer",
+        "updatesHint": "Spørger GitHub om nye versioner. Sender ingen diktering eller personlige data.",
+        "learn": "Lær af mine rettelser",
+        "learnHint": "Foreslår ord til ordbogen ud fra dine rettelser efter en diktering."
+      },
+      "export": {
+        "title": "Dine data",
+        "hint": "En zip med din historik, indstillinger og optagelser. Modeller og logfiler er ikke med.",
+        "button": "Eksportér mine data",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Zip-arkiv",
+        "done": "Eksporten er gemt og vist i Finder.",
+        "failed": "Dine data kunne ikke eksporteres. Intet blev slettet."
+      },
+      "delete": {
+        "button": "Slet alle mine data",
+        "title": "Slet alle dine data?",
+        "warning": "Dette sletter Historik, optagelser, indstillinger, logfiler og nedbrudsrapporter permanent. Det kan ikke fortrydes.",
+        "relaunch": "Wispr Bro stopper sit arbejde, sletter dataene og genstarter med introduktionen.",
+        "models": "Slet også hentede modeller",
+        "modelsHint": "Lad dette være slået fra, så du ikke skal hente tale- og oprydningsmodeller igen.",
+        "confirmLabel": "Skriv {{word}} for at bekræfte",
+        "cancel": "Annuller",
+        "confirm": "Slet alt",
+        "failed": "”Slet alt” blev ikke fuldført. Tjek de resterende data, før du prøver igen.",
+        "short": "Sletter historik, optagelser og indstillinger. Det kan ikke fortrydes."
+      },
+      "diagnostics": {
+        "title": "Nedbrudsrapporter og diagnosticering",
+        "hint": "Nedbrudsrapporter bliver på denne Mac. Del kun diagnosticering, hvis du vil.",
+        "sanitized": "Fjerner dikteret tekst, prompts, ordbogsord, e-mails, nøgler og stien til din hjemmemappe.",
+        "copy": "Kopiér diagnosticering",
+        "save": "Gem diagnosticering…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Renset diagnosticering kopieret.",
+        "saved": "Renset diagnosticering gemt.",
+        "failed": "Kunne ikke klargøre diagnosticering. Prøv igen.",
+        "rowTitle": "Del diagnosticering"
+      }
+    },
+    "advanced": {
+      "output": "Tekstoutput",
+      "transcription": "Transskription",
+      "barAndOverlay": "Dikteringsbjælke og overlay",
+      "liveText": "Vis live-tekst på bjælken",
+      "liveTextHint": "Vis de genkendte ord, mens du taler.",
+      "keyboard": "Tastatur-backend",
+      "prompts": "Oprydningsudbyder og prompt-editor",
+      "history": "Lagring af Historik",
+      "updates": "Opdateringer",
+      "updateChannel": "Opdateringskanal",
+      "updateChannelHint": "Betaversioner kan indeholde ufærdige ændringer.",
+      "updateChannels": {
+        "stable": "Stabil",
+        "beta": "Beta"
+      },
+      "storage": "Placering af data og logfiler",
+      "experimental": "Eksperimentelt og fejlfinding",
+      "debugMode": "Fejlfindingsværktøjer",
+      "debugModeHint": "Vis diagnosticeringsværktøjer og muligheder for detaljeret logning.",
+      "forkDiagnostics": "Diagnosticering af fork-indstillinger",
+      "translateUnsupported": "{{model}} kan ikke oversætte. Vælg en model, der kan, f.eks. Whisper eller Canary, under Talemodeller.",
+      "translateNoModel": "Din talemodel kan ikke oversætte. Vælg en model, der kan, f.eks. Whisper eller Canary, under Talemodeller."
+    },
+    "about": {
+      "tagline": "Lokal diktering uden konto og uden behandling i skyen.",
+      "version": "Version {{version}}",
+      "source": "Vis kildekoden",
+      "updates": "Versionsnoter",
+      "updatesTitle": "Opdateringer",
+      "license": "Fri software under GNU General Public License, version 3 (GPL-3.0).",
+      "licenseLink": "Vis licens",
+      "credit": "Bygget på Handy af CJ Pais og brugt under MIT-licensen. Tak til alle, der arbejder på det.",
+      "creditLink": "Handy på GitHub",
+      "supportTitle": "Støt udviklingen"
+    },
+    "hotkeys": {
+      "open": "Genveje",
+      "loading": "Indlæser genveje…",
+      "secureInputHelp": "Optagelse af genveje holder pause, mens macOS’ sikre indtastning beskytter et adgangskodefelt.",
+      "count": "{{count}} af {{max}} angivet",
+      "notSet": "Ikke angivet",
+      "current": "Genvej: {{shortcut}}",
+      "activationLabel": "Aktivering",
+      "activations": {
+        "hold": "Hold nede",
+        "double_tap": "Tryk to gange",
+        "press": "Tryk",
+        "toggle": "Slå til/fra"
+      },
+      "add": "Tilføj genvej",
+      "edit": "Rediger",
+      "delete": "Slet",
+      "reset": "Nulstil til standard",
+      "resetting": "Nulstiller…",
+      "resetFailed": "Kunne ikke nulstille alle genveje. Prøv igen.",
+      "done": "Færdig",
+      "saveFailed": "Kunne ikke gemme genvejen.",
+      "conflict": "Bruges også af {{action}}. Vælg en anden genvej.",
+      "invalid": "Denne genvej genkendes ikke.",
+      "unsupported": "Denne kombination kan ikke bruges som genvej til handlingen.",
+      "capture": {
+        "starting": "Starter optagelse af genvej…",
+        "listening": "Tryk på en genvej…",
+        "listeningHelp": "Tryk på den tastekombination eller museknap, du vil bruge. Esc annullerer.",
+        "cancel": "Annuller",
+        "close": "Tilbage",
+        "secure": "Genveje kan ikke optages, mens sikker indtastning er aktiv. Forlad adgangskodefeltet, eller slå ”Sikker tastaturindtastning” fra, og prøv igen.",
+        "failed": "Kunne ikke starte optagelse af genvej. Tjek tilladelsen til Tilgængelighed, og prøv igen."
+      },
+      "actions": {
+        "dictate": "Hold nede for at tale",
+        "hands_free": "Håndfri diktering",
+        "cancel": "Annuller diktering",
+        "command_mode": "Kommandotilstand",
+        "paste_last": "Indsæt seneste diktering",
+        "copy_last": "Kopiér seneste diktering",
+        "press_enter": "Tryk på Retur",
+        "undo_cancel": "Fortryd en annullering",
+        "transform": {
+          "polish": "Polish på valgt tekst",
+          "prompt_engineer": "Gør valgt tekst til AI-prompt",
+          "view_changes": "Vis ændringer fra transformation"
+        },
+        "scratchpad": {
+          "open": "Åbn Kladdeblok"
+        }
+      },
+      "help": {
+        "dictate": "Hold genvejen nede, mens du taler, og slip den for at afslutte.",
+        "hands_free": "Start og stop diktering uden at holde en tast nede.",
+        "cancel": "Stop den aktuelle diktering uden at indsætte den.",
+        "command_mode": "Hold genvejen nede, mens du siger, hvordan tekst skal redigeres eller skrives.",
+        "paste_last": "Indsæt din seneste diktering igen.",
+        "copy_last": "Kopiér din seneste diktering til udklipsholderen.",
+        "press_enter": "Trykker på Retur, hvor du skriver. En sideknap på musen er god til det.",
+        "undo_cancel": "Gendan en diktering lige efter, at du har annulleret den.",
+        "transform": {
+          "polish": "Omskriv den valgte tekst med Polish.",
+          "prompt_engineer": "Omskriv den valgte tekst som en tydelig AI-prompt.",
+          "view_changes": "Se den seneste transformation før og efter."
+        },
+        "scratchpad": {
+          "open": "Fortsæt din seneste note, eller start en ny."
+        }
+      },
+      "addFor": "Tilføj en genvej til {{action}}",
+      "descriptionLimits": "De fleste handlinger kan have op til {{max}} genveje. Hold nede for at tale, annuller og Kommandotilstand har én hver, håndfri diktering to. Ændringer gemmes, mens du laver dem.",
+      "limit_one": "Denne handling har {{count}} genvej.",
+      "limit_other": "Denne handling har op til {{count}} genveje.",
+      "appleDictation": {
+        "title": "Slå Apples Diktering fra ved fn to gange",
+        "description": "Et dobbelttryk starter ikke også Apples Diktering.",
+        "active": "Apples Diktering starter stadig ved fn to gange. Sæt genvejen til Diktering til Fra i tastaturindstillingerne."
+      },
+      "key": {
+        "title": "Dikteringstast",
+        "hint": "Hold nede for at tale. Tryk to gange for håndfri diktering.",
+        "prompt": "Tryk på den eller de taster, du vil bruge",
+        "save": "Gem",
+        "invalid": "Brug fn, to modifikatortaster som ⌃ ⌥ eller en modifikatortast med en tast som ⌥ Space.",
+        "more": "Flere genveje"
+      }
+    },
+    "resetSetting": "Nulstil {{setting}}",
+    "intro": {
+      "general": "Din tastaturgenvej, mikrofon, sprog og hvordan appen ser ud.",
+      "system": "Hvordan Wispr Bro starter, lyder og giver dig besked.",
+      "privacy": "Alt bliver på denne Mac. Vælg hvad der gemmes, og hvor længe.",
+      "advanced": "Finjustering af tale, oprydning, tekstoutput og opdateringer."
+    },
+    "navGroups": {
+      "app": "App"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "Hovedmenu"
+    },
+    "sidebar": {
+      "collapse": "Skjul indholdsoversigt",
+      "expand": "Vis indholdsoversigt",
+      "suggested": "Foreslåede ord: {{count}}"
+    },
+    "header": {
+      "toDark": "Skift til mørkt udseende",
+      "toLight": "Skift til lyst udseende"
+    },
+    "notifications": {
+      "title": "Meddelelser",
+      "empty": {
+        "title": "Intet nyt",
+        "body": "Opdateringer og tips vises her."
+      },
+      "bellUnread_one": "Meddelelser, {{count}} ulæst",
+      "bellUnread_other": "Meddelelser, {{count}} ulæste",
+      "filter": {
+        "label": "Vis",
+        "all": "Alle",
+        "unread": "Ulæste"
+      },
+      "more": "Flere indstillinger for meddelelser",
+      "markAllRead": "Marker alle som læst",
+      "groups": {
+        "show": "Vis i denne liste",
+        "mac": "På denne Mac"
+      },
+      "toggles": {
+        "suggestions": "Forslag",
+        "announcements": "Nyheder",
+        "milestones": "Milepæle",
+        "system": "Mac-meddelelser"
+      },
+      "list": "Meddelelser",
+      "unreadDot": "Ulæst",
+      "emptyUnread": {
+        "title": "Intet nyt",
+        "body": "Du har læst alt."
+      },
+      "loadFailed": "Meddelelser kunne ikke indlæses.",
+      "actionFailed": "Det fungerede ikke. Prøv igen.",
+      "copied": "Seneste diktering kopieret",
+      "nothingToCopy": "Ingen diktering at kopiere endnu",
+      "justNow": "Lige nu"
+    },
+    "help": {
+      "title": "Hjælp",
+      "updates": "Opdateringer",
+      "whatsNew": "Nyheder",
+      "essentials": "Det grundlæggende",
+      "shortcuts": "Genveje",
+      "microphone": "Mikrofon",
+      "languages": "Sprog",
+      "documentation": "Dokumentation",
+      "getInTouch": "Kontakt os",
+      "reportProblem": "Rapportér et problem…",
+      "sendFeedback": "Send feedback",
+      "report": {
+        "title": "Rapportér et problem",
+        "body": "Dette åbner et nyt issue på GitHub i din browser, hvor din appversion og Mac-model allerede er udfyldt. Det indeholder aldrig noget, du har dikteret, og du kan læse og ændre alt, før du sender det.",
+        "diagnosticsTitle": "Diagnostik (valgfrit)",
+        "diagnosticsBody": "Rensede logfiler hjælper med at finde årsagen. De indeholder aldrig dine dikteringer. Kopiér dem her, og indsæt dem derefter i issuet.",
+        "copy": "Kopiér diagnosticering",
+        "copied": "Diagnosticering kopieret. Indsæt den i issuet.",
+        "copyFailed": "Kunne ikke kopiere diagnosticering.",
+        "open": "Åbn GitHub",
+        "cancel": "Annuller",
+        "close": "Luk"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Sektioner i indstillinger"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Diktering",
+        "banner": {
+          "title": "Tal i stedet for at skrive",
+          "body": "Hold fn nede i en hvilken som helst app, sig, hvad du vil skrive, og slip. {{appName}} indsætter ren tekst, hvor din markør står.",
+          "quiet": "Diktér stille: Vis mig hvordan"
+        },
+        "empty": {
+          "title": "Dine dikteringer vises her"
+        }
+      },
+      "insights": {
+        "title": "Statistik",
+        "empty": {
+          "title": "Statistik kræver et par dikteringer",
+          "action": "Gå til Diktering"
+        }
+      },
+      "dictionary": {
+        "title": "Ordbog"
+      },
+      "snippets": {
+        "title": "Tekststykker"
+      },
+      "style": {
+        "title": "Stil"
+      },
+      "transforms": {
+        "title": "Transformationer"
+      },
+      "scratchpad": {
+        "title": "Kladdeblok"
+      },
+      "share": {
+        "title": "Del med en ven"
+      },
+      "settings": {
+        "title": "Indstillinger"
+      }
+    },
+    "featurePopup": {
+      "label": "Nyt i denne version",
+      "dismiss": "OK",
+      "open": "Vis mig"
+    },
+    "update": {
+      "off": "Søgning efter opdateringer er slået fra",
+      "turnOn": "Slå til",
+      "notChecked": "Ikke tjekket endnu",
+      "check": "Søg efter opdateringer",
+      "checking": "Søger efter opdateringer…",
+      "upToDate": "Opdateret",
+      "checkAgain": "Tjek igen",
+      "checkFailed": "Kunne ikke tjekke",
+      "retry": "Prøv igen",
+      "downloading": "Henter {{version}}…",
+      "ready": "Opdatering klar",
+      "restartNow": "Genstart nu",
+      "installing": "Installerer {{version}}…",
+      "installedWaiting": "{{version}} installeret · genstarter efter denne diktering",
+      "restarting": "Genstarter…",
+      "installFailed": "Opdateringen blev ikke installeret",
+      "busy": "Afslut dikteringen først.",
+      "actionFailed": "Det fungerede ikke. Prøv igen senere.",
+      "lastChecked": "Sidst tjekket {{time}}.",
+      "paused": "Efter tre mislykkede forsøg er automatiske opdateringer sat på pause indtil {{time}}.",
+      "manualOnly": "Dette er en udviklingsversion: Der søges kun efter opdateringer, når du beder om det.",
+      "readyHint": "Den installerer sig selv, når du ikke har dikteret i 20 minutter, eller når du afslutter.",
+      "policy": "Opdateringer hentes i baggrunden og installeres, når du ikke har dikteret i 20 minutter, eller når du afslutter.",
+      "needsPassword": "Denne kopi af appen ligger i en mappe, der kræver en administratoradgangskode for at blive ændret, så opdateringer installeres kun, når du vælger Genstart nu."
+    },
+    "support": {
+      "nav": "Støt {{appName}}",
+      "title": "Støt {{appName}}",
+      "free": "Gratis og open source",
+      "sponsor": "Sponsorér på GitHub",
+      "star": "Giv en stjerne på GitHub",
+      "contribute": "Bidrag"
+    },
+    "notices": {
+      "more": "{{count}} mere",
+      "nextLabel": "Næste besked:"
+    },
+    "appleDictationNote": {
+      "body": "Vi har slået Apples Diktering-genvej „Tryk på fn to gange“ fra, så din tekst ikke skrives to gange. Skift det i Indstillinger › Genveje."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "Ny!",
+      "beta": "Beta"
+    },
+    "banner": {
+      "dismiss": "Luk"
+    },
+    "importWizard": {
+      "stepsLabel": "Importtrin",
+      "stepOf": "Trin {{step}} af {{total}}: {{title}}",
+      "steps": {
+        "choose": "Vælg en fil",
+        "columns": "Tilknyt kolonner",
+        "review": "Gennemse",
+        "done": "Færdig"
+      },
+      "dropHint": "Slip en .csv-fil her, eller vælg en.",
+      "browse": "Vælg en .csv-fil",
+      "limit": "Op til 3 MB.",
+      "formatLink": "Understøttet format",
+      "csvFilter": "CSV-fil",
+      "fileSummary_one": "{{name}}: {{count}} række",
+      "fileSummary_other": "{{name}}: {{count}} rækker",
+      "hasHeader": "Første række indeholder kolonnenavne",
+      "optional": "(valgfrit)",
+      "noColumn": "Ikke i denne fil",
+      "column": "Kolonne {{letter}}",
+      "columnNamed": "Kolonne {{letter}}: {{name}}",
+      "mapRequired": "Vælg en kolonne til hvert obligatorisk felt.",
+      "previewCaption_one": "Forhåndsvisning af den første række",
+      "previewCaption_other": "Forhåndsvisning af de første {{count}} rækker",
+      "rowHeader": "Række",
+      "cancel": "Annuller",
+      "back": "Tilbage",
+      "next": "Næste",
+      "import": "Importér",
+      "done": "Færdig",
+      "close": "Luk",
+      "errors": {
+        "notCsv": "Det er ikke en .csv-fil. Gem arket som CSV, og prøv igen.",
+        "tooLarge": "Filen fylder {{size}} MB. Filer må højst fylde 3 MB.",
+        "unreadable": "Filen kunne ikke læses. Tjek, at det er en CSV-fil, og prøv igen.",
+        "empty": "Filen har ingen rækker at importere.",
+        "failed": "Noget gik galt. Intet blev importeret. Prøv igen."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Diktering",
+      "vocabulary": "Ordbog",
+      "help": "Hjælp",
+      "file": "Fil",
+      "edit": "Rediger",
+      "view": "Vis",
+      "window": "Vindue",
+      "wordsDictated_one": "{{count}} ord dikteret",
+      "wordsDictated_other": "{{count}} ord dikteret",
+      "copyLast": "Kopiér seneste diktering",
+      "copyLastPreview": "Kopiér seneste diktering: ”{{preview}}”",
+      "copyLastConcealed": "Kopiér seneste diktering (tekst skjult)",
+      "microphone": "Mikrofon",
+      "languages": "Sprog",
+      "moreLanguages": "Tilføj eller fjern sprog…",
+      "automaticMicrophone": "Registrer automatisk (systemindstilling)",
+      "noMicrophones": "Ingen mikrofoner fundet",
+      "dictionaryWords_one": "{{count}} ord i ordbogen",
+      "dictionaryWords_other": "{{count}} ord i ordbogen",
+      "snippetCount_one": "{{count}} tekststykke",
+      "snippetCount_other": "{{count}} tekststykker",
+      "addWord": "Tilføj ord…",
+      "newSnippet": "Nyt tekststykke…",
+      "documentation": "Dokumentation",
+      "showIntro": "Vis introduktionen igen",
+      "shortcuts": "Genveje",
+      "reportProblem": "Rapportér et problem…",
+      "sendFeedback": "Send feedback…",
+      "openApp": "Åbn {{appName}}",
+      "checkUpdates": "Søg efter opdateringer…",
+      "pasteLast": "Indsæt seneste diktering",
+      "cancelDictation": "Annuller diktering",
+      "shortcutsBlocked": "Genveje blokeret – åbn Indstillinger",
+      "undo": "Fortryd",
+      "redo": "Gentag",
+      "cut": "Klip",
+      "copy": "Kopiér",
+      "paste": "Sæt ind",
+      "selectAll": "Vælg alt",
+      "minimize": "Minimer",
+      "zoom": "Zoom",
+      "closeWindow": "Luk vindue",
+      "fullScreen": "Start fuld skærm",
+      "services": "Tjenester",
+      "hideOthers": "Skjul andre",
+      "showAll": "Vis alle",
+      "about": "Om {{appName}}",
+      "hide": "Skjul {{appName}}",
+      "quitApp": "Slut {{appName}}",
+      "restartToUpdate": "Genstart for at opdatere til {{version}}",
+      "updatesOff": "Søgning efter opdateringer er slået fra…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Genvejen virker ikke længere"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Escape",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Slettetast",
+        "forwardDelete": "Slet fremad",
+        "left": "Venstre pil",
+        "right": "Højre pil",
+        "up": "Pil op",
+        "down": "Pil ned",
+        "home": "Home",
+        "end": "End",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "Venstre museknap",
+        "mouseRight": "Højre museknap",
+        "mouseMiddle": "Midterste museknap",
+        "mouseBack": "Museknappen Tilbage",
+        "mouseForward": "Museknappen Frem"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Diktering er klar",
+        "body": "Talemodellen er hentet. Hold fn nede i en hvilken som helst app, og begynd at tale."
+      },
+      "updateReady": {
+        "title": "Opdatering klar",
+        "body": "{{appName}} {{version}} installeres, næste gang appen genstarter."
+      },
+      "queuedTakesReady": {
+        "title_one": "{{count}} diktering klar",
+        "title_other": "{{count}} dikteringer klar",
+        "body": "Det, du sagde, mens talemodellen manglede, er blevet transskriberet."
+      },
+      "shortcutProblem": {
+        "title": "Din genvej fungerer ikke",
+        "body": "{{appName}} kunne ikke begynde at lytte efter fn. Åbn Indstillinger for at tjekke din genvej.",
+        "bodyPermission": "{{appName}} skal have adgang til Tilgængelighed for at kunne høre fn. Slå det til i Systemindstillinger."
+      },
+      "crashReport": {
+        "title": "{{appName}} sluttede uventet",
+        "body": "Der blev gemt en nedbrudsrapport på denne Mac. Intet blev sendt nogen steder hen."
+      },
+      "dataRecovered": {
+        "title": "Din historikfil blev repareret",
+        "body": "Den kunne ikke læses, så der blev startet en ny. Den beskadigede fil ligger ved siden af."
+      },
+      "milestoneWords": {
+        "title_one": "{{count}} ord dikteret",
+        "title_other": "{{count}} ord dikteret",
+        "body_one": "Det er {{count}} ord, du ikke skulle skrive. Godt gået.",
+        "body_other": "Det er {{count}} ord, du ikke skulle skrive. Godt gået."
+      },
+      "milestoneStreak": {
+        "title_one": "Stime på {{count}} dag",
+        "title_other": "Stime på {{count}} dage",
+        "body_one": "Du har dikteret {{count}} dag i træk.",
+        "body_other": "Du har dikteret {{count}} dage i træk."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Tal uden at holde en tast nede",
+          "body": "Tryk to gange på fn, eller tryk på fn og Space for håndfri diktering. Tryk på fn igen, når du er færdig."
+        },
+        "cancel": {
+          "title": "Fortrudt?",
+          "body": "Tryk på Esc, mens du taler, så bliver dikteringen kasseret. Intet bliver indsat."
+        },
+        "history": {
+          "title": "Alle dikteringer gemmes",
+          "body": "Dine dikteringer bliver på denne Mac. Åbn Historik for at kopiere en igen."
+        },
+        "darkMode": {
+          "title": "Lyst eller mørkt",
+          "body": "Måneknappen øverst i vinduet skifter udseende."
+        },
+        "customWords": {
+          "title": "Lær den dine ord",
+          "body": "Tilføj navne og udtryk, du ofte bruger, så de staves rigtigt hver gang."
+        }
+      },
+      "slowerMac": {
+        "title": "Diktering kan være langsommere på denne Mac",
+        "body": "Ingen talemodel er hurtig nok til dine sprog på denne Mac, så den hurtigste bruges. Det kan tage lidt længere tid, før teksten vises."
+      },
+      "features": {
+        "inbox": {
+          "title": "Her finder du dine meddelelser",
+          "body": "Overførsler, milepæle og tips samles nu bag klokken. Vælg i dens menu, hvad du vil have."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Kopiér seneste",
+        "open": "Åbn",
+        "openAccessibility": "Åbn Indstillinger"
+      },
+      "takeRecovered": {
+        "title_one": "En optagelse blev gemt, da appen sluttede",
+        "title_other": "{{count}} optagelser blev gemt, da appen sluttede",
+        "body_one": "Du dikterede stadig, da {{appName}} lukkede. Optagelsen bliver transskriberet og vises i Historik.",
+        "body_other": "Du dikterede stadig, da {{appName}} lukkede. Optagelserne bliver transskriberet og vises i Historik."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "Kladdeblok"
+    },
+    "pill": {
+      "name": "Dikteringsbjælke",
+      "hint": "Hold fn nede for at diktere, eller klik for at starte",
+      "hideForAnHour": "Skjul i en time",
+      "slots": {
+        "dictate": {
+          "label": "Diktér",
+          "tooltip": "Hold fn nede for at diktere"
+        },
+        "scratchpad": {
+          "label": "Kladdeblok",
+          "tooltip": "Kladdeblok"
+        }
+      },
+      "announce": {
+        "listening": "Lytter",
+        "transcribing": "Transskriberer",
+        "cleaningUp": "Rydder op i din tekst",
+        "cancelled": "Diktering annulleret",
+        "silenceWarning": "Ingen tale i et stykke tid. Dikteringen stopper snart.",
+        "lengthWarning": "Dikteringen stopper efter 30 minutter.",
+        "settingUp": "Diktering gøres klar. Dine ord er gemt.",
+        "card": "Din diktering er klar. Kopiér den fra bjælken.",
+        "micLostWarning": "Mikrofonen blev afbrudt. Det, du har sagt indtil nu, er gemt.",
+        "undo": "Fortryd er på dikteringsbjælken i 4 sekunder.",
+        "diff": "Ændringerne fra transformationen er klar til gennemsyn.",
+        "secureInputWarning": "Sikker indtastning er slået til. fn og Space kan ikke låse dikteringen. Esc eller lukkeknappen annullerer stadig.",
+        "inserted": "Tekst indsat",
+        "newWord": "Nyt ord: {{word}}. Tilføj det fra dikteringslinjen eller senere i Ordbog."
+      },
+      "message": {
+        "no_speech": "Ingen tale hørt",
+        "mic_muted": "Der kom kun stilhed ind. Er mikrofonen slået fra?",
+        "inserted_without_cleanup": "Indsat uden oprydning",
+        "not_pasted": "Ikke indsat. Din tekst er i Historik.",
+        "transcription_failed": "Kunne ikke transskribere det",
+        "mic_denied": "Adgang til mikrofonen er slået fra",
+        "no_microphone": "Ingen mikrofon fundet",
+        "mic_failed": "Mikrofonen startede ikke",
+        "download_failed": "Kunne ikke downloade",
+        "check_connection": "Tjek din internetforbindelse",
+        "no_space": "Der er ikke nok diskplads til at gøre diktering klar",
+        "cancelled": "Annulleret",
+        "no_transcript": "Ingen diktering at indsætte endnu",
+        "copied_last": "Seneste diktering kopieret",
+        "copied_to_clipboard": "Kopieret til udklipsholderen",
+        "transform_done": "Færdig",
+        "command_done": "Færdig",
+        "command_needs_text": "Kommandotilstand redigerer og skriver tekst. Vælg tekst, eller klik i et felt.",
+        "select_text_first": "Vælg tekst først",
+        "selection_too_long": "Vælg højst 6.000 tegn",
+        "transform_focus_moved": "Du gik videre, så intet blev ændret",
+        "transform_failed": "Kunne ikke transformere teksten",
+        "shortcut_lost": "Din genvej fungerer ikke længere",
+        "shortcut_stopped": "Din genvej reagerer ikke længere",
+        "shortcut_back": "Din genvej fungerer igen",
+        "transform_no_change": "Intet at ændre",
+        "transform_not_applied": "Transformationen kunne ikke anvendes",
+        "transform_getting_ready": "Transformationer gøres klar. Prøv igen om et minut."
+      },
+      "card": {
+        "no_text_field": "Klik først i et tekstfelt",
+        "focus_moved": "Du gik videre, så intet blev indsat",
+        "secure_field": "Ikke skrevet i et adgangskodefelt",
+        "sleep": "Ikke indsat: Din Mac gik på vågeblus",
+        "screen_locked": "Ikke indsat: Skærmen var låst",
+        "session_inactive": "Ikke indsat: Du skiftede bruger",
+        "paste_failed": "Kunne ikke indsætte teksten",
+        "disk_full": "Disken er fuld: Optagelse stoppet"
+      },
+      "word": {
+        "added": "Føjet til Ordbog",
+        "full": "Ordbogen er fuld. Ordet bliver under Foreslået."
+      }
+    },
+    "share": {
+      "message": "{{appName}} er gratis diktering, der kører helt på din Mac. Hent den her:"
+    },
+    "spotlight": {
+      "label": "Næste trin",
+      "hint": {
+        "ai_chat": "Åbn en AI-chat, f.eks. ChatGPT eller Claude",
+        "note": "Åbn din note-app",
+        "message": "Åbn en chat, f.eks. Beskeder eller Slack",
+        "email": "Åbn din e-mail",
+        "comment": "Åbn et opslag, du vil kommentere",
+        "document": "Åbn et dokument, du skriver",
+        "coding": "Åbn Cursor, VS Code eller en anden kodeeditor"
+      },
+      "how": "Klik, hvor du vil skrive, hold fn nede, og tal.",
+      "howFallback": "Klik, hvor du vil skrive, hold Control og Option nede, og tal.",
+      "escape": "Tryk på Esc for at lukke dette tip."
+    }
+  },
+  "speechModels": {
+    "title": "Talemodeller",
+    "intro": "{{appName}} vælger talemodellen til dine sprog og denne Mac og skifter til en bedre, når det kan lade sig gøre. Du skal aldrig selv vælge.",
+    "loading": "Tjekker talemodellerne…",
+    "current": "I brug: {{name}}",
+    "none": "Ingen talemodel endnu",
+    "phase": {
+      "checking": "Tjekker, hvilken model der passer til denne Mac…",
+      "settled": "Dette er den bedste model til dine sprog på denne Mac.",
+      "downloading": "Henter en bedre model i baggrunden… {{percent}} %",
+      "downloadingNoPercent": "Henter en bedre model i baggrunden…",
+      "waiting_to_swap": "En bedre model er klar. Den skiftes ind, når du ikke dikterer.",
+      "paused": "Den bedre model kunne ikke downloades. Den prøves igen senere."
+    },
+    "next": "Næste: {{name}}",
+    "progressLabel": "Overførsel af bedre talemodel",
+    "slower": "Diktering kan være langsommere på denne Mac: Ingen model er hurtig nok til dine sprog her, så den hurtigste bruges.",
+    "pinned": "Du har selv valgt denne model, så {{appName}} lader den være.",
+    "automatic": "Vælg modellen automatisk",
+    "automaticHint": "Slås fra, når du vælger en model på listen nedenfor.",
+    "languages": "For: {{languages}}",
+    "machine": "Denne Mac: {{chip}}, {{ram}} GB hukommelse",
+    "freeDisk": "{{gb}} GB ledigt til modeller",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Intel-processor"
+    },
+    "list": "Alle modeller"
+  },
+  "aiEngine": {
+    "title": "AI-motor",
+    "loading": "Tjekker AI-motoren…",
+    "loadError": "Kunne ikke læse AI-motorens status: {{message}}",
+    "state": {
+      "unsupported": "Oprydning af tekst med den lokale AI-motor er ikke tilgængelig på denne Mac.",
+      "missing_runtime": "AI-motoren mangler i denne build.",
+      "waiting_for_speech_model": "Oprydningsmodellen hentes efter talemodellen.",
+      "downloading": "Henter oprydningsmodellen… {{percent}} %",
+      "verifying": "Tjekker oprydningsmodellen…",
+      "ready": "Klar",
+      "download_failed": "Kunne ikke hente oprydningsmodellen."
+    },
+    "progressLabel": "Overførsel af oprydningsmodel",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Motoren hviler: Den starter, når du dikterer.",
+      "starting": "Motoren starter…",
+      "ready": "Motor kører",
+      "failed": "Motoren kunne ikke starte; den vil prøve igen."
+    },
+    "cpuOnly": "kører på CPU",
+    "downloadError": "Fejl: {{message}}",
+    "retry": "Prøv igen",
+    "try": {
+      "label": "Prøv det på en sætning",
+      "sample": "øh så jeg tænkte vi kunne øh mødes på fredag nej vent torsdag for at gå gå budgettet igennem",
+      "button": "Prøv det",
+      "running": "Rydder op…",
+      "notReady": "Tilgængelig, når oprydningsmodellen er klar.",
+      "result": "Oprenset tekst",
+      "empty": "(intet tilbage efter oprydning)",
+      "timing": "Ryddet op på {{ms}} ms.",
+      "timingCold": "Ryddet op på {{ms}} ms, efter {{start}} ms til at starte motoren.",
+      "lowMemory": "Der er ikke nok ledig hukommelse til at starte AI-motoren lige nu. Luk nogle apps, og prøv igen.",
+      "badReply": "Modellens svar kunne ikke bruges. Din tekst ville blive indsat uden oprydning.",
+      "failed": "Oprydning mislykkedes: {{message}}",
+      "ranOnApple": "Kørte på Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Klar på denne Mac. Wispr Bro bruger det, når dens egen oprydningsmodel ikke kan køre endnu, f.eks. mens den hentes.",
+        "available_default": "Klar på denne Mac. Wispr Bro rydder op i dine dikteringer med det.",
+        "device_not_eligible": "Denne Mac kan ikke køre Apple Intelligence. Wispr Bro bruger sin egen oprydningsmodel.",
+        "not_enabled": "Apple Intelligence er slået fra i Systemindstillinger. Wispr Bro bruger sin egen oprydningsmodel.",
+        "model_not_ready": "Apple Intelligence er stadig ved at gøre sin model klar.",
+        "unsupported": "Apple Intelligence kræver macOS 26 eller nyere. Wispr Bro bruger sin egen oprydningsmodel.",
+        "unknown": "Apple Intelligence er ikke tilgængelig i øjeblikket."
+      },
+      "counts": "Siden appen startede: anmodninger {{requests}}, afvist {{refusals}}, begrænset {{rateLimited}}."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "Hej, {{name}}",
+      "anonymous": "Hej",
+      "edit": "Ændr navnet i hilsenen"
+    },
+    "nameEditor": {
+      "label": "Navn i hilsen",
+      "field": "Dit navn",
+      "hint": "Vises kun på denne Mac.",
+      "save": "Gem",
+      "useAccountName": "Brug navnet på min Mac-konto",
+      "clear": "Fjern navnet",
+      "saveFailed": "Navnet kunne ikke gemmes. Prøv igen."
+    },
+    "stats": {
+      "label": "Din statistik",
+      "totalWords": "Ord i alt",
+      "wordsPerMinute": "Ord pr. minut",
+      "streak": "Dage i træk",
+      "notEnoughSpeech": "Ikke nok tale endnu",
+      "unavailable": "Ikke tilgængelig endnu"
+    },
+    "voiceProfile": {
+      "title": "Din stemmeprofil",
+      "unlocked": "Låst op. Se, hvordan du taler, i Statistik.",
+      "open": "Åbn Statistik",
+      "progress_one": "{{current}} af {{goal}} ord",
+      "progress_other": "{{current}} af {{goal}} ord",
+      "locked_one": "Låses op ved {{goal}} ord. Bliv ved med at diktere for at opbygge den.",
+      "locked_other": "Låses op ved {{goal}} ord. Bliv ved med at diktere for at opbygge den."
+    },
+    "history": {
+      "title": "Dine dikteringer gemmes på denne Mac",
+      "body": "Åbn Historik for at kopiere, afspille eller søge i dem.",
+      "action": "Åbn Historik"
+    }
+  },
+  "dictionary": {
+    "add": "Tilføj ord",
+    "added": "Tilføjede ”{{entry}}”.",
+    "search": "Søg i din ordbog",
+    "refresh": "Opdater",
+    "shown_one": "{{count}} post vist",
+    "shown_other": "{{count}} poster vist",
+    "deleted": "Slettede ”{{entry}}”.",
+    "deleteFailed": "Posten kunne ikke slettes. Prøv igen.",
+    "undo": "Fortryd",
+    "tabs": {
+      "label": "Poster i ordbogen",
+      "all": "Alle",
+      "mine": "Tilføjet af dig",
+      "suggested": "Foreslået"
+    },
+    "sort": {
+      "label": "Sorter",
+      "newest": "Nyeste først",
+      "oldest": "Ældste først",
+      "az": "A til Z",
+      "za": "Z til A",
+      "used": "Mest brugt"
+    },
+    "banner": {
+      "title": "{{appName}} staver det på <em>din</em> måde.",
+      "lead": "Tilføj et ord én gang, eller ret det, når det bliver forkert, så dine <b>navne, fagudtryk og sjældne ord</b> staves rigtigt hver gang.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Ord at tilføje",
+      "add": "Tilføj ord"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "bliver til",
+      "used_one": "Brugt {{count}} gang",
+      "used_other": "Brugt {{count}} gange",
+      "edit": "Rediger {{entry}}",
+      "delete": "Slet {{entry}}",
+      "accept": "Tilføj {{entry}} til din ordbog",
+      "reject": "Lær ikke {{entry}}"
+    },
+    "source": {
+      "import": "Importeret",
+      "migrated": "Fra dine tidligere egne ord",
+      "learn": "Lært",
+      "flag": "Fra en markeret diktering"
+    },
+    "empty": {
+      "title": "Din ordbog er tom",
+      "body": "Tilføj de navne, ord og erstatninger, som {{appName}} skal kende. De gælder fra din næste diktering."
+    },
+    "emptySuggested": {
+      "title": "Ingen forslag endnu",
+      "body": "Når {{appName}} kan lære af de ord, du retter, vises de her, så du kan godkende dem.",
+      "bodyOn": "Ret et forkert stavet navn eller udtryk i tekstfeltet lige efter dikteringen, og tryk så på Retur eller Tab, eller fortsæt bare. Det ord, du rettede, vises her, så du kan godkende det."
+    },
+    "noMatch": {
+      "title": "Intet matcher",
+      "body": "Ingen poster indeholder ”{{query}}”.",
+      "action": "Ryd søgningen"
+    },
+    "unavailable": {
+      "title": "Ordbogen er endnu ikke tilgængelig",
+      "body": "Den åbner, så snart appen er færdig med at starte.",
+      "brokenTitle": "Ordbogen kan ikke åbnes",
+      "brokenBody": "{{appName}} kan ikke læse sin datafil lige nu. Afslut og åbn appen igen. Hvis det bliver ved, så vælg Hjælp › Rapportér et problem."
+    },
+    "problem": {
+      "empty": "Skriv et ord først.",
+      "same_as_replacement": "Erstatningen er den samme som ordet.",
+      "control_character": "Linjeskift og tabulatorer kan ikke bruges her.",
+      "full": "Din ordbog er fuld. Slet nogle poster først.",
+      "too_long_one": "Ord må højst være på {{max}} tegn.",
+      "too_long_other": "Ord må højst være på {{max}} tegn.",
+      "replacement_too_long_one": "Erstatninger må højst være på {{maxReplacement}} tegn.",
+      "replacement_too_long_other": "Erstatninger må højst være på {{maxReplacement}} tegn."
+    },
+    "dialog": {
+      "addTitle": "Føj til ordbog",
+      "editTitle": "Rediger post i ordbog",
+      "description": "Ord staves, som du skriver dem her.",
+      "replaceToggle": "Erstat et ord",
+      "word": "Ord eller navn",
+      "wordPlaceholder": "f.eks. Siobhán",
+      "from": "Når jeg siger",
+      "fromPlaceholder": "f.eks. ka’",
+      "to": "Skriv",
+      "toPlaceholder": "f.eks. kan",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Hjælper talemodellen med at høre og stave det rigtigt.",
+      "ruleHint": "Matcher hele ordet uanset store og små bogstaver og skriver erstatningen præcis, som den er skrevet.",
+      "cancel": "Annuller",
+      "add": "Tilføj ord",
+      "save": "Gem",
+      "close": "Luk",
+      "duplicate": "”{{entry}}” findes allerede i din ordbog.",
+      "conflictRule": "”{{from}}” bliver allerede til ”{{to}}”.",
+      "conflictWord": "”{{word}}” findes allerede i din ordbog med en anden stavemåde.",
+      "replaceExisting": "Erstat det",
+      "missing": "Denne post er blevet slettet i mellemtiden.",
+      "failed": "Det kunne ikke gemmes. Prøv igen.",
+      "failedStorage": "Ikke gemt: {{appName}} kan ikke åbne sin datafil. Afslut og åbn appen igen, og prøv så igen. Hvis det bliver ved, så vælg Hjælp › Rapportér et problem.",
+      "failedStarting": "Ikke gemt endnu: {{appName}} starter stadig. Prøv igen om et øjeblik."
+    },
+    "import": {
+      "open": "Importér",
+      "title": "Importér ordbog",
+      "description": "Hent ord og erstatninger fra et regneark, der er gemt som CSV.",
+      "fieldPhrase": "Ord, eller det du siger",
+      "fieldReplacement": "Erstat med",
+      "format": {
+        "intro": "Én post pr. række:",
+        "columns": "Første kolonne er et ord eller det, du siger. Anden kolonne er, hvis den er udfyldt, den tekst, der skal skrives i stedet.",
+        "header": "En første række med kolonnenavne er fint. Du vælger kolonnerne i næste trin.",
+        "limits": "Ord op til 60 tegn, erstatninger op til 200, filer op til 3 MB.",
+        "encoding": "Gem som CSV UTF-8, så accenter og andre skriftsystemer kommer korrekt med."
+      },
+      "review": {
+        "new_one": "ny post",
+        "new_other": "nye poster",
+        "duplicates_one": "findes allerede",
+        "duplicates_other": "findes allerede",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikter",
+        "invalid_one": "kan ikke importeres",
+        "invalid_other": "kan ikke importeres",
+        "overLimit_one": "{{count}} ny post kan ikke være der (plads tilbage i din ordbog: {{room}}).",
+        "overLimit_other": "{{count}} nye poster kan ikke være der (plads tilbage i din ordbog: {{room}}).",
+        "showNew": "Vis de nye poster",
+        "more_one": "og {{count}} mere",
+        "more_other": "og {{count}} mere",
+        "conflictsTitle": "Findes allerede i din ordbog, men anderledes",
+        "conflictsHelp": "Markér dem, hvor filens version skal erstatte din.",
+        "useAllFile": "Brug filens version for alle",
+        "keepAllMine": "Behold alle mine",
+        "useFile": "Brug filens:",
+        "yours": "Dine:",
+        "showInvalid": "Vis rækkerne, der ikke kan importeres",
+        "invalidRow": "Række {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} post importeret",
+        "title_other": "{{count}} poster importeret",
+        "added_one": "{{count}} tilføjet",
+        "added_other": "{{count}} tilføjet",
+        "replaced_one": "{{count}} erstattet med filens version",
+        "replaced_other": "{{count}} erstattet med filens version",
+        "skipped_one": "{{count}} allerede der, springet over",
+        "skipped_other": "{{count}} allerede der, springet over",
+        "kept_one": "{{count}} konflikt beholdt uændret",
+        "kept_other": "{{count}} konflikter beholdt uændret",
+        "invalid_one": "{{count}} række kunne ikke importeres",
+        "invalid_other": "{{count}} rækker kunne ikke importeres",
+        "overLimit_one": "{{count}} kunne ikke være der (ordbogen er fuld)",
+        "overLimit_other": "{{count}} kunne ikke være der (ordbogen er fuld)"
+      }
+    },
+    "export": {
+      "open": "Eksportér",
+      "fileName": "{{appName}} ordbog.csv",
+      "done_one": "Eksporterede {{count}} post.",
+      "done_other": "Eksporterede {{count}} poster.",
+      "failed": "Ordbogen kunne ikke eksporteres. Prøv igen."
+    },
+    "rejected": "”{{entry}}” bliver ikke foreslået igen.",
+    "actionFailed": "Det virkede ikke. Prøv igen.",
+    "learn": {
+      "toggle": "Lær af mine rettelser",
+      "hint": "I 30 sekunder efter at en diktering er indsat, bemærker {{appName}} ord, du retter i tekstfeltet, og foreslår dem her. Kun det rettede ord gemmes, aldrig resten af teksten. Adgangskodefelter, adgangskodeadministratorer, bankapps og terminaler læses aldrig."
+    },
+    "undoFailed": "”{{entry}}” kunne ikke gendannes. Tilføj det igen.",
+    "undoSkipped": "”{{entry}}” blev ikke gendannet: din ordbog har det allerede.",
+    "addNew": "Tilføj"
+  },
+  "pill": {
+    "region": "Dikteringsbjælke",
+    "listening": "Lytter",
+    "cancel": "Annuller diktering",
+    "finish": "Afslut diktering",
+    "transcribing": "Transskriberer…",
+    "cleaningUp": "Rydder op…",
+    "contextUsed": "Tekst i nærheden hjalp med stavningen",
+    "mic": "Mikrofon: {{name}}",
+    "fix": "Ret",
+    "dismiss": "Luk",
+    "warning": {
+      "silence": "Ingen tale i et stykke tid, stopper snart",
+      "length": "Stopper efter 30 minutter",
+      "mic_lost": "Mikrofon mistet, det du sagde, er gemt",
+      "secure_input": "Sikker indtastning er slået til · fn+Space kan ikke låse · Esc eller ✕ annullerer",
+      "secure_input_app": "{{app}} bruger sikker indtastning · fn+Space kan ikke låse · Esc eller ✕ annullerer"
+    },
+    "settingUp": "Gør klar…",
+    "settingUpPercent": "Gør klar… {{percent}} %",
+    "settingUpHint": "Dine ord er gemt. Teksten vises her, når diktering er klar.",
+    "cardReady": "Din diktering",
+    "cardMore_one": "Din diktering · {{count}} mere i Historik",
+    "cardMore_other": "Din diktering · {{count}} mere i Historik",
+    "copy": "Kopiér",
+    "copied": "Kopieret",
+    "retry": "Prøv igen",
+    "card": {
+      "hidden": "Skjult, fordi det var beregnet til et adgangskodefelt"
+    },
+    "undo": "Fortryd",
+    "viewChanges": "Vis ændringer",
+    "sendsAutomatically": "Sendes automatisk",
+    "shortcutDetail": {
+      "permission": "Adgang til Tilgængelighed er slået fra",
+      "stopped": "Tastaturovervågningen stoppede"
+    },
+    "word": {
+      "new": "Nyt ord",
+      "add": "Tilføj",
+      "addLabel": "Føj {{word}} til Ordbog",
+      "notNow": "Ikke nu"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "Prøv det",
+      "howItWorks": "Sådan virker det",
+      "title": "Omskriv al tekst, du markerer"
+    },
+    "enable": {
+      "title": "Slå til"
+    },
+    "commandMode": {
+      "title": "Kommandotilstand",
+      "help": "Hold genvejen nede, og sig, hvad der skal skrives eller ændres."
+    },
+    "auto": {
+      "title": "Anvend automatisk efter diktering",
+      "choice": "Transformation, der skal anvendes",
+      "none": "Vælg en transformation",
+      "description": "Hver diktering kører gennem den transformation, du vælger."
+    },
+    "shortcuts": {
+      "warning": "⌥1, ⌥2 og ⌥O erstatter tegnene ¡, ™ og ø, mens Transformationer er slået til.",
+      "safe": "Brug ⌃⌥ i stedet"
+    },
+    "myTransforms": "Mine transformationer",
+    "reset": "Nulstil til standard",
+    "resetConfirm": "Vil du nulstille Polish og Prompt Engineer og fjerne alle egne transformationer?",
+    "createNew": "Opret ny",
+    "deleteConfirm": "Vil du slette {{name}}? Det kan ikke fortrydes.",
+    "loading": "Indlæser dine transformationer…",
+    "error": "Ændringen af transformationen kunne ikke gemmes. Prøv igen.",
+    "card": {
+      "delete": "Slet {{name}}",
+      "createOwn": "Lav din egen",
+      "createOwnHint": "Beskriv, hvad den skal gøre"
+    },
+    "new": {
+      "name": "Min transformation"
+    },
+    "editor": {
+      "title": "Rediger {{name}}",
+      "name": "Navn",
+      "hotkey": "Genvej",
+      "addHotkey": "Tilføj genvej",
+      "example": "Eksempel",
+      "exampleInput": "Tekst, der skal transformeres",
+      "exampleText": "øh kan du sende mig rapporten i morgen måske kan vi snakke om det der",
+      "preview": "Eksempel",
+      "previewing": "Viser eksempel…",
+      "rules": "Redigeringsregler",
+      "autosave": {
+        "saved": "Automatisk arkivering · Alle ændringer er gemt",
+        "saving": "Automatisk arkivering · Gemmer…",
+        "error": "Automatisk arkivering · Kunne ikke gemme den seneste ændring"
+      },
+      "reset": "Nulstil",
+      "done": "Færdig",
+      "close": "Luk editor",
+      "exactBadge": "Nøjagtig · uden AI",
+      "outcome": {
+        "no_change": "Der er intet at ændre i denne tekst.",
+        "not_applied": "Den lokale AI kunne ikke klare denne. Prøv en kortere, mere specifik instruktion.",
+        "failed": "Svaret fra den lokale AI bestod ikke sikkerhedstjekkene. Prøv igen, eller omformuler instruktionen.",
+        "timeout": "Den lokale AI brugte for lang tid. Prøv igen.",
+        "no_engine": "Den lokale AI er ikke klar endnu. Nøjagtige ændringer virker stadig."
+      },
+      "instruction": "Hvad skal den gøre?",
+      "instructionPlaceholder": "For eksempel: erstat alle “A” med 0, eller gør det venligere",
+      "more": "Flere muligheder"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Kortere"
+      },
+      "clearer": {
+        "title": "Tydeligere formulering"
+      },
+      "better_order": {
+        "title": "Bedre rækkefølge"
+      },
+      "headings_lists": {
+        "title": "Tilføj overskrifter og lister"
+      },
+      "keep_tone": {
+        "title": "Behold min tone"
+      }
+    },
+    "examples": {
+      "title": "Skriveeksempler",
+      "fileType": "Tekst eller Markdown",
+      "label": "Skriveeksempel {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Indsæt et eksempel",
+      "load": "Indlæs .txt eller .md",
+      "remove": "Fjern eksempel {{number}}",
+      "readError": "Vælg en .txt- eller .md-fil med højst {{chars}} tegn."
+    },
+    "diff": {
+      "changes_one": "{{count}} ændring",
+      "changes_other": "{{count}} ændringer",
+      "configure": "Konfigurer",
+      "copy": "Kopiér",
+      "copied": "Kopieret",
+      "retry": "Prøv igen",
+      "retrying": "Prøver igen…",
+      "feedback": "Bedøm denne transformation",
+      "good": "Godt resultat",
+      "bad": "Dårligt resultat",
+      "simpleView": "Viser én erstatning for denne store eller komplekse ændring.",
+      "actionFailed": "Handlingen virkede ikke. Din tekst er her stadig; prøv igen."
+    },
+    "findReplace": {
+      "title": "Find og erstat",
+      "find": "Find, række {{number}}",
+      "replace": "Erstat med, række {{number}}",
+      "findPlaceholder": "Find",
+      "replacePlaceholder": "Erstat med",
+      "matchCase": "Forskel på store og små bogstaver",
+      "remove": "Fjern række {{number}}",
+      "add": "Tilføj en erstatning"
+    },
+    "model": {
+      "downloading": "Gør transformationer klar: engangsdownload, {{percent}} %",
+      "verifying": "Gør transformationer klar: tjekker downloaden…",
+      "ready": "Transformationer er klar",
+      "progressLabel": "Download til transformationer",
+      "failed": "Det, transformationer kræver, kunne ikke hentes. Tjek din forbindelse.",
+      "retry": "Prøv igen"
+    },
+    "subtitle": "Markér tekst i en hvilken som helst app, og tryk på en genvej for at omskrive den.",
+    "settings": {
+      "title": "Indstillinger for transformationer"
+    },
+    "viewChanges": "for at se ændringerne",
+    "builtin": {
+      "polish": "Klarere og kortere",
+      "prompt_engineer": "Laver en klar prompt"
+    }
+  },
+  "cleanup": {
+    "title": "Oprydning",
+    "loading": "Indlæser oprydningsniveau…",
+    "loadError": "Kunne ikke læse oprydningsniveauet: {{message}}",
+    "setError": "Ændringen blev ikke gemt: {{message}}",
+    "notice": "Indsat uden oprydning",
+    "picker": {
+      "legend": "Hvor meget skal der ryddes op i dine ord?",
+      "recommended": "Anbefalet",
+      "aiChat": "I AI-chatapps indsættes dine ord, som du sagde dem, uden AI-oprydning."
+    },
+    "levels": {
+      "none": {
+        "label": "Ingen",
+        "description": "Præcis det, du sagde, kun med mellemrum og stemmekommandoer anvendt."
+      },
+      "light": {
+        "label": "Let",
+        "description": "Fjerner fyldord som ”øh” og ”du ved”, retter tegnsætning og store bogstaver og beholder dine rettelser: ”kl. 2, nej, kl. 3” bliver til ”kl. 3”."
+      },
+      "medium": {
+        "label": "Middel",
+        "description": "Alt fra Let plus mere flydende grammatik og formulering. Dine fakta og din betydning forbliver de samme."
+      }
+    },
+    "last": {
+      "title": "Seneste diktering",
+      "none": "Ingen diktering, siden appen startede.",
+      "applied_one": "Ryddet op på {{ms}} ms, {{count}} ændring.",
+      "applied_other": "Ryddet op på {{ms}} ms, {{count}} ændringer.",
+      "checks": "Sikkerhedstjek, der stoppede den: {{checks}}",
+      "partial_one": "Delvist ryddet op ({{applied}} af {{total}} afsnit); resten er som sagt: {{reason}}",
+      "partial_other": "Delvist ryddet op ({{applied}} af {{total}} afsnit); resten er som sagt: {{reason}}"
+    },
+    "why": {
+      "level_none": "Oprydning er slået fra.",
+      "empty": "Intet at rydde op i.",
+      "already_clean": "Allerede ren, så AI-motoren var ikke nødvendig.",
+      "ai_chat": "AI-chatapp: indsat, som du sagde det.",
+      "not_ready": "Indsat uden oprydning: Oprydningsmodellen er ikke klar endnu.",
+      "low_memory": "Indsat uden oprydning: Der er ikke nok ledig hukommelse lige nu.",
+      "guard": "Indsat uden oprydning: Den oprensede tekst bestod ikke sikkerhedstjekkene.",
+      "timeout": "Indsat uden oprydning: Oprydningen tog for lang tid.",
+      "error": "Indsat uden oprydning: AI-motoren havde et problem."
+    },
+    "reason": {
+      "level_none": "oprydning er slået fra",
+      "empty": "intet at rydde op i",
+      "already_clean": "allerede ren",
+      "ai_chat": "AI-chat-app",
+      "not_ready": "oprydningsmodellen er ikke klar endnu",
+      "low_memory": "ikke nok ledig hukommelse",
+      "guard": "den bestod ikke sikkerhedstjekkene",
+      "timeout": "oprydningen tog for lang tid",
+      "error": "AI-motoren havde et problem"
+    }
+  },
+  "snippets": {
+    "add": "Tilføj tekststykke",
+    "added": "Tilføjede ”{{trigger}}”.",
+    "search": "Søg i dine tekststykker",
+    "refresh": "Opdater",
+    "shown_one": "{{count}} tekststykke vist",
+    "shown_other": "{{count}} tekststykker vist",
+    "deleted": "Slettede ”{{trigger}}”.",
+    "deleteFailed": "Tekststykket kunne ikke slettes. Prøv igen.",
+    "undo": "Fortryd",
+    "counts": {
+      "snippets_one": "{{count}} tekststykke",
+      "snippets_other": "{{count}} tekststykker",
+      "uses_one": "brugt {{count}} gang",
+      "uses_other": "brugt {{count}} gange"
+    },
+    "sort": {
+      "label": "Sorter",
+      "newest": "Nyeste først",
+      "oldest": "Ældste først",
+      "az": "A til Z",
+      "za": "Z til A",
+      "used": "Mest brugt"
+    },
+    "banner": {
+      "title": "Stop med at skrive det samme <em>to gange</em>.",
+      "lead": "Sig et kort stikord, og {{appName}} skriver hele teksten.",
+      "examplesLabel": "Eksempler",
+      "cue1": "min adresse",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "min hilsen",
+      "text2": "Venlig hilsen, Sam",
+      "cue3": "kalenderlink",
+      "text3": "Vælg et tidspunkt, der passer dig: cal.example.com/sam",
+      "add": "Tilføj snippet"
+    },
+    "entry": {
+      "becomes": "skrives som",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_one": "{{count}} linje",
+      "lines_other": "{{count}} linjer",
+      "imported": "Importeret",
+      "used_one": "Brugt {{count}} gang",
+      "used_other": "Brugt {{count}} gange",
+      "edit": "Rediger {{trigger}}",
+      "delete": "Slet {{trigger}}"
+    },
+    "empty": {
+      "title": "Ingen tekststykker endnu",
+      "body": "Gem en adresse, en hilsen eller et link én gang. Når du siger stikordet, skriver {{appName}} det for dig."
+    },
+    "noMatch": {
+      "title": "Intet matcher",
+      "body": "Intet tekststykke indeholder ”{{query}}”.",
+      "action": "Ryd søgningen"
+    },
+    "unavailable": {
+      "title": "Tekststykker er ikke tilgængelige endnu",
+      "body": "De åbner, så snart appen er færdig med at starte."
+    },
+    "problem": {
+      "empty_trigger": "Skriv først, hvad du vil sige.",
+      "trigger_not_spoken": "Det, du siger, skal indeholde mindst ét bogstav eller tal.",
+      "trigger_control_character": "Det, du siger, skal kunne være på én linje.",
+      "empty_body": "Skriv den tekst, der skal skrives.",
+      "body_control_character": "Teksten indeholder et tegn, der ikke kan skrives. Fjern det, og prøv igen.",
+      "full": "Din liste over tekststykker er fuld. Slet nogle tekststykker først.",
+      "trigger_too_long_one": "Det, du siger, må højst være på {{max}} tegn.",
+      "trigger_too_long_other": "Det, du siger, må højst være på {{max}} tegn.",
+      "body_too_long_one": "Teksten må højst være på {{maxBody}} tegn.",
+      "body_too_long_other": "Teksten må højst være på {{maxBody}} tegn."
+    },
+    "dialog": {
+      "addTitle": "Tilføj tekststykke",
+      "editTitle": "Rediger tekststykke",
+      "description": "Sig stikordet, så skrives den gemte tekst i stedet.",
+      "trigger": "Når jeg siger",
+      "triggerPlaceholder": "f.eks. min adresse",
+      "body": "Skriv",
+      "bodyPlaceholder": "Den tekst, der skal skrives. Linjeskift bevares.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Virker alene eller midt i en sætning, uanset store og små bogstaver. Midt i en sætning skal tegnsætning i det, du siger, passe præcis til den dikterede tekst. Teksten skrives præcis, som den er gemt.",
+      "cancel": "Annuller",
+      "add": "Tilføj tekststykke",
+      "save": "Gem",
+      "close": "Luk",
+      "duplicate": "”{{trigger}}” er allerede gemt med denne tekst.",
+      "conflict": "”{{trigger}}” er allerede et tekststykke med en anden tekst.",
+      "replaceExisting": "Erstat det",
+      "missing": "Dette tekststykke er blevet slettet i mellemtiden.",
+      "failed": "Det kunne ikke gemmes. Prøv igen."
+    },
+    "import": {
+      "open": "Importér",
+      "title": "Importér tekststykker",
+      "description": "Hent tekststykker fra et regneark, der er gemt som CSV.",
+      "fieldTrigger": "Det, du siger",
+      "fieldBody": "Tekst, der skal skrives",
+      "format": {
+        "intro": "Ét tekststykke pr. række:",
+        "columns": "Første kolonne er det, du siger. Anden kolonne er den tekst, der skal skrives.",
+        "lines": "En tekst med linjeskift står i anførselstegn, sådan som regnearksapps gemmer den.",
+        "encoding": "Gem som CSV UTF-8, så accenter og andre skriftsystemer kommer korrekt med.",
+        "limits_one": "Op til {{max}} tegn for det, du siger, og {{maxBody}} for teksten; højst 1.000 rækker og 3 MB pr. fil.",
+        "limits_other": "Op til {{max}} tegn for det, du siger, og {{maxBody}} for teksten; højst 1.000 rækker og 3 MB pr. fil."
+      },
+      "review": {
+        "new_one": "nyt tekststykke",
+        "new_other": "nye tekststykker",
+        "duplicates_one": "findes allerede",
+        "duplicates_other": "findes allerede",
+        "conflicts_one": "konflikt",
+        "conflicts_other": "konflikter",
+        "invalid_one": "kan ikke importeres",
+        "invalid_other": "kan ikke importeres",
+        "overLimit_one": "{{count}} nyt tekststykke kan ikke være der (plads tilbage: {{room}}).",
+        "overLimit_other": "{{count}} nye tekststykker kan ikke være der (plads tilbage: {{room}}).",
+        "ignoredRows_one": "Kun de første 1.000 rækker læses. {{count}} række mere er udeladt.",
+        "ignoredRows_other": "Kun de første 1.000 rækker læses. {{count}} rækker mere er udeladt.",
+        "showNew": "Vis de nye tekststykker",
+        "more_one": "og {{count}} mere",
+        "more_other": "og {{count}} mere",
+        "conflictsTitle": "Allerede gemt med anden tekst",
+        "conflictsHelp": "Markér dem, hvor filens tekst skal erstatte din.",
+        "useAllFile": "Brug filens tekst til alle",
+        "keepAllMine": "Behold alle mine",
+        "useFile": "Brug filens:",
+        "yours": "Dine:",
+        "showInvalid": "Vis rækkerne, der ikke kan importeres",
+        "invalidRow": "Række {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_one": "{{count}} tekststykke importeret",
+        "title_other": "{{count}} tekststykker importeret",
+        "added_one": "{{count}} tilføjet",
+        "added_other": "{{count}} tilføjet",
+        "replaced_one": "{{count}} erstattet med filens tekst",
+        "replaced_other": "{{count}} erstattet med filens tekst",
+        "skipped_one": "{{count}} allerede der, springet over",
+        "skipped_other": "{{count}} allerede der, springet over",
+        "kept_one": "{{count}} konflikt beholdt uændret",
+        "kept_other": "{{count}} konflikter beholdt uændret",
+        "invalid_one": "{{count}} række kunne ikke importeres",
+        "invalid_other": "{{count}} rækker kunne ikke importeres",
+        "overLimit_one": "{{count}} kunne ikke være der (din liste over tekststykker er fuld)",
+        "overLimit_other": "{{count}} kunne ikke være der (din liste over tekststykker er fuld)"
+      }
+    },
+    "export": {
+      "open": "Eksportér",
+      "fileName": "{{appName}} tekststykker.csv",
+      "done_one": "Eksporterede {{count}} tekststykke.",
+      "done_other": "Eksporterede {{count}} tekststykker.",
+      "failed": "Tekststykkerne kunne ikke eksporteres. Prøv igen."
+    },
+    "undoFailed": "”{{trigger}}” kunne ikke gendannes. Tilføj det igen.",
+    "undoSkipped": "”{{trigger}}” blev ikke gendannet: et andet tekststykke bruger nu den frase.",
+    "addNew": "Tilføj",
+    "tabs": {
+      "all": "Alle"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Statistik",
+      "usage": "Forbrug",
+      "voice": "Stem"
+    },
+    "asOf": "Dine tal pr. {{date}}",
+    "unavailable": "Statistik kan ikke læses lige nu. Den vises om et øjeblik.",
+    "save": {
+      "button": "Gem som billede",
+      "fileName": "{{appName}} statistik {{date}}.png",
+      "filter": "PNG-billede",
+      "done": "Billedet er gemt.",
+      "failed": "Billedet kunne ikke gemmes. Prøv igen."
+    },
+    "speed": {
+      "title": "Ord i minuttet",
+      "notEnough": "Diktér lidt mere for at se dit tempo.",
+      "measured": "{{ratio}}× din skrivehastighed på {{typing}} ord/min",
+      "average": "{{ratio}}× hastigheden for en gennemsnitlig maskinskriver ({{typing}} ord/min)",
+      "speaking": "Tale",
+      "typing": "Din skrivning",
+      "typingAverage": "Gennemsnitlig skrivning"
+    },
+    "words": {
+      "title": "Ord i alt",
+      "dictations_one": "i {{count, number}} diktering",
+      "dictations_other": "i {{count, number}} dikteringer"
+    },
+    "fixes": {
+      "title": "Rettelser",
+      "dictionary": "Rettelser fra ordbogen",
+      "ai": "Rettelser fra AI-oprydning"
+    },
+    "categories": {
+      "title": "Hvor du dikterer",
+      "empty": "Diktér i et par apps for at se, hvor dine ord havner.",
+      "words_one": "{{count, number}} ord",
+      "words_other": "{{count, number}} ord",
+      "documents": "Dokumenter",
+      "ai_prompts": "AI-prompter",
+      "email": "E-mail",
+      "work": "Arbejdsbeskeder",
+      "personal": "Personlige beskeder",
+      "other": "Alt andet",
+      "used": "Brugte kategorier"
+    },
+    "heatmap": {
+      "title": "Din stime",
+      "current": "Nuværende stime",
+      "longest": "Længste stime",
+      "days_one": "{{count, number}} dag",
+      "days_other": "{{count, number}} dage",
+      "active_one": "{{count, number}} dag med diktering det seneste år",
+      "active_other": "{{count, number}} dage med diktering det seneste år",
+      "day_one": "{{date}}: {{count, number}} ord",
+      "day_other": "{{date}}: {{count, number}} ord",
+      "less": "Mindre",
+      "more": "Mere",
+      "band0": "Ingen ord",
+      "band1": "1 til 249 ord",
+      "band2": "250 til 499 ord",
+      "band3": "500 til 749 ord",
+      "band4": "750 ord eller mere",
+      "streak_one": "Nuværende stime: {{count, number}} dag",
+      "streak_other": "Nuværende stime: {{count, number}} dage"
+    },
+    "voice": {
+      "locked": "Låst",
+      "phrase": "Dit udtryk",
+      "phraseIn_one": "I {{count, number}} diktering",
+      "phraseIn_other": "I {{count, number}} dikteringer",
+      "peak": "Travleste tid og app",
+      "peakApp": "Flest ord i {{app}}",
+      "word": "Mest brugte ord",
+      "uses_one": "Brugt {{count, number}} gang",
+      "uses_other": "Brugt {{count, number}} gange",
+      "corrected": "Oftest rettede ord",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_one": "Rettet {{count, number}} gang",
+      "fixed_other": "Rettet {{count, number}} gange",
+      "notEnough": "Ikke nok dikteringer endnu.",
+      "footnote_one": "Beregnet på denne Mac ud fra din seneste diktering. Intet forlader din Mac.",
+      "footnote_other": "Beregnet på denne Mac ud fra dine seneste {{count, number}} dikteringer. Intet forlader din Mac.",
+      "sample": {
+        "phrase": "et udtryk, du ofte siger",
+        "peak": "en tid i døgnet",
+        "word": "et yndlingsord",
+        "corrected": "et ord, der ofte bliver rettet"
+      },
+      "lockedTitle_one": "Din stemmeprofil låses op ved {{goal}} ord",
+      "lockedTitle_other": "Din stemmeprofil låses op ved {{goal}} ord",
+      "lockedBody_one": "Bliv ved med at diktere: {{current}} af {{goal}} ord indtil nu. Så kan du se det udtryk, du bruger mest, hvornår og hvor du dikterer, og de ord, {{appName}} retter for dig.",
+      "lockedBody_other": "Bliv ved med at diktere: {{current}} af {{goal}} ord indtil nu. Så kan du se det udtryk, du bruger mest, hvornår og hvor du dikterer, og de ord, {{appName}} retter for dig."
+    },
+    "typing": {
+      "take": "Tag skrivetesten",
+      "retake": "Tag skrivetesten igen"
+    },
+    "saved": {
+      "title": "Tid sparet i forhold til at skrive",
+      "basisMeasured": "{{speaking}} ord/min tale mod {{typing}} ord/min skrivning",
+      "basisAverage": "{{speaking}} ord/min tale mod {{typing}} ord/min gennemsnitlig skrivning",
+      "basisEstimateMeasured": "Cirka {{speaking}} ord/min tale mod {{typing}} ord/min skrivning",
+      "basisEstimateAverage": "Cirka {{speaking}} ord/min tale mod {{typing}} ord/min gennemsnitlig skrivning"
+    }
+  },
+  "history": {
+    "title": "Historik",
+    "today": "I dag",
+    "yesterday": "I går",
+    "rowLabel": "Diktering kl. {{time}}",
+    "loading": "Indlæser dine dikteringer…",
+    "loadingMore": "Indlæser flere…",
+    "unavailable": "Historik er ikke tilgængelig endnu. Den vises, så snart appen er færdig med at starte.",
+    "empty": {
+      "body": "Hold fn nede i en hvilken som helst app, og begynd at tale. Alle dikteringer gemmes her på denne Mac."
+    },
+    "noResults": {
+      "title": "Ingen resultater",
+      "body": "Ingen diktering indeholder ”{{query}}”."
+    },
+    "results_one": "{{count}} diktering fundet",
+    "results_other": "{{count}} dikteringer fundet",
+    "resultsMore_one": "Viser {{count}} seneste match. Rul for at se flere.",
+    "resultsMore_other": "Viser de {{count}} seneste match. Rul for at se flere.",
+    "search": {
+      "open": "Søg i Historik",
+      "label": "Søg i dine dikteringer",
+      "placeholder": "Søg i dikteringer",
+      "close": "Luk søgning"
+    },
+    "transcribeFile": "Transskriber en fil…",
+    "transcribeFailed": "Filen kunne ikke åbnes. Prøv igen.",
+    "showMore": "Vis mere",
+    "showLess": "Vis mindre",
+    "failed": "Transskriptionen mislykkedes. Vælg ”Prøv transskription igen” i menuen ⋮.",
+    "waitingForModel": "Venter på talemodel",
+    "notTranscribed": "Ikke transskriberet endnu.",
+    "job": {
+      "waiting": "Venter på at transskribere…",
+      "transcribing": "Transskriberer…",
+      "percent": "Transskriberer… {{percent}} %"
+    },
+    "tag": {
+      "file": "Fil",
+      "practice": "Øvelse",
+      "raw": "Før AI-oprydning",
+      "flagged": "Markeret"
+    },
+    "actions": {
+      "play": "Afspil optagelse",
+      "hidePlayer": "Skjul spilleren",
+      "copy": "Kopiér tekst",
+      "copied": "Kopieret",
+      "flag": "Forkert ord? Ret det",
+      "more": "Flere handlinger"
+    },
+    "menu": {
+      "label": "Handlinger for diktering",
+      "undoAi": "Fortryd AI-redigering",
+      "redoAi": "Gentag AI-redigering",
+      "retry": "Prøv transskription igen",
+      "retryAt": {
+        "none": "Prøv igen uden oprydning",
+        "light": "Prøv igen med let oprydning",
+        "medium": "Prøv igen med middel oprydning"
+      },
+      "saveAudio": "Gem lyd som…",
+      "delete": "Slet transskription"
+    },
+    "audio": {
+      "expired_one": "Lyd fjernet efter {{count}} dag",
+      "expired_other": "Lyd fjernet efter {{count}} dage",
+      "removed": "Lyd fjernet",
+      "missing": "Ingen optagelse til denne diktering",
+      "filter": "WAV-lyd",
+      "saved": "Optagelsen er gemt.",
+      "saveFailed": "Optagelsen kunne ikke gemmes. Prøv igen."
+    },
+    "copyFailed": "Teksten kunne ikke kopieres. Prøv igen.",
+    "actionFailed": "Det virkede ikke. Prøv igen.",
+    "deleted": "Slettet",
+    "undo": "Fortryd",
+    "deleteFailed": "Dikteringen kunne ikke slettes. Prøv igen.",
+    "undoFailed": "Det er for sent at hente den diktering tilbage.",
+    "flag": {
+      "title": "Forkert ord?",
+      "description": "Vælg det ord, der blev forkert, og skriv det, som det skal være. Din ordbog retter det fremover.",
+      "close": "Luk",
+      "cancel": "Annuller",
+      "save": "Føj til ordbog",
+      "pick": "Vælg det forkerte ord (vælg også det næste, hvis det er flere ord)",
+      "noWords": "Denne diktering har ingen ord at vælge.",
+      "correction": "Korrekt stavning",
+      "correctionFor": "Korrekt stavning af ”{{word}}”",
+      "correctionPlaceholder": "Skriv det, som det skal være",
+      "kindLabel": "Hvad skal tilføjes",
+      "rule": "Erstat det hver gang",
+      "ruleHint": "Tilføjer en erstatning, så den samme fejl rettes i alle dikteringer.",
+      "ruleHintFilled": "”{{from}}” bliver til ”{{to}}” i alle dikteringer.",
+      "word": "Lær stavemåden",
+      "wordHint": "Tilføjer ordet, så appen kan genkende det, når du siger det.",
+      "duplicate": "Det er allerede i din ordbog.",
+      "failed": "Det kunne ikke gemmes. Prøv igen.",
+      "savedRule": "Fremover bliver ”{{from}}” til ”{{to}}”.",
+      "savedWord": "”{{word}}” er i din ordbog.",
+      "openDictionary": "Åbn Ordbog"
+    }
+  },
+  "scratchpad": {
+    "newNote": "Ny note",
+    "preferences": "Indstillinger for Kladdeblok",
+    "hero": {
+      "title": "Plads til løse tanker",
+      "body": "Skriv en liste, lav et udkast til et svar, eller tænk en idé igennem højt. Hver note gemmes af sig selv."
+    },
+    "addToBar": "Føj til bjælken",
+    "addToBarHelp": "Vis en Kladdeblok-knap ved siden af Diktér på bjælken, når den er i hvile.",
+    "recents": "Nylige",
+    "searchLabel": "Søg noter",
+    "searchPlaceholder": "Søg i dine noter",
+    "loading": "Indlæser noter…",
+    "empty": "Ingen noter endnu",
+    "emptyHelp": "Start en note, og skriv eller diktér i dens svævende vindue.",
+    "emptyNote": "Tom note",
+    "noResults": "Ingen noter matcher din søgning.",
+    "untitled": "Unavngivet note",
+    "pinned": "Fastgjort",
+    "pin": "Fastgør note",
+    "unpin": "Frigør note",
+    "editAction": "Rediger note",
+    "edit": "Rediger {{name}}",
+    "delete": "Slet note",
+    "deleteConfirm": "Vil du slette ”{{name}}”? Det kan ikke fortrydes.",
+    "error": "Kladdeblok kunne ikke udføre handlingen. Din tekst er her stadig; prøv igen.",
+    "shortcut": {
+      "label": "Genvej til at åbne",
+      "change": "Angiv genvej",
+      "title": "Genvej til Kladdeblok",
+      "help": "Åbn Kladdeblok hvor som helst fra. Der er ingen genvej fra start, så den fanger aldrig en tast, før du vælger en.",
+      "close": "Luk dialogen for genvej",
+      "proposed": "Foreslået kombination",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Brug Control + Option + S",
+      "chooseAnother": "Vælg en anden genvej",
+      "error": "Genvejen kunne ikke gemmes. Prøv en anden kombination."
+    },
+    "tabs": "Åbne noter",
+    "tools": "Noteværktøjer",
+    "sidebar": "Vis noteliste",
+    "polish": "Polish på note",
+    "polishing": "Polish kører…",
+    "textSize": "Skift tekststørrelse (nu {{size}} punkt)",
+    "expand": "Udvid notevinduet",
+    "shrink": "Gendan notevinduets størrelse",
+    "close": "Luk Kladdeblok",
+    "noteBody": "Notetekst",
+    "notePlaceholder": "Skriv eller diktér en note…",
+    "saved": "Gemt",
+    "saving": "Gemmer…",
+    "saveError": "Ikke gemt endnu",
+    "autosaveHelp": "Gemmes automatisk",
+    "copy": "Kopier",
+    "copied": "Kopieret",
+    "record": "Optag",
+    "stop": "Stop",
+    "recordHint": "Diktér i denne note ({{key}})",
+    "recordHintNoKey": "Diktér i denne note",
+    "stopHint": "Stop diktering",
+    "gettingReady": "Gør klar…",
+    "polished": "Polish er brugt på noten",
+    "undo": "Fortryd",
+    "polishNoChange": "Denne note lyder allerede godt.",
+    "polishRefused": "Kunne ikke bruge Polish på denne note.",
+    "polishNotReady": "AI-modellen er stadig ved at blive klar. Prøv igen om et par minutter.",
+    "polishStale": "Noten blev ændret under Polish, så intet blev erstattet.",
+    "dismiss": "Luk"
+  },
+  "style": {
+    "tabsLabel": "Stilgrupper",
+    "groups": {
+      "personal": {
+        "tab": "Personlige beskeder",
+        "label": "Personlige beskeder",
+        "bannerTitle": "Til chats med venner og familie"
+      },
+      "work": {
+        "tab": "Arbejdsbeskeder",
+        "label": "Arbejdsbeskeder",
+        "bannerTitle": "Til chats med kolleger"
+      },
+      "email": {
+        "tab": "E-mail",
+        "label": "E-mail",
+        "bannerTitle": "Til din e-mail"
+      },
+      "other": {
+        "tab": "Andre",
+        "label": "Andre",
+        "bannerTitle": "Til alt andet"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formel",
+        "description": "Store bogstaver + tegnsætning"
+      },
+      "relaxed": {
+        "label": "Afslappet",
+        "description": "Store bogstaver + mindre tegnsætning"
+      },
+      "very_relaxed": {
+        "label": "Meget afslappet",
+        "description": "Ingen store bogstaver + mindre tegnsætning"
+      },
+      "upbeat": {
+        "label": "Opstemt",
+        "description": "Store bogstaver + lidt mere energi"
+      }
+    },
+    "presetsHeading": "Stil",
+    "presetsLegend": "Stil for {{group}}",
+    "after": "Hvad der skrives:",
+    "englishOnly": "Stilarter gælder for dikteringer på engelsk. Oprydning virker på alle sprog.",
+    "apps": {
+      "heading": "Bruges i disse apps",
+      "listLabel": "Apps, der bruger stilen ”{{group}}”",
+      "addShort": "Tilføj app",
+      "allOthers": "Alle apps, der ikke er i en anden gruppe, bruger også denne stil.",
+      "unavailable": "Apps kunne ikke indlæses. De vises, når appen er klar.",
+      "chipLabel": "{{app}}: indstillinger",
+      "menuLabel": "Indstillinger for {{app}}",
+      "moveTo": "Flyt til",
+      "useDefault": "Tilbage til den sædvanlige gruppe ({{group}})",
+      "remove": "Fjern fra {{group}}",
+      "autoSend": "Tryk på Retur efter diktering",
+      "autoSendOn": "trykker på Retur efter diktering",
+      "notInstalled": "ikke installeret",
+      "aiChat": "En AI-chat: Dine ord indsættes renset, uden stil.",
+      "moved": "{{app}} bruger nu stilen ”{{group}}”.",
+      "removed": "{{app}} bruger nu stilen ”Andre”.",
+      "added": "{{app}} bruger nu stilen ”{{group}}”.",
+      "undo": "Fortryd",
+      "changeFailed": "Ændringen blev ikke gemt. Prøv igen."
+    },
+    "sites": {
+      "addShort": "Tilføj websted",
+      "recent": {
+        "heading": "Senest brugte websteder",
+        "addLabel": "Føj {{host}} til ”{{group}}”"
+      },
+      "add": {
+        "title": "Tilføj et websted",
+        "description": "Vælg stilen for et websted i din browser. Den gælder hele webstedet, også underdomæner.",
+        "label": "Websted",
+        "hint": "Skriv et domæne som github.com, eller indsæt en adresse.",
+        "invalid": "Det ligner ikke et websted. Prøv et domæne som example.com.",
+        "preview": "Tilføjer {{host}} og dets underdomæner.",
+        "already": "{{host}} er i ”{{group}}” nu. Tilføjer du det her, flyttes det.",
+        "same": "{{host}} bruger allerede ”{{group}}”.",
+        "covered": "{{host}} hører under {{parent}} (”{{group}}”). Tilføjer du det, får det sin egen stil.",
+        "groupLabel": "Stil",
+        "submit": "Føj til ”{{group}}”"
+      },
+      "builtinNote": "Mange almindelige websteder får allerede den rigtige stil uden at stå her."
+    },
+    "picker": {
+      "title": "Tilføj en app til {{group}}",
+      "description": "Vælg en app på denne Mac. Dens dikteringer bruger stilen ”{{group}}”.",
+      "search": "Søg i apps",
+      "listLabel": "App'er på denne Mac",
+      "loading": "Søger efter apps…",
+      "failed": "Apperne på denne Mac kunne ikke vises.",
+      "none": "Ingen apps matcher.",
+      "inGroup": "I {{group}}",
+      "alreadyHere": "Allerede her",
+      "cancel": "Annuller",
+      "close": "Luk"
+    },
+    "cleanup": {
+      "tab": "Automatisk oprydning",
+      "description": "Hvor meget der ryddes op i dine ord, i alle apps og på alle sprog. Stilen for hver gruppe lægges ovenpå.",
+      "bannerTitle": "Automatisk oprydning gælder hver diktering",
+      "levels": {
+        "none": "Præcis det, du sagde, fejl og det hele",
+        "light": "Fjerner fyldord og retter tegnsætningen",
+        "medium": "Mere flydende formulering, samme betydning"
+      },
+      "mediumNote": "Med den indbyggede AI-model giver Middel ofte den samme tekst som Let.",
+      "note": "Dine oprindelige ord går aldrig tabt: åbn en diktering menu i historikken, og vælg »Fortryd AI-redigering«."
+    },
+    "addMenu": "Tilføj en app eller et websted"
+  },
+  "onboardingFlow": {
+    "loading": "Gør klar…",
+    "back": "Tilbage",
+    "continue": "Fortsæt",
+    "yes": "Ja",
+    "no": "Nej",
+    "navigationFailed": "Trinnet kunne ikke gemmes. Prøv igen.",
+    "stepper": {
+      "label": "Status for opsætning",
+      "welcome": "Velkommen",
+      "permissions": "Tilladelser",
+      "setup": "Opsætning",
+      "practice": "Øv",
+      "done": "(færdig)",
+      "finish": "Afslut"
+    },
+    "help": {
+      "chip": "Hjælp",
+      "title": "Hjælp til opsætning",
+      "close": "Luk hjælp",
+      "done": "OK",
+      "body": "Hvert trin tager et par sekunder. Du kan altid gå tilbage, og hvis du afslutter, fortsætter opsætningen, hvor du slap.",
+      "download": "Wispr Bro opsætter talegenkendelse på denne Mac, mens du går gennem trinnene. Alt, hvad du dikterer, før det er klar, gemmes og skrives ud, når det er klar."
+    },
+    "welcome": {
+      "title": "Tal, og dine ord vises",
+      "subtitle": "Hold én tast nede, tal, og slip. Ren tekst havner, hvor du skriver.",
+      "privacyTitle": "Alt bliver på denne Mac",
+      "privacy": "Ingen konto, ingen sky, ingen sporing.",
+      "start": "Kom i gang",
+      "demoLabel": "Wispr Bro i aktion"
+    },
+    "move": {
+      "title": "Flyt Wispr Bro til Programmer",
+      "body": "Opdateringer og tilladelser fungerer bedst derfra. Wispr Bro åbner igen af sig selv og fortsætter.",
+      "action": "Flyt til Programmer",
+      "moving": "Flytter…",
+      "skip": "Ikke nu",
+      "error": "Wispr Bro kunne ikke flytte sig selv. Træk den til Programmer i Finder, og åbn den igen."
+    },
+    "languages": {
+      "title": "Hvilke sprog taler du?",
+      "subtitle": "Vælg alle de sprog, du dikterer på.",
+      "listLabel": "Sprog",
+      "noMatch": "Ingen sprog matcher ”{{query}}”.",
+      "count_one": "Diktering virker på {{count}} sprog. Du kan ændre dine senere i Indstillinger.",
+      "count_other": "Diktering virker på {{count}} sprog. Du kan ændre dine senere i Indstillinger.",
+      "weak_one": "Genkendelsen er mindre præcis på {{languages}}. Det virker stadig at diktere på det sprog, men regn med flere fejl.",
+      "weak_other": "Genkendelsen er mindre præcis på {{languages}}. Det virker stadig at diktere på de sprog, men regn med flere fejl."
+    },
+    "permissions": {
+      "title": "To tilladelser",
+      "subtitle": "macOS beder dig om at tillade disse én gang. Hver række får et flueben, så snart den er slået til.",
+      "allowed": "Tilladt",
+      "waiting": "Venter på macOS…",
+      "openSettings": "Åbn Systemindstillinger",
+      "prompt": "Dialogen fra macOS",
+      "pane": "I Systemindstillinger",
+      "microphone": {
+        "title": "Mikrofon",
+        "why": "Så Wispr Bro kan høre dig, mens du dikterer.",
+        "action": "Tillad mikrofon",
+        "promptAlt": "Billede af mikrofondialogen i macOS med knappen Tillad fremhævet",
+        "paneAlt": "Billede af Systemindstillinger, Anonymitet & sikkerhed, Mikrofon, med kontakten til Wispr Bro slået til",
+        "waitingHelp": "Klik på Tillad i dialogen fra macOS. Hvis du ikke kan se den, skal du åbne Systemindstillinger og slå Wispr Bro til under Mikrofon."
+      },
+      "accessibility": {
+        "title": "Tilgængelighed",
+        "why": "Så Wispr Bro kan se din genvej og skrive for dig.",
+        "action": "Tillad Tilgængelighed",
+        "promptAlt": "Billede af dialogen om Tilgængelighed i macOS med knappen Åbn Systemindstillinger fremhævet",
+        "paneAlt": "Billede af Systemindstillinger, Anonymitet & sikkerhed, Tilgængelighed, med kontakten til Wispr Bro slået til",
+        "waitingHelp": "Slå kontakten ud for Wispr Bro til i Systemindstillinger. Du skal måske låse op med din adgangskode."
+      }
+    },
+    "mic": {
+      "title": "Test din mikrofon",
+      "guidance": "Mikrofoner med kabel og indbyggede mikrofoner fungerer bedst. Bluetooth-headset kan falde ud eller lyde dæmpede.",
+      "question": "Bevæger bjælkerne sig, når du taler?",
+      "noHelp": "Vælg en anden mikrofon nedenfor, og tal igen.",
+      "change": "Skift mikrofon",
+      "previewList": "Dine mikrofoner vises her."
+    },
+    "shortcut": {
+      "title": "Test din genvej",
+      "instruction": "Hold fn-tasten (🌐) nede på dit tastatur. Tasten nedenfor lyser, mens du holder den nede.",
+      "fallbackInstruction": "Hold Control og Option nede samtidig. Tasterne nedenfor lyser, mens du holder dem nede.",
+      "unboundInstruction": "Der er ikke angivet nogen genvej til diktering. Brug Rediger genvej til at vælge en.",
+      "keyLabel": "fn-tasten",
+      "fallbackKeyLabel": "Control og Option",
+      "pressed": "Tast holdes nede",
+      "notPressed": "Venter på tasten…",
+      "worked": "Det virker. Tasten lyste op.",
+      "question": "Lyste tasten op?",
+      "edit": "Rediger genvej",
+      "tryAgain": "Prøv igen",
+      "otherCauses": "Var det ikke det? Andre mulige årsager:",
+      "changeFailed": "Ændringen gik ikke igennem. Prøv igen, eller brug Systemindstillinger.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro kan ikke se tastetryk",
+          "title": "Wispr Bro kan ikke se tastetryk endnu",
+          "body": "Det betyder som regel, at Tilgængelighed ikke er slået til for Wispr Bro. Slå det til i Systemindstillinger, kom tilbage, og tryk på Prøv igen.",
+          "action": "Åbn indstillinger for Tilgængelighed"
+        },
+        "secure_input": {
+          "choice": "Et adgangskodefelt eller en anden app blokerer tasterne",
+          "title": "En anden app blokerer tastetryk",
+          "body": "Mens et adgangskodefelt eller visse apps (adgangskodeadministratorer, Sikker tastaturindtastning i Terminal) er aktive, skjuler macOS tastetryk for alle andre apps. Luk det, eller klik et andet sted, og prøv igen.",
+          "active": "Lige nu blokerer en anden app tastetryk.",
+          "inactive": "Intet blokerer tastetryk lige nu."
+        },
+        "globe": {
+          "choice": "Tasten 🌐 åbner emoji eller skifter tastaturet",
+          "title": "macOS giver 🌐-tasten sin egen opgave",
+          "body": "Din Mac åbner emoji, skifter inputkilde eller starter Apples diktering, når du trykker på 🌐. Wispr Bro kan indstille ”Tryk på 🌐-tasten for at” til ”Gør intet”. Dit valg gendannes, hvis du holder op med at bruge fn til diktering.",
+          "consent": "Indstil 🌐 til ”Gør intet”",
+          "changed": "🌐 gør nu intet i sig selv",
+          "open": "Åbn tastaturindstillinger"
+        },
+        "no_fn": {
+          "choice": "Mit tastatur har ingen fn-tast",
+          "title": "Brug Control og Option i stedet",
+          "body": "Nogle tastaturer har ingen fn- eller 🌐-tast. Hold i stedet Control og Option nede samtidig for at diktere. Du kan altid ændre det i Indstillinger.",
+          "action": "Brug Control + Option",
+          "changed": "Control + Option er din genvej"
+        }
+      },
+      "customInstruction": "Hold {{keys}} nede. Tasterne nedenfor lyser, mens du holder dem nede."
+    },
+    "practice": {
+      "title": "Øv: en hel e-mail, <em>håndfrit</em>",
+      "instruction": "Tryk på fn og Space samtidig, og tal. Tryk på fn igen, når du er færdig.",
+      "instructionFallback": "Tryk på Control, Option og Space samtidig, og tal. Tryk på Control og Option igen, når du er færdig.",
+      "instructionUnbound": "Der er ikke angivet nogen genvej til diktering, så øvelsen kan ikke starte. Spring den over indtil videre, og angiv en genvej i Indstillinger.",
+      "skip": "Spring over",
+      "waiting": "Venter på, at du begynder at tale…",
+      "listening": "Lytter… tryk på fn, når du er færdig.",
+      "listening_fallback": "Lytter… tryk på Control og Option, når du er færdig.",
+      "working": "Skriver det ned…",
+      "queuedNote": "Dine ord er gemt. De vises her, så snart opsætningen er færdig, og de ligger under alle omstændigheder i Historik. Vi går selv videre om et øjeblik.",
+      "nothing": "Der kom ikke noget igennem. Tjek, at din mikrofon er slået til, og prøv igen.",
+      "filled": "Det er din e-mail. Tilføj mere, eller fortsæt.",
+      "composer": {
+        "title": "Ny besked",
+        "to": "Til",
+        "recipient": "Sam",
+        "subject": "Emne",
+        "body": "Besked",
+        "trySaying": "Prøv at sige: “{{text}}”",
+        "willAppear": "Dine ord vises her, så snart talemodellen er klar."
+      },
+      "instructionCustom": "Tryk hurtigt to gange på {{keys}}, og tal. Tryk på {{keys}} igen, når du er færdig.",
+      "listening_custom": "Lytter… tryk på {{keys}}, når du er færdig.",
+      "queued": "Gemt. Venter på talemodellen…",
+      "model": {
+        "title": "Gør din talemodel klar",
+        "checking": "Tjekker downloaden…",
+        "paused": "Download sat på pause. Prøver igen om et øjeblik…",
+        "failed": "Talemodellen kunne ikke downloades",
+        "underMinute": "under et minut tilbage",
+        "minutesLeft_one": "ca. {{count}} min tilbage",
+        "minutesLeft_other": "ca. {{count}} min tilbage",
+        "bytes": "{{done}} af {{total}} MB",
+        "progressLabel": "Download af talemodel",
+        "body": "Det sker kun én gang. Du kan fortsætte med de næste trin; det, du dikterer nu, venter og vises, når den er klar.",
+        "retry": "Prøv igen"
+      }
+    },
+    "firstDictation": {
+      "title": "Sådan!",
+      "subtitle": "Overalt, hvor du kan skrive, kan du nu tale i stedet.",
+      "lead": "Du har lige dikteret din første tekst.",
+      "typingLabel": "Skrivning, i gennemsnit",
+      "speakingLabel": "Tale, i gennemsnit",
+      "faster": "<n/>× <em>hurtigere</em>",
+      "takeTest": "Tag skrivetesten",
+      "retakeTest": "Tag skrivetesten igen",
+      "yourTypingLabel": "Din skrivning",
+      "youSpokeLabel": "Du talte med"
+    },
+    "timeSaved": {
+      "headline_one": "Diktering kan spare dig omkring {{hours}} time om ugen",
+      "headline_other": "Diktering kan spare dig omkring {{hours}} timer om ugen",
+      "sliderLabel": "Hvor mange timer om ugen skriver du?",
+      "basisMeasured_one": "Ud fra din skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
+      "basisMeasured_other": "Ud fra din skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
+      "basisAverage_one": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
+      "basisAverage_other": "Ud fra en gennemsnitlig skrivehastighed på {{wpm}} ord i minuttet og en talehastighed på omkring {{speaking}} ord i minuttet.",
+      "lead": "Diktering kan spare dig omkring",
+      "perWeek_one": "<n/> time <em>om ugen</em>",
+      "perWeek_other": "<n/> timer <em>om ugen</em>",
+      "hoursPerWeek_one": "{{hours}} time om ugen",
+      "hoursPerWeek_other": "{{hours}} timer om ugen",
+      "math": "{{typed}} t skrivning ved {{wpm}} ord/min ≈ {{voice}} t med stemmen ved {{speaking}} ord/min"
+    },
+    "typing": {
+      "title": "Hvor hurtigt <em>skriver</em> du?",
+      "skip": "Spring over",
+      "language": "Sprog",
+      "wpm_one": "{{count}} ord i minuttet",
+      "wpm_other": "{{count}} ord i minuttet",
+      "inputLabel": "Skriv afsnittet her",
+      "nothing": "Intet matchede afsnittet. Prøv igen.",
+      "result_one": "Du skriver omkring {{count}} ord i minuttet.",
+      "result_other": "Du skriver omkring {{count}} ord i minuttet.",
+      "tryAgain": "Prøv igen",
+      "recalculate": "Beregn igen",
+      "instruction_one": "Skriv afsnittet nedenfor, som du plejer. Uret starter ved dit første tastetryk og kører i {{seconds}} sekund.",
+      "instruction_other": "Skriv afsnittet nedenfor, som du plejer. Uret starter ved dit første tastetryk og kører i {{seconds}} sekunder.",
+      "wpmUnit_one": "ord i minuttet",
+      "wpmUnit_other": "ord i minuttet",
+      "secondsUnit_one": "sekund tilbage",
+      "secondsUnit_other": "sekunder tilbage"
+    },
+    "summary": {
+      "title": "Du er klar",
+      "subtitle": "Hold din genvej nede i en hvilken som helst app for at diktere.",
+      "languages": "Sprog",
+      "shortcut": "Genvej",
+      "shortcutFn": "Hold fn (🌐) nede",
+      "shortcutFallback": "Hold Control og Option nede",
+      "microphone": "Mikrofon",
+      "micDefault": "Macens standardmikrofon",
+      "typing": "Skrivehastighed",
+      "typingWpm_one": "{{count}} ord i minuttet",
+      "typingWpm_other": "{{count}} ord i minuttet",
+      "typingSkipped": "Ikke målt",
+      "notSet": "Ikke angivet",
+      "launchAtLogin": "Åbn Wispr Bro når du logger ind",
+      "launchAtLoginHint": "Så diktering er klar, når du har brug for det.",
+      "finish": "Begynd at diktere"
+    }
+  },
+  "whatsNew": {
+    "title": "Nyt i {{version}}",
+    "label": "Versionsnoter til denne version",
+    "close": "Luk",
+    "done": "OK"
+  },
+  "share": {
+    "heading": "Giv {{appName}} videre",
+    "body": "{{appName}} er gratis og open source og kører helt på din Mac. Der er ingen henvisningskode, og intet spores: Linket er det samme for alle.",
+    "downloadLabel": "Downloadlink",
+    "brewLabel": "Installer med Homebrew",
+    "copyLink": "Kopiér downloadlink",
+    "copyBrew": "Kopiér Homebrew-kommando",
+    "copy": "Kopiér",
+    "copied": "Kopieret",
+    "copyFailed": "Kunne ikke kopiere. Vælg teksten, og kopiér den i stedet.",
+    "shareTitle": "Send det til nogen",
+    "shareBody": "Beskeder, Mail, AirDrop og alle andre måder, din Mac kan dele på.",
+    "shareButton": "Del…",
+    "shareFailed": "Kunne ikke åbne delingsarket."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Din genvej til diktering virker ikke længere. Wispr Bro skal have adgang til Tilgængelighed igen.",
+      "stopped": "Din genvej til diktering reagerer ikke længere.",
+      "fix": "Ret"
+    },
+    "sheet": {
+      "title": "Ret din genvej",
+      "introPermission": "macOS har slået Wispr Bros adgang til Tilgængelighed fra, så den ikke kan registrere din genvej. Det kan ske efter en opdatering, eller hvis posten er blevet ændret i Systemindstillinger.",
+      "introStopped": "Wispr Bros tastaturovervågning stoppede. Den starter selv igen, så snart macOS tillader det.",
+      "pictureLabel": "Systemindstillinger, Anonymitet & sikkerhed, Tilgængelighed: rækken med Wispr Bro med kontakten slået til",
+      "pictureTitle": "Tilgængelighed",
+      "pictureBack": "Anonymitet & sikkerhed",
+      "stepsTitle": "Slå det til igen",
+      "step1": "Åbn Systemindstillinger › Anonymitet & sikkerhed › Tilgængelighed.",
+      "step2": "Slå Wispr Bro til. Hvis den allerede er slået til, så slå den fra og til igen.",
+      "step3": "Kom tilbage hertil. Genvejen virker igen inden for få sekunder, uden genstart.",
+      "resetTitle": "Virker det stadig ikke?",
+      "resetBody": "Efter en opdatering kan macOS beholde en gammel post, der ikke længere passer til appen. Nulstil fjerner Wispr Bros post, så du kan give tilladelse igen.",
+      "resetStep1": "Vælg Nulstil og giv tilladelse igen.",
+      "resetStep2": "Tillad Wispr Bro, når macOS spørger, eller slå den til på listen, der åbnes.",
+      "resetFailed": "Posten kunne ikke nulstilles. Vælg Wispr Bro på listen, fjern den med minusknappen, og tilføj den igen med plusknappen.",
+      "openSettings": "Åbn indstillinger for Tilgængelighed",
+      "reset": "Nulstil og giv tilladelse igen",
+      "checkAgain": "Tjek igen",
+      "relaunch": "Genstart for at afslutte",
+      "close": "Luk",
+      "status": {
+        "healthy": "Din genvej virker.",
+        "lost": "Virker ikke endnu",
+        "recovering": "Opretter forbindelse igen…",
+        "needsRelaunch": "Adgangen er tilbage. Genstart Wispr Bro for at afslutte."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Hvad vil du <em>prøve</em> først?",
+    "subtitle": "Vælg én for at se, hvordan det foregår. Prøv det derefter i din egen app.",
+    "choicesLabel": "Måder at starte på",
+    "choices": {
+      "ai_chat": "Spørg en AI-assistent",
+      "note": "Skriv en note",
+      "message": "Svar på en besked",
+      "email": "Skriv en e-mail",
+      "comment": "Skriv en kommentar",
+      "document": "Lav et udkast til et dokument",
+      "coding": "Giv et kodeværktøj en prompt"
+    },
+    "scene": {
+      "label": "Eksempel: {{choice}}",
+      "said": "Du siger",
+      "written": "{{appName}} skriver",
+      "pause": "Sæt eksemplet på pause",
+      "play": "Afspil eksemplet"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "AI-chat",
+        "context": "Hvad kan jeg hjælpe med?",
+        "said": "øh så kan du forklare hvordan renters rente virker som om jeg er helt ny i det",
+        "text": "Kan du forklare, hvordan renters rente virker, som om jeg er helt ny i det?"
+      },
+      "note": {
+        "app": "Noter",
+        "context": "Mandag",
+        "said": "note til mig selv ring til tandlægen og øh hent rensningen inden seks",
+        "text": "Note til mig selv: Ring til tandlægen, og hent rensningen inden seks."
+      },
+      "message": {
+        "app": "Beskeder",
+        "context": "Holder vi stadig fast i frokosten?",
+        "said": "ja helt sikkert passer halv et dig",
+        "text": "Ja, helt sikkert! Passer 12.30 dig?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Til: Priya · Emne: Torsdag",
+        "said": "hej priya tak for noterne jeg sender udkastet senest torsdag morgen",
+        "text": "Hej Priya, tak for noterne. Jeg sender udkastet senest torsdag morgen."
+      },
+      "comment": {
+        "app": "Sociale medier",
+        "context": "Vores nye kontor åbner næste uge!",
+        "said": "tillykke til hele teamet det ser fantastisk ud",
+        "text": "Tillykke til hele teamet, det ser fantastisk ud!"
+      },
+      "document": {
+        "app": "Dokumenter",
+        "context": "Projektplan",
+        "said": "målet med denne fase er at øh sende betaen ud til halvtreds testere inden udgangen af måneden",
+        "text": "Målet med denne fase er at sende betaen ud til halvtreds testere inden udgangen af måneden."
+      },
+      "coding": {
+        "app": "Kodeeditor",
+        "context": "Spørg agenten",
+        "said": "login knappen virker ikke på mobil kan du finde ud af hvorfor og rette det",
+        "text": "Login-knappen virker ikke på mobil. Kan du finde ud af hvorfor og rette det?"
+      }
+    },
+    "tryNow": "Prøv det nu",
+    "later": "Måske senere",
+    "close": "Luk",
+    "noBar": "Dikteringsbjælken kører ikke, så der er intet tip at vise. Du kan stadig prøve det: Åbn appen, og hold din genvej nede.",
+    "banner": {
+      "title": "Brug det i dine egne apps",
+      "body": "{{hint}}. {{how}}",
+      "again": "Vis tippet igen",
+      "stop": "Skjul tippet",
+      "other": "Prøv noget andet",
+      "active": "Tippet er på din skærm. Tryk på Esc for at lukke det."
+    }
+  },
+  "checklist": {
+    "title": "Kom i gang",
+    "label": "Tjekliste til opsætning",
+    "progress": "{{done}} af {{total}} udført",
+    "hide": "Skjul tjeklisten",
+    "done": "Færdig",
+    "next": "Næste",
+    "allDone": "Alt er klar. Du kender det grundlæggende.",
+    "items": {
+      "try_in_app": {
+        "title": "Prøv det i en anden app",
+        "action": "Vis mig"
+      },
+      "add_word": {
+        "title": "Tilføj et ord",
+        "action": "Vis mig",
+        "coachTitle": "Tilføj dit første ord",
+        "coachBody": "Navne, produktnavne og fagudtryk, du ofte siger. De bliver stavet, som du staver dem."
+      },
+      "create_snippet": {
+        "title": "Opret et tekststykke",
+        "action": "Nyt tekststykke",
+        "coachTitle": "Opret dit første tekststykke",
+        "coachBody": "Sig en kort sætning, og få en længere tekst: din adresse, et link, en hilsen."
+      },
+      "launch_at_login": {
+        "title": "Åbn ved login",
+        "action": "Slå til",
+        "body": "{{appName}} starter sammen med din Mac, så din genvej altid virker."
+      },
+      "try_transform": {
+        "title": "Prøv en Transformation",
+        "action": "Vis mig",
+        "body": "Vælg tekst, og tryk på en genvej: Den bliver omskrevet på stedet."
+      },
+      "try_whisper": {
+        "title": "Prøv at hviske",
+        "action": "Vis mig",
+        "body": "Diktér stille, når der er andre omkring dig, og find den rette mikrofon."
+      }
+    },
+    "coach": {
+      "close": "Luk",
+      "done": "OK"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Luk lektionen",
+      "back": "Tilbage",
+      "continue": "Fortsæt",
+      "skip": "Spring over",
+      "tryIt": "Prøv det selv",
+      "tryItOut": "Prøv det",
+      "howItWorks": "Sådan virker det",
+      "progress": "Trin {{step}} af {{total}}",
+      "pause": "Sæt animation på pause",
+      "play": "Afspil animation",
+      "turnOnFailed": "Det blev ikke slået til. Prøv igen, eller brug kontakten på den tilhørende side.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "Transformationer",
+      "help": "Lær Transformationer",
+      "intro": {
+        "title": "Få din tekst til at sige det, du <em>mener</em>",
+        "body": "Vælg tekst i en hvilken som helst app, og tryk på en genvej. En transformation omskriver den på stedet, direkte på denne Mac.",
+        "continue": "Prøv det"
+      },
+      "cards": {
+        "label": "Den samme tekst på tre måder",
+        "original": {
+          "name": "Original",
+          "text": "så egentlig ville jeg bare høre om vi måske kunne rykke gennemgangen til torsdag fordi tallene ikke er klar og sam er også væk"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Kan vi rykke gennemgangen til torsdag? Tallene er ikke klar endnu, og Sam er væk."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Skriv en kort, venlig besked, der beder om at rykke gennemgangen til torsdag. Årsager: Tallene er ikke klar, og Sam er væk. Højst to sætninger."
+        }
+      },
+      "benefits": {
+        "label": "Hvad en transformation kan gøre",
+        "shorter": "Siger det med færre ord",
+        "clearer": "Omformulerer, så det bliver tydeligere",
+        "order": "Sætter punkterne i en bedre rækkefølge",
+        "structure": "Tilføjer overskrifter og lister",
+        "tone": "Bevarer din tone",
+        "anywhere": "Virker i alle apps, du skriver i"
+      },
+      "practice": {
+        "title": "<em>Vælg</em> teksten, og tryk derefter på <kbd>{{shortcut}}</kbd>",
+        "body": "Vælg beskeden nedenfor (⌘A vælger det hele), og tryk derefter på genvejen til Polish.",
+        "doneTitle": "Teksten er <em>omskrevet</em>",
+        "doneBody": "Tryk på <kbd>{{view}}</kbd> for at se ændringerne. <kbd>{{undo}}</kbd> fortryder det.",
+        "app": "Chat med Jordan",
+        "context": "Holder vi stadig fast i gennemgangen i morgen?",
+        "fieldLabel": "Dit svar til Jordan",
+        "draft": "hej så jeg tror vi hellere må rykke gennemgangen til torsdag hvis det er ok fordi tallene ikke rigtig er klar endnu og jeg vil ikke vise noget halvfærdigt",
+        "example": {
+          "polish": "Kan vi rykke gennemgangen til torsdag? Tallene er ikke klar endnu, og jeg vil helst ikke vise noget halvfærdigt.",
+          "prompt": "Skriv et kort, høfligt svar, der beder om at rykke morgendagens gennemgang til torsdag, fordi tallene ikke er klar. Hold det venligt og under tre sætninger."
+        },
+        "exampleNote": "Omskrivning er ikke klar på denne Mac endnu, så her vises et eksempel. Når det er klar, omskriver din genvej din egen tekst på samme måde.",
+        "selectFirst": "Vælg først noget af beskeden, og tryk derefter på {{shortcut}} igen.",
+        "working": "Omskriver…",
+        "spotlight": "Efter hver transformation tilbyder bjælken nederst på skærmen Vis ændringer. Klik på den, eller tryk på {{view}}.",
+        "barLabel": "Bjælken",
+        "bar": {
+          "done": "Færdig",
+          "view": "Vis ændringer"
+        },
+        "hideChanges": "Skjul ændringerne"
+      },
+      "how": {
+        "select": {
+          "title": "<em>Vælg</em> tekst i enhver app",
+          "body": "Skriv eller diktér som normalt: en e-mail, en chat, et dokument. Vælg derefter det, du vil have omskrevet.",
+          "scene": "Animation: Et udkast til en e-mail bliver valgt."
+        },
+        "press": {
+          "title": "<em>Tryk</em> på <kbd>{{shortcut}}</kbd>",
+          "body": "Polish omskriver det valgte på stedet. Prompt Engineer ({{prompt}}) gør det til en tydelig prompt til en AI-assistent.",
+          "scene": "Animation: {{shortcut}} bliver trykket, og udkastet erstattes af en tydeligere version."
+        },
+        "changes": {
+          "title": "Se, hvad der er <em>ændret</em>",
+          "body": "Tryk på {{view}}, eller klik på Vis ændringer på bjælken: Fjernede ord er overstreget, nye er fremhævet. {{undo}} sætter din original tilbage.",
+          "scene": "Animation: Et kort viser ændringerne med fjernede ord overstreget og nye ord fremhævet."
+        }
+      },
+      "scene": {
+        "app": "Mail: ny besked",
+        "draft": "hej alle sammen bare en hurtig besked om at lanceringen rykkes til næste uge fordi vi har fundet en fejl i betalingsflowet og vil rette den først",
+        "polished": "Hej alle sammen, lanceringen rykkes til næste uge. Vi har fundet en fejl i betalingsflowet og vil rette den først."
+      },
+      "finish": {
+        "turnOn": "Slå Transformationer til",
+        "done": "Færdig"
+      }
+    },
+    "whisper": {
+      "title": "Diktér stille",
+      "help": "Lær at diktere stille",
+      "soft": {
+        "title": "En <em>blød</em> stemme er nok",
+        "body": "Du behøver ikke at tale højt. Hvisk, og dine ord bliver stadig til ren tekst, så du kan diktere i et storrumskontor, i toget eller mens nogen sover i nærheden.",
+        "app": "Noter",
+        "spoken": "”mind mig om at sende slides før frokost og booke et lokale til fredag”",
+        "text": "Mind mig om at sende slides før frokost og booke et lokale til fredag.",
+        "scene": "Animation: En hvisket sætning vises som skrevet tekst: ”{{text}}”"
+      },
+      "how": {
+        "title": "Sådan <em>hvisker</em> du til din Mac",
+        "body": "Med den indbyggede mikrofon i din Mac gør fire vaner en stille stemme let at høre.",
+        "distance": "Omkring 30 cm (en underarms længde) fra mikrofonen",
+        "tips": {
+          "distance": {
+            "title": "Sid tæt på.",
+            "body": "Sid med ansigtet mod din Mac i cirka en underarms afstand. At læne sig lidt frem hjælper mere end at tale højere."
+          },
+          "breath": {
+            "title": "Hvisk med lidt luft.",
+            "body": "Ikke den svageste hvisken: lidt fastere, som om du taler til en på den anden side af et lille bord."
+          },
+          "pace": {
+            "title": "Hold et jævnt tempo.",
+            "body": "Udtal hvert ord helt, og lad ikke slutningen af sætningerne forsvinde."
+          },
+          "release": {
+            "title": "Slip til sidst.",
+            "body": "Slip først tasten efter dit sidste ord, så det kommer med."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>Hvisk</em> denne e-mail",
+        "body": "Det her er en rigtig diktering. Teksten havner kun i beskeden nedenfor og ingen andre steder.",
+        "doneTitle": "Hørt, selv når du <em>hvisker</em>",
+        "doneBody": "Mere skal der ikke til. Fortsæt for at finde den mikrofon, der passer dig.",
+        "instruction": "Hold {{key}} nede, hvisk e-mailen nedenfor, og slip så.",
+        "unbound": "Der er ikke angivet nogen genvej til diktering, så der kan ikke startes en optagelse her. Spring trinnet over indtil videre, og angiv en genvej i Indstillinger.",
+        "key": "fn",
+        "keyFallback": "Control og Option",
+        "sentenceLabel": "Hvisk:",
+        "sentence": "Hej Sam, jeg sidder i et stille rum, så jeg hvisker denne e-mail. Kan vi flytte vores opkald til eftermiddagen? Mange tak.",
+        "app": "Ny besked",
+        "context": "Til Sam, om i eftermiddag",
+        "fieldLabel": "Din hviskede e-mail",
+        "placeholder": "Dine hviskede ord vises her.",
+        "status": {
+          "idle": "Venter på, at du holder {{key}} nede og hvisker…",
+          "listening": "Lytter… slip {{key}}, når du er færdig.",
+          "working": "Skriver det ned…",
+          "nothing": "Der kom ikke noget igennem. Tjek, at din mikrofon er slået til, og prøv igen.",
+          "low": "{{percent}} % af ordene kom igennem. Prøv én gang til:",
+          "passed": "{{percent}} % af ordene kom igennem.",
+          "example": "Dette er et eksempel på en hvisket optagelse."
+        },
+        "exampleNote": "Talegenkendelse er stadig ved at blive konfigureret på denne Mac, så her vises et eksempel. Din egen optagelse er gemt i Historik og bliver skrevet ud, så snart opsætningen er færdig.",
+        "tips": {
+          "title": "Nogle ting hjælper",
+          "closer": "Ryk lidt tættere på din Mac, cirka 30 cm væk.",
+          "firmer": "Hvisk lidt fastere, med mere luft bag ordene.",
+          "volume": "Skru op for indgangsniveauet i Systemindstillinger › Lyd › Input.",
+          "openSound": "Åbn indstillinger for Lyd"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "Indbygget mikrofon",
+          "why": "Den er der allerede; sid tæt på, så klarer den opgaven derhjemme."
+        },
+        "wired_headset": {
+          "name": "Headset med kabel",
+          "why": "Mikrofonen sidder lige ved munden, så selv en svag hvisken kommer igennem, uanset hvor du er."
+        },
+        "wireless_earbuds": {
+          "name": "Trådløse earbuds",
+          "why": "Intet at tilslutte, og de kan komme med overalt."
+        },
+        "desk_usb": {
+          "name": "Bord- eller USB-mikrofon",
+          "why": "Den klareste lyd, når du arbejder ved ét skrivebord og sidder tæt på det."
+        }
+      },
+      "quiz": {
+        "more": "Mere om mikrofoner",
+        "comfortable": {
+          "title": "Vælg en mikrofon, du ville have det godt med at bruge",
+          "body": "De virker alle sammen. Vælg den, du gerne vil have på eller stå på skrivebordet."
+        },
+        "workplace": {
+          "title": "Hvor arbejder du normalt?",
+          "body": "Det er vigtigst at kunne hviske, når der er andre i nærheden.",
+          "private": {
+            "label": "Et privat sted",
+            "hint": "Et hjemmekontor eller et rum for dig selv"
+          },
+          "mixed": {
+            "label": "Lidt af begge dele",
+            "hint": "Nogle gange alene, nogle gange med andre omkring mig"
+          },
+          "shared": {
+            "label": "Blandt andre mennesker",
+            "hint": "Et storrumskontor, en café, et delt rum"
+          }
+        },
+        "moves": {
+          "title": "Arbejder du forskellige steder?",
+          "body": "Så hjælper det med en mikrofon, der kan komme med dig.",
+          "one_desk": {
+            "label": "Jeg sidder ved ét skrivebord",
+            "hint": "Den samme opsætning hver dag"
+          },
+          "different_places": {
+            "label": "Jeg arbejder forskellige steder",
+            "hint": "Hjemme, kontor, tog, caféer"
+          }
+        },
+        "owned": {
+          "title": "Hvilke mikrofoner har du?",
+          "body": "Vælg alle dem, du har. En Mac mini eller Mac Studio har ikke sin egen mikrofon.",
+          "continue": "Se mit match"
+        }
+      },
+      "results": {
+        "title": "Din <em>mikrofonmatch</em>",
+        "body": "Baseret på dine svar. Intet gemmes eller sendes nogen steder hen.",
+        "bestLine": "Bedste match: {{mic}}.",
+        "caption": "Sådan klarer hver type mikrofon sig",
+        "columns": {
+          "quality": "Mikrofonkvalitet",
+          "others": "Hvisken blandt andre",
+          "home": "Hvisken derhjemme",
+          "price": "Pris",
+          "best": "Bedste match"
+        },
+        "notBest": "Ikke den bedste match",
+        "rating": {
+          "fair": "Rimelig",
+          "good": "God",
+          "great": "Fremragende"
+        },
+        "price": {
+          "included": "Følger med de fleste bærbare",
+          "low": "Lav",
+          "medium": "Middel",
+          "owned": "Du har én"
+        },
+        "copy": {
+          "label": "Kopiér resultater",
+          "heading": "{{appName}}: min mikrofon match",
+          "best": "Bedste match: {{mic}}",
+          "unanswered": "ikke besvaret",
+          "noneOwned": "ingen"
+        },
+        "copied": "Kopieret",
+        "copyFailed": "Kunne ikke kopiere. Vælg tabellen, og kopiér den i stedet.",
+        "done": "Færdig"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro bruger nu en nyere type model. Download den nye version for at fortsætte med at transskribere. Gamle versioner vil blive fjernet."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Så Wispr Bro kan høre dig. Lyd bliver omdannet til tekst på denne Mac og uploades aldrig."
+        },
+        "accessibility": {
+          "why": "Så din genvej virker i alle apps, og Wispr Bro kan skrive teksten dér, hvor din markør er."
+        },
+        "turnOnMac": "Slå Wispr Bro til i Systemindstillinger, og kom så tilbage hertil.",
+        "relaunch": "Reagerer genvejen ikke efter dette? <relaunch>Genstart Wispr Bro</relaunch>, så lander du lige her igen."
+      },
+      "welcome": {
+        "noMatch": "Intet sprog matcher ”{{query}}”. Wispr Bros modeller dækker omkring 100 sprog; flere findes i indstillingerne.",
+        "chinese": {
+          "question": "Du taler {{languages}}. Hvilke tegn skal Wispr Bro skrive?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro er i hjørnet og hjælper dig igennem"
+      },
+      "done": {
+        "subMac": "Wispr Bro ligger nu i din menulinje. Hold eller tryk på <keys/> i en vilkårlig app for at tale.",
+        "subTray": "Wispr Bro ligger nu i dit meddelelsesområde. Hold eller tryk på <keys/> i en vilkårlig app for at tale.",
+        "atLogin": "Start Wispr Bro, når jeg logger ind",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Wispr Bro-genveje"
+        },
+        "preferredLanguages": {
+          "description": "De sprog, du taler. Wispr Bro bruger dem til at anbefale modeller."
+        }
+      },
+      "models": {
+        "untestedNote": "Ikke testet med Wispr Bro. De kan være langsommere eller lave flere fejl.",
+        "emptyYours": "Ingen modeller endnu. Vælg en nedenfor: Den hentes, og så bruger Wispr Bro den.",
+        "deleteAskActive": "Slet {{name}}? Wispr Bro kan ikke transskribere, før du vælger en anden.",
+        "retiredNotice": {
+          "title": "Gamle modeller virker ikke længere med Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Søg igen efter modeller, der er tilføjet til modelmappen eller Hugging Face-cachen uden for Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Start Wispr Bro automatisk, når du logger ind på din Mac."
+        },
+        "showTrayIcon": {
+          "description": "Vis Wispr Bro-ikonet i menulinjen."
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Søg automatisk efter nye versioner af Wispr Bro",
+          "lockedDescription": "Deaktiveret af systemkonfiguration (WISPRBRO_DISABLE_UPDATER)"
+        },
+        "keyboardDiagnostic": {
+          "description": "Kontrollerer, om tastaturhændelser når frem til Wispr Bro. Kun antallet af hændelser registreres — aldrig hvilke taster du trykker på.",
+          "verdictOk": "Tastehændelser når frem til Wispr Bro som normalt."
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Nuværende version af Wispr Bro"
+        },
+        "whatsNewUpdates": {
+          "description": "Vis udgivelsesnoter, efter Wispr Bro opdateres"
+        },
+        "appDataDirectory": {
+          "description": "Placering, hvor Wispr Bro gemmer sine data"
+        },
+        "supportDevelopment": {
+          "description": "Hjælp os med at fortsætte udviklingen af Wispr Bro"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Wispr Bros lokale tale-til-tekst er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde fra Georgi Gerganov og bidragyderne."
+          }
+        }
+      }
+    },
+    "whatsNew": {
+      "title": "Nyt i Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Skift sproget for Wispr Bro-grænsefladen"
+    },
+    "theme": {
+      "description": "Vælg om Wispr Bro skal følge dit systemtema eller forblive lyst eller mørkt"
+    }
+  }
+}

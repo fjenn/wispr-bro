@@ -1,0 +1,18 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * Insights chart tokens (S-25; Design W2). The reference's data palette:
+ * one teal from light to dark for the heatmap's five word bands (band 0 is
+ * the warm empty cell) and the bars of "Where you dictate". They alias the
+ * `--wb-data-*` roles in `styles/tokens.css`, which carry the light/dark
+ * pairs; `[data-wb-theme]` re-reads them inside a pinned subtree.
+ */
+
+:root,
+[data-wb-theme] {
+  --wb-heat-0: var(--wb-data-empty);
+  --wb-heat-1: var(--wb-data-4);
+  --wb-heat-2: var(--wb-data-3);
+  --wb-heat-3: var(--wb-data-2);
+  --wb-heat-4: var(--wb-data-1);
+  --wb-bar: var(--wb-data-1);
+}

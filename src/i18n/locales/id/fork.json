@@ -1,0 +1,2920 @@
+{
+  "debug": {
+    "title": "Panel debug fork",
+    "description": "Pemeriksaan internal untuk lapisan Wispr Bro. Hanya ditampilkan di build debug atau saat app dijalankan dengan --debug.",
+    "close": "Tutup",
+    "runAgain": "Jalankan lagi",
+    "ping": {
+      "title": "Ping"
+    },
+    "modelStatus": {
+      "title": "Status model",
+      "notReady": "Belum siap: app belum selesai dimulai."
+    },
+    "lastEvent": {
+      "title": "Peristiwa ping terakhir",
+      "none": "Belum ada peristiwa yang diterima."
+    },
+    "pending": "Menunggu…",
+    "error": "Kesalahan: {{message}}",
+    "csp": {
+      "title": "Content Security Policy",
+      "description": "Memutar file audio melalui asset protocol, memuat gambar data: dan blob:, memanggil perintah fork, dan memeriksa bahwa gambar yang tidak diizinkan diblokir.",
+      "run": "Jalankan pemeriksaan CSP",
+      "running": "Berjalan…",
+      "pass": "Lulus: tidak ada pelanggaran CSP yang tidak terduga.",
+      "fail": "Gagal: lihat pemeriksaan di bawah.",
+      "ok": "ok ({{detail}})",
+      "failed": "gagal ({{detail}})",
+      "noViolations": "Tidak ada pelanggaran CSP yang tercatat.",
+      "violations_other": "{{count}} pelanggaran CSP tercatat.",
+      "checks": {
+        "media": "Audio (asset protocol)",
+        "dataImage": "Gambar data:",
+        "blobImage": "Gambar blob:",
+        "forkCommand": "Perintah fork",
+        "probe": "Sumber yang diblokir"
+      }
+    },
+    "notifications": {
+      "title": "Pemberitahuan",
+      "permission": "Izin macOS: {{state}}",
+      "kind": "Jenis",
+      "delay": "Jeda (dtk)",
+      "post": "Kirim contoh",
+      "posted": "Dikirim dalam {{seconds}} dtk. Beralih ke app lain untuk melihat pemberitahuan macOS."
+    },
+    "update": {
+      "title": "Pembaruan",
+      "version": "Versi",
+      "channel": "Saluran",
+      "key": "Kunci penandatanganan",
+      "endpoints": "Feed pembaruan",
+      "checksOff": "Pemeriksaan pembaruan nonaktif (Pengaturan › Lanjutan, atau kill switch diatur).",
+      "check": "Periksa sekarang",
+      "checking": "Memeriksa…",
+      "install": "Instal {{version}} dan buka ulang",
+      "installing": "Mengunduh dan memverifikasi…",
+      "installed": "{{version}} terinstal. Membuka ulang…",
+      "available": "{{version}} tersedia.",
+      "upToDate": "Sudah yang terbaru.",
+      "failed": "Tidak dapat memeriksa: {{message}}"
+    }
+  },
+  "settings": {
+    "debug": {
+      "title": "Pengaturan fork",
+      "loading": "Memuat pengaturan…",
+      "loadError": "Tidak dapat membaca pengaturan: {{message}}",
+      "setError": "Perubahan itu tidak disimpan: {{message}}",
+      "contextAwareness": "Kesadaran konteks",
+      "contextAwarenessHint": "Menggunakan nama dalam teks di dekat kursor Anda untuk mengejanya dengan benar. Teks tersebut tetap di Mac ini dan tidak pernah disimpan.",
+      "transforms": "Transformasi",
+      "transformsHint": "⌥1 merapikan teks yang dipilih, ⌥2 mengubahnya menjadi prompt AI yang lebih jelas, dan ⌥O menampilkan perubahan dari transformasi terakhir. Saat diaktifkan, tombol tersebut tidak lagi mengetik ¡, ™, dan ø.",
+      "transformsSafeShortcuts": "Gunakan ⌃⌥1 dan ⌃⌥2 sebagai gantinya",
+      "transformsSafeShortcutsHint": "Membuat ¡ dan ™ tetap tersedia dengan ⌥1 dan ⌥2.",
+      "cleanupLevel": "Tingkat pembersihan",
+      "levels": {
+        "none": "Tidak ada",
+        "light": "Ringan",
+        "medium": "Sedang"
+      },
+      "all": "Semua pengaturan"
+    },
+    "bar": {
+      "title": "Bilah dikte",
+      "alwaysShow": "Selalu tampilkan bilah",
+      "alwaysShowHelp": "Jika dimatikan, bilah hanya muncul saat Anda mendikte.",
+      "position": "Posisi",
+      "positions": {
+        "bottom": "Bawah layar",
+        "top": "Atas layar"
+      },
+      "hideInRecordings": "Sembunyikan bilah di rekaman layar",
+      "hideInRecordingsHelp": "Bilah tidak ikut dalam jepretan layar, rekaman layar, dan berbagi layar.",
+      "hiddenUntil": "Disembunyikan hingga {{time}}",
+      "showNow": "Tampilkan lagi",
+      "resetPositions": "Tempatkan bilah di tengah setiap layar"
+    },
+    "mic": {
+      "title": "Mikrofon",
+      "legend": "Mikrofon yang digunakan",
+      "loading": "Mencari mikrofon…",
+      "loadError": "Tidak dapat menampilkan daftar mikrofon: {{message}}",
+      "retry": "Coba lagi",
+      "recommended": "{{name}} (disarankan)",
+      "auto": "Deteksi otomatis (pengaturan sistem)",
+      "autoNow": "Sekarang: {{name}}",
+      "wirelessTag": "Bluetooth",
+      "caution": "Mikrofon berkabel atau bawaan bekerja paling baik; Bluetooth bisa terputus.",
+      "avoided": "Input suara Mac Anda diatur ke {{name}}. Mikrofon Bluetooth bisa terputus, jadi Dikte menggunakan mikrofon bawaan.",
+      "useAnyway": "Tetap gunakan {{name}}",
+      "inUse": "Dikte mendengarkan dengan: {{name}}",
+      "chooseError": "Tidak dapat mengganti mikrofon: {{message}}",
+      "meter": {
+        "start": "Uji mikrofon",
+        "stop": "Hentikan uji",
+        "label": "Level mikrofon",
+        "value": "{{percent}} persen",
+        "off": "Tidak sedang menguji",
+        "hint": "Ucapkan sesuatu. Bilah akan bergerak saat Anda berbicara.",
+        "errors": {
+          "permission_denied": "Akses mikrofon nonaktif. Nyalakan di Pengaturan Sistem › Privasi & Keamanan › Mikrofon.",
+          "no_input_device": "Mikrofon tidak ditemukan.",
+          "failed": "Mikrofon tidak mulai. Coba yang lain."
+        }
+      },
+      "loadErrorPlain": "Tidak dapat menampilkan daftar mikrofon.",
+      "chooseErrorPlain": "Tidak dapat mengganti mikrofon."
+    },
+    "sound": {
+      "title": "Suara",
+      "enabled": "Putar suara saat dikte dimulai dan berhenti",
+      "enabledHelp": "Nada singkat saat mikrofon menyala dan mati.",
+      "theme": "Suara",
+      "themes": {
+        "marimba": "Marimba",
+        "pop": "Pop",
+        "custom": "Kustom"
+      },
+      "volume": "Volume",
+      "volumeValue": "{{percent}} persen",
+      "preview": "Putar",
+      "mute": "Bisukan semua audio saat mendikte",
+      "muteHelp": "Musik dan video senyap saat Anda berbicara, lalu kembali seperti semula."
+    },
+    "recovery": {
+      "title": "Pintasan pemulihan",
+      "description": "Dapatkan kembali dikte terakhir Anda, atau kirimkan, tanpa meninggalkan keyboard.",
+      "notSet": "Belum diatur",
+      "current": "Pintasan: {{shortcut}}",
+      "listening": "Tekan pintasan…",
+      "listeningHelp": "Tekan tombol atau tombol mouse yang Anda inginkan. Esc membatalkan.",
+      "record": "Rekam",
+      "cancel": "Batalkan",
+      "clear": "Hapus",
+      "useDefault": "Gunakan bawaan",
+      "unusable": "Pintasan ini tidak bisa dipakai. Pilih yang lain.",
+      "saveFailed": "Pintasan tidak dapat disimpan.",
+      "recordFailed": "Tidak dapat merekam pintasan. Periksa apakah app boleh memakai Aksesibilitas.",
+      "pasteLast": {
+        "title": "Tempel dikte terakhir",
+        "help": "Menempelkan lagi dikte terakhir Anda di tempat Anda mengetik."
+      },
+      "copyLast": {
+        "title": "Salin dikte terakhir",
+        "help": "Menaruh dikte terakhir Anda di papan klip."
+      },
+      "pressEnter": {
+        "title": "Tekan Return",
+        "help": "Menekan Return untuk Anda, misalnya untuk mengirim pesan yang baru saja Anda diktekan.",
+        "mouse": "Tombol mouse tetap mengeklik seperti biasa di app di bawah penunjuk, jadi tombol samping (kembali atau maju) paling cocok."
+      },
+      "undoCancel": {
+        "title": "Urungkan pembatalan",
+        "help": "Mengembalikan dikte yang baru saja Anda batalkan, selama bilah menampilkan Urungkan."
+      }
+    }
+  },
+  "settingsModal": {
+    "title": "Pengaturan",
+    "close": "Tutup pengaturan",
+    "navigation": "Bagian pengaturan",
+    "sections": {
+      "general": "Umum",
+      "system": "Sistem",
+      "vibe": "Vibe coding",
+      "privacy": "Data dan Privasi",
+      "advanced": "Lanjutan",
+      "about": "Tentang",
+      "hotkeys": "Pintasan"
+    },
+    "general": {
+      "shortcuts": "Pintasan",
+      "change": "Ubah",
+      "microphone": "Mikrofon",
+      "languages": "Bahasa saya",
+      "appearance": "Bahasa dan tema app",
+      "typingHint": "Dipakai untuk menghitung berapa banyak waktu yang dihemat dengan mendikte."
+    },
+    "system": {
+      "app": "Perilaku app",
+      "alwaysBar": "Selalu tampilkan bilah",
+      "showDock": "Tampilkan app di Dock",
+      "showDockHint": "Tetap tampilkan Wispr Bro di Dock setelah jendelanya ditutup.",
+      "sounds": "Suara",
+      "notifications": "Pemberitahuan",
+      "notificationKinds": {
+        "system": "Pemberitahuan Mac",
+        "modelReady": "Model ucapan siap",
+        "updateReady": "Pembaruan siap",
+        "queuedReady": "Dikte dalam antrean siap",
+        "suggestions": "Saran",
+        "announcements": "Pengumuman fitur",
+        "milestones": "Pencapaian",
+        "shortcutProblems": "Masalah pintasan"
+      },
+      "scratchpad": "Coretan",
+      "scratchpadLabel": "Saat Coretan dibuka",
+      "scratchpadHint": "Pilih apa yang dibuka oleh pintasan dan tombol bilah.",
+      "scratchpadOptions": {
+        "resume_last": "Lanjutkan catatan terakhir saya",
+        "new_note": "Mulai catatan baru"
+      },
+      "notificationsHint": "Setiap sakelar mengatur pemberitahuan itu di Wispr Bro dan di Mac. “Pemberitahuan Mac” hanya mematikan banner di Mac. Pemberitahuan crash dan pemulihan selalu muncul di Wispr Bro.",
+      "dockKeptForTray": "Ikon bar menu nonaktif, jadi ikon Dock tetap tampil. Aktifkan ikon bar menu untuk menyembunyikannya.",
+      "trayKeptForDock": "Ikon Dock nonaktif, jadi ikon bar menu tetap tampil. Aktifkan Tampilkan app di Dock untuk menyembunyikannya."
+    },
+    "vibe": {
+      "intro": "Wispr Bro membaca nama kode yang ditampilkan editor Anda serta nama file dan folder proyek yang sedang terbuka, di Mac ini. Ia hanya membaca nama, tidak pernah isi file Anda.",
+      "contextOff": "Kesadaran konteks nonaktif, jadi fitur ini tidak punya apa pun untuk dibaca. Nyalakan untuk menggunakannya.",
+      "recognize": "Kenali nama kode",
+      "recognizeHint": "Ucapkan nama yang ditampilkan editor Anda, seperti “get user by id”, dan nama itu ditulis seperti ejaan kode Anda: getUserById.",
+      "setUp": "Atur",
+      "change": "Ubah editor",
+      "setUpFor": "Atur untuk {{editors}}",
+      "fileTags": "Tandai file di chat",
+      "fileTagsHint": "Di chat Cursor atau Windsurf, mengucapkan “index dot ts” menandai index.ts lewat menu @ editor, untuk file apa pun di proyek Anda. Jika editor tidak menawarkan kecocokan, @index.ts ditulis sebagai teks.",
+      "fileTagsNeedsChat": "Tersedia setelah Anda menambahkan Cursor atau Windsurf ke editor Anda.",
+      "fileTagsNeedsSetup": "Tersedia setelah Anda mengatur pengenalan nama kode.",
+      "setup": {
+        "title": "Atur pengenalan nama kode",
+        "stepEditors": "1. Pilih editor yang Anda gunakan",
+        "stepScreenReader": "2. Nyalakan mode pembaca layar di masing-masing editor, agar editor membagikan teksnya ke Wispr Bro",
+        "openSettings": "Buka pengaturan editor dengan ⌘ koma.",
+        "search": "Cari “accessibility support”.",
+        "setOn": "Atur Editor: Accessibility Support ke “on”.",
+        "palette": "Anda juga dapat menjalankan “Toggle Screen Reader Accessibility Mode” dari Command Palette (⇧⌘P).",
+        "confirm": "Saya sudah menyalakan mode pembaca layar di editor ini",
+        "cancel": "Batalkan",
+        "finish": "Selesaikan pengaturan"
+      }
+    },
+    "privacy": {
+      "promise": {
+        "title": "Privat sejak awal",
+        "local": "Dikte dan data Anda tetap di Mac ini.",
+        "noCloud": "Pengenalan ucapan, pembersihan, dan Riwayat berjalan secara lokal. Tidak ada akun, telemetri, dikte cloud, atau pembersihan cloud.",
+        "network": "Apa yang menggunakan jaringan",
+        "networkIntro": "Wispr Bro hanya menggunakan jaringan untuk dua hal ini:",
+        "models": "Mengunduh model ucapan dan model pembersihan dari Hugging Face (huggingface.co).",
+        "updates": "Saat pemeriksaan pembaruan aktif, mencari pembaruan app di GitHub (github.com)."
+      },
+      "locations": {
+        "title": "Tempat data Anda disimpan",
+        "data": "Data dan pengaturan app",
+        "models": "Model yang diunduh",
+        "recordings": "Rekaman",
+        "logs": "Log dan laporan crash",
+        "show": "Tampilkan di Finder",
+        "loading": "Mencari lokasi…",
+        "failed": "Tidak dapat membuka folder itu. Coba lagi."
+      },
+      "retention": {
+        "title": "Berapa lama Riwayat disimpan",
+        "textLabel": "Simpan teks hasil dikte",
+        "textHint": "Entri lama dihapus otomatis. Secara default, teks disimpan selamanya.",
+        "audioLabel": "Simpan rekaman",
+        "audioHint": "Secara default audio kedaluwarsa setelah 14 hari; teksnya tetap ada.",
+        "options": {
+          "0": "Jangan pernah simpan audio",
+          "1": "1 hari",
+          "7": "7 hari",
+          "14": "14 hari",
+          "30": "30 hari",
+          "90": "90 hari",
+          "365": "1 tahun",
+          "forever": "Selamanya"
+        }
+      },
+      "choices": {
+        "title": "Pilihan privasi",
+        "context": "Gunakan kesadaran konteks",
+        "contextHint": "Membaca teks di sekitar saat Anda mendikte agar nama ditulis benar. Tidak pernah disimpan atau dicatat.",
+        "updates": "Periksa pembaruan app",
+        "updatesHint": "Menanyakan versi baru ke GitHub. Tidak mengirim dikte atau data pribadi.",
+        "learn": "Belajar dari koreksi saya",
+        "learnHint": "Menyarankan kata untuk kamus dari perbaikan yang Anda buat setelah dikte."
+      },
+      "export": {
+        "title": "Data Anda",
+        "hint": "Zip berisi Riwayat, pengaturan, dan rekaman Anda. Model dan log tidak disertakan.",
+        "button": "Ekspor data saya",
+        "fileName": "wispr-bro-data-{{date}}.zip",
+        "filter": "Arsip zip",
+        "done": "Ekspor disimpan dan ditampilkan di Finder.",
+        "failed": "Tidak dapat mengekspor data Anda. Tidak ada yang dihapus."
+      },
+      "delete": {
+        "button": "Hapus semua data saya",
+        "title": "Hapus semua data Anda?",
+        "warning": "Tindakan ini menghapus Riwayat, rekaman, pengaturan, log, dan laporan crash secara permanen. Tindakan ini tidak dapat diurungkan.",
+        "relaunch": "Wispr Bro akan menghentikan pekerjaannya, menghapus data, lalu dibuka ulang ke proses penyiapan awal.",
+        "models": "Hapus juga model yang sudah diunduh",
+        "modelsHint": "Biarkan nonaktif agar tidak perlu mengunduh model ucapan dan model pembersihan lagi.",
+        "confirmLabel": "Ketik {{word}} untuk mengonfirmasi",
+        "cancel": "Batalkan",
+        "confirm": "Hapus semuanya",
+        "failed": "Penghapusan semua data tidak selesai. Periksa data yang tersisa sebelum mencoba lagi.",
+        "short": "Menghapus Riwayat, rekaman, dan pengaturan. Tidak bisa dibatalkan."
+      },
+      "diagnostics": {
+        "title": "Laporan crash dan diagnostik",
+        "hint": "Laporan crash tetap di Mac ini. Bagikan diagnostik hanya jika Anda mau.",
+        "sanitized": "Menghapus teks dikte, prompt, kata kamus, email, kunci, dan jalur folder rumah Anda.",
+        "copy": "Salin diagnostik",
+        "save": "Simpan diagnostik…",
+        "fileName": "wispr-bro-diagnostics-{{date}}.zip",
+        "copied": "Diagnostik yang sudah dibersihkan telah disalin.",
+        "saved": "Diagnostik yang sudah dibersihkan telah disimpan.",
+        "failed": "Tidak dapat menyiapkan diagnostik. Coba lagi.",
+        "rowTitle": "Bagikan diagnostik"
+      }
+    },
+    "advanced": {
+      "output": "Output teks",
+      "transcription": "Transkripsi",
+      "barAndOverlay": "Bilah dikte dan overlay",
+      "liveText": "Tampilkan teks langsung di bilah",
+      "liveTextHint": "Tampilkan kata yang dikenali saat Anda berbicara.",
+      "keyboard": "Backend keyboard",
+      "prompts": "Penyedia pembersihan dan editor prompt",
+      "history": "Penyimpanan Riwayat",
+      "updates": "Pembaruan",
+      "updateChannel": "Saluran pembaruan",
+      "updateChannelHint": "Build beta mungkin berisi perubahan yang belum selesai.",
+      "updateChannels": {
+        "stable": "Stabil",
+        "beta": "Beta"
+      },
+      "storage": "Lokasi data dan log",
+      "experimental": "Eksperimental dan debug",
+      "debugMode": "Alat debug",
+      "debugModeHint": "Tampilkan kontrol diagnostik dan opsi log terperinci.",
+      "forkDiagnostics": "Diagnostik pengaturan fork",
+      "translateUnsupported": "{{model}} tidak dapat menerjemahkan. Pilih model yang bisa, seperti Whisper atau Canary, di Model ucapan.",
+      "translateNoModel": "Model ucapan Anda tidak dapat menerjemahkan. Pilih model yang bisa, seperti Whisper atau Canary, di Model ucapan."
+    },
+    "about": {
+      "tagline": "Dikte lokal, tanpa akun dan tanpa pemrosesan cloud.",
+      "version": "Versi {{version}}",
+      "source": "Lihat kode sumber",
+      "updates": "Catatan pembaruan",
+      "updatesTitle": "Pembaruan",
+      "license": "Perangkat lunak bebas di bawah GNU General Public License, versi 3 (GPL-3.0).",
+      "licenseLink": "Lihat lisensi",
+      "credit": "Dibangun di atas Handy karya CJ Pais, digunakan di bawah Lisensi MIT. Terima kasih kepada semua yang mengerjakannya.",
+      "creditLink": "Handy di GitHub",
+      "supportTitle": "Dukung pengembangan"
+    },
+    "hotkeys": {
+      "open": "Pintasan",
+      "loading": "Memuat pintasan…",
+      "secureInputHelp": "Perekaman pintasan dijeda selama Input Aman macOS melindungi kolom kata sandi.",
+      "count": "{{count}} dari {{max}} diatur",
+      "notSet": "Belum diatur",
+      "current": "Pintasan: {{shortcut}}",
+      "activationLabel": "Cara pintasan diaktifkan",
+      "activations": {
+        "hold": "Tahan",
+        "double_tap": "Ketuk dua kali",
+        "press": "Tekan",
+        "toggle": "Alihkan"
+      },
+      "add": "Tambah pintasan",
+      "edit": "Edit",
+      "delete": "Hapus",
+      "reset": "Atur ulang ke default",
+      "resetting": "Mengatur ulang…",
+      "resetFailed": "Tidak dapat mengatur ulang semua pintasan. Coba lagi.",
+      "done": "Selesai",
+      "saveFailed": "Tidak dapat menyimpan pintasan itu.",
+      "conflict": "Juga digunakan oleh {{action}}. Pilih pintasan lain.",
+      "invalid": "Pintasan ini tidak dikenali.",
+      "unsupported": "Kombinasi ini tidak dapat digunakan sebagai pintasan untuk tindakan ini.",
+      "capture": {
+        "starting": "Memulai perekaman pintasan…",
+        "listening": "Tekan pintasan…",
+        "listeningHelp": "Tekan kombinasi tombol atau tombol mouse yang ingin digunakan. Esc membatalkan.",
+        "cancel": "Batalkan",
+        "close": "Kembali",
+        "secure": "Perekaman pintasan tidak tersedia saat Secure Input aktif. Tinggalkan bidang kata sandi atau matikan Secure Keyboard Entry, lalu coba lagi.",
+        "failed": "Tidak dapat memulai perekaman pintasan. Periksa izin Aksesibilitas dan coba lagi."
+      },
+      "actions": {
+        "dictate": "Tahan untuk berbicara",
+        "hands_free": "Dikte bebas genggam",
+        "cancel": "Batalkan dikte",
+        "command_mode": "Command Mode",
+        "paste_last": "Tempel dikte terakhir",
+        "copy_last": "Salin dikte terakhir",
+        "press_enter": "Tekan Return",
+        "undo_cancel": "Urungkan pembatalan",
+        "transform": {
+          "polish": "Polish teks yang dipilih",
+          "prompt_engineer": "Ubah teks yang dipilih menjadi prompt AI",
+          "view_changes": "Lihat perubahan transformasi"
+        },
+        "scratchpad": {
+          "open": "Buka Coretan"
+        }
+      },
+      "help": {
+        "dictate": "Tahan pintasan saat berbicara; lepaskan untuk selesai.",
+        "hands_free": "Mulai dan hentikan dikte tanpa menahan tombol.",
+        "cancel": "Hentikan dikte saat ini tanpa menyisipkannya.",
+        "command_mode": "Tahan pintasan sambil mengucapkan cara mengedit atau menulis teks.",
+        "paste_last": "Tempel lagi dikte terbaru Anda.",
+        "copy_last": "Salin dikte terbaru Anda ke papan klip.",
+        "press_enter": "Menekan Return di tempat Anda mengetik. Tombol samping mouse cocok untuk ini.",
+        "undo_cancel": "Pulihkan dikte tepat setelah Anda membatalkannya.",
+        "transform": {
+          "polish": "Tulis ulang teks yang dipilih dengan Polish.",
+          "prompt_engineer": "Tulis ulang teks yang dipilih sebagai prompt AI yang jelas.",
+          "view_changes": "Tinjau sebelum dan sesudah transformasi terakhir."
+        },
+        "scratchpad": {
+          "open": "Lanjutkan catatan terakhir atau mulai yang baru."
+        }
+      },
+      "addFor": "Tambahkan pintasan untuk {{action}}",
+      "descriptionLimits": "Sebagian besar aksi mendukung hingga {{max}} pintasan. Tahan untuk berbicara, batalkan, dan Command Mode masing-masing satu, dikte bebas genggam dua. Perubahan disimpan saat Anda membuatnya.",
+      "limit_other": "Aksi ini mendukung hingga {{count}} pintasan.",
+      "appleDictation": {
+        "title": "Matikan Dikte Apple saat fn ditekan dua kali",
+        "description": "Ketukan ganda tidak lagi ikut memulai Dikte Apple.",
+        "active": "Dikte Apple masih dimulai saat fn ditekan dua kali. Di pengaturan Papan Ketik, atur pintasan Dikte ke Mati."
+      },
+      "key": {
+        "title": "Tombol dikte",
+        "hint": "Tahan untuk berbicara. Ketuk dua kali untuk dikte bebas genggam.",
+        "prompt": "Tekan tombol yang Anda inginkan",
+        "save": "Simpan",
+        "invalid": "Gunakan fn, dua tombol pengubah seperti ⌃ ⌥, atau tombol pengubah dengan satu tombol seperti ⌥ Space.",
+        "more": "Pintasan lainnya"
+      }
+    },
+    "resetSetting": "Atur ulang {{setting}}",
+    "intro": {
+      "general": "Pintasan, mikrofon, bahasa, dan tampilan app Anda.",
+      "system": "Cara Wispr Bro dimulai, berbunyi, dan memberi tahu Anda.",
+      "privacy": "Semuanya tetap di Mac ini. Pilih apa yang disimpan, dan berapa lama.",
+      "advanced": "Penyetelan halus untuk ucapan, pembersihan, keluaran teks, dan pembaruan."
+    },
+    "navGroups": {
+      "app": "App"
+    }
+  },
+  "hub": {
+    "nav": {
+      "label": "Utama"
+    },
+    "sidebar": {
+      "collapse": "Ciutkan bar samping",
+      "expand": "Luaskan bar samping",
+      "suggested": "Kata yang disarankan: {{count}}"
+    },
+    "header": {
+      "toDark": "Beralih ke tampilan gelap",
+      "toLight": "Beralih ke tampilan terang"
+    },
+    "notifications": {
+      "title": "Pemberitahuan",
+      "empty": {
+        "title": "Tidak ada yang baru",
+        "body": "Pembaruan dan tips akan muncul di sini."
+      },
+      "bellUnread_other": "Pemberitahuan, {{count}} belum dibaca",
+      "filter": {
+        "label": "Tampilkan",
+        "all": "Semua",
+        "unread": "Belum dibaca"
+      },
+      "more": "Pilihan pemberitahuan lainnya",
+      "markAllRead": "Tandai semua sudah dibaca",
+      "groups": {
+        "show": "Tampilkan di daftar ini",
+        "mac": "Di Mac ini"
+      },
+      "toggles": {
+        "suggestions": "Saran",
+        "announcements": "Pengumuman",
+        "milestones": "Pencapaian",
+        "system": "Pemberitahuan Mac"
+      },
+      "list": "Pemberitahuan",
+      "unreadDot": "Belum dibaca",
+      "emptyUnread": {
+        "title": "Tidak ada yang baru",
+        "body": "Anda sudah membaca semuanya."
+      },
+      "loadFailed": "Pemberitahuan tidak dapat dimuat.",
+      "actionFailed": "Tidak berhasil. Coba lagi.",
+      "copied": "Dikte terbaru disalin",
+      "nothingToCopy": "Belum ada dikte untuk disalin",
+      "justNow": "Baru saja"
+    },
+    "help": {
+      "title": "Bantuan",
+      "updates": "Perbaruan",
+      "whatsNew": "Yang baru",
+      "essentials": "Dasar-dasar",
+      "shortcuts": "Pintasan",
+      "microphone": "Mikrofon",
+      "languages": "Bahasa",
+      "documentation": "Dokumentasi",
+      "getInTouch": "Hubungi kami",
+      "reportProblem": "Laporkan masalah…",
+      "sendFeedback": "Kirim umpan balik",
+      "report": {
+        "title": "Laporkan masalah",
+        "body": "Ini akan membuka issue baru di GitHub pada browser Anda, dengan versi app dan model Mac sudah terisi. Isinya tidak pernah mencakup apa pun yang Anda diktekan, dan Anda dapat membaca serta mengubah semuanya sebelum mengirim.",
+        "diagnosticsTitle": "Diagnostik (opsional)",
+        "diagnosticsBody": "Log yang sudah dibersihkan membantu menemukan penyebabnya. Log ini tidak pernah berisi dikte Anda. Salin di sini, lalu tempel ke issue.",
+        "copy": "Salin diagnostik",
+        "copied": "Diagnostik disalin. Tempel ke issue.",
+        "copyFailed": "Tidak dapat menyalin diagnostik.",
+        "open": "Buka GitHub",
+        "cancel": "Batalkan",
+        "close": "Tutup"
+      }
+    },
+    "footer": {
+      "version": "v{{version}}"
+    },
+    "settings": {
+      "sectionsLabel": "Bagian pengaturan"
+    },
+    "pages": {
+      "dictation": {
+        "title": "Dikte",
+        "banner": {
+          "title": "Bicara, tak perlu mengetik",
+          "body": "Tahan fn di app apa pun, ucapkan yang ingin Anda tulis, lalu lepaskan. {{appName}} menaruh teks yang rapi di posisi kursor Anda.",
+          "quiet": "Dikte dengan suara pelan: tunjukkan caranya"
+        },
+        "empty": {
+          "title": "Dikte Anda akan muncul di sini"
+        }
+      },
+      "insights": {
+        "title": "Statistik",
+        "empty": {
+          "title": "Statistik memerlukan beberapa dikte",
+          "action": "Buka Dikte"
+        }
+      },
+      "dictionary": {
+        "title": "Kamus"
+      },
+      "snippets": {
+        "title": "Cuplikan"
+      },
+      "style": {
+        "title": "Gaya"
+      },
+      "transforms": {
+        "title": "Transformasi"
+      },
+      "scratchpad": {
+        "title": "Coretan"
+      },
+      "share": {
+        "title": "Bagikan dengan teman"
+      },
+      "settings": {
+        "title": "Pengaturan"
+      }
+    },
+    "featurePopup": {
+      "label": "Baru di versi ini",
+      "dismiss": "Mengerti",
+      "open": "Tunjukkan"
+    },
+    "update": {
+      "off": "Pemeriksaan pembaruan nonaktif",
+      "turnOn": "Nyalakan",
+      "notChecked": "Belum diperiksa",
+      "check": "Periksa pembaruan",
+      "checking": "Memeriksa pembaruan…",
+      "upToDate": "Sudah yang terbaru",
+      "checkAgain": "Periksa lagi",
+      "checkFailed": "Tidak dapat memeriksa",
+      "retry": "Coba lagi",
+      "downloading": "Mengunduh {{version}}…",
+      "ready": "Pembaruan siap",
+      "restartNow": "Mulai ulang sekarang",
+      "installing": "Menginstal {{version}}…",
+      "installedWaiting": "{{version}} terinstal · mulai ulang setelah dikte ini",
+      "restarting": "Memulai ulang…",
+      "installFailed": "Pembaruan tidak terinstal",
+      "busy": "Selesaikan dikte terlebih dahulu.",
+      "actionFailed": "Tidak berhasil. Coba lagi nanti.",
+      "lastChecked": "Terakhir diperiksa {{time}}.",
+      "paused": "Setelah tiga kali gagal, pembaruan otomatis dijeda hingga {{time}}.",
+      "manualOnly": "Ini build pengembangan: pembaruan hanya diperiksa saat Anda memintanya.",
+      "readyHint": "Pembaruan terinstal sendiri setelah Anda tidak mendikte selama 20 menit, atau saat Anda keluar.",
+      "policy": "Pembaruan diunduh di latar belakang dan diinstal setelah Anda tidak mendikte selama 20 menit, atau saat Anda keluar.",
+      "needsPassword": "Salinan app ini berada di folder yang memerlukan kata sandi administrator untuk diubah, jadi pembaruan hanya terinstal saat Anda memilih Mulai ulang sekarang."
+    },
+    "support": {
+      "nav": "Dukung {{appName}}",
+      "title": "Dukung {{appName}}",
+      "free": "Gratis dan sumber terbuka",
+      "sponsor": "Sponsori di GitHub",
+      "star": "Beri bintang di GitHub",
+      "contribute": "Berkontribusi"
+    },
+    "notices": {
+      "more": "{{count}} lagi",
+      "nextLabel": "Pemberitahuan berikutnya:"
+    },
+    "appleDictationNote": {
+      "body": "Kami mematikan “Tekan fn dua kali” untuk Dikte Apple agar teks Anda tidak diketik dua kali. Ubah di Pengaturan › Pintasan."
+    }
+  },
+  "ui": {
+    "tag": {
+      "new": "Baru!",
+      "beta": "Beta"
+    },
+    "banner": {
+      "dismiss": "Tutup"
+    },
+    "importWizard": {
+      "stepsLabel": "Langkah impor",
+      "stepOf": "Langkah {{step}} dari {{total}}: {{title}}",
+      "steps": {
+        "choose": "Pilih file",
+        "columns": "Cocokkan kolom",
+        "review": "Tinjau",
+        "done": "Selesai"
+      },
+      "dropHint": "Letakkan file .csv di sini, atau pilih file.",
+      "browse": "Pilih file .csv",
+      "limit": "Hingga 3 MB.",
+      "formatLink": "Format yang diterima",
+      "csvFilter": "File CSV",
+      "fileSummary_other": "{{name}}: {{count}} baris",
+      "hasHeader": "Baris pertama berisi nama kolom",
+      "optional": "(opsional)",
+      "noColumn": "Tidak ada di file ini",
+      "column": "Kolom {{letter}}",
+      "columnNamed": "Kolom {{letter}}: {{name}}",
+      "mapRequired": "Pilih kolom untuk setiap bidang yang wajib.",
+      "previewCaption_other": "Pratinjau {{count}} baris pertama",
+      "rowHeader": "Baris",
+      "cancel": "Batalkan",
+      "back": "Kembali",
+      "next": "Berikutnya",
+      "import": "Impor",
+      "done": "Selesai",
+      "close": "Tutup",
+      "errors": {
+        "notCsv": "Itu bukan file .csv. Simpan sheet sebagai CSV lalu coba lagi.",
+        "tooLarge": "File itu berukuran {{size}} MB. Ukuran file maksimal 3 MB.",
+        "unreadable": "File itu tidak dapat dibaca. Pastikan itu file CSV lalu coba lagi.",
+        "empty": "File itu tidak berisi baris untuk diimpor.",
+        "failed": "Terjadi kesalahan. Tidak ada yang diimpor; coba lagi."
+      }
+    }
+  },
+  "rust": {
+    "appName": "Wispr Bro",
+    "menu": {
+      "dictation": "Dikte",
+      "vocabulary": "Kamus",
+      "help": "Bantuan",
+      "file": "File",
+      "edit": "Edit",
+      "view": "Tampilan",
+      "window": "Jendela",
+      "wordsDictated_other": "{{count}} kata didiktekan",
+      "copyLast": "Salin dikte terakhir",
+      "copyLastPreview": "Salin dikte terakhir: “{{preview}}”",
+      "copyLastConcealed": "Salin dikte terakhir (teks disembunyikan)",
+      "microphone": "Mikrofon",
+      "languages": "Bahasa",
+      "moreLanguages": "Tambah atau hapus bahasa…",
+      "automaticMicrophone": "Deteksi otomatis (pengaturan sistem)",
+      "noMicrophones": "Mikrofon tidak ditemukan",
+      "dictionaryWords_other": "{{count}} kata di kamus",
+      "snippetCount_other": "{{count}} cuplikan",
+      "addWord": "Tambah kata…",
+      "newSnippet": "Cuplikan baru…",
+      "documentation": "Dokumentasi",
+      "showIntro": "Tampilkan pengantar lagi",
+      "shortcuts": "Pintasan",
+      "reportProblem": "Laporkan masalah…",
+      "sendFeedback": "Kirim umpan balik…",
+      "openApp": "Buka {{appName}}",
+      "checkUpdates": "Periksa pembaruan…",
+      "pasteLast": "Tempel dikte terakhir",
+      "cancelDictation": "Batalkan dikte",
+      "shortcutsBlocked": "Pintasan diblokir — buka Pengaturan",
+      "undo": "Urungkan",
+      "redo": "Ulang",
+      "cut": "Potong",
+      "copy": "Salin",
+      "paste": "Tempel",
+      "selectAll": "Pilih Semua",
+      "minimize": "Minimalkan",
+      "zoom": "Perbesar/Perkecil",
+      "closeWindow": "Tutup Jendela",
+      "fullScreen": "Masuk Layar Penuh",
+      "services": "Layanan",
+      "hideOthers": "Sembunyikan Lainnya",
+      "showAll": "Tampilkan Semua",
+      "about": "Tentang {{appName}}",
+      "hide": "Sembunyikan {{appName}}",
+      "quitApp": "Keluar dari {{appName}}",
+      "restartToUpdate": "Mulai ulang untuk memperbarui ke {{version}}",
+      "updatesOff": "Pemeriksaan pembaruan nonaktif…"
+    },
+    "tray": {
+      "version": "Wispr Bro v{{version}}",
+      "versionDev": "Wispr Bro v{{version}} (Dev)",
+      "shortcutLost": "Pintasan berhenti bekerja"
+    },
+    "window": {
+      "mainTitle": "Wispr Bro"
+    },
+    "hotkeys": {
+      "keys": {
+        "fn": "fn",
+        "control": "Control",
+        "option": "Option",
+        "shift": "Shift",
+        "command": "Command",
+        "space": "Space",
+        "escape": "Escape",
+        "return": "Return",
+        "tab": "Tab",
+        "delete": "Delete",
+        "forwardDelete": "Forward Delete",
+        "left": "Panah Kiri",
+        "right": "Panah Kanan",
+        "up": "Panah Atas",
+        "down": "Panah Bawah",
+        "home": "Home",
+        "end": "End",
+        "pageUp": "Page Up",
+        "pageDown": "Page Down",
+        "mouseLeft": "Tombol kiri mouse",
+        "mouseRight": "Tombol kanan mouse",
+        "mouseMiddle": "Tombol tengah mouse",
+        "mouseBack": "Tombol mouse Kembali",
+        "mouseForward": "Tombol mouse Maju"
+      }
+    },
+    "notify": {
+      "modelReady": {
+        "title": "Dikte siap",
+        "body": "Model ucapan selesai diunduh. Tahan fn di app apa pun dan mulai berbicara."
+      },
+      "updateReady": {
+        "title": "Pembaruan siap",
+        "body": "{{appName}} {{version}} akan diinstal saat app dimulai ulang berikutnya."
+      },
+      "queuedTakesReady": {
+        "title_other": "{{count}} dikte siap",
+        "body": "Yang Anda ucapkan saat model ucapan belum ada telah ditranskripsi."
+      },
+      "shortcutProblem": {
+        "title": "Pintasan Anda tidak berfungsi",
+        "body": "{{appName}} tidak dapat mulai mendengarkan fn. Buka Pengaturan untuk memeriksa pintasan Anda.",
+        "bodyPermission": "{{appName}} memerlukan akses Aksesibilitas untuk mendengar fn. Nyalakan di Pengaturan Sistem."
+      },
+      "crashReport": {
+        "title": "{{appName}} keluar secara tak terduga",
+        "body": "Laporan crash disimpan di Mac ini. Tidak ada yang dikirim ke mana pun."
+      },
+      "dataRecovered": {
+        "title": "File riwayat Anda telah diperbaiki",
+        "body": "File itu tidak dapat dibaca, jadi file baru dibuat. File yang rusak disimpan di sebelahnya."
+      },
+      "milestoneWords": {
+        "title_other": "{{count}} kata didiktekan",
+        "body_other": "Itu {{count}} kata yang tidak perlu Anda ketik. Bagus sekali."
+      },
+      "milestoneStreak": {
+        "title_other": "Rentetan {{count}} hari",
+        "body_other": "Anda telah mendikte selama {{count}} hari berturut-turut."
+      },
+      "tips": {
+        "handsFree": {
+          "title": "Bicara tanpa menahan tombol",
+          "body": "Ketuk dua kali fn, atau tekan fn dan Space, untuk mode bebas genggam. Tekan fn lagi saat selesai."
+        },
+        "cancel": {
+          "title": "Berubah pikiran?",
+          "body": "Tekan Esc saat berbicara dan dikte dibuang. Tidak ada yang ditempel."
+        },
+        "history": {
+          "title": "Setiap dikte disimpan",
+          "body": "Dikte Anda tetap di Mac ini. Buka Riwayat untuk menyalinnya lagi."
+        },
+        "darkMode": {
+          "title": "Terang atau gelap",
+          "body": "Tombol bulan di bagian atas jendela ini mengubah tampilan."
+        },
+        "customWords": {
+          "title": "Ajarkan kata-kata Anda",
+          "body": "Tambahkan nama dan istilah yang sering Anda gunakan agar selalu dieja dengan benar."
+        }
+      },
+      "slowerMac": {
+        "title": "Dikte mungkin lebih lambat di Mac ini",
+        "body": "Tidak ada model ucapan yang cukup cepat untuk bahasa Anda di Mac ini, jadi model tercepat yang digunakan. Teks bisa sedikit lebih lama muncul."
+      },
+      "features": {
+        "inbox": {
+          "title": "Pemberitahuan Anda ada di sini",
+          "body": "Unduhan, pencapaian, dan tips kini terkumpul di balik ikon lonceng. Pilih apa yang Anda terima di menunya."
+        }
+      },
+      "buttons": {
+        "copyLatest": "Salin terbaru",
+        "open": "Buka",
+        "openAccessibility": "Buka Pengaturan"
+      },
+      "takeRecovered": {
+        "title_other": "{{count}} rekaman disimpan saat app ditutup",
+        "body_other": "Anda masih mendikte saat {{appName}} ditutup. Rekaman sedang ditranskripsi dan akan muncul di Riwayat."
+      }
+    },
+    "scratchpad": {
+      "windowTitle": "Coretan"
+    },
+    "pill": {
+      "name": "Bilah dikte",
+      "hint": "Tahan fn untuk mendikte, atau klik untuk mulai",
+      "hideForAnHour": "Sembunyikan selama satu jam",
+      "slots": {
+        "dictate": {
+          "label": "Dikte",
+          "tooltip": "Tahan fn untuk mendikte"
+        },
+        "scratchpad": {
+          "label": "Coretan",
+          "tooltip": "Coretan"
+        }
+      },
+      "announce": {
+        "listening": "Mendengarkan",
+        "transcribing": "Mentranskripsi",
+        "cleaningUp": "Membersihkan teks Anda",
+        "cancelled": "Dikte dibatalkan",
+        "silenceWarning": "Tidak ada ucapan untuk beberapa saat. Dikte akan segera berhenti.",
+        "lengthWarning": "Dikte berhenti pada 30 menit.",
+        "settingUp": "Menyiapkan dikte. Kata-kata Anda sudah disimpan.",
+        "card": "Dikte Anda siap. Salin dari bilah.",
+        "micLostWarning": "Mikrofon terputus. Yang sudah Anda ucapkan tetap disimpan.",
+        "undo": "Urungkan ada di bilah dikte selama 4 detik.",
+        "diff": "Perubahan transformasi siap ditinjau.",
+        "secureInputWarning": "Secure Input aktif. fn dan Space tidak dapat mengunci dikte. Esc atau tombol tutup tetap membatalkan.",
+        "inserted": "Teks disisipkan",
+        "newWord": "Kata baru: {{word}}. Tambahkan dari bilah dikte, atau nanti di Kamus."
+      },
+      "message": {
+        "no_speech": "Tidak ada ucapan yang terdengar",
+        "mic_muted": "Hanya ada keheningan. Apakah mikrofon dibisukan?",
+        "inserted_without_cleanup": "Disisipkan tanpa pembersihan",
+        "not_pasted": "Tidak ditempel. Teks Anda ada di Riwayat.",
+        "transcription_failed": "Tidak dapat mentranskripsi itu",
+        "mic_denied": "Akses mikrofon nonaktif",
+        "no_microphone": "Mikrofon tidak ditemukan",
+        "mic_failed": "Mikrofon tidak mulai",
+        "download_failed": "Tidak dapat mengunduh",
+        "check_connection": "Periksa koneksi internet Anda",
+        "no_space": "Ruang disk tidak cukup untuk menyiapkan dikte",
+        "cancelled": "Dibatalkan",
+        "no_transcript": "Belum ada dikte untuk ditempel",
+        "copied_last": "Dikte terakhir disalin",
+        "copied_to_clipboard": "Disalin ke papan klip",
+        "transform_done": "Selesai",
+        "command_done": "Selesai",
+        "command_needs_text": "Command Mode mengedit dan menulis teks. Pilih teks atau klik di sebuah bidang.",
+        "select_text_first": "Pilih teks terlebih dahulu",
+        "selection_too_long": "Pilih 6.000 karakter atau kurang",
+        "transform_focus_moved": "Anda sudah pindah, jadi tidak ada yang berubah",
+        "transform_failed": "Tidak dapat mentransformasi teks itu",
+        "shortcut_lost": "Pintasan Anda berhenti bekerja",
+        "shortcut_stopped": "Pintasan Anda berhenti merespons",
+        "shortcut_back": "Pintasan Anda berfungsi lagi",
+        "transform_no_change": "Tidak ada yang perlu diubah",
+        "transform_not_applied": "Transformasi tidak dapat diterapkan",
+        "transform_getting_ready": "Transformasi sedang disiapkan. Coba lagi dalam satu menit."
+      },
+      "card": {
+        "no_text_field": "Klik ke dalam bidang teks terlebih dahulu",
+        "focus_moved": "Anda sudah pindah, jadi tidak ada yang ditempel",
+        "secure_field": "Tidak diketik ke bidang kata sandi",
+        "sleep": "Tidak ditempel: Mac Anda masuk mode tidur",
+        "screen_locked": "Tidak ditempel: layar terkunci",
+        "session_inactive": "Tidak ditempel: Anda beralih pengguna",
+        "paste_failed": "Tidak dapat menempel teks ini",
+        "disk_full": "Disk penuh: perekaman berhenti"
+      },
+      "word": {
+        "added": "Ditambahkan ke Kamus",
+        "full": "Kamus penuh. Kata tetap ada di Disarankan."
+      }
+    },
+    "share": {
+      "message": "{{appName}} adalah app dikte gratis yang berjalan sepenuhnya di Mac Anda. Dapatkan di sini:"
+    },
+    "spotlight": {
+      "label": "Langkah berikutnya",
+      "hint": {
+        "ai_chat": "Buka chat AI, seperti ChatGPT atau Claude",
+        "note": "Buka app catatan Anda",
+        "message": "Buka chat, seperti Messages atau Slack",
+        "email": "Buka email Anda",
+        "comment": "Buka postingan yang ingin Anda komentari",
+        "document": "Buka dokumen yang sedang Anda tulis",
+        "coding": "Buka Cursor, VS Code, atau editor kode lain"
+      },
+      "how": "Klik tempat Anda ingin menulis, lalu tahan fn dan bicara.",
+      "howFallback": "Klik tempat Anda ingin menulis, lalu tahan Control dan Option dan bicara.",
+      "escape": "Tekan Esc untuk menutup petunjuk ini."
+    }
+  },
+  "speechModels": {
+    "title": "Model ucapan",
+    "intro": "{{appName}} memilih model ucapan untuk bahasa Anda dan Mac ini, dan menggantinya dengan yang lebih baik jika bisa. Anda tidak perlu memilih.",
+    "loading": "Memeriksa model ucapan…",
+    "current": "Digunakan: {{name}}",
+    "none": "Belum ada model ucapan",
+    "phase": {
+      "checking": "Memeriksa model mana yang cocok untuk Mac ini…",
+      "settled": "Ini adalah model terbaik untuk bahasa Anda di Mac ini.",
+      "downloading": "Mengunduh model yang lebih baik di latar belakang… {{percent}}%",
+      "downloadingNoPercent": "Mengunduh model yang lebih baik di latar belakang…",
+      "waiting_to_swap": "Model yang lebih baik sudah siap. Model akan diganti saat Anda tidak sedang mendikte.",
+      "paused": "Model yang lebih baik tidak dapat diunduh. Akan dicoba lagi nanti."
+    },
+    "next": "Berikutnya: {{name}}",
+    "progressLabel": "Unduhan model ucapan yang lebih baik",
+    "slower": "Dikte mungkin lebih lambat di Mac ini: tidak ada model yang cukup cepat untuk bahasa Anda di sini, jadi model tercepat yang digunakan.",
+    "pinned": "Anda memilih model ini sendiri, jadi {{appName}} tidak mengubahnya.",
+    "automatic": "Pilih model secara otomatis",
+    "automaticHint": "Dimatikan saat Anda memilih model di daftar di bawah.",
+    "languages": "Untuk: {{languages}}",
+    "machine": "Mac ini: {{chip}}, memori {{ram}} GB",
+    "freeDisk": "{{gb}} GB tersedia untuk model",
+    "chip": {
+      "apple": "Apple M{{generation}}",
+      "apple_pro": "Apple M{{generation}} Pro",
+      "apple_max": "Apple M{{generation}} Max",
+      "apple_ultra": "Apple M{{generation}} Ultra",
+      "unknown": "Apple silicon",
+      "intel": "Prosesor Intel"
+    },
+    "list": "Semua model"
+  },
+  "aiEngine": {
+    "title": "Mesin AI",
+    "loading": "Memeriksa mesin AI…",
+    "loadError": "Tidak dapat membaca status mesin AI: {{message}}",
+    "state": {
+      "unsupported": "Pembersihan teks dengan mesin AI lokal tidak tersedia di Mac ini.",
+      "missing_runtime": "Mesin AI tidak ada di build ini.",
+      "waiting_for_speech_model": "Model pembersihan diunduh setelah model ucapan.",
+      "downloading": "Mengunduh model pembersihan… {{percent}}%",
+      "verifying": "Memeriksa model pembersihan…",
+      "ready": "Siap",
+      "download_failed": "Tidak dapat mengunduh model pembersihan."
+    },
+    "progressLabel": "Unduhan model pembersihan",
+    "model": "Model: {{name}}",
+    "server": {
+      "stopped": "Mesin siaga: mulai saat Anda mendikte.",
+      "starting": "Mesin dimulai…",
+      "ready": "Mesin berjalan",
+      "failed": "Mesin gagal dimulai; akan dicoba lagi."
+    },
+    "cpuOnly": "berjalan di CPU",
+    "downloadError": "Kesalahan: {{message}}",
+    "retry": "Coba lagi",
+    "try": {
+      "label": "Coba pada sebuah kalimat",
+      "sample": "um jadi saya kepikiran kita bisa eh ketemu hari jumat eh bukan kamis buat bahas anggaran anggarannya",
+      "button": "Coba",
+      "running": "Membersihkan…",
+      "notReady": "Tersedia setelah model pembersihan siap.",
+      "result": "Teks yang dibersihkan",
+      "empty": "(tidak ada yang tersisa setelah pembersihan)",
+      "timing": "Dibersihkan dalam {{ms}} ms.",
+      "timingCold": "Dibersihkan dalam {{ms}} ms, setelah {{start}} ms untuk memulai mesin.",
+      "lowMemory": "Memori kosong tidak cukup untuk memulai mesin AI sekarang. Tutup beberapa app dan coba lagi.",
+      "badReply": "Balasan model tidak dapat digunakan. Teks Anda akan disisipkan tanpa pembersihan.",
+      "failed": "Pembersihan gagal: {{message}}",
+      "ranOnApple": "Berjalan di Apple Intelligence."
+    },
+    "apple": {
+      "title": "Apple Intelligence",
+      "state": {
+        "available_fallback": "Siap di Mac ini. Wispr Bro menggunakannya saat model pembersihannya sendiri belum dapat berjalan, misalnya saat sedang diunduh.",
+        "available_default": "Siap di Mac ini. Wispr Bro membersihkan dikte Anda dengannya.",
+        "device_not_eligible": "Mac ini tidak dapat menjalankan Apple Intelligence. Wispr Bro menggunakan model pembersihannya sendiri.",
+        "not_enabled": "Apple Intelligence nonaktif di Pengaturan Sistem. Wispr Bro menggunakan model pembersihannya sendiri.",
+        "model_not_ready": "Apple Intelligence masih mempersiapkan modelnya.",
+        "unsupported": "Apple Intelligence memerlukan macOS 26 atau lebih baru. Wispr Bro menggunakan model pembersihannya sendiri.",
+        "unknown": "Apple Intelligence tidak tersedia saat ini."
+      },
+      "counts": "Sejak app dimulai: permintaan {{requests}}, ditolak {{refusals}}, dibatasi {{rateLimited}}."
+    }
+  },
+  "home": {
+    "greeting": {
+      "named": "Halo, {{name}}",
+      "anonymous": "Halo",
+      "edit": "Ubah nama di sapaan"
+    },
+    "nameEditor": {
+      "label": "Nama di sapaan",
+      "field": "Nama Anda",
+      "hint": "Hanya ditampilkan di Mac ini.",
+      "save": "Simpan",
+      "useAccountName": "Gunakan nama akun Mac saya",
+      "clear": "Hapus nama",
+      "saveFailed": "Nama tidak dapat disimpan. Coba lagi."
+    },
+    "stats": {
+      "label": "Statistik Anda",
+      "totalWords": "Total kata",
+      "wordsPerMinute": "Kata per menit",
+      "streak": "Hari berturut-turut",
+      "notEnoughSpeech": "Ucapan belum cukup",
+      "unavailable": "Belum tersedia"
+    },
+    "voiceProfile": {
+      "title": "Profil suara Anda",
+      "unlocked": "Terbuka. Lihat cara Anda berbicara di Statistik.",
+      "open": "Buka Statistik",
+      "progress_other": "{{current}} dari {{goal}} kata",
+      "locked_other": "Terbuka pada {{goal}} kata. Terus mendikte untuk membangunnya."
+    },
+    "history": {
+      "title": "Dikte Anda disimpan di Mac ini",
+      "body": "Buka Riwayat untuk menyalin, memutar, atau mencarinya.",
+      "action": "Buka Riwayat"
+    }
+  },
+  "dictionary": {
+    "add": "Tambah kata",
+    "added": "“{{entry}}” ditambahkan.",
+    "search": "Cari di kamus Anda",
+    "refresh": "Segarkan",
+    "shown_other": "{{count}} entri ditampilkan",
+    "deleted": "“{{entry}}” dihapus.",
+    "deleteFailed": "Entri itu tidak dapat dihapus. Coba lagi.",
+    "undo": "Urungkan",
+    "tabs": {
+      "label": "Entri kamus",
+      "all": "Semua",
+      "mine": "Ditambahkan oleh Anda",
+      "suggested": "Disarankan"
+    },
+    "sort": {
+      "label": "Urutkan",
+      "newest": "Terbaru dulu",
+      "oldest": "Terlama dulu",
+      "az": "A ke Z",
+      "za": "Z ke A",
+      "used": "Paling sering digunakan"
+    },
+    "banner": {
+      "title": "{{appName}} menulisnya dengan cara <em>Anda</em>.",
+      "lead": "Tambahkan kata sekali, atau perbaiki saat hasilnya salah, agar <b>nama, istilah kerja, dan kata langka</b> Anda selalu dieja dengan benar.",
+      "example1": "Siobhán",
+      "example2": "Kubernetes",
+      "example4": "Anna-Lena",
+      "suggestionsLabel": "Kata untuk ditambahkan",
+      "add": "Tambah kata"
+    },
+    "entry": {
+      "rule": "{{from}} → {{to}}",
+      "becomes": "menjadi",
+      "used_other": "Digunakan {{count}} kali",
+      "edit": "Edit {{entry}}",
+      "delete": "Hapus {{entry}}",
+      "accept": "Tambahkan {{entry}} ke kamus Anda",
+      "reject": "Jangan pelajari {{entry}}"
+    },
+    "source": {
+      "import": "Diimpor",
+      "migrated": "Dari kata-kata kustom Anda sebelumnya",
+      "learn": "Dipelajari",
+      "flag": "Dari dikte yang ditandai"
+    },
+    "empty": {
+      "title": "Kamus Anda kosong",
+      "body": "Tambahkan nama, kata, dan pengganti yang perlu diketahui {{appName}}. Semuanya berlaku untuk dikte berikutnya."
+    },
+    "emptySuggested": {
+      "title": "Belum ada saran",
+      "body": "Saat {{appName}} dapat belajar dari kata yang Anda koreksi, kata tersebut akan muncul di sini untuk Anda setujui.",
+      "bodyOn": "Perbaiki nama atau istilah yang salah eja di kotak teks tepat setelah mendikte, lalu tekan Return, Tab, atau lanjutkan. Kata yang Anda perbaiki akan muncul di sini untuk Anda setujui."
+    },
+    "noMatch": {
+      "title": "Tidak ada yang cocok",
+      "body": "Tidak ada entri yang berisi “{{query}}”.",
+      "action": "Hapus pencarian"
+    },
+    "unavailable": {
+      "title": "Kamus belum tersedia",
+      "body": "Kamus terbuka segera setelah app selesai dimulai.",
+      "brokenTitle": "Kamus tidak dapat dibuka",
+      "brokenBody": "{{appName}} tidak dapat membaca file datanya saat ini. Keluar dan buka kembali aplikasi. Jika terus terjadi, pilih Bantuan › Laporkan masalah."
+    },
+    "problem": {
+      "empty": "Ketik kata terlebih dahulu.",
+      "same_as_replacement": "Pengganti sama dengan katanya.",
+      "control_character": "Jeda baris dan tab tidak dapat digunakan di sini.",
+      "full": "Kamus Anda penuh. Hapus beberapa entri terlebih dahulu.",
+      "too_long_other": "Kata maksimal {{max}} karakter.",
+      "replacement_too_long_other": "Pengganti maksimal {{maxReplacement}} karakter."
+    },
+    "dialog": {
+      "addTitle": "Tambahkan ke kamus",
+      "editTitle": "Edit entri kamus",
+      "description": "Kata dieja persis seperti yang Anda tulis di sini.",
+      "replaceToggle": "Ganti kata",
+      "word": "Kata atau nama",
+      "wordPlaceholder": "mis. Siobhán",
+      "from": "Saat saya mengucapkan",
+      "fromPlaceholder": "mis. gak",
+      "to": "Tulis",
+      "toPlaceholder": "mis. tidak",
+      "counter": "{{count}}/{{max}}",
+      "wordHint": "Membantu model ucapan mendengar dan mengejanya dengan benar.",
+      "ruleHint": "Mencocokkan kata utuh, apa pun huruf besar/kecilnya, dan menulis pengganti persis seperti yang diketik.",
+      "cancel": "Batalkan",
+      "add": "Tambah kata",
+      "save": "Simpan",
+      "close": "Tutup",
+      "duplicate": "“{{entry}}” sudah ada di kamus Anda.",
+      "conflictRule": "“{{from}}” sudah menjadi “{{to}}”.",
+      "conflictWord": "“{{word}}” sudah ada di kamus Anda dengan ejaan lain.",
+      "replaceExisting": "Ganti",
+      "missing": "Entri ini telah dihapus sementara itu.",
+      "failed": "Tidak dapat disimpan. Coba lagi.",
+      "failedStorage": "Tidak tersimpan: {{appName}} tidak dapat membuka file datanya. Keluar dan buka kembali aplikasi, lalu coba lagi. Jika terus terjadi, pilih Bantuan › Laporkan masalah.",
+      "failedStarting": "Belum tersimpan: {{appName}} masih dimulai. Coba lagi sebentar lagi."
+    },
+    "import": {
+      "open": "Impor",
+      "title": "Impor kamus",
+      "description": "Masukkan kata dan pengganti dari spreadsheet yang disimpan sebagai CSV.",
+      "fieldPhrase": "Kata, atau yang Anda ucapkan",
+      "fieldReplacement": "Ganti dengan",
+      "format": {
+        "intro": "Satu entri per baris:",
+        "columns": "Kolom pertama berisi kata atau yang Anda ucapkan; kolom kedua, jika diisi, berisi teks yang ditulis sebagai gantinya.",
+        "header": "Baris pertama berisi nama kolom tidak masalah; Anda memilih kolom di langkah berikutnya.",
+        "limits": "Kata hingga 60 karakter, pengganti hingga 200, file hingga 3 MB.",
+        "encoding": "Simpan sebagai CSV UTF-8 agar aksen dan aksara lain terbaca dengan benar."
+      },
+      "review": {
+        "new_other": "entri baru",
+        "duplicates_other": "sudah ada",
+        "conflicts_other": "konflik",
+        "invalid_other": "tidak dapat diimpor",
+        "overLimit_other": "{{count}} entri baru tidak akan muat (sisa ruang di kamus Anda: {{room}}).",
+        "showNew": "Tampilkan entri baru",
+        "more_other": "dan {{count}} lainnya",
+        "conflictsTitle": "Sudah ada di kamus Anda, dengan isi berbeda",
+        "conflictsHelp": "Centang entri yang versi file-nya harus menggantikan versi Anda.",
+        "useAllFile": "Gunakan versi file untuk semua",
+        "keepAllMine": "Pertahankan semua milik saya",
+        "useFile": "Gunakan versi file:",
+        "yours": "Milik Anda:",
+        "showInvalid": "Tampilkan baris yang tidak dapat diimpor",
+        "invalidRow": "Baris {{row}} ({{phrase}}): {{reason}}"
+      },
+      "done": {
+        "title_other": "{{count}} entri diimpor",
+        "added_other": "{{count}} ditambahkan",
+        "replaced_other": "{{count}} diganti dengan versi file",
+        "skipped_other": "{{count}} sudah ada, dilewati",
+        "kept_other": "{{count}} konflik dibiarkan seperti semula",
+        "invalid_other": "{{count}} baris tidak dapat diimpor",
+        "overLimit_other": "{{count}} tidak muat (kamus penuh)"
+      }
+    },
+    "export": {
+      "open": "Ekspor",
+      "fileName": "{{appName}} kamus.csv",
+      "done_other": "{{count}} entri diekspor.",
+      "failed": "Kamus tidak dapat diekspor. Coba lagi."
+    },
+    "rejected": "“{{entry}}” tidak akan disarankan lagi.",
+    "actionFailed": "Tidak berhasil. Coba lagi.",
+    "learn": {
+      "toggle": "Belajar dari koreksi saya",
+      "hint": "Selama 30 detik setelah dikte ditempel, {{appName}} memperhatikan kata yang Anda perbaiki di kotak teks itu dan menyarankannya di sini. Hanya kata yang Anda perbaiki yang disimpan, tidak pernah sisa teksnya. Bidang kata sandi, pengelola kata sandi, app perbankan, dan terminal tidak pernah dibaca."
+    },
+    "undoFailed": "“{{entry}}” tidak dapat dipulihkan. Tambahkan lagi.",
+    "undoSkipped": "“{{entry}}” tidak dipulihkan: kamus Anda sudah memilikinya.",
+    "addNew": "Tambah"
+  },
+  "pill": {
+    "region": "Bilah dikte",
+    "listening": "Mendengarkan",
+    "cancel": "Batalkan dikte",
+    "finish": "Selesaikan dikte",
+    "transcribing": "Mentranskripsi…",
+    "cleaningUp": "Membersihkan…",
+    "contextUsed": "Teks di sekitar membantu ejaan",
+    "mic": "Mikrofon: {{name}}",
+    "fix": "Perbaiki",
+    "dismiss": "Tutup",
+    "warning": {
+      "silence": "Tidak ada ucapan untuk beberapa saat, segera berhenti",
+      "length": "Berhenti pada 30 menit",
+      "mic_lost": "Mikrofon terputus, ucapan Anda tetap disimpan",
+      "secure_input": "Secure Input aktif · fn+Space tidak dapat mengunci · Esc atau ✕ membatalkan",
+      "secure_input_app": "{{app}} mengaktifkan Secure Input · fn+Space tidak dapat mengunci · Esc atau ✕ membatalkan"
+    },
+    "settingUp": "Menyiapkan…",
+    "settingUpPercent": "Menyiapkan… {{percent}}%",
+    "settingUpHint": "Kata-kata Anda sudah disimpan. Teksnya muncul di sini saat dikte siap.",
+    "cardReady": "Dikte Anda",
+    "cardMore_other": "Dikte Anda · {{count}} lagi di Riwayat",
+    "copy": "Salin",
+    "copied": "Disalin",
+    "retry": "Coba lagi",
+    "card": {
+      "hidden": "Disembunyikan, karena ditujukan untuk bidang kata sandi"
+    },
+    "undo": "Urungkan",
+    "viewChanges": "Lihat perubahan",
+    "sendsAutomatically": "Terkirim otomatis",
+    "shortcutDetail": {
+      "permission": "Akses Aksesibilitas nonaktif",
+      "stopped": "Pendengar keyboard berhenti"
+    },
+    "word": {
+      "new": "Kata baru",
+      "add": "Tambah",
+      "addLabel": "Tambahkan {{word}} ke Kamus",
+      "notNow": "Nanti saja"
+    }
+  },
+  "transforms": {
+    "banner": {
+      "tryIt": "Coba",
+      "howItWorks": "Cara kerjanya",
+      "title": "Tulis ulang teks apa pun yang Anda pilih"
+    },
+    "enable": {
+      "title": "Aktifkan"
+    },
+    "commandMode": {
+      "title": "Command Mode",
+      "help": "Tahan pintasan dan ucapkan apa yang ingin ditulis atau diubah."
+    },
+    "auto": {
+      "title": "Terapkan otomatis setelah dikte",
+      "choice": "Transformasi yang diterapkan",
+      "none": "Pilih transformasi",
+      "description": "Setiap dikte melewati transformasi yang Anda pilih."
+    },
+    "shortcuts": {
+      "warning": "⌥1, ⌥2, dan ⌥O menggantikan karakter ¡, ™, dan ø saat Transformasi aktif.",
+      "safe": "Gunakan ⌃⌥ sebagai gantinya"
+    },
+    "myTransforms": "Transformasi Saya",
+    "reset": "Atur ulang ke default",
+    "resetConfirm": "Atur ulang Polish dan Prompt Engineer serta hapus semua transformasi kustom?",
+    "createNew": "Buat baru",
+    "deleteConfirm": "Hapus {{name}}? Tindakan ini tidak dapat diurungkan.",
+    "loading": "Memuat transformasi Anda…",
+    "error": "Perubahan transformasi itu tidak dapat disimpan. Coba lagi.",
+    "card": {
+      "delete": "Hapus {{name}}",
+      "createOwn": "Buat sendiri",
+      "createOwnHint": "Jelaskan apa yang harus dilakukannya"
+    },
+    "new": {
+      "name": "Transformasi saya"
+    },
+    "editor": {
+      "title": "Edit {{name}}",
+      "name": "Nama",
+      "hotkey": "Pintasan",
+      "addHotkey": "Tambah pintasan",
+      "example": "Contoh",
+      "exampleInput": "Teks yang akan ditransformasi",
+      "exampleText": "um bisa kirim laporannya ke saya besok mungkin nanti kita bisa bahas",
+      "preview": "Pratinjau",
+      "previewing": "Membuat pratinjau…",
+      "rules": "Aturan pengeditan",
+      "autosave": {
+        "saved": "Simpan otomatis · Semua perubahan disimpan",
+        "saving": "Simpan otomatis · Menyimpan…",
+        "error": "Simpan otomatis · Perubahan terakhir tidak dapat disimpan"
+      },
+      "reset": "Atur ulang",
+      "done": "Selesai",
+      "close": "Tutup editor",
+      "exactBadge": "Persis · tanpa AI",
+      "outcome": {
+        "no_change": "Tidak ada yang perlu diubah dalam teks ini.",
+        "not_applied": "AI lokal tidak dapat menyelesaikan yang ini. Coba instruksi yang lebih singkat dan spesifik.",
+        "failed": "Jawaban AI lokal tidak lolos pemeriksaan keamanan. Coba lagi atau ubah susunan instruksi Anda.",
+        "timeout": "AI lokal terlalu lama merespons. Coba lagi.",
+        "no_engine": "AI lokal belum siap. Perubahan persis tetap berfungsi."
+      },
+      "instruction": "Apa yang harus dilakukan?",
+      "instructionPlaceholder": "Misalnya: ganti semua “A” dengan 0, atau buat lebih ramah",
+      "more": "Opsi lainnya"
+    },
+    "rules": {
+      "shorter": {
+        "title": "Lebih singkat"
+      },
+      "clearer": {
+        "title": "Kata-kata lebih jelas"
+      },
+      "better_order": {
+        "title": "Urutan yang lebih baik"
+      },
+      "headings_lists": {
+        "title": "Tambahkan judul dan daftar"
+      },
+      "keep_tone": {
+        "title": "Pertahankan nada saya"
+      }
+    },
+    "examples": {
+      "title": "Contoh tulisan",
+      "fileType": "Teks atau Markdown",
+      "label": "Contoh tulisan {{number}}",
+      "count": "{{count}} / {{max}}",
+      "paste": "Tempel contoh",
+      "load": "Muat .txt atau .md",
+      "remove": "Hapus contoh {{number}}",
+      "readError": "Pilih file .txt atau .md yang tidak lebih dari {{chars}} karakter."
+    },
+    "diff": {
+      "changes_other": "{{count}} perubahan",
+      "configure": "Konfigurasikan",
+      "copy": "Salin",
+      "copied": "Disalin",
+      "retry": "Coba lagi",
+      "retrying": "Mencoba lagi…",
+      "feedback": "Nilai transformasi ini",
+      "good": "Hasil bagus",
+      "bad": "Hasil buruk",
+      "simpleView": "Menampilkan satu penggantian untuk perubahan yang besar atau rumit ini.",
+      "actionFailed": "Tindakan itu tidak berhasil. Teks Anda masih ada di sini; coba lagi."
+    },
+    "findReplace": {
+      "title": "Cari dan ganti",
+      "find": "Cari, baris {{number}}",
+      "replace": "Ganti dengan, baris {{number}}",
+      "findPlaceholder": "Cari",
+      "replacePlaceholder": "Ganti dengan",
+      "matchCase": "Cocokkan huruf besar/kecil",
+      "remove": "Hapus baris {{number}}",
+      "add": "Tambahkan penggantian"
+    },
+    "model": {
+      "downloading": "Menyiapkan transformasi: unduhan satu kali, {{percent}}%",
+      "verifying": "Menyiapkan transformasi: memeriksa unduhan…",
+      "ready": "Transformasi siap",
+      "progressLabel": "Unduhan transformasi",
+      "failed": "Tidak dapat mengunduh yang dibutuhkan transformasi. Periksa koneksi Anda.",
+      "retry": "Coba lagi"
+    },
+    "subtitle": "Pilih teks di aplikasi apa pun dan tekan pintasan untuk menulis ulang.",
+    "settings": {
+      "title": "Pengaturan transformasi"
+    },
+    "viewChanges": "untuk melihat perubahan",
+    "builtin": {
+      "polish": "Lebih jelas dan ringkas",
+      "prompt_engineer": "Menyusun prompt yang jelas"
+    }
+  },
+  "cleanup": {
+    "title": "Pembersihan",
+    "loading": "Memuat tingkat pembersihan…",
+    "loadError": "Tidak dapat membaca tingkat pembersihan: {{message}}",
+    "setError": "Perubahan itu tidak disimpan: {{message}}",
+    "notice": "Disisipkan tanpa pembersihan",
+    "picker": {
+      "legend": "Seberapa banyak kata-kata Anda dirapikan?",
+      "recommended": "Disarankan",
+      "aiChat": "Di app chat AI, kata-kata Anda disisipkan persis seperti yang Anda ucapkan, tanpa pembersihan AI."
+    },
+    "levels": {
+      "none": {
+        "label": "Tidak ada",
+        "description": "Persis seperti yang Anda ucapkan, hanya spasi dan perintah suara yang diterapkan."
+      },
+      "light": {
+        "label": "Ringan",
+        "description": "Menghapus kata pengisi seperti “eh” dan “kayak”, memperbaiki tanda baca dan huruf kapital, dan mempertahankan koreksi Anda: “jam 2, eh, jam 3” menjadi “jam 3”."
+      },
+      "medium": {
+        "label": "Sedang",
+        "description": "Semua yang ada di Ringan, ditambah tata bahasa dan pilihan kata yang lebih luwes. Fakta dan makna Anda tetap sama."
+      }
+    },
+    "last": {
+      "title": "Dikte terakhir",
+      "none": "Belum ada dikte sejak app dimulai.",
+      "applied_other": "Dibersihkan dalam {{ms}} ms, {{count}} perubahan.",
+      "checks": "Pemeriksaan keamanan yang menghentikannya: {{checks}}",
+      "partial_other": "Dibersihkan sebagian ({{applied}} dari {{total}} paragraf); sisanya sesuai ucapan: {{reason}}"
+    },
+    "why": {
+      "level_none": "Pembersihan nonaktif.",
+      "empty": "Tidak ada yang perlu dibersihkan.",
+      "already_clean": "Sudah bersih, jadi mesin AI tidak diperlukan.",
+      "ai_chat": "App chat AI: disisipkan persis seperti yang Anda ucapkan.",
+      "not_ready": "Disisipkan tanpa pembersihan: model pembersihan belum siap.",
+      "low_memory": "Disisipkan tanpa pembersihan: memori kosong tidak cukup saat ini.",
+      "guard": "Disisipkan tanpa pembersihan: teks yang dibersihkan tidak lolos pemeriksaan keamanan.",
+      "timeout": "Disisipkan tanpa pembersihan: pembersihan terlalu lama.",
+      "error": "Disisipkan tanpa pembersihan: mesin AI mengalami masalah."
+    },
+    "reason": {
+      "level_none": "pembersihan nonaktif",
+      "empty": "tidak ada yang perlu dibersihkan",
+      "already_clean": "sudah bersih",
+      "ai_chat": "app chat AI",
+      "not_ready": "model pembersihan belum siap",
+      "low_memory": "memori kosong tidak cukup",
+      "guard": "tidak lolos pemeriksaan keamanan",
+      "timeout": "pembersihan terlalu lama",
+      "error": "mesin AI mengalami masalah"
+    }
+  },
+  "snippets": {
+    "add": "Tambah cuplikan",
+    "added": "“{{trigger}}” ditambahkan.",
+    "search": "Cari cuplikan Anda",
+    "refresh": "Segarkan",
+    "shown_other": "{{count}} cuplikan ditampilkan",
+    "deleted": "“{{trigger}}” dihapus.",
+    "deleteFailed": "Cuplikan itu tidak dapat dihapus. Coba lagi.",
+    "undo": "Urungkan",
+    "counts": {
+      "snippets_other": "{{count}} cuplikan",
+      "uses_other": "digunakan {{count}} kali"
+    },
+    "sort": {
+      "label": "Urutkan",
+      "newest": "Terbaru dulu",
+      "oldest": "Terlama dulu",
+      "az": "A ke Z",
+      "za": "Z ke A",
+      "used": "Paling sering digunakan"
+    },
+    "banner": {
+      "title": "Berhenti mengetik hal yang sama <em>dua kali</em>.",
+      "lead": "Ucapkan kata kunci singkat dan {{appName}} menulis teks lengkapnya.",
+      "examplesLabel": "Contoh",
+      "cue1": "alamat saya",
+      "text1": "12 Harbour Lane, Bristol BS1 4QA",
+      "cue2": "salam penutup saya",
+      "text2": "Salam hangat, Sam",
+      "cue3": "tautan kalender",
+      "text3": "Pilih waktu yang cocok untuk Anda: cal.example.com/sam",
+      "add": "Tambah snippet"
+    },
+    "entry": {
+      "becomes": "ditulis sebagai",
+      "pair": "{{trigger}} → {{text}}",
+      "lines_other": "{{count}} baris",
+      "imported": "Diimpor",
+      "used_other": "Digunakan {{count}} kali",
+      "edit": "Edit {{trigger}}",
+      "delete": "Hapus {{trigger}}"
+    },
+    "empty": {
+      "title": "Belum ada cuplikan",
+      "body": "Simpan alamat, salam penutup, atau tautan sekali saja. Saat Anda mengucapkan isyaratnya, {{appName}} menuliskannya untuk Anda."
+    },
+    "noMatch": {
+      "title": "Tidak ada yang cocok",
+      "body": "Tidak ada cuplikan yang berisi “{{query}}”.",
+      "action": "Hapus pencarian"
+    },
+    "unavailable": {
+      "title": "Cuplikan belum tersedia",
+      "body": "Cuplikan terbuka segera setelah app selesai dimulai."
+    },
+    "problem": {
+      "empty_trigger": "Ketik dulu apa yang akan Anda ucapkan.",
+      "trigger_not_spoken": "Yang Anda ucapkan memerlukan setidaknya satu huruf atau angka.",
+      "trigger_control_character": "Yang Anda ucapkan harus muat dalam satu baris.",
+      "empty_body": "Ketik teks yang akan ditulis.",
+      "body_control_character": "Teks berisi karakter yang tidak dapat ditulis. Hapus karakter itu dan coba lagi.",
+      "full": "Daftar cuplikan Anda penuh. Hapus beberapa cuplikan terlebih dahulu.",
+      "trigger_too_long_other": "Yang Anda ucapkan maksimal {{max}} karakter.",
+      "body_too_long_other": "Teks maksimal {{maxBody}} karakter."
+    },
+    "dialog": {
+      "addTitle": "Tambah cuplikan",
+      "editTitle": "Edit cuplikan",
+      "description": "Ucapkan isyaratnya, dan teks yang disimpan akan ditulis sebagai gantinya.",
+      "trigger": "Saat saya mengucapkan",
+      "triggerPlaceholder": "mis. alamat saya",
+      "body": "Tulis",
+      "bodyPlaceholder": "Teks yang akan ditulis. Jeda baris dipertahankan.",
+      "counter": "{{count}}/{{max}}",
+      "hint": "Berfungsi secara terpisah atau di dalam kalimat, apa pun huruf besar/kecilnya. Di dalam kalimat, tanda baca dalam ucapan Anda harus sama persis dengan teks hasil dikte. Teks ditulis persis seperti yang disimpan.",
+      "cancel": "Batalkan",
+      "add": "Tambah cuplikan",
+      "save": "Simpan",
+      "close": "Tutup",
+      "duplicate": "“{{trigger}}” sudah disimpan dengan teks ini.",
+      "conflict": "“{{trigger}}” sudah menjadi cuplikan dengan teks lain.",
+      "replaceExisting": "Ganti",
+      "missing": "Cuplikan ini telah dihapus sementara itu.",
+      "failed": "Tidak dapat disimpan. Coba lagi."
+    },
+    "import": {
+      "open": "Impor",
+      "title": "Impor cuplikan",
+      "description": "Masukkan cuplikan dari spreadsheet yang disimpan sebagai CSV.",
+      "fieldTrigger": "Yang Anda ucapkan",
+      "fieldBody": "Teks yang ditulis",
+      "format": {
+        "intro": "Satu cuplikan per baris:",
+        "columns": "Kolom pertama berisi yang Anda ucapkan; kolom kedua berisi teks yang ditulis.",
+        "lines": "Teks dengan jeda baris diapit tanda kutip, seperti yang disimpan app spreadsheet.",
+        "encoding": "Simpan sebagai CSV UTF-8 agar aksen dan aksara lain terbaca dengan benar.",
+        "limits_other": "Hingga {{max}} karakter untuk ucapan dan {{maxBody}} untuk teks; maksimal 1.000 baris dan 3 MB per file."
+      },
+      "review": {
+        "new_other": "cuplikan baru",
+        "duplicates_other": "sudah ada",
+        "conflicts_other": "konflik",
+        "invalid_other": "tidak dapat diimpor",
+        "overLimit_other": "{{count}} cuplikan baru tidak akan muat (sisa ruang: {{room}}).",
+        "ignoredRows_other": "Hanya 1.000 baris pertama yang dibaca; {{count}} baris lainnya dilewati.",
+        "showNew": "Tampilkan cuplikan baru",
+        "more_other": "dan {{count}} lainnya",
+        "conflictsTitle": "Sudah disimpan dengan teks lain",
+        "conflictsHelp": "Centang cuplikan yang teks file-nya harus menggantikan teks Anda.",
+        "useAllFile": "Gunakan teks file untuk semua",
+        "keepAllMine": "Pertahankan semua milik saya",
+        "useFile": "Gunakan versi file:",
+        "yours": "Milik Anda:",
+        "showInvalid": "Tampilkan baris yang tidak dapat diimpor",
+        "invalidRow": "Baris {{row}} ({{trigger}}): {{reason}}"
+      },
+      "done": {
+        "title_other": "{{count}} cuplikan diimpor",
+        "added_other": "{{count}} ditambahkan",
+        "replaced_other": "{{count}} diganti dengan teks file",
+        "skipped_other": "{{count}} sudah ada, dilewati",
+        "kept_other": "{{count}} konflik dibiarkan seperti semula",
+        "invalid_other": "{{count}} baris tidak dapat diimpor",
+        "overLimit_other": "{{count}} tidak muat (daftar cuplikan Anda penuh)"
+      }
+    },
+    "export": {
+      "open": "Ekspor",
+      "fileName": "{{appName}} cuplikan.csv",
+      "done_other": "{{count}} cuplikan diekspor.",
+      "failed": "Cuplikan tidak dapat diekspor. Coba lagi."
+    },
+    "undoFailed": "“{{trigger}}” tidak dapat dipulihkan. Tambahkan lagi.",
+    "undoSkipped": "“{{trigger}}” tidak dipulihkan: cuplikan lain kini memakai frasa itu.",
+    "addNew": "Tambah",
+    "tabs": {
+      "all": "Semua"
+    }
+  },
+  "insights": {
+    "tabs": {
+      "label": "Statistik",
+      "usage": "Penggunaan",
+      "voice": "Suara"
+    },
+    "asOf": "Angka Anda per {{date}}",
+    "unavailable": "Statistik tidak dapat dibaca saat ini. Statistik akan muncul sebentar lagi.",
+    "save": {
+      "button": "Simpan sebagai gambar",
+      "fileName": "{{appName}} statistik {{date}}.png",
+      "filter": "Gambar PNG",
+      "done": "Gambar disimpan.",
+      "failed": "Gambar tidak dapat disimpan. Coba lagi."
+    },
+    "speed": {
+      "title": "Kata per menit",
+      "notEnough": "Dikte sedikit lagi untuk melihat kecepatan Anda.",
+      "measured": "{{ratio}}× kecepatan mengetik Anda ({{typing}} kpm)",
+      "average": "{{ratio}}× kecepatan pengetik rata-rata ({{typing}} kpm)",
+      "speaking": "Berbicara",
+      "typing": "Ketikan Anda",
+      "typingAverage": "Rata-rata mengetik"
+    },
+    "words": {
+      "title": "Total kata",
+      "dictations_other": "dalam {{count, number}} dikte"
+    },
+    "fixes": {
+      "title": "Perbaikan yang dilakukan",
+      "dictionary": "Perbaikan kamus",
+      "ai": "Perbaikan oleh pembersihan AI"
+    },
+    "categories": {
+      "title": "Tempat Anda mendikte",
+      "empty": "Dikte di beberapa app untuk melihat ke mana kata-kata Anda pergi.",
+      "words_other": "{{count, number}} kata",
+      "documents": "Dokumen",
+      "ai_prompts": "Prompt AI",
+      "email": "Email",
+      "work": "Pesan kerja",
+      "personal": "Pesan pribadi",
+      "other": "Lainnya",
+      "used": "Kategori dipakai"
+    },
+    "heatmap": {
+      "title": "Rentetan Anda",
+      "current": "Rentetan saat ini",
+      "longest": "Rentetan terpanjang",
+      "days_other": "{{count, number}} hari",
+      "active_other": "{{count, number}} hari dengan dikte dalam setahun terakhir",
+      "day_other": "{{date}}: {{count, number}} kata",
+      "less": "Kurang",
+      "more": "Lebih",
+      "band0": "Tidak ada kata",
+      "band1": "1 hingga 249 kata",
+      "band2": "250 hingga 499 kata",
+      "band3": "500 hingga 749 kata",
+      "band4": "750 kata atau lebih",
+      "streak_other": "Rentetan saat ini: {{count, number}} hari"
+    },
+    "voice": {
+      "locked": "Terkunci",
+      "phrase": "Frasa Anda",
+      "phraseIn_other": "Dalam {{count, number}} dikte",
+      "peak": "Waktu dan app tersibuk",
+      "peakApp": "Kata terbanyak di {{app}}",
+      "word": "Kata yang paling sering digunakan",
+      "uses_other": "Digunakan {{count, number}} kali",
+      "corrected": "Kata yang paling sering dikoreksi",
+      "pair": "{{heard}} → {{written}}",
+      "fixed_other": "Diperbaiki {{count, number}} kali",
+      "notEnough": "Dikte belum cukup.",
+      "footnote_other": "Dihitung di Mac ini dari {{count, number}} dikte terbaru Anda. Tidak ada yang keluar dari Mac Anda.",
+      "sample": {
+        "phrase": "frasa yang sering Anda ucapkan",
+        "peak": "waktu dalam sehari",
+        "word": "kata favorit",
+        "corrected": "kata yang sering diperbaiki"
+      },
+      "lockedTitle_other": "Profil suara Anda terbuka pada {{goal}} kata",
+      "lockedBody_other": "Terus mendikte: sejauh ini {{current}} dari {{goal}} kata. Setelah itu Anda akan melihat frasa yang paling sering Anda gunakan, kapan dan di mana Anda mendikte, serta kata-kata yang diperbaiki {{appName}} untuk Anda."
+    },
+    "typing": {
+      "take": "Ikuti tes mengetik",
+      "retake": "Ulangi tes mengetik"
+    },
+    "saved": {
+      "title": "Waktu yang dihemat dibanding mengetik",
+      "basisMeasured": "Berbicara {{speaking}} kpm vs mengetik {{typing}} kpm",
+      "basisAverage": "Berbicara {{speaking}} kpm vs mengetik rata-rata {{typing}} kpm",
+      "basisEstimateMeasured": "Berbicara sekitar {{speaking}} kpm vs mengetik {{typing}} kpm",
+      "basisEstimateAverage": "Berbicara sekitar {{speaking}} kpm vs mengetik rata-rata {{typing}} kpm"
+    }
+  },
+  "history": {
+    "title": "Riwayat",
+    "today": "Hari ini",
+    "yesterday": "Kemarin",
+    "rowLabel": "Dikte pada {{time}}",
+    "loading": "Memuat dikte Anda…",
+    "loadingMore": "Memuat lebih banyak…",
+    "unavailable": "Riwayat belum tersedia. Riwayat muncul segera setelah app selesai dimulai.",
+    "empty": {
+      "body": "Tahan fn di app apa pun dan mulai berbicara. Setiap dikte disimpan di sini, di Mac ini."
+    },
+    "noResults": {
+      "title": "Tidak ditemukan",
+      "body": "Tidak ada dikte yang berisi “{{query}}”."
+    },
+    "results_other": "{{count}} dikte ditemukan",
+    "resultsMore_other": "Menampilkan {{count}} hasil terbaru. Gulir untuk melihat lainnya.",
+    "search": {
+      "open": "Cari di riwayat",
+      "label": "Cari dikte Anda",
+      "placeholder": "Cari dikte",
+      "close": "Tutup pencarian"
+    },
+    "transcribeFile": "Transkripsi file…",
+    "transcribeFailed": "File itu tidak dapat dibuka. Coba lagi.",
+    "showMore": "Tampilkan lebih banyak",
+    "showLess": "Tampilkan lebih sedikit",
+    "failed": "Transkripsi gagal. Pilih Ulangi transkripsi di menu ⋮.",
+    "waitingForModel": "Menunggu model ucapan",
+    "notTranscribed": "Belum ditranskripsi.",
+    "job": {
+      "waiting": "Menunggu transkripsi…",
+      "transcribing": "Mentranskripsi…",
+      "percent": "Mentranskripsi… {{percent}}%"
+    },
+    "tag": {
+      "file": "File",
+      "practice": "Latihan",
+      "raw": "Sebelum pembersihan AI",
+      "flagged": "Ditandai"
+    },
+    "actions": {
+      "play": "Putar rekaman",
+      "hidePlayer": "Sembunyikan pemutar",
+      "copy": "Salin teks",
+      "copied": "Disalin",
+      "flag": "Kata salah? Perbaiki",
+      "more": "Tindakan lainnya"
+    },
+    "menu": {
+      "label": "Tindakan dikte",
+      "undoAi": "Urungkan edit AI",
+      "redoAi": "Ulangi edit AI",
+      "retry": "Ulangi transkripsi",
+      "retryAt": {
+        "none": "Ulangi tanpa pembersihan",
+        "light": "Ulangi dengan pembersihan Ringan",
+        "medium": "Ulangi dengan pembersihan Sedang"
+      },
+      "saveAudio": "Simpan audio sebagai…",
+      "delete": "Hapus transkrip"
+    },
+    "audio": {
+      "expired_other": "Audio dihapus setelah {{count}} hari",
+      "removed": "Audio dihapus",
+      "missing": "Tidak ada rekaman untuk dikte ini",
+      "filter": "Audio WAV",
+      "saved": "Rekaman disimpan.",
+      "saveFailed": "Rekaman tidak dapat disimpan. Coba lagi."
+    },
+    "copyFailed": "Teks tidak dapat disalin. Coba lagi.",
+    "actionFailed": "Tidak berhasil. Coba lagi.",
+    "deleted": "Dihapus",
+    "undo": "Urungkan",
+    "deleteFailed": "Dikte itu tidak dapat dihapus. Coba lagi.",
+    "undoFailed": "Sudah terlambat untuk mengembalikan dikte itu.",
+    "flag": {
+      "title": "Kata salah?",
+      "description": "Pilih kata yang keluar salah dan ketik dengan ejaan yang benar. Mulai sekarang, kamus Anda akan memperbaikinya.",
+      "close": "Tutup",
+      "cancel": "Batalkan",
+      "save": "Tambahkan ke kamus",
+      "pick": "Pilih kata yang salah (untuk beberapa kata, pilih juga kata berikutnya)",
+      "noWords": "Dikte ini tidak berisi kata yang bisa dipilih.",
+      "correction": "Ejaan yang benar",
+      "correctionFor": "Ejaan yang benar untuk “{{word}}”",
+      "correctionPlaceholder": "Ketik dengan ejaan yang benar",
+      "kindLabel": "Yang ditambahkan",
+      "rule": "Ganti setiap kali",
+      "ruleHint": "Menambahkan pengganti, sehingga kesalahan yang sama diperbaiki di setiap dikte.",
+      "ruleHintFilled": "“{{from}}” menjadi “{{to}}” di setiap dikte.",
+      "word": "Ajarkan ejaannya",
+      "wordHint": "Menambahkan kata, sehingga app dapat mengenalinya saat Anda mengucapkannya.",
+      "duplicate": "Kata itu sudah ada di kamus Anda.",
+      "failed": "Tidak dapat disimpan. Coba lagi.",
+      "savedRule": "Mulai sekarang “{{from}}” menjadi “{{to}}”.",
+      "savedWord": "“{{word}}” ada di kamus Anda.",
+      "openDictionary": "Buka Kamus"
+    }
+  },
+  "scratchpad": {
+    "newNote": "Catatan baru",
+    "preferences": "Preferensi Coretan",
+    "hero": {
+      "title": "Ruang untuk pikiran lepas",
+      "body": "Buat daftar, susun draf balasan, atau pikirkan ide sambil bicara. Setiap catatan tersimpan sendiri."
+    },
+    "addToBar": "Tambahkan ke bilah",
+    "addToBarHelp": "Tampilkan tombol Coretan di samping Dikte pada bilah saat diam.",
+    "recents": "Terbaru",
+    "searchLabel": "Cari catatan",
+    "searchPlaceholder": "Cari catatan Anda",
+    "loading": "Memuat catatan…",
+    "empty": "Belum ada catatan",
+    "emptyHelp": "Mulai catatan, lalu ketik atau dikte ke jendela mengambangnya.",
+    "emptyNote": "Catatan kosong",
+    "noResults": "Tidak ada catatan yang cocok dengan pencarian Anda.",
+    "untitled": "Catatan tanpa judul",
+    "pinned": "Disematkan",
+    "pin": "Sematkan catatan",
+    "unpin": "Lepas sematan catatan",
+    "editAction": "Edit catatan",
+    "edit": "Edit {{name}}",
+    "delete": "Hapus catatan",
+    "deleteConfirm": "Hapus “{{name}}”? Tindakan ini tidak dapat diurungkan.",
+    "error": "Coretan tidak dapat menyelesaikan tindakan itu. Teks Anda saat ini masih ada di sini; coba lagi.",
+    "shortcut": {
+      "label": "Pintasan untuk membuka",
+      "change": "Atur pintasan",
+      "title": "Pintasan Coretan",
+      "help": "Buka Coretan dari mana saja. Awalnya belum diatur, jadi tidak pernah menangkap tombol apa pun sampai Anda memilihnya.",
+      "close": "Tutup dialog pintasan",
+      "proposed": "Kombinasi yang disarankan",
+      "ctrlOptionS": "Control + Option + S",
+      "use": "Gunakan Control + Option + S",
+      "chooseAnother": "Pilih pintasan lain",
+      "error": "Pintasan itu tidak dapat disimpan. Coba kombinasi lain."
+    },
+    "tabs": "Catatan yang terbuka",
+    "tools": "Alat catatan",
+    "sidebar": "Tampilkan daftar catatan",
+    "polish": "Polish catatan",
+    "polishing": "Menerapkan Polish…",
+    "textSize": "Ubah ukuran teks (saat ini {{size}} poin)",
+    "expand": "Perluas jendela catatan",
+    "shrink": "Kembalikan ukuran jendela catatan",
+    "close": "Tutup Coretan",
+    "noteBody": "Teks catatan",
+    "notePlaceholder": "Tulis atau dikte catatan…",
+    "saved": "Disimpan",
+    "saving": "Menyimpan…",
+    "saveError": "Belum disimpan",
+    "autosaveHelp": "Tersimpan otomatis",
+    "copy": "Salin",
+    "copied": "Disalin",
+    "record": "Rekam",
+    "stop": "Berhenti",
+    "recordHint": "Dikte ke catatan ini ({{key}})",
+    "recordHintNoKey": "Dikte ke catatan ini",
+    "stopHint": "Hentikan dikte",
+    "gettingReady": "Menyiapkan…",
+    "polished": "Polish diterapkan ke catatan",
+    "undo": "Urungkan",
+    "polishNoChange": "Catatan ini sudah enak dibaca.",
+    "polishRefused": "Tidak dapat menerapkan Polish ke catatan ini.",
+    "polishNotReady": "Model AI masih disiapkan. Coba lagi dalam beberapa menit.",
+    "polishStale": "Catatan berubah saat Polish berjalan, jadi tidak ada yang diganti.",
+    "dismiss": "Tutup"
+  },
+  "style": {
+    "tabsLabel": "Kelompok gaya",
+    "groups": {
+      "personal": {
+        "tab": "Pesan pribadi",
+        "label": "Pesan pribadi",
+        "bannerTitle": "Untuk obrolan dengan teman dan keluarga"
+      },
+      "work": {
+        "tab": "Pesan kerja",
+        "label": "Pesan kerja",
+        "bannerTitle": "Untuk obrolan dengan rekan kerja"
+      },
+      "email": {
+        "tab": "Email",
+        "label": "Email",
+        "bannerTitle": "Untuk email Anda"
+      },
+      "other": {
+        "tab": "Lainnya",
+        "label": "Lainnya",
+        "bannerTitle": "Untuk semua yang lain"
+      }
+    },
+    "presets": {
+      "formal": {
+        "label": "Formal",
+        "description": "Huruf kapital + tanda baca"
+      },
+      "relaxed": {
+        "label": "Santai",
+        "description": "Huruf kapital + lebih sedikit tanda baca"
+      },
+      "very_relaxed": {
+        "label": "Sangat santai",
+        "description": "Tanpa huruf kapital + lebih sedikit tanda baca"
+      },
+      "upbeat": {
+        "label": "Bersemangat",
+        "description": "Huruf kapital + sedikit lebih bersemangat"
+      }
+    },
+    "presetsHeading": "Gaya",
+    "presetsLegend": "Gaya untuk {{group}}",
+    "after": "Yang ditulis:",
+    "englishOnly": "Gaya berlaku untuk dikte dalam bahasa Inggris. Pembersihan bekerja di semua bahasa.",
+    "apps": {
+      "heading": "Digunakan di app ini",
+      "listLabel": "App yang menggunakan gaya {{group}}",
+      "addShort": "Tambah app",
+      "allOthers": "Setiap app yang tidak termasuk kelompok lain juga menggunakan gaya ini.",
+      "unavailable": "App tidak dapat dimuat. App akan muncul saat Wispr Bro siap.",
+      "chipLabel": "{{app}}: opsi",
+      "menuLabel": "Opsi untuk {{app}}",
+      "moveTo": "Pindahkan ke",
+      "useDefault": "Kembali ke kelompok biasanya ({{group}})",
+      "remove": "Hapus dari {{group}}",
+      "autoSend": "Tekan Return setelah mendikte",
+      "autoSendOn": "menekan Return setelah mendikte",
+      "notInstalled": "tidak terinstal",
+      "aiChat": "Chat AI: kata-kata Anda masuk sudah dibersihkan, tanpa gaya.",
+      "moved": "{{app}} kini menggunakan gaya {{group}}.",
+      "removed": "{{app}} kini menggunakan gaya Lainnya.",
+      "added": "{{app}} kini menggunakan gaya {{group}}.",
+      "undo": "Urungkan",
+      "changeFailed": "Perubahan itu tidak disimpan. Coba lagi."
+    },
+    "sites": {
+      "addShort": "Tambah situs web",
+      "recent": {
+        "heading": "Situs web yang baru digunakan",
+        "addLabel": "Tambahkan {{host}} ke “{{group}}”"
+      },
+      "add": {
+        "title": "Tambahkan situs web",
+        "description": "Pilih gaya untuk situs web di browser Anda. Gaya ini berlaku untuk seluruh situs, termasuk subdomain.",
+        "label": "Situs web",
+        "hint": "Ketik domain seperti github.com, atau tempel alamat.",
+        "invalid": "Itu tidak terlihat seperti situs web. Coba domain seperti example.com.",
+        "preview": "Menambahkan {{host}} dan subdomainnya.",
+        "already": "{{host}} saat ini ada di “{{group}}”. Menambahkannya di sini akan memindahkannya.",
+        "same": "{{host}} sudah memakai “{{group}}”.",
+        "covered": "{{host}} adalah bagian dari {{parent}} (“{{group}}”). Menambahkannya memberinya gaya sendiri.",
+        "groupLabel": "Gaya",
+        "submit": "Tambahkan ke “{{group}}”"
+      },
+      "builtinNote": "Banyak situs web umum sudah mendapat gaya yang tepat tanpa tercantum di sini."
+    },
+    "picker": {
+      "title": "Tambahkan app ke {{group}}",
+      "description": "Pilih app di Mac ini. Dikte di app itu akan menggunakan gaya {{group}}.",
+      "search": "Cari app",
+      "listLabel": "App di Mac ini",
+      "loading": "Mencari app…",
+      "failed": "Daftar app di Mac ini tidak dapat ditampilkan.",
+      "none": "Tidak ada app yang cocok.",
+      "inGroup": "Di {{group}}",
+      "alreadyHere": "Sudah di sini",
+      "cancel": "Batalkan",
+      "close": "Tutup"
+    },
+    "cleanup": {
+      "tab": "Pembersihan otomatis",
+      "description": "Seberapa banyak kata-kata Anda dirapikan, di setiap app dan setiap bahasa. Gaya setiap kelompok diterapkan di atasnya.",
+      "bannerTitle": "Pembersihan otomatis berlaku di setiap dikte",
+      "levels": {
+        "none": "Persis yang Anda ucapkan, termasuk kesalahannya",
+        "light": "Menghapus kata pengisi dan memperbaiki tanda baca",
+        "medium": "Kata-kata lebih luwes, makna sama"
+      },
+      "mediumNote": "Dengan model AI bawaan, Sedang sering memberi teks yang sama dengan Ringan.",
+      "note": "Kata-kata asli Anda tidak pernah hilang: di Riwayat, buka menu sebuah dikte lalu pilih “Urungkan edit AI”."
+    },
+    "addMenu": "Tambahkan aplikasi atau situs web"
+  },
+  "onboardingFlow": {
+    "loading": "Menyiapkan semuanya…",
+    "back": "Kembali",
+    "continue": "Lanjutkan",
+    "yes": "Ya",
+    "no": "Tidak",
+    "navigationFailed": "Langkah itu tidak dapat disimpan. Coba lagi.",
+    "stepper": {
+      "label": "Kemajuan penyiapan",
+      "welcome": "Selamat datang",
+      "permissions": "Izin",
+      "setup": "Penyiapan",
+      "practice": "Latihan",
+      "done": "(selesai)",
+      "finish": "Selesai"
+    },
+    "help": {
+      "chip": "Bantuan",
+      "title": "Bantuan penyiapan",
+      "close": "Tutup bantuan",
+      "done": "Mengerti",
+      "body": "Setiap langkah hanya butuh beberapa detik. Anda dapat kembali kapan saja, dan jika Anda keluar, penyiapan dilanjutkan dari tempat terakhir.",
+      "download": "Wispr Bro menyiapkan pengenalan ucapan di Mac ini selagi Anda menjalani langkah-langkah ini. Apa pun yang Anda diktekan sebelum siap akan disimpan dan diketik setelah siap."
+    },
+    "welcome": {
+      "title": "Bicara, dan kata-kata Anda muncul",
+      "subtitle": "Tahan satu tombol, bicara, lepaskan. Teks yang rapi muncul di mana pun Anda mengetik.",
+      "privacyTitle": "Semuanya tetap di Mac ini",
+      "privacy": "Tanpa akun, tanpa cloud, tanpa pelacakan.",
+      "start": "Mulai",
+      "demoLabel": "Wispr Bro beraksi"
+    },
+    "move": {
+      "title": "Pindahkan Wispr Bro ke Aplikasi",
+      "body": "Pembaruan dan izin bekerja paling baik dari sana. Wispr Bro akan terbuka kembali sendiri dan melanjutkan.",
+      "action": "Pindahkan ke Aplikasi",
+      "moving": "Memindahkan…",
+      "skip": "Jangan sekarang",
+      "error": "Wispr Bro tidak dapat memindahkan dirinya. Seret ke Aplikasi di Finder, lalu buka lagi."
+    },
+    "languages": {
+      "title": "Bahasa apa saja yang Anda gunakan?",
+      "subtitle": "Pilih setiap bahasa yang Anda gunakan untuk mendikte.",
+      "listLabel": "Bahasa",
+      "noMatch": "Tidak ada bahasa yang cocok dengan “{{query}}”.",
+      "count_other": "Dikte bekerja dalam {{count}} bahasa. Anda dapat mengubah bahasa Anda nanti di Pengaturan.",
+      "weak_other": "Pengenalan kurang akurat untuk {{languages}}. Mendikte dalam bahasa tersebut tetap berfungsi, tetapi kesalahan akan lebih sering terjadi."
+    },
+    "permissions": {
+      "title": "Dua izin",
+      "subtitle": "macOS meminta Anda mengizinkan ini sekali. Setiap baris tercentang begitu izinnya aktif.",
+      "allowed": "Diizinkan",
+      "waiting": "Menunggu macOS…",
+      "openSettings": "Buka Pengaturan Sistem",
+      "prompt": "Permintaan macOS",
+      "pane": "Di Pengaturan Sistem",
+      "microphone": {
+        "title": "Mikrofon",
+        "why": "Agar Wispr Bro dapat mendengar Anda saat mendikte.",
+        "action": "Izinkan mikrofon",
+        "promptAlt": "Gambar permintaan mikrofon macOS, dengan tombol Izinkan disorot",
+        "paneAlt": "Gambar Pengaturan Sistem › Privasi & Keamanan › Mikrofon, dengan sakelar Wispr Bro dinyalakan",
+        "waitingHelp": "Klik Izinkan di permintaan macOS. Jika tidak terlihat, buka Pengaturan Sistem dan nyalakan Wispr Bro di bagian Mikrofon."
+      },
+      "accessibility": {
+        "title": "Aksesibilitas",
+        "why": "Agar Wispr Bro dapat mengenali pintasan Anda dan mengetik untuk Anda.",
+        "action": "Izinkan Aksesibilitas",
+        "promptAlt": "Gambar permintaan Aksesibilitas macOS, dengan tombol Buka Pengaturan Sistem disorot",
+        "paneAlt": "Gambar Pengaturan Sistem › Privasi & Keamanan › Aksesibilitas, dengan sakelar Wispr Bro dinyalakan",
+        "waitingHelp": "Di Pengaturan Sistem, nyalakan sakelar di samping Wispr Bro. Anda mungkin perlu membuka kunci dengan kata sandi."
+      }
+    },
+    "mic": {
+      "title": "Uji mikrofon Anda",
+      "guidance": "Mikrofon berkabel dan bawaan bekerja paling baik. Headset Bluetooth bisa terputus atau terdengar teredam.",
+      "question": "Apakah bilah bergerak saat Anda berbicara?",
+      "noHelp": "Pilih mikrofon lain di bawah, lalu bicara lagi.",
+      "change": "Ganti mikrofon",
+      "previewList": "Mikrofon Anda muncul di sini."
+    },
+    "shortcut": {
+      "title": "Uji pintasan Anda",
+      "instruction": "Tekan dan tahan tombol fn (🌐) di papan ketik. Tombol di bawah menyala selama Anda menahannya.",
+      "fallbackInstruction": "Tekan dan tahan Control dan Option bersamaan. Tombol di bawah menyala selama Anda menahannya.",
+      "unboundInstruction": "Belum ada pintasan dikte yang diatur. Gunakan Edit pintasan untuk memilihnya.",
+      "keyLabel": "Tombol fn",
+      "fallbackKeyLabel": "Control dan Option",
+      "pressed": "Tombol ditahan",
+      "notPressed": "Menunggu tombol…",
+      "worked": "Berhasil. Tombolnya menyala.",
+      "question": "Apakah tombolnya menyala?",
+      "edit": "Edit pintasan",
+      "tryAgain": "Coba lagi",
+      "otherCauses": "Bukan itu? Kemungkinan penyebab lain:",
+      "changeFailed": "Perubahan itu tidak berhasil. Coba lagi, atau gunakan Pengaturan Sistem.",
+      "diagnoses": {
+        "tap": {
+          "choice": "Wispr Bro tidak dapat melihat penekanan tombol",
+          "title": "Wispr Bro belum dapat melihat penekanan tombol",
+          "body": "Biasanya ini berarti Aksesibilitas belum dinyalakan untuk Wispr Bro. Nyalakan di Pengaturan Sistem, lalu kembali dan tekan Coba lagi.",
+          "action": "Buka pengaturan Aksesibilitas"
+        },
+        "secure_input": {
+          "choice": "Bidang kata sandi atau app lain memblokir tombol",
+          "title": "App lain memblokir penekanan tombol",
+          "body": "Saat bidang kata sandi atau app tertentu (pengelola kata sandi, Secure Keyboard Entry di Terminal) sedang aktif, macOS menyembunyikan penekanan tombol dari semua app lain. Tutup atau klik di tempat lain, lalu coba lagi.",
+          "active": "Saat ini, app lain sedang memblokir penekanan tombol.",
+          "inactive": "Saat ini tidak ada yang memblokir penekanan tombol."
+        },
+        "globe": {
+          "choice": "Tombol 🌐 membuka emoji atau mengganti papan ketik",
+          "title": "macOS memberi tombol 🌐 fungsinya sendiri",
+          "body": "Mac Anda membuka emoji, mengganti sumber input, atau memulai Dikte Apple saat Anda menekan 🌐. Wispr Bro dapat mengatur “Tekan tombol 🌐 untuk” ke Jangan Lakukan Apa Pun. Pilihan Anda dikembalikan jika Anda berhenti menggunakan fn untuk mendikte.",
+          "consent": "Atur 🌐 ke Jangan Lakukan Apa Pun",
+          "changed": "🌐 kini tidak melakukan apa pun dengan sendirinya",
+          "open": "Buka pengaturan Papan Ketik"
+        },
+        "no_fn": {
+          "choice": "Papan ketik saya tidak punya tombol fn",
+          "title": "Gunakan Control dan Option sebagai gantinya",
+          "body": "Beberapa papan ketik tidak memiliki tombol fn atau 🌐. Tahan Control dan Option bersamaan untuk mendikte. Anda dapat mengubahnya kapan saja di Pengaturan.",
+          "action": "Gunakan Control + Option",
+          "changed": "Control + Option adalah pintasan Anda"
+        }
+      },
+      "customInstruction": "Tekan dan tahan {{keys}}. Tombol di bawah menyala selama Anda menahannya."
+    },
+    "practice": {
+      "title": "Latihan: satu email utuh, <em>tanpa tangan</em>",
+      "instruction": "Tekan fn dan Space bersamaan, lalu bicara. Tekan fn lagi saat selesai.",
+      "instructionFallback": "Tekan Control, Option, dan Space bersamaan, lalu bicara. Tekan Control dan Option lagi saat selesai.",
+      "instructionUnbound": "Belum ada pintasan dikte yang diatur, jadi latihan ini tidak dapat dimulai. Lewati untuk sekarang dan atur pintasan di Pengaturan.",
+      "skip": "Lewati",
+      "waiting": "Menunggu Anda mulai berbicara…",
+      "listening": "Mendengarkan… tekan fn saat selesai.",
+      "listening_fallback": "Mendengarkan… tekan Control dan Option saat selesai.",
+      "working": "Menuliskannya…",
+      "queuedNote": "Kata-kata Anda telah disimpan. Kata-kata itu muncul di sini begitu penyiapan selesai, dan tetap ada di Riwayat. Kami akan lanjut dengan sendirinya sebentar lagi.",
+      "nothing": "Tidak ada yang masuk. Periksa apakah mikrofon Anda menyala, lalu coba lagi.",
+      "filled": "Itulah email Anda. Tambahkan lagi, atau lanjutkan.",
+      "composer": {
+        "title": "Pesan baru",
+        "to": "Kepada",
+        "recipient": "Sam",
+        "subject": "Subjek",
+        "body": "Pesan",
+        "trySaying": "Coba ucapkan: “{{text}}”",
+        "willAppear": "Kata-kata Anda akan muncul di sini begitu model ucapan siap."
+      },
+      "instructionCustom": "Tekan {{keys}} dua kali dengan cepat, lalu bicara. Tekan {{keys}} lagi saat selesai.",
+      "listening_custom": "Mendengarkan… tekan {{keys}} saat selesai.",
+      "queued": "Tersimpan. Menunggu model ucapan…",
+      "model": {
+        "title": "Menyiapkan model ucapan Anda",
+        "checking": "Memeriksa unduhan…",
+        "paused": "Unduhan dijeda. Mencoba lagi sebentar lagi…",
+        "failed": "Model ucapan tidak dapat diunduh",
+        "underMinute": "kurang dari satu menit lagi",
+        "minutesLeft_other": "sekitar {{count}} menit lagi",
+        "bytes": "{{done}} dari {{total}} MB",
+        "progressLabel": "Unduhan model ucapan",
+        "body": "Ini hanya terjadi sekali. Anda bisa lanjut ke langkah berikutnya; apa pun yang Anda diktekan sekarang akan menunggu dan muncul saat siap.",
+        "retry": "Coba lagi"
+      }
+    },
+    "firstDictation": {
+      "title": "Begitu saja!",
+      "subtitle": "Di mana pun Anda bisa mengetik, kini Anda bisa berbicara.",
+      "lead": "Anda baru saja mendikte teks pertama Anda.",
+      "typingLabel": "Mengetik, rata-rata",
+      "speakingLabel": "Berbicara, rata-rata",
+      "faster": "<n/>× <em>lebih cepat</em>",
+      "takeTest": "Ikuti tes mengetik",
+      "retakeTest": "Ulangi tes mengetik",
+      "yourTypingLabel": "Ketikan Anda",
+      "youSpokeLabel": "Anda berbicara dengan"
+    },
+    "timeSaved": {
+      "headline_other": "Dikte bisa menghemat waktu Anda sekitar {{hours}} jam per minggu",
+      "sliderLabel": "Berapa jam seminggu Anda mengetik?",
+      "basisMeasured_other": "Berdasarkan kecepatan mengetik Anda {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
+      "basisAverage_other": "Berdasarkan kecepatan mengetik rata-rata {{wpm}} kata per menit dan kecepatan bicara sekitar {{speaking}} kata per menit.",
+      "lead": "Dikte bisa menghemat waktu Anda sekitar",
+      "perWeek_other": "<n/> jam <em>per minggu</em>",
+      "hoursPerWeek_other": "{{hours}} jam per minggu",
+      "math": "{{typed}} jam mengetik pada {{wpm}} kpm ≈ {{voice}} jam dengan suara pada {{speaking}} kpm"
+    },
+    "typing": {
+      "title": "Seberapa cepat Anda <em>mengetik</em>?",
+      "skip": "Lewati",
+      "language": "Bahasa",
+      "wpm_other": "{{count}} kata per menit",
+      "inputLabel": "Ketik paragrafnya di sini",
+      "nothing": "Tidak ada yang cocok dengan paragrafnya. Coba lagi.",
+      "result_other": "Anda mengetik sekitar {{count}} kata per menit.",
+      "tryAgain": "Coba lagi",
+      "recalculate": "Hitung ulang",
+      "instruction_other": "Ketik paragraf di bawah seperti biasa. Waktu mulai berjalan saat Anda menekan tombol pertama dan berlangsung selama {{seconds}} detik.",
+      "wpmUnit_other": "kata per menit",
+      "secondsUnit_other": "detik tersisa"
+    },
+    "summary": {
+      "title": "Semuanya sudah siap",
+      "subtitle": "Tahan pintasan Anda di aplikasi apa pun untuk mendikte.",
+      "languages": "Bahasa",
+      "shortcut": "Pintasan",
+      "shortcutFn": "Tahan fn (🌐)",
+      "shortcutFallback": "Tahan Control dan Option",
+      "microphone": "Mikrofon",
+      "micDefault": "Mikrofon default Mac",
+      "typing": "Kecepatan mengetik",
+      "typingWpm_other": "{{count}} kata per menit",
+      "typingSkipped": "Tidak diukur",
+      "notSet": "Belum diatur",
+      "launchAtLogin": "Buka Wispr Bro saat Anda masuk",
+      "launchAtLoginHint": "Agar dikte siap kapan pun Anda membutuhkannya.",
+      "finish": "Mulai mendikte"
+    }
+  },
+  "whatsNew": {
+    "title": "Yang baru di {{version}}",
+    "label": "Catatan rilis versi ini",
+    "close": "Tutup",
+    "done": "Mengerti"
+  },
+  "share": {
+    "heading": "Sebarkan {{appName}}",
+    "body": "{{appName}} gratis dan sumber terbuka, serta berjalan sepenuhnya di Mac. Tidak ada kode referal dan tidak ada yang dilacak: tautannya sama untuk semua orang.",
+    "downloadLabel": "Tautan unduh",
+    "brewLabel": "Instal dengan Homebrew",
+    "copyLink": "Salin tautan unduhan",
+    "copyBrew": "Salin perintah Homebrew",
+    "copy": "Salin",
+    "copied": "Disalin",
+    "copyFailed": "Tidak dapat menyalin. Pilih teksnya dan salin secara manual.",
+    "shareTitle": "Kirimkan ke seseorang",
+    "shareBody": "Pesan, Mail, AirDrop, dan cara berbagi lain yang tersedia di Mac Anda.",
+    "shareButton": "Bagikan…",
+    "shareFailed": "Tidak dapat membuka lembar berbagi."
+  },
+  "shortcutHealth": {
+    "banner": {
+      "lost": "Pintasan dikte Anda berhenti bekerja. Wispr Bro memerlukan akses Aksesibilitas lagi.",
+      "stopped": "Pintasan dikte Anda berhenti merespons.",
+      "fix": "Perbaiki"
+    },
+    "sheet": {
+      "title": "Perbaiki pintasan Anda",
+      "introPermission": "macOS mematikan akses Aksesibilitas Wispr Bro, sehingga Wispr Bro tidak dapat mengenali pintasan Anda. Ini bisa terjadi setelah pembaruan atau saat entrinya diubah di Pengaturan Sistem.",
+      "introStopped": "Pendengar papan ketik Wispr Bro berhenti. Pendengar akan berjalan lagi dengan sendirinya begitu macOS mengizinkan.",
+      "pictureLabel": "Pengaturan Sistem › Privasi & Keamanan › Aksesibilitas: baris Wispr Bro dengan sakelar dinyalakan",
+      "pictureTitle": "Aksesibilitas",
+      "pictureBack": "Privasi & Keamanan",
+      "stepsTitle": "Nyalakan kembali",
+      "step1": "Buka Pengaturan Sistem › Privasi & Keamanan › Aksesibilitas.",
+      "step2": "Nyalakan Wispr Bro. Jika sudah menyala, matikan lalu nyalakan lagi.",
+      "step3": "Kembali ke sini. Pintasan berfungsi lagi dalam beberapa detik, tanpa memulai ulang.",
+      "resetTitle": "Masih tidak berfungsi?",
+      "resetBody": "Setelah pembaruan, macOS bisa menyimpan entri lama yang tidak lagi cocok dengan app. Atur Ulang menghapus entri Wispr Bro agar Anda dapat mengizinkannya lagi.",
+      "resetStep1": "Pilih Atur ulang dan beri izin lagi.",
+      "resetStep2": "Izinkan Wispr Bro saat macOS meminta, atau nyalakan di daftar yang terbuka.",
+      "resetFailed": "Tidak dapat mengatur ulang entri. Di daftar, pilih Wispr Bro dan hapus dengan tombol minus, lalu tambahkan lagi dengan tombol plus.",
+      "openSettings": "Buka Pengaturan Aksesibilitas",
+      "reset": "Atur ulang dan beri izin lagi",
+      "checkAgain": "Periksa lagi",
+      "relaunch": "Buka ulang untuk menyelesaikan",
+      "close": "Tutup",
+      "status": {
+        "healthy": "Pintasan Anda berfungsi.",
+        "lost": "Belum berfungsi",
+        "recovering": "Menghubungkan kembali…",
+        "needsRelaunch": "Akses sudah kembali. Buka ulang Wispr Bro untuk menyelesaikan."
+      }
+    }
+  },
+  "firstUse": {
+    "title": "Apa yang ingin Anda <em>coba</em> terlebih dahulu?",
+    "subtitle": "Pilih salah satu untuk melihat hasilnya. Lalu coba di app Anda sendiri.",
+    "choicesLabel": "Cara memulai",
+    "choices": {
+      "ai_chat": "Tanya asisten AI",
+      "note": "Tulis catatan singkat",
+      "message": "Balas pesan",
+      "email": "Tulis email",
+      "comment": "Kirim komentar",
+      "document": "Buat draf dokumen",
+      "coding": "Beri prompt ke alat coding"
+    },
+    "scene": {
+      "label": "Contoh: {{choice}}",
+      "said": "Anda mengucapkan",
+      "written": "{{appName}} menulis",
+      "pause": "Jeda contoh",
+      "play": "Putar contoh"
+    },
+    "scenes": {
+      "ai_chat": {
+        "app": "Chat AI",
+        "context": "Apa yang bisa saya bantu?",
+        "said": "um jadi bisa jelasin cara kerja bunga majemuk kayak saya baru pertama kali belajar",
+        "text": "Bisa jelaskan cara kerja bunga majemuk, seperti saya baru pertama kali belajar?"
+      },
+      "note": {
+        "app": "Catatan",
+        "context": "Senin",
+        "said": "catatan untuk diri sendiri telepon dokter gigi dan eh ambil cucian kering sebelum jam enam",
+        "text": "Catatan untuk diri sendiri: telepon dokter gigi dan ambil cucian kering sebelum jam enam."
+      },
+      "message": {
+        "app": "Pesan",
+        "context": "Jadi makan siang bareng?",
+        "said": "iya pasti jam setengah satu siang oke nggak buat kamu",
+        "text": "Iya, pasti! Jam 12.30 oke buat kamu?"
+      },
+      "email": {
+        "app": "Mail",
+        "context": "Kepada: Priya · Subjek: Kamis",
+        "said": "hai priya makasih catatannya saya kirim drafnya paling lambat kamis pagi",
+        "text": "Hai Priya, makasih catatannya. Saya kirim drafnya paling lambat Kamis pagi."
+      },
+      "comment": {
+        "app": "Sosial",
+        "context": "Kantor baru kami dibuka minggu depan!",
+        "said": "selamat untuk seluruh tim ini kelihatan luar biasa",
+        "text": "Selamat kepada seluruh tim, ini terlihat luar biasa!"
+      },
+      "document": {
+        "app": "Dokumen",
+        "context": "Rencana proyek",
+        "said": "tujuan fase ini adalah um mengirim beta ke lima puluh penguji sebelum akhir bulan",
+        "text": "Tujuan fase ini adalah mengirim beta ke lima puluh penguji sebelum akhir bulan."
+      },
+      "coding": {
+        "app": "Editor kode",
+        "context": "Tanya agen",
+        "said": "tombol login tidak berfungsi di ponsel bisa dicari tahu kenapa lalu diperbaiki",
+        "text": "Tombol login tidak berfungsi di ponsel. Bisa dicari tahu kenapa, lalu diperbaiki?"
+      }
+    },
+    "tryNow": "Coba sekarang",
+    "later": "Nanti saja",
+    "close": "Tutup",
+    "noBar": "Bilah dikte tidak berjalan, jadi tidak ada petunjuk yang bisa ditampilkan. Anda tetap bisa mencobanya: buka app dan tahan pintasan Anda.",
+    "banner": {
+      "title": "Gunakan di app Anda sendiri",
+      "body": "{{hint}}. {{how}}",
+      "again": "Tampilkan petunjuk lagi",
+      "stop": "Sembunyikan petunjuk",
+      "other": "Coba yang lain",
+      "active": "Petunjuknya ada di layar Anda. Tekan Esc untuk menutupnya."
+    }
+  },
+  "checklist": {
+    "title": "Mulai",
+    "label": "Daftar periksa penyiapan",
+    "progress": "{{done}} dari {{total}} selesai",
+    "hide": "Sembunyikan daftar periksa",
+    "done": "Selesai",
+    "next": "Berikutnya",
+    "allDone": "Semua siap. Anda sudah tahu dasar-dasarnya.",
+    "items": {
+      "try_in_app": {
+        "title": "Coba di app lain",
+        "action": "Tunjukkan"
+      },
+      "add_word": {
+        "title": "Tambahkan kata",
+        "action": "Tunjukkan",
+        "coachTitle": "Tambahkan kata pertama Anda",
+        "coachBody": "Nama, istilah produk, dan jargon yang sering Anda ucapkan. Semuanya ditulis sesuai ejaan Anda."
+      },
+      "create_snippet": {
+        "title": "Buat cuplikan",
+        "action": "Cuplikan baru",
+        "coachTitle": "Buat cuplikan pertama Anda",
+        "coachBody": "Ucapkan frasa pendek dan dapatkan teks yang lebih panjang: alamat Anda, tautan, salam penutup."
+      },
+      "launch_at_login": {
+        "title": "Buka saat masuk",
+        "action": "Nyalakan",
+        "body": "{{appName}} dimulai bersama Mac Anda, sehingga pintasan Anda selalu berfungsi."
+      },
+      "try_transform": {
+        "title": "Coba Transformasi",
+        "action": "Tunjukkan",
+        "body": "Pilih teks dan tekan pintasan: teks ditulis ulang di tempatnya."
+      },
+      "try_whisper": {
+        "title": "Coba berbisik",
+        "action": "Tunjukkan",
+        "body": "Dikte dengan suara pelan saat ada orang lain di sekitar, dan temukan mikrofon yang tepat."
+      }
+    },
+    "coach": {
+      "close": "Tutup",
+      "done": "Mengerti"
+    }
+  },
+  "lessons": {
+    "common": {
+      "close": "Tutup pelajaran",
+      "back": "Kembali",
+      "continue": "Lanjutkan",
+      "skip": "Lewati",
+      "tryIt": "Coba sendiri",
+      "tryItOut": "Coba",
+      "howItWorks": "Cara kerjanya",
+      "progress": "Langkah {{step}} dari {{total}}",
+      "pause": "Jeda animasi",
+      "play": "Putar animasi",
+      "turnOnFailed": "Tidak berhasil diaktifkan. Coba lagi, atau gunakan sakelar di halamannya.",
+      "sheetLabel": "{{lesson}}: {{mode}}"
+    },
+    "transforms": {
+      "title": "Transformasi",
+      "help": "Pelajari Transformasi",
+      "intro": {
+        "title": "Buat tulisan Anda menyampaikan persis <em>maksud</em> Anda",
+        "body": "Pilih teks di app apa pun dan tekan pintasan. Transformasi menulis ulang teks itu di tempatnya, langsung di Mac ini.",
+        "continue": "Coba"
+      },
+      "cards": {
+        "label": "Teks yang sama, tiga cara",
+        "original": {
+          "name": "Asli",
+          "text": "jadi intinya saya mau tanya apakah reviewnya bisa diundur ke kamis soalnya angkanya belum siap dan sam juga lagi pergi"
+        },
+        "polish": {
+          "name": "Polish",
+          "text": "Bisakah review diundur ke Kamis? Angkanya belum siap, dan Sam sedang pergi."
+        },
+        "prompt": {
+          "name": "Prompt Engineer",
+          "text": "Tulis catatan singkat dan ramah yang meminta review diundur ke Kamis. Alasan: angkanya belum siap dan Sam sedang pergi. Cukup dua kalimat."
+        }
+      },
+      "benefits": {
+        "label": "Yang bisa dilakukan transformasi",
+        "shorter": "Menyampaikan dengan lebih sedikit kata",
+        "clearer": "Mengubah kata-kata agar lebih jelas",
+        "order": "Menyusun poin dalam urutan yang lebih baik",
+        "structure": "Menambahkan judul dan daftar",
+        "tone": "Mempertahankan gaya Anda",
+        "anywhere": "Berfungsi di app apa pun tempat Anda menulis"
+      },
+      "practice": {
+        "title": "<em>Pilih</em> teks, lalu tekan <kbd>{{shortcut}}</kbd>",
+        "body": "Pilih pesan di bawah (⌘A memilih semuanya), lalu tekan pintasan Polish.",
+        "doneTitle": "Teks <em>ditulis ulang</em>",
+        "doneBody": "Tekan <kbd>{{view}}</kbd> untuk melihat perubahan. <kbd>{{undo}}</kbd> mengurungkannya.",
+        "app": "Chat dengan Jordan",
+        "context": "Review besok jadi, kan?",
+        "fieldLabel": "Balasan Anda untuk Jordan",
+        "draft": "hei jadi menurut saya reviewnya mungkin sebaiknya diundur ke kamis kalau boleh soalnya angkanya belum benar-benar siap dan saya nggak mau menunjukkan pekerjaan setengah jadi",
+        "example": {
+          "polish": "Bisakah review diundur ke Kamis? Angkanya belum siap, dan saya lebih memilih tidak menunjukkan pekerjaan yang belum selesai.",
+          "prompt": "Tulis balasan singkat dan sopan yang meminta review besok diundur ke Kamis karena angkanya belum siap. Tetap ramah dan kurang dari tiga kalimat."
+        },
+        "exampleNote": "Penulisan ulang belum siap di Mac ini, jadi yang ditampilkan adalah contoh. Setelah siap, pintasan Anda menulis ulang teks Anda sendiri dengan cara yang sama.",
+        "selectFirst": "Pilih sebagian pesan terlebih dahulu, lalu tekan {{shortcut}} lagi.",
+        "working": "Menulis ulang…",
+        "spotlight": "Setelah setiap transformasi, bilah di bagian bawah layar menampilkan Lihat perubahan. Klik atau tekan {{view}}.",
+        "barLabel": "Bilah",
+        "bar": {
+          "done": "Selesai",
+          "view": "Lihat perubahan"
+        },
+        "hideChanges": "Sembunyikan perubahan"
+      },
+      "how": {
+        "select": {
+          "title": "<em>Pilih</em> teks di app apa pun",
+          "body": "Tulis atau dikte seperti biasa: email, chat, dokumen. Lalu pilih bagian yang ingin ditulis ulang.",
+          "scene": "Animasi: draf email dipilih."
+        },
+        "press": {
+          "title": "<em>Tekan</em> <kbd>{{shortcut}}</kbd>",
+          "body": "Polish menulis ulang pilihan di tempatnya. Prompt Engineer ({{prompt}}) mengubahnya menjadi prompt yang jelas untuk asisten AI.",
+          "scene": "Animasi: {{shortcut}} ditekan dan draf diganti dengan versi yang lebih jelas."
+        },
+        "changes": {
+          "title": "Lihat apa yang <em>berubah</em>",
+          "body": "Tekan {{view}} atau klik Lihat perubahan di bilah: kata yang dihapus dicoret, kata baru disorot. {{undo}} mengembalikan teks asli Anda.",
+          "scene": "Animasi: sebuah kartu mencantumkan perubahan, kata yang dihapus dicoret dan kata baru disorot."
+        }
+      },
+      "scene": {
+        "app": "Mail: pesan baru",
+        "draft": "halo semua cuma info singkat peluncurannya diundur ke minggu depan karena kami menemukan bug di alur pembayaran dan ingin memperbaikinya dulu",
+        "polished": "Halo semua, peluncuran diundur ke minggu depan. Kami menemukan bug di alur pembayaran dan ingin memperbaikinya dulu."
+      },
+      "finish": {
+        "turnOn": "Nyalakan Transformasi",
+        "done": "Selesai"
+      }
+    },
+    "whisper": {
+      "title": "Dikte dengan suara pelan",
+      "help": "Pelajari cara mendikte dengan suara pelan",
+      "soft": {
+        "title": "Suara <em>lembut</em> sudah cukup",
+        "body": "Anda tidak perlu bicara keras. Cukup berbisik, dan kata-kata Anda tetap menjadi teks yang rapi, jadi Anda bisa mendikte di kantor terbuka, di kereta, atau saat ada yang tidur di dekat Anda.",
+        "app": "Catatan",
+        "spoken": "“ingatkan saya kirim slide sebelum makan siang dan pesan ruangan untuk hari jumat”",
+        "text": "Ingatkan saya kirim slide sebelum makan siang dan pesan ruangan untuk hari Jumat.",
+        "scene": "Animasi: kalimat yang dibisikkan muncul sebagai teks yang diketik: “{{text}}”"
+      },
+      "how": {
+        "title": "Cara <em>berbisik</em> ke Mac Anda",
+        "body": "Dengan mikrofon bawaan Mac, empat kebiasaan ini membuat suara pelan mudah didengar.",
+        "distance": "Sekitar 30 cm (sepanjang lengan bawah) dari mikrofon",
+        "tips": {
+          "distance": {
+            "title": "Duduk dekat.",
+            "body": "Hadap ke Mac Anda dengan jarak sekitar satu lengan bawah. Sedikit mencondongkan badan lebih membantu daripada bicara lebih keras."
+          },
+          "breath": {
+            "title": "Berbisik dengan sedikit embusan napas.",
+            "body": "Jangan bisikan yang terlalu lirih: sedikit lebih tegas, seperti bicara dengan orang di seberang meja kecil."
+          },
+          "pace": {
+            "title": "Jaga tempo yang stabil.",
+            "body": "Ucapkan setiap kata dengan utuh dan jangan biarkan akhir kalimat menghilang."
+          },
+          "release": {
+            "title": "Lepaskan paling akhir.",
+            "body": "Lepaskan tombol hanya setelah kata terakhir Anda, agar kata itu tetap terekam."
+          }
+        }
+      },
+      "practice": {
+        "title": "<em>Bisikkan</em> email ini",
+        "body": "Ini dikte sungguhan. Teksnya hanya masuk ke pesan di bawah ini, tidak ke tempat lain.",
+        "doneTitle": "Terdengar, bahkan saat <em>berbisik</em>",
+        "doneBody": "Hanya itu yang diperlukan. Lanjutkan untuk menemukan mikrofon yang cocok untuk Anda.",
+        "instruction": "Tahan {{key}}, bisikkan email di bawah ini, lalu lepaskan.",
+        "unbound": "Belum ada pintasan dikte yang diatur, jadi rekaman tidak dapat dimulai di sini. Lewati langkah ini untuk sekarang dan atur pintasan di Pengaturan.",
+        "key": "fn",
+        "keyFallback": "Control dan Option",
+        "sentenceLabel": "Bisikkan:",
+        "sentence": "Halo Sam, saya sedang di ruangan yang sepi, jadi email ini saya bisikkan. Bisakah panggilan kita dipindah ke sore hari? Terima kasih banyak.",
+        "app": "Pesan baru",
+        "context": "Kepada Sam, soal sore ini",
+        "fieldLabel": "Email yang Anda bisikkan",
+        "placeholder": "Kata-kata yang Anda bisikkan muncul di sini.",
+        "status": {
+          "idle": "Menunggu Anda menahan {{key}} dan berbisik…",
+          "listening": "Mendengarkan… lepaskan {{key}} saat selesai.",
+          "working": "Menuliskannya…",
+          "nothing": "Tidak ada yang masuk. Periksa apakah mikrofon Anda menyala, lalu coba lagi.",
+          "low": "{{percent}}% kata berhasil ditangkap. Coba sekali lagi:",
+          "passed": "{{percent}}% kata berhasil ditangkap.",
+          "example": "Ini contoh rekaman yang dibisikkan."
+        },
+        "exampleNote": "Pengenalan ucapan masih disiapkan di Mac ini, jadi yang ditampilkan adalah contoh. Rekaman Anda disimpan di Riwayat dan dituliskan begitu penyiapan selesai.",
+        "tips": {
+          "title": "Beberapa hal yang membantu",
+          "closer": "Mendekatlah sedikit ke Mac Anda, sekitar 30 cm.",
+          "firmer": "Berbisik sedikit lebih tegas, dengan lebih banyak napas di balik kata-kata.",
+          "volume": "Naikkan volume input di Pengaturan Sistem › Suara › Input.",
+          "openSound": "Buka pengaturan Suara"
+        }
+      },
+      "mics": {
+        "built_in": {
+          "name": "Mikrofon bawaan",
+          "why": "Sudah tersedia; duduklah dekat dan mikrofon ini cukup untuk di rumah."
+        },
+        "wired_headset": {
+          "name": "Headset berkabel",
+          "why": "Mikrofon berada tepat di dekat mulut, jadi bisikan pelan pun tertangkap, di mana pun Anda berada."
+        },
+        "wireless_earbuds": {
+          "name": "Earbud nirkabel",
+          "why": "Tidak perlu dicolokkan dan bisa dibawa ke mana saja."
+        },
+        "desk_usb": {
+          "name": "Mic meja atau USB",
+          "why": "Suara paling jernih saat Anda bekerja di satu meja dan duduk dekat dengannya."
+        }
+      },
+      "quiz": {
+        "more": "Selengkapnya tentang mikrofon",
+        "comfortable": {
+          "title": "Pilih mikrofon yang nyaman Anda gunakan",
+          "body": "Semuanya berfungsi. Pilih yang dengan senang hati Anda pakai atau taruh di meja."
+        },
+        "workplace": {
+          "title": "Di mana Anda biasanya bekerja?",
+          "body": "Berbisik paling penting saat ada orang di dekat Anda.",
+          "private": {
+            "label": "Di tempat pribadi",
+            "hint": "Kantor di rumah atau ruangan sendiri"
+          },
+          "mixed": {
+            "label": "Sedikit keduanya",
+            "hint": "Kadang sendirian, kadang bersama orang lain"
+          },
+          "shared": {
+            "label": "Di antara orang lain",
+            "hint": "Kantor terbuka, kafe, ruangan bersama"
+          }
+        },
+        "moves": {
+          "title": "Apakah Anda berpindah-pindah tempat?",
+          "body": "Jika ya, mikrofon yang bisa dibawa ke mana-mana akan membantu.",
+          "one_desk": {
+            "label": "Saya di satu meja saja",
+            "hint": "Pengaturan yang sama setiap hari"
+          },
+          "different_places": {
+            "label": "Saya bekerja di berbagai tempat",
+            "hint": "Rumah, kantor, kereta, kafe"
+          }
+        },
+        "owned": {
+          "title": "Mikrofon apa saja yang Anda punya?",
+          "body": "Pilih semua yang Anda punya. Mac mini atau Mac Studio tidak memiliki mikrofon sendiri.",
+          "continue": "Lihat yang cocok"
+        }
+      },
+      "results": {
+        "title": "Mikrofon yang <em>cocok</em> untuk Anda",
+        "body": "Berdasarkan jawaban Anda. Tidak ada yang disimpan atau dikirim ke mana pun.",
+        "bestLine": "Paling cocok: {{mic}}.",
+        "caption": "Kinerja setiap jenis mikrofon",
+        "columns": {
+          "quality": "Kualitas mikrofon",
+          "others": "Berbisik di dekat orang lain",
+          "home": "Berbisik di rumah",
+          "price": "Harga",
+          "best": "Paling cocok"
+        },
+        "notBest": "Bukan yang paling cocok",
+        "rating": {
+          "fair": "Cukup",
+          "good": "Bagus",
+          "great": "Sangat bagus"
+        },
+        "price": {
+          "included": "Sudah ada di kebanyakan laptop",
+          "low": "Rendah",
+          "medium": "Sedang",
+          "owned": "Anda punya"
+        },
+        "copy": {
+          "label": "Salin hasil",
+          "heading": "{{appName}}: mikrofon yang cocok untuk saya",
+          "best": "Paling cocok: {{mic}}",
+          "unanswered": "tidak dijawab",
+          "noneOwned": "tidak ada"
+        },
+        "copied": "Disalin",
+        "copyFailed": "Tidak dapat menyalin. Pilih tabelnya dan salin secara manual.",
+        "done": "Selesai"
+      }
+    }
+  },
+  "overrides": {
+    "onboarding": {
+      "migration": {
+        "description": "Wispr Bro kini menggunakan jenis model yang lebih baru. Unduh versi baru untuk terus mentranskripsi. Versi lama akan dihapus."
+      },
+      "permissions": {
+        "microphone": {
+          "why": "Agar Wispr Bro dapat mendengar Anda. Audio diubah menjadi teks di Mac ini dan tidak pernah diunggah."
+        },
+        "accessibility": {
+          "why": "Agar pintasan Anda berfungsi di semua app, dan Wispr Bro dapat mengetik teks di posisi kursor Anda."
+        },
+        "turnOnMac": "Nyalakan Wispr Bro di Pengaturan Sistem, lalu kembali ke sini.",
+        "relaunch": "Pintasan tidak merespons setelah ini? <relaunch>Buka ulang Wispr Bro</relaunch> dan Anda akan kembali tepat ke sini."
+      },
+      "welcome": {
+        "noMatch": "Tidak ada bahasa yang cocok dengan “{{query}}”. Model Wispr Bro mencakup sekitar 100 bahasa; sisanya ada di pengaturan.",
+        "chinese": {
+          "question": "Anda berbicara {{languages}}. Aksara mana yang harus ditulis Wispr Bro?"
+        }
+      },
+      "try": {
+        "subtitle": "Wispr Bro ada di pojok untuk memandu Anda"
+      },
+      "done": {
+        "subMac": "Wispr Bro kini ada di bar menu Anda. Tahan atau ketuk <keys/> di app apa pun untuk bicara.",
+        "subTray": "Wispr Bro kini ada di baki sistem Anda. Tahan atau ketuk <keys/> di app apa pun untuk bicara.",
+        "atLogin": "Jalankan Wispr Bro saat saya masuk",
+        "panel": {
+          "name": "Wispr Bro"
+        }
+      }
+    },
+    "settings": {
+      "general": {
+        "shortcut": {
+          "title": "Pintasan Wispr Bro",
+          "bindings": {
+            "transcribe": {
+              "name": "Pintasan transkripsi"
+            },
+            "cancel": {
+              "name": "Pintasan batal"
+            },
+            "transcribe_with_post_process": {
+              "name": "Pintasan pascaproses"
+            }
+          }
+        },
+        "preferredLanguages": {
+          "description": "Bahasa yang Anda gunakan. Wispr Bro memakainya untuk merekomendasikan model.",
+          "title": "Bahasa pilihan"
+        },
+        "shortcutActivation": {
+          "title": "Perilaku pintasan"
+        }
+      },
+      "models": {
+        "untestedNote": "Belum diuji dengan Wispr Bro. Model ini mungkin lebih lambat atau lebih sering salah.",
+        "emptyYours": "Belum ada model. Pilih satu di bawah: model diunduh, lalu Wispr Bro menggunakannya.",
+        "deleteAskActive": "Hapus {{name}}? Wispr Bro tidak dapat mentranskripsi sampai Anda memilih model lain.",
+        "retiredNotice": {
+          "title": "Model lama tidak lagi berfungsi dengan Wispr Bro"
+        },
+        "rescan": {
+          "tooltip": "Pindai ulang model yang ditambahkan ke folder model atau cache Hugging Face dari luar Wispr Bro"
+        }
+      },
+      "advanced": {
+        "autostart": {
+          "description": "Mulai Wispr Bro secara otomatis saat Anda masuk ke Mac."
+        },
+        "showTrayIcon": {
+          "description": "Tampilkan ikon Wispr Bro di bar menu.",
+          "label": "Tampilkan ikon baki sistem"
+        },
+        "experimentalToggle": {
+          "label": "Fitur eksperimental"
+        },
+        "lazyStreamClose": {
+          "label": "Biarkan mikrofon tetap aktif di antara transkripsi"
+        },
+        "overlay": {
+          "position": {
+            "title": "Posisi overlay"
+          }
+        },
+        "pasteMethod": {
+          "title": "Metode tempel",
+          "options": {
+            "externalScript": "Skrip eksternal"
+          }
+        },
+        "typingTool": {
+          "title": "Alat pengetikan",
+          "options": {
+            "auto": "Otomatis (direkomendasikan)"
+          }
+        },
+        "clipboardHandling": {
+          "title": "Penanganan papan klip",
+          "options": {
+            "dontModify": "Jangan ubah papan klip",
+            "copyToClipboard": "Salin ke papan klip"
+          }
+        },
+        "autoSubmit": {
+          "title": "Kirim otomatis"
+        },
+        "translateToEnglish": {
+          "label": "Terjemahkan ke bahasa Inggris"
+        },
+        "customWords": {
+          "title": "Kata khusus"
+        },
+        "voiceActivityDetection": {
+          "title": "Deteksi aktivitas suara"
+        },
+        "longFormChunking": {
+          "title": "Pemisahan audio panjang"
+        },
+        "vadBackend": {
+          "title": "Backend deteksi aktivitas suara"
+        },
+        "fillerWordRemoval": {
+          "title": "Hapus kata pengisi"
+        }
+      },
+      "debug": {
+        "updateChecks": {
+          "description": "Periksa versi baru Wispr Bro secara otomatis",
+          "lockedDescription": "Dinonaktifkan oleh konfigurasi sistem (WISPRBRO_DISABLE_UPDATER)",
+          "label": "Periksa pembaruan"
+        },
+        "keyboardDiagnostic": {
+          "description": "Memeriksa apakah peristiwa papan ketik mencapai Wispr Bro. Hanya jumlah peristiwa yang dicatat — tidak pernah tombol yang Anda tekan.",
+          "verdictOk": "Peristiwa tombol mencapai Wispr Bro secara normal.",
+          "title": "Diagnostik keyboard"
+        },
+        "liveLogs": {
+          "title": "Log waktu nyata"
+        },
+        "whatsNewPreview": {
+          "title": "Pratinjau yang baru"
+        },
+        "onboardingPreview": {
+          "title": "Pratinjau penyiapan awal"
+        },
+        "onboardingRun": {
+          "title": "Jalankan orientasi"
+        },
+        "modelMigration": {
+          "title": "Migrasi model"
+        },
+        "soundTheme": {
+          "label": "Tema suara"
+        },
+        "wordCorrectionThreshold": {
+          "title": "Ambang koreksi kata"
+        },
+        "historyLimit": {
+          "title": "Batas riwayat"
+        },
+        "recordingRetention": {
+          "title": "Hapus rekaman secara otomatis"
+        },
+        "alwaysOnMicrophone": {
+          "label": "Mikrofon selalu aktif"
+        },
+        "clamshellMicrophone": {
+          "title": "Mikrofon saat laptop ditutup"
+        },
+        "muteWhileRecording": {
+          "label": "Bisukan saat merekam"
+        },
+        "appendTrailingSpace": {
+          "label": "Tambahkan spasi di akhir"
+        },
+        "keyboardImplementation": {
+          "title": "Implementasi keyboard"
+        },
+        "pasteDelay": {
+          "title": "Jeda tempel (sebelum)"
+        },
+        "pasteDelayAfter": {
+          "title": "Jeda tempel (sesudah)"
+        },
+        "holdThreshold": {
+          "title": "Ambang waktu tahan"
+        },
+        "reliablePaste": {
+          "title": "Tempel lebih andal (beta)"
+        },
+        "recordingBuffer": {
+          "title": "Buffer perekaman tambahan"
+        },
+        "languageDetectionWindow": {
+          "title": "Audio deteksi bahasa"
+        }
+      },
+      "about": {
+        "version": {
+          "description": "Versi Wispr Bro saat ini"
+        },
+        "whatsNewUpdates": {
+          "description": "Tampilkan catatan rilis setelah Wispr Bro diperbarui",
+          "label": "Tampilkan yang baru"
+        },
+        "appDataDirectory": {
+          "description": "Lokasi Wispr Bro menyimpan datanya",
+          "title": "Direktori data aplikasi"
+        },
+        "supportDevelopment": {
+          "description": "Bantu kami terus mengembangkan Wispr Bro",
+          "title": "Dukung pengembangan"
+        },
+        "acknowledgments": {
+          "ggml": {
+            "details": "Fitur ucapan-ke-teks lokal Wispr Bro dibangun di atas transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
+          }
+        },
+        "sourceCode": {
+          "title": "Kode sumber"
+        }
+      },
+      "sound": {
+        "channel": {
+          "title": "Kanal masukan"
+        },
+        "audioFeedback": {
+          "label": "Umpan balik audio"
+        },
+        "outputDevice": {
+          "title": "Perangkat keluaran"
+        }
+      },
+      "postProcessing": {
+        "api": {
+          "baseUrl": {
+            "title": "URL dasar"
+          }
+        },
+        "prompts": {
+          "selectedPrompt": {
+            "title": "Prompt terpilih"
+          },
+          "createNew": "Buat prompt baru",
+          "promptLabel": "Label prompt",
+          "promptInstructions": "Instruksi prompt",
+          "updatePrompt": "Perbarui prompt",
+          "deletePrompt": "Hapus prompt",
+          "createPrompt": "Buat prompt"
+        }
+      },
+      "history": {
+        "openFolder": "Buka folder rekaman",
+        "transcribeFile": "Transkripsikan file"
+      }
+    },
+    "whatsNew": {
+      "title": "Baru di Wispr Bro v{{version}}"
+    },
+    "appLanguage": {
+      "description": "Ubah bahasa antarmuka Wispr Bro",
+      "title": "Bahasa aplikasi"
+    },
+    "theme": {
+      "description": "Pilih apakah Wispr Bro mengikuti tema sistem atau selalu menggunakan tema terang atau gelap",
+      "title": "Tema aplikasi"
+    },
+    "modelSelector": {
+      "modelReady": "Model siap",
+      "modelError": "Kesalahan model",
+      "noModelDownloadRequired": "Model belum tersedia — perlu diunduh"
+    },
+    "footer": {
+      "updateCheckingDisabled": "Pemeriksaan pembaruan dinonaktifkan"
+    },
+    "errors": {
+      "micPermissionDeniedTitle": "Akses mikrofon ditolak",
+      "noInputDeviceTitle": "Mikrofon tidak ditemukan",
+      "pasteFailedTitle": "Gagal menempelkan teks",
+      "transcriptionFailedTitle": "Transkripsi gagal"
+    }
+  }
+}
