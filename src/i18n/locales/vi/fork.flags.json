@@ -1763,6 +1763,7 @@
   "style.cleanup.levels.light": "ai-reviewed",
   "style.cleanup.levels.medium": "ai-reviewed",
   "style.cleanup.levels.none": "ai-reviewed",
+  "style.cleanup.mediumNote": "ai-reviewed",
   "style.cleanup.note": "ai-reviewed",
   "style.cleanup.tab": "ai-reviewed",
   "style.englishOnly": "ai-reviewed",

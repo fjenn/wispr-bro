@@ -2122,6 +2122,7 @@
         "light": "Tira as palavras de preenchimento e corrige a pontuação",
         "medium": "Texto mais fluido, mesmo sentido"
       },
+      "mediumNote": "Com o modelo de IA integrado, Média costuma dar o mesmo texto que Leve.",
       "note": "Suas palavras originais nunca se perdem: no histórico, abra o menu de um ditado e escolha “Desfazer edição da IA”."
     },
     "addMenu": "Adicionar um app ou site"

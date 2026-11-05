@@ -2122,6 +2122,7 @@
         "light": "Treu les crosses i corregeix la puntuació",
         "medium": "Redacció més fluida, el mateix sentit"
       },
+      "mediumNote": "Amb el model d'IA integrat, Mitjana sovint dona el mateix text que Lleugera.",
       "note": "Les teves paraules originals no es perden mai: a l’historial, obre el menú d’un dictat i tria «Desfer l'edició de la IA»."
     },
     "addMenu": "Afegeix una app o un lloc web"

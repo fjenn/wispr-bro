@@ -47,7 +47,27 @@ pub static OPENWHISPR_CLEANUP: once_cell::sync::Lazy<&'static str> =
     });
 
 fn medium_fragment() -> &'static str {
+    #[cfg(test)]
+    if let Some(f) = eval_override("WB_EVAL_MEDIUM_FRAGMENT") {
+        return f;
+    }
     body(include_str!("prompts/medium.txt"))
+}
+
+/// Eval only (`eval_run`): a prompt file to measure instead of the shipped
+/// one, read once.
+#[cfg(test)]
+fn eval_override(var: &str) -> Option<&'static str> {
+    static CACHE: std::sync::Mutex<Vec<(String, &'static str)>> = std::sync::Mutex::new(Vec::new());
+    let path = std::env::var(var).ok().filter(|p| !p.is_empty())?;
+    let mut cache = CACHE.lock().ok()?;
+    if let Some((_, b)) = cache.iter().find(|(p, _)| *p == path) {
+        return Some(b);
+    }
+    let text: &'static str = Box::leak(std::fs::read_to_string(&path).ok()?.into_boxed_str());
+    let b = body(text);
+    cache.push((path, b));
+    Some(b)
 }
 
 fn vocabulary_fragment() -> &'static str {

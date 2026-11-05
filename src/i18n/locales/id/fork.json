@@ -1968,6 +1968,7 @@
         "light": "Menghapus kata pengisi dan memperbaiki tanda baca",
         "medium": "Kata-kata lebih luwes, makna sama"
       },
+      "mediumNote": "Dengan model AI bawaan, Sedang sering memberi teks yang sama dengan Ringan.",
       "note": "Kata-kata asli Anda tidak pernah hilang: di Riwayat, buka menu sebuah dikte lalu pilih “Urungkan edit AI”."
     },
     "addMenu": "Tambahkan aplikasi atau situs web"

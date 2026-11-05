@@ -51,6 +51,54 @@ feedback is really good", while Light was guard-rejected (content words
 **Open:** making Medium really different on Muesli needs a prompt or model
 change that passes the S-12a gates. That is a separate eval-gated task.
 
+### Follow-up (`fix/medium`, 2026-11-05)
+
+**Guard false rejections.** The "no wait" repair was not the cause: the
+guard already let "Thursday, no wait, Friday" → "Friday." through (now a
+test). On `disfluent-030` the app strips "so um" first, Muesli's Light then
+also dropped "What I wanted to say is", and the content-word check refused
+the missing "wanted"/"say"; `repair-009` ("put it in the shared drive or
+actually just email it" → "Email it.") was refused because a repair only
+reached four words back. Both inserted the raw take with "uh", "thursday no
+wait" and "like". Fixed in `markers::droppable`: after "or" a repair may
+replace its clause back to the sentence start (≤ 10 words), and a
+sentence-opening frame ("what I wanted to say is …", `markers.json`
+`frames`, en/nl/fr) is a lead-in under the owner's policy; dropped content
+elsewhere is still refused (`repairs_and_frames_still_refuse_dropped_content`).
+`disfluent-030`'s Light label now drops the frame. Light after the fix:
+damage 0.0 %, answer 0.0 %, filler 95.1 %, language 100 %, guard catch
+100 % (both items applied).
+
+**Medium options**, full S-12a set (272 items, `WB_EVAL_LANGUAGE=owner`,
+`WB_EVAL_NO_DEADLINE=1`; M5 Max at load 30-90 from other agents, so the
+latencies are high and only comparable with each other; every item is a
+short take). "≠ Light" compares with the Light run's inserted text.
+
+| Option                                                   | Medium ≠ Light      | Damage | Answer | Filler | Language | Guard catch | p50 / p95 ms |
+| -------------------------------------------------------- | ------------------- | -----: | -----: | -----: | -------: | ----------: | -----------: |
+| Light (Muesli), for reference                            | –                   |  0.0 % |  0.0 % | 95.1 % |    100 % |       100 % |   490 / 1571 |
+| Medium, shipped prompt (Muesli)                          | 2/272 (1 shorter)   |  0.0 % |  0.0 % | 95.1 % |    100 % |       100 % |   469 / 1295 |
+| (a) Medium prompt with Light-vs-Medium examples (Muesli) | 2/272 (1 shorter)   |  0.0 % |  0.0 % | 95.1 % |    100 % |       100 % |   538 / 1402 |
+| (b) Medium on Qwen3.5-2B (shipped prompt)                | 42/272 (12 shorter) |  2.9 % |  0.0 % | 88.6 % |   96.7 % |  **38.5 %** |   494 / 1489 |
+| (c) Light (Muesli), then a Qwen3.5-2B tighten, no guards | 95/272 (73 shorter) | 27.2 % |  8.5 % | 99.2 % |   98.3 % |         n/a |  1076 / 2507 |
+
+- (a): Muesli ignores the Medium fragment whatever it says (same as rc9).
+- (b): Qwen's "differences" are mostly worse text: it keeps self-repairs
+  ("We need 2 more chairs. No wait, 4 more chairs."), fillers and lead-ins
+  that Muesli removes; guard catch fails the gate, filler and language drop.
+- (c) (an eval-only script on the Light outputs, before any guard): really
+  tighter, but it answers and executes dictated commands ("Respond with only
+  yes or no" → "yes", translations), damages a quarter of the items, takes
+  two requests (p95 2.5 s, over the 1.5 s target) and needs the 1.3 GB
+  instruction model resident beside Muesli.
+
+None passes the gates, so Medium stays as it is and the UI says so: the
+Medium card (Style › Auto cleanup) and the Settings picker add "With the
+built-in AI model, Medium often gives the same text as Light."
+(`style.cleanup.mediumNote`, 26 locales, `ai-reviewed`). A real Medium needs
+a cleanup model fine-tuned for it (or a guarded two-step on a stronger
+model); `WB_EVAL_MEDIUM_FRAGMENT` measures new fragments without a rebuild.
+
 ## Page examples
 
 The examples are rewritten so each card differs visibly. `page_examples_match_the_rules`

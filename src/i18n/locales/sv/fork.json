@@ -2045,6 +2045,7 @@
         "light": "Tar bort utfyllnadsord och rättar skiljetecken",
         "medium": "Smidigare formulering, samma betydelse"
       },
+      "mediumNote": "Med den inbyggda AI-modellen ger Medel ofta samma text som Lätt.",
       "note": "Dina ursprungliga ord går aldrig förlorade: öppna en dikterings meny i historiken och välj ”Ångra AI-redigering”."
     },
     "addMenu": "Lägg till en app eller webbplats"

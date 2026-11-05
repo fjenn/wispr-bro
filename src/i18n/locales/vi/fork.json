@@ -1968,6 +1968,7 @@
         "light": "Bỏ từ đệm và sửa dấu câu",
         "medium": "Câu chữ mượt hơn, giữ nguyên ý"
       },
+      "mediumNote": "Với mô hình AI tích hợp, Trung bình thường cho cùng văn bản như Nhẹ.",
       "note": "Lời gốc của bạn không bao giờ mất: trong Lịch sử, mở menu của một lần đọc và chọn “Hoàn tác chỉnh sửa AI”."
     },
     "addMenu": "Thêm ứng dụng hoặc trang web"

@@ -2362,6 +2362,7 @@
         "light": "Takes out fillers and fixes punctuation",
         "medium": "Smoother wording, same meaning"
       },
+      "mediumNote": "With the built-in AI model, Medium often gives the same text as Light.",
       "note": "Your original words are never lost: in History, open a dictation’s menu and choose “Undo AI edit”."
     },
     "addMenu": "Add an app or website"

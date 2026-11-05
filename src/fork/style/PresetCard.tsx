@@ -72,6 +72,8 @@ export interface ChoiceCardProps {
   exampleTestId: string;
   title: string;
   description: string;
+  /** A short line under the description (serif cards only), read with it. */
+  note?: string;
   /** English sample text, shown in a tinted box at the bottom; its line
    *  breaks show (an email's greeting and sign-off). */
   example: string;
@@ -98,6 +100,7 @@ export function ChoiceCard({
   exampleTestId,
   title,
   description,
+  note,
   example,
   exampleLabel,
   avatar,
@@ -148,6 +151,11 @@ export function ChoiceCard({
             className="text-[16px] leading-[22px] text-(--wb-ink-3)"
           >
             {description}
+            {note && (
+              <span className="mt-2 block text-[13px] leading-[18px]">
+                {note}
+              </span>
+            )}
           </span>
         </span>
       )}

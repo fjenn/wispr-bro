@@ -2045,6 +2045,7 @@
         "light": "Entfernt Füllwörter und korrigiert die Zeichensetzung",
         "medium": "Flüssigere Formulierung, gleiche Bedeutung"
       },
+      "mediumNote": "Mit dem integrierten KI-Modell liefert Mittel oft denselben Text wie Leicht.",
       "note": "Deine ursprünglichen Worte gehen nie verloren: Öffne im Verlauf das Menü eines Diktats und wähle „KI-Bearbeitung widerrufen“."
     },
     "addMenu": "App oder Website hinzufügen"

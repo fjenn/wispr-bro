@@ -2045,6 +2045,7 @@
         "light": "Fjerner fyldord og retter tegnsætningen",
         "medium": "Mere flydende formulering, samme betydning"
       },
+      "mediumNote": "Med den indbyggede AI-model giver Middel ofte den samme tekst som Let.",
       "note": "Dine oprindelige ord går aldrig tabt: åbn en diktering menu i historikken, og vælg »Fortryd AI-redigering«."
     },
     "addMenu": "Tilføj en app eller et websted"

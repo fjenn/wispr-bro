@@ -2122,6 +2122,7 @@
         "light": "Toglie le parole riempitive e corregge la punteggiatura",
         "medium": "Formulazione più scorrevole, stesso significato"
       },
+      "mediumNote": "Con il modello di IA integrato, Media spesso dà lo stesso testo di Leggera.",
       "note": "Le tue parole originali non vanno mai perse: nella cronologia apri il menu di una dettatura e scegli «Annulla modifica AI»."
     },
     "addMenu": "Aggiungi un’app o un sito web"

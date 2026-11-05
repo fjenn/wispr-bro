@@ -21,6 +21,10 @@
 //! `WB_DEBUG_CLEANUP_DEADLINE_MS=<ms>` for each request) scores quality
 //! without the latency budget.
 //!
+//! `WB_EVAL_MEDIUM_FRAGMENT=<file>` measures another Medium fragment
+//! (same `---` format as `prompts/medium.txt`) without a rebuild; test
+//! builds only (`prompt::eval_override`).
+//!
 //! `WB_EVAL_LANGUAGE=item` passes each item's labelled language as the
 //! take's language (a user who picked their language); the default `none`
 //! leaves it unknown, as with an auto-detecting recognizer, so the guards

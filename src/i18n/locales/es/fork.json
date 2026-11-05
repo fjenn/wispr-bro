@@ -2122,6 +2122,7 @@
         "light": "Quita las muletillas y corrige la puntuación",
         "medium": "Redacción más fluida, mismo significado"
       },
+      "mediumNote": "Con el modelo de IA integrado, Media suele dar el mismo texto que Ligera.",
       "note": "Tus palabras originales nunca se pierden: en el historial, abre el menú de un dictado y elige «Deshacer edición de la IA»."
     },
     "addMenu": "Añadir una app o un sitio web"

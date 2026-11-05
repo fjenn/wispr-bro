@@ -2122,6 +2122,7 @@
         "light": "Retire les mots de remplissage et corrige la ponctuation",
         "medium": "Formulation plus fluide, même sens"
       },
+      "mediumNote": "Avec le modèle d'IA intégré, Moyen donne souvent le même texte que Léger.",
       "note": "Vos mots d’origine ne sont jamais perdus : dans l’historique, ouvrez le menu d’une dictée et choisissez « Annuler la modification de l’IA »."
     },
     "addMenu": "Ajouter une app ou un site web"

@@ -54,6 +54,9 @@ export function CleanupTab() {
               exampleTestId={`wb-style-cleanup-example-${level}`}
               title={t(`cleanup.levels.${level}.label`)}
               description={t(`style.cleanup.levels.${level}`)}
+              note={
+                level === "medium" ? t("style.cleanup.mediumNote") : undefined
+              }
               example={CLEANUP_EXAMPLES[level]}
               exampleLabel={t("style.after")}
             />

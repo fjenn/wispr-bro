@@ -2199,6 +2199,7 @@
         "light": "Usuwa wtrącenia i poprawia interpunkcję",
         "medium": "Płynniejsze sformułowania, ten sam sens"
       },
+      "mediumNote": "Z wbudowanym modelem AI Średnie często daje ten sam tekst co Lekkie.",
       "note": "Twoje oryginalne słowa nigdy nie giną: w historii otwórz menu dyktowania i wybierz „Cofnij edycję AI”."
     },
     "addMenu": "Dodaj aplikację lub stronę"

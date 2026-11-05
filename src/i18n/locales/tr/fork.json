@@ -2045,6 +2045,7 @@
         "light": "Dolgu sözcüklerini atar, noktalamayı düzeltir",
         "medium": "Daha akıcı ifade, aynı anlam"
       },
+      "mediumNote": "Yerleşik yapay zekâ modeliyle Orta, çoğu zaman Hafif ile aynı metni verir.",
       "note": "Özgün sözcükleriniz asla kaybolmaz: geçmişte bir diktenin menüsünü açıp “Yapay zekâ düzenlemesini geri al” seçeneğini seçin."
     },
     "addMenu": "Uygulama veya web sitesi ekle"

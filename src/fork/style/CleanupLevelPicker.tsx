@@ -135,7 +135,11 @@ export function CleanupLevelPicker() {
                   )}
                 </>
               }
-              description={t(`cleanup.levels.${level}.description`)}
+              description={
+                level === "medium"
+                  ? `${t("cleanup.levels.medium.description")} ${t("style.cleanup.mediumNote")}`
+                  : t(`cleanup.levels.${level}.description`)
+              }
             />
           ))}
         </RadioGroup>

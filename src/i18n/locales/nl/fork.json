@@ -2045,6 +2045,7 @@
         "light": "Haalt stopwoorden weg en verbetert de interpunctie",
         "medium": "Vloeiender verwoord, zelfde betekenis"
       },
+      "mediumNote": "Met het ingebouwde AI-model geeft Gemiddeld vaak dezelfde tekst als Licht.",
       "note": "Je oorspronkelijke woorden gaan nooit verloren: open in de geschiedenis het menu van een dictaat en kies ‘Herstel AI-bewerking’."
     },
     "addMenu": "App of website toevoegen"

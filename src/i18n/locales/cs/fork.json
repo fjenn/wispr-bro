@@ -2199,6 +2199,7 @@
         "light": "Odstraní vycpávková slova a opraví interpunkci",
         "medium": "Plynulejší formulace, stejný význam"
       },
+      "mediumNote": "S vestavěným modelem AI dává Střední často stejný text jako Lehké.",
       "note": "Vaše původní slova se nikdy neztratí: v historii otevřete nabídku diktátu a zvolte „Odvolat úpravu AI“."
     },
     "addMenu": "Přidat aplikaci nebo web"
