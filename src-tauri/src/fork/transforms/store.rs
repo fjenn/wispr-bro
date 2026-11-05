@@ -231,16 +231,17 @@ impl Compiled {
 }
 
 /// The prompt's exact-edit sentences and the editor's Find and replace rows
-/// become code; the rest is the model's instruction. A prompt that is wholly
-/// exact edits makes the transform exact: its rules and writing examples
-/// would only tell the model to rewrite the text the user asked to keep.
+/// become code; the rest is the model's instruction. Every option the user
+/// ticked counts: a transform is exact (no model) only when nothing but exact
+/// edits was asked for. Otherwise the model applies the instruction and the
+/// ticked options, and the exact edits run on its output.
 pub fn compile(entry: &TransformEntry) -> Compiled {
     let plan = literal::plan(&entry.prompt);
-    let prompt_exact = !plan.edits.is_empty() && plan.rest.is_empty();
     let mut edits = plan.edits;
     edits.extend(literal::rule_edits(&entry.replacements));
     let rest = plan.rest.trim().to_owned();
-    if prompt_exact || (rest.is_empty() && !entry.rules.any() && !edits.is_empty()) {
+    let only_edits = rest.is_empty() && !entry.rules.any() && entry.examples.is_empty();
+    if only_edits && !edits.is_empty() {
         return Compiled {
             instruction: String::new(),
             edits,
@@ -664,5 +665,56 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+}
+
+#[cfg(test)]
+mod options_count_tests {
+    use super::*;
+
+    fn entry(prompt: &str, rules: TransformRules) -> TransformEntry {
+        TransformEntry {
+            id: 9,
+            key: "custom-9".into(),
+            action_id: "fork:transform.custom-9".into(),
+            builtin_key: None,
+            name: "Mine".into(),
+            description: String::new(),
+            rules,
+            prompt: prompt.into(),
+            examples: Vec::new(),
+            replacements: Vec::new(),
+            updated_at: 0,
+        }
+    }
+
+    const SWAP: &str = "replace all “A” and “e” with 0 and 1";
+
+    #[test]
+    fn exact_edits_alone_skip_the_model() {
+        let off = TransformRules {
+            shorter: false,
+            clearer: false,
+            better_order: false,
+            headings_lists: false,
+            keep_tone: false,
+        };
+        let c = compile(&entry(SWAP, off));
+        assert!(c.exact());
+    }
+
+    #[test]
+    fn a_ticked_option_still_counts_next_to_exact_edits() {
+        let shorter = TransformRules {
+            shorter: true,
+            clearer: false,
+            better_order: false,
+            headings_lists: false,
+            keep_tone: false,
+        };
+        let c = compile(&entry(SWAP, shorter));
+        assert!(!c.exact(), "Shorter must reach the model");
+        assert!(!c.edits.is_empty(), "the swap still runs on the output");
+        assert!(!c.instruction.trim().is_empty());
     }
 }
