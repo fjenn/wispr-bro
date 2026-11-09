@@ -278,6 +278,15 @@ pub fn is_partial(starter: &Pinned, languages: &[String]) -> bool {
     !or_english(languages).iter().all(|l| starter.usable_for(l))
 }
 
+/// Whether `starter` hears the user's first (primary) language. The
+/// onboarding practice is in that language, so it may run on the starter
+/// only when this holds; otherwise it waits for the full model.
+pub fn hears_primary(starter: &Pinned, languages: &[String]) -> bool {
+    or_english(languages)
+        .first()
+        .is_none_or(|l| starter.usable_for(l))
+}
+
 /// The user's languages `starter` hears, in the user's order (the practice
 /// text uses the first, so the practice take can run on the starter).
 pub fn heard_by(starter: &Pinned, languages: &[String]) -> Vec<String> {
@@ -454,6 +463,18 @@ mod tests {
         let s = pick(starters(), &langs(&["fr", "nl"]));
         assert!(needs_full_model(s, Some("nl"), true));
         assert!(!needs_full_model(s, Some("fr"), false));
+    }
+
+    #[test]
+    fn the_practice_runs_on_the_starter_only_in_the_primary_language() {
+        // English first: the English starter may run the practice.
+        let s = pick(starters(), &langs(&["en", "nl"]));
+        assert!(hears_primary(s, &langs(&["en", "nl"])));
+        // Dutch first: the same starter must not, the practice waits.
+        let s = pick(starters(), &langs(&["nl", "en"]));
+        assert!(!hears_primary(s, &langs(&["nl", "en"])));
+        // No languages: English.
+        assert!(hears_primary(s, &[]));
     }
 
     #[test]

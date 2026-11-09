@@ -394,10 +394,9 @@ test.describe("S-29b practice", () => {
     const status = page.getByTestId("wb-practice-status");
     await expect(status).toHaveAttribute("data-phase", "queued");
     await expect(status).toHaveText("Saved. Waiting for the speech model…");
-    await expect(page.getByTestId("wb-practice-body")).toHaveAttribute(
-      "placeholder",
-      "Your words will appear here as soon as the speech model is ready.",
-    );
+    // While no model hears the practice language the email box is hidden:
+    // a waiting screen, never a test that would come out as gibberish.
+    await expect(page.getByTestId("wb-practice-composer")).toHaveCount(0);
     await expect(page.getByTestId("wb-practice-queued-note")).toContainText(
       "History",
     );
@@ -510,7 +509,7 @@ test.describe("S-29b practice", () => {
     // Dutch alone: the practice is in Dutch (the app stays English).
     await practice(page, ipc, {
       handy: { spoken_languages: ["nl"] },
-      setup: { starter_languages: ["nl"] },
+      setup: { ...READY, starter_languages: ["nl"] },
     });
     const subject = page
       .getByTestId("wb-practice-composer")
@@ -524,29 +523,48 @@ test.describe("S-29b practice", () => {
     );
   });
 
-  test("English + Dutch: the practice runs in the starter's English", async ({
+  test("English first + Dutch: the practice runs in English on the starter", async ({
     page,
     ipc,
   }) => {
     await practice(page, ipc, {
-      handy: { spoken_languages: ["nl", "en"] },
-      setup: { ...READY, starter_languages: ["en"] },
+      handy: { spoken_languages: ["en", "nl"] },
+      setup: { ...READY, starter_languages: ["en"], practice_ready: true },
     });
     await expect(page.getByTestId("wb-practice-body")).toHaveAttribute(
       "placeholder",
       "Try saying: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
     );
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveText(
+      "fnSpace",
+    );
   });
 
-  test("French + Dutch: the practice runs in French", async ({ page, ipc }) => {
+  test("Dutch first: no gibberish on the English starter, a wait instead", async ({
+    page,
+    ipc,
+  }) => {
+    // The owner's report: Dutch practised on the English starter came out as
+    // gibberish. The practice waits for the model that hears Dutch.
     await practice(page, ipc, {
-      handy: { spoken_languages: ["nl", "fr"] },
-      setup: { ...READY, starter_languages: ["fr"] },
+      handy: { spoken_languages: ["nl", "en"] },
+      setup: {
+        ...READY,
+        starter_languages: ["en"],
+        practice_ready: false,
+        practice_wait: {
+          phase: "downloading",
+          percent: 40,
+          downloaded_bytes: 300_000_000,
+          total_bytes: 740_000_000,
+          eta_seconds: 90,
+        },
+      },
     });
-    await expect(page.getByTestId("wb-practice-body")).toHaveAttribute(
-      "placeholder",
-      /Bonjour Sam/,
-    );
+    await expect(page.getByTestId("wb-practice-composer")).toHaveCount(0);
+    await expect(page.getByTestId("wb-practice-model-wait")).toBeVisible();
+    await expect(page.getByTestId("wb-practice-continue")).toBeEnabled();
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveCount(0);
   });
 
   test("a queued take moves the step on by itself after 90 seconds", async ({
@@ -578,7 +596,7 @@ test.describe("S-29b practice", () => {
     page,
     ipc,
   }) => {
-    await practice(page, ipc, {}, true);
+    await practice(page, ipc, { setup: READY }, true);
     const status = page.getByTestId("wb-practice-status");
     await take(ipc, "started");
     await take(ipc, "cancelled");
@@ -594,7 +612,10 @@ test.describe("S-29b practice", () => {
     page,
     ipc,
   }) => {
-    await practice(page, ipc, { status: { trigger: "ctrl+option" } });
+    await practice(page, ipc, {
+      status: { trigger: "ctrl+option" },
+      setup: READY,
+    });
     await expect(page.getByTestId("wb-practice-instruction")).toContainText(
       "Control, Option and Space",
     );
