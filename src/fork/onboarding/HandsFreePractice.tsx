@@ -36,7 +36,7 @@ import { events as handyEvents } from "@/bindings";
 import { useSettings } from "@/hooks/useSettings";
 import { commands, events, type ForkSpeechSetup } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
-import { Button, ProgressLine } from "../ui";
+import { Button, KbdCombo, ProgressLine } from "../ui";
 import { CentredLayout, SkipLink, Title } from "./Layout";
 import { practiceSampleFor } from "./samples";
 import { countWords, spokenWpm } from "./typing";
@@ -193,14 +193,34 @@ export function HandsFreePractice({
               ? t("onboardingFlow.practice.filled")
               : t("onboardingFlow.practice.waiting");
 
+  // The practice is in the user's first language; it runs only once a
+  // model that hears that language is loaded (a small English starter
+  // never gets a Dutch practice: that would read as gibberish).
   const { practice: sample, language: sampleLanguage } = practiceSampleFor(
-    setup?.starter_languages ?? [],
     handy?.spoken_languages ?? [],
+    setup?.starter_languages ?? [],
     i18n.language,
   );
-  // No model can transcribe yet: the wait is shown and never blocks.
+  // No model for the practice yet: a waiting screen instead of the
+  // composer, which never blocks Continue.
   const waiting =
-    setup != null && setup.phase !== "ready" && setup.phase !== "checking";
+    setup != null &&
+    ((setup.phase !== "ready" && setup.phase !== "checking") ||
+      (setup.phase === "ready" && setup.practice_ready === false));
+  const waitView: ForkSpeechSetup | null = setup
+    ? setup.practice_wait
+      ? { ...setup, ...setup.practice_wait }
+      : setup
+    : null;
+  // The keys to press, shown small under the composer, matching the
+  // instruction: fn + Space, Control + Option + Space, or the custom key.
+  const hintKeys: string[] = !trigger
+    ? []
+    : custom
+      ? [keys]
+      : fallback
+        ? ["⌃", "⌥", chordLabel("space")]
+        : [chordLabel(trigger), chordLabel("space")];
 
   return (
     <CentredLayout
@@ -237,77 +257,90 @@ export function HandsFreePractice({
         </Button>
       }
     >
-      <div
-        className="mt-9 flex w-full max-w-[480px] flex-col overflow-hidden rounded-(--wb-radius-md) bg-(--wb-surface) text-start shadow-(--wb-elev-2)"
-        data-testid="wb-practice-composer"
-      >
-        <div className="flex items-center gap-2 bg-(--wb-surface-tint) px-4 py-3">
-          <Mail size={16} aria-hidden="true" className="text-(--wb-ink-2)" />
-          <span className="type-card-title">
-            {t("onboardingFlow.practice.composer.title")}
-          </span>
-        </div>
-        <dl className="m-0 px-4 text-[14px]">
-          <div className="flex gap-2 border-b border-(--wb-line) py-2.5">
-            <dt className="font-medium text-(--wb-ink-2)">
-              {t("onboardingFlow.practice.composer.to")}
-            </dt>
-            <dd className="m-0 text-(--wb-ink-2)">
-              {t("onboardingFlow.practice.composer.recipient")}
-            </dd>
+      {!waiting && (
+        <div
+          className="mt-9 flex w-full max-w-[480px] flex-col overflow-hidden rounded-(--wb-radius-md) bg-(--wb-surface) text-start shadow-(--wb-elev-2)"
+          data-testid="wb-practice-composer"
+        >
+          <div className="flex items-center gap-2 bg-(--wb-surface-tint) px-4 py-3">
+            <Mail size={16} aria-hidden="true" className="text-(--wb-ink-2)" />
+            <span className="type-card-title">
+              {t("onboardingFlow.practice.composer.title")}
+            </span>
           </div>
-          <div className="flex gap-2 border-b border-(--wb-line) py-2.5">
-            <dt className="font-medium text-(--wb-ink-2)">
-              {t("onboardingFlow.practice.composer.subject")}
-            </dt>
-            <dd className="m-0 text-(--wb-ink-2)" lang={sampleLanguage}>
-              {sample.subject}
-            </dd>
+          <dl className="m-0 px-4 text-[14px]">
+            <div className="flex gap-2 border-b border-(--wb-line) py-2.5">
+              <dt className="font-medium text-(--wb-ink-2)">
+                {t("onboardingFlow.practice.composer.to")}
+              </dt>
+              <dd className="m-0 text-(--wb-ink-2)">
+                {t("onboardingFlow.practice.composer.recipient")}
+              </dd>
+            </div>
+            <div className="flex gap-2 border-b border-(--wb-line) py-2.5">
+              <dt className="font-medium text-(--wb-ink-2)">
+                {t("onboardingFlow.practice.composer.subject")}
+              </dt>
+              <dd className="m-0 text-(--wb-ink-2)" lang={sampleLanguage}>
+                {sample.subject}
+              </dd>
+            </div>
+          </dl>
+          <label className="sr-only" htmlFor="wb-practice-body">
+            {t("onboardingFlow.practice.composer.body")}
+          </label>
+          <div className="p-3">
+            <textarea
+              id="wb-practice-body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder={
+                phase === "queued" && !body.trim()
+                  ? t("onboardingFlow.practice.composer.willAppear")
+                  : t("onboardingFlow.practice.composer.trySaying", {
+                      text: sample.suggestion,
+                    })
+              }
+              data-testid="wb-practice-body"
+              rows={5}
+              className={`min-h-[132px] w-full resize-none rounded-(--wb-radius-sm) border bg-transparent px-3 py-2.5 text-[15px] leading-[22px] text-(--wb-ink) outline-none select-text placeholder:text-(--wb-ink-3) placeholder:italic focus-visible:border-(--wb-accent) ${
+                phase === "listening"
+                  ? "border-(--wb-accent-2)"
+                  : "border-(--wb-line-2)"
+              }`}
+            />
           </div>
-        </dl>
-        <label className="sr-only" htmlFor="wb-practice-body">
-          {t("onboardingFlow.practice.composer.body")}
-        </label>
-        <div className="p-3">
-          <textarea
-            id="wb-practice-body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            placeholder={
-              phase === "queued" && !body.trim()
-                ? t("onboardingFlow.practice.composer.willAppear")
-                : t("onboardingFlow.practice.composer.trySaying", {
-                    text: sample.suggestion,
-                  })
-            }
-            data-testid="wb-practice-body"
-            rows={5}
-            className={`min-h-[132px] w-full resize-none rounded-(--wb-radius-sm) border bg-transparent px-3 py-2.5 text-[15px] leading-[22px] text-(--wb-ink) outline-none select-text placeholder:text-(--wb-ink-3) placeholder:italic focus-visible:border-(--wb-accent) ${
-              phase === "listening"
-                ? "border-(--wb-accent-2)"
-                : "border-(--wb-line-2)"
-            }`}
-          />
         </div>
-      </div>
+      )}
 
-      <p
-        className="mt-4 mb-0 flex items-center gap-2 text-center text-[13px] leading-[18px] text-(--wb-ink-2)"
-        role="status"
-        data-testid="wb-practice-status"
-        data-phase={phase}
-      >
-        <Mic
-          size={14}
+      {(!waiting || phase !== "idle") && (
+        <p
+          className="mt-4 mb-0 flex items-center gap-2 text-center text-[13px] leading-[18px] text-(--wb-ink-2)"
+          role="status"
+          data-testid="wb-practice-status"
+          data-phase={phase}
+        >
+          <Mic
+            size={14}
+            aria-hidden="true"
+            className={
+              phase === "listening"
+                ? "text-(--wb-accent) motion-safe:animate-pulse"
+                : "text-(--wb-ink-3)"
+            }
+          />
+          {status}
+        </p>
+      )}
+      {hintKeys.length > 0 && !waiting && (
+        <span
+          className="mt-2 inline-flex"
           aria-hidden="true"
-          className={
-            phase === "listening"
-              ? "text-(--wb-accent) motion-safe:animate-pulse"
-              : "text-(--wb-ink-3)"
-          }
-        />
-        {status}
-      </p>
+          data-testid="wb-practice-key-hint"
+        >
+          <KbdCombo keys={hintKeys} />
+        </span>
+      )}
       {phase === "queued" && (
         <p
           className="mt-2 mb-0 max-w-[460px] text-center text-[13px] leading-[18px] text-(--wb-ink-3)"
@@ -316,7 +349,7 @@ export function HandsFreePractice({
           {t("onboardingFlow.practice.queuedNote")}
         </p>
       )}
-      {waiting && setup && <ModelWait setup={setup} />}
+      {waiting && waitView && <ModelWait setup={waitView} />}
     </CentredLayout>
   );
 }

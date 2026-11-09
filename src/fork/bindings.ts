@@ -2467,7 +2467,18 @@ eta_seconds: number | null;
  * The user's languages the first model hears, in their order (the
  * practice text uses the first, so the practice take runs at once).
  */
-starter_languages: string[] }
+starter_languages: string[]; 
+/**
+ * Whether onboarding's practice can run now: a model that hears the
+ * user's first language is loaded. A partial starter that does not
+ * (Dutch first, English starter) makes the practice wait for the full
+ * model instead of writing gibberish.
+ */
+practice_ready: boolean; 
+/**
+ * The full model's download while the practice waits for it.
+ */
+practice_wait: PracticeWait | null }
 /**
  * What the `fork-spotlight` page shows (event, and `fork_spotlight_state`
  * when the page loads). Also sent to the Hub, which shows "the hint is on
@@ -3369,6 +3380,10 @@ export type PolicyPhase =
  * The download stopped; tried again at the next launch or change.
  */
 "paused"
+/**
+ * The download the practice screen shows while it waits for the full model.
+ */
+export type PracticeWait = { phase: SetupPhase; percent: number | null; downloaded_bytes: number; total_bytes: number; eta_seconds: number | null }
 export type PreviewOutcome = "changed" | 
 /**
  * Nothing changed (exact edits found no match, or nothing to fix).
