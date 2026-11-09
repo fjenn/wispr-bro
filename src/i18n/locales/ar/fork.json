@@ -706,6 +706,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "الإملاء",
       "vocabulary": "القاموس",
@@ -1012,7 +1020,7 @@
       },
       "how": "انقر حيث تريد الكتابة، ثم اضغط مطولًا على fn وتحدّث.",
       "howFallback": "انقر حيث تريد الكتابة، ثم اضغط مطولًا على Control وOption وتحدّث.",
-      "escape": "اضغط Esc لإغلاق هذا التلميح."
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2778,7 +2786,7 @@
       "again": "إظهار التلميح مرة أخرى",
       "stop": "إخفاء التلميح",
       "other": "جرّب شيئًا آخر",
-      "active": "التلميح ظاهر على شاشتك. اضغط Esc لإغلاقه."
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

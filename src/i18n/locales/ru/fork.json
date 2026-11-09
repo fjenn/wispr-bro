@@ -696,6 +696,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "Диктовка",
       "vocabulary": "Словарь",
@@ -982,7 +990,7 @@
       },
       "how": "Щёлкните там, где хотите писать, затем удерживайте fn и говорите.",
       "howFallback": "Щёлкните там, где хотите писать, затем удерживайте Control и Option и говорите.",
-      "escape": "Нажмите Esc, чтобы закрыть подсказку."
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2596,7 +2604,7 @@
       "again": "Показать подсказку ещё раз",
       "stop": "Скрыть подсказку",
       "other": "Попробовать другое",
-      "active": "Подсказка на экране. Нажмите Esc, чтобы закрыть её."
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

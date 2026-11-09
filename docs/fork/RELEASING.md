@@ -8,13 +8,16 @@ pushes after testing).
 
 ## Identity (never change after the first public build)
 
-| What               | Value                                                                     | Where it is pinned                                                                                     |
-| ------------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Bundle identifier  | `com.wisprbro.desktop`                                                    | overlay; `wb-guard-identity.ts`                                                                        |
-| Signing identity   | `Developer ID Application: Finn Jennen (446XT9839S)`                      | `macos.sh`, `verify.sh`, `wb-build.yml`                                                                |
-| Updater public key | minisign key id `89E085217ACC46CF`                                        | overlay `plugins.updater.pubkey`; `wb-guard-identity.ts` `UPDATER_PUBKEY_ID`; `fork/update/channel.rs` |
-| Stable feed        | `https://github.com/fjenn/wispr-bro/releases/latest/download/latest.json` | overlay endpoint; guard `STABLE_ENDPOINT`; `channel.rs`                                                |
-| Beta feed          | `https://github.com/fjenn/wispr-bro/releases/download/beta/latest.json`   | `channel.rs` (chosen at runtime, DEC-33)                                                               |
+| What                | Value                                                                                    | Where it is pinned                                                                                     |
+| ------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Bundle identifier   | `com.wisprbro.desktop`                                                                   | overlay; `wb-guard-identity.ts`                                                                        |
+| Build number        | `CFBundleVersion` = `1` (numeric; `CFBundleShortVersionString` is the marketing version) | overlay `bundle.macOS.bundleVersion`; `verify.sh` checks it is numeric                                 |
+| CFBundleDisplayName | `Wispr Bro`                                                                              | `src-tauri/Info.plist` merge; `verify.sh` (with `LSRequiresCarbon` = false)                            |
+| DMG volume          | `Wispr Bro Installer` (the app inside stays `Wispr Bro.app`)                             | `scripts/wb-release/dmg/build.sh`; `dmg/check_layout.py` checks name and icon                          |
+| Signing identity    | `Developer ID Application: Finn Jennen (446XT9839S)`                                     | `macos.sh`, `verify.sh`, `wb-build.yml`                                                                |
+| Updater public key  | minisign key id `89E085217ACC46CF`                                                       | overlay `plugins.updater.pubkey`; `wb-guard-identity.ts` `UPDATER_PUBKEY_ID`; `fork/update/channel.rs` |
+| Stable feed         | `https://github.com/fjenn/wispr-bro/releases/latest/download/latest.json`                | overlay endpoint; guard `STABLE_ENDPOINT`; `channel.rs`                                                |
+| Beta feed           | `https://github.com/fjenn/wispr-bro/releases/download/beta/latest.json`                  | `channel.rs` (chosen at runtime, DEC-33)                                                               |
 
 Changing the key strands every install (they reject updates signed with
 another key). Changing the identifier or team resets every user's macOS
@@ -85,7 +88,7 @@ Repository → Settings → Secrets and variables → Actions:
 
 1. Bump the version in `src-tauri/tauri.fork.conf.json`, `src-tauri/Cargo.toml`
    and `package.json` (all three equal, DEC-48), merge to `wispr-bro`.
-2. Tag the merge commit: `git tag -s v1.0.0-alpha.2 && git push origin v1.0.0-alpha.2`.
+2. Tag the merge commit: `git tag -s v1.0.0-alpha.3 && git push origin v1.0.0-alpha.3`.
    Tags are `vX.Y.Z` or `vX.Y.Z-(alpha|beta|rc).N`, strictly newer than every
    existing `v*` tag (`scripts/wb-release/tag.ts`).
 3. `wb-release.yml` runs: preflight (tag, branch, guards in release mode),

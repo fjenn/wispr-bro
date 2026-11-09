@@ -8,9 +8,9 @@
  *   over the time since the first key press. A typo therefore lowers the
  *   number instead of being ignored.
  * - Time saved (DEC-50): of the hours a week spent typing (the slider,
- *   4 h by default, owner's rc9 call; stored per day as the fork setting
- *   `typing_hours_per_day` over a five-day week), the share that speaking
- *   would save. Speaking is taken at
+ *   25 h by default since alpha.3 — five hours a weekday; stored per day as
+ *   the fork setting `typing_hours_per_day` over a five-day week), the share
+ *   that speaking would save. Speaking is taken at
  *   200 words a minute (owner's call, rc8: dictation runs faster than
  *   conversation), so a fast typist sees a smaller number, and nobody who
  *   types at 200 or faster is promised any saving. The typing speed until
@@ -35,7 +35,8 @@ export const MAX_TYPING_WPM = 300;
 export const HOURS_MIN = 1;
 export const HOURS_MAX = 40;
 export const HOURS_STEP = 1;
-export const DEFAULT_HOURS = 4;
+/** Typing hours a week to start: 25 (five a weekday, alpha.3). */
+export const DEFAULT_HOURS = 25;
 
 /** The stored setting (hours a day) as the slider's hours a week. */
 export function weeklyHours(hoursPerDay: number | null | undefined): number {

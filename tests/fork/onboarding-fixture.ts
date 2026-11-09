@@ -253,9 +253,13 @@ export async function openOnboarding(
     return be.status;
   });
   await page.goto("/");
+  const expected =
+    options.settle ??
+    (options.step === "move_to_applications" ? "languages" : options.step) ??
+    "welcome";
   await expect(page.getByTestId("wb-onboarding")).toHaveAttribute(
     "data-step",
-    options.settle ?? options.step ?? "welcome",
+    expected,
   );
   return be;
 }

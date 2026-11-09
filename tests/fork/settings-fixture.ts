@@ -62,7 +62,7 @@ export const forkSettingsDefaults = {
   seen_new_tags: [],
   first_use_choice: null,
   typing_wpm: null,
-  typing_hours_per_day: 0.8,
+  typing_hours_per_day: 5.0,
   greeting_name: null,
   auto_learn_enabled: true,
   apple_dictation_shortcut_off: true,

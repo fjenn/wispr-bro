@@ -267,6 +267,12 @@ async forkSpotlightStop() : Promise<void> {
     await TAURI_INVOKE("fork_spotlight_stop");
 },
 /**
+ * S-30 via alpha.3: a pointer down anywhere on the spotlight overlay ends it.
+ */
+async forkSpotlightClick() : Promise<void> {
+    await TAURI_INVOKE("fork_spotlight_click");
+},
+/**
  * S-30: what the `fork-spotlight` page shows now (also read by the Hub).
  */
 async forkSpotlightState() : Promise<ForkSpotlightState> {
@@ -2369,8 +2375,8 @@ first_use_choice: string | null;
  */
 typing_wpm: number | null; 
 /**
- * DEC-50: typing time per day, hours (default 0.8: the onboarding
- * slider's 4 h a week over five days, owner's rc9 call).
+ * DEC-50: typing time per day, hours (default 5: the onboarding
+ * slider's 25 h a week over five days, alpha.3).
  */
 typing_hours_per_day: number; 
 /**

@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Move to Applications (S-29a). Only on the user's press; never overwrites
-//! another app. The path decisions are unit-tested; the move itself runs in
-//! the Mac wave (MAC-TEST-SCRIPT S-29a).
+//! Move to Applications (S-29a) and startup location handling (alpha.3).
+//! The move runs only by itself (with a clean destination), on the user's
+//! press in the small prompt after a failed move, or from an old build's
+//! button; it never overwrites another app. The path decisions are
+//! unit-tested; the move itself runs in the Mac wave (MAC-TEST-SCRIPT S-29a).
 //!
 //! The idea follows LetsMove (move, else copy, then relaunch the copy);
 //! nothing is ported. A plain `rename` works inside one volume; a copy is
@@ -10,10 +12,17 @@
 //! extended attributes. The copy's quarantine flag is then cleared: this
 //! app has already passed Gatekeeper to be running, and a flagged copy would
 //! be translocated again on its next launch.
+//!
+//! At startup [`ensure_location`] settles where the app runs from before
+//! onboarding gets far: already installed is a no-op; a free destination is
+//! moved to and relaunched silently; an existing installed copy is opened
+//! instead (never overwritten, so a newer build stays); only a permission or
+//! copy failure asks, in one small native dialog.
 
 use std::path::{Path, PathBuf};
 
 use crate::fork::commands::onboarding::ForkOnboardingLocation;
+use crate::fork::ForkRuntime;
 
 fn bundle_of_executable(exe: &Path) -> Option<PathBuf> {
     exe.ancestors()
@@ -47,6 +56,39 @@ pub fn app_location() -> Result<ForkOnboardingLocation, String> {
         bundle_of_executable(&exe),
         home_dir().as_deref(),
     ))
+}
+
+/// What startup does about where the app runs from (alpha.3). Pure over the
+/// bundle, the candidate folders and whether a destination exists, so it is
+/// tested without touching the disk.
+#[derive(Debug, PartialEq, Eq)]
+pub enum EnsureDecision {
+    /// Already in an Applications folder, or not a bundle (a dev build).
+    Nothing,
+    /// No installed copy: move or copy there and relaunch.
+    Install,
+    /// An installed copy is already there: open it instead of overwriting.
+    OpenExisting(PathBuf),
+}
+
+fn plan_ensure(
+    bundle: Option<PathBuf>,
+    home: Option<&Path>,
+    exists: impl Fn(&Path) -> bool,
+) -> EnsureDecision {
+    let Some(bundle) = bundle else {
+        return EnsureDecision::Nothing;
+    };
+    if in_applications(&bundle, home) {
+        return EnsureDecision::Nothing;
+    }
+    let Ok(candidates) = destinations(&bundle, home) else {
+        return EnsureDecision::Nothing;
+    };
+    match candidates.into_iter().find(|candidate| exists(candidate)) {
+        Some(existing) => EnsureDecision::OpenExisting(existing),
+        None => EnsureDecision::Install,
+    }
 }
 
 /// How a bundle gets to its destination.
@@ -173,6 +215,108 @@ pub fn move_to_applications<R: tauri::Runtime>(
     Err("Move to Applications is available only on macOS".into())
 }
 
+/// Startup location handling (alpha.3, macOS only), called from
+/// `fork::on_ready`. Nothing to do is the common case and returns at once;
+/// an existing installed copy is opened and this instance quits; otherwise
+/// the move runs off the main thread (the copy can take a moment) and, if it
+/// fails, one small native prompt offers to try again.
+#[cfg(target_os = "macos")]
+pub fn ensure_location<R: ForkRuntime>(app: &tauri::AppHandle<R>) {
+    let decision = plan_ensure(
+        std::env::current_exe()
+            .ok()
+            .and_then(|exe| bundle_of_executable(&exe)),
+        home_dir().as_deref(),
+        |candidate| candidate.exists(),
+    );
+    match decision {
+        EnsureDecision::Nothing => {}
+        EnsureDecision::OpenExisting(destination) => open_existing(app, &destination),
+        EnsureDecision::Install => {
+            let app = app.clone();
+            let spawned = std::thread::Builder::new()
+                .name("wb-install-location".into())
+                .spawn(move || install_or_prompt(&app));
+            if let Err(e) = spawned {
+                log::warn!("onboarding: cannot start the move to Applications: {e}");
+            }
+        }
+    }
+}
+
+#[cfg(not(target_os = "macos"))]
+pub fn ensure_location<R: ForkRuntime>(_: &tauri::AppHandle<R>) {}
+
+#[cfg(target_os = "macos")]
+fn open_existing<R: ForkRuntime>(app: &tauri::AppHandle<R>, destination: &Path) {
+    log::info!(
+        "onboarding: an installed copy already exists at {}; opening it",
+        destination.display()
+    );
+    match std::process::Command::new("/usr/bin/open")
+        .arg("-n")
+        .arg(destination)
+        .spawn()
+    {
+        Ok(_) => app.exit(0),
+        Err(e) => log::warn!(
+            "onboarding: could not open the installed copy at {}: {e}",
+            destination.display()
+        ),
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn install_or_prompt<R: ForkRuntime>(app: &tauri::AppHandle<R>) {
+    match move_to_applications(app) {
+        Ok(_) => {}
+        Err(e) => {
+            log::warn!("onboarding: automatic move to Applications failed: {e}");
+            // Another launch may have installed a copy in the meantime: open
+            // it rather than asking again.
+            let decision = plan_ensure(
+                std::env::current_exe()
+                    .ok()
+                    .and_then(|exe| bundle_of_executable(&exe)),
+                home_dir().as_deref(),
+                |candidate| candidate.exists(),
+            );
+            match decision {
+                EnsureDecision::OpenExisting(destination) => open_existing(app, &destination),
+                _ => prompt_move(app),
+            }
+        }
+    }
+}
+
+/// The one small dialog after a failed automatic move. Not the onboarding
+/// screen: Move retries the same move; Not Now keeps running from where it
+/// is (the user can still drag it to Applications themselves).
+#[cfg(target_os = "macos")]
+fn prompt_move<R: ForkRuntime>(app: &tauri::AppHandle<R>) {
+    use tauri_plugin_dialog::{DialogExt, MessageDialogButtons, MessageDialogKind};
+
+    let locale = crate::fork::i18n::current_locale(R::handy_app_language(app).as_deref());
+    let title = crate::fork::i18n::t(locale, "rust.onboarding.movePrompt.title", &[]);
+    let body = crate::fork::i18n::t(locale, "rust.onboarding.movePrompt.body", &[]);
+    let move_label = crate::fork::i18n::t(locale, "rust.onboarding.movePrompt.move", &[]);
+    let not_now = crate::fork::i18n::t(locale, "rust.onboarding.movePrompt.notNow", &[]);
+    let moved = app
+        .dialog()
+        .message(body)
+        .title(title)
+        .kind(MessageDialogKind::Info)
+        .buttons(MessageDialogButtons::OkCancelCustom(move_label, not_now))
+        .blocking_show();
+    if moved {
+        if let Err(e) = move_to_applications(app) {
+            log::warn!("onboarding: the move requested from the prompt failed: {e}");
+        }
+    } else {
+        log::info!("onboarding: staying outside an Applications folder for now");
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -246,5 +390,43 @@ mod tests {
             classify(Err(std::io::Error::from_raw_os_error(2))),
             Transfer::Failed(_)
         ));
+    }
+
+    #[test]
+    fn startup_installs_only_when_the_destination_is_free() {
+        let home = Some(Path::new("/Users/me"));
+        let bundle = Some(PathBuf::from("/Users/me/Downloads/Wispr Bro.app"));
+        assert_eq!(
+            plan_ensure(bundle.clone(), home, |_| false),
+            EnsureDecision::Install
+        );
+        // The destination exists: open the installed copy, never overwrite it.
+        assert_eq!(
+            plan_ensure(bundle.clone(), home, |candidate| candidate
+                == Path::new("/Applications/Wispr Bro.app")),
+            EnsureDecision::OpenExisting(PathBuf::from("/Applications/Wispr Bro.app"))
+        );
+        // A standard account may have installed into ~/Applications.
+        assert_eq!(
+            plan_ensure(bundle, home, |candidate| candidate
+                == Path::new("/Users/me/Applications/Wispr Bro.app")),
+            EnsureDecision::OpenExisting(PathBuf::from("/Users/me/Applications/Wispr Bro.app"))
+        );
+    }
+
+    #[test]
+    fn startup_leaves_installed_and_unbundled_apps_alone() {
+        let home = Some(Path::new("/Users/me"));
+        for bundle in [
+            "/Applications/Wispr Bro.app",
+            "/Users/me/Applications/Wispr Bro.app",
+        ] {
+            assert_eq!(
+                plan_ensure(Some(PathBuf::from(bundle)), home, |_| false),
+                EnsureDecision::Nothing
+            );
+        }
+        // A dev build is not a bundle: nothing to move.
+        assert_eq!(plan_ensure(None, home, |_| false), EnsureDecision::Nothing);
     }
 }

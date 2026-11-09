@@ -7,7 +7,11 @@
 # status bar, the window sized to the picture. Layout comes from Tauri's
 # `bundle.macOS.dmg` in src-tauri/tauri.fork.conf.json, the one source for
 # this script, the background generator (background.ts) and the checks
-# (inspect.py via verify.sh).
+# (check_layout.py via verify.sh).
+#
+# The mounted volume is "Wispr Bro Installer" with its own disk-cartridge
+# icon (icons-fork/dmg/volume.icns): the image must not look like the app it
+# installs. The app inside stays "Wispr Bro.app".
 #
 # Why dmgbuild and not Tauri's own DMG bundler: Tauri's bundle_dmg.sh lays
 # the window out by driving Finder with AppleScript, which opens the window
@@ -17,13 +21,23 @@
 # result exactly as before.
 #
 # Usage: scripts/wb-release/dmg/build.sh <app> <out.dmg>
-#        scripts/wb-release/dmg/build.sh --print-python   (verify.sh: the
-#        venv's python, installed first when missing)
+#        scripts/wb-release/dmg/build.sh --print-python        (verify.sh:
+#        the venv's python, installed first when missing)
+#        scripts/wb-release/dmg/build.sh --print-volume-name   (verify.sh:
+#        the mounted volume's name, checked against the mounted image)
 # Env: WB_DMG_VENV  venv folder (default ~/.cache/wispr-bro/dmgbuild-<hash>)
 set -euo pipefail
 
 WB_DMG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WB_ROOT="$(cd "${WB_DMG_DIR}/../../.." && pwd)"
+
+# The mounted volume is "Wispr Bro Installer", not "Wispr Bro": the image on
+# the desktop and in the Finder must not look like the app it installs (the
+# app inside stays "Wispr Bro.app"). Its icon is the disk-cartridge artwork
+# from src-tauri/icons-fork/src/volume-icon.svg (`bun scripts/wb-icons.ts`),
+# not the app icon. Both are checked by dmg/check_layout.py via verify.sh.
+WB_DMG_VOLUME_NAME="Wispr Bro Installer"
+WB_DMG_VOLUME_ICON="${WB_ROOT}/src-tauri/icons-fork/dmg/volume.icns"
 
 wb_dmg_python() { # prints the python of a venv with requirements.txt installed
   local req="${WB_DMG_DIR}/requirements.txt" hash venv
@@ -41,6 +55,10 @@ wb_dmg_python() { # prints the python of a venv with requirements.txt installed
 wb_dmg_build() { # <app> <out.dmg>
   local app="$1" out="$2" py conf
   [[ -d "$app" ]] || { echo "dmg/build.sh: no app at $app" >&2; return 1; }
+  [[ -f "$WB_DMG_VOLUME_ICON" ]] || {
+    echo "dmg/build.sh: volume icon $WB_DMG_VOLUME_ICON is missing (bun scripts/wb-icons.ts)" >&2
+    return 1
+  }
   py="$(wb_dmg_python)"
   conf="${WB_ROOT}/src-tauri/tauri.fork.conf.json"
   # bundle.macOS.dmg → -D defines (one line each: key=value).
@@ -56,7 +74,8 @@ wb_dmg_build() { # <app> <out.dmg>
       'app_x=' + d.appPosition.x, 'app_y=' + d.appPosition.y,
       'apps_x=' + d.applicationFolderPosition.x, 'apps_y=' + d.applicationFolderPosition.y,
       'icon_size=128',
-      'volume_icon=${WB_ROOT}/src-tauri/icons-fork/icon.icns',
+      'volume_name=${WB_DMG_VOLUME_NAME}',
+      'volume_icon=${WB_DMG_VOLUME_ICON}',
     ].join('\n'));")
   local bg
   bg="$(printf '%s\n' "${defines[@]}" | sed -n 's/^background=//p')"
@@ -66,7 +85,7 @@ wb_dmg_build() { # <app> <out.dmg>
   }
   rm -f "$out"
   "$py" -m dmgbuild -s "${WB_DMG_DIR}/settings.py" -D "app=${app}" "${defines[@]}" \
-    "Wispr Bro" "$out" >&2
+    "$WB_DMG_VOLUME_NAME" "$out" >&2
   [[ -s "$out" ]] || { echo "dmg/build.sh: dmgbuild wrote nothing" >&2; return 1; }
 }
 
@@ -75,6 +94,13 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     wb_dmg_python
     exit 0
   fi
-  [[ $# -eq 2 ]] || { echo "usage: build.sh <app> <out.dmg> | --print-python" >&2; exit 2; }
+  if [[ "${1:-}" == "--print-volume-name" ]]; then
+    echo "$WB_DMG_VOLUME_NAME"
+    exit 0
+  fi
+  [[ $# -eq 2 ]] || {
+    echo "usage: build.sh <app> <out.dmg> | --print-python | --print-volume-name" >&2
+    exit 2
+  }
   wb_dmg_build "$1" "$2"
 fi

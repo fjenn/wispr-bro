@@ -9,7 +9,9 @@
 #            (`spctl -t open --context context:primary-signature`,
 #            `stapler validate`); the install window's background (1x and
 #            2x), hidden toolbar/sidebar, window and icon size and icon
-#            positions (`dmg/check_layout.py`, against bundle.macOS.dmg)
+#            positions (`dmg/check_layout.py`, against bundle.macOS.dmg);
+#            the mounted volume is named "Wispr Bro Installer" and carries
+#            its own disk icon, not the app's
 #   app:     (inside the DMG) `codesign --verify --deep --strict`, identifier,
 #            version, minimum macOS, hardened runtime, Team ID on every Mach-O
 #            incl. the `llama-server` sidecar, `spctl -a -t exec` (Notarized
@@ -77,10 +79,12 @@ APP="${MNT}/${PRODUCT}.app"
 [[ -L "${MNT}/Applications" ]] && ok "DMG has the Applications link" || ko "no Applications link"
 # The install window (OT2-E): background picture (1x + 2x), toolbar and
 # sidebar hidden, window size, icon size and both icon positions, read from
-# the volume's .DS_Store against the overlay's bundle.macOS.dmg.
+# the volume's .DS_Store against the overlay's bundle.macOS.dmg; and the
+# volume itself (name "Wispr Bro Installer", its own disk icon).
 echo "== DMG install window"
 DMG_PY="$("${ROOT}/scripts/wb-release/dmg/build.sh" --print-python)"
-if layout="$("$DMG_PY" -I "${ROOT}/scripts/wb-release/dmg/check_layout.py" "$MNT" "${ROOT}/src-tauri/tauri.fork.conf.json" 2>&1)"; then
+DMG_VOLUME_NAME="$("${ROOT}/scripts/wb-release/dmg/build.sh" --print-volume-name)"
+if layout="$("$DMG_PY" -I "${ROOT}/scripts/wb-release/dmg/check_layout.py" "$MNT" "${ROOT}/src-tauri/tauri.fork.conf.json" 128 "$DMG_VOLUME_NAME" 2>&1)"; then
   echo "$layout"
 else
   echo "$layout"
@@ -91,13 +95,23 @@ fi
 verify_app() { # <app> <label>
   local app="$1" label="$2" plist="$1/Contents/Info.plist"
   echo "== app (${label})"
-  local id ver minos exe
+  local id ver minos exe bver carbon display
   id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$plist")"
   ver="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$plist")"
   minos="$(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$plist")"
   exe="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$plist")"
+  bver="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$plist" 2>/dev/null || true)"
+  carbon="$(/usr/libexec/PlistBuddy -c 'Print :LSRequiresCarbon' "$plist" 2>/dev/null || echo false)"
+  display="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$plist" 2>/dev/null || true)"
   [[ "$id" == "$IDENTIFIER" ]] && ok "identifier $id" || ko "identifier $id"
   [[ "$ver" == "$VERSION" ]] && ok "version $ver" || ko "version $ver ≠ $VERSION"
+  # Finder/Spotlight metadata: a numeric CFBundleVersion (Apple's format, not
+  # the marketing version) and no Carbon requirement; the display name is the
+  # app's name. The identity above stays untouched (src-tauri/Info.plist).
+  [[ "$bver" =~ ^[0-9]+(\.[0-9]+){0,2}$ ]] && ok "CFBundleVersion $bver (numeric)" ||
+    ko "CFBundleVersion ${bver:-missing} is not numeric"
+  [[ "$carbon" == "false" ]] && ok "LSRequiresCarbon false" || ko "LSRequiresCarbon ${carbon:-missing}"
+  [[ "$display" == "$PRODUCT" ]] && ok "display name $display" || ko "display name ${display:-missing}"
   [[ "$minos" == "13.0" ]] && ok "minimum macOS $minos" || ko "minimum macOS $minos"
   [[ -x "${app}/Contents/MacOS/llama-server" ]] && ok "llama-server sidecar present" || ko "llama-server missing"
   APP_EXE="${app}/Contents/MacOS/${exe}"

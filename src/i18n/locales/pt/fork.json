@@ -691,6 +691,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "Ditado",
       "vocabulary": "Dicionário",
@@ -967,7 +975,7 @@
       },
       "how": "Clique onde quer escrever, depois mantenha fn pressionado e fale.",
       "howFallback": "Clique onde quer escrever, depois mantenha Control e Option pressionados e fale.",
-      "escape": "Pressione Esc para fechar esta dica."
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2505,7 +2513,7 @@
       "again": "Mostrar a dica de novo",
       "stop": "Ocultar a dica",
       "other": "Experimentar outra coisa",
-      "active": "A dica está na tela. Pressione Esc para fechá-la."
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

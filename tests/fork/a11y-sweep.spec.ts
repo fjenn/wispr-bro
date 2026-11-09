@@ -216,13 +216,12 @@ for (const l of LOOKS) {
       expect(found).toEqual([]);
     });
 
-    for (const step of STEPS) {
+    for (const step of STEPS.filter((s) => s !== "move_to_applications")) {
       test(`onboarding ${step}`, async ({ page, ipc }) => {
         await look(page, l);
         await openOnboarding(page, ipc, {
           step: step === "welcome" ? undefined : step,
           theme: l.theme,
-          location: step === "move_to_applications" ? "move_needed" : undefined,
         });
         const found: Finding[] = [];
         await axe(page, `onboarding ${step}`, found);

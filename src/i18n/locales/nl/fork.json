@@ -686,6 +686,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "Dicteren",
       "vocabulary": "Woordenboek",
@@ -952,7 +960,7 @@
       },
       "how": "Klik waar je wilt schrijven, houd fn ingedrukt en praat.",
       "howFallback": "Klik waar je wilt schrijven, houd Control en Option ingedrukt en praat.",
-      "escape": "Druk op Esc om deze tip te sluiten."
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2414,7 +2422,7 @@
       "again": "Toon de tip opnieuw",
       "stop": "Verberg de tip",
       "other": "Probeer iets anders",
-      "active": "De tip staat op je scherm. Druk op Esc om hem te sluiten."
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

@@ -681,6 +681,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "받아쓰기",
       "vocabulary": "사전",
@@ -937,7 +945,7 @@
       },
       "how": "입력할 위치를 클릭한 다음 fn을 누른 채 말하세요.",
       "howFallback": "입력할 위치를 클릭한 다음 Control과 Option을 누른 채 말하세요.",
-      "escape": "이 힌트를 닫으려면 Esc를 누르세요."
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2323,7 +2331,7 @@
       "again": "힌트 다시 보기",
       "stop": "힌트 숨기기",
       "other": "다른 것 해 보기",
-      "active": "화면에 힌트가 표시되어 있습니다. 닫으려면 Esc 키를 누르세요."
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

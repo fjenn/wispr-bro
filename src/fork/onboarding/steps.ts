@@ -67,8 +67,9 @@ export function stageFor(step: OnboardingStep): OnboardingStage {
 }
 
 /**
- * Where Back goes. Move to Applications is never a Back target: the app
- * either moved (and relaunched) or did not need to.
+ * Where Back goes. Move to Applications is kept only for resume
+ * compatibility (alpha.3 handles the location at startup and maps a saved
+ * step to Languages), so it is never a Back target.
  */
 export const BACK: Partial<Record<OnboardingStep, OnboardingStep>> = {
   move_to_applications: "welcome",

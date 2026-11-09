@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Wispr Bro DMG volume icon (F-02, OT2-E). A classic floppy-style
+     removable disk, deliberately not the app icon: the mounted
+     "Wispr Bro Installer" volume must not look like Wispr Bro.app itself.
+     The five purple bars are the app's waveform, small enough to say
+     "related", not "this is the app".
+     Regenerate with `bun scripts/wb-icons.ts` (writes
+     src-tauri/icons-fork/dmg/volume.icns, which scripts/wb-release/dmg/build.sh
+     hands to dmgbuild as the volume's icon). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="case" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F5F6F8"/>
+      <stop offset="0.55" stop-color="#D2D6DD"/>
+      <stop offset="1" stop-color="#A4AAB4"/>
+    </linearGradient>
+    <linearGradient id="shutter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E7EAEE"/>
+      <stop offset="1" stop-color="#B4BAC3"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCFCFD"/>
+      <stop offset="1" stop-color="#DFE3E9"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6A66F5"/>
+      <stop offset="1" stop-color="#3A36C9"/>
+    </linearGradient>
+  </defs>
+  <!-- The disk: a silver square with the classic clipped top-right corner. -->
+  <path d="M 212 150 H 724 L 874 300 V 812 Q 874 874 812 874 H 212 Q 150 874 150 812 V 212 Q 150 150 212 150 Z"
+        fill="url(#case)" stroke="#8B9098" stroke-width="6"/>
+  <!-- The metal shutter under the corner cut. -->
+  <path d="M 546 150 H 724 L 874 300 V 322 H 546 Z" fill="url(#shutter)" stroke="#8B9098" stroke-width="4"/>
+  <rect x="642" y="150" width="58" height="96" fill="#5A6068"/>
+  <!-- The label plate, with the Wispr Bro waveform as a small badge. -->
+  <rect x="238" y="392" width="548" height="330" rx="30" fill="url(#face)" stroke="#C3C8D0" stroke-width="4"/>
+  <g fill="url(#wave)">
+    <rect x="310" y="517" width="52" height="80" rx="26"/>
+    <rect x="398" y="469" width="52" height="176" rx="26"/>
+    <rect x="486" y="441" width="52" height="232" rx="26"/>
+    <rect x="574" y="485" width="52" height="144" rx="26"/>
+    <rect x="662" y="509" width="52" height="96" rx="26"/>
+  </g>
+  <!-- An indicator light and a vent groove: unmistakably a volume at 16 px. -->
+  <circle cx="714" cy="796" r="26" fill="#5B5BF0"/>
+  <rect x="246" y="796" width="128" height="18" rx="9" fill="#8B9098"/>
+</svg>

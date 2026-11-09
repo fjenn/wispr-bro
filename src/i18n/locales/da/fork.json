@@ -686,6 +686,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "Diktering",
       "vocabulary": "Ordbog",
@@ -952,7 +960,7 @@
       },
       "how": "Klik, hvor du vil skrive, hold fn nede, og tal.",
       "howFallback": "Klik, hvor du vil skrive, hold Control og Option nede, og tal.",
-      "escape": "Tryk på Esc for at lukke dette tip."
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2414,7 +2422,7 @@
       "again": "Vis tippet igen",
       "stop": "Skjul tippet",
       "other": "Prøv noget andet",
-      "active": "Tippet er på din skærm. Tryk på Esc for at lukke det."
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

@@ -686,6 +686,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Move Wispr Bro to Applications?",
+        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
+        "move": "Move",
+        "notNow": "Not Now"
+      }
+    },
     "menu": {
       "dictation": "श्रुतलेख",
       "vocabulary": "शब्दकोश",
@@ -952,7 +960,7 @@
       },
       "how": "जहाँ लिखना है वहाँ क्लिक करें, फिर fn दबाए रखकर बोलें।",
       "howFallback": "जहाँ लिखना है वहाँ क्लिक करें, फिर Control और Option दबाए रखकर बोलें।",
-      "escape": "यह संकेत बंद करने के लिए Esc दबाएँ।"
+      "escape": "Press Esc or click anywhere to close this hint."
     }
   },
   "speechModels": {
@@ -2414,7 +2422,7 @@
       "again": "संकेत फिर से दिखाएँ",
       "stop": "संकेत छिपाएँ",
       "other": "कुछ और आज़माएँ",
-      "active": "संकेत आपकी स्क्रीन पर है। इसे बंद करने के लिए Esc दबाएँ।"
+      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
     }
   },
   "checklist": {

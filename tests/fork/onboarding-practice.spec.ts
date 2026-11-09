@@ -7,7 +7,7 @@
  * the step moves on by itself at 90 s), the dark celebration (confetti,
  * none with reduced motion; rc9: the typing test is offered here and its
  * result updates the comparison), time saved (rc9: the slider always
- * shows, 4 hours a week to start, the number follows at once), the typing
+ * shows, 25 hours a week to start, the number follows at once), the typing
  * test (wpm math, seconds left, language picker, Try again, Recalculate)
  * and the summary (launch at login, completion). No screen names a model;
  * axe in light and dark, RTL and keyboard-only use.
@@ -124,15 +124,16 @@ test.describe("S-29b practice", () => {
 
     await expectStep(page, "time_saved");
     // Time saved stays on the dark stage; the estimate shows at once from
-    // 4 hours a week at the 45 wpm average: 4 × (1 − 45/200) = 3.1 → 3.
+    // 25 hours a week (alpha.3) at the 45 wpm average:
+    // 25 × (1 − 45/200) = 19.375 → 19.5.
     await expect(stage(page)).toHaveAttribute("data-tone", "dark");
     const headline = page.getByTestId("wb-time-saved-headline");
-    await expect(headline).toHaveAttribute("data-hours", "3");
+    await expect(headline).toHaveAttribute("data-hours", "19.5");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 3 hours a week",
+      "Dictating could save you about 19.5 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-hours-value")).toHaveText(
-      "4 hours a week",
+      "25 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-take-test")).toHaveCount(0);
     await expect(page.getByTestId("wb-time-saved-skip")).toHaveCount(0);
@@ -180,7 +181,7 @@ test.describe("S-29b practice", () => {
     await page.clock.runFor(1_000);
     expect(be.fork.typing_wpm).toBeNull();
     await expect(page.getByTestId("wb-time-saved-math")).toHaveText(
-      "4 h of typing at 45 wpm ≈ 0.9 h by voice at 200 wpm",
+      "25 h of typing at 45 wpm ≈ 5.6 h by voice at 200 wpm",
     );
   });
 
@@ -275,8 +276,8 @@ test.describe("S-29b practice", () => {
     await page.getByTestId("wb-first-dictation-continue").click();
     await expectStep(page, "time_saved");
     await page.clock.runFor(1_000);
-    // 4 h a week × (1 − wpm/200), to the half hour.
-    const hours = Math.round(4 * Math.max(0, 1 - final / 200) * 2) / 2;
+    // 25 h a week × (1 − wpm/200), to the half hour.
+    const hours = Math.round(25 * Math.max(0, 1 - final / 200) * 2) / 2;
     const headline = page.getByTestId("wb-time-saved-headline");
     await expect(headline).toHaveAttribute("data-hours", String(hours));
     await expect(headlineText(page)).toHaveText(
@@ -292,11 +293,11 @@ test.describe("S-29b practice", () => {
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("wb-time-saved-hours-value")).toHaveText(
-      "6 hours a week",
+      "27 hours a week",
     );
     // Stored per day over a five-day week.
-    expect(be.fork.typing_hours_per_day).toBe(1.2);
-    const more = Math.round(6 * Math.max(0, 1 - final / 200) * 2) / 2;
+    expect(be.fork.typing_hours_per_day).toBe(5.4);
+    const more = Math.round(27 * Math.max(0, 1 - final / 200) * 2) / 2;
     await expect(headline).toHaveAttribute("data-hours", String(more));
   });
 
@@ -611,11 +612,12 @@ test.describe("S-29b practice", () => {
     await page.getByTestId("wb-practice-skip").click();
     // Skipping the practice skips the celebration too.
     await expectStep(page, "time_saved");
-    // The 45 wpm average at 4 h a week, at once: 4 × (1 − 45/200) → 3.
+    // The 45 wpm average at 25 h a week, at once:
+    // 25 × (1 − 45/200) → 19.5.
     const headline = page.getByTestId("wb-time-saved-headline");
-    await expect(headline).toHaveAttribute("data-hours", "3");
+    await expect(headline).toHaveAttribute("data-hours", "19.5");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 3 hours a week",
+      "Dictating could save you about 19.5 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-basis")).toContainText(
       "average typing speed of 45",
@@ -656,9 +658,9 @@ test.describe("S-29b practice", () => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await openOnboarding(page, ipc, { step: "time_saved" });
     const headline = page.getByTestId("wb-time-saved-headline");
-    await expect(headline).toHaveAttribute("data-hours", "3");
+    await expect(headline).toHaveAttribute("data-hours", "19.5");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 3 hours a week",
+      "Dictating could save you about 19.5 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-slider")).toBeVisible();
   });

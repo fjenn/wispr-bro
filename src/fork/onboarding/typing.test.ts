@@ -44,9 +44,10 @@ assert.equal(savableWpm(Number.NaN), null);
 assert.equal(savableWpm(42.4), 42);
 assert.equal(savableWpm(900), 300);
 
-// rc9 default: 4 h of typing a week at 45 wpm → 4 × (1 − 45/200) = 3.1 → 3.
-assert.equal(hoursSavedPerWeek(45, DEFAULT_HOURS), 3);
-assert.equal(DEFAULT_HOURS, 4);
+// alpha.3 default: 25 h of typing a week at 45 wpm →
+// 25 × (1 − 45/200) = 19.375 → 19.5.
+assert.equal(hoursSavedPerWeek(45, DEFAULT_HOURS), 19.5);
+assert.equal(DEFAULT_HOURS, 25);
 // 10 h a week (the old 2 h a day) at 45 wpm → 7.75 → 8.
 assert.equal(hoursSavedPerWeek(45, 10), 8);
 // A faster typist saves less; at or above speaking speed nothing.
@@ -63,10 +64,10 @@ assert.equal(clampHours(undefined), DEFAULT_HOURS);
 assert.equal(clampHours(2.2), 2);
 assert.equal(clampHours(0), 1);
 assert.equal(clampHours(99), 40);
-assert.equal(weeklyHours(undefined), 4);
-assert.equal(weeklyHours(0.8), 4);
+assert.equal(weeklyHours(undefined), 25);
+assert.equal(weeklyHours(5), 25);
 assert.equal(weeklyHours(2), 10);
-assert.equal(dailyHours(4), 0.8);
+assert.equal(dailyHours(25), 5);
 assert.equal(dailyHours(10), 2);
 
 // The celebration's multiple: 200 / 45 = 4.4; a measured 80 wpm → 2.5.

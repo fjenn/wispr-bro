@@ -159,6 +159,13 @@ pub fn fork_spotlight_stop() {
     crate::fork::pill::spotlight::stop();
 }
 
+/// S-30 via alpha.3: a pointer down anywhere on the spotlight overlay ends it.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_spotlight_click() {
+    crate::fork::pill::spotlight::dismiss_on_click();
+}
+
 /// S-30: what the `fork-spotlight` page shows now (also read by the Hub).
 #[tauri::command]
 #[specta::specta]
