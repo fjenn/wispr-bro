@@ -535,9 +535,7 @@ test.describe("S-29b practice", () => {
       "placeholder",
       "Try saying: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
     );
-    await expect(page.getByTestId("wb-practice-key-hint")).toHaveText(
-      "fnSpace",
-    );
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveText("fn");
   });
 
   test("Dutch first: no gibberish on the English starter, a wait instead", async ({

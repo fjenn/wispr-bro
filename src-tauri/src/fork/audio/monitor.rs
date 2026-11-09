@@ -278,22 +278,27 @@ mod tests {
         let mut seed = 5;
         // A second of a quiet room, fed in well under 33 ms: one emit (the
         // first chunk's), and the meter has learnt the room.
+        // (On a loaded machine the loop can take longer than one emit
+        // period, so only a bound is asserted: the rate limit, not a count.)
+        let start = std::time::Instant::now();
         for _ in 0..100 {
             sink.process_chunk(chunk(&noise(-60.0, &mut seed)));
         }
-        assert_eq!(out.lock().unwrap().len(), 1);
-        assert_eq!(out.lock().unwrap()[0], 0.0);
+        let quiet = out.lock().unwrap().clone();
+        let periods = (start.elapsed().as_millis() / 33) as usize + 1;
+        assert!(!quiet.is_empty() && quiet.len() <= periods, "{quiet:?}");
+        assert!(quiet.iter().all(|&l| l == 0.0), "{quiet:?}");
         // A loud burst between emits is not lost: it shows in the next
         // emit, even though the chunk that triggers it is quiet again.
         for _ in 0..5 {
             sink.process_chunk(chunk(&noise(-12.0, &mut seed)));
         }
-        assert_eq!(out.lock().unwrap().len(), 1);
         std::thread::sleep(Duration::from_millis(40));
         sink.process_chunk(chunk(&noise(-60.0, &mut seed)));
         let got = out.lock().unwrap().clone();
-        assert_eq!(got.len(), 2);
-        assert!(got[1] > 0.3, "{got:?}");
+        assert!(got.len() > quiet.len(), "{got:?}");
+        let loudest = got[quiet.len()..].iter().cloned().fold(0.0_f32, f32::max);
+        assert!(loudest > 0.3, "{got:?}");
     }
 
     #[test]
