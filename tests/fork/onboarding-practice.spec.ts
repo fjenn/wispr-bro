@@ -619,6 +619,8 @@ test.describe("S-29b practice", () => {
     await expect(page.getByTestId("wb-practice-instruction")).toContainText(
       "Control, Option and Space",
     );
+    // The key hint shows the user's own shortcut.
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveText("⌃⌥");
     await take(ipc, "started");
     await expect(page.getByTestId("wb-practice-status")).toContainText(
       "press Control and Option",

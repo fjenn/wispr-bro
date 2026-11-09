@@ -212,15 +212,11 @@ export function HandsFreePractice({
       ? { ...setup, ...setup.practice_wait }
       : setup
     : null;
-  // The keys to press, shown small under the composer, matching the
-  // instruction: fn + Space, Control + Option + Space, or the custom key.
-  const hintKeys: string[] = !trigger
-    ? []
-    : custom
-      ? [keys]
-      : fallback
-        ? ["⌃", "⌥", chordLabel("space")]
-        : [chordLabel(trigger), chordLabel("space")];
+  // The user's own dictation key, shown small under the composer: fn by
+  // default, or whatever they chose (⌃ ⌥, ⌥ Space…).
+  const hintKeys: string[] = trigger
+    ? trigger.split("+").map((part) => chordLabel(part))
+    : [];
 
   return (
     <CentredLayout
