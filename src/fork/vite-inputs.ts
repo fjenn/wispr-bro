@@ -13,7 +13,8 @@ export function forkInputs(root: string): Record<string, string> {
     "fork-pill": resolve(root, "src/fork/pill/index.html"),
     // S-24: the singleton floating note window.
     "fork-scratchpad": resolve(root, "src/fork/scratchpad/index.html"),
-    // S-30: the click-through bar spotlight (src-tauri/src/fork/pill/spotlight.rs).
+    // S-30: the bar spotlight (click dismisses it since alpha.3;
+    // src-tauri/src/fork/pill/spotlight.rs).
     "fork-spotlight": resolve(root, "src/fork/spotlight/index.html"),
   };
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // F-02 release helpers: tag format and order, latest.json, minisign check.
 import { describe, expect, test } from "bun:test";
+import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { buildManifest } from "./manifest";
@@ -148,7 +149,69 @@ describe("latest.json", () => {
   });
 });
 
+describe("macOS bundle metadata (Finder / Spotlight app search)", () => {
+  // Tauri writes LSRequiresCarbon=true into every macOS bundle (Carbon-era
+  // and meaningless now); the overlay's Info.plist merge turns it off and
+  // pins the display name. CFBundleVersion must be numeric (Apple's format),
+  // not the marketing version "1.0.0-alpha.1".
+  const plist = () => {
+    const r = spawnSync(
+      "plutil",
+      ["-convert", "json", "-o", "-", join(ROOT, "src-tauri", "Info.plist")],
+      { encoding: "utf8" },
+    );
+    expect(r.status).toBe(0);
+    return JSON.parse(r.stdout) as Record<string, unknown>;
+  };
+
+  test("the overlay sets a numeric CFBundleVersion and keeps the identity", () => {
+    const conf = JSON.parse(
+      readFileSync(join(ROOT, "src-tauri/tauri.fork.conf.json"), "utf8"),
+    );
+    expect(conf.identifier).toBe("com.wisprbro.desktop");
+    expect(conf.productName).toBe("Wispr Bro");
+    const version = conf.bundle?.macOS?.bundleVersion;
+    expect(typeof version).toBe("string");
+    expect(version).toMatch(/^\d+(\.\d+){0,2}$/);
+    // The marketing version stays the user-facing one (package.json's).
+    const pkg = JSON.parse(
+      readFileSync(join(ROOT, "package.json"), "utf8"),
+    ) as { version: string };
+    expect(conf.version).toBe(pkg.version);
+  });
+
+  test("Info.plist turns LSRequiresCarbon off and names the app", () => {
+    const p = plist();
+    expect(p.LSRequiresCarbon).toBe(false);
+    expect(p.CFBundleDisplayName).toBe("Wispr Bro");
+  });
+});
+
 describe("DMG install window (OT2-E)", () => {
+  test("the mounted volume is the installer, not the app", () => {
+    const build = readFileSync(
+      join(ROOT, "scripts/wb-release/dmg/build.sh"),
+      "utf8",
+    );
+    // The volume's name and icon are constants in build.sh, used for the
+    // dmgbuild call itself (not a copy somewhere else).
+    expect(build).toContain('WB_DMG_VOLUME_NAME="Wispr Bro Installer"');
+    expect(build).toContain(
+      'WB_DMG_VOLUME_ICON="${WB_ROOT}/src-tauri/icons-fork/dmg/volume.icns"',
+    );
+    expect(build).toContain('"$WB_DMG_VOLUME_NAME" "$out"');
+    expect(build).not.toMatch(/(^|\s)"Wispr Bro" "\$out"/);
+    // Its own artwork, not the app icon, and a real icns.
+    const icons = join(ROOT, "src-tauri", "icons-fork");
+    const volume = readFileSync(join(icons, "dmg", "volume.icns"));
+    const app = readFileSync(join(icons, "icon.icns"));
+    expect(volume.subarray(0, 4).toString("ascii")).toBe("icns");
+    expect(volume.equals(app)).toBe(false);
+    // The SVG source `scripts/wb-icons.ts` regenerates it from.
+    const svg = readFileSync(join(icons, "src", "volume-icon.svg"), "utf8");
+    expect(svg).toContain('viewBox="0 0 1024 1024"');
+  });
+
   test("the overlay's layout fits the window and the background matches it", async () => {
     const { dmgLayout, pngSize, ICON_SIZE } = await import("./dmg/background");
     const l = dmgLayout();

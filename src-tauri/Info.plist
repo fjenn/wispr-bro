@@ -4,5 +4,17 @@
 <dict>
   <key>NSMicrophoneUsageDescription</key>
   <string>Request microphone access to transcribe audio locally</string>
+  <!-- Tauri's macOS bundler writes LSRequiresCarbon=true into every bundle
+       (tauri-bundler macos/app.rs); Apple has not used it since Carbon, and
+       it muddies how Launch Services and Spotlight treat the app. Setting
+       it false here (this file is merged over the generated Info.plist). -->
+  <key>LSRequiresCarbon</key>
+  <false/>
+  <!-- macOS shows this in the Finder and in app search. Tauri derives it
+       from productName; pinned here so the name stays "Wispr Bro" even if
+       the base config (Handy) changes. The bundle itself stays
+       Wispr Bro.app, and the identifier stays com.wisprbro.desktop. -->
+  <key>CFBundleDisplayName</key>
+  <string>Wispr Bro</string>
 </dict>
 </plist>

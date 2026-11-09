@@ -686,6 +686,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Wispr Bro Uygulamalar klasörüne taşınsın mı?",
+        "body": "Güncellemeler ve izinler en iyi oradan çalışır. Şimdilik Wispr Bro'yu bulunduğu yerden kullanmaya devam edebilirsiniz.",
+        "move": "Taşı",
+        "notNow": "Şimdi değil"
+      }
+    },
     "menu": {
       "dictation": "Dikte",
       "vocabulary": "Sözlük",
@@ -952,7 +960,7 @@
       },
       "how": "Yazmak istediğiniz yere tıklayın, sonra fn tuşunu basılı tutup konuşun.",
       "howFallback": "Yazmak istediğiniz yere tıklayın, sonra Control ve Option tuşlarını basılı tutup konuşun.",
-      "escape": "Bu ipucunu kapatmak için Esc tuşuna basın."
+      "escape": "Bu ipucunu kapatmak için Esc tuşuna basın veya herhangi bir yere tıklayın."
     }
   },
   "speechModels": {
@@ -2414,7 +2422,7 @@
       "again": "İpucunu Yeniden Göster",
       "stop": "İpucunu Gizle",
       "other": "Başka Bir Şey Dene",
-      "active": "İpucu ekranınızda. Kapatmak için Esc tuşuna basın."
+      "active": "İpucu ekranınızda. Kapatmak için Esc tuşuna basın veya herhangi bir yere tıklayın."
     }
   },
   "checklist": {

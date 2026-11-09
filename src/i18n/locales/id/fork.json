@@ -681,6 +681,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Pindahkan Wispr Bro ke Aplikasi?",
+        "body": "Pembaruan dan izin berfungsi paling baik dari sana. Untuk sekarang Anda bisa terus memakai Wispr Bro dari lokasinya saat ini.",
+        "move": "Pindahkan",
+        "notNow": "Nanti"
+      }
+    },
     "menu": {
       "dictation": "Dikte",
       "vocabulary": "Kamus",
@@ -937,7 +945,7 @@
       },
       "how": "Klik tempat Anda ingin menulis, lalu tahan fn dan bicara.",
       "howFallback": "Klik tempat Anda ingin menulis, lalu tahan Control dan Option dan bicara.",
-      "escape": "Tekan Esc untuk menutup petunjuk ini."
+      "escape": "Tekan Esc atau klik di mana saja untuk menutup petunjuk ini."
     }
   },
   "speechModels": {
@@ -2323,7 +2331,7 @@
       "again": "Tampilkan petunjuk lagi",
       "stop": "Sembunyikan petunjuk",
       "other": "Coba yang lain",
-      "active": "Petunjuknya ada di layar Anda. Tekan Esc untuk menutupnya."
+      "active": "Petunjuk ada di layar Anda. Tekan Esc atau klik di mana saja untuk menutupnya."
     }
   },
   "checklist": {

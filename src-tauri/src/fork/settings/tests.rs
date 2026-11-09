@@ -67,7 +67,7 @@ fn defaults_match_the_product_decisions() {
     assert!(s.auto_learn_enabled); // rc8 (DEC-20 was opt-in)
     assert!(!s.vibe_coding.enabled && !s.vibe_coding.setup_completed); // DEC-41
     assert_eq!(s.typing_wpm, None);
-    assert_eq!(s.typing_hours_per_day, 0.8); // DEC-50, rc9: 4 h a week
+    assert_eq!(s.typing_hours_per_day, 5.0); // DEC-50, alpha.3: 25 h a week
     assert_eq!(s.greeting_name, None);
     assert!(s.applied_first_run_defaults.is_empty());
 
@@ -326,7 +326,7 @@ fn salvage_keeps_valid_fields_and_resets_broken_ones() {
     assert!(status.needs_backup());
     assert_eq!(s.cleanup_level, CleanupLevel::Medium);
     assert_eq!(s.bar_position, BarPosition::Bottom);
-    assert_eq!(s.typing_hours_per_day, 0.8);
+    assert_eq!(s.typing_hours_per_day, 5.0);
     assert_eq!(s.hotkeys["cancel"], default_hotkeys()["cancel"]);
     assert_eq!(s.greeting_name.as_deref(), Some("Kim"));
     assert_eq!(s.typing_wpm, Some(250));

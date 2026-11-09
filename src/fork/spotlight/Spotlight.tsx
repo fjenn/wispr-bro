@@ -4,15 +4,16 @@
  * dimmed except a circular cut-out around the Flow Bar, and the hint in the
  * bar's own style (a black HUD card) beside it, above the circle at the
  * bottom, below it at the top:
- * "Next step · Open your email", how to dictate, and "Press Esc to close
- * this hint". The window ignores the mouse (every click reaches the app
- * below), so the page has no buttons.
+ * "Next step · Open your email", how to dictate, and "Press Esc or click
+ * anywhere to close this hint". The window receives the mouse (alpha.3): a
+ * pointer down anywhere dismisses the hint, and the click never falls
+ * through into another app. Esc still dismisses it from the keyboard.
  *
  * State: `ForkSpotlightState` events and `fork_spotlight_state` once the
  * listener is in place; a lower `seq` never replaces a higher one. The
  * shortcut wording follows the hotkey profile (fn, or Control+Option).
  */
-import { useEffect, useState } from "react";
+import { useEffect, useState, type PointerEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { commands, events, type ForkSpotlightState } from "../bindings";
@@ -79,12 +80,20 @@ export function Spotlight() {
     ? { bottom: `calc(100% - ${hole.y - HINT_GAP}px)` }
     : { top: `${hole.y + hole.h + HINT_GAP}px` };
 
+  // alpha.3: any pointer down on the dim or the hint ends the spotlight
+  // (`EndReason::Click`). Esc is the keyboard path, handled in Rust.
+  const dismiss = (e: PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    void commands.forkSpotlightClick();
+  };
+
   return (
     <div
       data-testid="wb-spotlight"
       data-active="true"
       data-edge={state.edge}
       className="wb-spotlight"
+      onPointerDown={dismiss}
     >
       <svg
         className="wb-spotlight-dim"

@@ -16,7 +16,7 @@
  *   celebration (rc10: the practice's measured speaking speed against
  *   the typing speed) ⇄ the optional typing test (rc9: offered there),
  *   time saved (its
- *   slider always shown, 4 h a week to start), then the summary, whose
+ *   slider always shown, 25 h a week to start), then the summary, whose
  *   button writes the launch-at-login choice and completes setup.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -37,7 +37,6 @@ import { HandsFreePractice } from "./HandsFreePractice";
 import { HelpChip } from "./Help";
 import { Languages } from "./Languages";
 import { MicTest } from "./MicTest";
-import { MoveToApplications } from "./MoveToApplications";
 import { Permissions } from "./Permissions";
 import { ShortcutTest } from "./ShortcutTest";
 import { Stepper } from "./Stepper";
@@ -134,7 +133,14 @@ export function OnboardingFlow({
       saved.status === "in_progress" &&
       isOnboardingStep(saved.current_step)
     ) {
-      setStep(saved.current_step);
+      // alpha.3: Move to Applications is handled at startup. A saved step
+      // from an earlier build goes on at Languages instead of waiting on a
+      // screen the normal flow no longer shows.
+      if (saved.current_step === "move_to_applications") {
+        void go("languages");
+      } else {
+        setStep(saved.current_step);
+      }
     } else {
       void go("welcome");
     }
@@ -160,20 +166,10 @@ export function OnboardingFlow({
     if (step) focusHeading();
   }, [step, focusHeading]);
 
-  const leaveWelcome = async () => {
-    if (preview) {
-      await go("languages");
-      return;
-    }
-    const location = await commands.forkOnboardingAppLocation();
-    await go(
-      location.status === "ok" && location.data === "move_needed"
-        ? "move_to_applications"
-        : "languages",
-    );
-  };
-
-  const toLanguages = useCallback(() => void go("languages"), [go]);
+  // alpha.3: normal onboarding never shows Move to Applications. The app
+  // settles its install location at startup (move/copy and relaunch, an
+  // existing installed copy opened, or one small prompt on failure).
+  const leaveWelcome = () => void go("languages");
 
   const finish = async (launchAtLogin: boolean) => {
     if (preview) {
@@ -209,9 +205,6 @@ export function OnboardingFlow({
     switch (step) {
       case "welcome":
         content = <Welcome onContinue={() => void leaveWelcome()} />;
-        break;
-      case "move_to_applications":
-        content = <MoveToApplications preview={preview} onDone={toLanguages} />;
         break;
       case "languages":
         content = (

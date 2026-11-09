@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Move to Applications (S-29a), shown only when the app runs from outside
- * an Applications folder (Downloads, a disk image). The move happens only
- * on the button; the app then reopens from Applications and onboarding
- * resumes here, sees the new place and goes on by itself.
+ * Move to Applications (S-29a), kept for preview fixtures and as a legacy
+ * backstop. alpha.3 removed it from the normal onboarding path: the app
+ * settles its install location at startup (`fork::onboarding::native`), so
+ * `leaveWelcome` always goes to Languages. The move happens only on the
+ * button; the app then reopens from Applications.
  */
 import { useEffect, useState } from "react";
 import { ArrowRight, FolderInput } from "../ui/icons";

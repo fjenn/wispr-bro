@@ -681,6 +681,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Di chuyển Wispr Bro vào Ứng dụng?",
+        "body": "Cập nhật và quyền hoạt động tốt nhất từ đó. Hiện tại bạn vẫn có thể tiếp tục dùng Wispr Bro ở vị trí hiện tại.",
+        "move": "Di chuyển",
+        "notNow": "Để sau"
+      }
+    },
     "menu": {
       "dictation": "Đọc chính tả",
       "vocabulary": "Từ điển",
@@ -937,7 +945,7 @@
       },
       "how": "Bấm vào chỗ bạn muốn viết, rồi giữ fn và nói.",
       "howFallback": "Bấm vào chỗ bạn muốn viết, rồi giữ Control và Option và nói.",
-      "escape": "Nhấn Esc để đóng gợi ý này."
+      "escape": "Nhấn Esc hoặc nhấp vào bất kỳ đâu để đóng gợi ý này."
     }
   },
   "speechModels": {
@@ -2323,7 +2331,7 @@
       "again": "Hiện lại gợi ý",
       "stop": "Ẩn gợi ý",
       "other": "Thử cái khác",
-      "active": "Gợi ý đang hiện trên màn hình. Nhấn Esc để đóng."
+      "active": "Gợi ý đang hiện trên màn hình. Nhấn Esc hoặc nhấp vào bất kỳ đâu để đóng."
     }
   },
   "checklist": {

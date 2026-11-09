@@ -71,13 +71,12 @@ test.describe("design shots", () => {
       }
     });
 
-    for (const step of STEPS) {
+    for (const step of STEPS.filter((s) => s !== "move_to_applications")) {
       test(`onboarding ${step} ${theme}`, async ({ page, ipc }) => {
         await page.emulateMedia({ colorScheme: theme });
         await openOnboarding(page, ipc, {
           step,
           theme,
-          location: step === "move_to_applications" ? "move_needed" : undefined,
         });
         await page.setViewportSize({ width: 1040, height: 720 });
         // The celebration's staged reveal runs ~3 s.

@@ -696,6 +696,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Přesunout Wispr Bro do složky Aplikace?",
+        "body": "Aktualizace a oprávnění odtud fungují nejlépe. Zatím můžete Wispr Bro dál používat z aktuálního umístění.",
+        "move": "Přesunout",
+        "notNow": "Teď ne"
+      }
+    },
     "menu": {
       "dictation": "Diktování",
       "vocabulary": "Slovník",
@@ -982,7 +990,7 @@
       },
       "how": "Klikněte tam, kam chcete psát, podržte fn a mluvte.",
       "howFallback": "Klikněte tam, kam chcete psát, podržte Control a Option a mluvte.",
-      "escape": "Tip zavřete stisknutím Esc."
+      "escape": "Tuto nápovědu zavřete klávesou Esc nebo kliknutím kamkoli."
     }
   },
   "speechModels": {
@@ -2596,7 +2604,7 @@
       "again": "Znovu zobrazit nápovědu",
       "stop": "Skrýt nápovědu",
       "other": "Vyzkoušet něco jiného",
-      "active": "Nápověda je na obrazovce. Zavřete ji klávesou Esc."
+      "active": "Nápověda je na obrazovce. Zavřete ji klávesou Esc nebo kliknutím kamkoli."
     }
   },
   "checklist": {

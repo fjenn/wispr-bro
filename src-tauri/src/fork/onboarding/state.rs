@@ -4,11 +4,12 @@
 //! logic over it. Navigation never looks at the speech-model download: no
 //! step waits for it.
 //!
-//! Order (stage in the stepper): `welcome`, `move_to_applications` (only
-//! when the app runs outside an Applications folder) and `languages`
-//! (Welcome); `permissions` (Permissions); `mic_test` and `shortcut_test`
-//! (Setup); `practice`, `first_dictation`, `time_saved`, `typing_test` and
-//! `summary` (Practice, S-29b).
+//! Order (stage in the stepper): `welcome`, `move_to_applications` (kept for
+//! resume compatibility; alpha.3 handles the install location at startup and
+//! [`skip_move_to_applications`] advances a saved one to `languages`) and
+//! `languages` (Welcome); `permissions` (Permissions); `mic_test` and
+//! `shortcut_test` (Setup); `practice`, `first_dictation`, `time_saved`,
+//! `typing_test` and `summary` (Practice, S-29b).
 
 use crate::fork::settings::{OnboardingState, OnboardingStatus};
 
@@ -83,6 +84,20 @@ pub fn go_to(state: &mut OnboardingState, step: &str) -> Result<(), String> {
     Ok(())
 }
 
+/// alpha.3: Move to Applications is no longer a screen. A build that saved
+/// it (or a resumed run from one) goes on at Languages instead of waiting on
+/// a step the UI never shows. `true` when the step changed.
+pub fn skip_move_to_applications(state: &mut OnboardingState) -> bool {
+    if state.status == OnboardingStatus::InProgress
+        && state.current_step.as_deref() == Some(MOVE_TO_APPLICATIONS)
+    {
+        let _ = go_to(state, LANGUAGES);
+        true
+    } else {
+        false
+    }
+}
+
 pub fn complete(state: &mut OnboardingState, now_ms: i64) {
     state.status = OnboardingStatus::Completed;
     state.current_step = None;
@@ -146,6 +161,23 @@ mod tests {
         go_to(&mut state, WELCOME).unwrap();
         assert!(state.checklist_done.is_empty());
         assert_eq!(state.completed_at_ms, None);
+    }
+
+    #[test]
+    fn a_saved_move_step_resumes_at_languages() {
+        let mut state = OnboardingState {
+            status: OnboardingStatus::InProgress,
+            current_step: Some(MOVE_TO_APPLICATIONS.into()),
+            ..OnboardingState::default()
+        };
+        assert!(skip_move_to_applications(&mut state));
+        assert_eq!(state.current_step.as_deref(), Some(LANGUAGES));
+        assert_eq!(state.completed_steps, [WELCOME]);
+        // Any other step (and a finished run) is left alone.
+        assert!(!skip_move_to_applications(&mut state));
+        let mut done = OnboardingState::default();
+        complete(&mut done, 1);
+        assert!(!skip_move_to_applications(&mut done));
     }
 
     #[test]

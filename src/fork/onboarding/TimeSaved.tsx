@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
  * Time saved (S-29b, B-28, DEC-50): "Dictating could save you about N
- * hours a week". The slider (hours of typing a week, 4 by default, owner's
- * rc9 call) is always there and the number follows it at once. The typing
- * speed is the test's (fork setting `typing_wpm`; the test is offered on
+ * hours a week". The slider (hours of typing a week, 25 by default since
+ * alpha.3 — five hours a weekday) is always there and the number follows it
+ * at once. The typing speed is the test's (fork setting `typing_wpm`; the
+ * test is offered on
  * the celebration step before this one), else the 45 wpm average. The
  * setting is stored per day (`typing_hours_per_day`); the math is in
  * `typing.ts`. Under the headline one line shows the sum (owner's rc10

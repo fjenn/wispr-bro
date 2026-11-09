@@ -13,6 +13,10 @@ import os.path
 app = defines["app"]  # noqa: F821
 app_name = os.path.basename(app)
 
+# The mounted volume's name, from build.sh. Not the app's name: "Wispr Bro
+# Installer" with its own disk icon, so the image is not mistaken for the app.
+volume_name = defines["volume_name"]  # noqa: F821
+
 format = "UDZO"
 filesystem = "HFS+"
 size = None

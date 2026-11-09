@@ -691,6 +691,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "Spostare Wispr Bro in Applicazioni?",
+        "body": "Aggiornamenti e permessi funzionano meglio da lì. Per ora puoi continuare a usare Wispr Bro da dove si trova.",
+        "move": "Sposta",
+        "notNow": "Non ora"
+      }
+    },
     "menu": {
       "dictation": "Dettatura",
       "vocabulary": "Dizionario",
@@ -967,7 +975,7 @@
       },
       "how": "Fai clic dove vuoi scrivere, poi tieni premuto fn e parla.",
       "howFallback": "Fai clic dove vuoi scrivere, poi tieni premuti Controllo e Opzione e parla.",
-      "escape": "Premi Esc per chiudere questo suggerimento."
+      "escape": "Premi Esc o fai clic in un punto qualsiasi per chiudere questo suggerimento."
     }
   },
   "speechModels": {
@@ -2505,7 +2513,7 @@
       "again": "Mostra di nuovo il suggerimento",
       "stop": "Nascondi il suggerimento",
       "other": "Prova qualcos’altro",
-      "active": "Il suggerimento è sullo schermo. Premi Esc per chiuderlo."
+      "active": "Il suggerimento è sullo schermo. Premi Esc o fai clic in un punto qualsiasi per chiuderlo."
     }
   },
   "checklist": {

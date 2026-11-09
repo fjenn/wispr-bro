@@ -2397,7 +2397,7 @@ dependencies = [
 
 [[package]]
 name = "handy"
-version = "1.0.0-alpha.1"
+version = "1.0.0-alpha.4"
 dependencies = [
  "aho-corasick",
  "anyhow",

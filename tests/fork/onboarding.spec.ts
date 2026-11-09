@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * S-29a onboarding: every step and branch (Welcome, Move to Applications,
- * Languages, Permissions, the microphone test, the shortcut test and each
- * "No" diagnosis), resume after a relaunch at every step, preview mode,
- * Back, no step waiting on the speech-model download, no model name, and
- * axe in light/dark, RTL and keyboard-only use.
+ * S-29a onboarding: every step and branch (Welcome, Languages,
+ * Permissions, the microphone test, the shortcut test and each "No"
+ * diagnosis), resume after a relaunch at every step, preview mode, Back, no
+ * step waiting on the speech-model download, no model name, and axe in
+ * light/dark, RTL and keyboard-only use. Move to Applications is no longer a
+ * screen (alpha.3): its path decisions are Rust unit tests.
  */
 import { test, expect } from "./fixtures";
 import { expectNoSeriousAxeFindings, handySettings } from "./hub-fixture";
@@ -199,27 +200,20 @@ test.describe("S-29a onboarding", () => {
     await ipc.expectCalled("fork_onboarding_go_to", { step: "languages" });
   });
 
-  test("Move to Applications: shown when needed, moves on the button, skippable", async ({
+  test("Welcome always goes to Languages; the install location is not a screen", async ({
     page,
     ipc,
   }) => {
     const be = await openOnboarding(page, ipc, { location: "move_needed" });
     await page.getByRole("button", { name: "Get started" }).click();
-    await expectStep(page, "move_to_applications");
-    await expect(page.locator("main h1")).toHaveText(
-      "Move Wispr Bro to Applications",
-    );
-    // A failed move says what to do and leaves the user here (a move that
-    // works quits and reopens the app).
-    ipc.respond("fork_onboarding_move_to_applications", {
-      __error: { kind: "Internal", message: "exists" },
-    });
-    await page.getByTestId("wb-move-action").click();
-    await ipc.expectCalled("fork_onboarding_move_to_applications");
-    await expect(page.getByTestId("wb-move-error")).toContainText("Finder");
-    await page.getByTestId("wb-move-skip").click();
     await expectStep(page, "languages");
-    // Back from Languages skips the move screen.
+    // The startup path (native, macOS) handles the location; the page never
+    // asks here and no move command ran.
+    await ipc.expectCalled("fork_onboarding_go_to", { step: "languages" });
+    expect(
+      await ipc.calls("fork_onboarding_move_to_applications"),
+    ).toHaveLength(0);
+    // Back from Languages goes to Welcome, not to a move screen.
     await page.getByTestId("wb-onboarding-back").click();
     await expectStep(page, "welcome");
     expect(be.fork.onboarding.current_step).toBe("welcome");
@@ -529,7 +523,6 @@ test.describe("S-29a onboarding", () => {
   for (const theme of ["light", "dark"] as const) {
     for (const step of [
       "welcome",
-      "move_to_applications",
       "languages",
       "permissions",
       "mic_test",
@@ -543,7 +536,6 @@ test.describe("S-29a onboarding", () => {
         await openOnboarding(page, ipc, {
           step,
           theme,
-          location: step === "move_to_applications" ? "move_needed" : undefined,
           mic: step !== "permissions",
           accessibility: step !== "permissions",
         });

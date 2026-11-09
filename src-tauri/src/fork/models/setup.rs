@@ -69,6 +69,23 @@ pub struct ForkSpeechSetup {
     /// The user's languages the first model hears, in their order (the
     /// practice text uses the first, so the practice take runs at once).
     pub starter_languages: Vec<String>,
+    /// Whether onboarding's practice can run now: a model that hears the
+    /// user's first language is loaded. A partial starter that does not
+    /// (Dutch first, English starter) makes the practice wait for the full
+    /// model instead of writing gibberish.
+    pub practice_ready: bool,
+    /// The full model's download while the practice waits for it.
+    pub practice_wait: Option<PracticeWait>,
+}
+
+/// The download the practice screen shows while it waits for the full model.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+pub struct PracticeWait {
+    pub phase: SetupPhase,
+    pub percent: Option<u8>,
+    pub downloaded_bytes: u64,
+    pub total_bytes: u64,
+    pub eta_seconds: Option<u32>,
 }
 
 impl ForkSpeechSetup {
@@ -83,6 +100,8 @@ impl ForkSpeechSetup {
             queued_takes: 0,
             eta_seconds: None,
             starter_languages: Vec::new(),
+            practice_ready: false,
+            practice_wait: None,
         }
     }
 }
@@ -141,9 +160,25 @@ pub fn status() -> ForkSpeechSetup {
     if let Some(first) = target(app) {
         s.starter_languages = super::starter::heard_by(first, &languages);
     }
+    let partial = partial_starter(app);
+    let primary_waits =
+        partial.is_some_and(|starter| !super::starter::hears_primary(starter, &languages));
+    s.practice_ready = s.phase == SetupPhase::Ready && !primary_waits;
+    s.practice_wait = None;
+    if s.phase == SetupPhase::Ready && primary_waits {
+        let mut view = s.clone();
+        hold_view(&mut view, &lock_background(), super::upgrade::phase());
+        s.practice_wait = Some(PracticeWait {
+            phase: view.phase,
+            percent: view.percent,
+            downloaded_bytes: view.downloaded_bytes,
+            total_bytes: view.total_bytes,
+            eta_seconds: view.eta_seconds,
+        });
+    }
     // A take held back by a partial starter waits for the full model: the
     // bar and the practice screen show that download, never a silent wait.
-    if s.phase == SetupPhase::Ready && s.queued_takes > 0 && partial_starter(app).is_some() {
+    if s.phase == SetupPhase::Ready && s.queued_takes > 0 && partial.is_some() {
         hold_view(&mut s, &lock_background(), super::upgrade::phase());
     }
     s
@@ -261,7 +296,11 @@ pub fn transcribe_take(
         tm.cancel_stream();
         // Takes queued before the first model: may a partial starter run it?
         let ok = target(app).is_none_or(|first| {
-            !super::starter::needs_full_model(first, take_language(app).as_deref(), practice_take())
+            !super::starter::needs_full_model(
+                first,
+                take_language(app).as_deref(),
+                practice_on(app, first),
+            )
         });
         queue_take(app, file_name, ok);
         return Ok(crate::managers::transcription::Transcription {
@@ -272,8 +311,11 @@ pub fn transcribe_take(
     // A partial starter (English + Dutch → parakeet-110m) never gets a take
     // in a language it does not hear: it waits for the full model (DEC-52).
     if let Some(starter) = partial_starter(app) {
-        if super::starter::needs_full_model(starter, take_language(app).as_deref(), practice_take())
-        {
+        if super::starter::needs_full_model(
+            starter,
+            take_language(app).as_deref(),
+            practice_on(app, starter),
+        ) {
             log::info!(
                 "models: take waits for the full speech model (language not on the starter)"
             );
@@ -348,6 +390,12 @@ pub fn take_queued_outcome() -> bool {
 fn take_language(app: &AppHandle) -> Option<String> {
     let l = crate::settings::get_settings(app).selected_language;
     (!l.trim().is_empty() && l != "auto").then_some(l)
+}
+
+/// The onboarding practice take may run on `starter` only when the starter
+/// hears the user's first language (the practice text is in it).
+fn practice_on(app: &AppHandle, starter: &super::starter::Pinned) -> bool {
+    practice_take() && super::starter::hears_primary(starter, &user_languages(app))
 }
 
 fn practice_take() -> bool {

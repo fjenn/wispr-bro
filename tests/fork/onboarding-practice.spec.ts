@@ -7,7 +7,7 @@
  * the step moves on by itself at 90 s), the dark celebration (confetti,
  * none with reduced motion; rc9: the typing test is offered here and its
  * result updates the comparison), time saved (rc9: the slider always
- * shows, 4 hours a week to start, the number follows at once), the typing
+ * shows, 25 hours a week to start, the number follows at once), the typing
  * test (wpm math, seconds left, language picker, Try again, Recalculate)
  * and the summary (launch at login, completion). No screen names a model;
  * axe in light and dark, RTL and keyboard-only use.
@@ -124,15 +124,16 @@ test.describe("S-29b practice", () => {
 
     await expectStep(page, "time_saved");
     // Time saved stays on the dark stage; the estimate shows at once from
-    // 4 hours a week at the 45 wpm average: 4 × (1 − 45/200) = 3.1 → 3.
+    // 25 hours a week (alpha.3) at the 45 wpm average:
+    // 25 × (1 − 45/200) = 19.375 → 19.5.
     await expect(stage(page)).toHaveAttribute("data-tone", "dark");
     const headline = page.getByTestId("wb-time-saved-headline");
-    await expect(headline).toHaveAttribute("data-hours", "3");
+    await expect(headline).toHaveAttribute("data-hours", "19.5");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 3 hours a week",
+      "Dictating could save you about 19.5 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-hours-value")).toHaveText(
-      "4 hours a week",
+      "25 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-take-test")).toHaveCount(0);
     await expect(page.getByTestId("wb-time-saved-skip")).toHaveCount(0);
@@ -180,7 +181,7 @@ test.describe("S-29b practice", () => {
     await page.clock.runFor(1_000);
     expect(be.fork.typing_wpm).toBeNull();
     await expect(page.getByTestId("wb-time-saved-math")).toHaveText(
-      "4 h of typing at 45 wpm ≈ 0.9 h by voice at 200 wpm",
+      "25 h of typing at 45 wpm ≈ 5.6 h by voice at 200 wpm",
     );
   });
 
@@ -275,8 +276,8 @@ test.describe("S-29b practice", () => {
     await page.getByTestId("wb-first-dictation-continue").click();
     await expectStep(page, "time_saved");
     await page.clock.runFor(1_000);
-    // 4 h a week × (1 − wpm/200), to the half hour.
-    const hours = Math.round(4 * Math.max(0, 1 - final / 200) * 2) / 2;
+    // 25 h a week × (1 − wpm/200), to the half hour.
+    const hours = Math.round(25 * Math.max(0, 1 - final / 200) * 2) / 2;
     const headline = page.getByTestId("wb-time-saved-headline");
     await expect(headline).toHaveAttribute("data-hours", String(hours));
     await expect(headlineText(page)).toHaveText(
@@ -292,11 +293,11 @@ test.describe("S-29b practice", () => {
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("wb-time-saved-hours-value")).toHaveText(
-      "6 hours a week",
+      "27 hours a week",
     );
     // Stored per day over a five-day week.
-    expect(be.fork.typing_hours_per_day).toBe(1.2);
-    const more = Math.round(6 * Math.max(0, 1 - final / 200) * 2) / 2;
+    expect(be.fork.typing_hours_per_day).toBe(5.4);
+    const more = Math.round(27 * Math.max(0, 1 - final / 200) * 2) / 2;
     await expect(headline).toHaveAttribute("data-hours", String(more));
   });
 
@@ -393,10 +394,9 @@ test.describe("S-29b practice", () => {
     const status = page.getByTestId("wb-practice-status");
     await expect(status).toHaveAttribute("data-phase", "queued");
     await expect(status).toHaveText("Saved. Waiting for the speech model…");
-    await expect(page.getByTestId("wb-practice-body")).toHaveAttribute(
-      "placeholder",
-      "Your words will appear here as soon as the speech model is ready.",
-    );
+    // While no model hears the practice language the email box is hidden:
+    // a waiting screen, never a test that would come out as gibberish.
+    await expect(page.getByTestId("wb-practice-composer")).toHaveCount(0);
     await expect(page.getByTestId("wb-practice-queued-note")).toContainText(
       "History",
     );
@@ -509,7 +509,7 @@ test.describe("S-29b practice", () => {
     // Dutch alone: the practice is in Dutch (the app stays English).
     await practice(page, ipc, {
       handy: { spoken_languages: ["nl"] },
-      setup: { starter_languages: ["nl"] },
+      setup: { ...READY, starter_languages: ["nl"] },
     });
     const subject = page
       .getByTestId("wb-practice-composer")
@@ -523,29 +523,46 @@ test.describe("S-29b practice", () => {
     );
   });
 
-  test("English + Dutch: the practice runs in the starter's English", async ({
+  test("English first + Dutch: the practice runs in English on the starter", async ({
     page,
     ipc,
   }) => {
     await practice(page, ipc, {
-      handy: { spoken_languages: ["nl", "en"] },
-      setup: { ...READY, starter_languages: ["en"] },
+      handy: { spoken_languages: ["en", "nl"] },
+      setup: { ...READY, starter_languages: ["en"], practice_ready: true },
     });
     await expect(page.getByTestId("wb-practice-body")).toHaveAttribute(
       "placeholder",
       "Try saying: “Hi Sam, thanks for the notes. Can we meet on Thursday at ten?”",
     );
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveText("fn");
   });
 
-  test("French + Dutch: the practice runs in French", async ({ page, ipc }) => {
+  test("Dutch first: no gibberish on the English starter, a wait instead", async ({
+    page,
+    ipc,
+  }) => {
+    // The owner's report: Dutch practised on the English starter came out as
+    // gibberish. The practice waits for the model that hears Dutch.
     await practice(page, ipc, {
-      handy: { spoken_languages: ["nl", "fr"] },
-      setup: { ...READY, starter_languages: ["fr"] },
+      handy: { spoken_languages: ["nl", "en"] },
+      setup: {
+        ...READY,
+        starter_languages: ["en"],
+        practice_ready: false,
+        practice_wait: {
+          phase: "downloading",
+          percent: 40,
+          downloaded_bytes: 300_000_000,
+          total_bytes: 740_000_000,
+          eta_seconds: 90,
+        },
+      },
     });
-    await expect(page.getByTestId("wb-practice-body")).toHaveAttribute(
-      "placeholder",
-      /Bonjour Sam/,
-    );
+    await expect(page.getByTestId("wb-practice-composer")).toHaveCount(0);
+    await expect(page.getByTestId("wb-practice-model-wait")).toBeVisible();
+    await expect(page.getByTestId("wb-practice-continue")).toBeEnabled();
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveCount(0);
   });
 
   test("a queued take moves the step on by itself after 90 seconds", async ({
@@ -577,7 +594,7 @@ test.describe("S-29b practice", () => {
     page,
     ipc,
   }) => {
-    await practice(page, ipc, {}, true);
+    await practice(page, ipc, { setup: READY }, true);
     const status = page.getByTestId("wb-practice-status");
     await take(ipc, "started");
     await take(ipc, "cancelled");
@@ -593,10 +610,15 @@ test.describe("S-29b practice", () => {
     page,
     ipc,
   }) => {
-    await practice(page, ipc, { status: { trigger: "ctrl+option" } });
+    await practice(page, ipc, {
+      status: { trigger: "ctrl+option" },
+      setup: READY,
+    });
     await expect(page.getByTestId("wb-practice-instruction")).toContainText(
       "Control, Option and Space",
     );
+    // The key hint shows the user's own shortcut.
+    await expect(page.getByTestId("wb-practice-key-hint")).toHaveText("⌃⌥");
     await take(ipc, "started");
     await expect(page.getByTestId("wb-practice-status")).toContainText(
       "press Control and Option",
@@ -611,11 +633,12 @@ test.describe("S-29b practice", () => {
     await page.getByTestId("wb-practice-skip").click();
     // Skipping the practice skips the celebration too.
     await expectStep(page, "time_saved");
-    // The 45 wpm average at 4 h a week, at once: 4 × (1 − 45/200) → 3.
+    // The 45 wpm average at 25 h a week, at once:
+    // 25 × (1 − 45/200) → 19.5.
     const headline = page.getByTestId("wb-time-saved-headline");
-    await expect(headline).toHaveAttribute("data-hours", "3");
+    await expect(headline).toHaveAttribute("data-hours", "19.5");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 3 hours a week",
+      "Dictating could save you about 19.5 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-basis")).toContainText(
       "average typing speed of 45",
@@ -656,9 +679,9 @@ test.describe("S-29b practice", () => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await openOnboarding(page, ipc, { step: "time_saved" });
     const headline = page.getByTestId("wb-time-saved-headline");
-    await expect(headline).toHaveAttribute("data-hours", "3");
+    await expect(headline).toHaveAttribute("data-hours", "19.5");
     await expect(headlineText(page)).toHaveText(
-      "Dictating could save you about 3 hours a week",
+      "Dictating could save you about 19.5 hours a week",
     );
     await expect(page.getByTestId("wb-time-saved-slider")).toBeVisible();
   });

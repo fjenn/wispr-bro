@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * Entry of the `fork-spotlight` web view (S-30): the click-through dim
- * around the Flow Bar with the first-use hint
- * (`src-tauri/src/fork/pill/spotlight.rs`). The window exists only while
- * the spotlight is on.
+ * Entry of the `fork-spotlight` web view (S-30): the dim around the Flow Bar
+ * with the first-use hint (`src-tauri/src/fork/pill/spotlight.rs`). The
+ * window exists only while the spotlight is on; a click anywhere dismisses
+ * it (alpha.3).
  */
 import React from "react";
 import ReactDOM from "react-dom/client";

@@ -681,6 +681,14 @@
   },
   "rust": {
     "appName": "Wispr Bro",
+    "onboarding": {
+      "movePrompt": {
+        "title": "要將 Wispr Bro 移到「應用程式」檔案夾嗎？",
+        "body": "更新和權限在那裡運作效果最好。目前你可以繼續在目前位置使用 Wispr Bro。",
+        "move": "移動",
+        "notNow": "以後再說"
+      }
+    },
     "menu": {
       "dictation": "聽寫",
       "vocabulary": "字典",
@@ -937,7 +945,7 @@
       },
       "how": "按一下想輸入的位置，然後按住 fn 並說話。",
       "howFallback": "按一下想輸入的位置，然後按住 Control 和 Option 並說話。",
-      "escape": "按 Esc 關閉此提示。"
+      "escape": "按 Esc 或點一下任何位置即可關閉此提示。"
     }
   },
   "speechModels": {
@@ -2323,7 +2331,7 @@
       "again": "再次顯示提示",
       "stop": "隱藏提示",
       "other": "試試別的",
-      "active": "提示正顯示在螢幕上。按 Esc 關閉。"
+      "active": "提示已顯示在螢幕上。按 Esc 或點一下任何位置即可關閉。"
     }
   },
   "checklist": {

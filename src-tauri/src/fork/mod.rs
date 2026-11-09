@@ -546,6 +546,12 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
 
     // F-07: fork settings, ENFORCED and FIRST_RUN_DEFAULTS (every start).
     settings::on_ready(app);
+    // alpha.3: settle the install location before onboarding gets far. A
+    // launch from Downloads or a mounted disk image moves/copies itself and
+    // relaunches; an installed copy already there is opened instead. Only a
+    // failed move shows one small native prompt.
+    #[cfg(target_os = "macos")]
+    onboarding::ensure_location_at_startup(app);
     keep_dock_icon_at_hidden_launch(app);
     // S-04: session observers and recording phases for delivery.
     insert::on_ready(app);
@@ -689,6 +695,7 @@ macro_rules! fork_specta_builder {
                 commands::onboarding::fork_checklist_mark::<$runtime>,
                 commands::onboarding::fork_spotlight_start,
                 commands::onboarding::fork_spotlight_stop,
+                commands::onboarding::fork_spotlight_click,
                 commands::onboarding::fork_spotlight_state,
                 commands::history::fork_stats_summary::<$runtime>,
                 commands::history::fork_history_search::<$runtime>,

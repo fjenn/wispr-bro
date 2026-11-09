@@ -4,21 +4,23 @@
 //! and a hint above it says where to go next ("Open your email, click where
 //! you want to write, hold fn and speak").
 //!
-//! - One click-through panel, `fork-spotlight` (a web view, page
+//! - One panel, `fork-spotlight` (a web view, page
 //!   `src/fork/spotlight/index.html`), on the display the bar is on, one
 //!   level below the bar (`NSMainMenuWindowLevel`, the bar is at status
-//!   level), on every Space and over full-screen apps. It ignores the mouse,
-//!   never activates the app and never becomes key: the user keeps working
-//!   through it.
+//!   level), on every Space and over full-screen apps. It receives the mouse
+//!   (alpha.3: a click must not fall through into another app), never
+//!   activates the app and never becomes key: a click dismisses the hint,
+//!   keyboard dictation still reaches the frontmost app.
 //! - The resting bar is shown for the whole spotlight, even with "Always
 //!   show the bar" off or "Hide for an hour" running ([`is_active`] is read
 //!   by the bar's preferences).
 //! - The cut-out follows the bar (it moves with the cursor's display, 2 Hz).
 //! - It ends on the first take pasted into another app
 //!   ([`on_take_pasted`]), on Esc (observed through the S-01 registry, never
-//!   blocked; an Esc that cancelled a take belongs to the take), after
-//!   [`MAX_MS`], or from the Hub (`fork_spotlight_stop`). The window is
-//!   destroyed then, so its WebContent process exits.
+//!   blocked; an Esc that cancelled a take belongs to the take), on a click
+//!   anywhere on the overlay, after [`MAX_MS`], or from the Hub
+//!   (`fork_spotlight_stop`). The window is destroyed then, so its WebContent
+//!   process exits.
 //!
 //! The rules ([`Machine`]) and the layout ([`layout`]) are pure and tested
 //! here; the window is macOS-only.
@@ -100,6 +102,8 @@ pub enum EndReason {
     /// The first take pasted into another app.
     Dictated,
     Esc,
+    /// A click anywhere on the spotlight overlay (alpha.3).
+    Click,
     Timeout,
     /// From the Hub ("Stop the hint") or a new chooser run.
     Stopped,
@@ -181,6 +185,12 @@ impl Machine {
             return None;
         }
         self.end(EndReason::Esc)
+    }
+
+    /// A click anywhere on the dim or the hint (alpha.3). No exceptions: the
+    /// overlay receives the click instead of the app below.
+    pub fn on_click(&mut self) -> Option<EndReason> {
+        self.end(EndReason::Click)
     }
 
     /// A take was pasted. Into Wispr Bro itself (a Scratchpad note, a
@@ -291,6 +301,12 @@ fn ended(reason: Option<EndReason>) {
 /// `fork_spotlight_stop`.
 pub fn stop() {
     let reason = machine().stop();
+    ended(reason);
+}
+
+/// `fork_spotlight_click`: a pointer down anywhere on the overlay (alpha.3).
+pub fn dismiss_on_click() {
+    let reason = machine().on_click();
     ended(reason);
 }
 
@@ -506,6 +522,9 @@ mod mac {
                         .transparent(true)
                         .focusable(false)
                         .focused(false)
+                        // alpha.3: the first click dismisses, even with the
+                        // panel not focused (no app activation).
+                        .accept_first_mouse(true)
                         .skip_taskbar(true)
                         .visible(false)
                 })
@@ -521,8 +540,11 @@ mod mac {
         match built {
             Ok(panel) => {
                 if let Some(win) = window(app) {
-                    // Click-through: every click reaches the app below.
-                    win.setIgnoresMouseEvents(true);
+                    // alpha.3: receive the mouse. A click dismisses the hint
+                    // (the page handles the pointer down) and never lands in
+                    // the app below. The non-activating panel still does not
+                    // activate the app or take key focus.
+                    win.setIgnoresMouseEvents(false);
                     // SAFETY: plain setter (no window animation).
                     unsafe {
                         let _: () = msg_send![win, setAnimationBehavior: 2isize];
@@ -676,6 +698,16 @@ mod tests {
         assert!(!m.is_active());
         // Nothing to end twice.
         assert_eq!(m.on_esc(false), None);
+    }
+
+    #[test]
+    fn a_click_anywhere_ends_it() {
+        let mut m = Machine::new();
+        m.start("note", 0).unwrap();
+        assert_eq!(m.on_click(), Some(EndReason::Click));
+        assert!(!m.is_active());
+        // The window is gone; another click has nothing to end.
+        assert_eq!(m.on_click(), None);
     }
 
     #[test]

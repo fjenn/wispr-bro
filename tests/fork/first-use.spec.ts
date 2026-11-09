@@ -657,6 +657,7 @@ async function openSpotlight(
   ipc.respond({
     get_app_settings: { theme: "light", app_language: "en", ...options.handy },
     fork_spotlight_state: state,
+    fork_spotlight_click: null,
     fork_hotkey_status: {
       running: true,
       error: null,
@@ -693,8 +694,17 @@ spot.describe("spotlight page", () => {
       .evaluate((el) => el.tagName.toLowerCase());
     expect(shape).toBe("circle");
     await expect(hint).toHaveCSS("background-color", "rgb(0, 0, 0)");
-    // Nothing on the page takes a click (the window ignores the mouse).
+    // No buttons: a pointer down anywhere dismisses (alpha.3).
     await expect(page.getByRole("button")).toHaveCount(0);
+    await expect(root).toHaveCSS("pointer-events", "auto");
+  });
+
+  spot("a click anywhere dismisses it", async ({ page, ipc }) => {
+    await openSpotlight(page, ipc, spotState());
+    await page
+      .getByTestId("wb-spotlight")
+      .click({ position: { x: 30, y: 30 } });
+    await ipc.expectCalled("fork_spotlight_click");
   });
 
   spot("puts the hint below a bar at the top", async ({ page, ipc }) => {

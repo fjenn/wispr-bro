@@ -1,13 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * wb-icons: regenerate the Wispr Bro app and tray icons from the SVG sources
- * in `src-tauri/icons-fork/src/` (F-01). The current artwork is a PLACEHOLDER.
+ * wb-icons: regenerate the Wispr Bro app, DMG volume and tray icons from the
+ * SVG sources in `src-tauri/icons-fork/src/` (F-01). The current app artwork
+ * is a PLACEHOLDER.
  *
  * Usage: bun scripts/wb-icons.ts
  *
  * Outputs
  *   src-tauri/icons-fork/            app icons (`tauri icon`; desktop sizes only,
  *                                    the android/ios folders are removed)
+ *   src-tauri/icons-fork/dmg/        the mounted volume's icon (`volume.icns`,
+ *                                    from `volume-icon.svg`: a disk cartridge,
+ *                                    not the app icon, so "Wispr Bro Installer"
+ *                                    cannot be mistaken for Wispr Bro.app)
  *   src-tauri/resources/fork/tray/   64×64 tray glyphs, white (`tray_*.png`, for
  *                                    dark menu bars) and black (`tray_*_dark.png`,
  *                                    for light ones), the same naming and theme
@@ -27,6 +32,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const TAURI_DIR = path.join(ROOT, "src-tauri");
 const SRC = path.join(TAURI_DIR, "icons-fork", "src");
 const APP_OUT = path.join(TAURI_DIR, "icons-fork");
+const VOLUME_OUT = path.join(TAURI_DIR, "icons-fork", "dmg", "volume.icns");
 const TRAY_OUT = path.join(TAURI_DIR, "resources", "fork", "tray");
 
 const TRAY_GLYPHS: Record<string, string> = {
@@ -48,6 +54,18 @@ function tauriIcon(args: string[]): void {
 tauriIcon([path.join(SRC, "app-icon.svg"), "-o", APP_OUT]);
 for (const dir of ["android", "ios"]) {
   fs.rmSync(path.join(APP_OUT, dir), { recursive: true, force: true });
+}
+
+// The DMG's volume icon: its own artwork, so the mounted "Wispr Bro Installer"
+// volume does not look like the app it installs. `tauri icon` writes the
+// macOS `icon.icns` at the output root; only that one is kept.
+fs.mkdirSync(path.dirname(VOLUME_OUT), { recursive: true });
+const volTmp = fs.mkdtempSync(path.join(os.tmpdir(), "wb-icons-volume-"));
+try {
+  tauriIcon([path.join(SRC, "volume-icon.svg"), "-o", volTmp]);
+  fs.copyFileSync(path.join(volTmp, "icon.icns"), VOLUME_OUT);
+} finally {
+  fs.rmSync(volTmp, { recursive: true, force: true });
 }
 
 // Tray glyphs: white for dark menu bars, black (`_dark`) for light ones.
@@ -76,4 +94,6 @@ try {
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
-console.log(`App icons in ${APP_OUT}; tray glyphs in ${TRAY_OUT}`);
+console.log(
+  `App icons in ${APP_OUT}; volume icon at ${VOLUME_OUT}; tray glyphs in ${TRAY_OUT}`,
+);

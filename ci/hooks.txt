@@ -63,7 +63,8 @@ src/App.tsx 48                             # S-13: `import { ForkApp } …` (1) 
 
 # Repo meta
 LICENSE sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986 # F-04: verbatim GPL-3.0 text from gnu.org (gpl-3.0.txt); Handy's MIT text moved unchanged to LICENSES/MIT-Handy.txt
-README.md 2                                 # F-04: licence paragraph says the fork is GPL-3.0 and Handy's code stays MIT (1 line replaced)
+README.md 487                               # F-04 licence paragraph, then the alpha README (2026-11-05, f5df321c): Wispr Bro's own description, install, updates and status replace Handy's text
+src-tauri/Info.plist 14                     # install: merged over Tauri's generated Info.plist so LSRequiresCarbon is false (Tauri hard-codes true) and CFBundleDisplayName is "Wispr Bro"; Finder/Spotlight metadata, verified by verify.sh and release.test.ts
 .gitignore 4                                # research packet: ignore docs/research/evidence/ (local-only captures); F-04 follow-up: ignore *.tsbuildinfo (tsc build cache)
 CLAUDE.md 4                                 # research packet: point agents at CONTEXT.md first
 .github/ISSUE_TEMPLATE/bug_report.md 37     # S-26b: Handy's bug template removed (it pointed at Handy's issues); Wispr Bro's is `wb-bug-report.md`
