@@ -63,6 +63,20 @@ pub fn fork_transform_create<R: ForkRuntime>(
         .with_conn(|conn| store::create(conn, &input, crate::fork::context::now_ms()))
         .map_err(internal)?;
     changed(&app);
+    // A new transform should work at once: turn Transforms on (its shortcut
+    // does nothing while Transforms is off). This also starts the model.
+    let enabled = app
+        .try_state::<crate::fork::settings::ForkSettingsHandle>()
+        .and_then(|handle| handle.get(&app).ok())
+        .is_some_and(|settings| settings.transforms_enabled);
+    if !enabled {
+        if let Err(error) = super::settings::fork_set_setting(
+            app.clone(),
+            crate::fork::settings::ForkSettingUpdate::TransformsEnabled(true),
+        ) {
+            log::warn!("transforms: could not turn Transforms on: {error:?}");
+        }
+    }
     // OT2-H: custom transforms run on the instruction model.
     crate::fork::llm::instruct::ensure_downloaded(&app);
     Ok(entry)
