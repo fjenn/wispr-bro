@@ -686,11 +686,13 @@ enum Tok {
 
 fn closing(open: char) -> Option<&'static [char]> {
     Some(match open {
-        '"' => &['"'],
-        '\'' => &['\''],
-        '“' => &['”', '“'],
-        '‘' => &['’'],
-        '„' => &['“', '”'],
+        // Mixed quotes are common when typing (a curly open, a straight
+        // close: “X"), so any double quote closes any double quote.
+        '"' => &['"', '”', '“'],
+        '\'' => &['\'', '’'],
+        '“' => &['”', '“', '"'],
+        '‘' => &['’', '\''],
+        '„' => &['“', '”', '"'],
         '«' => &['»'],
         '‹' => &['›'],
         '「' => &['」'],
@@ -767,6 +769,45 @@ fn phrase_at(toks: &[Tok], i: usize, phrase: &str) -> Option<usize> {
         }
     }
     Some(words.len())
+}
+
+/// A verb at `i`, forgiving one typo in a one-word verb of five or more
+/// letters ("chang", "chnage", "replcae" → change / replace), so a quick
+/// instruction still runs exactly. Only verbs get this; finds never do.
+fn verb_at(toks: &[Tok], i: usize, verbs: &[&str]) -> Option<usize> {
+    if let Some(len) = any_phrase_at(toks, i, verbs) {
+        return Some(len);
+    }
+    let word = lower(toks.get(i)?)?;
+    let typo = verbs
+        .iter()
+        .filter(|v| !v.contains(' ') && v.chars().count() >= 5)
+        .any(|v| word.chars().count() >= 4 && one_edit_apart(&word, v));
+    typo.then_some(1)
+}
+
+/// Whether `a` and `b` differ by one insertion, deletion, substitution or
+/// swap of two neighbouring letters.
+fn one_edit_apart(a: &str, b: &str) -> bool {
+    let a: Vec<char> = a.chars().collect();
+    let b: Vec<char> = b.chars().collect();
+    if a == b {
+        return false;
+    }
+    let (la, lb) = (a.len(), b.len());
+    if la.abs_diff(lb) > 1 {
+        return false;
+    }
+    let p = a.iter().zip(&b).take_while(|(x, y)| x == y).count();
+    if la == lb {
+        // substitution, or a swap of neighbours
+        a[p + 1..] == b[p + 1..]
+            || (p + 1 < la && a[p] == b[p + 1] && a[p + 1] == b[p] && a[p + 2..] == b[p + 2..])
+    } else if la > lb {
+        a[p + 1..] == b[p..]
+    } else {
+        a[p..] == b[p + 1..]
+    }
 }
 
 fn any_phrase_at(toks: &[Tok], i: usize, phrases: &[&str]) -> Option<usize> {
@@ -977,7 +1018,7 @@ fn with_texts(targets: Vec<Target>) -> Option<Vec<String>> {
 
 fn parse_replace(c: &Compiled, toks: &[Tok]) -> Option<Vec<Edit>> {
     let lang = c.lang;
-    let verb = any_phrase_at(toks, 0, lang.replace_verbs)?;
+    let verb = verb_at(toks, 0, lang.replace_verbs)?;
     let verb_word = lower(&toks[0])?;
     let (body, _) = strip_trailers(lang, &toks[verb..]);
     // "turn"/"convert" take only quoted items: "turn this into a list" is an
@@ -1057,7 +1098,7 @@ fn pair_list(c: &Compiled, body: &[Tok]) -> Option<Vec<Edit>> {
             return None;
         }
         rest = &rest[skip..];
-        if let Some(len) = any_phrase_at(rest, 0, lang.replace_verbs) {
+        if let Some(len) = verb_at(rest, 0, lang.replace_verbs) {
             rest = &rest[len..];
         }
     }
@@ -1065,7 +1106,7 @@ fn pair_list(c: &Compiled, body: &[Tok]) -> Option<Vec<Edit>> {
 
 fn parse_remove(c: &Compiled, toks: &[Tok]) -> Option<Vec<Edit>> {
     let lang = c.lang;
-    let verb = any_phrase_at(toks, 0, lang.remove_verbs)?;
+    let verb = verb_at(toks, 0, lang.remove_verbs)?;
     let (body, _) = strip_trailers(lang, &toks[verb..]);
     let finds = items(c, body, Side::Find, true)?;
     Some(
@@ -1280,6 +1321,10 @@ fn follow_case(found: &str, with: &str) -> String {
             None => String::new(),
         };
     }
+    if letters.len() == 1 && with.chars().count() == 1 {
+        // A letter swap ("V to X"): a lower-case v becomes a lower-case x.
+        return with.to_lowercase();
+    }
     if letters.iter().all(|c| c.is_lowercase()) && with.chars().any(char::is_uppercase) {
         // The user typed the replacement's case on purpose ("jon → John").
         return with.to_owned();
@@ -1477,6 +1522,37 @@ mod tests {
     fn not_exact(prompt: &str) {
         let plan = plan(prompt);
         assert!(plan.edits.is_empty(), "{prompt:?} became {:?}", plan.edits);
+    }
+
+    #[test]
+    fn a_typo_in_the_verb_still_runs_exactly() {
+        // The owner's rc alpha.4 instruction, typo and mixed quotes included.
+        let plan = plan("chang \u{201c}V\u{201d} to \u{201c}X\"");
+        assert!(plan.rest.is_empty(), "{:?}", plan.rest);
+        assert_eq!(apply(&plan.edits, "Vote via VPN").text, "Xote xia XPN");
+        // No V in the text: nothing matched, so "Nothing to change".
+        assert_eq!(
+            apply(&plan.edits, "um could you send me the report").changes,
+            0
+        );
+        for prompt in [
+            "chnage a to b",
+            "replcae a with b",
+            "repalce a with b",
+            "remvoe a",
+        ] {
+            assert!(!plan_of(prompt).edits.is_empty(), "{prompt:?}");
+        }
+        // Not a verb typo: short or unrelated words stay with the AI.
+        assert!(plan_of("hang a to b").edits.is_empty() || plan_of("hang a to b").rest.is_empty());
+        assert!(!one_edit_apart("change", "change"));
+        assert!(one_edit_apart("chang", "change"));
+        assert!(one_edit_apart("chnage", "change"));
+        assert!(!one_edit_apart("chane", "replace"));
+    }
+
+    fn plan_of(prompt: &str) -> Plan {
+        plan(prompt)
     }
 
     #[test]

@@ -36,6 +36,14 @@ pub fn fork_set_setting<R: ForkRuntime>(
     update: ForkSettingUpdate,
 ) -> Result<ForkSettings, ForkError> {
     let key = update.key();
+    // Giving a transform a shortcut means the user wants it to work: a
+    // transform shortcut does nothing while Transforms is off, and the key
+    // then types its own character (⌥M → µ). Turn Transforms on with it.
+    let wants_transforms = matches!(
+        &update,
+        ForkSettingUpdate::Hotkey { action, bindings }
+            if action.starts_with("transform.") && action != "transform.view_changes" && !bindings.is_empty()
+    );
     settings::validate(&update).map_err(ForkError::InvalidSetting)?;
     if update == ForkSettingUpdate::ShowInDock(false) && !tray_visible(&app) {
         return Err(ForkError::InvalidSetting(NO_WAY_BACK.into()));
@@ -62,6 +70,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
         && crate::fork::llm::instruct::wanted(&app)
     {
         crate::fork::llm::instruct::ensure_downloaded(&app);
+    }
+    if wants_transforms && !next.transforms_enabled {
+        return fork_set_setting(app, ForkSettingUpdate::TransformsEnabled(true));
     }
     if key == "hotkey" || key == "command_mode_enabled" {
         if key == "command_mode_enabled" && !next.command_mode_enabled {
