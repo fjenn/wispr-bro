@@ -688,10 +688,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Wispr Bro Uygulamalar klasörüne taşınsın mı?",
+        "body": "Güncellemeler ve izinler en iyi oradan çalışır. Şimdilik Wispr Bro'yu bulunduğu yerden kullanmaya devam edebilirsiniz.",
+        "move": "Taşı",
+        "notNow": "Şimdi değil"
       }
     },
     "menu": {
@@ -960,7 +960,7 @@
       },
       "how": "Yazmak istediğiniz yere tıklayın, sonra fn tuşunu basılı tutup konuşun.",
       "howFallback": "Yazmak istediğiniz yere tıklayın, sonra Control ve Option tuşlarını basılı tutup konuşun.",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "Bu ipucunu kapatmak için Esc tuşuna basın veya herhangi bir yere tıklayın."
     }
   },
   "speechModels": {
@@ -2422,7 +2422,7 @@
       "again": "İpucunu Yeniden Göster",
       "stop": "İpucunu Gizle",
       "other": "Başka Bir Şey Dene",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "İpucu ekranınızda. Kapatmak için Esc tuşuna basın veya herhangi bir yere tıklayın."
     }
   },
   "checklist": {

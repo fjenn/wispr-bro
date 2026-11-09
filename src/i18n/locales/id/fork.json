@@ -683,10 +683,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Pindahkan Wispr Bro ke Aplikasi?",
+        "body": "Pembaruan dan izin berfungsi paling baik dari sana. Untuk sekarang Anda bisa terus memakai Wispr Bro dari lokasinya saat ini.",
+        "move": "Pindahkan",
+        "notNow": "Nanti"
       }
     },
     "menu": {
@@ -945,7 +945,7 @@
       },
       "how": "Klik tempat Anda ingin menulis, lalu tahan fn dan bicara.",
       "howFallback": "Klik tempat Anda ingin menulis, lalu tahan Control dan Option dan bicara.",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "Tekan Esc atau klik di mana saja untuk menutup petunjuk ini."
     }
   },
   "speechModels": {
@@ -2331,7 +2331,7 @@
       "again": "Tampilkan petunjuk lagi",
       "stop": "Sembunyikan petunjuk",
       "other": "Coba yang lain",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "Petunjuk ada di layar Anda. Tekan Esc atau klik di mana saja untuk menutupnya."
     }
   },
   "checklist": {

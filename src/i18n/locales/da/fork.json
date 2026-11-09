@@ -688,10 +688,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Vil du flytte Wispr Bro til Programmer?",
+        "body": "Opdateringer og tilladelser fungerer bedst derfra. Du kan fortsætte med at bruge Wispr Bro, hvor den er, indtil videre.",
+        "move": "Flyt",
+        "notNow": "Ikke nu"
       }
     },
     "menu": {
@@ -960,7 +960,7 @@
       },
       "how": "Klik, hvor du vil skrive, hold fn nede, og tal.",
       "howFallback": "Klik, hvor du vil skrive, hold Control og Option nede, og tal.",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "Tryk på Esc, eller klik et vilkårligt sted for at lukke dette tip."
     }
   },
   "speechModels": {
@@ -2422,7 +2422,7 @@
       "again": "Vis tippet igen",
       "stop": "Skjul tippet",
       "other": "Prøv noget andet",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "Tippet vises på skærmen. Tryk på Esc, eller klik et vilkårligt sted for at lukke det."
     }
   },
   "checklist": {

@@ -288,6 +288,20 @@ pub const FEATURES: &[Feature] = &[Feature {
 }];
 
 /// The feature announced in `version`, if any (the newest when several).
+/// A feature introduced in a prerelease is announced through the rest of
+/// that prerelease line (the inbox from 1.0.0-alpha.1 also for alpha.4),
+/// so every alpha user sees it once; the dismiss id keeps it to once.
 pub fn feature_for_version(version: &str) -> Option<&'static Feature> {
-    FEATURES.iter().rev().find(|f| f.version == version)
+    FEATURES
+        .iter()
+        .rev()
+        .find(|f| f.version == version)
+        .or_else(|| {
+            let line = |v: &str| v.rsplit_once('.').map(|(head, _)| head.to_owned());
+            let current = line(version).filter(|l| l.contains('-'))?;
+            FEATURES
+                .iter()
+                .rev()
+                .find(|f| line(f.version).as_deref() == Some(current.as_str()))
+        })
 }

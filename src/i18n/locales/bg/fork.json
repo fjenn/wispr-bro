@@ -688,10 +688,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Да преместя ли Wispr Bro в Програми?",
+        "body": "Актуализациите и разрешенията работят най-добре оттам. Засега можете да продължите да използвате Wispr Bro от сегашното му място.",
+        "move": "Премести",
+        "notNow": "Не сега"
       }
     },
     "menu": {
@@ -960,7 +960,7 @@
       },
       "how": "Щракнете там, където искате да пишете, после задръжте fn и говорете.",
       "howFallback": "Щракнете там, където искате да пишете, после задръжте Control и Option и говорете.",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "Натиснете Esc или щракнете някъде, за да затворите подсказката."
     }
   },
   "speechModels": {
@@ -2422,7 +2422,7 @@
       "again": "Покажи подсказката отново",
       "stop": "Скрий подсказката",
       "other": "Опитай нещо друго",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "Подсказката е на екрана ви. Натиснете Esc или щракнете някъде, за да я затворите."
     }
   },
   "checklist": {

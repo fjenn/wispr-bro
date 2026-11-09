@@ -688,10 +688,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Wispr Bro को Applications में ले जाएँ?",
+        "body": "अपडेट और अनुमतियाँ वहाँ से सबसे अच्छी तरह काम करती हैं। अभी के लिए आप Wispr Bro को उसकी मौजूदा जगह से इस्तेमाल करते रह सकते हैं।",
+        "move": "ले जाएँ",
+        "notNow": "अभी नहीं"
       }
     },
     "menu": {
@@ -960,7 +960,7 @@
       },
       "how": "जहाँ लिखना है वहाँ क्लिक करें, फिर fn दबाए रखकर बोलें।",
       "howFallback": "जहाँ लिखना है वहाँ क्लिक करें, फिर Control और Option दबाए रखकर बोलें।",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "यह संकेत बंद करने के लिए Esc दबाएँ या कहीं भी क्लिक करें।"
     }
   },
   "speechModels": {
@@ -2422,7 +2422,7 @@
       "again": "संकेत फिर से दिखाएँ",
       "stop": "संकेत छिपाएँ",
       "other": "कुछ और आज़माएँ",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "संकेत आपकी स्क्रीन पर है। इसे बंद करने के लिए Esc दबाएँ या कहीं भी क्लिक करें।"
     }
   },
   "checklist": {

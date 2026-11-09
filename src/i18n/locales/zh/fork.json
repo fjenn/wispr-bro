@@ -683,10 +683,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "将 Wispr Bro 移到“应用程序”文件夹？",
+        "body": "更新和权限在那里运行效果最好。目前你可以继续在当前位置使用 Wispr Bro。",
+        "move": "移动",
+        "notNow": "以后再说"
       }
     },
     "menu": {
@@ -945,7 +945,7 @@
       },
       "how": "点按想要输入的位置，然后按住 fn 并说话。",
       "howFallback": "点按想要输入的位置，然后按住 Control 和 Option 并说话。",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "按 Esc 或点击任意位置即可关闭此提示。"
     }
   },
   "speechModels": {
@@ -2331,7 +2331,7 @@
       "again": "再次显示提示",
       "stop": "隐藏提示",
       "other": "试试别的",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "提示已显示在屏幕上。按 Esc 或点击任意位置即可关闭。"
     }
   },
   "checklist": {

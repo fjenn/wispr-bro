@@ -698,10 +698,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Перемістити Wispr Bro до «Програм»?",
+        "body": "Оновлення та дозволи найкраще працюють звідти. Поки що можна й далі користуватися Wispr Bro там, де він є.",
+        "move": "Перемістити",
+        "notNow": "Не зараз"
       }
     },
     "menu": {
@@ -990,7 +990,7 @@
       },
       "how": "Клацніть там, де хочете писати, потім утримуйте fn і говоріть.",
       "howFallback": "Клацніть там, де хочете писати, потім утримуйте Control і Option і говоріть.",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "Натисніть Esc або клацніть будь-де, щоб закрити цю підказку."
     }
   },
   "speechModels": {
@@ -2604,7 +2604,7 @@
       "again": "Показати підказку ще раз",
       "stop": "Сховати підказку",
       "other": "Спробувати інше",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "Підказка на екрані. Натисніть Esc або клацніть будь-де, щоб закрити її."
     }
   },
   "checklist": {

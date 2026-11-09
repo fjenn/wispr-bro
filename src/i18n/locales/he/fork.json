@@ -693,10 +693,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "להעביר את Wispr Bro לתיקיית היישומים?",
+        "body": "עדכונים והרשאות עובדים הכי טוב משם. בינתיים אפשר להמשיך להשתמש ב‑Wispr Bro מהמיקום הנוכחי.",
+        "move": "העבר",
+        "notNow": "לא עכשיו"
       }
     },
     "menu": {
@@ -975,7 +975,7 @@
       },
       "how": "לחץ במקום שבו תרצה לכתוב, ואז החזק את fn ודבר.",
       "howFallback": "לחץ במקום שבו תרצה לכתוב, ואז החזק את Control ו-Option ודבר.",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "הקש Esc או לחץ בכל מקום כדי לסגור את הרמז."
     }
   },
   "speechModels": {
@@ -2513,7 +2513,7 @@
       "again": "הצג שוב את הרמז",
       "stop": "הסתר את הרמז",
       "other": "נסה משהו אחר",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "הרמז מופיע על המסך. הקש Esc או לחץ בכל מקום כדי לסגור אותו."
     }
   },
   "checklist": {

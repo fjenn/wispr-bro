@@ -683,10 +683,10 @@
     "appName": "Wispr Bro",
     "onboarding": {
       "movePrompt": {
-        "title": "Move Wispr Bro to Applications?",
-        "body": "Updates and permissions work best from there. You can keep using Wispr Bro from where it is for now.",
-        "move": "Move",
-        "notNow": "Not Now"
+        "title": "Wispr Bro をアプリケーションフォルダに移動しますか？",
+        "body": "アップデートと権限はそこから使うのが最適です。今はこのままの場所で Wispr Bro を使い続けられます。",
+        "move": "移動",
+        "notNow": "後で"
       }
     },
     "menu": {
@@ -945,7 +945,7 @@
       },
       "how": "書きたい場所をクリックし、fn を押したまま話します。",
       "howFallback": "書きたい場所をクリックし、Control と Option を押したまま話します。",
-      "escape": "Press Esc or click anywhere to close this hint."
+      "escape": "このヒントを閉じるには Esc キーを押すか、どこかをクリックしてください。"
     }
   },
   "speechModels": {
@@ -2331,7 +2331,7 @@
       "again": "ヒントをもう一度表示",
       "stop": "ヒントを隠す",
       "other": "ほかのことを試す",
-      "active": "The hint is on your screen. Press Esc or click anywhere to close it."
+      "active": "ヒントが画面に表示されています。閉じるには Esc キーを押すか、どこかをクリックしてください。"
     }
   },
   "checklist": {
