@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# wb-publik-preview: an unsigned test build of both editions for a pull
+# request that touches the publik edition (docs/fork/EDITIONS.md), so it can be
+# downloaded from the run's artifacts and tried on a Mac before merging.
+#
+# Nothing is signed, notarized or released here: it is wb-build's dry run
+# (`signed: false`, `publik: true`), which builds the normal edition and the
+# publik edition as two artifacts and checks each with the edition guard.
+# Without the PUBLIK_APP_TOKEN secret the publik build has no built-in app
+# token; set PUBLIK_APP_TOKEN when launching it instead.
+
+name: "wb-publik-preview"
+
+on:
+  pull_request:
+    branches: [wispr-bro]
+    paths:
+      - "src-tauri/src/fork/publik/**"
+      - "src/fork/publik/**"
+      - "src/fork/edition.ts"
+      - "src-tauri/tauri.publik.conf.json"
+      - "scripts/wb-guard-edition.ts"
+      - "scripts/wb-release/macos.sh"
+      - ".github/workflows/wb-build.yml"
+      - ".github/workflows/wb-publik-preview.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: wb-publik-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/wb-build.yml
+    with:
+      signed: false
+      publik: true
+    secrets:
+      PUBLIK_APP_TOKEN: ${{ secrets.PUBLIK_APP_TOKEN }}
