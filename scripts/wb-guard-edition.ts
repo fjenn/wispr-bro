@@ -9,12 +9,17 @@
 //     the publik folders and src-tauri/tauri.publik.conf.json;
 //   - Rust reaches `fork::publik` only behind `#[cfg(feature = "publik")]`;
 //   - the frontend imports `…/publik/…` only from src/fork/edition.ts;
+//   - nothing a normal user could see says "publik": no frontend file (UI,
+//     settings, about, translations) outside the publik folder and the
+//     gateway mentions it, and no Rust string literal outside the publik
+//     folder does (`feature = "publik"` cfgs aside);
 //   - the `publik` Cargo feature is never on by default, and the normal
 //     Tauri configs never turn it on.
 //
 // Artifact mode (release scripts, after a build):
 //   bun scripts/wb-guard-edition.ts --edition standard --dist dist --binary X.app
-//     the built frontend and app contain no publik marker;
+//     the built frontend and app contain no publik marker, and not the word
+//     "publik" in any spelling;
 //   bun scripts/wb-guard-edition.ts --edition publik --binary X.app
 //     the app reads the publik update feed (so the feature really was on).
 
@@ -71,6 +76,12 @@ function gatesOnPublik(line: string): boolean {
   return !/not\s*\(\s*feature\s*=\s*"publik"/.test(line);
 }
 
+/** A string literal on the line mentions publik (cfg attributes aside). */
+function rustStringMentionsPublik(line: string): boolean {
+  const code = line.replace(/feature\s*=\s*"publik"/g, "");
+  return /"[^"\n]*publik[^"\n]*"/i.test(code);
+}
+
 const RUST_USE_RE = /\bmod\s+publik\b|\bpublik::/;
 const TS_IMPORT_RE =
   /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+|\brequire\s*\(\s*)["'`]([^"'`]*)["'`]/g;
@@ -112,6 +123,24 @@ function scanSources(r: GuardResult, root: string): void {
             message: `"${m}" belongs in the publik folders only`,
           });
       }
+      if (
+        rel.startsWith("src/") &&
+        rel !== FRONTEND_GATEWAY &&
+        /publik/i.test(line)
+      )
+        r.violations.push({
+          file: rel,
+          line: i + 1,
+          rule: "edition/text",
+          message: "normal frontend files must not mention publik",
+        });
+      if (rel.endsWith(".rs") && rustStringMentionsPublik(line))
+        r.violations.push({
+          file: rel,
+          line: i + 1,
+          rule: "edition/text",
+          message: "a Rust string outside the publik folder mentions publik",
+        });
       if (rel.endsWith(".rs") && RUST_USE_RE.test(line)) {
         const window = lines.slice(Math.max(0, i - 3), i + 1);
         if (!window.some(gatesOnPublik))
@@ -226,6 +255,7 @@ function scanArtifacts(r: GuardResult, opts: EditionOptions): void {
     const found = new Set<string>();
     for (const s of strings) {
       for (const m of PUBLIK_MARKERS) if (s.includes(m)) found.add(m);
+      if (found.size === 0 && /publik/i.test(s)) found.add("publik");
       if (s.includes(PUBLIK_REQUIRED)) sawRequired = true;
     }
     if (edition === "standard")

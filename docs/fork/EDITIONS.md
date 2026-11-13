@@ -65,17 +65,35 @@ run wb:guards`) fails CI when publik code could reach the normal build:
 - a publik marker (publik's domain, its install and telemetry API paths, the
   publik feed, checksum and asset names, its self-test switch) anywhere in
   `src/` or `src-tauri/` outside the folders above;
-- a Rust `mod publik` or `publik::` path without a `#[cfg(feature =
-"publik")]` on it or within the three lines above it;
+- a Rust `mod publik` or `publik::` path without a
+  `#[cfg(feature = "publik")]` on it or within the three lines above it;
+- the word publik in anything a normal user could see: any frontend file
+  outside `src/fork/publik/` and the gateway (screens, settings, the about
+  page, translations), or a Rust string literal outside the publik folder;
 - a frontend import of a `publik/` path from anywhere but
   `src/fork/edition.ts`;
 - the `publik` feature in Cargo's `default` features, or in the normal Tauri
   configs.
 
 `macos.sh` also runs it on what it built: `--edition standard` fails if the
-built frontend (`dist/`) or the app contains any publik marker, and
+built frontend (`dist/`) or the app contains any publik marker or the word
+publik in any spelling, and
 `--edition publik` fails if the app does not read `latest-publik.json` (the
 feature was not really on).
+
+## What people who download Wispr Bro elsewhere see
+
+Nothing from publik. A copy downloaded from anywhere but publik is the normal
+edition: its screens, settings, about page, menus and translations never
+mention publik (the guard above enforces it), and its updates come from
+`latest.json`, which only ever points at the normal edition.
+
+A site that links straight to a normal asset (for example
+`releases/latest/download/Wispr-Bro_<v>_aarch64.dmg`) is unaffected, since
+those names never change. A site that links to the GitHub releases page will
+show the `Wispr-Bro-publik_*` downloads next to the normal ones once the
+publik edition is switched on, with a line in the release notes saying which
+is which.
 
 ## The publik app token
 

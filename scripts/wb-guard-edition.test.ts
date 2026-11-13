@@ -97,6 +97,36 @@ describe("edition guard: sources", () => {
   });
 });
 
+describe("edition guard: what a normal user sees", () => {
+  const WORD = "Pub" + "lik";
+  test("the word in normal UI text or translations fails", () => {
+    for (const [rel, body] of [
+      ["src/i18n/locales/en/fork.json", `{"about": "Sign in with ${WORD}"}`],
+      ["src/fork/settings/About.tsx", `<p>${WORD} edition</p>`],
+    ]) {
+      const r = runEdition({ root: tree({ [rel]: body }) });
+      expect(r.violations.map((v) => v.rule)).toContain("edition/text");
+    }
+  });
+
+  test("a Rust string mentioning it fails; the cfg itself does not", () => {
+    const bad = runEdition({
+      root: tree({
+        "src-tauri/src/fork/tray.rs": `const LABEL: &str = "${WORD} account";\n`,
+      }),
+    });
+    expect(bad.violations.map((v) => v.rule)).toContain("edition/text");
+  });
+
+  test("a normal build with the word anywhere fails", () => {
+    const root = tree({});
+    const dist = join(root, "dist-word");
+    mkdirSync(dist);
+    writeFileSync(join(dist, "index.js"), `t("${WORD} edition")`);
+    expect(failed(runEdition({ edition: "standard", dist }))).toBe(true);
+  });
+});
+
 describe("edition guard: artifacts", () => {
   test("a normal build with a marker fails, without one passes", () => {
     const root = tree({});
