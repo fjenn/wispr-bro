@@ -230,6 +230,7 @@ export const FORK_PATHS: string[] = [
   "src/i18n/locales/*/fork.flags.json",
   "src/i18n/locales/en/fork.source-hashes.json", // S-37b: English source hashes
   "src-tauri/tauri.fork.conf.json",
+  "src-tauri/tauri.publik.conf.json", // docs/fork/EDITIONS.md
   "src-tauri/capabilities/fork.json",
   "src-tauri/icons-fork/**",
   "src-tauri/resources/fork/**",

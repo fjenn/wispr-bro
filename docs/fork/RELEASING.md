@@ -6,6 +6,10 @@ F-02 built the release path: one script for this Mac and for CI
 the custody rules below. Nothing has been pushed yet (CONTEXT.md: the owner
 pushes after testing).
 
+The publik edition is a second, opt-in build from the same tag with its own
+assets and feed (`Wispr-Bro-publik_*`, `latest-publik.json`); the normal
+release is unchanged. See `docs/fork/EDITIONS.md`.
+
 ## Identity (never change after the first public build)
 
 | What                | Value                                                                                    | Where it is pinned                                                                                     |

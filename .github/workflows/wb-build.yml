@@ -17,6 +17,12 @@
 # Each arch uploads wb-release-macos-<arch>; wb-release.yml merges them into
 # one release and one latest.json.
 #
+# Editions (docs/fork/EDITIONS.md): the normal Wispr Bro always builds, as
+# `wb-release-macos-<arch>` with the same asset names as ever. With
+# `publik: true` the publik edition also builds for each arch, in its own
+# jobs, as `wb-release-macos-<arch>-publik` (Wispr-Bro-publik_* assets,
+# latest-publik.json, SHA256SUMS-publik). Off by default.
+#
 # Signing never runs on sync or feature branches: a signed build needs the
 # `wispr-bro` branch or a `v*` tag; any other ref only gets the unsigned dry
 # run (`signed: false`, no secrets used).
@@ -40,6 +46,11 @@ on:
         type: boolean
         required: false
         default: true
+      publik:
+        description: "also build the publik edition (docs/fork/EDITIONS.md)"
+        type: boolean
+        required: false
+        default: false
     secrets:
       APPLE_CERTIFICATE:
         required: false
@@ -65,13 +76,17 @@ on:
         description: "release tag; default v<overlay version>"
         type: string
         default: ""
+      publik:
+        description: "also build the publik edition (docs/fork/EDITIONS.md)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   build:
-    name: build macOS ${{ matrix.arch }}
+    name: build macOS ${{ matrix.arch }}${{ matrix.edition == 'publik' && ' (publik)' || '' }}
     if: ${{ !inputs.signed || github.ref == 'refs/heads/wispr-bro' || startsWith(github.ref, 'refs/tags/v') }}
     runs-on: macos-26
     timeout-minutes: 120
@@ -79,9 +94,11 @@ jobs:
       fail-fast: false
       matrix:
         arch: [aarch64, x86_64]
+        edition: ${{ fromJSON(inputs.publik && '["standard","publik"]' || '["standard"]') }}
     env:
       SIGNED: ${{ inputs.signed && '1' || '0' }}
       TAG: ${{ inputs.tag }}
+      EDITION: ${{ matrix.edition }}
     steps:
       - uses: actions/checkout@v5
 
@@ -100,7 +117,7 @@ jobs:
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: "./src-tauri -> target"
-          key: ${{ matrix.arch == 'aarch64' && 'wb-build-release' || 'wb-build-release-x86_64' }}
+          key: ${{ matrix.arch == 'aarch64' && 'wb-build-release' || 'wb-build-release-x86_64' }}${{ matrix.edition == 'publik' && '-publik' || '' }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -152,7 +169,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ inputs.signed && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
         run: |
           set -euo pipefail
-          args=(--out release-out --arch "${{ matrix.arch }}")
+          args=(--out release-out --arch "${{ matrix.arch }}" --edition "$EDITION")
           [ -n "$TAG" ] && args+=(--tag "$TAG")
           [ "$SIGNED" = 1 ] || args+=(--unsigned)
           scripts/wb-release/macos.sh "${args[@]}"
@@ -161,7 +178,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: wb-release-macos-${{ matrix.arch }}
+          name: wb-release-macos-${{ matrix.arch }}${{ matrix.edition == 'publik' && '-publik' || '' }}
           path: release-out/
           retention-days: 14
 
@@ -172,7 +189,7 @@ jobs:
           rm -f "$RUNNER_TEMP/AuthKey.p8"
 
   verify:
-    name: wb-verify ${{ matrix.arch }} (fresh runner)
+    name: wb-verify ${{ matrix.arch }} (fresh runner)${{ matrix.edition == 'publik' && ' (publik)' || '' }}
     needs: build
     runs-on: macos-26
     timeout-minutes: 30
@@ -180,6 +197,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: [aarch64, x86_64]
+        edition: ${{ fromJSON(inputs.publik && '["standard","publik"]' || '["standard"]') }}
     steps:
       - uses: actions/checkout@v5
 
@@ -193,18 +211,19 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: wb-release-macos-${{ matrix.arch }}
+          name: wb-release-macos-${{ matrix.arch }}${{ matrix.edition == 'publik' && '-publik' || '' }}
           path: release-out
 
       - name: codesign, Gatekeeper, stapler, updater signature, --list-devices
         env:
           SIGNED: ${{ inputs.signed && '1' || '0' }}
+          SUMS: ${{ matrix.edition == 'publik' && 'SHA256SUMS-publik' || 'SHA256SUMS' }}
         run: |
           set -euo pipefail
           dmg="$(ls release-out/*.dmg)"
           if [ "$SIGNED" = 1 ]; then
             scripts/wb-release/verify.sh --dmg "$dmg" --updater "$(ls release-out/*.app.tar.gz)"
-            (cd release-out && shasum -a 256 -c SHA256SUMS)
+            (cd release-out && shasum -a 256 -c "$SUMS")
           else
             scripts/wb-release/verify.sh --dmg "$dmg" --unsigned
           fi

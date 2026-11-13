@@ -217,6 +217,7 @@ export function isForkHostScope(rel: string): boolean {
   return (
     isForkCodePath(rel) ||
     rel === "src-tauri/tauri.fork.conf.json" ||
+    rel === "src-tauri/tauri.publik.conf.json" ||
     /^src\/i18n\/locales\/[^/]+\/fork(\.flags)?\.json$/.test(rel)
   );
 }

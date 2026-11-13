@@ -54,6 +54,9 @@ pub mod onboarding;
 #[cfg(test)]
 mod perf_bench;
 pub mod pill;
+/// The publik edition only (docs/fork/EDITIONS.md); never in the normal build.
+#[cfg(feature = "publik")]
+pub mod publik;
 pub mod recovery;
 pub mod restore;
 pub mod scratchpad;

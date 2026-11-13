@@ -35,6 +35,14 @@
 #               Silicon Mac builds both; the Intel app is cross-compiled
 #               (`tauri build --target x86_64-apple-darwin`) and its smoke test
 #               runs under Rosetta 2
+#   --edition   standard (default) or publik (docs/fork/EDITIONS.md)
+#
+# Editions: `--edition standard` is the normal Wispr Bro, with exactly the
+# asset names above. `--edition publik` builds the publik edition
+# (src-tauri/tauri.publik.conf.json turns the `publik` feature on) as
+# `Wispr-Bro-publik_<v>_<arch>.*` with its own feed `latest-publik.json` and
+# `SHA256SUMS-publik`. Either way the edition guard checks the built app: a
+# normal build with anything from publik in it fails.
 #   --tag       release tag (default v<overlay version>); `-beta.N` puts the
 #               assets on the rolling `beta` release in latest.json
 #   --unsigned  CI dry run without secrets: ad-hoc signature, no notarization,
@@ -63,6 +71,7 @@ ARCH="aarch64"
 
 OUT=""
 TAG=""
+EDITION="standard"
 UNSIGNED=0
 REUSE=0
 while [[ $# -gt 0 ]]; do
@@ -70,6 +79,7 @@ while [[ $# -gt 0 ]]; do
     --out) OUT="$2"; shift 2 ;;
     --arch) ARCH="$2"; shift 2 ;;
     --tag) TAG="$2"; shift 2 ;;
+    --edition) EDITION="$2"; shift 2 ;;
     --unsigned) UNSIGNED=1; shift ;;
     --reuse-app) REUSE=1; shift ;;
     *) echo "macos.sh: unknown argument $1" >&2; exit 2 ;;
@@ -92,6 +102,20 @@ case "$ARCH" in
 esac
 # The sidecar for the same target (ci/llama-server/build.sh).
 export WB_TARGET="${ARCH}-apple-darwin"
+FEED="latest.json"
+SUMS="SHA256SUMS"
+EDITION_CONFIG=()
+case "$EDITION" in
+  standard) unset VITE_WB_EDITION ;;
+  publik)
+    ASSET_PREFIX="Wispr-Bro-publik"
+    FEED="latest-publik.json"
+    SUMS="SHA256SUMS-publik"
+    EDITION_CONFIG=(--config src-tauri/tauri.publik.conf.json)
+    export VITE_WB_EDITION=publik
+    ;;
+  *) echo "macos.sh: --edition must be standard or publik" >&2; exit 2 ;;
+esac
 
 VERSION="$(bun -e "console.log(require('${ROOT}/src-tauri/tauri.fork.conf.json').version)")"
 TAG="${TAG:-v${VERSION}}"
@@ -105,7 +129,7 @@ die() { echo "macos.sh: $*" | tee -a "$LOG" >&2; exit 1; }
 cd "$ROOT"
 TAG_INFO="$(bun scripts/wb-release/tag.ts "$TAG" --tags /dev/null)" || die "bad tag $TAG"
 RELEASE_TAG="$(sed -n 's/^release_tag=//p' <<<"$TAG_INFO")"
-echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}, ${ARCH}" | tee -a "$LOG"
+echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}, ${ARCH}, edition ${EDITION}" | tee -a "$LOG"
 
 step "identity guard (release mode)"
 bun scripts/wb-guard-identity.ts --release --tag "$TAG" | tee -a "$LOG"
@@ -150,7 +174,7 @@ step "tauri build (.app)"
 # Tauri notarizes on its own when these are set; this script does it instead.
 unset APPLE_ID APPLE_PASSWORD APPLE_TEAM_ID APPLE_API_KEY APPLE_API_ISSUER APPLE_API_KEY_PATH
 export CMAKE_POLICY_VERSION_MINIMUM=3.5
-BUILD_CONFIG=(--config src-tauri/tauri.fork.conf.json)
+BUILD_CONFIG=(--config src-tauri/tauri.fork.conf.json ${EDITION_CONFIG[@]+"${EDITION_CONFIG[@]}"})
 if [[ $UNSIGNED == 1 ]]; then
   BUILD_CONFIG+=(--config '{"bundle":{"createUpdaterArtifacts":false}}')
   unset APPLE_SIGNING_IDENTITY TAURI_SIGNING_PRIVATE_KEY TAURI_SIGNING_PRIVATE_KEY_PASSWORD
@@ -178,6 +202,10 @@ while IFS= read -r -d '' f; do
   [[ " $(lipo -archs "$f") " == *" ${LIPO_ARCH} "* ]] || { echo "  ✗ ${f#"$APP"/}: $(lipo -archs "$f"), want ${LIPO_ARCH}" | tee -a "$LOG"; arch_bad=1; }
 done < <(find "$APP/Contents" -type f -print0)
 [[ $arch_bad == 0 ]] || die "Mach-O files built for the wrong architecture"
+
+step "edition guard (${EDITION})"
+bun scripts/wb-guard-edition.ts --edition "$EDITION" --dist dist --binary "$APP" | tee -a "$LOG" \
+  || die "the ${EDITION} build does not match its edition (docs/fork/EDITIONS.md)"
 
 if [[ $UNSIGNED == 0 ]]; then
   step "re-sign inside-out with a secure timestamp"
@@ -244,11 +272,11 @@ codesign --force --timestamp ${KEYCHAIN_ARGS[@]+"${KEYCHAIN_ARGS[@]}"} --sign "$
 notarize "$DMG" dmg
 xcrun stapler staple "$DMG" | tee -a "$LOG"
 
-step "latest.json + SHA256SUMS"
+step "${FEED} + ${SUMS}"
 bun scripts/wb-release/manifest.ts --version "$VERSION" --release-tag "$RELEASE_TAG" \
-  --asset "darwin-${ARCH}=${TARBALL}" --out "${OUT}/latest.json" | tee -a "$LOG"
+  --asset "darwin-${ARCH}=${TARBALL}" --out "${OUT}/${FEED}" | tee -a "$LOG"
 ( cd "$OUT" && shasum -a 256 "$(basename "$DMG")" "$(basename "$TARBALL")" \
-  "$(basename "$TARBALL").sig" latest.json > SHA256SUMS )
+  "$(basename "$TARBALL").sig" "$FEED" > "$SUMS" )
 
 step "verify"
 scripts/wb-release/verify.sh --dmg "$DMG" --updater "$TARBALL" --version "$VERSION" | tee -a "$LOG"

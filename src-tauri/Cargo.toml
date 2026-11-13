@@ -226,6 +226,14 @@ tokio = { version = "1.43.0", features = ["macros", "net", "io-util", "sync", "t
 tauri = { version = "2.11.5", features = ["test"] }
 # fork: Wispr Bro test-only dependencies (end)
 
+# fork: Wispr Bro editions (begin)
+# `publik` builds the publik edition (docs/fork/EDITIONS.md): src/fork/publik/
+# and its hooks compile only with it. Off by default, so the normal Wispr Bro
+# build contains none of it. Turned on by src-tauri/tauri.publik.conf.json.
+[features]
+publik = []
+# fork: Wispr Bro editions (end)
+
 [profile.release]
 lto = true
 codegen-units = 1
