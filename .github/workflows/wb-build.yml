@@ -11,9 +11,11 @@
 # staple the DMG (RS-12) nor fill the rolling beta release, and the Tauri CLI
 # it wraps is what macos.sh calls.
 #
-# Matrix: macos-26 aarch64 only (DEC-29: Apple Silicon first; an x86_64
-# entry comes back with Intel, its smoke test under Rosetta 2 or skipped with
-# a recorded reason).
+# Matrix: aarch64 (Apple Silicon) and x86_64 (Intel), both on macos-26 Apple
+# Silicon runners. The Intel app and its sidecar are cross-compiled
+# (macos.sh --arch x86_64); their checks and smoke test run under Rosetta 2.
+# Each arch uploads wb-release-macos-<arch>; wb-release.yml merges them into
+# one release and one latest.json.
 #
 # Signing never runs on sync or feature branches: a signed build needs the
 # `wispr-bro` branch or a `v*` tag; any other ref only gets the unsigned dry
@@ -69,10 +71,14 @@ permissions:
 
 jobs:
   build:
-    name: build macOS aarch64
+    name: build macOS ${{ matrix.arch }}
     if: ${{ !inputs.signed || github.ref == 'refs/heads/wispr-bro' || startsWith(github.ref, 'refs/tags/v') }}
     runs-on: macos-26
     timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [aarch64, x86_64]
     env:
       SIGNED: ${{ inputs.signed && '1' || '0' }}
       TAG: ${{ inputs.tag }}
@@ -84,11 +90,17 @@ jobs:
           bun-version: latest
 
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.arch == 'x86_64' && 'x86_64-apple-darwin' || '' }}
+
+      - name: Rosetta 2 (runs the Intel sidecar and app checks)
+        if: ${{ matrix.arch == 'x86_64' }}
+        run: /usr/bin/pgrep -q oahd || sudo softwareupdate --install-rosetta --agree-to-license
 
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: "./src-tauri -> target"
-          key: wb-build-release
+          key: ${{ matrix.arch == 'aarch64' && 'wb-build-release' || 'wb-build-release-x86_64' }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -140,7 +152,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ inputs.signed && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
         run: |
           set -euo pipefail
-          args=(--out release-out)
+          args=(--out release-out --arch "${{ matrix.arch }}")
           [ -n "$TAG" ] && args+=(--tag "$TAG")
           [ "$SIGNED" = 1 ] || args+=(--unsigned)
           scripts/wb-release/macos.sh "${args[@]}"
@@ -149,7 +161,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: wb-release-macos-aarch64
+          name: wb-release-macos-${{ matrix.arch }}
           path: release-out/
           retention-days: 14
 
@@ -160,10 +172,14 @@ jobs:
           rm -f "$RUNNER_TEMP/AuthKey.p8"
 
   verify:
-    name: wb-verify (fresh runner)
+    name: wb-verify ${{ matrix.arch }} (fresh runner)
     needs: build
     runs-on: macos-26
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [aarch64, x86_64]
     steps:
       - uses: actions/checkout@v5
 
@@ -171,9 +187,13 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Rosetta 2 (Intel smoke test)
+        if: ${{ matrix.arch == 'x86_64' }}
+        run: /usr/bin/pgrep -q oahd || sudo softwareupdate --install-rosetta --agree-to-license
+
       - uses: actions/download-artifact@v4
         with:
-          name: wb-release-macos-aarch64
+          name: wb-release-macos-${{ matrix.arch }}
           path: release-out
 
       - name: codesign, Gatekeeper, stapler, updater signature, --list-devices

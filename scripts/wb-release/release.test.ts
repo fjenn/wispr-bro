@@ -115,6 +115,39 @@ describe("latest.json", () => {
     });
   });
 
+  test("an Intel asset adds its own entries and leaves Apple Silicon's as they were", () => {
+    const arm = {
+      platform: "darwin-aarch64" as const,
+      file: "/out/Wispr-Bro_1.0.0-alpha.6_aarch64.app.tar.gz",
+      signature: "YQ==",
+    };
+    const intel = {
+      platform: "darwin-x86_64" as const,
+      file: "/x/Wispr-Bro_1.0.0-alpha.6_x86_64.app.tar.gz",
+      signature: "aQ==",
+    };
+    const base = {
+      version: "1.0.0-alpha.6",
+      releaseTag: "v1.0.0-alpha.6",
+      date: "2026-11-14T12:00:00Z",
+    };
+    const armOnly = buildManifest({ ...base, assets: [arm] });
+    const both = buildManifest({ ...base, assets: [arm, intel] });
+    expect(Object.keys(both.platforms).sort()).toEqual([
+      "darwin-aarch64",
+      "darwin-aarch64-app",
+      "darwin-x86_64",
+      "darwin-x86_64-app",
+    ]);
+    for (const k of ["darwin-aarch64", "darwin-aarch64-app"]) {
+      expect(both.platforms[k]).toEqual(armOnly.platforms[k]);
+    }
+    expect(both.platforms["darwin-x86_64-app"]).toEqual({
+      signature: "aQ==",
+      url: "https://github.com/fjenn/wispr-bro/releases/download/v1.0.0-alpha.6/Wispr-Bro_1.0.0-alpha.6_x86_64.app.tar.gz",
+    });
+  });
+
   test("beta assets live on the rolling beta release; a stand-in base works", () => {
     const m = buildManifest({
       version: "1.0.0-beta.1",

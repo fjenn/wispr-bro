@@ -19,7 +19,7 @@
 #      environment) so this script controls it;
 #   4. every Mach-O in the bundle is checked for our Team ID and the hardened
 #      runtime, then the app is notarized (`notarytool --wait`) and stapled;
-#   5. the updater archive `Wispr-Bro_<v>_aarch64.app.tar.gz` is made from the
+#   5. the updater archive `Wispr-Bro_<v>_<arch>.app.tar.gz` is made from the
 #      *stapled* app and signed with the updater key (`tauri signer sign`),
 #      then checked against the overlay pubkey;
 #   6. the DMG is made from the stapled app with its install window
@@ -30,7 +30,11 @@
 #   7. `latest.json` for the release, SHA256SUMS, and scripts/wb-release/
 #      verify.sh on the outputs.
 #
-# Usage: scripts/wb-release/macos.sh --out <dir> [--tag vX.Y.Z[-pre.N]] [--unsigned] [--reuse-app]
+# Usage: scripts/wb-release/macos.sh --out <dir> [--arch aarch64|x86_64] [--tag vX.Y.Z[-pre.N]] [--unsigned] [--reuse-app]
+#   --arch      aarch64 (Apple Silicon, default) or x86_64 (Intel). An Apple
+#               Silicon Mac builds both; the Intel app is cross-compiled
+#               (`tauri build --target x86_64-apple-darwin`) and its smoke test
+#               runs under Rosetta 2
 #   --tag       release tag (default v<overlay version>); `-beta.N` puts the
 #               assets on the rolling `beta` release in latest.json
 #   --unsigned  CI dry run without secrets: ad-hoc signature, no notarization,
@@ -64,6 +68,7 @@ REUSE=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --out) OUT="$2"; shift 2 ;;
+    --arch) ARCH="$2"; shift 2 ;;
     --tag) TAG="$2"; shift 2 ;;
     --unsigned) UNSIGNED=1; shift ;;
     --reuse-app) REUSE=1; shift ;;
@@ -71,8 +76,22 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 [[ -n "$OUT" ]] || { echo "usage: macos.sh --out <dir> [--tag v…] [--unsigned]" >&2; exit 2; }
-[[ "$(uname -s)" == Darwin && "$(uname -m)" == arm64 ]] || {
-  echo "macos.sh: Apple Silicon macOS only (DEC-29)" >&2; exit 1; }
+case "$ARCH" in
+  aarch64)
+    [[ "$(uname -s)" == Darwin && "$(uname -m)" == arm64 ]] || {
+      echo "macos.sh: the aarch64 build needs an Apple Silicon Mac" >&2; exit 1; }
+    TAURI_TARGET=()
+    LIPO_ARCH=arm64
+    BUNDLE_DIR="${ROOT}/src-tauri/target/release/bundle/macos" ;;
+  x86_64)
+    [[ "$(uname -s)" == Darwin ]] || { echo "macos.sh: macOS only" >&2; exit 1; }
+    TAURI_TARGET=(--target x86_64-apple-darwin)
+    LIPO_ARCH=x86_64
+    BUNDLE_DIR="${ROOT}/src-tauri/target/x86_64-apple-darwin/release/bundle/macos" ;;
+  *) echo "macos.sh: --arch aarch64 or x86_64, not $ARCH" >&2; exit 2 ;;
+esac
+# The sidecar for the same target (ci/llama-server/build.sh).
+export WB_TARGET="${ARCH}-apple-darwin"
 
 VERSION="$(bun -e "console.log(require('${ROOT}/src-tauri/tauri.fork.conf.json').version)")"
 TAG="${TAG:-v${VERSION}}"
@@ -86,7 +105,7 @@ die() { echo "macos.sh: $*" | tee -a "$LOG" >&2; exit 1; }
 cd "$ROOT"
 TAG_INFO="$(bun scripts/wb-release/tag.ts "$TAG" --tags /dev/null)" || die "bad tag $TAG"
 RELEASE_TAG="$(sed -n 's/^release_tag=//p' <<<"$TAG_INFO")"
-echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}" | tee -a "$LOG"
+echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}, ${ARCH}" | tee -a "$LOG"
 
 step "identity guard (release mode)"
 bun scripts/wb-guard-identity.ts --release --tag "$TAG" | tee -a "$LOG"
@@ -146,13 +165,19 @@ else
     export TAURI_SIGNING_PRIVATE_KEY_PASSWORD
   fi
 fi
-APP="${ROOT}/src-tauri/target/release/bundle/macos/${PRODUCT}.app"
+APP="${BUNDLE_DIR}/${PRODUCT}.app"
 if [[ $REUSE == 1 && -d "$APP" ]]; then
   echo "reusing $APP" | tee -a "$LOG"
 else
-  bun tauri build "${BUILD_CONFIG[@]}" --bundles app 2>&1 | tee -a "${OUT}/tauri-build.log" | tail -25
+  bun tauri build "${BUILD_CONFIG[@]}" ${TAURI_TARGET[@]+"${TAURI_TARGET[@]}"} --bundles app 2>&1 | tee -a "${OUT}/tauri-build.log" | tail -25
 fi
 [[ -d "$APP" ]] || die "no app at $APP"
+arch_bad=0
+while IFS= read -r -d '' f; do
+  grep -q 'Mach-O' <<<"$(file -b "$f")" || continue
+  [[ " $(lipo -archs "$f") " == *" ${LIPO_ARCH} "* ]] || { echo "  ✗ ${f#"$APP"/}: $(lipo -archs "$f"), want ${LIPO_ARCH}" | tee -a "$LOG"; arch_bad=1; }
+done < <(find "$APP/Contents" -type f -print0)
+[[ $arch_bad == 0 ]] || die "Mach-O files built for the wrong architecture"
 
 if [[ $UNSIGNED == 0 ]]; then
   step "re-sign inside-out with a secure timestamp"

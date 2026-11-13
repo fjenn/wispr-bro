@@ -12,6 +12,9 @@
 //!   (§5.1 "first take with ASR and LLM both cold": +2.5 s p95, "else that
 //!   take fails open"), outside the request deadline. Prewarm at key-down
 //!   (S-10) normally hides the start inside the recording.
+//! - **Intel Macs:** the model runs on the CPU, so every request, take,
+//!   transform and instruction deadline is [`CPU_FACTOR`] times longer there
+//!   ([`for_this_mac`]); without it a cleanup would fail open on most takes.
 
 use std::time::Duration;
 
@@ -27,6 +30,19 @@ const PER_TOKEN_MS: u64 = 25;
 
 fn tokens(text: &str) -> u64 {
     u64::try_from(text.chars().count().div_ceil(4)).unwrap_or(u64::MAX)
+}
+
+/// How much longer a cleanup may take on an Intel Mac, where the model runs
+/// on the CPU (estimate; Intel test checklist in docs/fork/INTEL.md).
+pub const CPU_FACTOR: f64 = 2.5;
+
+/// `d` for this Mac: [`CPU_FACTOR`] times longer on Intel, as is otherwise.
+pub fn for_this_mac(d: Duration) -> Duration {
+    if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+        d.mul_f64(CPU_FACTOR)
+    } else {
+        d
+    }
 }
 
 fn formula(text: &str) -> Duration {
@@ -47,7 +63,7 @@ pub fn request(text: &str) -> Duration {
     {
         return Duration::from_millis(ms);
     }
-    formula(text).min(REQUEST_CAP)
+    for_this_mac(formula(text).min(REQUEST_CAP))
 }
 
 /// Floor of a transform's deadline: what the S-21 shortcut always had.
@@ -58,7 +74,7 @@ pub const TRANSFORM_FLOOR: Duration = Duration::from_millis(2800);
 /// [`TAKE_CAP`]. A user-started rewrite of a long note or a multi-paragraph
 /// selection needs the time a dictation of that length gets; Esc cancels.
 pub fn transform(text: &str) -> Duration {
-    formula(text).max(TRANSFORM_FLOOR).min(TAKE_CAP)
+    for_this_mac(formula(text).max(TRANSFORM_FLOOR).min(TAKE_CAP))
 }
 
 /// How long the instruction model's server may take to start (XF2). It is
@@ -79,28 +95,45 @@ const INSTRUCT_PER_TOKEN_MS: u64 = 45;
 /// text, so it gets more room than a cleanup; a run that times out says
 /// "Couldn't apply", so the deadline marks a real failure.
 pub fn instruct(text: &str) -> Duration {
-    Duration::from_millis(
-        INSTRUCT_BASE_MS.saturating_add(tokens(text).saturating_mul(INSTRUCT_PER_TOKEN_MS)),
+    for_this_mac(
+        Duration::from_millis(
+            INSTRUCT_BASE_MS.saturating_add(tokens(text).saturating_mul(INSTRUCT_PER_TOKEN_MS)),
+        )
+        .clamp(INSTRUCT_FLOOR, INSTRUCT_CAP),
     )
-    .clamp(INSTRUCT_FLOOR, INSTRUCT_CAP)
 }
 
 /// Deadline of a whole take of `text` with `words` words.
 pub fn take(text: &str, words: u32) -> Duration {
     let blocks = u32::max(1, words.div_ceil(200));
     let cap = REQUEST_CAP.saturating_mul(blocks).min(TAKE_CAP);
-    formula(text).min(cap)
+    for_this_mac(formula(text).min(cap))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    /// A deadline in ms as this Mac gets it.
+    fn ms(n: u64) -> Duration {
+        for_this_mac(Duration::from_millis(n))
+    }
+
+    #[test]
+    fn intel_gets_longer_deadlines_and_apple_silicon_the_same() {
+        let d = Duration::from_millis(2000);
+        if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+            assert_eq!(for_this_mac(d).as_millis(), 5000);
+        } else {
+            assert_eq!(for_this_mac(d), d);
+        }
+    }
+
     #[test]
     fn request_deadline_is_the_r5_formula() {
-        assert_eq!(request("").as_millis(), 1200);
-        assert_eq!(request(&"x".repeat(280)).as_millis(), 2950);
-        assert_eq!(request(&"x".repeat(100_000)), REQUEST_CAP);
+        assert_eq!(request(""), ms(1200));
+        assert_eq!(request(&"x".repeat(280)), ms(2950));
+        assert_eq!(request(&"x".repeat(100_000)), for_this_mac(REQUEST_CAP));
         // Same numbers as the eval scorer's deadlineMs().
         let scorer = include_str!("../../../../scripts/wb-eval-cleanup.ts");
         assert!(scorer.contains("Math.min(6000, 1200 + 25 * expectedTokens)"));
@@ -108,20 +141,20 @@ mod tests {
 
     #[test]
     fn transform_deadline_scales_with_the_text() {
-        assert_eq!(transform("short"), TRANSFORM_FLOOR);
+        assert_eq!(transform("short"), for_this_mac(TRANSFORM_FLOOR));
         // A 336-word note (~1,900 characters) gets the cleanup formula.
-        assert_eq!(transform(&"x".repeat(1900)).as_millis(), 1200 + 475 * 25);
+        assert_eq!(transform(&"x".repeat(1900)), ms(1200 + 475 * 25));
         // 675 words (~3,800 characters): 24.95 s by the formula, capped.
-        assert_eq!(transform(&"x".repeat(3800)), TAKE_CAP);
+        assert_eq!(transform(&"x".repeat(3800)), for_this_mac(TAKE_CAP));
     }
 
     #[test]
     fn instruct_deadline_allows_the_slower_model_and_scales() {
-        assert_eq!(instruct("short"), INSTRUCT_FLOOR);
+        assert_eq!(instruct("short"), for_this_mac(INSTRUCT_FLOOR));
         // The owner's rc6 runs took up to 6.5 s on a sentence: well inside.
         assert!(instruct(&"x".repeat(200)) >= Duration::from_secs(10));
-        assert_eq!(instruct(&"x".repeat(4000)).as_millis(), 5000 + 1000 * 45);
-        assert_eq!(instruct(&"x".repeat(100_000)), INSTRUCT_CAP);
+        assert_eq!(instruct(&"x".repeat(4000)), ms(5000 + 1000 * 45));
+        assert_eq!(instruct(&"x".repeat(100_000)), for_this_mac(INSTRUCT_CAP));
         assert!(INSTRUCT_START > START_BUDGET);
     }
 
@@ -129,11 +162,11 @@ mod tests {
     fn take_deadline_scales_its_cap_per_200_words() {
         // ≤ 200 words: the request rule.
         assert_eq!(take(&"x".repeat(280), 50), request(&"x".repeat(280)));
-        assert_eq!(take(&"x".repeat(1200), 200).as_millis(), 6000);
+        assert_eq!(take(&"x".repeat(1200), 200), ms(6000));
         // 201-400 words: up to 12 s.
-        assert_eq!(take(&"x".repeat(2000), 350).as_millis(), 12_000);
+        assert_eq!(take(&"x".repeat(2000), 350), ms(12_000));
         // Never more than the take cap.
-        assert_eq!(take(&"x".repeat(100_000), 5000), TAKE_CAP);
-        assert_eq!(take("", 0).as_millis(), 1200);
+        assert_eq!(take(&"x".repeat(100_000), 5000), for_this_mac(TAKE_CAP));
+        assert_eq!(take("", 0), ms(1200));
     }
 }

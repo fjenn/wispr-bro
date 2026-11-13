@@ -42,7 +42,7 @@ pub const LLM_DIR: &str = "llm";
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]
 pub enum LlmState {
-    /// No local LLM on this Mac (Intel, DEC-29; or a plain Handy build).
+    /// No local LLM on this machine (under 8 GB, not a Mac, or a plain Handy build).
     Unsupported,
     /// The `llama-server` sidecar is not in this build.
     MissingRuntime,

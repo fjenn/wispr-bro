@@ -19,14 +19,21 @@
 # Env:
 #   WB_LLAMA_SRC_TARBALL  local copy of the source tarball (still sha256-checked)
 #   WB_LLAMA_JOBS         parallel build jobs (default: logical CPUs)
+#   WB_TARGET             aarch64-apple-darwin or x86_64-apple-darwin (default:
+#                         this Mac's own; an Apple Silicon Mac builds the Intel
+#                         one too, and runs its checks under Rosetta 2)
 #
 # BLAS (Accelerate's new cblas_sgemm) is off: that symbol is macOS 13.3+ and
 # would be an unguarded call on 13.0-13.2. The Metal backend does the work;
 # the CPU fallback (`-ngl 0`) uses ggml's own kernels.
 #
-# Apple Silicon only for M1 (DEC-29). The CPU code is built for an M1
-# baseline (armv8.4-a + fp16 + dotprod, no i8mm/SME), never `-mcpu=native`,
-# so a binary built on a newer Mac still runs on an M1.
+# Apple Silicon: Metal, and CPU code for an M1 baseline (armv8.4-a + fp16 +
+# dotprod, no i8mm/SME), never `-mcpu=native`, so a binary built on a newer
+# Mac still runs on an M1.
+# Intel: no Metal (on Intel/AMD GPUs ggml-metal can hang compiling its
+# shaders, Handy #2340, and is rarely faster than the CPU for a 2B model);
+# CPU code for AVX2 + FMA + F16C (Haswell), which every Intel Mac that runs
+# macOS 13 has. The app starts this sidecar with `-ngl 0` (process.rs).
 set -euo pipefail
 
 TAG="b11624"
@@ -40,16 +47,41 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_DIR="${ROOT}/src-tauri/target/wb-sidecar"
 CACHE_DIR="${ROOT}/src-tauri/target/wb-llama-build"
 
-arch="$(uname -m)"
-case "${arch}" in
-  arm64 | aarch64) TRIPLE="aarch64-apple-darwin" ;;
+if [[ -n "${WB_TARGET:-}" ]]; then
+  TRIPLE="${WB_TARGET}"
+else
+  case "$(uname -m)" in
+    arm64 | aarch64) TRIPLE="aarch64-apple-darwin" ;;
+    x86_64) TRIPLE="x86_64-apple-darwin" ;;
+    *) TRIPLE="unknown" ;;
+  esac
+fi
+case "${TRIPLE}" in
+  aarch64-apple-darwin)
+    OSX_ARCH=arm64
+    GPU_FLAGS=(-DGGML_METAL=ON -DGGML_METAL_EMBED_LIBRARY=ON)
+    CPU_FLAGS=(-DGGML_CPU_ARM_ARCH="${CPU_ARCH}")
+    ;;
+  x86_64-apple-darwin)
+    OSX_ARCH=x86_64
+    GPU_FLAGS=(-DGGML_METAL=OFF)
+    CPU_FLAGS=(
+      -DGGML_SSE42=ON
+      -DGGML_AVX=ON
+      -DGGML_AVX2=ON
+      -DGGML_FMA=ON
+      -DGGML_F16C=ON
+      -DGGML_BMI2=ON
+      -DGGML_AVX512=OFF
+    )
+    ;;
   *)
-    echo "build.sh: Apple Silicon only (DEC-29); got ${arch}" >&2
+    echo "build.sh: macOS target aarch64-apple-darwin or x86_64-apple-darwin only; got ${TRIPLE}" >&2
     exit 1
     ;;
 esac
 if [[ "$(uname -s)" != "Darwin" ]]; then
-  echo "build.sh: macOS only for M1" >&2
+  echo "build.sh: macOS only" >&2
   exit 1
 fi
 
@@ -59,12 +91,11 @@ STAMP="${OUT}.stamp"
 CMAKE_FLAGS=(
   -DCMAKE_BUILD_TYPE=Release
   -DCMAKE_OSX_DEPLOYMENT_TARGET="${DEPLOYMENT_TARGET}"
-  -DCMAKE_OSX_ARCHITECTURES=arm64
+  -DCMAKE_OSX_ARCHITECTURES="${OSX_ARCH}"
   -DBUILD_SHARED_LIBS=OFF
-  -DGGML_METAL=ON
-  -DGGML_METAL_EMBED_LIBRARY=ON
+  "${GPU_FLAGS[@]}"
   -DGGML_NATIVE=OFF
-  -DGGML_CPU_ARM_ARCH="${CPU_ARCH}"
+  "${CPU_FLAGS[@]}"
   -DGGML_RPC=OFF
   -DGGML_BLAS=OFF
   -DGGML_BACKEND_DL=OFF
@@ -133,6 +164,7 @@ fi
 
 SRC="${CACHE_DIR}/src-${TAG}"
 BUILD="${CACHE_DIR}/build-${TAG}"
+[[ "${TRIPLE}" == aarch64-apple-darwin ]] || BUILD="${BUILD}-${TRIPLE}"
 if [[ ! -f "${SRC}/CMakeLists.txt" ]]; then
   rm -rf "${SRC}" "${SRC}.tmp"
   mkdir -p "${SRC}.tmp"
@@ -186,7 +218,16 @@ if [[ "${minos}" != "${DEPLOYMENT_TARGET}" ]]; then
   echo "build.sh: minos ${minos:-?}, want ${DEPLOYMENT_TARGET}" >&2
   exit 1
 fi
-# 3. It runs and reports the pinned build.
+# 3. The architecture asked for (no Metal code in the Intel one).
+if ! lipo -archs "${BIN}" | grep -qx "${TRIPLE%%-*}"; then
+  echo "build.sh: ${BIN} is $(lipo -archs "${BIN}"), want ${TRIPLE%%-*}" >&2
+  exit 1
+fi
+if [[ "${TRIPLE}" == x86_64-apple-darwin ]] && otool -L "${BIN}" | grep -q Metal.framework; then
+  echo "build.sh: the Intel sidecar links Metal" >&2
+  exit 1
+fi
+# 4. It runs (Rosetta 2 for Intel on Apple Silicon) and reports the pinned build.
 version="$("${BIN}" --version 2>&1 || true)"
 if ! grep -q "build ${TAG#b}" <<<"${version}"; then
   echo "build.sh: unexpected --version output: ${version}" >&2

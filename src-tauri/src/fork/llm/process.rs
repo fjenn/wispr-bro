@@ -43,6 +43,27 @@ pub enum Device {
     Cpu,
 }
 
+impl Device {
+    /// Where every start begins: Metal on Apple Silicon; the CPU on an Intel
+    /// Mac, whose sidecar is built without Metal (`ci/llama-server/build.sh`:
+    /// Metal on Intel/AMD GPUs can hang at shader compile, Handy #2340).
+    pub const fn initial() -> Self {
+        if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+            Device::Cpu
+        } else {
+            Device::Gpu
+        }
+    }
+
+    /// `gpu` or `cpu`, as [`super::supervisor::ServerStatus`] reports it.
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Device::Gpu => "gpu",
+            Device::Cpu => "cpu",
+        }
+    }
+}
+
 /// Everything needed to start one server.
 #[derive(Debug, Clone)]
 pub struct SpawnSpec {
@@ -134,13 +155,40 @@ impl SpawnSpec {
 }
 
 /// CPU threads: all but two cores, at most 8 (TypeWhisper's rule). Matters
-/// only for the CPU fallback; Metal does the work otherwise.
+/// for the CPU fallback on Apple Silicon (Metal does the work otherwise) and
+/// for every take on an Intel Mac, where it counts physical cores: llama.cpp
+/// runs slower on Hyper-Threading siblings.
 pub fn recommended_threads() -> usize {
+    #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+    if let Some(n) = physical_cores() {
+        return n.clamp(1, 8);
+    }
     std::thread::available_parallelism()
         .map(|n| n.get())
         .unwrap_or(4)
         .saturating_sub(2)
         .clamp(1, 8)
+}
+
+/// `hw.physicalcpu`, or `None` if the kernel call fails.
+#[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+fn physical_cores() -> Option<usize> {
+    let mut n: i32 = 0;
+    let mut len = std::mem::size_of::<i32>();
+    // SAFETY: the sysctl is an int; buffer and length match.
+    let rc = unsafe {
+        libc::sysctlbyname(
+            c"hw.physicalcpu".as_ptr(),
+            (&mut n as *mut i32).cast(),
+            &mut len,
+            std::ptr::null_mut(),
+            0,
+        )
+    };
+    if rc != 0 {
+        return None;
+    }
+    usize::try_from(n).ok().filter(|&n| n > 0)
 }
 
 /// Last lines of the server's stderr, for error messages. Startup output
