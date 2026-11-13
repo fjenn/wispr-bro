@@ -449,8 +449,8 @@ impl<R: Runtime> GateUi for WindowUi<R> {
                     std::thread::sleep(Duration::from_millis(500));
                 }
             }
-            ticks += 1;
-            if ticks % 5 == 0 {
+            ticks = (ticks + 1) % 5;
+            if ticks == 0 {
                 keep_main_hidden(&self.app);
             }
         }
