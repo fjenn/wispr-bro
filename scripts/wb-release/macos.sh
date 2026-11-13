@@ -30,7 +30,7 @@
 #   7. `latest.json` for the release, SHA256SUMS, and scripts/wb-release/
 #      verify.sh on the outputs.
 #
-# Usage: scripts/wb-release/macos.sh --out <dir> [--arch aarch64|x86_64] [--tag vX.Y.Z[-pre.N]] [--unsigned] [--reuse-app]
+# Usage: scripts/wb-release/macos.sh --out <dir> [--arch aarch64|x86_64] [--tag vX.Y.Z[-pre.N]] [--edition standard|publik] [--unsigned] [--reuse-app]
 #   --arch      aarch64 (Apple Silicon, default) or x86_64 (Intel). An Apple
 #               Silicon Mac builds both; the Intel app is cross-compiled
 #               (`tauri build --target x86_64-apple-darwin`) and its smoke test
@@ -42,7 +42,10 @@
 # (src-tauri/tauri.publik.conf.json turns the `publik` feature on) as
 # `Wispr-Bro-publik_<v>_<arch>.*` with its own feed `latest-publik.json` and
 # `SHA256SUMS-publik`. Either way the edition guard checks the built app: a
-# normal build with anything from publik in it fails.
+# normal build with anything from publik in it fails. The publik edition bakes
+# in publik's app token from `PUBLIK_APP_TOKEN` (a GitHub Actions secret;
+# never in the repository); a signed publik build without it stops here, the
+# normal build never sees it.
 #   --tag       release tag (default v<overlay version>); `-beta.N` puts the
 #               assets on the rolling `beta` release in latest.json
 #   --unsigned  CI dry run without secrets: ad-hoc signature, no notarization,
@@ -106,7 +109,7 @@ FEED="latest.json"
 SUMS="SHA256SUMS"
 EDITION_CONFIG=()
 case "$EDITION" in
-  standard) unset VITE_WB_EDITION ;;
+  standard) unset VITE_WB_EDITION PUBLIK_APP_TOKEN ;;
   publik)
     ASSET_PREFIX="Wispr-Bro-publik"
     FEED="latest-publik.json"
@@ -116,6 +119,12 @@ case "$EDITION" in
     ;;
   *) echo "macos.sh: --edition must be standard or publik" >&2; exit 2 ;;
 esac
+if [[ "$EDITION" == publik && "${PUBLIK_APP_TOKEN:-}" != pat_* ]]; then
+  if [[ $UNSIGNED == 0 ]]; then
+    echo "macos.sh: the publik edition needs PUBLIK_APP_TOKEN (pat_…; docs/fork/EDITIONS.md)" >&2; exit 2
+  fi
+  echo "macos.sh: no PUBLIK_APP_TOKEN: this dry-run publik build will say it has no publik app token" >&2
+fi
 
 VERSION="$(bun -e "console.log(require('${ROOT}/src-tauri/tauri.fork.conf.json').version)")"
 TAG="${TAG:-v${VERSION}}"
@@ -206,6 +215,11 @@ done < <(find "$APP/Contents" -type f -print0)
 step "edition guard (${EDITION})"
 bun scripts/wb-guard-edition.ts --edition "$EDITION" --dist dist --binary "$APP" | tee -a "$LOG" \
   || die "the ${EDITION} build does not match its edition (docs/fork/EDITIONS.md)"
+if [[ "$EDITION" == publik && "${PUBLIK_APP_TOKEN:-}" == pat_* ]]; then
+  LC_ALL=C grep -qF "$PUBLIK_APP_TOKEN" \
+    "$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Contents/Info.plist")" \
+    || die "the publik build does not carry its publik app token"
+fi
 
 if [[ $UNSIGNED == 0 ]]; then
   step "re-sign inside-out with a secure timestamp"

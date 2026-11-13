@@ -21,7 +21,8 @@
 # `wb-release-macos-<arch>` with the same asset names as ever. With
 # `publik: true` the publik edition also builds for each arch, in its own
 # jobs, as `wb-release-macos-<arch>-publik` (Wispr-Bro-publik_* assets,
-# latest-publik.json, SHA256SUMS-publik). Off by default.
+# latest-publik.json, SHA256SUMS-publik). Off by default. Only the publik
+# jobs get the PUBLIK_APP_TOKEN secret, which macos.sh bakes into that build.
 #
 # Signing never runs on sync or feature branches: a signed build needs the
 # `wispr-bro` branch or a `v*` tag; any other ref only gets the unsigned dry
@@ -30,7 +31,8 @@
 # Secrets (docs/fork/RELEASING.md "Secrets"): APPLE_CERTIFICATE,
 # APPLE_CERTIFICATE_PASSWORD, APPLE_API_KEY_ID, APPLE_API_ISSUER,
 # APPLE_API_KEY_P8, TAURI_SIGNING_PRIVATE_KEY,
-# TAURI_SIGNING_PRIVATE_KEY_PASSWORD.
+# TAURI_SIGNING_PRIVATE_KEY_PASSWORD; PUBLIK_APP_TOKEN for the publik
+# edition.
 
 name: "wb-build"
 
@@ -65,6 +67,8 @@ on:
       TAURI_SIGNING_PRIVATE_KEY:
         required: false
       TAURI_SIGNING_PRIVATE_KEY_PASSWORD:
+        required: false
+      PUBLIK_APP_TOKEN:
         required: false
   workflow_dispatch:
     inputs:
@@ -167,6 +171,7 @@ jobs:
         env:
           TAURI_SIGNING_PRIVATE_KEY: ${{ inputs.signed && secrets.TAURI_SIGNING_PRIVATE_KEY || '' }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ inputs.signed && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
+          PUBLIK_APP_TOKEN: ${{ matrix.edition == 'publik' && secrets.PUBLIK_APP_TOKEN || '' }}
         run: |
           set -euo pipefail
           args=(--out release-out --arch "${{ matrix.arch }}" --edition "$EDITION")

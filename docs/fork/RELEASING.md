@@ -70,6 +70,7 @@ Repository → Settings → Secrets and variables → Actions:
 | `APPLE_API_KEY_P8`                   | the text of `AuthKey_<id>.p8`                                                                                      |
 | `TAURI_SIGNING_PRIVATE_KEY`          | the text of `~/.wispr-bro/updater.key`                                                                             |
 | `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | the password from the keychain item `wispr-bro-updater`                                                            |
+| `PUBLIK_APP_TOKEN`                   | publik edition only (docs/fork/EDITIONS.md): publik's app token for Wispr Bro (`pat_…`)                            |
 
 `GITHUB_TOKEN` is automatic. Also, once: disable the upstream workflows
 `release.yml`, `build.yml`, `main-build.yml`, `pr-test-build.yml`,

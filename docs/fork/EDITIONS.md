@@ -20,11 +20,11 @@ publik.
 Everything publik-only lives in its own folders, and the normal build never
 compiles it:
 
-| Part         | Where                                                                                | How it is switched on                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| Rust         | `src-tauri/src/fork/publik/` (and `src-tauri/crates/wb-publik/` if it grows a crate) | the `publik` Cargo feature, off by default                                                                  |
-| Frontend     | `src/fork/publik/`                                                                   | `VITE_WB_EDITION=publik`, reached only through `src/fork/edition.ts` with a dynamic import                  |
-| Tauri config | `src-tauri/tauri.publik.conf.json`                                                   | passed as an extra `--config`; it turns the Cargo feature on and points the updater at `latest-publik.json` |
+| Part         | Where                                                                                | How it is switched on                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Rust         | `src-tauri/src/fork/publik/` (and `src-tauri/crates/wb-publik/` if it grows a crate) | the `publik` Cargo feature, off by default                                                                   |
+| Frontend     | `src/fork/publik/`                                                                   | `VITE_WB_EDITION=publik`: `src/fork/edition.ts` then adds its page as an extra Vite entry, otherwise nothing |
+| Tauri config | `src-tauri/tauri.publik.conf.json`                                                   | passed as an extra `--config`; it turns the Cargo feature on and points the updater at `latest-publik.json`  |
 
 Code outside those folders reaches the Rust module only behind
 `#[cfg(feature = "publik")]`, so without the feature the module and every hook
@@ -35,6 +35,37 @@ normal `latest.json` on the same GitHub release (`fork::update::channel` takes
 its paths from `fork::publik`). An installed copy therefore only ever updates
 to its own edition: the normal app never turns into the publik one, and the
 other way round.
+
+## What the publik edition adds
+
+All of it follows publik's setup guide (publikhq.com/skills/setup.md) and does
+what publik's Rust module does, with the same requests, files and words:
+
+- **Signing in.** At launch, before the Hub, a small "Sign in with publik"
+  window (`fork::publik::gate`, page `src/fork/publik/`) checks the computer's
+  publik key (setting one up with `POST /api/v1/installs` the first time) and
+  the account behind it (`GET /api/v1/wallet`). Until the person has signed
+  in, it offers "Sign in with publik", which opens publik in the browser, and
+  looks every 3 seconds for 10 minutes. The Hub, the dictation pipeline and
+  everything else in `fork::on_ready` wait for it; closing the window quits
+  the app. Like publik's module, there is no offline way past it. The key is
+  kept in publik's folder (`~/Library/Application Support/publik/apps/wispr-bro.json`, mode 0600).
+- **Usage counting.** After sign-in, `app_opened` once and `active_session`
+  every 30 minutes while the app runs (`POST /api/v1/telemetry`), which is
+  what publik counts as weekly active use. `DO_NOT_TRACK`,
+  `PUBLIK_TELEMETRY=0` or publik's own `consent.json` turn it off.
+- **The release self test.** `PUBLIK_SELF_TEST=1` on a built publik app prints
+  `publik self-test: ok wispr-bro <version>` (or why not) and exits, before
+  any window: what publik's listing asks to see.
+- **Choosing how to pay for AI** is in the gate too, for the optional cloud
+  mode (step 4); it stays off (`USES_AI = false`) until then.
+
+All requests go to publik through the system `curl`, with the key passed on
+standard input, not the command line. `publikhq.com` is listed in
+`ci/allowed-hosts.txt` under `[publik]`, which the hosts guard accepts only in
+the publik folders. The tests (`cargo test --features publik`) run the real
+requests against a small local stand-in for publik
+(`src-tauri/src/fork/publik/fake.rs`).
 
 ## Building
 
@@ -99,6 +130,9 @@ is which.
 
 publik's setup guide has apps commit their publik app token
 (`publik-app-token.txt`, a `pat_…` value it calls public by design). Wispr Bro
-does not commit it: the publik build reads it from the build environment (a
-GitHub Actions secret in CI), so the repository and the normal edition never
-contain it.
+does not commit it: the publik build reads it at compile time from
+`PUBLIK_APP_TOKEN` (the GitHub Actions secret of that name in CI, passed only
+to the publik job), so the repository and the normal edition never contain
+it. `macos.sh --edition publik` refuses a signed build without it and checks
+that the built app carries it; the normal edition unsets it. At run time
+`PUBLIK_APP_TOKEN` overrides the built-in one, as in publik's module.

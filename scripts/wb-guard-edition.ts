@@ -26,8 +26,10 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import {
+  PUBLIK_PATHS,
   REPO_ROOT,
   argValue,
+  isPublikPath,
   cliMain,
   listFiles,
   newResult,
@@ -47,16 +49,10 @@ export const PUBLIK_MARKERS: string[] = [
   "PUBLIK_" + "SELF_TEST",
 ];
 
+export { PUBLIK_PATHS, isPublikPath };
+
 /** The string a publik build must contain: its own update feed. */
 export const PUBLIK_REQUIRED = "latest-" + "publik.json";
-
-/** Where publik code lives. Nothing else in the app may carry a marker. */
-export const PUBLIK_PATHS: RegExp[] = [
-  /^src-tauri\/src\/fork\/publik\//,
-  /^src-tauri\/crates\/wb-publik\//,
-  /^src\/fork\/publik\//,
-  /^src-tauri\/tauri\.publik\.conf\.json$/,
-];
 
 /** The one frontend file that may import the publik folder. */
 export const FRONTEND_GATEWAY = "src/fork/edition.ts";
@@ -65,10 +61,6 @@ const APP_CODE = /^(src|src-tauri)\//;
 const SKIP = /^src-tauri\/(target|gen)\//;
 const BINARY_EXT =
   /\.(png|jpe?g|gif|webp|icns|ico|ttf|otf|woff2?|wav|mp3|bin|gguf|onnx|dylib|so|a|zip|gz)$/i;
-
-export function isPublikPath(rel: string): boolean {
-  return PUBLIK_PATHS.some((re) => re.test(rel));
-}
 
 /** A positive `feature = "publik"` cfg (not `not(feature = "publik")`). */
 function gatesOnPublik(line: string): boolean {

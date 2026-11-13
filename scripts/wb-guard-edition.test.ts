@@ -9,6 +9,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { failed } from "./wb-guard-lib";
+import { runHosts } from "./wb-guard-hosts";
 import {
   PUBLIK_MARKERS,
   PUBLIK_REQUIRED,
@@ -161,5 +162,32 @@ describe("edition guard: artifacts", () => {
 
   test("an unknown edition fails", () => {
     expect(failed(runEdition({ edition: "pro", dist: tree({}) }))).toBe(true);
+  });
+});
+
+describe("hosts guard: publik's hosts", () => {
+  test("only the publik folders may name them", () => {
+    const allowed = `[publik]\n${DOMAIN}  # the publik edition\n`;
+    const url = `const ORIGIN: &str = "https://${DOMAIN}";\n`;
+    const inside = runHosts({
+      root: tree({
+        "ci/allowed-hosts.txt": allowed,
+        "ci/inert-hosts.txt": "",
+        "ci/upstream-hosts-baseline.txt": "",
+        "src-tauri/src/fork/publik/client.rs": url,
+      }),
+    });
+    expect(inside.violations).toEqual([]);
+    const outside = runHosts({
+      root: tree({
+        "ci/allowed-hosts.txt": allowed,
+        "ci/inert-hosts.txt": "",
+        "ci/upstream-hosts-baseline.txt": "",
+        "src-tauri/src/fork/net.rs": url,
+      }),
+    });
+    expect(outside.violations.map((v) => v.rule)).toContain(
+      "hosts/publik-only",
+    );
   });
 });

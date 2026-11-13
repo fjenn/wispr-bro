@@ -10,8 +10,28 @@
 //! on the frontend). Code elsewhere reaches it only behind
 //! `#[cfg(feature = "publik")]`.
 //!
-//! Step 1 holds only the edition's own update feeds. The sign-in gate, usage
-//! counting and the self test come in step 2.
+//! - [`client`]: publik's app protocol (install, wallet, usage events, the
+//!   release self test), the same requests, files and words as publik's own
+//!   Rust module;
+//! - [`gate`]: the "Sign in with publik" window that stands in front of the
+//!   app until the person is signed in;
+//! - the edition's own update feeds (below).
+
+pub mod client;
+#[cfg(test)]
+mod fake;
+pub mod gate;
+
+/// This app on publik (its listing's slug).
+pub const APP_SLUG: &str = "wispr-bro";
+/// The version publik is told about.
+pub const APP_VERSION: &str = env!("CARGO_PKG_VERSION");
+/// Whether the app uses publik's AI models. Off until the optional cloud
+/// mode (step 4); with it on, signed-in people choose a publik plan or their
+/// own key after signing in.
+pub const USES_AI: bool = false;
+/// publik's models, for the cloud mode.
+pub const MODELS: [&str; 3] = ["publik-fast", "publik-balanced", "publik-smart"];
 
 /// The publik edition's stable update feed, next to the normal `latest.json`
 /// on the same GitHub release, so an update never swaps one edition for the

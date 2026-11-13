@@ -32,6 +32,14 @@ localhost
 127.0.0.1
 [::1]
 
+[publik]
+# The publik edition only (docs/fork/EDITIONS.md): allowed only in its own
+# folders (src-tauri/src/fork/publik/, src/fork/publik/,
+# tauri.publik.conf.json), which the normal Wispr Bro never builds. Never in
+# the normal app, and never accepted by the built-bundle scan of the normal
+# build (wb-guard-bundle-hosts.ts, wb-egress.yml).
+publikhq.com                         # sign-in, usage counting and the release self test of the publik edition
+
 [test]
 # Allowed ONLY in fork test code (scripts/wb-guard-hosts.ts: test files
 # `scripts/wb-*.test.ts`, `tests/fork/**`, `#[cfg(test)]`-declared fork
