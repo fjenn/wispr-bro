@@ -957,6 +957,16 @@ pub async fn clean_within<E: Engine>(
                     ..req.clone()
                 };
                 let retry = ask(engine, &light, &system_prompt(&light), core, left).await;
+                log::info!(
+                    "cleanup: medium rejected, light retry {} ({} ms of {:?})",
+                    if retry.applied() {
+                        "applied"
+                    } else {
+                        "not applied"
+                    },
+                    retry.ms,
+                    left
+                );
                 if retry.applied() {
                     trace.superseded = true;
                     traces.push(std::mem::replace(&mut trace, retry));

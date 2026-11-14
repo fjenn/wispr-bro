@@ -28,7 +28,7 @@ use tauri::{AppHandle, Listener, Manager, Runtime};
 use tauri_specta::Event;
 
 use super::catalog::{self, LlmModel};
-use super::chat::CancellationToken;
+use super::chat::{CancellationToken, ChatError};
 use super::download::{self, DownloadError, ProgressCounter};
 use super::memory::{self, AsrState, LoadPlanner, PlanAction};
 use super::supervisor::{
@@ -482,9 +482,18 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
         if super::process::Device::initial() == super::process::Device::Cpu {
             if let Some(request) = super::post_process::priming_request(&app) {
                 let t0 = Instant::now();
-                match sup.complete(&request, PRIME_TIMEOUT, &CancellationToken::new()).await {
-                    Ok(_) => log::info!("llm: prompt primed in {:?}", t0.elapsed()),
-                    Err(e) => log::debug!("llm: prompt priming failed: {e:?}"),
+                // One token is asked for, so a reply cut at the token limit
+                // is the expected end: the prompt was read either way.
+                match sup
+                    .complete(&request, PRIME_TIMEOUT, &CancellationToken::new())
+                    .await
+                {
+                    Ok(_) | Err(super::supervisor::RequestError::Chat(ChatError::Truncated)) => {
+                        log::info!("llm: prompt primed in {:?}", t0.elapsed())
+                    }
+                    Err(e) => {
+                        log::info!("llm: prompt priming failed after {:?}: {e:?}", t0.elapsed())
+                    }
                 }
             }
         }
