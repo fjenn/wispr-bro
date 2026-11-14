@@ -14,7 +14,7 @@ name: "wb-publik-preview"
 
 on:
   pull_request:
-    branches: [wispr-bro]
+    branches: [main, wispr-bro]
     paths:
       - "src-tauri/src/fork/publik/**"
       - "src/fork/publik/**"

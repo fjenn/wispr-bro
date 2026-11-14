@@ -5,8 +5,8 @@ Wispr Bro is built in two editions from this one repository.
 **Wispr Bro** (the normal edition) is the app as it has always been: fully
 local, no account, no telemetry. It is what `bun run wb:dev`, `bun run
 wb:build` and every release without the publik switch produce, with the same
-asset names (`Wispr-Bro_<v>_aarch64.dmg`, `….app.tar.gz`, `latest.json`,
-`SHA256SUMS`) and the same update feed as before. Anyone who downloads Wispr
+asset names (`Wispr-Bro_<v>_<arch>.dmg` for `aarch64` and `x86_64`,
+`….app.tar.gz`, `latest.json`, `SHA256SUMS`) and the same update feed as before. Anyone who downloads Wispr
 Bro from its releases or from another site gets this edition.
 
 **Wispr Bro for publik** is the same app plus what publik
@@ -77,15 +77,16 @@ bun run wb:build:publik   # publik edition
 scripts/wb-release/macos.sh --out out --edition publik   # signed publik release
 ```
 
-`macos.sh --edition publik` names its assets `Wispr-Bro-publik_<v>_aarch64.*`
-and writes `latest-publik.json` and `SHA256SUMS-publik`. Without `--edition`
+`macos.sh --edition publik` (with `--arch aarch64` or `--arch x86_64`, like
+the normal build) names its assets `Wispr-Bro-publik_<v>_<arch>.*` and writes `latest-publik.json` and `SHA256SUMS-publik`. Without `--edition`
 (or with `--edition standard`) every name is unchanged.
 
-In CI, `wb-build.yml` builds the publik edition only with `publik: true`, as
-its own job and artifact (`wb-release-macos-aarch64-publik`). `wb-release.yml`
-passes that only while the repository variable `WB_PUBLIK_EDITION` is `on`;
-then the publik assets are attached to the same release, next to the normal
-ones, with a line in the release notes saying which download is which. While
+In CI, `wb-build.yml` builds the publik edition only with `publik: true`, for
+both chips, as its own jobs and artifacts (`wb-release-macos-<arch>-publik`).
+`wb-release.yml` passes that only while the repository variable
+`WB_PUBLIK_EDITION` is `on`; then the publik assets for both chips and one
+`latest-publik.json` covering both are attached to the same release, next to
+the normal ones, with a line in the release notes saying which download is which. While
 the variable is unset, releases are exactly as before.
 
 ## The edition guard
