@@ -106,6 +106,20 @@ Repository → Settings → Secrets and variables → Actions:
 WB_NOTARY_PROFILE=wispr-bro-notary scripts/wb-release/macos.sh --out ~/wb-release/1.0.0-alpha.1
 ```
 
+**Both chips, published in one go** (what 1.0.0-alpha.7 used): from a
+clean, pushed checkout whose version is the release's, with
+`src/fork/whats-new/<version>.md` written,
+
+```sh
+WB_NOTARY_PROFILE=wispr-bro-notary scripts/wb-release/release-local.sh v1.0.0-alpha.7
+```
+
+builds, signs, notarizes and staples both the Apple Silicon and the Intel
+app and DMG, writes one `latest.json` with both chips and one `SHA256SUMS`,
+creates the release as a draft with every file, publishes it as the latest
+release only then, and reads the stable feed and every download back. It
+needs `gh` signed in to an account that can edit `fjenn/wispr-bro`.
+
 **Once per Mac, first:** let `codesign` use the Developer ID private key
 without asking. Otherwise every `codesign` call (the script makes about ten)
 opens a "codesign wants to access key" dialog and the run waits until someone

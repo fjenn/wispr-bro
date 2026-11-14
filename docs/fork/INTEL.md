@@ -63,7 +63,9 @@ merge them before uploading:
       --asset "darwin-aarch64=<aarch64 .app.tar.gz>" \
       --asset "darwin-x86_64=<x86_64 .app.tar.gz>" --out latest.json
 
-Then check the uploaded file lists both platforms, and that an installed
+`scripts/wb-release/release-local.sh` does all of this for a new release
+(RELEASING.md, "Both chips"). Then check the uploaded file lists both
+platforms, and that an installed
 Intel copy of the previous release offers the update and relaunches on it.
 
 To add Intel to a release that is already out with only the Apple Silicon
