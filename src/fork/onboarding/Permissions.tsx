@@ -6,10 +6,19 @@
  * right pane shows the pictures for the permission being asked now: the
  * macOS prompt over its System Settings pane (one pair for macOS 13-15 and
  * one for macOS 26).
+ *
+ * After a row has been asked once and is still not on, a "Reset and ask
+ * again" link clears the app's own record (`tccutil`, no password) and asks
+ * macOS afresh. macOS keeps a record per signature, so a copy installed over
+ * an earlier, differently signed one (a test build) can show its switch on
+ * while the switch never counts, and turning it off and on does not help.
  */
+import { useState } from "react";
 import { Check } from "../ui/icons";
 import { useTranslation } from "react-i18next";
+import { requestMicrophonePermission } from "tauri-plugin-macos-permissions-api";
 import type { Permissions as PermissionState } from "@/components/onboarding/usePermissions";
+import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button } from "../ui";
 import { SplitLayout } from "./Layout";
@@ -21,17 +30,29 @@ function PermissionRow({
   asked,
   primary,
   onRequest,
+  canReset,
+  onReset,
 }: {
   kind: PermissionKind;
   status: PermissionState["microphone"];
   asked: boolean;
   primary: boolean;
   onRequest: () => void;
+  /** Asked once and still not on: offer the reset. */
+  canReset: boolean;
+  onReset: () => Promise<boolean>;
 }) {
   const { t } = useTranslation(FORK_NAMESPACE);
   const granted = status === "granted";
   const waiting = status === "waiting";
   const titleId = `wb-onboarding-${kind}`;
+  const [resetState, setResetState] = useState<"idle" | "busy" | "failed">(
+    "idle",
+  );
+  const reset = async () => {
+    setResetState("busy");
+    setResetState((await onReset()) ? "idle" : "failed");
+  };
   return (
     <section
       aria-labelledby={titleId}
@@ -83,6 +104,29 @@ function PermissionRow({
           role="status"
         >
           {t(`onboardingFlow.permissions.${kind}.waitingHelp`)}
+        </p>
+      )}
+      {canReset && !granted && (
+        <p className="mt-2 mb-0 text-start text-[13px] leading-[18px] text-(--wb-ink-2)">
+          {t("onboardingFlow.permissions.stuck")}{" "}
+          <button
+            type="button"
+            className="cursor-pointer border-0 bg-transparent p-0 font-medium text-(--wb-ink) underline underline-offset-2 disabled:cursor-default disabled:opacity-60"
+            disabled={resetState === "busy"}
+            onClick={() => void reset()}
+            data-testid={`wb-permission-${kind}-reset`}
+          >
+            {t("onboardingFlow.permissions.reset")}
+          </button>
+          {resetState === "failed" && (
+            <span
+              className="mt-1 block"
+              role="alert"
+              data-testid={`wb-permission-${kind}-reset-failed`}
+            >
+              {t("onboardingFlow.permissions.resetFailed")}
+            </span>
+          )}
         </p>
       )}
     </section>
@@ -141,6 +185,22 @@ export function Permissions({
   // The pictures follow the permission being asked now.
   const active: PermissionKind =
     !micGranted || !mac ? "microphone" : "accessibility";
+  const [accessibilityAsked, setAccessibilityAsked] = useState(false);
+  // Clears this app's own record, then asks macOS again; the screen's
+  // polling (running since the first ask) ticks the row once it is on.
+  const reset = async (kind: PermissionKind) => {
+    try {
+      const r = await commands.forkOnboardingResetPermission(kind);
+      if (r.status !== "ok") return false;
+      // macOS asks afresh now; Handy's request for the microphone would
+      // open System Settings instead (it prompts only once).
+      if (kind === "microphone") await requestMicrophonePermission();
+      else await permissions.requestAccessibility();
+      return true;
+    } catch {
+      return false;
+    }
+  };
   return (
     <SplitLayout
       title={t("onboardingFlow.permissions.title")}
@@ -174,6 +234,8 @@ export function Permissions({
           asked={permissions.microphoneAsked}
           primary
           onRequest={() => void permissions.requestMicrophone()}
+          canReset={mac && !preview && permissions.microphoneAsked}
+          onReset={() => reset("microphone")}
         />
         {mac && (
           <PermissionRow
@@ -181,7 +243,12 @@ export function Permissions({
             status={permissions.accessibility}
             asked={false}
             primary={micGranted}
-            onRequest={() => void permissions.requestAccessibility()}
+            onRequest={() => {
+              setAccessibilityAsked(true);
+              void permissions.requestAccessibility();
+            }}
+            canReset={!preview && accessibilityAsked}
+            onReset={() => reset("accessibility")}
           />
         )}
       </div>

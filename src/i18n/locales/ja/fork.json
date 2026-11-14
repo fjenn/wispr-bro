@@ -2037,6 +2037,9 @@
       "openSettings": "システム設定を開く",
       "prompt": "macOS のダイアログ",
       "pane": "システム設定",
+      "stuck": "オンなのに動かない場合",
+      "reset": "リセットしてもう一度許可を求める",
+      "resetFailed": "リセットできませんでした。システム設定で Wispr Bro を削除してから、もう一度許可してください。",
       "microphone": {
         "title": "マイク",
         "why": "音声入力中に Wispr Bro が声を聞き取れるようにします。",

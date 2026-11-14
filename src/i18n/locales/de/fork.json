@@ -2116,6 +2116,9 @@
       "openSettings": "Systemeinstellungen öffnen",
       "prompt": "Die Abfrage von macOS",
       "pane": "In den Systemeinstellungen",
+      "stuck": "Eingeschaltet, aber es geht trotzdem nicht?",
+      "reset": "Zurücksetzen und erneut fragen",
+      "resetFailed": "Zurücksetzen fehlgeschlagen. Entferne Wispr Bro in den Systemeinstellungen und erlaube es erneut.",
       "microphone": {
         "title": "Mikrofon",
         "why": "Damit Wispr Bro dich hört, während du diktierst.",

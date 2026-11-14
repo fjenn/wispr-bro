@@ -2116,6 +2116,9 @@
       "openSettings": "Åbn Systemindstillinger",
       "prompt": "Dialogen fra macOS",
       "pane": "I Systemindstillinger",
+      "stuck": "Slået til, men virker stadig ikke?",
+      "reset": "Nulstil og spørg igen",
+      "resetFailed": "Kunne ikke nulstille. Fjern Wispr Bro i Systemindstillinger, og tillad den igen.",
       "microphone": {
         "title": "Mikrofon",
         "why": "Så Wispr Bro kan høre dig, mens du dikterer.",

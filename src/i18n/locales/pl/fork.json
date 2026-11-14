@@ -2274,6 +2274,9 @@
       "openSettings": "Otwórz Ustawienia systemowe",
       "prompt": "Monit macOS",
       "pane": "W Ustawieniach systemowych",
+      "stuck": "Włączone, a nadal nie działa?",
+      "reset": "Zresetuj i poproś ponownie",
+      "resetFailed": "Nie udało się zresetować. Usuń Wispr Bro w Ustawieniach systemowych, a potem zezwól ponownie.",
       "microphone": {
         "title": "Mikrofon",
         "why": "Aby Wispr Bro słyszał Cię podczas dyktowania.",

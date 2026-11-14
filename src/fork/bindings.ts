@@ -191,6 +191,21 @@ async forkOnboardingOpenPane(pane: ForkSettingsPane) : Promise<Result<null, Fork
 }
 },
 /**
+ * "Reset and ask again" on the Permissions screen: clears this app's own
+ * record for one permission with `tccutil`, so macOS forgets an entry it
+ * keeps for an earlier copy of the app (another signature: the switch
+ * shows on but never counts) and asks afresh. The screen then asks again.
+ * Only this app's own record is touched; no admin password is needed.
+ */
+async forkOnboardingResetPermission(kind: ForkPermissionKind) : Promise<Result<null, ForkError>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("fork_onboarding_reset_permission", { kind }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
  * S-02: whether the shortcut works (both taps), and why not.
  */
 async forkShortcutHealth() : Promise<HealthStatus> {
@@ -2130,6 +2145,10 @@ export type ForkOnboardingLocation = "already_in_applications" | "move_needed" |
  * before the paste.
  */
 export type ForkPasteOutcome = "confirmed" | "unverified" | "card" | "refused" | "queued"
+/**
+ * A privacy permission onboarding asks for.
+ */
+export type ForkPermissionKind = "microphone" | "accessibility"
 /**
  * One waveform frame (≤ 30 per second, only to `fork-pill`).
  */

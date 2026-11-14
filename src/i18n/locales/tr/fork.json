@@ -2116,6 +2116,9 @@
       "openSettings": "Sistem Ayarları’nı Aç",
       "prompt": "macOS isteği",
       "pane": "Sistem Ayarları’nda",
+      "stuck": "Açık ama hâlâ çalışmıyor mu?",
+      "reset": "Sıfırla ve yeniden iste",
+      "resetFailed": "Sıfırlanamadı. Sistem Ayarları'nda Wispr Bro'yu kaldırın, ardından yeniden izin verin.",
       "microphone": {
         "title": "Mikrofon",
         "why": "Wispr Bro’nun dikte ederken sizi duyabilmesi için.",

@@ -2195,6 +2195,9 @@
       "openSettings": "Apri Impostazioni di Sistema",
       "prompt": "La richiesta di macOS",
       "pane": "In Impostazioni di Sistema",
+      "stuck": "Attivato ma non funziona ancora?",
+      "reset": "Reimposta e richiedi",
+      "resetFailed": "Impossibile reimpostare. Rimuovi Wispr Bro in Impostazioni di Sistema, poi consentilo di nuovo.",
       "microphone": {
         "title": "Microfono",
         "why": "Così Wispr Bro può sentirti mentre detti.",

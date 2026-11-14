@@ -2037,6 +2037,9 @@
       "openSettings": "打开系统设置",
       "prompt": "macOS 提示",
       "pane": "在系统设置中",
+      "stuck": "已打开但仍然无效？",
+      "reset": "重置并重新请求",
+      "resetFailed": "无法重置。请在系统设置中移除 Wispr Bro，然后重新允许。",
       "microphone": {
         "title": "麦克风",
         "why": "这样 Wispr Bro 才能在你听写时听到你的声音。",

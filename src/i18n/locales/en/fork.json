@@ -2433,6 +2433,9 @@
       "openSettings": "Open System Settings",
       "prompt": "The macOS prompt",
       "pane": "In System Settings",
+      "stuck": "Switched on but still not working?",
+      "reset": "Reset and ask again",
+      "resetFailed": "Couldn't reset it. Remove Wispr Bro in System Settings, then allow it again.",
       "microphone": {
         "title": "Microphone",
         "why": "So Wispr Bro can hear you while you dictate.",

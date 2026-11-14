@@ -2274,6 +2274,9 @@
       "openSettings": "Otevřít Nastavení systému",
       "prompt": "Dotaz macOS",
       "pane": "V Nastavení systému",
+      "stuck": "Zapnuto, ale pořád to nefunguje?",
+      "reset": "Obnovit a požádat znovu",
+      "resetFailed": "Obnovení se nezdařilo. Odeberte Wispr Bro v Nastavení systému a pak ho znovu povolte.",
       "microphone": {
         "title": "Mikrofon",
         "why": "Aby vás Wispr Bro při diktování slyšel.",

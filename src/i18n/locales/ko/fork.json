@@ -2037,6 +2037,9 @@
       "openSettings": "시스템 설정 열기",
       "prompt": "macOS 알림",
       "pane": "시스템 설정에서",
+      "stuck": "켜져 있는데도 작동하지 않나요?",
+      "reset": "재설정하고 다시 요청",
+      "resetFailed": "재설정하지 못했습니다. 시스템 설정에서 Wispr Bro를 제거한 다음 다시 허용하세요.",
       "microphone": {
         "title": "마이크",
         "why": "받아쓰기하는 동안 Wispr Bro가 음성을 들을 수 있도록 합니다.",

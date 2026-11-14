@@ -2195,6 +2195,9 @@
       "openSettings": "Ouvrir Réglages Système",
       "prompt": "La demande de macOS",
       "pane": "Dans Réglages Système",
+      "stuck": "Activé, mais ça ne marche toujours pas ?",
+      "reset": "Réinitialiser et redemander",
+      "resetFailed": "Réinitialisation impossible. Retirez Wispr Bro dans Réglages Système, puis autorisez-le à nouveau.",
       "microphone": {
         "title": "Microphone",
         "why": "Pour que Wispr Bro vous entende pendant que vous dictez.",

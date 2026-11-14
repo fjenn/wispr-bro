@@ -74,11 +74,6 @@ fn open_url(url: &str) -> Result<(), ForkError> {
     }
 }
 
-/// The `tccutil` arguments that reset this app's Accessibility record.
-pub fn reset_args(bundle_id: &str) -> [String; 3] {
-    ["reset".into(), "Accessibility".into(), bundle_id.into()]
-}
-
 /// S-02: "Reset and re-grant" (Yap's recovery for a stale row after a
 /// re-signed update): clears this app's Accessibility record with
 /// `tccutil`, asks macOS to list the app again (the system prompt), and
@@ -86,25 +81,19 @@ pub fn reset_args(bundle_id: &str) -> [String; 3] {
 #[tauri::command]
 #[specta::specta]
 pub fn fork_shortcut_reset_permission<R: Runtime>(app: AppHandle<R>) -> Result<(), ForkError> {
-    let bundle_id = app.config().identifier.clone();
+    super::onboarding::reset_permission_record(
+        super::onboarding::ForkPermissionKind::Accessibility,
+        &app.config().identifier,
+    )?;
     #[cfg(target_os = "macos")]
     {
-        let status = std::process::Command::new("/usr/bin/tccutil")
-            .args(reset_args(&bundle_id))
-            .status()
-            .map_err(|e| ForkError::Internal(format!("tccutil: {e}")))?;
-        if !status.success() {
-            return Err(ForkError::Internal(format!("tccutil exited with {status}")));
-        }
-        log::info!("fork hotkeys health: Accessibility record reset");
         crate::fork::vendor::axwatch::request();
         health::request_check(Trigger::User);
         open_url(ACCESSIBILITY_PANE)
     }
     #[cfg(not(target_os = "macos"))]
     {
-        let _ = bundle_id;
-        Err(ForkError::Internal("macOS only".into()))
+        Ok(())
     }
 }
 

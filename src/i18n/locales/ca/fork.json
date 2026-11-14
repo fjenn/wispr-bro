@@ -2195,6 +2195,9 @@
       "openSettings": "Obrir Configuració del Sistema",
       "prompt": "L'avís de macOS",
       "pane": "A Configuració del Sistema",
+      "stuck": "Activat però encara no funciona?",
+      "reset": "Restableix i torna a demanar",
+      "resetFailed": "No s'ha pogut restablir. Elimina Wispr Bro a Configuració del Sistema i torna a permetre-ho.",
       "microphone": {
         "title": "Micròfon",
         "why": "Perquè Wispr Bro et pugui sentir mentre dictes.",
