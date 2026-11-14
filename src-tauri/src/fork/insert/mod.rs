@@ -173,7 +173,7 @@ fn with_leading_space(take: u32, text: &str) -> String {
     }
     let before = crate::fork::ax::before_caret(spacing::TAIL_UNITS);
     let out = spacing::lead(text.to_owned(), before.as_deref());
-    log::debug!(
+    log::info!(
         "insert: take {take} leading space {}",
         match before {
             None => "unknown (field not read)",

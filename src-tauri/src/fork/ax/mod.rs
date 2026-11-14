@@ -156,8 +156,15 @@ pub(crate) fn accessibility_trusted() -> bool {
 }
 
 /// How long a delivery waits for [`before_caret`] (it is two or three AX
-/// calls; a slow app pastes without the smart space).
+/// calls; a slow app pastes without the smart space). Longer on an Intel
+/// Mac ([`before_caret_budget`]), whose AX calls are slower, more so right
+/// after a cleanup has had every core.
 pub const BEFORE_CARET_BUDGET: Duration = Duration::from_millis(120);
+
+/// [`BEFORE_CARET_BUDGET`] for this Mac.
+pub fn before_caret_budget() -> Duration {
+    crate::fork::llm::deadline::for_this_mac(BEFORE_CARET_BUDGET)
+}
 
 /// The text just before the caret of the focused field, at most `units`
 /// UTF-16 units (`focus::before_caret`). `None` when AX could not tell
@@ -168,10 +175,16 @@ pub fn before_caret(units: isize) -> Option<String> {
         if !accessibility_trusted() {
             return None;
         }
-        thread::run(BEFORE_CARET_BUDGET, move |ctx| {
+        let read = thread::run(before_caret_budget(), move |ctx| {
             focus::before_caret(ctx, units)
-        })
-        .flatten()
+        });
+        if read.is_none() {
+            log::info!(
+                "ax: text before the caret not read within {:?}",
+                before_caret_budget()
+            );
+        }
+        read.flatten()
     }
     #[cfg(not(target_os = "macos"))]
     {

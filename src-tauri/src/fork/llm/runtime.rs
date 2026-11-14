@@ -472,10 +472,27 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
         let t0 = Instant::now();
         match sup.ensure_ready().await {
             Ok(_) => log::debug!("llm: prewarm ready after {:?}", t0.elapsed()),
-            Err(e) => log::warn!("llm: prewarm failed: {e}"),
+            Err(e) => {
+                log::warn!("llm: prewarm failed: {e}");
+                return;
+            }
+        }
+        // On the CPU (Intel) the system prompt takes seconds to read: read
+        // it now, while the user speaks, not inside the cleanup's deadline.
+        if super::process::Device::initial() == super::process::Device::Cpu {
+            if let Some(request) = super::post_process::priming_request(&app) {
+                let t0 = Instant::now();
+                match sup.complete(&request, PRIME_TIMEOUT, &CancellationToken::new()).await {
+                    Ok(_) => log::info!("llm: prompt primed in {:?}", t0.elapsed()),
+                    Err(e) => log::debug!("llm: prompt priming failed: {e:?}"),
+                }
+            }
         }
     });
 }
+
+/// How long a key-down prompt priming may run (Intel).
+const PRIME_TIMEOUT: Duration = Duration::from_secs(30);
 
 #[cfg_attr(any(test, not(target_os = "macos")), allow(dead_code))]
 async fn on_wake<R: Runtime>(app: &AppHandle<R>) {

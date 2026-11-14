@@ -1345,7 +1345,12 @@ pub fn prewarm_apple<R: Runtime>(app: &AppHandle<R>) {
     if ROLE == AppleRole::Fallback && local_ready {
         return;
     }
-    let system = LAST_SYSTEM
+    super::apple::prewarm(&prewarm_system(level));
+}
+
+/// The last take's system prompt at `level`, else the plain prompt for it.
+fn prewarm_system(level: CleanupLevel) -> String {
+    LAST_SYSTEM
         .lock()
         .unwrap_or_else(|p| p.into_inner())
         .clone()
@@ -1362,8 +1367,26 @@ pub fn prewarm_apple<R: Runtime>(app: &AppHandle<R>) {
                 style: None,
                 context: &[],
             })
-        });
-    super::apple::prewarm(&system);
+        })
+}
+
+/// Key-down on a Mac whose sidecar runs on the CPU (Intel): a one-token
+/// request with this take's likely system prompt, so the server has read
+/// that prompt into its cache while the user speaks. Without it the first
+/// cleanup after a server start spends its deadline reading the prompt
+/// (Intel test, 2026-11-14: 3.6 s timeout, then about 1 s per take).
+pub fn priming_request<R: Runtime>(app: &AppHandle<R>) -> Option<ChatRequest> {
+    let level = level(app);
+    if level == CleanupLevel::None {
+        return None;
+    }
+    Some(ChatRequest {
+        system: prewarm_system(level),
+        user: prompt::cleanup_user("."),
+        max_tokens: 1,
+        response_format: None,
+        examples: Vec::new(),
+    })
 }
 
 /// Why a take that wants cleanup must go without the LLM, in this order:
