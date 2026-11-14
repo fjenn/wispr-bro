@@ -157,12 +157,6 @@ jobs:
           [ "$SIGNED" = 1 ] || args+=(--unsigned)
           scripts/wb-release/macos.sh "${args[@]}"
 
-      - name: Show build errors (temporary, intel-mac only)
-        if: ${{ failure() }}
-        run: |
-          grep -nE "error|panicked" release-out/tauri-build.log | grep -v "warning" | head -60 || true
-          xcode-select -p; xcodebuild -version; xcrun swiftc --version
-
       - name: Upload release artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
