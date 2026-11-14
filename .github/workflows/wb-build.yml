@@ -55,6 +55,10 @@ on:
         required: false
       TAURI_SIGNING_PRIVATE_KEY_PASSWORD:
         required: false
+  # Temporary, intel-mac only: unsigned test DMGs for testing on an Intel
+  # Mac. Drop this trigger before the branch is merged.
+  push:
+    branches: [intel-mac]
   workflow_dispatch:
     inputs:
       signed:
