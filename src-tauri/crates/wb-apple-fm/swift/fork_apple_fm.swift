@@ -222,10 +222,18 @@ private func generate(
     let session =
         prewarmed.take(key: sessionKey(instructions, permissive))
         ?? LanguageModelSession(model: model(permissive: permissive), instructions: instructions)
+    // build.rs sets WB_FM_SAMPLING_LABEL on SDKs that spell it `sampling:`.
+    #if WB_FM_SAMPLING_LABEL
+    let options = GenerationOptions(
+        sampling: .greedy,
+        maximumResponseTokens: maxTokens > 0 ? maxTokens : nil
+    )
+    #else
     let options = GenerationOptions(
         samplingMode: .greedy,
         maximumResponseTokens: maxTokens > 0 ? maxTokens : nil
     )
+    #endif
     if guided {
         return try await session.respond(
             to: prompt,
