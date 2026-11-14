@@ -16,10 +16,7 @@
 import { useState } from "react";
 import { Check } from "../ui/icons";
 import { useTranslation } from "react-i18next";
-import {
-  requestAccessibilityPermission,
-  requestMicrophonePermission,
-} from "tauri-plugin-macos-permissions-api";
+import { requestMicrophonePermission } from "tauri-plugin-macos-permissions-api";
 import type { Permissions as PermissionState } from "@/components/onboarding/usePermissions";
 import { commands } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
@@ -195,8 +192,10 @@ export function Permissions({
     try {
       const r = await commands.forkOnboardingResetPermission(kind);
       if (r.status !== "ok") return false;
+      // macOS asks afresh now; Handy's request for the microphone would
+      // open System Settings instead (it prompts only once).
       if (kind === "microphone") await requestMicrophonePermission();
-      else await requestAccessibilityPermission();
+      else await permissions.requestAccessibility();
       return true;
     } catch {
       return false;
