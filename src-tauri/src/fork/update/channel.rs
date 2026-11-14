@@ -29,10 +29,9 @@ pub const STABLE_PATH: &str = "/releases/latest/download/latest.json";
 /// `latest.json` of the rolling `beta` prerelease.
 #[cfg(not(feature = "publik"))]
 pub const BETA_PATH: &str = "/releases/download/beta/latest.json";
-/// The publik edition reads its own feeds on the same releases
-/// (docs/fork/EDITIONS.md), so it never updates to the normal build.
+/// The publik edition's own feeds (publik/README.md).
 #[cfg(feature = "publik")]
-pub use crate::fork::publik::{BETA_PATH, STABLE_PATH};
+pub use wb_publik::{BETA_PATH, STABLE_PATH};
 /// minisign key id of our updater public key (`plugins.updater.pubkey`). The
 /// key must never change after the first public build (CONTEXT.md "Do not").
 pub const PUBKEY_KEY_ID: &str = "89E085217ACC46CF";

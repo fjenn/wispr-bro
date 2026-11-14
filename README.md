@@ -33,6 +33,8 @@ This is a public alpha. The automated suites and the local update path pass, but
 
 The macOS release path is `scripts/wb-release/macos.sh`; architecture and acceptance notes are in `docs/fork/`. `bun install`, then the usual Tauri commands, also work for development.
 
+`main` is the app you get from the releases page and from opena.tech: the normal Wispr Bro, with no account. A default clone and build of `main` gives exactly that. The edition for [publik](https://publikhq.com) is an optional build flag on top (`bun run wb:build:publik`, see `publik/README.md`); it is off unless you ask for it, and its downloads are only on separate `publik-v*` releases, never on the latest one.
+
 ## License
 
 GPL-3.0-or-later. Wispr Bro is a fork of [Handy](https://github.com/cjpais/Handy); see `LICENSE` and `THIRD-PARTY-NOTICES.md`.

@@ -1,42 +1,40 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Edition guard (docs/fork/EDITIONS.md): the normal Wispr Bro build contains
+// Edition guard (publik/README.md): the normal Wispr Bro build contains
 // nothing from the publik edition.
 //
 // Source mode (always, also inside `wb:guards`):
 //   - publik markers (its domain, its API paths, its feed and asset names,
-//     its self-test switch) appear in app code (src/, src-tauri/) only inside
-//     the publik folders and src-tauri/tauri.publik.conf.json;
-//   - Rust reaches `fork::publik` only behind `#[cfg(feature = "publik")]`;
-//   - the frontend imports `…/publik/…` only from src/fork/edition.ts;
+//     its self-test switch) never appear in app code (src/, src-tauri/): they
+//     live in this folder;
+//   - Rust reaches the `wb_publik` crate only behind
+//     `#[cfg(feature = "publik")]`;
+//   - the frontend imports `…/publik/…` only from src/fork/vite-inputs.ts;
 //   - nothing a normal user could see says "publik": no frontend file (UI,
-//     settings, about, translations) outside the publik folder and the
-//     gateway mentions it, and no Rust string literal outside the publik
-//     folder does (`feature = "publik"` cfgs aside);
+//     settings, about, translations) but that gateway mentions it, and no
+//     Rust string literal does (`feature = "publik"` cfgs aside);
 //   - the `publik` Cargo feature is never on by default, and the normal
 //     Tauri configs never turn it on.
 //
 // Artifact mode (release scripts, after a build):
-//   bun scripts/wb-guard-edition.ts --edition standard --dist dist --binary X.app
+//   bun publik/guard.ts --edition standard --dist dist --binary X.app
 //     the built frontend and app contain no publik marker, and not the word
 //     "publik" in any spelling;
-//   bun scripts/wb-guard-edition.ts --edition publik --binary X.app
+//   bun publik/guard.ts --edition publik --binary X.app
 //     the app reads the publik update feed (so the feature really was on).
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import {
-  PUBLIK_PATHS,
   REPO_ROOT,
   argValue,
-  isPublikPath,
   cliMain,
   listFiles,
   newResult,
   readIfExists,
   type GuardResult,
-} from "./wb-guard-lib";
-import { printableStrings } from "./wb-guard-bundle-hosts";
+} from "../scripts/wb-guard-lib";
+import { printableStrings } from "../scripts/wb-guard-bundle-hosts";
 
 /** Strings that only the publik edition may contain. */
 export const PUBLIK_MARKERS: string[] = [
@@ -49,13 +47,11 @@ export const PUBLIK_MARKERS: string[] = [
   "PUBLIK_" + "SELF_TEST",
 ];
 
-export { PUBLIK_PATHS, isPublikPath };
-
 /** The string a publik build must contain: its own update feed. */
 export const PUBLIK_REQUIRED = "latest-" + "publik.json";
 
 /** The one frontend file that may import the publik folder. */
-export const FRONTEND_GATEWAY = "src/fork/edition.ts";
+export const FRONTEND_GATEWAY = "src/fork/vite-inputs.ts";
 
 const APP_CODE = /^(src|src-tauri)\//;
 const SKIP = /^src-tauri\/(target|gen)\//;
@@ -74,7 +70,7 @@ function rustStringMentionsPublik(line: string): boolean {
   return /"[^"\n]*publik[^"\n]*"/i.test(code);
 }
 
-const RUST_USE_RE = /\bmod\s+publik\b|\bpublik::/;
+const RUST_USE_RE = /\bmod\s+publik\b|\bpublik::|\bwb_publik\b/;
 const TS_IMPORT_RE =
   /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+|\brequire\s*\(\s*)["'`]([^"'`]*)["'`]/g;
 
@@ -102,7 +98,6 @@ export function runEdition(opts: EditionOptions = {}): GuardResult {
 function scanSources(r: GuardResult, root: string): void {
   for (const rel of listFiles(root)) {
     if (!APP_CODE.test(rel) || SKIP.test(rel) || BINARY_EXT.test(rel)) continue;
-    if (isPublikPath(rel)) continue;
     const text = readFileSync(join(root, rel), "latin1");
     const lines = text.split("\n");
     lines.forEach((line, i) => {
@@ -141,7 +136,7 @@ function scanSources(r: GuardResult, root: string): void {
             line: i + 1,
             rule: "edition/rust-cfg",
             message:
-              'reaches fork::publik without #[cfg(feature = "publik")] on it',
+              'reaches wb_publik without #[cfg(feature = "publik")] on it',
           });
       }
       if (/\.(ts|tsx|js|jsx|mjs)$/.test(rel) && rel !== FRONTEND_GATEWAY) {

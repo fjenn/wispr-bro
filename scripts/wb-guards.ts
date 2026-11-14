@@ -24,7 +24,7 @@ import { runTelemetry } from "./wb-guard-telemetry";
 import { runSpdx } from "./wb-guard-spdx";
 import { runIcons } from "./wb-guard-icons";
 import { runTokens } from "./wb-guard-tokens";
-import { runEdition } from "./wb-guard-edition";
+import { runEdition } from "../publik/guard";
 
 export interface AllOptions {
   root?: string;

@@ -20,7 +20,6 @@ use tauri::{AppHandle, Manager, Runtime, WebviewUrl, WebviewWindowBuilder, Windo
 
 use super::client::{self, Env, Wallet, UNREACHABLE};
 use super::USES_AI;
-use crate::fork::ForkRuntime;
 
 // ---------------------------------------------------------------------------
 // Screens (publik's words, unchanged)
@@ -365,8 +364,8 @@ pub fn ensure_signed_in(env: &Env, ui: &mut dyn GateUi) -> Passed {
 // The window
 
 pub const WINDOW_LABEL: &str = "publik-gate";
-/// The gate page as Vite emits it (`src/fork/edition.ts`).
-pub const PAGE: &str = "src/fork/publik/index.html";
+/// The gate page as Vite emits it (`src/fork/vite-inputs.ts`).
+pub const PAGE: &str = "publik/app/index.html";
 
 static STARTED: AtomicBool = AtomicBool::new(false);
 static PASSED: AtomicBool = AtomicBool::new(false);
@@ -396,7 +395,7 @@ fn publik_gate_press(id: String) {
     }
 }
 
-/// `true` for the gate window's commands (routed by `fork::compose_invoke`).
+/// `true` for the gate window's commands (routed by the app's `fork::compose_invoke`).
 pub fn handles(command: &str) -> bool {
     matches!(command, "publik_gate_screen" | "publik_gate_press")
 }
@@ -488,15 +487,10 @@ fn open_window<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<()> {
     Ok(())
 }
 
-/// Called by `fork::on_ready` (publik edition only). `true` while the gate
-/// stands: `on_ready` stops there and runs again once the person is signed
-/// in.
-pub fn hold<R: ForkRuntime>(app: &AppHandle<R>) -> bool {
-    // The app's own tests run `on_ready` on a mock runtime; they never meet
-    // the gate (it has its own tests above, against a local publik).
-    if cfg!(test) {
-        return false;
-    }
+/// Called by the app's `fork::on_ready` (publik edition only). `true` while
+/// the gate stands: `on_ready` stops there, and `resume` (`on_ready` itself)
+/// runs once the person is signed in.
+pub fn hold<R: Runtime>(app: &AppHandle<R>, resume: fn(&AppHandle<R>)) -> bool {
     if PASSED.load(Ordering::SeqCst) {
         return false;
     }
@@ -541,7 +535,7 @@ pub fn hold<R: ForkRuntime>(app: &AppHandle<R>) -> bool {
                     let _ = main.set_focus();
                 }
             }
-            crate::fork::on_ready(&main_app);
+            resume(&main_app);
         });
     });
     true
@@ -549,8 +543,8 @@ pub fn hold<R: ForkRuntime>(app: &AppHandle<R>) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::super::fake::{self, FakePublik};
     use super::*;
+    use crate::fake::{self, FakePublik};
     use std::collections::VecDeque;
 
     /// Presses buttons from a script; waits out `done` when told to.

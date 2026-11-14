@@ -230,7 +230,7 @@ export const FORK_PATHS: string[] = [
   "src/i18n/locales/*/fork.flags.json",
   "src/i18n/locales/en/fork.source-hashes.json", // S-37b: English source hashes
   "src-tauri/tauri.fork.conf.json",
-  "src-tauri/tauri.publik.conf.json", // docs/fork/EDITIONS.md
+  "publik/**", // the publik edition (publik/README.md)
   "src-tauri/capabilities/fork.json",
   "src-tauri/icons-fork/**",
   "src-tauri/resources/fork/**",
@@ -266,6 +266,7 @@ export const FORK_CODE_PATHS: string[] = [
   "src/assets/fork/**",
   "scripts/wb-*",
   "scripts/wb-*/**",
+  "publik/**",
 ];
 
 export function isForkCodePath(rel: string): boolean {
@@ -675,20 +676,5 @@ export function inSpans(index: number, spans: Span[]): boolean {
   return spans.some(([s, e]) => index >= s && index < e);
 }
 
-/**
- * Where the publik edition's code lives (docs/fork/EDITIONS.md). Only these
- * paths may carry publik markers (`wb-guard-edition.ts`) or name publik's
- * hosts (`[publik]` in ci/allowed-hosts.txt, `wb-guard-hosts.ts`).
- */
-export const PUBLIK_PATHS: RegExp[] = [
-  /^src-tauri\/src\/fork\/publik\//,
-  /^src-tauri\/crates\/wb-publik\//,
-  /^src\/fork\/publik\//,
-  /^src-tauri\/tauri\.publik\.conf\.json$/,
-  // The publik release tool (lists the app on publik, adds its downloads).
-  /^scripts\/wb-publik\//,
-];
-
-export function isPublikPath(rel: string): boolean {
-  return PUBLIK_PATHS.some((re) => re.test(rel));
-}
+/** The publik edition's folder, the only one that may name publik's hosts. */
+export const isPublikPath = (rel: string): boolean => rel.startsWith("publik/");

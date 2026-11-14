@@ -6,7 +6,7 @@
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://github.com/fjenn/wispr-bro/releases/latest/download/latest-publik.json"
+        "https://github.com/fjenn/wispr-bro/releases/download/publik/latest-publik.json"
       ]
     }
   }

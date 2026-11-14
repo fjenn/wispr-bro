@@ -54,9 +54,6 @@ pub mod onboarding;
 #[cfg(test)]
 mod perf_bench;
 pub mod pill;
-/// The publik edition only (docs/fork/EDITIONS.md); never in the normal build.
-#[cfg(feature = "publik")]
-pub mod publik;
 pub mod recovery;
 pub mod restore;
 pub mod scratchpad;
@@ -283,10 +280,8 @@ impl ForkState {
 /// and the panic hook. Keep it free of Tauri calls: it runs before the Tauri
 /// builder exists, while the process is still single-threaded.
 pub fn early_init() {
-    // The publik edition's release self test answers and exits before
-    // anything else starts (docs/fork/EDITIONS.md).
-    #[cfg(feature = "publik")]
-    publik::client::self_test_if_requested();
+    #[cfg(feature = "publik")] // publik/README.md
+    wb_publik::start(env!("CARGO_PKG_VERSION"));
     if let Some((key, value)) = updater_env_to_set(|k| std::env::var(k).ok()) {
         std::env::set_var(key, value);
     }
@@ -526,10 +521,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         log::debug!("fork: headless CLI mode, skipping on_ready");
         return;
     }
-    // The publik edition: nothing below runs until the person has signed in;
-    // the gate calls `on_ready` again then (docs/fork/EDITIONS.md).
-    #[cfg(feature = "publik")]
-    if publik::gate::hold(app) {
+    #[cfg(all(feature = "publik", not(test)))] // signed in first (publik/README.md)
+    if wb_publik::gate::hold(app, on_ready::<R>) {
         return;
     }
 
@@ -1262,12 +1255,11 @@ where
         .expect("Failed to export fork typescript bindings");
 
     let fork = fork_builder.invoke_handler();
-    // The publik edition's sign-in window (docs/fork/EDITIONS.md).
-    #[cfg(feature = "publik")]
-    let gate = publik::gate::invoke_handler::<R>();
+    #[cfg(feature = "publik")] // the sign-in window (publik/README.md)
+    let gate = wb_publik::gate::invoke_handler::<R>();
     move |invoke: Invoke<R>| {
         #[cfg(feature = "publik")]
-        if publik::gate::handles(invoke.message.command()) {
+        if wb_publik::gate::handles(invoke.message.command()) {
             return gate(invoke);
         }
         if is_fork_command(invoke.message.command()) {

@@ -2474,6 +2474,7 @@ dependencies = [
  "transcribe-cpp",
  "unicode-segmentation",
  "wb-apple-fm",
+ "wb-publik",
  "webview2-com",
  "whatlang",
  "windows 0.61.3",
@@ -7881,6 +7882,18 @@ dependencies = [
 [[package]]
 name = "wb-apple-fm"
 version = "0.1.0"
+
+[[package]]
+name = "wb-publik"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-plugin-opener",
+]
 
 [[package]]
 name = "web-sys"

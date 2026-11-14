@@ -35,17 +35,7 @@
 #               Silicon Mac builds both; the Intel app is cross-compiled
 #               (`tauri build --target x86_64-apple-darwin`) and its smoke test
 #               runs under Rosetta 2
-#   --edition   standard (default) or publik (docs/fork/EDITIONS.md)
-#
-# Editions: `--edition standard` is the normal Wispr Bro, with exactly the
-# asset names above. `--edition publik` builds the publik edition
-# (src-tauri/tauri.publik.conf.json turns the `publik` feature on) as
-# `Wispr-Bro-publik_<v>_<arch>.*` with its own feed `latest-publik.json` and
-# `SHA256SUMS-publik`. Either way the edition guard checks the built app: a
-# normal build with anything from publik in it fails. The publik edition bakes
-# in publik's app token from `PUBLIK_APP_TOKEN` (a GitHub Actions secret;
-# never in the repository); a signed publik build without it stops here, the
-# normal build never sees it.
+#   --edition   standard (default, the normal app) or publik (publik/edition.sh)
 #   --tag       release tag (default v<overlay version>); `-beta.N` puts the
 #               assets on the rolling `beta` release in latest.json
 #   --unsigned  CI dry run without secrets: ad-hoc signature, no notarization,
@@ -105,26 +95,12 @@ case "$ARCH" in
 esac
 # The sidecar for the same target (ci/llama-server/build.sh).
 export WB_TARGET="${ARCH}-apple-darwin"
-FEED="latest.json"
-SUMS="SHA256SUMS"
-EDITION_CONFIG=()
+FEED="latest.json"; SUMS="SHA256SUMS"; RELEASE_PREFIX=""; EDITION_CONFIG=()
 case "$EDITION" in
   standard) unset VITE_WB_EDITION PUBLIK_APP_TOKEN ;;
-  publik)
-    ASSET_PREFIX="Wispr-Bro-publik"
-    FEED="latest-publik.json"
-    SUMS="SHA256SUMS-publik"
-    EDITION_CONFIG=(--config src-tauri/tauri.publik.conf.json)
-    export VITE_WB_EDITION=publik
-    ;;
-  *) echo "macos.sh: --edition must be standard or publik" >&2; exit 2 ;;
+  publik) source "${ROOT}/publik/edition.sh" ;;
+  *) echo "macos.sh: --edition standard or publik, not $EDITION" >&2; exit 2 ;;
 esac
-if [[ "$EDITION" == publik && "${PUBLIK_APP_TOKEN:-}" != pat_* ]]; then
-  if [[ $UNSIGNED == 0 ]]; then
-    echo "macos.sh: the publik edition needs PUBLIK_APP_TOKEN (pat_…; docs/fork/EDITIONS.md)" >&2; exit 2
-  fi
-  echo "macos.sh: no PUBLIK_APP_TOKEN: this dry-run publik build will say it has no publik app token" >&2
-fi
 
 VERSION="$(bun -e "console.log(require('${ROOT}/src-tauri/tauri.fork.conf.json').version)")"
 TAG="${TAG:-v${VERSION}}"
@@ -137,8 +113,8 @@ die() { echo "macos.sh: $*" | tee -a "$LOG" >&2; exit 1; }
 
 cd "$ROOT"
 TAG_INFO="$(bun scripts/wb-release/tag.ts "$TAG" --tags /dev/null)" || die "bad tag $TAG"
-RELEASE_TAG="$(sed -n 's/^release_tag=//p' <<<"$TAG_INFO")"
-echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}, ${ARCH}, edition ${EDITION}" | tee -a "$LOG"
+RELEASE_TAG="${RELEASE_PREFIX}$(sed -n 's/^release_tag=//p' <<<"$TAG_INFO")"
+echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}, ${ARCH}, ${EDITION}" | tee -a "$LOG"
 
 step "identity guard (release mode)"
 bun scripts/wb-guard-identity.ts --release --tag "$TAG" | tee -a "$LOG"
@@ -212,14 +188,9 @@ while IFS= read -r -d '' f; do
 done < <(find "$APP/Contents" -type f -print0)
 [[ $arch_bad == 0 ]] || die "Mach-O files built for the wrong architecture"
 
-step "edition guard (${EDITION})"
-bun scripts/wb-guard-edition.ts --edition "$EDITION" --dist dist --binary "$APP" | tee -a "$LOG" \
-  || die "the ${EDITION} build does not match its edition (docs/fork/EDITIONS.md)"
-if [[ "$EDITION" == publik && "${PUBLIK_APP_TOKEN:-}" == pat_* ]]; then
-  LC_ALL=C grep -qF "$PUBLIK_APP_TOKEN" \
-    "$APP/Contents/MacOS/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Contents/Info.plist")" \
-    || die "the publik build does not carry its publik app token"
-fi
+step "edition guard (${EDITION}; a normal build with anything of publik fails)"
+bun publik/guard.ts --edition "$EDITION" --dist dist --binary "$APP" | tee -a "$LOG" || die "edition guard"
+[[ "$EDITION" == standard ]] || edition_check "$APP" || die "the ${EDITION} build lacks its app token"
 
 if [[ $UNSIGNED == 0 ]]; then
   step "re-sign inside-out with a secure timestamp"

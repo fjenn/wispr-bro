@@ -2,6 +2,8 @@
 
 Wispr Bro is a free, fully local, open-source (GPL-3.0) macOS dictation app. Hold fn, speak, release, and clean text lands in whatever field has focus. It matches Wispr Flow's consumer experience, but everything runs on the Mac: no account, no cloud, no telemetry, no usage caps, auto-updating, and the user never picks a model. Apple Silicon first; Intel, Windows and Linux later.
 
+**Editions.** The GitHub default branch (`origin/main`) builds the normal app: the one on the releases page (`releases/latest`) and on opena.tech, with no account. The publik edition is an opt-in layer on top (Cargo feature `publik`, off by default; `publik/README.md`). Never turn it on by default, and never put its files on a normal release; it has its own `publik-v*` releases.
+
 This repo is a fork of [Handy](https://github.com/cjpais/Handy) (MIT; Tauri 2 + Rust + React 18/TypeScript). Branch `wispr-bro` is ours; `main` tracks the `upstream` remote.
 
 ## Read in this order

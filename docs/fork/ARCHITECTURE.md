@@ -1318,8 +1318,7 @@ S-07a/S-07b (silent model policy) and S-14 (Advanced list) call
 ## Releases and updates (F-02)
 
 Owner-facing steps, secrets and key custody: `docs/fork/RELEASING.md`.
-The publik edition (its own folders, Cargo feature, feeds and assets, and the
-edition guard): `docs/fork/EDITIONS.md`.
+The publik edition (all of it in `publik/`): `publik/README.md`.
 
 ### Files
 

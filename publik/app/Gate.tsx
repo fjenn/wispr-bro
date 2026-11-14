@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * "Sign in with publik". The Rust gate (src-tauri/src/fork/publik/gate.rs)
+ * "Sign in with publik". The Rust gate (publik/rust/src/gate.rs)
  * decides what to show and what each button does; this page shows the
  * current screen and reports presses. The words are publik's own, in
  * English, as publik's gate has them.
  */
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Button } from "../ui/Button";
+import { Button } from "@/fork/ui/Button";
 
 export interface GateScreen {
   id: string;

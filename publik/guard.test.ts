@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Self-tests for the edition guard (docs/fork/EDITIONS.md): each planted leak
+// Self-tests for the edition guard (publik/README.md): each planted leak
 // of publik code into the normal build must fail, and the clean tree passes.
 // Markers are assembled at runtime so this file holds none.
 
@@ -8,13 +8,9 @@ import { afterAll, describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { failed } from "./wb-guard-lib";
-import { runHosts } from "./wb-guard-hosts";
-import {
-  PUBLIK_MARKERS,
-  PUBLIK_REQUIRED,
-  runEdition,
-} from "./wb-guard-edition";
+import { failed } from "../scripts/wb-guard-lib";
+import { runHosts } from "../scripts/wb-guard-hosts";
+import { PUBLIK_MARKERS, PUBLIK_REQUIRED, runEdition } from "./guard";
 
 const DOMAIN = PUBLIK_MARKERS[0] + ".com";
 const dirs: string[] = [];
@@ -23,15 +19,15 @@ function tree(files: Record<string, string>): string {
   const root = mkdtempSync(join(tmpdir(), "wb-edition-"));
   dirs.push(root);
   const base: Record<string, string> = {
-    "src-tauri/Cargo.toml": "[features]\npublik = []\n",
+    "src-tauri/Cargo.toml": '[features]\npublik = ["dep:wb-publik"]\n',
     "src-tauri/tauri.fork.conf.json": "{}",
     "src-tauri/src/fork/mod.rs":
-      '#[cfg(feature = "publik")]\npub mod publik;\n',
-    "src-tauri/src/fork/publik/mod.rs": `// ${DOMAIN}\n`,
-    "src/fork/publik/Gate.tsx": `export const url = "${DOMAIN}";\n`,
-    "src/fork/edition.ts":
-      'export const load = () => import("./publik/Gate");\n',
-    "docs/fork/EDITIONS.md": `${DOMAIN}\n`,
+      '#[cfg(feature = "publik")]\nwb_publik::start("1");\n',
+    "publik/rust/src/lib.rs": `// ${DOMAIN}\n`,
+    "publik/app/Gate.tsx": `export const url = "${DOMAIN}";\n`,
+    "src/fork/vite-inputs.ts":
+      'export const page = resolve(root, "publik/app/index.html");\n',
+    "publik/README.md": `${DOMAIN}\n`,
     ...files,
   };
   for (const [rel, body] of Object.entries(base)) {
@@ -62,8 +58,8 @@ describe("edition guard: sources", () => {
 
   test("an ungated or negated Rust reference fails", () => {
     for (const body of [
-      "pub mod publik;\n",
-      '#[cfg(not(feature = "publik"))]\nuse crate::fork::publik::X;\n',
+      'wb_publik::start("1");\n',
+      '#[cfg(not(feature = "publik"))]\nuse wb_publik::X;\n',
     ]) {
       const r = runEdition({
         root: tree({ "src-tauri/src/fork/mod.rs": body }),
@@ -75,7 +71,7 @@ describe("edition guard: sources", () => {
   test("a frontend import outside the gateway fails", () => {
     const r = runEdition({
       root: tree({
-        "src/App.tsx": 'import { Gate } from "./fork/publik/Gate";\n',
+        "src/App.tsx": 'import { Gate } from "../publik/app/Gate";\n',
       }),
     });
     expect(r.violations.map((v) => v.rule)).toContain("edition/import");
@@ -166,7 +162,7 @@ describe("edition guard: artifacts", () => {
 });
 
 describe("hosts guard: publik's hosts", () => {
-  test("only the publik folders may name them", () => {
+  test("only the publik folder may name them", () => {
     const allowed = `[publik]\n${DOMAIN}  # the publik edition\n`;
     const url = `const ORIGIN: &str = "https://${DOMAIN}";\n`;
     const inside = runHosts({
@@ -174,7 +170,7 @@ describe("hosts guard: publik's hosts", () => {
         "ci/allowed-hosts.txt": allowed,
         "ci/inert-hosts.txt": "",
         "ci/upstream-hosts-baseline.txt": "",
-        "src-tauri/src/fork/publik/client.rs": url,
+        "publik/rust/src/client.rs": url,
       }),
     });
     expect(inside.violations).toEqual([]);

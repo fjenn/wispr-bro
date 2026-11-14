@@ -99,6 +99,7 @@ encoding_rs = "0.8" # S-16 CSV import from older spreadsheet exports; already in
 icu_normalizer = { version = "2.1", default-features = false, features = ["compiled_data"] } # S-17 snippet triggers and text compared in NFC, combining marks as word characters; already in the tree
 base64 = "0.22" # S-25 "Save as image": the PNG the page rendered; already in the tree
 wb-apple-fm = { path = "crates/wb-apple-fm" } # S-12b Apple Foundation Models bridge (own Swift build; a Rust stub elsewhere)
+wb-publik = { path = "../publik/rust", optional = true } # the publik edition, only with the `publik` feature (publik/README.md)
 sysinfo = { version = "0.39", default-features = false, features = ["system", "disk"] } # S-07b machine probe (R4: chip, RAM, purgeable-aware free disk)
 semver = "1" # F-02 update channel: picks the newer of the beta and stable releases; already in the tree
 zip = { version = "4", default-features = false, features = ["deflate"] } # S-27 user-data and sanitized diagnostics exports (R4; already in the tree)
@@ -227,11 +228,9 @@ tauri = { version = "2.11.5", features = ["test"] }
 # fork: Wispr Bro test-only dependencies (end)
 
 # fork: Wispr Bro editions (begin)
-# `publik` builds the publik edition (docs/fork/EDITIONS.md): src/fork/publik/
-# and its hooks compile only with it. Off by default, so the normal Wispr Bro
-# build contains none of it. Turned on by src-tauri/tauri.publik.conf.json.
+# `publik` adds the publik edition (publik/README.md); off by default.
 [features]
-publik = []
+publik = ["dep:wb-publik"]
 # fork: Wispr Bro editions (end)
 
 [profile.release]

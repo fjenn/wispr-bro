@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Lists Wispr Bro on publik and adds the publik edition (docs/fork/EDITIONS.md)
-# to a release that is already published with the normal app, for Apple
-# Silicon and Intel. Runs on the owner's Apple Silicon Mac, from a checkout of
-# the publik-edition branch. Nothing of the normal release changes: its DMGs,
-# updater archives, .sig files, latest.json and SHA256SUMS stay as they are
-# (checked before and after); the publik files only add new names next to
-# them (Wispr-Bro-publik_*, latest-publik.json, SHA256SUMS-publik).
+# Lists Wispr Bro on publik and publishes the publik edition
+# (publik/README.md) of a version whose normal release is already out,
+# for Apple Silicon and Intel. Runs on the owner's Apple Silicon Mac, from a
+# checkout of the publik-edition branch.
+#
+# The publik edition never goes on a normal release. It gets its own release,
+# publik-v<version> (never marked latest), and its update feed lives on the
+# rolling prerelease `publik`. So GitHub's releases/latest, latest.json and
+# every site that reads them (opena.tech) only ever see the normal app; the
+# script checks that before and after.
 #
 #   1. publik sign-in (device flow): opens publik's approval page in the
 #      browser; the owner checks the code and clicks Approve;
@@ -17,40 +20,45 @@
 #   3. the app token for that slug: kept in the login keychain
 #      (wispr-bro-publik-app-token) and set as the GitHub Actions secret
 #      PUBLIK_APP_TOKEN, never written to the repository or printed;
-#   4. if publik chose another slug than fork::publik::APP_SLUG, commits and
+#   4. if publik chose another slug than APP_SLUG in publik/rust/src/lib.rs, commits and
 #      pushes that one line to publik-edition (the build must match public
 #      source);
 #   5. builds, signs, notarizes and staples the publik app and DMG for both
 #      chips (macos.sh --edition publik), then runs publik's release self test
 #      on each (Intel under Rosetta);
 #   6. one latest-publik.json for both chips, SHA256SUMS-publik and the
-#      publik edition's source archive (its commit is on publik-edition, not
-#      the release tag);
-#   7. uploads the new files only (never --clobber), after checking that
-#      opena.tech's download links match the normal file names only;
-#   8. reads the release back: the normal files unchanged, the publik files
-#      downloadable.
+#      publik edition's source archive;
+#   7. publishes publik-v<version> (tag on the publik commit, not latest)
+#      with those files, then puts latest-publik.json on the rolling `publik`
+#      prerelease the publik app reads its updates from;
+#   8. reads everything back: releases/latest and the normal release
+#      unchanged, the publik downloads and feed downloadable.
 #
 # Re-running resumes: a listing and token already made are reused (the slug
 # in ~/.wispr-bro/publik/slug, the token in the keychain), and a chip whose
 # signed build for this commit is done is not built again.
 #
-# Usage: scripts/wb-publik/add-publik.sh v1.0.0-alpha.7
+# Usage: publik/add-publik.sh v1.0.0-alpha.7
 # Env: as macos.sh (WB_NOTARY_PROFILE=wispr-bro-notary on this Mac).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO="fjenn/wispr-bro"
 BRANCH="publik-edition"
 API="https://publikhq.com"
 TAG="${1:-}"
 [[ "$TAG" == v* ]] || { echo "usage: add-publik.sh v<version>" >&2; exit 2; }
+[[ "$TAG" != *-beta.* ]] || { echo "add-publik.sh: beta versions are not supported yet" >&2; exit 2; }
 VERSION="${TAG#v}"
 BASE="https://github.com/${REPO}/releases/download/${TAG}"
+PTAG="publik-${TAG}"     # the publik edition's own release, never latest
+FEED_TAG="publik"        # rolling prerelease holding latest-publik.json
+PBASE="https://github.com/${REPO}/releases/download/${PTAG}"
+FEED_URL="https://github.com/${REPO}/releases/download/${FEED_TAG}/latest-publik.json"
 OUT="${HOME}/wb-release/${VERSION}-publik"
 STATE="${HOME}/.wispr-bro/publik"
 KEYCHAIN_ITEM="wispr-bro-publik-app-token"
-MOD_RS="src-tauri/src/fork/publik/mod.rs"
+MOD_RS="publik/rust/src/lib.rs"
 P="Wispr-Bro-publik_${VERSION}"
 die() { echo "add-publik.sh: $*" >&2; exit 1; }
 say() { echo "== $*"; }
@@ -65,16 +73,18 @@ HERE="$(bun -e "console.log(require('./src-tauri/tauri.fork.conf.json').version)
 [[ -z "$(git status --porcelain)" ]] || die "uncommitted changes; the build must match a pushed commit"
 gh release view "$TAG" -R "$REPO" --json isDraft --jq '.isDraft' | grep -qx false \
   || die "${TAG} is not a published release"
-if gh release view "$TAG" -R "$REPO" --json assets --jq '.assets[].name' | grep -q '^Wispr-Bro-publik_\|-publik'; then
-  die "${TAG} already has publik files; nothing to add"
+if gh release view "$PTAG" -R "$REPO" --json isDraft --jq '.isDraft' 2>/dev/null | grep -qx false; then
+  die "${PTAG} is already published; nothing to do"
 fi
 rustup target list --installed | grep -qx x86_64-apple-darwin || rustup target add x86_64-apple-darwin
 mkdir -p "$STATE" "$OUT"
 chmod 700 "$STATE"
 
-# The normal release as it is now; checked unchanged at the end.
+# The normal side as it is now; checked unchanged at the end.
 PUB="${OUT}/published"
 rm -rf "$PUB"; mkdir -p "$PUB"
+LATEST_TAG="$(gh api "repos/${REPO}/releases/latest" --jq '.tag_name')"
+[[ "$LATEST_TAG" == v* ]] || die "releases/latest is ${LATEST_TAG}, not a normal release"
 curl -fsSL -o "${PUB}/latest.json" "${BASE}/latest.json" || die "no latest.json on ${TAG}"
 curl -fsSL -o "${PUB}/SHA256SUMS" "${BASE}/SHA256SUMS" || die "no SHA256SUMS on ${TAG}"
 gh release view "$TAG" -R "$REPO" --json assets --jq '.assets[] | .name + " " + (.size|tostring)' \
@@ -280,7 +290,7 @@ for arch in aarch64 x86_64; do
     cp "${OUT}/${arch}/${f}" "${UP}/${f}"
   done
 done
-bun scripts/wb-release/manifest.ts --version "$VERSION" --release-tag "$TAG" \
+bun scripts/wb-release/manifest.ts --version "$VERSION" --release-tag "$PTAG" \
   --asset "darwin-aarch64=${UP}/${P}_aarch64.app.tar.gz" \
   --asset "darwin-x86_64=${UP}/${P}_x86_64.app.tar.gz" \
   --out "${UP}/latest-publik.json"
@@ -291,47 +301,77 @@ git archive --format=tar.gz --prefix="wispr-bro-publik-${VERSION}/" -o "${UP}/${
     "${P}_source.tar.gz" latest-publik.json > SHA256SUMS-publik )
 
 # ---------------------------------------------------------------------------
-# 7. Upload (new names only)
+# 7. Publish: publik-v<version>, then the feed
 
-say "check that opena.tech offers only the normal downloads"
-for f in src/lib/server/wispr-bro-release.ts src/lib/server/wispr-bro-intel.ts; do
-  gh api "repos/fjenn/opena-store/contents/${f}" --jq '.content' | base64 --decode \
-    | grep -q '\^Wispr-Bro_' || die "opena.tech (${f}) could still pick a publik download; nothing was uploaded"
-done
+say "publish ${PTAG} (not marked latest)"
+cat > "${TMP}/notes.md" <<NOTES
+Wispr Bro ${VERSION} for publik: the same app as [Wispr Bro ${VERSION}](https://github.com/${REPO}/releases/tag/${TAG}), with sign-in and usage counting for people who get it through publik.
 
-say "upload to ${TAG}"
-# Downloads first, the feed and sums last, so the feed never names a missing file.
-gh release upload "$TAG" -R "$REPO" \
+If you did not come here from publik, you want the normal Wispr Bro, which needs no account: https://github.com/${REPO}/releases/latest
+NOTES
+# A draft left by an interrupted run is replaced.
+if gh release view "$PTAG" -R "$REPO" >/dev/null 2>&1; then
+  gh release delete "$PTAG" -R "$REPO" -y
+fi
+gh release create "$PTAG" -R "$REPO" --draft --latest=false --target "$COMMIT" \
+  --title "Wispr Bro ${VERSION} for publik" --notes-file "${TMP}/notes.md"
+gh release upload "$PTAG" -R "$REPO" \
   "${UP}/${P}_aarch64.dmg" "${UP}/${P}_aarch64.app.tar.gz" "${UP}/${P}_aarch64.app.tar.gz.sig" \
   "${UP}/${P}_x86_64.dmg" "${UP}/${P}_x86_64.app.tar.gz" "${UP}/${P}_x86_64.app.tar.gz.sig" \
-  "${UP}/${P}_source.tar.gz"
-gh release upload "$TAG" -R "$REPO" "${UP}/latest-publik.json" "${UP}/SHA256SUMS-publik"
+  "${UP}/${P}_source.tar.gz" "${UP}/latest-publik.json" "${UP}/SHA256SUMS-publik"
+gh release edit "$PTAG" -R "$REPO" --draft=false --latest=false
+
+say "update feed on ${FEED_TAG}"
+# Last, so the feed never names a file that is not published yet.
+if gh api "repos/${REPO}/git/refs/tags/${FEED_TAG}" >/dev/null 2>&1; then
+  gh api -X PATCH "repos/${REPO}/git/refs/tags/${FEED_TAG}" -f sha="$COMMIT" -F force=true >/dev/null
+else
+  gh api -X POST "repos/${REPO}/git/refs" -f ref="refs/tags/${FEED_TAG}" -f sha="$COMMIT" >/dev/null
+fi
+if ! gh release view "$FEED_TAG" -R "$REPO" >/dev/null 2>&1; then
+  gh release create "$FEED_TAG" -R "$REPO" --prerelease --latest=false --verify-tag \
+    --title "Wispr Bro for publik: update feed" \
+    --notes "Where the publik edition of Wispr Bro looks for updates. Not a download: the normal Wispr Bro is at https://github.com/${REPO}/releases/latest"
+fi
+gh release upload "$FEED_TAG" -R "$REPO" "${UP}/latest-publik.json" --clobber
+gh release edit "$FEED_TAG" -R "$REPO" --prerelease --latest=false --draft=false
 
 # ---------------------------------------------------------------------------
 # 8. Check
 
-say "check the release"
+say "check the normal release and releases/latest"
 CHECK="${OUT}/check"
 rm -rf "$CHECK"; mkdir -p "$CHECK"
+now="$(gh api "repos/${REPO}/releases/latest" --jq '.tag_name')"
+[[ "$now" == "$LATEST_TAG" ]] || die "releases/latest moved from ${LATEST_TAG} to ${now}"
+if gh api "repos/${REPO}/releases/latest" --jq '.assets[].name' | grep -qi publik; then
+  die "releases/latest has a publik file"
+fi
 curl -fsSL -o "${CHECK}/latest.json" "${BASE}/latest.json?t=$(date +%s)"
 curl -fsSL -o "${CHECK}/SHA256SUMS" "${BASE}/SHA256SUMS?t=$(date +%s)"
 cmp -s "${CHECK}/latest.json" "${PUB}/latest.json" || die "latest.json changed"
 cmp -s "${CHECK}/SHA256SUMS" "${PUB}/SHA256SUMS" || die "SHA256SUMS changed"
 gh release view "$TAG" -R "$REPO" --json assets --jq '.assets[] | .name + " " + (.size|tostring)' \
-  | sort | grep -v -e '-publik' -e '^Wispr-Bro-publik_' > "${CHECK}/assets.txt"
+  | sort > "${CHECK}/assets.txt"
 cmp -s "${CHECK}/assets.txt" "${PUB}/assets.txt" || die "the normal files changed"
-echo "normal release unchanged"
+echo "normal release and releases/latest unchanged (${LATEST_TAG})"
+
+say "check the publik release and feed"
 for f in latest-publik.json SHA256SUMS-publik "${P}_aarch64.dmg" "${P}_x86_64.dmg" \
          "${P}_aarch64.app.tar.gz" "${P}_x86_64.app.tar.gz" "${P}_source.tar.gz"; do
-  curl -fsSIL -o /dev/null "${BASE}/${f}" || die "${f} is not downloadable"
+  curl -fsSIL -o /dev/null "${PBASE}/${f}" || die "${f} is not downloadable"
 done
+curl -fsSL -o "${CHECK}/feed.json" "${FEED_URL}?t=$(date +%s)"
+cmp -s "${CHECK}/feed.json" "${UP}/latest-publik.json" || die "the publik feed is not the new latest-publik.json"
 bun -e "
-const m = require('${CHECK}/../upload/latest-publik.json');
-for (const k of ['darwin-aarch64', 'darwin-x86_64'])
-  if (!m.platforms[k] || !m.platforms[k].url.includes('Wispr-Bro-publik_')) throw new Error('no publik ' + k);
-console.log('latest-publik.json: ${VERSION} for Apple Silicon and Intel');
+const m = require('${CHECK}/feed.json');
+for (const k of ['darwin-aarch64', 'darwin-x86_64']) {
+  const u = m.platforms[k] && m.platforms[k].url;
+  if (!u || !u.includes('/download/${PTAG}/Wispr-Bro-publik_')) throw new Error('no publik ' + k);
+}
+console.log('publik feed: ${VERSION} for Apple Silicon and Intel');
 "
 echo
-echo "done: Wispr Bro is listed on publik as ${SLUG}, and ${TAG} has the publik downloads for Apple Silicon and Intel (${COMMIT})"
+echo "done: Wispr Bro is listed on publik as ${SLUG}; ${PTAG} has its downloads for Apple Silicon and Intel (${COMMIT})"
 [[ -f "${STATE}/listing.json" ]] && echo "listing: $(field "${STATE}/listing.json" url) ($(field "${STATE}/listing.json" status))"
 echo "publik picks up the downloads within a day, or at once with 'Check GitHub for a new release now' on your publik dashboard."

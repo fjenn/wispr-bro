@@ -11,7 +11,7 @@
 //! Differences from the module, all deliberate:
 //! - the publik app token comes from the build environment
 //!   (`PUBLIK_APP_TOKEN` at compile time), not a committed file, so the
-//!   repository never holds it (docs/fork/EDITIONS.md);
+//!   repository never holds it (publik/README.md);
 //! - files are created with mode 0600 instead of chmod'ed after writing.
 
 use std::io::Write;
@@ -20,7 +20,7 @@ use std::process::{Command, Stdio};
 
 use serde_json::{json, Map, Value};
 
-use super::{APP_SLUG, APP_VERSION};
+use super::{app_version, APP_SLUG};
 
 /// publik's site. `PUBLIK_ORIGIN` overrides it (tests), as in the module.
 pub const DEFAULT_ORIGIN: &str = "https://publikhq.com";
@@ -337,7 +337,7 @@ pub fn install_body(token: &str, install_id: &str, device: &str) -> Value {
     let mut body = json!({
         "app_token": token,
         "app_slug": APP_SLUG,
-        "app_version": APP_VERSION,
+        "app_version": app_version(),
         "os": OS,
         "device_name": device,
         "install_id": install_id,
@@ -481,7 +481,7 @@ pub fn self_test_line(env: &Env) -> String {
             Wallet::Refused(code, None) => Err(format!("GET /wallet answered {code}")),
         });
     match result {
-        Ok(()) => format!("publik self-test: ok {APP_SLUG} {APP_VERSION}"),
+        Ok(()) => format!("publik self-test: ok {APP_SLUG} {}", app_version()),
         Err(e) => format!("publik self-test: failed: {e}"),
     }
 }
@@ -560,7 +560,7 @@ pub fn telemetry_body(event: &str, install_id: &str) -> Value {
         "app": APP_SLUG,
         "install_id": install_id,
         "event": event,
-        "app_version": APP_VERSION.trim_start_matches(['v', 'V']),
+        "app_version": app_version().trim_start_matches(['v', 'V']),
         "os": OS,
     });
     if let Some(a) = arch() {
@@ -707,8 +707,8 @@ mod tests {
 
     #[test]
     fn provisioning_sends_publiks_install_and_keeps_the_id() {
-        let publik = super::super::fake::FakePublik::start();
-        let env = super::super::fake::env(&publik);
+        let publik = crate::fake::FakePublik::start();
+        let env = crate::fake::env(&publik);
         let key = provision(&env).unwrap();
         assert_eq!(key, "pk_test_1");
         let cred = env.read_credential();
@@ -735,11 +735,11 @@ mod tests {
 
     #[test]
     fn the_self_test_line() {
-        let publik = super::super::fake::FakePublik::start();
-        let env = super::super::fake::env(&publik);
+        let publik = crate::fake::FakePublik::start();
+        let env = crate::fake::env(&publik);
         assert_eq!(
             self_test_line(&env),
-            format!("publik self-test: ok {APP_SLUG} {APP_VERSION}")
+            format!("publik self-test: ok {APP_SLUG} {}", app_version())
         );
         let mut down = env.clone();
         down.origin = "http://127.0.0.1:9".into();
@@ -758,8 +758,8 @@ mod tests {
 
     #[test]
     fn usage_events_carry_the_shared_install_id_and_the_key() {
-        let publik = super::super::fake::FakePublik::start();
-        let env = super::super::fake::env(&publik);
+        let publik = crate::fake::FakePublik::start();
+        let env = crate::fake::env(&publik);
         let url = format!("{}{TELEMETRY_PATH}", publik.origin());
         assert_eq!(post_event(&env, &url, "app_opened"), Ok(202));
         provision(&env).unwrap();
@@ -784,7 +784,7 @@ mod tests {
         for s in ["/api/v1/installs", "/api/v1/telemetry", "\"app_opened\""] {
             assert!(src.contains(s), "{s}");
         }
-        let module = include_str!("mod.rs");
+        let module = include_str!("lib.rs");
         assert!(module.contains("APP_SLUG: &str = \""));
     }
 }

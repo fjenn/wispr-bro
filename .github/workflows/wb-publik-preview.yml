@@ -1,14 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# wb-publik-preview: an unsigned test build of both editions for a pull
-# request that touches the publik edition (docs/fork/EDITIONS.md), so it can be
-# downloaded from the run's artifacts and tried on a Mac before merging.
-#
-# Nothing is signed, notarized or released here: it is wb-build's dry run
-# (`signed: false`, `publik: true`), which builds the normal edition and the
-# publik edition as two artifacts and checks each with the edition guard.
-# Without the PUBLIK_APP_TOKEN secret the publik build has no built-in app
-# token; set PUBLIK_APP_TOKEN when launching it instead.
+# wb-publik-preview: checks for a pull request that touches the publik
+# edition (publik/README.md). The publik crate's tests and the gate page's
+# types, then an unsigned build of the publik edition for both chips (its
+# artifacts can be tried on a Mac before merging). Nothing is signed,
+# notarized or released here. Without the PUBLIK_APP_TOKEN secret the build
+# has no built-in app token; set PUBLIK_APP_TOKEN when launching it instead.
 
 name: "wb-publik-preview"
 
@@ -16,13 +13,10 @@ on:
   pull_request:
     branches: [main, wispr-bro]
     paths:
-      - "src-tauri/src/fork/publik/**"
-      - "src/fork/publik/**"
-      - "src/fork/edition.ts"
-      - "src-tauri/tauri.publik.conf.json"
-      - "scripts/wb-guard-edition.ts"
+      - "publik/**"
+      - "src-tauri/src/fork/mod.rs"
+      - "src-tauri/src/fork/update/channel.rs"
       - "scripts/wb-release/macos.sh"
-      - ".github/workflows/wb-build.yml"
       - ".github/workflows/wb-publik-preview.yml"
   workflow_dispatch:
 
@@ -34,10 +28,51 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: dtolnay/rust-toolchain@stable
+      - run: bun install --frozen-lockfile
+      - run: cargo test --manifest-path publik/rust/Cargo.toml
+      - run: bunx tsc -p publik/tsconfig.json --noEmit
+      - run: bun test publik/
+
   build:
-    uses: ./.github/workflows/wb-build.yml
-    with:
-      signed: false
-      publik: true
-    secrets:
-      PUBLIK_APP_TOKEN: ${{ secrets.PUBLIK_APP_TOKEN }}
+    name: build macOS ${{ matrix.arch }} (publik)
+    runs-on: macos-26
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [aarch64, x86_64]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.arch == 'x86_64' && 'x86_64-apple-darwin' || '' }}
+      - name: Rosetta 2 (the Intel sidecar and app checks)
+        if: ${{ matrix.arch == 'x86_64' }}
+        run: /usr/bin/pgrep -q oahd || sudo softwareupdate --install-rosetta --agree-to-license
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+          key: wb-publik-${{ matrix.arch }}
+      - run: bun install --frozen-lockfile
+      - name: Unsigned publik build (scripts/wb-release/macos.sh --edition publik)
+        env:
+          PUBLIK_APP_TOKEN: ${{ secrets.PUBLIK_APP_TOKEN }}
+        run: scripts/wb-release/macos.sh --out release-out --arch "${{ matrix.arch }}" --edition publik --unsigned
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: wb-publik-macos-${{ matrix.arch }}
+          path: release-out/
+          retention-days: 14

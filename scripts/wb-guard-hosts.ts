@@ -10,8 +10,7 @@
 //              (a link the user clicks opens in the browser);
 //   [schema]   hosts allowed only as a JSON `"$schema"` value (editor hint);
 //   [loopback] local hosts, never network egress;
-//   [publik]   publik's hosts, allowed only in the publik edition's own
-//              folders (wb-guard-lib.ts PUBLIK_PATHS; docs/fork/EDITIONS.md),
+//   [publik]   publik's hosts, allowed only in publik/ (publik/README.md),
 //              never in the normal app nor in a built bundle scan;
 //   [test]     hosts allowed only in fork *test code* (see isForkTestFile and
 //              forkTestSpans): example names, private/loopback addresses and
@@ -224,7 +223,6 @@ export function isForkHostScope(rel: string): boolean {
   return (
     isForkCodePath(rel) ||
     rel === "src-tauri/tauri.fork.conf.json" ||
-    rel === "src-tauri/tauri.publik.conf.json" ||
     /^src\/i18n\/locales\/[^/]+\/fork(\.flags)?\.json$/.test(rel)
   );
 }
@@ -343,7 +341,7 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
             file: f,
             line: hit.line,
             rule: "hosts/publik-only",
-            message: `${h} is a [publik] host: it may appear only in the publik edition's folders`,
+            message: `${h} is a [publik] host: it may appear only in publik/`,
           });
           continue;
         }
