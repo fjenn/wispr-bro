@@ -114,6 +114,9 @@ pub struct Config {
     /// Publish the running server's transport for Handy's chain
     /// (`fork::llm::set_local_transport`). Only the app's supervisor does.
     pub publish_transport: bool,
+    /// Where the first start runs ([`Device::initial`]: Metal on Apple
+    /// Silicon, the CPU on Intel).
+    pub device: Device,
 }
 
 impl Config {
@@ -126,6 +129,7 @@ impl Config {
             health_timeout: HEALTH_TIMEOUT,
             idle_timeout: IDLE_TIMEOUT,
             publish_transport: false,
+            device: Device::initial(),
         }
     }
 }
@@ -161,7 +165,7 @@ impl Default for ServerStatus {
     fn default() -> Self {
         Self {
             phase: ServerPhase::Stopped,
-            device: "gpu".into(),
+            device: Device::Gpu.as_str().into(),
             transport: None,
             ready_ms: None,
             restarts: 0,
@@ -288,12 +292,13 @@ enum Attempt {
 
 impl Supervisor {
     pub fn new(launcher: Arc<dyn Launcher>, config: Config) -> Arc<Self> {
+        let device = config.device;
         Arc::new_cyclic(|me| Self {
             launcher,
             config: Mutex::new(config),
             inner: tokio::sync::Mutex::new(Inner {
                 running: None,
-                device: Device::Gpu,
+                device,
                 consecutive_failures: 0,
                 backoffs: 0,
                 backoff_until: None,
@@ -308,7 +313,11 @@ impl Supervisor {
             demand: AtomicU64::new(0),
             take_since: Mutex::new(None),
             last_used: Mutex::new(Instant::now()),
-            status: watch::channel(ServerStatus::default()).0,
+            status: watch::channel(ServerStatus {
+                device: device.as_str().into(),
+                ..ServerStatus::default()
+            })
+            .0,
             me: me.clone(),
         })
     }

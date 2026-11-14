@@ -10,8 +10,10 @@
 #              release mode (no F-02 placeholders, our pubkey and feed)
 #   notices    THIRD-PARTY-NOTICES.md is current (cargo-about, F-04)
 #   egress     wb-egress.yml: the build talks only to the R5 §1 hosts
-#   build      wb-build.yml: signed, notarized, stapled DMG + updater archive,
-#              its .sig and latest.json; wb-verify on a fresh runner
+#   build      wb-build.yml: signed, notarized, stapled DMG + updater archive
+#              and its .sig for Apple Silicon (aarch64) and Intel (x86_64);
+#              wb-verify on a fresh runner. publish merges both into one
+#              latest.json (darwin-aarch64 and darwin-x86_64 entries)
 #   publish    stable/alpha/rc → a **draft** release `vX…` (the owner
 #              reviews and publishes it; only then does
 #              releases/latest/download/latest.json serve it). `-beta.N` → the
@@ -142,6 +144,24 @@ jobs:
           name: wb-release-macos-aarch64
           path: release-out
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: wb-release-macos-x86_64
+          path: release-x86_64
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Add the Intel build and one latest.json for both
+        run: |
+          set -euo pipefail
+          cp release-x86_64/*_x86_64.dmg release-x86_64/*_x86_64.app.tar.gz release-x86_64/*_x86_64.app.tar.gz.sig release-out/
+          bun scripts/wb-release/manifest.ts --version "$VERSION" --release-tag "$RELEASE_TAG" \
+            --asset "darwin-aarch64=$(ls release-out/*_aarch64.app.tar.gz)" \
+            --asset "darwin-x86_64=$(ls release-out/*_x86_64.app.tar.gz)" \
+            --out release-out/latest.json
+
       - name: GPL assets (F-04) and checksums
         run: |
           set -euo pipefail
@@ -158,9 +178,9 @@ jobs:
           set -euo pipefail
           base="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}"
           cat > notes.md <<EOF
-          Wispr Bro ${VERSION} for macOS 13 or later on Apple Silicon.
+          Wispr Bro ${VERSION} for macOS 13 or later, on Apple Silicon and Intel Macs.
 
-          Download the DMG, open it and drag Wispr Bro to Applications. Installed copies update themselves.
+          Download the DMG for your Mac (aarch64 for Apple Silicon, x86_64 for Intel), open it and drag Wispr Bro to Applications. Installed copies update themselves.
 
           Languages: English and 25 translations. Every translation was reviewed by AI, not by native speakers, so some wording may be off; corrections from native speakers are welcome (docs/fork/TRANSLATION-REVIEW.md in the repository).
 

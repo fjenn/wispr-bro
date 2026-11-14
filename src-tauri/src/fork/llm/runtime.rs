@@ -28,7 +28,7 @@ use tauri::{AppHandle, Listener, Manager, Runtime};
 use tauri_specta::Event;
 
 use super::catalog::{self, LlmModel};
-use super::chat::CancellationToken;
+use super::chat::{CancellationToken, ChatError};
 use super::download::{self, DownloadError, ProgressCounter};
 use super::memory::{self, AsrState, LoadPlanner, PlanAction};
 use super::supervisor::{
@@ -42,7 +42,7 @@ pub const LLM_DIR: &str = "llm";
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]
 pub enum LlmState {
-    /// No local LLM on this Mac (Intel, DEC-29; or a plain Handy build).
+    /// No local LLM on this machine (under 8 GB, not a Mac, or a plain Handy build).
     Unsupported,
     /// The `llama-server` sidecar is not in this build.
     MissingRuntime,
@@ -472,10 +472,36 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
         let t0 = Instant::now();
         match sup.ensure_ready().await {
             Ok(_) => log::debug!("llm: prewarm ready after {:?}", t0.elapsed()),
-            Err(e) => log::warn!("llm: prewarm failed: {e}"),
+            Err(e) => {
+                log::warn!("llm: prewarm failed: {e}");
+                return;
+            }
+        }
+        // On the CPU (Intel) the system prompt takes seconds to read: read
+        // it now, while the user speaks, not inside the cleanup's deadline.
+        if super::process::Device::initial() == super::process::Device::Cpu {
+            if let Some(request) = super::post_process::priming_request(&app) {
+                let t0 = Instant::now();
+                // One token is asked for, so a reply cut at the token limit
+                // is the expected end: the prompt was read either way.
+                match sup
+                    .complete(&request, PRIME_TIMEOUT, &CancellationToken::new())
+                    .await
+                {
+                    Ok(_) | Err(super::supervisor::RequestError::Chat(ChatError::Truncated)) => {
+                        log::info!("llm: prompt primed in {:?}", t0.elapsed())
+                    }
+                    Err(e) => {
+                        log::info!("llm: prompt priming failed after {:?}: {e:?}", t0.elapsed())
+                    }
+                }
+            }
         }
     });
 }
+
+/// How long a key-down prompt priming may run (Intel).
+const PRIME_TIMEOUT: Duration = Duration::from_secs(30);
 
 #[cfg_attr(any(test, not(target_os = "macos")), allow(dead_code))]
 async fn on_wake<R: Runtime>(app: &AppHandle<R>) {
@@ -607,8 +633,12 @@ fn warm_marker_name(binary: &std::path::Path) -> Option<String> {
 /// when memory is short. The server is stopped again at once, unless a take
 /// started meanwhile ([`Supervisor::warm_up`]; Mac wave 3: stopping it
 /// under a take that was waiting for it cost that take a second cold
-/// start).
+/// start). An Intel Mac starts on the CPU and has no Metal library to
+/// compile, so it skips the warm-up.
 async fn first_launch_warmup<R: Runtime>(app: &AppHandle<R>) {
+    if super::process::Device::initial() == super::process::Device::Cpu {
+        return;
+    }
     let Some(rt) = runtime(app) else { return };
     let Some(sup) = rt.supervisor.clone() else {
         return;

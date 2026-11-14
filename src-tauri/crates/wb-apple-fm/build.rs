@@ -34,9 +34,10 @@ fn main() {
     if env::var("WB_APPLE_FM_STUB").as_deref() == Ok("1") {
         return stub("WB_APPLE_FM_STUB=1");
     }
-    let Some(sdk) = env::var("SDKROOT").ok().or_else(|| {
-        run("xcrun", &["--sdk", "macosx", "--show-sdk-path"])
-    }) else {
+    let Some(sdk) = env::var("SDKROOT")
+        .ok()
+        .or_else(|| run("xcrun", &["--sdk", "macosx", "--show-sdk-path"]))
+    else {
         return stub("no macOS SDK");
     };
     if !Path::new(&sdk)
@@ -61,23 +62,32 @@ fn main() {
     let out = PathBuf::from(env::var("OUT_DIR").expect("OUT_DIR"));
     let object = out.join("wb_apple_fm.o");
     let lib = out.join("libwb_apple_fm.a");
-    let status = Command::new(&swiftc)
-        .args([
-            "-parse-as-library",
-            "-module-name",
-            "WbAppleFm",
-            "-target",
-            "arm64-apple-macosx11.0",
-            "-sdk",
-            &sdk,
-            "-O",
-            "-c",
-            SWIFT_FILE,
-            "-o",
-        ])
-        .arg(&object)
-        .status()
-        .expect("swiftc");
+    // The SDKs name `GenerationOptions`' sampling argument differently
+    // (`samplingMode:` on some, `sampling:` on Xcode 26.6's): the file is
+    // compiled with the first spelling and, if that fails, with the other.
+    let compile = |defines: &[&str]| {
+        Command::new(&swiftc)
+            .args([
+                "-parse-as-library",
+                "-module-name",
+                "WbAppleFm",
+                "-target",
+                "arm64-apple-macosx11.0",
+                "-sdk",
+                &sdk,
+                "-O",
+            ])
+            .args(defines)
+            .args(["-c", SWIFT_FILE, "-o"])
+            .arg(&object)
+            .status()
+            .expect("swiftc")
+    };
+    let mut status = compile(&[]);
+    if !status.success() {
+        println!("cargo:warning=wb-apple-fm: retrying with the `sampling:` spelling");
+        status = compile(&["-D", "WB_FM_SAMPLING_LABEL"]);
+    }
     assert!(status.success(), "swiftc failed on {SWIFT_FILE}");
     let status = Command::new("libtool")
         .arg("-static")
@@ -95,7 +105,10 @@ fn main() {
         .expect("swift toolchain lib dir");
     println!("cargo:rustc-link-search=native={}", out.display());
     println!("cargo:rustc-link-lib=static=wb_apple_fm");
-    println!("cargo:rustc-link-search=native={}", toolchain_swift.display());
+    println!(
+        "cargo:rustc-link-search=native={}",
+        toolchain_swift.display()
+    );
     println!(
         "cargo:rustc-link-search=native={}",
         Path::new(&sdk).join("usr/lib/swift").display()

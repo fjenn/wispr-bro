@@ -315,14 +315,17 @@ mod platform {
         fn string(s: &CStr) -> Option<Owned> {
             // SAFETY: a valid NUL-terminated C string.
             let r = unsafe { CFStringCreateWithCString(std::ptr::null(), s.as_ptr(), UTF8) };
-            (!r.is_null()).then_some(Owned(r))
+            (!r.is_null()).then(|| Owned(r))
         }
     }
 
     impl Drop for Owned {
         fn drop(&mut self) {
-            // SAFETY: non-null, owned by us, released once.
-            unsafe { CFRelease(self.0) }
+            // CFRelease(NULL) traps, so never hand it one.
+            if !self.0.is_null() {
+                // SAFETY: non-null, owned by us, released once.
+                unsafe { CFRelease(self.0) }
+            }
         }
     }
 
@@ -395,7 +398,9 @@ mod platform {
         unsafe {
             CFPreferencesAppSynchronize(d.0);
             let v = CFPreferencesCopyAppValue(k.0, d.0);
-            (!v.is_null()).then_some(Owned(v))
+            // Lazy `then`: `then_some(Owned(v))` would build and drop an
+            // `Owned(NULL)` when the key is missing (CFRelease(NULL) aborts).
+            (!v.is_null()).then(|| Owned(v))
         }
     }
 
@@ -502,6 +507,19 @@ mod platform {
                 })
             });
         (enabled, shortcut)
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+
+        /// A Mac that never touched Dictation has no such key: reading it
+        /// must give None, not abort in CFRelease(NULL) (alpha.5 launch crash).
+        #[test]
+        fn missing_pref_is_none_not_a_crash() {
+            assert!(copy_pref(c"com.wisprbro.test.nonexistent", c"No Such Key").is_none());
+            assert!(copy_pref(c"com.apple.assistant.support", c"WisprBro No Such Key").is_none());
+        }
     }
 }
 

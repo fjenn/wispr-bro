@@ -4,7 +4,7 @@ Local, private dictation for macOS. Press a shortcut, speak, and clean text appe
 
 **Download the latest build:** https://github.com/fjenn/wispr-bro/releases/latest
 
-Requirements: Apple Silicon, macOS 13 or newer.
+Requirements: an Apple Silicon or Intel Mac, macOS 13 or newer. Take the DMG ending in `aarch64` for Apple Silicon and `x86_64` for Intel.
 
 ## Install
 

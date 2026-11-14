@@ -1545,7 +1545,7 @@ export type Chip =
  */
 { kind: "unknown_apple_silicon" } | 
 /**
- * x86_64 (DEC-29: CPU only, later milestone).
+ * An Intel Mac (x86_64): speech and cleanup run on the CPU.
  */
 { kind: "intel" }
 /**
@@ -2823,7 +2823,7 @@ export type ImportRow = { row: number; phrase: string; replacement: string | nul
  */
 export type InstructState = 
 /**
- * No local LLM on this Mac (Intel, under 8 GB, or a plain Handy build).
+ * No local LLM on this machine (under 8 GB, not a Mac, or a plain Handy build).
  */
 "unsupported" | 
 /**
@@ -2911,7 +2911,7 @@ export type LiteralTarget = { kind: "text"; value: string } | { kind: "category"
  */
 export type LlmState = 
 /**
- * No local LLM on this Mac (Intel, DEC-29; or a plain Handy build).
+ * No local LLM on this machine (under 8 GB, not a Mac, or a plain Handy build).
  */
 "unsupported" | 
 /**

@@ -31,7 +31,7 @@ pub enum Chip {
     AppleSilicon { generation: u8, tier: Tier },
     /// Apple Silicon whose brand string we could not read.
     UnknownAppleSilicon,
-    /// x86_64 (DEC-29: CPU only, later milestone).
+    /// An Intel Mac (x86_64): speech and cleanup run on the CPU.
     Intel,
 }
 

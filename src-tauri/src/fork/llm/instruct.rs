@@ -40,7 +40,7 @@ pub const INSTRUCT_DIR: &str = "llm-instruct";
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]
 pub enum InstructState {
-    /// No local LLM on this Mac (Intel, under 8 GB, or a plain Handy build).
+    /// No local LLM on this machine (under 8 GB, not a Mac, or a plain Handy build).
     Unsupported,
     /// The `llama-server` sidecar is not in this build.
     MissingRuntime,

@@ -51,8 +51,9 @@ pub struct LlmModel {
     pub prompt_style: PromptStyle,
 }
 
-/// Muesli 2B v12, Q4_K_M: the cleanup model on every Apple Silicon tier
-/// (DEC-03 update 2026-10-29, owner decision after RS-07).
+/// Muesli 2B v12, Q4_K_M: the cleanup model on every Mac with 8 GB or more,
+/// Apple Silicon and Intel alike (DEC-03 update 2026-10-29, owner decision
+/// after RS-07; Intel since 2026-11-13).
 pub const MUESLI_2B_V12: LlmModel = LlmModel {
     id: "muesli-2b-v12-q4km",
     display_name: "Muesli 2B v12",
@@ -89,10 +90,12 @@ pub const INSTRUCT: LlmModel = QWEN35_2B;
 /// (`docs/fork/LICENSE-REGISTER.md`) lists each one.
 pub const ALL: &[LlmModel] = &[MUESLI_2B_V12, QWEN35_2B];
 
-/// CPU family the tier rule distinguishes (DEC-29).
+/// CPU family the tier rule distinguishes.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Cpu {
     AppleSilicon,
+    /// An Intel Mac: same models, run on the CPU (`process::Device::initial`).
+    Intel,
     Other,
 }
 
@@ -101,6 +104,8 @@ impl Cpu {
     pub fn current() -> Self {
         if cfg!(all(target_os = "macos", target_arch = "aarch64")) {
             Cpu::AppleSilicon
+        } else if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+            Cpu::Intel
         } else {
             Cpu::Other
         }
@@ -108,25 +113,24 @@ impl Cpu {
 }
 
 /// The model for a Mac with `physical_ram_bytes` of memory, or `None` when
-/// the local LLM is off for this machine (Intel, DEC-29, and anything under
-/// 8 GB, which macOS no longer ships on Apple Silicon).
+/// the local LLM is off for this machine (not a Mac, or under 8 GB).
 ///
-/// DEC-03 (update 2026-10-29): Muesli 2B v12 on every Apple Silicon tier,
-/// pending RS-06 on an M1 8 GB. If RS-06 shows the 8 GB tier misses its
-/// budget, R5 §5.1 says to use the next smaller model for that tier; that is
-/// a change to this function only.
+/// DEC-03 (update 2026-10-29): Muesli 2B v12 on every Mac tier, pending
+/// RS-06 on an M1 8 GB. If RS-06 shows the 8 GB tier misses its budget,
+/// R5 §5.1 says to use the next smaller model for that tier; that is a
+/// change to this function only.
 pub fn select(physical_ram_bytes: u64, cpu: Cpu) -> Option<&'static LlmModel> {
     const MIN_RAM: u64 = 8 * 1024 * 1024 * 1024;
     match cpu {
-        Cpu::AppleSilicon if physical_ram_bytes >= MIN_RAM - 64 * 1024 * 1024 => {
+        Cpu::AppleSilicon | Cpu::Intel if physical_ram_bytes >= MIN_RAM - 64 * 1024 * 1024 => {
             Some(&MUESLI_2B_V12)
         }
         _ => None,
     }
 }
 
-/// The instruction model for a Mac (same tiers as [`select`]: every Apple
-/// Silicon Mac with 8 GB or more).
+/// The instruction model for a Mac (same tiers as [`select`]: every Mac
+/// with 8 GB or more).
 pub fn select_instruct(physical_ram_bytes: u64, cpu: Cpu) -> Option<&'static LlmModel> {
     select(physical_ram_bytes, cpu).map(|_| &INSTRUCT)
 }
@@ -172,18 +176,33 @@ mod tests {
     }
 
     #[test]
-    fn dec03_muesli_on_every_apple_silicon_tier() {
-        for ram in [8 * GB, 16 * GB, 24 * GB, 36 * GB, 128 * GB] {
-            assert_eq!(select(ram, Cpu::AppleSilicon), Some(&MUESLI_2B_V12));
+    fn dec03_muesli_on_every_mac_tier() {
+        for cpu in [Cpu::AppleSilicon, Cpu::Intel] {
+            for ram in [8 * GB, 16 * GB, 24 * GB, 36 * GB, 128 * GB] {
+                assert_eq!(select(ram, cpu), Some(&MUESLI_2B_V12));
+                assert_eq!(select_instruct(ram, cpu), Some(&INSTRUCT));
+            }
+            // macOS reports a few MB less than the marketing size on some Macs.
+            assert!(select(8 * GB - 16 * 1024 * 1024, cpu).is_some());
+            assert_eq!(select(4 * GB, cpu), None);
         }
-        // macOS reports a few MB less than the marketing size on some Macs.
-        assert!(select(8 * GB - 16 * 1024 * 1024, Cpu::AppleSilicon).is_some());
-        assert_eq!(select(4 * GB, Cpu::AppleSilicon), None);
     }
 
     #[test]
-    fn dec29_no_local_llm_on_intel() {
+    fn no_local_llm_off_the_mac() {
         assert_eq!(select(64 * GB, Cpu::Other), None);
+    }
+
+    #[test]
+    fn current_cpu_matches_the_build_target() {
+        let want = if cfg!(all(target_os = "macos", target_arch = "aarch64")) {
+            Cpu::AppleSilicon
+        } else if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+            Cpu::Intel
+        } else {
+            Cpu::Other
+        };
+        assert_eq!(Cpu::current(), want);
     }
 
     #[test]

@@ -58,8 +58,12 @@ import { renderSetupChecklist } from "./SetupChecklist";
 import { FirstUseChooser } from "../onboarding/FirstUseChooser";
 import { useFirstUseLive } from "../onboarding/firstUseStore";
 import { LessonHost } from "../tutorials";
+import { installBeforeCaret } from "../ui/beforeCaret";
 import "../styles/fonts.css";
 import "../styles/tokens.css";
+
+// The smart leading space for dictations into the Hub's own fields.
+installBeforeCaret();
 
 // S-30: the setup checklist fills S-13's sidebar slot.
 setSidebarCard(renderSetupChecklist);

@@ -306,6 +306,8 @@ fn setup(plan: &[Behavior]) -> (Harness, Arc<Supervisor>, tempfile::TempDir) {
     let mut cfg = Config::new("/fake/llama-server".into(), dir.path().join("llm"));
     cfg.model = Some(dir.path().join("m.gguf"));
     cfg.health_timeout = Duration::from_millis(400);
+    // The Metal path and its CPU fallback, whatever Mac runs the tests.
+    cfg.device = Device::Gpu;
     let sup = Supervisor::new(Arc::new(h.clone()), cfg);
     (h, sup, dir)
 }
@@ -344,6 +346,27 @@ async fn spawns_once_and_reuses_the_server() {
         .unwrap();
     assert_eq!(r.content, r#"{"text":"Hi."}"#);
     assert_eq!(h.shared().chats, 1);
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn an_intel_mac_starts_on_the_cpu() {
+    let (h, sup, _d) = setup(&[Behavior::Healthy { load_ms: 10 }]);
+    drop(sup);
+    let dir = tempfile::tempdir().unwrap();
+    let mut cfg = Config::new("/fake/llama-server".into(), dir.path().join("llm"));
+    cfg.model = Some(dir.path().join("m.gguf"));
+    if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+        assert_eq!(cfg.device, Device::Cpu, "Intel default");
+    } else {
+        assert_eq!(cfg.device, Device::Gpu, "Apple Silicon default");
+    }
+    cfg.device = Device::Cpu;
+    let sup = Supervisor::new(Arc::new(h.clone()), cfg);
+    assert_eq!(sup.status().device, "cpu");
+    assert!(sup.ensure_ready().await.is_ok());
+    let l = h.launches();
+    assert_eq!(l.len(), 1);
+    assert!(has_ngl0(&l[0]), "first start already on the CPU");
 }
 
 #[tokio::test(flavor = "multi_thread")]
