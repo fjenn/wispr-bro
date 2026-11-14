@@ -89,6 +89,17 @@ both chips, as its own jobs and artifacts (`wb-release-macos-<arch>-publik`).
 the normal ones, with a line in the release notes saying which download is which. While
 the variable is unset, releases are exactly as before.
 
+On the owner's Mac, `scripts/wb-publik/add-publik.sh v<version>` does the
+whole first listing in one run: publik's sign-in in the browser, the listing
+(publik's own derived listing with our wording and the publik downloads for
+both chips), the app token (login keychain item `wispr-bro-publik-app-token`
+and the `PUBLIK_APP_TOKEN` secret, never the repository), the listing's slug
+in `fork::publik::APP_SLUG` if publik chose another, signed builds for both
+chips with publik's self test, and an upload of the new files to an existing
+release. It never replaces a file there and checks afterwards that the normal
+files, `latest.json` and `SHA256SUMS` are unchanged. A re-run reuses the
+listing, the token and finished builds.
+
 ## The edition guard
 
 `scripts/wb-guard-edition.ts` (`bun run wb:guard:edition`, also part of `bun
@@ -122,7 +133,10 @@ mention publik (the guard above enforces it), and its updates come from
 
 A site that links straight to a normal asset (for example
 `releases/latest/download/Wispr-Bro_<v>_aarch64.dmg`) is unaffected, since
-those names never change. A site that links to the GitHub releases page will
+those names never change. A site that picks a download from the release's
+asset list must match the whole normal name (`^Wispr-Bro_…_<arch>.dmg$`), not
+only its ending, or it could pick a publik file; `add-publik.sh` checks this
+for opena.tech before it uploads anything. A site that links to the GitHub releases page will
 show the `Wispr-Bro-publik_*` downloads next to the normal ones once the
 publik edition is switched on, with a line in the release notes saying which
 is which.

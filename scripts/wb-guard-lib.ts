@@ -685,6 +685,8 @@ export const PUBLIK_PATHS: RegExp[] = [
   /^src-tauri\/crates\/wb-publik\//,
   /^src\/fork\/publik\//,
   /^src-tauri\/tauri\.publik\.conf\.json$/,
+  // The publik release tool (lists the app on publik, adds its downloads).
+  /^scripts\/wb-publik\//,
 ];
 
 export function isPublikPath(rel: string): boolean {
