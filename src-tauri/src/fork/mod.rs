@@ -687,6 +687,7 @@ macro_rules! fork_specta_builder {
                 commands::tutorials::fork_lesson_practice,
                 commands::onboarding::fork_onboarding_globe_do_nothing::<$runtime>,
                 commands::onboarding::fork_onboarding_open_pane::<$runtime>,
+                commands::onboarding::fork_onboarding_reset_permission::<$runtime>,
                 commands::hotkeys::fork_shortcut_health,
                 commands::hotkeys::fork_shortcut_recheck,
                 commands::hotkeys::fork_shortcut_open_accessibility,

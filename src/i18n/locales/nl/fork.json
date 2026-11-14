@@ -2116,6 +2116,9 @@
       "openSettings": "Open Systeeminstellingen",
       "prompt": "De melding van macOS",
       "pane": "In Systeeminstellingen",
+      "stuck": "Staat aan maar werkt nog steeds niet?",
+      "reset": "Opnieuw instellen en opnieuw vragen",
+      "resetFailed": "Opnieuw instellen is niet gelukt. Verwijder Wispr Bro in Systeeminstellingen en sta het daarna opnieuw toe.",
       "microphone": {
         "title": "Microfoon",
         "why": "Zodat Wispr Bro je kan horen terwijl je dicteert.",

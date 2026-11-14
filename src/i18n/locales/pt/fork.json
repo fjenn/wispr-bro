@@ -2195,6 +2195,9 @@
       "openSettings": "Abrir Ajustes do Sistema",
       "prompt": "O aviso do macOS",
       "pane": "Nos Ajustes do Sistema",
+      "stuck": "Ativado, mas ainda não funciona?",
+      "reset": "Redefinir e pedir de novo",
+      "resetFailed": "Não foi possível redefinir. Remova o Wispr Bro nos Ajustes do Sistema e permita-o novamente.",
       "microphone": {
         "title": "Microfone",
         "why": "Para que o Wispr Bro possa ouvir você enquanto dita.",

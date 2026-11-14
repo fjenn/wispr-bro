@@ -2195,6 +2195,9 @@
       "openSettings": "Abrir Ajustes del Sistema",
       "prompt": "El aviso de macOS",
       "pane": "En Ajustes del Sistema",
+      "stuck": "¿Activado pero sigue sin funcionar?",
+      "reset": "Restablecer y volver a pedir",
+      "resetFailed": "No se pudo restablecer. Quita Wispr Bro en Ajustes del Sistema y vuelve a permitirlo.",
       "microphone": {
         "title": "Micrófono",
         "why": "Para que Wispr Bro pueda oírte mientras dictas.",

@@ -2037,6 +2037,9 @@
       "openSettings": "Buka Pengaturan Sistem",
       "prompt": "Permintaan macOS",
       "pane": "Di Pengaturan Sistem",
+      "stuck": "Sudah dinyalakan tapi tetap tidak berfungsi?",
+      "reset": "Atur ulang dan minta lagi",
+      "resetFailed": "Tidak dapat mengatur ulang. Hapus Wispr Bro di Pengaturan Sistem, lalu izinkan lagi.",
       "microphone": {
         "title": "Mikrofon",
         "why": "Agar Wispr Bro dapat mendengar Anda saat mendikte.",

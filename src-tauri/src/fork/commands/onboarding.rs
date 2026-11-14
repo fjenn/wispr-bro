@@ -109,6 +109,54 @@ pub fn fork_onboarding_key_test<R: ForkRuntime>(
     super::hotkeys::fork_hotkey_status(app)
 }
 
+/// A privacy permission onboarding asks for.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Type)]
+#[serde(rename_all = "snake_case")]
+pub enum ForkPermissionKind {
+    Microphone,
+    Accessibility,
+}
+
+/// The `tccutil` arguments that clear this app's own record for `kind`.
+pub fn permission_reset_args(kind: ForkPermissionKind, bundle_id: &str) -> [String; 3] {
+    let service = match kind {
+        ForkPermissionKind::Microphone => "Microphone",
+        ForkPermissionKind::Accessibility => "Accessibility",
+    };
+    ["reset".into(), service.into(), bundle_id.into()]
+}
+
+/// "Reset and ask again" on the Permissions screen: clears this app's own
+/// record for one permission with `tccutil`, so macOS forgets an entry it
+/// keeps for an earlier copy of the app (another signature: the switch
+/// shows on but never counts) and asks afresh. The screen then asks again.
+/// Only this app's own record is touched; no admin password is needed.
+#[tauri::command]
+#[specta::specta]
+pub fn fork_onboarding_reset_permission<R: ForkRuntime>(
+    app: AppHandle<R>,
+    kind: ForkPermissionKind,
+) -> Result<(), ForkError> {
+    let args = permission_reset_args(kind, &app.config().identifier);
+    #[cfg(target_os = "macos")]
+    {
+        let status = std::process::Command::new("/usr/bin/tccutil")
+            .args(&args)
+            .status()
+            .map_err(|e| ForkError::Internal(format!("tccutil: {e}")))?;
+        if !status.success() {
+            return Err(ForkError::Internal(format!("tccutil exited with {status}")));
+        }
+        log::info!("onboarding: {kind:?} record reset");
+        Ok(())
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = args;
+        Err(ForkError::Internal("macOS only".into()))
+    }
+}
+
 /// The practice screen (S-29b). `on`: a take started with Wispr Bro in
 /// front is a practice take (its text comes back as `fork-practice-take`,
 /// never pasted) for two minutes unless renewed; `off` ends it at once.
@@ -213,6 +261,18 @@ pub fn fork_onboarding_open_pane<R: ForkRuntime>(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn permission_reset_touches_only_this_apps_record() {
+        assert_eq!(
+            permission_reset_args(ForkPermissionKind::Accessibility, "com.wisprbro.desktop"),
+            ["reset", "Accessibility", "com.wisprbro.desktop"].map(String::from)
+        );
+        assert_eq!(
+            permission_reset_args(ForkPermissionKind::Microphone, "com.wisprbro.s29acheck"),
+            ["reset", "Microphone", "com.wisprbro.s29acheck"].map(String::from)
+        );
+    }
 
     #[test]
     fn panes_open_only_local_settings_urls() {

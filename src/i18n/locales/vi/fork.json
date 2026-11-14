@@ -2037,6 +2037,9 @@
       "openSettings": "Mở Cài đặt hệ thống",
       "prompt": "Hộp thoại của macOS",
       "pane": "Trong Cài đặt hệ thống",
+      "stuck": "Đã bật nhưng vẫn không hoạt động?",
+      "reset": "Đặt lại và hỏi lại",
+      "resetFailed": "Không thể đặt lại. Hãy xóa Wispr Bro trong Cài đặt hệ thống, rồi cho phép lại.",
       "microphone": {
         "title": "Micrô",
         "why": "Để Wispr Bro có thể nghe bạn khi bạn đọc chính tả.",

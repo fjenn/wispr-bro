@@ -7,7 +7,7 @@
  * light/dark, RTL and keyboard-only use. Move to Applications is no longer a
  * screen (alpha.3): its path decisions are Rust unit tests.
  */
-import { test, expect } from "./fixtures";
+import { test, expect, ipcError } from "./fixtures";
 import { expectNoSeriousAxeFindings, handySettings } from "./hub-fixture";
 import {
   expectStep,
@@ -269,6 +269,91 @@ test.describe("S-29a onboarding", () => {
       page.getByTestId("wb-permission-accessibility-granted"),
     ).toBeVisible({ timeout: 5000 });
     await expect(page.getByTestId("wb-permissions-continue")).toBeEnabled();
+  });
+
+  test("Permissions: a stuck row resets its own record and asks again", async ({
+    page,
+    ipc,
+  }) => {
+    // A copy installed over an earlier, differently signed one: the switch
+    // in System Settings shows on, but macOS never counts it.
+    const be = await openOnboarding(page, ipc, {
+      step: "permissions",
+      mic: false,
+      accessibility: false,
+    });
+    ipc.respond({
+      "plugin:macos-permissions|request_microphone_permission": null,
+      "plugin:macos-permissions|request_accessibility_permission": null,
+    });
+    let resets = 0;
+    ipc.handle("fork_onboarding_reset_permission", () => {
+      resets += 1;
+      return null;
+    });
+    // Nothing to reset before the row was asked.
+    await expect(
+      page.getByTestId("wb-permission-accessibility-reset"),
+    ).toHaveCount(0);
+    be.mic = true;
+    await page.getByTestId("wb-permission-microphone-allow").click();
+    await expect(
+      page.getByTestId("wb-permission-microphone-granted"),
+    ).toBeVisible({ timeout: 5000 });
+    // A granted row never offers the reset.
+    await expect(
+      page.getByTestId("wb-permission-microphone-reset"),
+    ).toHaveCount(0);
+    await page.getByTestId("wb-permission-accessibility-allow").click();
+    const reset = page.getByTestId("wb-permission-accessibility-reset");
+    await expect(reset).toHaveText("Reset and ask again");
+    await reset.click();
+    await ipc.expectCalled("fork_onboarding_reset_permission", {
+      kind: "accessibility",
+    });
+    expect(resets).toBe(1);
+    // Asked again after the reset: the first ask plus this one.
+    await expect
+      .poll(
+        async () =>
+          (
+            await ipc.calls(
+              "plugin:macos-permissions|request_accessibility_permission",
+            )
+          ).length,
+      )
+      .toBe(2);
+    be.accessibility = true;
+    await expect(
+      page.getByTestId("wb-permission-accessibility-granted"),
+    ).toBeVisible({ timeout: 5000 });
+    await expect(reset).toHaveCount(0);
+    await expect(page.getByTestId("wb-permissions-continue")).toBeEnabled();
+  });
+
+  test("Permissions: a reset that fails says what to do instead", async ({
+    page,
+    ipc,
+  }) => {
+    await openOnboarding(page, ipc, {
+      step: "permissions",
+      mic: false,
+      accessibility: false,
+    });
+    ipc.respond({
+      "plugin:macos-permissions|request_microphone_permission": null,
+    });
+    ipc.respond({
+      fork_onboarding_reset_permission: ipcError({
+        kind: "Internal",
+        message: "tccutil exited with 1",
+      }),
+    });
+    await page.getByTestId("wb-permission-microphone-allow").click();
+    await page.getByTestId("wb-permission-microphone-reset").click();
+    await expect(
+      page.getByTestId("wb-permission-microphone-reset-failed"),
+    ).toContainText("Remove Wispr Bro in System Settings");
   });
 
   test("macOS 26 gets the redesigned permission pictures", async ({

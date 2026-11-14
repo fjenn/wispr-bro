@@ -2116,6 +2116,9 @@
       "openSettings": "System Settings खोल्नुहोस्",
       "prompt": "macOS को सोधाइ",
       "pane": "System Settings मा",
+      "stuck": "खुला छ तर अझै काम गरिरहेको छैन?",
+      "reset": "रिसेट गरेर फेरि सोध्नुहोस्",
+      "resetFailed": "रिसेट गर्न सकिएन। System Settings मा Wispr Bro हटाउनुहोस्, अनि फेरि अनुमति दिनुहोस्।",
       "microphone": {
         "title": "माइक्रोफोन",
         "why": "ताकि तपाईंले बोलेर लेख्दा Wispr Bro ले तपाईंलाई सुन्न सकोस्।",
