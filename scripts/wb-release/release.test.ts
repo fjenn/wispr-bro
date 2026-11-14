@@ -4,6 +4,7 @@ import { describe, expect, test } from "bun:test";
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { addPlatform } from "./add-platform";
 import { buildManifest } from "./manifest";
 import { overlayPubkey, verifyMinisign } from "./minisign";
 import { checkTag, compareTags } from "./tag";
@@ -274,5 +275,60 @@ describe("DMG install window (OT2-E)", () => {
     const L = 0.2126 * ch(1) + 0.7152 * ch(3) + 0.0722 * ch(5);
     expect(1.05 / (L + 0.05)).toBeGreaterThanOrEqual(4.5);
     expect((L + 0.05) / 0.05).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
+describe("adding Intel to a published release", () => {
+  const published = readFileSync(
+    join(import.meta.dir, "fixtures/latest-1.0.0-alpha.6.json"),
+    "utf8",
+  );
+  const intel = JSON.stringify(
+    buildManifest({
+      version: "1.0.0-alpha.6",
+      releaseTag: "v1.0.0-alpha.6",
+      assets: [
+        {
+          platform: "darwin-x86_64",
+          file: "/x/Wispr-Bro_1.0.0-alpha.6_x86_64.app.tar.gz",
+          signature: "aQ==",
+        },
+      ],
+      date: "2026-11-14T12:00:00Z",
+    }),
+  );
+
+  test("keeps every published byte and appends the two Intel entries", () => {
+    const merged = addPlatform(published, intel);
+    const before = JSON.parse(published);
+    const after = JSON.parse(merged);
+    expect(after.version).toBe(before.version);
+    expect(after.notes).toBe(before.notes);
+    expect(after.pub_date).toBe(before.pub_date);
+    for (const k of Object.keys(before.platforms)) {
+      expect(after.platforms[k]).toEqual(before.platforms[k]);
+    }
+    expect(Object.keys(after.platforms)).toEqual([
+      ...Object.keys(before.platforms),
+      "darwin-x86_64-app",
+      "darwin-x86_64",
+    ]);
+    // The published text itself is a prefix of the merged one up to the
+    // last Apple Silicon entry: nothing in it was reformatted.
+    const cut = published.lastIndexOf("    }");
+    expect(merged.startsWith(published.slice(0, cut + 5))).toBe(true);
+  });
+
+  test("refuses another version, a duplicate platform or another release", () => {
+    expect(() =>
+      addPlatform(published, intel.replaceAll("alpha.6", "alpha.7")),
+    ).toThrow(/version/);
+    expect(() => addPlatform(published, published)).toThrow(/already/);
+    expect(() =>
+      addPlatform(
+        published,
+        intel.replace("download/v1.0.0-alpha.6/", "download/v1.0.0-alpha.5/"),
+      ),
+    ).toThrow(/not at the release/);
   });
 });

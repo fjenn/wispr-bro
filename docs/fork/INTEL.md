@@ -65,3 +65,17 @@ merge them before uploading:
 
 Then check the uploaded file lists both platforms, and that an installed
 Intel copy of the previous release offers the update and relaunches on it.
+
+To add Intel to a release that is already out with only the Apple Silicon
+build (1.0.0-alpha.6), run on the owner's Mac, from a pushed checkout whose
+version is that release's:
+
+    WB_NOTARY_PROFILE=wispr-bro-notary scripts/wb-release/add-intel.sh v1.0.0-alpha.6
+
+It builds, signs, notarizes and staples the Intel app and DMG, uploads the
+DMG, the updater archive and its `.sig`, then a `latest.json` with
+`darwin-x86_64` added (`add-platform.ts` keeps every published entry,
+`version`, `notes` and `pub_date` as they were) and a `SHA256SUMS` with the
+Intel lines added, and reads the release back. Nothing of the Apple Silicon
+build is rebuilt or replaced. It needs `gh` signed in to an account that can
+edit `fjenn/wispr-bro`.

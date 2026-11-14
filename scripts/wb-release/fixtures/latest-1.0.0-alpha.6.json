@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-alpha.6",
+  "notes": "Wispr Bro 1.0.0-alpha.6",
+  "pub_date": "2026-11-09T18:40:50Z",
+  "platforms": {
+    "darwin-aarch64-app": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUUFJzeDZJWVhnaVRlR056dVBoS1VkZ3NSN1EvaTF3Uk1VekpzaDFXN0hMdnNIOExPVlJ4ZFhCYTdEOGFNN3g4OElPVXp4NHI3anc0Y1hLWlBPU3JRaDhRY211QlYzaWd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0MjQ5NTcwCWZpbGU6V2lzcHItQnJvXzEuMC4wLWFscGhhLjZfYWFyY2g2NC5hcHAudGFyLmd6ClhoWjBOK2RhSzFJY1R0NXFxSk1uSjEvTUlFVmIzZVU0dVhndTE5UTJzRnI0d25rWEorWm5FYzk3RjhCN29XbDhwYTBmeHNUNExpd1VLbXRVQW9DL0NnPT0K",
+      "url": "https://github.com/fjenn/wispr-bro/releases/download/v1.0.0-alpha.6/Wispr-Bro_1.0.0-alpha.6_aarch64.app.tar.gz"
+    },
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUUFJzeDZJWVhnaVRlR056dVBoS1VkZ3NSN1EvaTF3Uk1VekpzaDFXN0hMdnNIOExPVlJ4ZFhCYTdEOGFNN3g4OElPVXp4NHI3anc0Y1hLWlBPU3JRaDhRY211QlYzaWd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0MjQ5NTcwCWZpbGU6V2lzcHItQnJvXzEuMC4wLWFscGhhLjZfYWFyY2g2NC5hcHAudGFyLmd6ClhoWjBOK2RhSzFJY1R0NXFxSk1uSjEvTUlFVmIzZVU0dVhndTE5UTJzRnI0d25rWEorWm5FYzk3RjhCN29XbDhwYTBmeHNUNExpd1VLbXRVQW9DL0NnPT0K",
+      "url": "https://github.com/fjenn/wispr-bro/releases/download/v1.0.0-alpha.6/Wispr-Bro_1.0.0-alpha.6_aarch64.app.tar.gz"
+    }
+  }
+}
