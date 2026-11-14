@@ -518,9 +518,7 @@ mod platform {
         #[test]
         fn missing_pref_is_none_not_a_crash() {
             assert!(copy_pref(c"com.wisprbro.test.nonexistent", c"No Such Key").is_none());
-            assert!(
-                copy_pref(c"com.apple.assistant.support", c"WisprBro No Such Key").is_none()
-            );
+            assert!(copy_pref(c"com.apple.assistant.support", c"WisprBro No Such Key").is_none());
         }
     }
 }
