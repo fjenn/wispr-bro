@@ -6,6 +6,7 @@
  * and the spotlight.
  */
 import { resolve } from "path";
+import { editionInputs } from "./edition";
 
 export function forkInputs(root: string): Record<string, string> {
   return {
@@ -16,5 +17,7 @@ export function forkInputs(root: string): Record<string, string> {
     // S-30: the bar spotlight (click dismisses it since alpha.3;
     // src-tauri/src/fork/pill/spotlight.rs).
     "fork-spotlight": resolve(root, "src/fork/spotlight/index.html"),
+    // Only in another edition's build (docs/fork/EDITIONS.md); none normally.
+    ...editionInputs(root),
   };
 }

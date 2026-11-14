@@ -10,6 +10,9 @@
 //              (a link the user clicks opens in the browser);
 //   [schema]   hosts allowed only as a JSON `"$schema"` value (editor hint);
 //   [loopback] local hosts, never network egress;
+//   [publik]   publik's hosts, allowed only in the publik edition's own
+//              folders (wb-guard-lib.ts PUBLIK_PATHS; docs/fork/EDITIONS.md),
+//              never in the normal app nor in a built bundle scan;
 //   [test]     hosts allowed only in fork *test code* (see isForkTestFile and
 //              forkTestSpans): example names, private/loopback addresses and
 //              real hosts a test names to prove the app refuses them. Each
@@ -47,6 +50,7 @@ import {
   type Span,
   hostInList,
   isForkCodePath,
+  isPublikPath,
   isTextFile,
   listFiles,
   newResult,
@@ -62,6 +66,7 @@ export interface HostLists {
   link: string[];
   schema: string[];
   loopback: string[];
+  publik: string[];
   test: string[];
   baseline: string[];
   inert: string[];
@@ -72,6 +77,7 @@ const ALLOWED_SECTIONS = new Set([
   "link",
   "schema",
   "loopback",
+  "publik",
   "test",
 ]);
 const INERT_SECTIONS: Record<string, string> = {
@@ -156,7 +162,7 @@ export function readHostLists(root: string): {
       problems.push({
         file: "ci/allowed-hosts.txt",
         line: e.line,
-        message: `${e.value} is outside a [network]/[link]/[schema]/[loopback]/[test] section`,
+        message: `${e.value} is outside a [network]/[link]/[schema]/[loopback]/[publik]/[test] section`,
       });
     } else if (e.section === "test") {
       const p = testEntryProblem(e);
@@ -205,6 +211,7 @@ export function readHostLists(root: string): {
       link: pick("link"),
       schema: pick("schema"),
       loopback: pick("loopback"),
+      publik: pick("publik"),
       test: pick("test"),
       baseline: values(baseline),
       inert: values(inert),
@@ -217,6 +224,7 @@ export function isForkHostScope(rel: string): boolean {
   return (
     isForkCodePath(rel) ||
     rel === "src-tauri/tauri.fork.conf.json" ||
+    rel === "src-tauri/tauri.publik.conf.json" ||
     /^src\/i18n\/locales\/[^/]+\/fork(\.flags)?\.json$/.test(rel)
   );
 }
@@ -326,6 +334,16 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
             line: hit.line,
             rule: "hosts/link-only",
             message: `${h} is a [link] host: it may appear only as an openUrl(…) argument`,
+          });
+          continue;
+        }
+        if (hostInList(h, lists.publik)) {
+          if (isPublikPath(f)) continue;
+          r.violations.push({
+            file: f,
+            line: hit.line,
+            rule: "hosts/publik-only",
+            message: `${h} is a [publik] host: it may appear only in the publik edition's folders`,
           });
           continue;
         }

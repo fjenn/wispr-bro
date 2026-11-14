@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "build": {
+    "features": ["publik"]
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/fjenn/wispr-bro/releases/latest/download/latest-publik.json"
+      ]
+    }
+  }
+}

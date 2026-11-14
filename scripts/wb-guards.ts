@@ -24,6 +24,7 @@ import { runTelemetry } from "./wb-guard-telemetry";
 import { runSpdx } from "./wb-guard-spdx";
 import { runIcons } from "./wb-guard-icons";
 import { runTokens } from "./wb-guard-tokens";
+import { runEdition } from "./wb-guard-edition";
 
 export interface AllOptions {
   root?: string;
@@ -44,6 +45,7 @@ export function runAll(opts: AllOptions = {}): GuardResult[] {
     ["spdx", () => runSpdx({ root })],
     ["icons", () => runIcons({ root })],
     ["tokens", () => runTokens({ root })],
+    ["edition", () => runEdition({ root })],
   ];
   return guards.map(([name, run]) => {
     try {

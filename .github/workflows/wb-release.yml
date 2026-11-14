@@ -22,6 +22,10 @@
 #              Both carry the GPL assets (LICENSE, NOTICE,
 #              THIRD-PARTY-NOTICES.md, the source tarball) and SHA256SUMS.
 #
+# Editions (docs/fork/EDITIONS.md): the publik edition is built and attached
+# next to the normal assets only while the repository variable
+# WB_PUBLIK_EDITION is `on`. Otherwise every release is exactly as before.
+#
 # Owner, once: add the secrets listed in RELEASING.md; disable the upstream
 # release.yml, build.yml, main-build.yml, pr-test-build.yml, build-test.yml
 # and nix-check.yml in the Actions UI (R5 §4.1).
@@ -119,6 +123,7 @@ jobs:
     with:
       tag: ${{ needs.preflight.outputs.version && format('v{0}', needs.preflight.outputs.version) }}
       signed: true
+      publik: ${{ vars.WB_PUBLIK_EDITION == 'on' }}
     secrets: inherit
 
   publish:
@@ -158,9 +163,35 @@ jobs:
           set -euo pipefail
           cp release-x86_64/*_x86_64.dmg release-x86_64/*_x86_64.app.tar.gz release-x86_64/*_x86_64.app.tar.gz.sig release-out/
           bun scripts/wb-release/manifest.ts --version "$VERSION" --release-tag "$RELEASE_TAG" \
-            --asset "darwin-aarch64=$(ls release-out/*_aarch64.app.tar.gz)" \
-            --asset "darwin-x86_64=$(ls release-out/*_x86_64.app.tar.gz)" \
+            --asset "darwin-aarch64=$(ls release-out/Wispr-Bro_*_aarch64.app.tar.gz)" \
+            --asset "darwin-x86_64=$(ls release-out/Wispr-Bro_*_x86_64.app.tar.gz)" \
             --out release-out/latest.json
+
+      - uses: actions/download-artifact@v4
+        if: ${{ vars.WB_PUBLIK_EDITION == 'on' }}
+        with:
+          name: wb-release-macos-aarch64-publik
+          path: release-publik-aarch64
+
+      - uses: actions/download-artifact@v4
+        if: ${{ vars.WB_PUBLIK_EDITION == 'on' }}
+        with:
+          name: wb-release-macos-x86_64-publik
+          path: release-publik-x86_64
+
+      - name: The publik edition's assets and latest-publik.json (docs/fork/EDITIONS.md)
+        if: ${{ vars.WB_PUBLIK_EDITION == 'on' }}
+        run: |
+          set -euo pipefail
+          for arch in aarch64 x86_64; do
+            cp -- release-publik-$arch/Wispr-Bro-publik_*_$arch.dmg \
+              release-publik-$arch/Wispr-Bro-publik_*_$arch.app.tar.gz \
+              release-publik-$arch/Wispr-Bro-publik_*_$arch.app.tar.gz.sig release-out/
+          done
+          bun scripts/wb-release/manifest.ts --version "$VERSION" --release-tag "$RELEASE_TAG" \
+            --asset "darwin-aarch64=$(ls release-out/Wispr-Bro-publik_*_aarch64.app.tar.gz)" \
+            --asset "darwin-x86_64=$(ls release-out/Wispr-Bro-publik_*_x86_64.app.tar.gz)" \
+            --out release-out/latest-publik.json
 
       - name: GPL assets (F-04) and checksums
         run: |
@@ -170,7 +201,9 @@ jobs:
           cp LICENSE NOTICE THIRD-PARTY-NOTICES.md release-out/
           cd release-out
           rm -f SHA256SUMS
-          shasum -a 256 -- *.dmg *.app.tar.gz *.app.tar.gz.sig latest.json "$src" LICENSE NOTICE THIRD-PARTY-NOTICES.md > SHA256SUMS
+          feeds=(latest.json)
+          [ -f latest-publik.json ] && feeds+=(latest-publik.json)
+          shasum -a 256 -- *.dmg *.app.tar.gz *.app.tar.gz.sig "${feeds[@]}" "$src" LICENSE NOTICE THIRD-PARTY-NOTICES.md > SHA256SUMS
           ls -la
 
       - name: Release notes
@@ -187,6 +220,9 @@ jobs:
           Wispr Bro is free software under the GNU General Public License v3.0. The complete corresponding source of this build is attached: [wispr-bro-${VERSION}-source.tar.gz](${base}/wispr-bro-${VERSION}-source.tar.gz). Third-party licences: THIRD-PARTY-NOTICES.md. Checksums: SHA256SUMS.
           EOF
           sed -i 's/^          //' notes.md
+          if compgen -G "release-out/Wispr-Bro-publik_*.dmg" > /dev/null; then
+            printf '\n%s\n' "The Wispr-Bro-publik download is the publik edition, for people who get Wispr Bro through publik; it asks you to sign in with publik. Everyone else wants the normal Wispr Bro DMG, which needs no account." >> notes.md
+          fi
 
       - name: Publish (stable channel → draft release)
         if: ${{ env.CHANNEL == 'stable' }}
