@@ -126,6 +126,32 @@ pub fn permission_reset_args(kind: ForkPermissionKind, bundle_id: &str) -> [Stri
     ["reset".into(), service.into(), bundle_id.into()]
 }
 
+/// Clears this app's own TCC record for `kind` with `tccutil` (no admin
+/// password; no other app's record is touched). macOS keeps a record per
+/// signature, so one left by an earlier, differently signed copy can show
+/// its switch on while the switch never counts; after a reset macOS asks
+/// afresh. Shared by onboarding and the S-02 Fix sheet.
+pub fn reset_permission_record(kind: ForkPermissionKind, bundle_id: &str) -> Result<(), ForkError> {
+    let args = permission_reset_args(kind, bundle_id);
+    #[cfg(target_os = "macos")]
+    {
+        let status = std::process::Command::new("/usr/bin/tccutil")
+            .args(&args)
+            .status()
+            .map_err(|e| ForkError::Internal(format!("tccutil: {e}")))?;
+        if !status.success() {
+            return Err(ForkError::Internal(format!("tccutil exited with {status}")));
+        }
+        log::info!("{kind:?} record reset");
+        Ok(())
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = args;
+        Err(ForkError::Internal("macOS only".into()))
+    }
+}
+
 /// "Reset and ask again" on the Permissions screen: clears this app's own
 /// record for one permission with `tccutil`, so macOS forgets an entry it
 /// keeps for an earlier copy of the app (another signature: the switch
@@ -137,24 +163,7 @@ pub fn fork_onboarding_reset_permission<R: ForkRuntime>(
     app: AppHandle<R>,
     kind: ForkPermissionKind,
 ) -> Result<(), ForkError> {
-    let args = permission_reset_args(kind, &app.config().identifier);
-    #[cfg(target_os = "macos")]
-    {
-        let status = std::process::Command::new("/usr/bin/tccutil")
-            .args(&args)
-            .status()
-            .map_err(|e| ForkError::Internal(format!("tccutil: {e}")))?;
-        if !status.success() {
-            return Err(ForkError::Internal(format!("tccutil exited with {status}")));
-        }
-        log::info!("onboarding: {kind:?} record reset");
-        Ok(())
-    }
-    #[cfg(not(target_os = "macos"))]
-    {
-        let _ = args;
-        Err(ForkError::Internal("macOS only".into()))
-    }
+    reset_permission_record(kind, &app.config().identifier)
 }
 
 /// The practice screen (S-29b). `on`: a take started with Wispr Bro in
