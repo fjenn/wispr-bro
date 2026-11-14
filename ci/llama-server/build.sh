@@ -219,8 +219,8 @@ if [[ "${minos}" != "${DEPLOYMENT_TARGET}" ]]; then
   exit 1
 fi
 # 3. The architecture asked for (no Metal code in the Intel one).
-if ! lipo -archs "${BIN}" | grep -qx "${TRIPLE%%-*}"; then
-  echo "build.sh: ${BIN} is $(lipo -archs "${BIN}"), want ${TRIPLE%%-*}" >&2
+if ! lipo -archs "${BIN}" | grep -qx "${OSX_ARCH}"; then
+  echo "build.sh: ${BIN} is $(lipo -archs "${BIN}"), want ${OSX_ARCH}" >&2
   exit 1
 fi
 if [[ "${TRIPLE}" == x86_64-apple-darwin ]] && otool -L "${BIN}" | grep -q Metal.framework; then
