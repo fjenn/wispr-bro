@@ -27,6 +27,7 @@
 //! instead and the bar says "Copied to clipboard" ([`end_card`]).
 
 pub mod deliver;
+pub mod own_caret;
 pub mod session;
 pub mod spacing;
 pub mod target;
@@ -171,7 +172,15 @@ fn with_leading_space(take: u32, text: &str) -> String {
     if text.chars().next().is_none_or(char::is_whitespace) {
         return text.to_owned();
     }
-    let before = crate::fork::ax::before_caret(spacing::TAIL_UNITS);
+    // Our own window (the Scratchpad note, a Hub field) answers itself.
+    let before = if crate::fork::ax::own_app_in_front() {
+        own_caret::before_caret(
+            spacing::TAIL_UNITS as usize,
+            crate::fork::ax::before_caret_budget(),
+        )
+    } else {
+        crate::fork::ax::before_caret(spacing::TAIL_UNITS)
+    };
     let out = spacing::lead(text.to_owned(), before.as_deref());
     log::info!(
         "insert: take {take} leading space {}",

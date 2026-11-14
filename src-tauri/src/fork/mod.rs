@@ -982,6 +982,7 @@ impl ForkRuntime for tauri::Wry {
 
     fn recovery_start(app: &AppHandle<Self>) {
         recovery::on_ready(app);
+        insert::own_caret::on_ready(app);
     }
 
     fn stop_jobs_for_erase(app: &AppHandle<Self>) -> Result<(), String> {

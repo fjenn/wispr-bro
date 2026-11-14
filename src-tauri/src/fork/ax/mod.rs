@@ -161,6 +161,19 @@ pub(crate) fn accessibility_trusted() -> bool {
 /// after a cleanup has had every core.
 pub const BEFORE_CARET_BUDGET: Duration = Duration::from_millis(120);
 
+/// `true` when one of our own windows is the frontmost app's: AX must not
+/// read it ([`is_own_pid`]); `fork::insert::own_caret` asks the web view.
+pub fn own_app_in_front() -> bool {
+    #[cfg(target_os = "macos")]
+    {
+        focus::frontmost_pid().is_some_and(is_own_pid)
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        false
+    }
+}
+
 /// [`BEFORE_CARET_BUDGET`] for this Mac.
 pub fn before_caret_budget() -> Duration {
     crate::fork::llm::deadline::for_this_mac(BEFORE_CARET_BUDGET)
