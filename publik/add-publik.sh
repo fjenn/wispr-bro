@@ -270,6 +270,29 @@ console.log("   category:  " + JSON.stringify(m.category));
 console.log("   platforms: " + JSON.stringify(m.platforms));
 for (const a of arts) console.log("   download:  " + JSON.stringify(a));
 ' "${TMP}/derive.json" "${STATE}/manifest.json" "$VERSION"
+    # Refuse to submit unless the downloads are exactly the two publik DMGs on
+    # the release, one per chip, each with the size and sha256 GitHub has.
+    assets > "${TMP}/assets.txt"
+    bun -e '
+const [manifest, assetsTxt, p] = process.argv.slice(1);
+const fs = require("fs");
+const arts = require(manifest).artifacts || [];
+const onRelease = new Map(fs.readFileSync(assetsTxt, "utf8").trim().split("\n")
+  .map((l) => l.split(" ")).map(([n, size, digest]) => [n, { size: Number(size), sha: (digest || "").replace(/^sha256:/, "") }]));
+const want = [`${p}_aarch64.dmg`, `${p}_x86_64.dmg`];
+const bad = [];
+const names = arts.map((a) => a.name || a.file);
+if (arts.length !== 2) bad.push(`${arts.length} downloads, want 2`);
+for (const w of want) if (names.filter((n) => n === w).length !== 1) bad.push(`${w} appears ${names.filter((n) => n === w).length} times`);
+for (const a of arts) {
+  const n = a.name || a.file, r = onRelease.get(n);
+  if (!r) { bad.push(`${n} is not on the release`); continue; }
+  if (a.sizeBytes != null && a.sizeBytes !== r.size) bad.push(`${n} size ${a.sizeBytes}, release has ${r.size}`);
+  if (a.sha256 != null && a.sha256 !== r.sha) bad.push(`${n} sha256 differs from the release`);
+}
+if (bad.length) { console.error(bad.join("\n")); process.exit(1); }
+' "${STATE}/manifest.json" "${TMP}/assets.txt" "$P" \
+      || die "the listing would not match the release; nothing was submitted (${STATE}/manifest.json)"
     bun -e 'const m=require(process.argv[1]); console.log(JSON.stringify({confirm:true,manifest:m}))' \
       "${STATE}/manifest.json" > "${TMP}/submit.json"
 
