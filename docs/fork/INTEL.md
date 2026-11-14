@@ -50,3 +50,18 @@ Run on an Intel Mac with macOS 13 or later and 8 GB or more.
    only, and it stops after about two minutes idle.
 9. Note how long a short take takes from key-up to text, for the first and a
    later take; if cleanups often time out, `CPU_FACTOR` needs raising.
+
+## First release with Intel
+
+Updates on Intel work like on Apple Silicon: the app looks up
+`darwin-x86_64` in the same `latest.json`. `wb-release.yml` writes both
+entries. A release built on the owner's Mac instead runs `macos.sh` once per
+`--arch`, and each run writes a `latest.json` with its own entry only, so
+merge them before uploading:
+
+    bun scripts/wb-release/manifest.ts --version <v> --release-tag <tag> \
+      --asset "darwin-aarch64=<aarch64 .app.tar.gz>" \
+      --asset "darwin-x86_64=<x86_64 .app.tar.gz>" --out latest.json
+
+Then check the uploaded file lists both platforms, and that an installed
+Intel copy of the previous release offers the update and relaunches on it.
