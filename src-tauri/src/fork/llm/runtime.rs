@@ -607,8 +607,12 @@ fn warm_marker_name(binary: &std::path::Path) -> Option<String> {
 /// when memory is short. The server is stopped again at once, unless a take
 /// started meanwhile ([`Supervisor::warm_up`]; Mac wave 3: stopping it
 /// under a take that was waiting for it cost that take a second cold
-/// start).
+/// start). An Intel Mac starts on the CPU and has no Metal library to
+/// compile, so it skips the warm-up.
 async fn first_launch_warmup<R: Runtime>(app: &AppHandle<R>) {
+    if super::process::Device::initial() == super::process::Device::Cpu {
+        return;
+    }
     let Some(rt) = runtime(app) else { return };
     let Some(sup) = rt.supervisor.clone() else {
         return;
