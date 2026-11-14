@@ -155,7 +155,10 @@ post() {
   curl "${args[@]}" "$url" || echo 000
 }
 
+# The only slug this script builds with (the app's publik address).
+WANT_SLUG="wispr-bro"
 SLUG="$(cat "${STATE}/slug" 2>/dev/null || true)"
+[[ -z "$SLUG" || "$SLUG" == "$WANT_SLUG" ]] || SLUG=""
 TOKEN="$(token_from_keychain)"
 if [[ -n "$SLUG" && "$TOKEN" == pat_* ]]; then
   say "listing ${SLUG} and its app token are already made (re-run)"
@@ -177,6 +180,8 @@ else
   if [[ "$(field "${TMP}/derive.json" error)" == repo_already_listed ]]; then
     LISTED="$(field "${TMP}/derive.json" slug)"
     echo "already listed on publik as ${LISTED}"
+    [[ -z "$LISTED" || "$LISTED" == "$WANT_SLUG" ]] \
+      || die "publik has this repo as \"${LISTED}\", not \"${WANT_SLUG}\"; nothing is built with it. Ask publik (publikhq.com/report) to rename it to ${WANT_SLUG}, then run the line again"
   elif [[ "$code" != 200 || -z "$(field "${TMP}/derive.json" manifest)" ]]; then
     cat "${TMP}/derive.json" >&2 || true
     die "publik could not derive the listing (HTTP ${code})"
@@ -239,8 +244,16 @@ const toIntel = (x) => JSON.parse(JSON.stringify(x)
   .replace(/aarch64/g, "x86_64").replace(/arm64/g, "x64")
   .replace(/Apple Silicon/gi, "Intel"));
 const isMac = (a) => /dmg|mac|darwin|aarch64|x86_64|arm64/i.test(JSON.stringify(a));
-let arts = Array.isArray(m.artifacts) ? m.artifacts.filter(isMac).map(pub) : [];
-arts = arts.filter((a) => /Wispr-Bro-publik_/.test(JSON.stringify(a)) && /\.dmg/.test(JSON.stringify(a)));
+const derivedArts = Array.isArray(m.artifacts) ? m.artifacts.filter(isMac) : [];
+const isPublikDmg = (a) => /Wispr-Bro-publik_/.test(JSON.stringify(a)) && /\.dmg/.test(JSON.stringify(a));
+// The publik DMGs already on the release, as publik derived them (their own
+// size and sha256). Only when there are none is a normal entry renamed, and
+// then without the size and sha256 of the normal file.
+let arts = derivedArts.filter(isPublikDmg);
+if (arts.length === 0) arts = derivedArts.map(pub).filter(isPublikDmg).map((a) => {
+  const c = { ...a }; delete c.sha256; delete c.sizeBytes; return c; });
+const seen = new Set();
+arts = arts.filter((a) => { const k = JSON.stringify([a.name || a.file, a.arch || a.platform]); if (seen.has(k)) return false; seen.add(k); return true; });
 const has = (re) => arts.find((a) => re.test(JSON.stringify(a)));
 if (!has(/aarch64/) && has(/x86_64/)) arts.push(JSON.parse(JSON.stringify(has(/x86_64/))
   .replace(/x86_64/g, "aarch64").replace(/\bx64\b/g, "arm64").replace(/Intel/g, "Apple Silicon")));
@@ -266,7 +279,8 @@ for (const a of arts) console.log("   download:  " + JSON.stringify(a));
       200) SLUG="$(field "${TMP}/submitted.json" slug)"
            echo "listed: ${SLUG}, $(field "${TMP}/submitted.json" status), $(field "${TMP}/submitted.json" url)"
            cp "${TMP}/submitted.json" "${STATE}/listing.json" ;;
-      409) SLUG="$(field "${TMP}/submitted.json" slug)"; echo "already listed on publik as ${SLUG}" ;;
+      409) SLUG="$(field "${TMP}/submitted.json" slug)"; SLUG="${SLUG:-$(cat "${STATE}/slug" 2>/dev/null || true)}"
+           echo "already listed on publik as ${SLUG}" ;;
       403) url="$(field "${TMP}/submitted.json" claim_url)"
            echo "publik asks you to claim the listing first: ${url}"
            [[ "$url" == https://publikhq.com/* ]] && open "$url"
@@ -277,12 +291,29 @@ for (const a of arts) console.log("   download:  " + JSON.stringify(a));
     esac
   fi
   [[ "$SLUG" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die "publik gave an unexpected slug"
+  # The listing must be wispr-bro: publik offers no way to rename it, and the
+  # slug is built into the app and its token. Stop before either is made.
+  if [[ "$SLUG" != "$WANT_SLUG" ]]; then
+    rm -f "${STATE}/slug"
+    die "publik listed this repo as \"${SLUG}\", not \"${WANT_SLUG}\"; nothing is built with it. Ask publik (publikhq.com/report) to rename it to ${WANT_SLUG}, then run the line again"
+  fi
   echo "$SLUG" > "${STATE}/slug"
 
   say "publik: the app token for ${SLUG}"
+  # publik answers 201 Created with {"token":"pat_…", …}; the body is read the
+  # way publik's own guide reads it, and never printed with the token in it.
   code="$(post "${API}/api/v1/apps/${SLUG}/token" "${TMP}/apptoken.json" '{}' "${TMP}/auth.hdr")"
-  TOKEN="$(field "${TMP}/apptoken.json" token)"
-  [[ "$code" == 200 && "$TOKEN" == pat_* ]] || die "publik did not give an app token (HTTP ${code}, $(field "${TMP}/apptoken.json" error))"
+  TOKEN="$(sed -n 's/.*"token"[[:space:]]*:[[:space:]]*"\(pat_[^"]*\)".*/\1/p' "${TMP}/apptoken.json" | head -1)"
+  if [[ "$code" != 2?? || "$TOKEN" != pat_* ]]; then
+    if [[ "$code" == 403 ]]; then
+      url="$(field "${TMP}/apptoken.json" claim_url)"
+      echo "publik asks you to claim the listing first: ${url}"
+      [[ "$url" == https://publikhq.com/* ]] && open "$url"
+      die "claim it on that page, then run the line again"
+    fi
+    sed -E 's/pat_[A-Za-z0-9_-]+/pat_…/g' "${TMP}/apptoken.json" >&2 || true; echo >&2
+    die "publik did not give an app token (HTTP ${code})"
+  fi
   security add-generic-password -U -s "$KEYCHAIN_ITEM" -a wispr-bro -l "Wispr Bro publik app token" -w "$TOKEN"
   printf '%s' "$TOKEN" | gh secret set PUBLIK_APP_TOKEN -R "$REPO"
   echo "app token saved in your keychain and as the GitHub secret PUBLIK_APP_TOKEN"
