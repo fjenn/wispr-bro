@@ -95,7 +95,7 @@ case "$ARCH" in
 esac
 # The sidecar for the same target (ci/llama-server/build.sh).
 export WB_TARGET="${ARCH}-apple-darwin"
-FEED="latest.json"; SUMS="SHA256SUMS"; RELEASE_PREFIX=""; EDITION_CONFIG=()
+FEED="latest.json"; SUMS="SHA256SUMS"; EDITION_CONFIG=()
 case "$EDITION" in
   standard) unset VITE_WB_EDITION PUBLIK_APP_TOKEN ;;
   publik) source "${ROOT}/publik/edition.sh" ;;
@@ -113,7 +113,7 @@ die() { echo "macos.sh: $*" | tee -a "$LOG" >&2; exit 1; }
 
 cd "$ROOT"
 TAG_INFO="$(bun scripts/wb-release/tag.ts "$TAG" --tags /dev/null)" || die "bad tag $TAG"
-RELEASE_TAG="${RELEASE_PREFIX}$(sed -n 's/^release_tag=//p' <<<"$TAG_INFO")"
+RELEASE_TAG="$(sed -n 's/^release_tag=//p' <<<"$TAG_INFO")"
 echo "version ${VERSION}, tag ${TAG}, release ${RELEASE_TAG}, ${ARCH}, ${EDITION}" | tee -a "$LOG"
 
 step "identity guard (release mode)"

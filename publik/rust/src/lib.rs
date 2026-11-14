@@ -44,30 +44,25 @@ pub const USES_AI: bool = false;
 /// publik's models, for the cloud mode.
 pub const MODELS: [&str; 3] = ["publik-fast", "publik-balanced", "publik-smart"];
 
-/// The publik edition's stable update feed, on its own rolling `publik`
-/// release (never the latest release), so the normal release, its
-/// `latest.json` and every site that reads `releases/latest` only ever see
-/// the normal build, and an update never swaps one edition for the other
-/// (the app's `fork::update::channel`). Its downloads are on
-/// `publik-v<version>`.
-pub const STABLE_PATH: &str = "/releases/download/publik/latest-publik.json";
-/// The publik edition's feed on its own rolling `publik-beta` prerelease.
-pub const BETA_PATH: &str = "/releases/download/publik-beta/latest-publik.json";
+/// The publik edition's stable update feed: its own `latest-publik.json`,
+/// on the same releases as the normal app (`latest.json`). A copy only ever
+/// reads its own edition's feed, so an update never swaps one edition for
+/// the other (the app's `fork::update::channel`).
+pub const STABLE_PATH: &str = "/releases/latest/download/latest-publik.json";
+/// The publik edition's feed on the rolling `beta` prerelease.
+pub const BETA_PATH: &str = "/releases/download/beta/latest-publik.json";
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn feeds_are_on_the_publik_releases_never_the_normal_ones() {
-        assert_eq!(STABLE_PATH, "/releases/download/publik/latest-publik.json");
-        assert_eq!(
-            BETA_PATH,
-            "/releases/download/publik-beta/latest-publik.json"
-        );
+    fn feeds_are_the_publik_files_never_the_normal_ones() {
+        assert_eq!(STABLE_PATH, "/releases/latest/download/latest-publik.json");
+        assert_eq!(BETA_PATH, "/releases/download/beta/latest-publik.json");
         for path in [STABLE_PATH, BETA_PATH] {
-            assert!(!path.contains("/releases/latest/"));
-            assert!(!path.contains("/download/beta/"));
+            assert!(path.ends_with("/latest-publik.json"));
+            assert!(!path.ends_with("/latest.json"));
         }
     }
 

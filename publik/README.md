@@ -3,7 +3,7 @@
 Wispr Bro is built in two editions from this one repository. The default
 branch, its releases (`releases/latest`) and opena.tech are one and the same
 normal app; the publik edition is a thin layer on top that only a build flag
-turns on, published only on its own releases.
+turns on. Its files sit on the same releases under their own names.
 
 **Wispr Bro** (the normal edition) is the app as it has always been: fully
 local, no account, no telemetry. It is what `bun run wb:dev`, `bun run
@@ -39,12 +39,14 @@ feature in `src-tauri/Cargo.toml`, the extra Vite entry, two `package.json`
 scripts, the `--edition` switch in `scripts/wb-release/macos.sh`, the
 `[publik]` hosts section and the guard's entry in `scripts/wb-guards.ts`.
 
-The publik edition has its own update feed, `latest-publik.json`, on the
-rolling prerelease `publik` (`releases/download/publik/latest-publik.json`;
-`publik-beta` for the beta channel), never on a normal release
-(`fork::update::channel` takes its paths from `wb_publik`). An installed
-copy therefore only ever updates to its own edition: the normal app never
-turns into the publik one, and the other way round.
+The publik edition has its own update feed, `latest-publik.json`, next to
+`latest.json` on the same release (`releases/latest/download/latest-publik.json`;
+the rolling `beta` release for the beta channel; `fork::update::channel`
+takes its paths from `wb_publik`). The normal app reads only `latest.json`,
+which only names normal files, and the publik app reads only
+`latest-publik.json`. An installed copy therefore only ever updates to its
+own edition: the normal app never turns into the publik one, and the other
+way round. Both get every release the same way.
 
 ## What the publik edition adds
 
@@ -90,32 +92,42 @@ scripts/wb-release/macos.sh --out out --edition publik   # signed publik release
 `macos.sh --edition publik` (with `--arch aarch64` or `--arch x86_64`, like
 the normal build) names its assets `Wispr-Bro-publik_<v>_<arch>.*` and writes
 `latest-publik.json` and `SHA256SUMS-publik`, whose download URLs point at the
-release `publik-v<v>` (`publik-beta` for a beta). Without `--edition` (or with
+same release as the normal files. Without `--edition` (or with
 `--edition standard`) every name is unchanged. Everything the publik switch
 sets is in `publik/edition.sh`.
 
 ## Releases
 
-Normal releases (`wb-release.yml`, `scripts/wb-release/release-local.sh`)
-never carry anything of the publik edition. Pull requests that touch publik
-are checked by `wb-publik-preview.yml`, which tests this folder and builds
-unsigned publik apps for both chips as artifacts; no release workflow builds
-it.
+Every release carries both editions, side by side:
 
-The publik edition of a version is published after that version's normal
-release, on the owner's Mac, with `publik/add-publik.sh v<version>`
-from the `publik-edition` branch. In one run it does publik's sign-in in the
-browser, the listing (publik's own derived listing with our wording and the
-publik downloads for both chips), the app token (login keychain item
-`wispr-bro-publik-app-token` and the `PUBLIK_APP_TOKEN` secret, never the
-repository), the listing's slug in `APP_SLUG` (`publik/rust/src/lib.rs`) if publik chose
-another, and signed builds for both chips with publik's self test. It then
-publishes them on their own release `publik-v<version>` (tag on the publik
-commit, never marked latest, with the source archive and `SHA256SUMS-publik`)
-and puts `latest-publik.json` on the rolling prerelease `publik`. It checks
-before and after that `releases/latest` still is the same normal release and
-that its files, `latest.json` and `SHA256SUMS` are unchanged. A re-run reuses
-the listing, the token and finished builds.
+| Normal edition (everyone)                    | publik edition (only people who come from publik)                               |
+| -------------------------------------------- | ------------------------------------------------------------------------------- |
+| `Wispr-Bro_<v>_<arch>.dmg`                   | `Wispr-Bro-publik_<v>_<arch>.dmg`                                               |
+| `Wispr-Bro_<v>_<arch>.app.tar.gz` (+ `.sig`) | `Wispr-Bro-publik_<v>_<arch>.app.tar.gz` (+ `.sig`)                             |
+| `latest.json`, `SHA256SUMS`                  | `latest-publik.json`, `SHA256SUMS-publik`, `Wispr-Bro-publik_<v>_source.tar.gz` |
+
+The normal release is made first, as always (`wb-release.yml`,
+`scripts/wb-release/release-local.sh`), and never builds anything of
+publik. Then, on the owner's Mac, `publik/add-publik.sh v<version>` from the
+`publik-edition` branch adds the publik files to that same release. It
+first puts "which file to download" at the top of the release notes. On the
+first listing it also does publik's sign-in in the browser, the listing
+(publik's own derived listing with our wording, pointing at the publik
+DMGs), the app token (login keychain item `wispr-bro-publik-app-token` and
+the `PUBLIK_APP_TOKEN` secret, never the repository) and the listing's slug
+in `APP_SLUG` (`publik/rust/src/lib.rs`) if publik chose another. publik
+takes a listing only when its download is already on the latest release, and
+gives the token only for a listing, so that first run puts a signed publik
+build without the token on the release, lists it, then replaces it with the
+real one. Then signed builds for both chips with publik's self test, and the
+publik files with `latest-publik.json` last. It checks before and after that
+the release is still the latest and that its normal files, `latest.json`
+and `SHA256SUMS` are unchanged. A re-run reuses the listing, the token and
+finished builds.
+
+Pull requests that touch publik are checked by `wb-publik-preview.yml`,
+which tests this folder and builds unsigned publik apps for both chips as
+artifacts.
 
 ## The edition guard
 
@@ -147,11 +159,11 @@ edition: its screens, settings, about page, menus and translations never
 mention publik (the guard above enforces it), and its updates come from
 `latest.json`, which only ever points at the normal edition.
 
-`releases/latest`, its files and every site that reads it (opena.tech) only
-ever see the normal edition, since the publik files are on releases that are
-never marked latest. The full release list on GitHub shows the `publik-v*`
-releases too; their notes say they are for people who come from publik and
-link to the normal latest release.
+opena.tech's download buttons pick only `Wispr-Bro_<v>_<arch>.dmg`. On
+GitHub the release page lists both editions; its notes open with which file
+to download, say that files with publik in their name are only for people
+who came from publik, and tell AI agents to install a publik file only when
+the person asked for the publik edition.
 
 ## The publik app token
 

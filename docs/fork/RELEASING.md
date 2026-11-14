@@ -7,10 +7,10 @@ the custody rules below. Nothing has been pushed yet (CONTEXT.md: the owner
 pushes after testing).
 
 The publik edition is a second, opt-in build with its own assets and feed
-(`Wispr-Bro-publik_*`, `latest-publik.json`), published only on its own
-releases (`publik-v<version>` and the rolling `publik` feed) by
-`publik/add-publik.sh`; normal releases and `releases/latest`
-never carry it. See `publik/README.md`.
+(`Wispr-Bro-publik_*`, `latest-publik.json`, `SHA256SUMS-publik`). After a
+normal release is out, `publik/add-publik.sh v<version>` adds those files to
+the same release; the normal files, `latest.json` and `SHA256SUMS` are never
+touched. See `publik/README.md`.
 
 ## Identity (never change after the first public build)
 

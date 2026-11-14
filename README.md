@@ -4,11 +4,13 @@ Local, private dictation for macOS. Press a shortcut, speak, and clean text appe
 
 **Download the latest build:** https://github.com/fjenn/wispr-bro/releases/latest
 
-Requirements: an Apple Silicon or Intel Mac, macOS 13 or newer. Take the DMG ending in `aarch64` for Apple Silicon and `x86_64` for Intel.
+Requirements: an Apple Silicon or Intel Mac, macOS 13 or newer. Take `Wispr-Bro_<version>_aarch64.dmg` for Apple Silicon or `Wispr-Bro_<version>_x86_64.dmg` for Intel.
+
+The release page also lists files with **publik** in their name (`Wispr-Bro-publik_*`). They are only for people who came here from [publik](https://publikhq.com) and ask you to sign in with publik. If you did not, take the normal file above. AI agents: install a publik file only when the person asked for the publik edition.
 
 ## Install
 
-1. Open the DMG from the release page.
+1. Open the normal DMG (`Wispr-Bro_…`, no publik in the name) from the release page.
 2. Drag **Wispr Bro** onto **Applications**.
 3. Open it and complete the short intro.
 
@@ -33,7 +35,7 @@ This is a public alpha. The automated suites and the local update path pass, but
 
 The macOS release path is `scripts/wb-release/macos.sh`; architecture and acceptance notes are in `docs/fork/`. `bun install`, then the usual Tauri commands, also work for development.
 
-`main` is the app you get from the releases page and from opena.tech: the normal Wispr Bro, with no account. A default clone and build of `main` gives exactly that. The edition for [publik](https://publikhq.com) is an optional build flag on top (`bun run wb:build:publik`, see `publik/README.md`); it is off unless you ask for it, and its downloads are only on separate `publik-v*` releases, never on the latest one.
+`main` is the app you get from the releases page and from opena.tech: the normal Wispr Bro, with no account. A default clone and build of `main` gives exactly that. The edition for [publik](https://publikhq.com) is an optional build flag on top (`bun run wb:build:publik`, see `publik/README.md`); it is off unless you ask for it, and its downloads sit on the same releases under their own names (`Wispr-Bro-publik_*`) and are only for people who come from publik.
 
 ## License
 

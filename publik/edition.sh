@@ -6,18 +6,17 @@
 ASSET_PREFIX="Wispr-Bro-publik"
 FEED="latest-publik.json"
 SUMS="SHA256SUMS-publik"
-# Its own releases (publik-v<version>, rolling publik-beta), never the normal
-# one, so releases/latest only ever serves the normal build.
-RELEASE_PREFIX="publik-"
 EDITION_CONFIG=(--config publik/tauri.conf.json)
 export VITE_WB_EDITION=publik
 
 # publik's app token is baked in at build time (never in the repository).
+# WB_PUBLIK_NO_TOKEN=1 is add-publik.sh's first listing only: a signed build
+# that publik can see before it hands out the token, replaced in the same run.
 if [[ "${PUBLIK_APP_TOKEN:-}" != pat_* ]]; then
-  if [[ $UNSIGNED == 0 ]]; then
+  if [[ $UNSIGNED == 0 && "${WB_PUBLIK_NO_TOKEN:-}" != 1 ]]; then
     echo "macos.sh: the publik edition needs PUBLIK_APP_TOKEN (pat_…; publik/README.md)" >&2; exit 2
   fi
-  echo "macos.sh: no PUBLIK_APP_TOKEN: this dry-run publik build will say it has no publik app token" >&2
+  echo "macos.sh: no PUBLIK_APP_TOKEN: this publik build will say it has no publik app token" >&2
 fi
 
 # After the build: the app carries that token.
