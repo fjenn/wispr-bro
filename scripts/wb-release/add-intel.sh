@@ -76,9 +76,13 @@ gh release upload "$TAG" -R "$REPO" --clobber "${NEW}/latest.json" "${NEW}/SHA25
 echo "== check the release"
 CHECK="${OUT}/check"
 rm -rf "$CHECK"; mkdir -p "$CHECK"
-sleep 5
-curl -fsSL -o "${CHECK}/latest.json" "${BASE}/latest.json"
-cmp -s "${CHECK}/latest.json" "${NEW}/latest.json" || die "the release serves another latest.json"
+# GitHub's download CDN can serve the old file for a little while.
+for i in $(seq 1 30); do
+  curl -fsSL -o "${CHECK}/latest.json" "${BASE}/latest.json?t=$(date +%s)" || true
+  cmp -s "${CHECK}/latest.json" "${NEW}/latest.json" && break
+  [[ $i == 30 ]] && die "the release still serves the old latest.json after 5 min"
+  sleep 10
+done
 bun -e "
 const a = require('${PUB}/latest.json'), b = require('${CHECK}/latest.json');
 for (const k of Object.keys(a.platforms))
