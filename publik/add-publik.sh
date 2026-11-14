@@ -42,7 +42,7 @@
 # signed build for this commit is done is not built again.
 #
 # Usage: publik/add-publik.sh v1.0.0-alpha.7
-# Env: as macos.sh (WB_NOTARY_PROFILE=wispr-bro-notary on this Mac).
+# Env: as macos.sh; WB_NOTARY_PROFILE defaults to wispr-bro-notary (this Mac).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -78,6 +78,12 @@ LATEST_TAG="$(gh api "repos/${REPO}/releases/latest" --jq '.tag_name')"
 assets() { gh api "repos/${REPO}/releases/tags/${TAG}" --jq '.assets[] | "\(.name) \(.size) \(.digest // "")"' | sort; }
 if grep -q '^latest-publik\.json ' <<<"$(assets)"; then
   die "${TAG} already has the publik edition; nothing to do"
+fi
+# Notarization: this Mac's keychain profile unless an API key is set (CI).
+if [[ -z "${WB_NOTARY_KEY_PATH:-}" ]]; then
+  export WB_NOTARY_PROFILE="${WB_NOTARY_PROFILE:-wispr-bro-notary}"
+  xcrun notarytool history --keychain-profile "$WB_NOTARY_PROFILE" >/dev/null 2>&1 \
+    || die "notarization profile ${WB_NOTARY_PROFILE} does not work on this Mac (xcrun notarytool store-credentials)"
 fi
 rustup target list --installed | grep -qx x86_64-apple-darwin || rustup target add x86_64-apple-darwin
 mkdir -p "$STATE" "$OUT"
