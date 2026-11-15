@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "handy-app",
+      "name": "wispr-bro",
       "dependencies": {
         "@handy-computer/models": "0.2.3",
         "@number-flow/react": "0.6.2",

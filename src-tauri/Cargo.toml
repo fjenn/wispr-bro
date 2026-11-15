@@ -1,7 +1,7 @@
 [package]
 name = "handy"
 version = "1.0.0-alpha.7"
-description = "Handy"
+description = "Wispr Bro"
 authors = ["cjpais"]
 edition = "2021"
 license = "MIT"
