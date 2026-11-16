@@ -69,14 +69,14 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - name: The tag's commit is on wispr-bro
+      - name: The tag's commit is on main
         id: sha
         run: |
           set -euo pipefail
           sha="$(git rev-list -n 1 "refs/tags/$TAG")"
-          git fetch --no-tags origin wispr-bro
+          git fetch --no-tags origin main
           git merge-base --is-ancestor "$sha" FETCH_HEAD \
-            || { echo "::error::$TAG ($sha) is not on wispr-bro"; exit 1; }
+            || { echo "::error::$TAG ($sha) is not on main"; exit 1; }
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
       - name: Tag format, order and channel

@@ -51,6 +51,35 @@ export function parseDns(text: string): DnsQuery[] {
   return out;
 }
 
+/**
+ * Addresses the DNS capture answered for allowed names (`*.hf.co` and other
+ * wildcards cannot be resolved ahead of time for the pf allowlist). A reply
+ * is matched to its query by the transaction id.
+ */
+export function allowedAnswers(dns: string, allowedHosts: string[]): Set<string> {
+  const names = new Map<string, string>();
+  const ips = new Set<string>();
+  for (const line of dns.split("\n")) {
+    const id = line.match(/:\s(\d+)[+*%-]*\s+(?:A|AAAA|HTTPS|SVCB|CNAME)\?\s+(\S+?)\.?\s/);
+    if (id && !/\s\d+\/\d+\/\d+\s/.test(line)) {
+      names.set(id[1], id[2].toLowerCase());
+      continue;
+    }
+    const reply = line.match(/:\s(\d+)[*$|-]*\s+\d+\/\d+\/\d+\s(.*)$/);
+    if (!reply) continue;
+    const name = names.get(reply[1]);
+    if (!name || !hostInList(name, allowedHosts)) continue;
+    for (const m of reply[2].matchAll(/\b(?:AAAA|A)\s+([0-9a-fA-F:.]+)/g)) ips.add(m[1].toLowerCase());
+  }
+  return ips;
+}
+
+/** The destination address of a pflog line (`… > 54.68.202.150.443: …`). */
+export function blockedDestination(line: string): string | undefined {
+  const m = line.match(/\s>\s([0-9a-fA-F:.]+)\.\d+:/);
+  return m?.[1]?.toLowerCase();
+}
+
 export function analyze(input: {
   pflog: string;
   dns: string;
@@ -60,10 +89,15 @@ export function analyze(input: {
   strictDns?: boolean;
 }): EgressReport {
   const failures: string[] = [];
+  // A packet pf blocked only because its allowed name (a wildcard such as
+  // `*.hf.co`) could not be resolved for the allowlist is not a violation:
+  // the app's own lookup of that allowed name returned this address.
+  const answered = allowedAnswers(input.dns, input.allowedHosts);
   const blocked = input.pflog
     .split("\n")
     .map((l) => l.trim())
-    .filter((l) => /\bblock\b/.test(l) && /\s>\s/.test(l));
+    .filter((l) => /\bblock\b/.test(l) && /\s>\s/.test(l))
+    .filter((l) => !answered.has(blockedDestination(l) ?? ""));
   if (blocked.length) {
     failures.push(
       `${blocked.length} outbound packet(s) from the app user were blocked (destination outside R5 §1)`,

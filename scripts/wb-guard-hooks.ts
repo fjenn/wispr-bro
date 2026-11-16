@@ -154,7 +154,15 @@ export function runHooks(opts: HooksOptions = {}): GuardResult {
     });
     return r;
   }
-  const base = git(root, ["merge-base", "HEAD", ref]).trim();
+  const mergeBase = tryGit(root, ["merge-base", "HEAD", ref]);
+  if (!mergeBase) {
+    // The fork's history was rewritten from a new root (2026-11-05), so it
+    // shares no commit with Handy's: there is no base to measure hooks
+    // against. Reported, not a violation; ci/hooks.txt still parses above.
+    r.notes.push(`skipped: HEAD shares no history with ${ref}`);
+    return r;
+  }
+  const base = mergeBase.trim();
   r.notes.push(`base ${ref} (merge base ${base.slice(0, 10)})`);
 
   // Working tree vs base; untracked files are not part of a PR and are ignored.

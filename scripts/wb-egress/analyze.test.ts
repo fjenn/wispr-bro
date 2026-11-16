@@ -2,7 +2,7 @@
 // Tests for the wb-egress log analysis and the generated pf anchor.
 
 import { describe, expect, test } from "bun:test";
-import { analyze, parseDns } from "./analyze";
+import { allowedAnswers, analyze, parseDns } from "./analyze";
 import { anchorRules } from "./session";
 
 const allowedHosts = ["github.com", "huggingface.co", "*.hf.co", "localhost"];
@@ -79,5 +79,29 @@ describe("pf anchor", () => {
     expect(rules.trim().split("\n").pop()).toBe(
       "block drop out log quick proto { tcp, udp } from any to any user wbegress",
     );
+  });
+});
+
+describe("wildcard hosts resolved during the session", () => {
+  const allowed = ["github.com", "*.hf.co"];
+  const dns = [
+    "11:45:15.848114 (proc mDNSResponder:187, eproc wispr-bro:1) IP 10.0.0.9.53302 > 10.0.0.1.53: 5908+ A? us.aws.cdn.hf.co. (34)",
+    "11:45:15.871361 (proc mDNSResponder:187, eproc wispr-bro:1) IP 10.0.0.1.53 > 10.0.0.9.53302: 5908 2/0/0 A 54.68.202.150, A 52.88.162.194 (66)",
+    "11:45:16.000000 (proc mDNSResponder:187, eproc wispr-bro:1) IP 10.0.0.9.53303 > 10.0.0.1.53: 77+ A? evil.example. (30)",
+    "11:45:16.100000 (proc mDNSResponder:187, eproc wispr-bro:1) IP 10.0.0.1.53 > 10.0.0.9.53303: 77 1/0/0 A 9.9.9.9 (46)",
+  ].join("\n");
+  const block = (ip: string) =>
+    `2026-11-16 11:45:15.969314 rule 0.250.WisprBroEgr.4/0(match): block out on en0: 10.0.0.9.49501 > ${ip}.443: Flags [S]`;
+  const run = (pflog: string) =>
+    analyze({ pflog, dns, appLog: "fork selfcheck: PASS", allowedHosts: allowed, ourProcesses: ["wispr-bro"] });
+
+  test("an address answered for an allowed wildcard name is not a violation", () => {
+    expect(allowedAnswers(dns, allowed)).toEqual(new Set(["54.68.202.150", "52.88.162.194"]));
+    expect(run(block("54.68.202.150")).blocked).toEqual([]);
+  });
+
+  test("an address answered for any other name still fails", () => {
+    expect(run(block("9.9.9.9")).blocked).toHaveLength(1);
+    expect(run(block("1.2.3.4")).failures[0]).toContain("blocked");
   });
 });
