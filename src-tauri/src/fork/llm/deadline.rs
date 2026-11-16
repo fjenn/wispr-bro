@@ -13,8 +13,9 @@
 //!   take fails open"), outside the request deadline. Prewarm at key-down
 //!   (S-10) normally hides the start inside the recording.
 //! - **Intel Macs:** the model runs on the CPU, so every request, take,
-//!   transform and instruction deadline is [`CPU_FACTOR`] times longer there
-//!   ([`for_this_mac`]); without it a cleanup would fail open on most takes.
+//!   transform and instruction deadline is longer there ([`for_this_mac`]):
+//!   [`CPU_FACTOR`] on 8+ cores, up to 6x on a dual-core ([`cpu_factor`]);
+//!   without it a cleanup would fail open on most takes.
 
 use std::time::Duration;
 
@@ -33,13 +34,31 @@ fn tokens(text: &str) -> u64 {
 }
 
 /// How much longer a cleanup may take on an Intel Mac, where the model runs
-/// on the CPU (estimate; Intel test checklist in docs/fork/INTEL.md).
+/// on the CPU (estimate; Intel test checklist in docs/fork/INTEL.md): an
+/// 8-core i9 cleans a short take in 1-2 s.
 pub const CPU_FACTOR: f64 = 2.5;
 
-/// `d` for this Mac: [`CPU_FACTOR`] times longer on Intel, as is otherwise.
+/// How much longer it may take on an Intel Mac with `threads` hardware
+/// threads. Fewer cores read the prompt much more slowly, so a dual-core
+/// MacBook Air waits longer for the full result rather than getting the
+/// uncleaned text (owner's call: quality over speed; cleanup can be turned
+/// off). Estimates: no slow Intel Mac was measured.
+pub fn cpu_factor(threads: usize) -> f64 {
+    match threads {
+        0..=4 => 6.0,
+        5..=8 => 4.0,
+        _ => CPU_FACTOR,
+    }
+}
+
+/// `d` for this Mac: [`cpu_factor`] times longer on Intel, as is otherwise.
 pub fn for_this_mac(d: Duration) -> Duration {
     if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
-        d.mul_f64(CPU_FACTOR)
+        static FACTOR: std::sync::OnceLock<f64> = std::sync::OnceLock::new();
+        let factor = *FACTOR.get_or_init(|| {
+            cpu_factor(std::thread::available_parallelism().map_or(4, |n| n.get()))
+        });
+        d.mul_f64(factor)
     } else {
         d
     }
@@ -112,6 +131,15 @@ pub fn take(text: &str, words: u32) -> Duration {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn fewer_intel_cores_get_more_time() {
+        assert_eq!(cpu_factor(2), 6.0);
+        assert_eq!(cpu_factor(4), 6.0);
+        assert_eq!(cpu_factor(8), 4.0);
+        assert_eq!(cpu_factor(16), CPU_FACTOR);
+        assert!(cpu_factor(4) > cpu_factor(8) && cpu_factor(8) > cpu_factor(16));
+    }
+
     use super::*;
 
     /// A deadline in ms as this Mac gets it.

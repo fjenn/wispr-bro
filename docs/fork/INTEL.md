@@ -17,7 +17,7 @@ Only these chip specific pieces differ; everything else is the same code.
 | `llama-server` sidecar | Metal, M1 CPU baseline                | no Metal, AVX2 + FMA + F16C CPU baseline | `ci/llama-server/build.sh`                |
 | Where the LLM runs     | Metal first, CPU fallback             | CPU (`-ngl 0`) from the first start      | `fork::llm::process::Device::initial`     |
 | LLM threads            | all logical cores but two, at most 8  | physical cores, at most 8                | `fork::llm::process::recommended_threads` |
-| Cleanup deadlines      | as R5 §5.1                            | 2.5 times longer (`CPU_FACTOR`)          | `fork::llm::deadline`                     |
+| Cleanup deadlines      | as R5 §5.1                            | 2.5× (8+ cores) to 6× (dual-core) longer (`cpu_factor`) | `fork::llm::deadline`                     |
 | Speech model choice    | Metal latencies, Apple Silicon budget | CPU latencies, Intel budget              | `fork::models::policy`                    |
 | Release asset          | `Wispr-Bro_<v>_aarch64.dmg`           | `Wispr-Bro_<v>_x86_64.dmg`               | `scripts/wb-release/macos.sh --arch`      |
 | Update feed            | `darwin-aarch64` in `latest.json`     | `darwin-x86_64` in the same file         | `wb-release.yml` publish                  |
@@ -49,7 +49,7 @@ Run on an Intel Mac with macOS 13 or later and 8 GB or more.
 8. Activity Monitor shows `llama-server` as an Intel process using the CPU
    only, and it stops after about two minutes idle.
 9. Note how long a short take takes from key-up to text, for the first and a
-   later take; if cleanups often time out, `CPU_FACTOR` needs raising.
+   later take; if cleanups often time out, `cpu_factor` needs raising.
 
 ## First release with Intel
 
