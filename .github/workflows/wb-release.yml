@@ -169,6 +169,8 @@ jobs:
           git archive --format=tar.gz --prefix="wispr-bro-${VERSION}/" -o "release-out/$src" "refs/tags/$TAG"
           cp LICENSE NOTICE THIRD-PARTY-NOTICES.md release-out/
           cd release-out
+          # Build logs stay in the workflow artifacts, not on the release page.
+          rm -f -- *.log notary-*.json
           rm -f SHA256SUMS
           shasum -a 256 -- *.dmg *.app.tar.gz *.app.tar.gz.sig latest.json "$src" LICENSE NOTICE THIRD-PARTY-NOTICES.md > SHA256SUMS
           ls -la
