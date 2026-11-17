@@ -567,6 +567,26 @@ async fn on_wake<R: Runtime>(app: &AppHandle<R>) {
     }
 }
 
+/// The cleanup level changed (`fork_set_setting`). iPhone: a level other
+/// than None fetches the model if it is not there yet; None unloads it.
+pub fn on_cleanup_level_changed<R: Runtime>(app: &AppHandle<R>) {
+    if !cfg!(target_os = "ios") {
+        return;
+    }
+    if super::post_process::wanted(app) {
+        start_download(app);
+        return;
+    }
+    let Some(sup) = runtime(app).and_then(|rt| rt.supervisor().cloned()) else {
+        return;
+    };
+    tauri::async_runtime::spawn(async move {
+        if sup.stop_if_idle().await {
+            log::info!("llm: cleanup is off; the model is unloaded");
+        }
+    });
+}
+
 /// Debug builds only (S-12b Mac test): the cleanup model is never checked
 /// or downloaded, so the app runs as if it were still downloading and Apple's
 /// model stands in (RS-08 fallback role).
@@ -583,6 +603,15 @@ pub fn start_download<R: Runtime>(app: &AppHandle<R>) {
     }
     let Some(model) = rt.model else { return };
     if rt.supervisor.is_none() || rt.is_ready() {
+        return;
+    }
+    // iPhone: 1.3 GB over what may be a mobile connection, for a model
+    // that is only used with a cleanup level: fetched once one is chosen
+    // (`on_cleanup_level_changed`). A file already there is still checked.
+    if cfg!(target_os = "ios")
+        && !super::post_process::wanted(app)
+        && !download::snapshot_path(&download::hub_dir(), model).is_file()
+    {
         return;
     }
     if !has_speech_model(app) {

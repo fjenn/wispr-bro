@@ -393,6 +393,14 @@ pub fn asr_state_from_event(event_type: &str) -> Option<AsrState> {
 mod tests {
     use super::*;
 
+    #[test]
+    fn a_memory_warning_reads_as_recent_and_the_mac_uses_the_catalog_figure() {
+        note_warning();
+        assert!(warned_recently());
+        // Off iPhone the rule uses the sidecar's measured size.
+        assert_eq!(llm_resident_bytes(2_100), 2_100 * 1024 * 1024);
+    }
+
     const GB: u64 = 1024 * 1024 * 1024;
 
     #[test]

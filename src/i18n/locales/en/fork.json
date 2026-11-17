@@ -3197,7 +3197,8 @@
         "failedTitle": "The download did not finish",
         "failedBody": "Check your connection and try again. Dictation works without it.",
         "retry": "Try again",
-        "note": "Cleanup runs on this iPhone. It adds a short wait after you stop speaking."
+        "note": "Cleanup runs on this iPhone. It adds a short wait after you stop speaking.",
+        "downloadFirst": "Light and Medium need a one-time download of {{megabytes}} MB."
       },
       "session": {
         "endAfter": "End session after",

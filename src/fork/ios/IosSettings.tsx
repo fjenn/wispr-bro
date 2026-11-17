@@ -374,6 +374,10 @@ function CleanupPage() {
   const status = useCleanupStatus();
   const phase = cleanupPhase(status);
   const off = phase === "none";
+  // The model is fetched once a level other than None is chosen.
+  const fetching =
+    phase === "downloading" && settings?.cleanup_level !== "none";
+  const notFetched = phase === "downloading" && !fetching;
   const percent = downloadPercent(status);
   const megabytes = Math.round((status?.total_bytes ?? 0) / 1_000_000);
   const [retrying, setRetrying] = useState(false);
@@ -404,7 +408,7 @@ function CleanupPage() {
           </p>
         </div>
       )}
-      {phase === "downloading" && (
+      {fetching && (
         <div
           role="status"
           data-testid="wb-ios-cleanup-downloading"
@@ -485,7 +489,9 @@ function CleanupPage() {
           className="px-1 text-[13px] leading-[18px] text-(--wb-ink-2)"
           data-testid="wb-ios-cleanup-note"
         >
-          {t("ios.settings.cleanup.note")}
+          {notFetched
+            ? t("ios.settings.cleanup.downloadFirst", { megabytes })
+            : t("ios.settings.cleanup.note")}
         </p>
       )}
     </div>

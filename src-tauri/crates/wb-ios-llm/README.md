@@ -8,8 +8,9 @@ grammar, sampler, slot and prompt cache. Requests are the JSON bodies the Mac
 sends; replies are the bytes the sidecar writes. Nothing of the server is
 re-implemented, which is why the replies are identical (see "Evidence").
 
-Status: Phase 1 (this crate, standalone, proven on the Mac host and built
-for both iOS targets). Phase 2 (wiring into the app) is the plan at the end.
+The app side is `src-tauri/src/fork/llm/inprocess.rs`; how the iPhone app
+uses it (CPU only, mapped weights, the model follows the session, memory
+rule, numbers on a phone) is in `docs/fork/IOS.md`, "Cleanup runs in the app".
 
 ## Why our own build and not the `llama-cpp-2` crate
 
@@ -143,7 +144,7 @@ request with no language (the scorer's `none` mode; S-12a reports 81.7 % for
 it) and without the app's "already clean" gate and chunking, which live in
 `post_process.rs` (needs Tauri). The app's 95.0 % is its shipped path with the
 owner's languages; because the replies are byte-identical, that path gives
-the same numbers on this engine. Phase 2 runs `eval_run.rs` itself.
+the same numbers on this engine ("In the app" below has that run).
 
 **Latency**, wall time per request, warm:
 
@@ -164,8 +165,8 @@ prompt evaluation returns at the first token (34 ms).
 **Memory** (`phys_footprint`). Mac, Metal: the model adds about 285 MB (the
 weights are mapped, not copied) and the footprint is back within 40 MB of the
 speech-only figure 3 s after an unload. Simulator, CPU: 1.39 GB while loaded,
-back to the baseline right after unload. The iPhone number is a Phase 2
-measurement.
+back to the baseline right after unload (weights repacked into a copy; see
+"In the app").
 
 **Both libraries in one binary.** `examples/coexist.rs` (transcribe-cpp
 Parakeet 110m on Metal + Muesli): 6 transcriptions and 6 cleanups at the same
@@ -185,102 +186,34 @@ WB_LLM_MODEL=~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf \
   cargo test --release -- --ignored --nocapture
 ```
 
-Not verified yet: a real iPhone (Metal speed, footprint, Metal while the app
-is in the background), the app's own path (gate, chunks, deadlines, pill)
-on this engine, `hw.memsize` of an 8 GB iPhone.
+Numbers on an iPhone: `docs/fork/IOS.md`.
 
-## Integration (Phase 2), file by file
+## In the app
 
-The supervisor already separates "start a server" (`Launcher`, `Server`)
-from everything else, and it reaches the server only through
-`transport.rs` + reqwest. So the iPhone swaps the launcher and nothing else:
-supervisor, health polling, idle stop, crash handling, chat client, prompt,
-guards, deadlines and `post_process` stay as they are.
+`src-tauri/src/fork/llm/inprocess.rs` (`InProcessLauncher`) implements the
+supervisor's `Launcher`: it starts `serve::Server` on the transport the
+supervisor chose and reports a failed load as the server's exit. Nothing
+else of the cleanup stack knows the difference: supervisor, health polling,
+idle stop, chat client, prompt, guards and deadlines are the Mac's.
 
-1. **`src-tauri/Cargo.toml`**, iOS dependencies:
-   `wb-ios-llm = { path = "crates/wb-ios-llm" }`. Also as an optional macOS
-   dependency behind a feature `llm-inprocess`, so `eval_run.rs` and the
-   supervisor tests can run on this engine on the Mac.
-2. **New `src/fork/llm/inprocess.rs`** (`cfg(any(target_os = "ios", feature = "llm-inprocess"))`),
-   declared in `fork/llm/mod.rs`:
+- iPhone: always (`fork/llm/runtime.rs` `server_launcher`), on the CPU with
+  `--no-repack` (see `docs/fork/IOS.md` for why).
+- Mac: with the `llm-inprocess` feature and `WB_LLM_INPROCESS=1`, for the
+  eval and tests (`WB_LLM_DEVICE=cpu` for the iPhone's CPU path):
 
-   ```rust
-   pub struct InProcessLauncher;
-   struct InProcessServer { server: wb_ios_llm::serve::Server, tail: Arc<Mutex<OutputTail>> }
+  ```bash
+  WB_LLM_INPROCESS=1 WB_LLM_DEVICE=cpu WB_LLAMA_SERVER=in-process \
+    WB_LLM_MODEL=~/wb-bench/llm/qwen35-2b-muesli-v12-Q4_K_M.gguf \
+    WB_EVAL_LANGUAGE=owner WB_EVAL_OUT=run.jsonl \
+    cargo test --features llm-inprocess --lib fork::llm::eval_run::eval_run_through -- --ignored
+  bun scripts/wb-eval-cleanup.ts --replay run.jsonl --level light
+  ```
 
-   impl Launcher for InProcessLauncher {
-       fn launch(&self, spec: &SpawnSpec, on_exit: Box<dyn FnOnce() + Send>) -> io::Result<Box<dyn Server>> {
-           let mut config = wb_ios_llm::Config::new(&spec.model);   // -c 4096, --cache-ram 256, threads: same constants
-           config.device = match spec.device { Device::Gpu => wb_ios_llm::Device::default_for_target(), Device::Cpu => wb_ios_llm::Device::Cpu };
-           let listen = match &spec.transport.endpoint { Endpoint::Unix(p) => Listen::Unix(p.clone()), Endpoint::Tcp(port) => Listen::Tcp(*port) };
-           let server = serve::Server::start(listen, Some(spec.transport.api_key().into()), config)?;
-           // a thread polls server.state(): on Failed(msg) → tail.push_line(msg); on_exit()
-           Ok(Box::new(InProcessServer { server, tail }))
-       }
-   }
-   impl Server for InProcessServer {
-       fn pid(&self) -> u32 { std::process::id() }
-       fn has_exited(&mut self) -> bool { matches!(self.server.state(), State::Failed(_) | State::Stopped) }
-       fn stop(&mut self) { self.server.stop() }          // unloads the model
-       fn tail(&self) -> OutputTail { … }
-   }
-   ```
+  The app's own path on this engine (2026-11-17, 271 items, Light, language
+  mode `owner`), on the CPU and on Metal alike: damage 0.0 %, answer 0.0 %,
+  filler removal 95.1 %, language kept 100 %, guard catch 100 %: every
+  S-12a gate passes (the sidecar's documented run: 95.0 %).
 
-   A failed Metal start falls back to `Device::Cpu` through the supervisor's
-   existing retry.
-
-3. **`src/fork/llm/runtime.rs` `register`**: on iOS pass
-   `Some(PathBuf::from("in-process"))` as the "sidecar" and
-   `Arc::new(InProcessLauncher)`; `on_ready`: skip `process::kill_stale` on
-   iOS. With a model selected the state then goes `waiting_for_speech_model`
-   → `downloading` → `verifying` → `ready` exactly as on the Mac.
-4. **`src/fork/mod.rs`** (line ~611): run `llm::runtime::on_ready(app)` on iOS
-   too (keep `llm::instruct::on_ready` Mac-only: transforms are not on the
-   phone). `fork/ios/core.rs` already calls `post_process` after a take; with
-   the runtime ready it cleans instead of reporting `not_ready`.
-5. **`src/fork/llm/transport.rs` `choose`**: the app-data path on iPhone is
-   too long for `sockaddr_un`, so today's code would pick loopback TCP (works,
-   keyed, needs no permission). Prefer no port at all: on iOS try
-   `std::env::temp_dir().join("wb-llm.sock")` (the container's `tmp/`, about
-   95 bytes) before TCP.
-6. **Model download**: nothing new. `runtime::start_download` →
-   `download::ensure` (pinned revision and sha256, resume, `hub_dir()` under
-   the app's data) runs as on the Mac once `on_ready` runs. On a simulator,
-   copy `models--Muesli-HQ--qwen35-2b-muesli-cleanup-v12-gguf` into the
-   container's `huggingface/hub` (IOS.md "Models on a simulator").
-7. **Memory rule for iPhone** (`src/fork/llm/memory.rs`, `catalog.rs`):
-   - `memory::read()` for iOS: `hw.memsize`, `available_bytes` from
-     `os_proc_available_memory()` (the app's real headroom before jetsam),
-     pressure from a latch set by the memory warning (below).
-   - `catalog::select`: on iOS the model only for phones with 8 GB or more
-     (`physical >= 7 GiB`: iPhones are 6, 8 or 12 GB and report a little
-     under the nominal size); below that the state stays `unsupported`.
-   - New `src/fork/ios/memory.rs`: observe
-     `UIApplicationDidReceiveMemoryWarningNotification` (objc2, already a
-     dependency) → set pressure to critical for 60 s and call
-     `supervisor.stop()` at once when no request is in flight
-     (`stop_if_idle`), which unloads the cleanup model. The speech model is
-     not touched; takes get the deterministic text until pressure clears
-     (`memory::allows`, already consulted per take).
-   - `IDLE_TIMEOUT` (120 s) already unloads an unused model; the key-down
-     prewarm (`runtime::prewarm`) loads it again in ~0.3 s.
-8. **Status and frontend**: `fork_llm_status` needs no change (it reports the
-   runtime's state). `src/fork/ios/IosSettings.tsx` `useCleanupAvailable`
-   already makes Settings › Cleanup selectable for any state other than
-   `unsupported` / `missing_runtime`; add: listen to the status event so the
-   row updates live, show "Downloading… N %" (`downloading`/`verifying`),
-   "Not available on this iPhone" for `unsupported` (under 8 GB) instead of
-   "Coming to iPhone", and remove the `soon*` strings (26 locales).
-9. **Xcode**: no project change expected. `libapp.a` carries the object and
-   `build.rs` emits the frameworks (Metal, MetalKit, Accelerate, Foundation);
-   check the app target links them. The build phase's `SDKROOT` is removed
-   for cmake by `build.rs`.
-10. **Docs**: `docs/fork/IOS.md` table row "`llama-server` sidecar" →
-    "the same llama.cpp in process (`crates/wb-ios-llm`)"; check NOTICE
-    names llama.cpp (MIT) for the iPhone app as it does for the sidecar.
-
-Phase 2 measurements: `eval_run.rs` on this engine (Mac, feature
-`llm-inprocess`); simulator take through the self-test WAVs; iPhone 17 Pro:
-load time, 50-word latency, footprint with speech + cleanup, a memory
-warning, and a take while the app is in the background (if Metal is refused
-there, the supervisor's CPU fallback is the path to measure).
+Memory on the CPU: llama.cpp repacks the weights into a second copy unless
+`--no-repack` is given (Mac, 6 threads: 1.58 GB of footprint with the copy,
+0.55 GB without; 50-word take 0.89 s against 0.94 s).

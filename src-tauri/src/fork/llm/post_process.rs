@@ -1178,6 +1178,12 @@ fn fork_settings<R: Runtime>(app: &AppHandle<R>) -> Option<crate::fork::settings
 }
 
 /// The cleanup level from the fork settings (Light if they cannot be read).
+/// `true` when dictations are cleaned by the model (a level other than
+/// None).
+pub fn wanted<R: Runtime>(app: &AppHandle<R>) -> bool {
+    level(app) != CleanupLevel::None
+}
+
 fn level<R: Runtime>(app: &AppHandle<R>) -> CleanupLevel {
     // The iPhone self-test measures a level without changing the setting.
     #[cfg(target_os = "ios")]

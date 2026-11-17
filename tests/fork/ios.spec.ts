@@ -136,7 +136,10 @@ test.describe("ios", () => {
   }) => {
     ios.llmState = "downloading";
     ios.llmDownloaded = 318_599_024;
-    await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
+    await openIos(page, ipc, hub, ios, {
+      hash: "#/hub/settings/cleanup",
+      fork: { cleanup_level: "light" },
+    });
     const card = page.getByTestId("wb-ios-cleanup-downloading");
     await expect(card).toContainText("25 %");
     await expect(card.getByRole("progressbar")).toHaveAttribute(
@@ -148,6 +151,24 @@ test.describe("ios", () => {
     // The page follows the download without being reopened.
     ios.llmState = "ready";
     await expect(card).toHaveCount(0);
+  });
+
+  test("with cleanup off nothing is downloaded, and the page says so", async ({
+    page,
+    ipc,
+    hub,
+    ios,
+  }) => {
+    ios.llmState = "waiting_for_speech_model";
+    await openIos(page, ipc, hub, ios, {
+      hash: "#/hub/settings/cleanup",
+      fork: { cleanup_level: "none" },
+    });
+    await expect(page.getByTestId("wb-ios-cleanup-downloading")).toHaveCount(0);
+    await expect(page.getByTestId("wb-ios-cleanup-note")).toContainText(
+      "1274 MB",
+    );
+    await expect(page.getByTestId("fork-cleanup-level-light")).toBeEnabled();
   });
 
   test("a failed cleanup download can be tried again", async ({
