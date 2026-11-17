@@ -56,11 +56,16 @@ export function parseDns(text: string): DnsQuery[] {
  * wildcards cannot be resolved ahead of time for the pf allowlist). A reply
  * is matched to its query by the transaction id.
  */
-export function allowedAnswers(dns: string, allowedHosts: string[]): Set<string> {
+export function allowedAnswers(
+  dns: string,
+  allowedHosts: string[],
+): Set<string> {
   const names = new Map<string, string>();
   const ips = new Set<string>();
   for (const line of dns.split("\n")) {
-    const id = line.match(/:\s(\d+)[+*%-]*\s+(?:A|AAAA|HTTPS|SVCB|CNAME)\?\s+(\S+?)\.?\s/);
+    const id = line.match(
+      /:\s(\d+)[+*%-]*\s+(?:A|AAAA|HTTPS|SVCB|CNAME)\?\s+(\S+?)\.?\s/,
+    );
     if (id && !/\s\d+\/\d+\/\d+\s/.test(line)) {
       names.set(id[1], id[2].toLowerCase());
       continue;
@@ -69,7 +74,8 @@ export function allowedAnswers(dns: string, allowedHosts: string[]): Set<string>
     if (!reply) continue;
     const name = names.get(reply[1]);
     if (!name || !hostInList(name, allowedHosts)) continue;
-    for (const m of reply[2].matchAll(/\b(?:AAAA|A)\s+([0-9a-fA-F:.]+)/g)) ips.add(m[1].toLowerCase());
+    for (const m of reply[2].matchAll(/\b(?:AAAA|A)\s+([0-9a-fA-F:.]+)/g))
+      ips.add(m[1].toLowerCase());
   }
   return ips;
 }

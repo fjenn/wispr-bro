@@ -1480,10 +1480,11 @@ mod identity_tests {
             assert!(!url.contains("cjpais") && !url.contains("Handy"), "{url}");
         }
 
-        // Handy's file is untouched for identity (overlay only).
+        // Handy's file keeps its identifier (identity comes from the overlay
+        // only); its product name says Wispr Bro since alpha.8 (c188fdac).
         let base = read_json("tauri.conf.json");
         assert_eq!(base["identifier"], "com.pais.handy");
-        assert_eq!(base["productName"], "Handy");
+        assert_eq!(base["productName"], "Wispr Bro");
     }
 
     #[test]

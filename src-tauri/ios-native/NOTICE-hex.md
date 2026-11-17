@@ -4,29 +4,29 @@ Parts of `ios-native/` are ported from **Hex** (https://github.com/kitlangton/he
 directory `ios/`, under the MIT License. Each ported file names its source in a
 header comment.
 
-| Wispr Bro file | Hex source |
-| --- | --- |
-| `WBShared/WBBridge.swift`, `WBShared/WBHostApps.swift` | `ios/HEXShared/KeyboardBridge.swift` |
-| `WBShared/WBKeyboardSurface.swift` | `ios/HEXShared/KeyboardSurface.swift` |
-| `WBShared/FullKeyboard/WBKeyEngine.swift` | `ios/HEXShared/FullKeyboard/FullKeyboardEngine.swift` |
-| `WBShared/FullKeyboard/WBKeyLayout.swift` | `ios/HEXShared/FullKeyboard/KeyboardLayout.swift` |
-| `WBShared/FullKeyboard/WBShiftState.swift` | `ios/HEXShared/FullKeyboard/ShiftStateMachine.swift` |
-| `WBShared/FullKeyboard/WBKeyPlaneView.swift` | `ios/HEXShared/FullKeyboard/KeyboardKeyPlaneView.swift` |
-| `WBShared/FullKeyboard/WBKeyPalette.swift` | `ios/HEXShared/FullKeyboard/FullKeyboardPalette.swift` |
-| `WBShared/FullKeyboard/WBFullKeyboardView.swift` | `ios/HEXShared/FullKeyboard/FullKeyboardView.swift` |
-| `WBShared/FullKeyboard/WBKeyHoldGesture.swift` | `ios/HEXShared/FullKeyboard/HexKeyGesture.swift` (adapted: the accent long press) |
+| Wispr Bro file                                                                                                       | Hex source                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `WBShared/WBBridge.swift`, `WBShared/WBHostApps.swift`                                                               | `ios/HEXShared/KeyboardBridge.swift`                                                                                                        |
+| `WBShared/WBKeyboardSurface.swift`                                                                                   | `ios/HEXShared/KeyboardSurface.swift`                                                                                                       |
+| `WBShared/FullKeyboard/WBKeyEngine.swift`                                                                            | `ios/HEXShared/FullKeyboard/FullKeyboardEngine.swift`                                                                                       |
+| `WBShared/FullKeyboard/WBKeyLayout.swift`                                                                            | `ios/HEXShared/FullKeyboard/KeyboardLayout.swift`                                                                                           |
+| `WBShared/FullKeyboard/WBShiftState.swift`                                                                           | `ios/HEXShared/FullKeyboard/ShiftStateMachine.swift`                                                                                        |
+| `WBShared/FullKeyboard/WBKeyPlaneView.swift`                                                                         | `ios/HEXShared/FullKeyboard/KeyboardKeyPlaneView.swift`                                                                                     |
+| `WBShared/FullKeyboard/WBKeyPalette.swift`                                                                           | `ios/HEXShared/FullKeyboard/FullKeyboardPalette.swift`                                                                                      |
+| `WBShared/FullKeyboard/WBFullKeyboardView.swift`                                                                     | `ios/HEXShared/FullKeyboard/FullKeyboardView.swift`                                                                                         |
+| `WBShared/FullKeyboard/WBKeyHoldGesture.swift`                                                                       | `ios/HEXShared/FullKeyboard/HexKeyGesture.swift` (adapted: the accent long press)                                                           |
 | `WBTests/WBKeyEngineTests.swift`, `WBShiftStateTests.swift`, `WBKeyLayoutTests.swift`, `WBKeyHoldGestureTests.swift` | `ios/HEXMobileTests/FullKeyboardEngineTests.swift`, `ShiftStateMachineTests.swift`, `KeyboardLayoutTests.swift`, `HexKeyGestureTests.swift` |
-| `Harness/WBHarnessApp.swift` (`WBFakeTextTarget`) | `ios/HEXMobile/FullKeyboardSnapshotStage.swift` (`FixtureTextTarget`) |
-| `WBKeyboard/WBKeyboardViewController.swift` | `ios/HEXKeyboard/KeyboardViewController.swift` |
-| `WBKeyboard/WBContainingAppOpener.swift` | `ios/HEXKeyboard/ContainingAppOpener.swift` |
-| `WBSession/WBAudioEngine.swift` | `ios/HEXMobile/AudioBackend.swift` |
-| `WBSession/WBSessionController.swift` | `ios/HEXMobile/DictationController.swift` |
-| `WBSession/WBLiveActivityCoordinator.swift` | `ios/HEXMobile/LiveActivityCoordinator.swift` |
-| `WBSession/WBSwipeBackHint.swift` | `ios/HEXShared/HomeSwipeCue.swift` (idea; redrawn in SwiftUI) |
-| `WBActivity/WBActivityAttributes.swift` | `ios/HEXActivity/HexActivityAttributes.swift` |
-| `WBWidgets/WBSessionLiveActivity.swift` | `ios/HEXWidgets/HexDictationLiveActivity.swift` |
-| `Harness/WBHarnessApp.swift` (preview stage) | `ios/HEXMobile/KeyboardPreviewHost.swift` (idea) |
-| `project.yml` | `ios/project.yml` |
+| `Harness/WBHarnessApp.swift` (`WBFakeTextTarget`)                                                                    | `ios/HEXMobile/FullKeyboardSnapshotStage.swift` (`FixtureTextTarget`)                                                                       |
+| `WBKeyboard/WBKeyboardViewController.swift`                                                                          | `ios/HEXKeyboard/KeyboardViewController.swift`                                                                                              |
+| `WBKeyboard/WBContainingAppOpener.swift`                                                                             | `ios/HEXKeyboard/ContainingAppOpener.swift`                                                                                                 |
+| `WBSession/WBAudioEngine.swift`                                                                                      | `ios/HEXMobile/AudioBackend.swift`                                                                                                          |
+| `WBSession/WBSessionController.swift`                                                                                | `ios/HEXMobile/DictationController.swift`                                                                                                   |
+| `WBSession/WBLiveActivityCoordinator.swift`                                                                          | `ios/HEXMobile/LiveActivityCoordinator.swift`                                                                                               |
+| `WBSession/WBSwipeBackHint.swift`                                                                                    | `ios/HEXShared/HomeSwipeCue.swift` (idea; redrawn in SwiftUI)                                                                               |
+| `WBActivity/WBActivityAttributes.swift`                                                                              | `ios/HEXActivity/HexActivityAttributes.swift`                                                                                               |
+| `WBWidgets/WBSessionLiveActivity.swift`                                                                              | `ios/HEXWidgets/HexDictationLiveActivity.swift`                                                                                             |
+| `Harness/WBHarnessApp.swift` (preview stage)                                                                         | `ios/HEXMobile/KeyboardPreviewHost.swift` (idea)                                                                                            |
+| `project.yml`                                                                                                        | `ios/project.yml`                                                                                                                           |
 
 Modifications (c) the Wispr Bro contributors, GPL-3.0-or-later.
 

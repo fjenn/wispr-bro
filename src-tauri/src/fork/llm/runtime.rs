@@ -514,7 +514,8 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
                 ),
                 Err(e) => log::warn!("llm: caching the instructions failed: {e}"),
             }
-        } else if !in_process() && super::process::Device::initial() == super::process::Device::Cpu {
+        } else if !in_process() && super::process::Device::initial() == super::process::Device::Cpu
+        {
             // On the CPU (Intel) the system prompt takes seconds to read:
             // read it now, while the user speaks, not inside the cleanup's
             // deadline.

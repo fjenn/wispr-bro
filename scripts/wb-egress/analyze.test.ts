@@ -93,10 +93,18 @@ describe("wildcard hosts resolved during the session", () => {
   const block = (ip: string) =>
     `2026-11-16 11:45:15.969314 rule 0.250.WisprBroEgr.4/0(match): block out on en0: 10.0.0.9.49501 > ${ip}.443: Flags [S]`;
   const run = (pflog: string) =>
-    analyze({ pflog, dns, appLog: "fork selfcheck: PASS", allowedHosts: allowed, ourProcesses: ["wispr-bro"] });
+    analyze({
+      pflog,
+      dns,
+      appLog: "fork selfcheck: PASS",
+      allowedHosts: allowed,
+      ourProcesses: ["wispr-bro"],
+    });
 
   test("an address answered for an allowed wildcard name is not a violation", () => {
-    expect(allowedAnswers(dns, allowed)).toEqual(new Set(["54.68.202.150", "52.88.162.194"]));
+    expect(allowedAnswers(dns, allowed)).toEqual(
+      new Set(["54.68.202.150", "52.88.162.194"]),
+    );
     expect(run(block("54.68.202.150")).blocked).toEqual([]);
   });
 

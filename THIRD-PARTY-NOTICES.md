@@ -27,7 +27,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | BSD-2-Clause | 1 | 0 |
 | BSD-2-Clause OR Apache-2.0 OR MIT | 2 | 0 |
 | BSD-2-Clause OR MIT OR Apache-2.0 | 1 | 0 |
-| BSD-3-Clause | 3 | 4 |
+| BSD-3-Clause | 4 | 4 |
 | BSD-3-Clause AND MIT | 1 | 0 |
 | BSD-3-Clause OR Apache-2.0 | 2 | 0 |
 | BSD-3-Clause OR MIT | 1 | 0 |
@@ -36,7 +36,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | ISC | 2 | 16 |
 | MIT | 96 | 247 |
 | MIT AND ISC AND BSD-3-Clause | 0 | 1 |
-| MIT OR Apache-2.0 | 214 | 10 |
+| MIT OR Apache-2.0 | 219 | 10 |
 | MIT OR Apache-2.0 OR Zlib | 3 | 0 |
 | MIT OR BSD-3-Clause | 1 | 0 |
 | MIT OR Zlib OR Apache-2.0 | 1 | 0 |
@@ -47,7 +47,7 @@ targets, build and dev dependencies excluded) and npm runtime packages.
 | Zlib OR Apache-2.0 OR MIT | 24 | 0 |
 | Zlib OR MIT OR Apache-2.0 | 1 | 0 |
 
-Total: 477 Rust crates, 283 npm packages.
+Total: 483 Rust crates, 283 npm packages.
 
 ## Speech models
 
@@ -635,6 +635,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## C/C++ compiled into Rust crates
 
+### handy 1.0.0-alpha.9
+
+`cc` in the app's own build script: Wispr Bro's Objective-C/C sources (sync over the local network through Network.framework; on iPhone also the scene life cycle, share sheet and Swift stand-ins)
+
+- **Wispr Bro (src-tauri/src/fork/sync/net.m, src-tauri/src/fork/sync/ios.m, src-tauri/src/fork/ios/)**: GPL-3.0-or-later. Copyright (c) 2026 Wispr Bro contributors.
+
 ### transcribe-cpp-sys 0.4.0
 
 CMake build, statically linked (speech recognition engine)
@@ -1211,6 +1217,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | csv-core | 0.1.13 | Unlicense OR MIT | https://github.com/BurntSushi/rust-csv |
 | ctor | 0.8.0 | Apache-2.0 OR MIT | https://github.com/mmastrac/rust-ctor |
 | ctor-proc-macro | 0.0.7 | Apache-2.0 OR MIT | https://github.com/mmastrac/rust-ctor |
+| curve25519-dalek | 4.1.3 | BSD-3-Clause | https://github.com/dalek-cryptography/curve25519-dalek/tree/main/curve25519-dalek |
+| curve25519-dalek-derive | 0.1.1 | MIT OR Apache-2.0 | https://github.com/dalek-cryptography/curve25519-dalek |
 | darling | 0.21.3 | MIT | https://github.com/TedDriggs/darling |
 | darling_core | 0.21.3 | MIT | https://github.com/TedDriggs/darling |
 | darling_macro | 0.21.3 | MIT | https://github.com/TedDriggs/darling |
@@ -1279,7 +1287,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | global-hotkey | 0.8.0 | Apache-2.0 OR MIT | https://github.com/tauri-apps/global-hotkey |
 | h2 | 0.4.13 | MIT | https://github.com/hyperium/h2 |
 | half | 2.7.1 | MIT OR Apache-2.0 | https://github.com/VoidStarKat/half-rs |
-| handy | 1.0.0-alpha.8 | MIT |  |
+| handy | 1.0.0-alpha.9 | MIT |  |
 | handy-cpal | 0.18.2 | Apache-2.0 | https://github.com/handy-computer/cpal |
 | handy-keys | 0.3.4 | MIT | https://github.com/handy-computer/handy-keys |
 | handy-recorder | 0.1.0 | MIT | https://github.com/handy-computer/handy-recorder |
@@ -1289,6 +1297,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | hashlink | 0.10.0 | MIT OR Apache-2.0 | https://github.com/kyren/hashlink |
 | heck | 0.5.0 | MIT OR Apache-2.0 | https://github.com/withoutboats/heck |
 | hf-hub | 0.5.0 | Apache-2.0 | https://github.com/huggingface/hf-hub |
+| hkdf | 0.12.4 | MIT OR Apache-2.0 | https://github.com/RustCrypto/KDFs/ |
+| hmac | 0.12.1 | MIT OR Apache-2.0 | https://github.com/RustCrypto/MACs |
 | hound | 3.5.1 | Apache-2.0 | https://github.com/ruuda/hound |
 | html5ever | 0.38.0 | MIT OR Apache-2.0 | https://github.com/servo/html5ever |
 | http | 1.4.0 | MIT OR Apache-2.0 | https://github.com/hyperium/http |
@@ -1418,6 +1428,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | quote | 1.0.44 | MIT OR Apache-2.0 | https://github.com/dtolnay/quote |
 | rand | 0.9.4 | MIT OR Apache-2.0 | https://github.com/rust-random/rand |
 | rand_chacha | 0.9.0 | MIT OR Apache-2.0 | https://github.com/rust-random/rand |
+| rand_core | 0.6.4 | MIT OR Apache-2.0 | https://github.com/rust-random/rand |
 | rand_core | 0.9.5 | MIT OR Apache-2.0 | https://github.com/rust-random/rand |
 | raw-window-handle | 0.6.2 | MIT OR Apache-2.0 OR Zlib | https://github.com/rust-windowing/raw-window-handle |
 | realfft | 3.5.0 | MIT | https://github.com/HEnquist/realfft |
@@ -1474,6 +1485,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | smallvec | 1.15.1 | MIT OR Apache-2.0 | https://github.com/servo/rust-smallvec |
 | socket2 | 0.6.2 | MIT OR Apache-2.0 | https://github.com/rust-lang/socket2 |
 | socks | 0.3.4 | MIT OR Apache-2.0 | https://github.com/sfackler/rust-socks |
+| spake2 | 0.4.0 | MIT OR Apache-2.0 | https://github.com/RustCrypto/PAKEs/tree/master/spake2 |
 | specta | 2.0.0-rc.22 | MIT | https://github.com/oscartbeaumont/specta |
 | specta-macros | 2.0.0-rc.18 | MIT | https://github.com/oscartbeaumont/specta |
 | specta-serde | 0.0.9 | MIT | https://github.com/oscartbeaumont/specta |
@@ -3473,7 +3485,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #### BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)
 
-Used by: alloc-stdlib 0.2.2, brotli 8.0.2
+Used by: alloc-stdlib 0.2.2, brotli 8.0.2, curve25519-dalek 4.1.3
 
 ```text
 Copyright (c) <year> <owner>. 
@@ -4415,7 +4427,7 @@ Used by: untrusted 0.9.0
 
 #### MIT License (MIT)
 
-Used by: adler2 2.0.1, anyhow 1.0.102, atomic-waker 1.1.2, camino 1.2.2, cargo-platform 0.1.9, cargo_metadata 0.19.2, displaydoc 0.2.5, dtoa 1.0.11, dyn-clone 1.0.20, erased-serde 0.4.9, fastrand 2.3.0, itoa 1.0.17, once_cell 1.21.3, paste 1.0.15, pastey 0.1.1, pathdiff 0.2.3, pin-project-lite 0.2.16, portable-atomic 1.13.1, proc-macro2 1.0.106, quote 1.0.44, rtrb 0.4.0, rustix 1.1.3, semver 1.0.27, serde 1.0.228, serde-untagged 0.1.9, serde_core 1.0.228, serde_derive 1.0.228, serde_derive_internals 0.29.1, serde_json 1.0.149, serde_repr 0.1.20, servo_arc 0.4.3, syn 2.0.117, thiserror 1.0.69, thiserror 2.0.18, thiserror-impl 1.0.69, thiserror-impl 2.0.18, typeid 1.0.3, unicode-ident 1.0.24, utf-8 0.7.6, zmij 1.0.21
+Used by: adler2 2.0.1, anyhow 1.0.102, atomic-waker 1.1.2, camino 1.2.2, cargo-platform 0.1.9, cargo_metadata 0.19.2, curve25519-dalek-derive 0.1.1, displaydoc 0.2.5, dtoa 1.0.11, dyn-clone 1.0.20, erased-serde 0.4.9, fastrand 2.3.0, itoa 1.0.17, once_cell 1.21.3, paste 1.0.15, pastey 0.1.1, pathdiff 0.2.3, pin-project-lite 0.2.16, portable-atomic 1.13.1, proc-macro2 1.0.106, quote 1.0.44, rtrb 0.4.0, rustix 1.1.3, semver 1.0.27, serde 1.0.228, serde-untagged 0.1.9, serde_core 1.0.228, serde_derive 1.0.228, serde_derive_internals 0.29.1, serde_json 1.0.149, serde_repr 0.1.20, servo_arc 0.4.3, syn 2.0.117, thiserror 1.0.69, thiserror 2.0.18, thiserror-impl 1.0.69, thiserror-impl 2.0.18, typeid 1.0.3, unicode-ident 1.0.24, utf-8 0.7.6, zmij 1.0.21
 
 ```text
 Permission is hereby granted, free of charge, to any
@@ -5536,7 +5548,7 @@ SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: digest 0.10.7
+Used by: digest 0.10.7, hmac 0.12.1
 
 ```text
 Copyright (c) 2017 Artyom Pavlov
@@ -6272,7 +6284,43 @@ SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: handy 1.0.0-alpha.8
+Used by: handy 1.0.0-alpha.9
+
+````text
+# Notice: code ported from OpenWhispr
+
+`WBSession/WBHostAppObserver.swift` is ported from **OpenWhispr**
+(https://github.com/OpenWhispr/openwhispr), file
+`openwhispr-mobile/modules/app-group-storage/ios/HostAppObserver.swift`, under
+the MIT License. Modifications (c) the Wispr Bro contributors, GPL-3.0-or-later.
+
+```
+MIT License
+
+Copyright (c) 2024 OpenWhispr Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.```
+````
+
+#### MIT License (MIT)
+
+Used by: handy 1.0.0-alpha.9
 
 ```text
 MIT License
@@ -6300,7 +6348,7 @@ SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: handy 1.0.0-alpha.8, handy-keys 0.3.4, handy-recorder 0.1.0
+Used by: handy 1.0.0-alpha.9, handy-keys 0.3.4, handy-recorder 0.1.0
 
 ```text
 MIT License
@@ -6397,6 +6445,39 @@ Used by: heck 0.5.0, unicode-segmentation 1.12.0, unicode-width 0.2.2
 
 ```text
 Copyright (c) 2015 The Rust Project Developers
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+```
+
+#### MIT License (MIT)
+
+Used by: hkdf 0.12.4
+
+```text
+Copyright (c) 2015-2018 Vlad Filippov
+Copyright (c) 2018-2021 RustCrypto Developers
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
@@ -7879,7 +7960,7 @@ THE SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: rand 0.9.4, rand_chacha 0.9.0, rand_core 0.9.5
+Used by: rand 0.9.4, rand_chacha 0.9.0, rand_core 0.6.4, rand_core 0.9.5
 
 ```text
 Copyright 2018 Developers of the Rand project
@@ -8647,6 +8728,34 @@ Used by: socks 0.3.4
 
 ```text
 Copyright (c) 2015 The rust-socks Developers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+#### MIT License (MIT)
+
+Used by: spake2 0.4.0
+
+```text
+MIT License
+
+Copyright (c) 2017-2023 Brian Warner
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
