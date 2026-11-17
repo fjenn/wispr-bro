@@ -70,8 +70,14 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         CFBundleShortVersionString: 1.0.0
         CFBundleVersion: "1"
+    # Wispr Bro: the App Group the keyboard and the app talk through. The
+    # properties are listed here because xcodegen rewrites the file from
+    # them (an entry without properties becomes an empty file).
     entitlements:
       path: handy_iOS/handy_iOS.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.wisprbro.ios
     scheme:
       environmentVariables:
         RUST_BACKTRACE: full

@@ -1640,7 +1640,7 @@
 			path = vendor;
 			sourceTree = "<group>";
 		};
-		"TEMP_D8F7400D-0CD0-414F-98FB-94632BC3835E" /* x86_64 */ = {
+		"TEMP_85CAD1C1-A21F-4FF3-86DB-588C0628AC03" /* x86_64 */ = {
 			isa = PBXGroup;
 			children = (
 			);
