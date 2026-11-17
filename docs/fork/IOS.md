@@ -100,8 +100,11 @@ transcribe-cpp's ggml share the binary because the crate hides all of its
 symbols but seven.
 
 - **CPU only**, like speech: keyboard takes run in the background, where
-  iOS refuses GPU work. `--device`-independent: the engine is started with
-  `-ngl 0`.
+  iOS refuses GPU work. The engine is started with `-ngl 0 --device none`.
+  `-ngl 0` alone is not enough: llama.cpp still hands large matrix
+  products to the GPU, which works while the app is in front and fails
+  every request (a decode error, the take gets the rule-based text) once it
+  is not.
 - **`--no-repack`**: on the CPU llama.cpp otherwise copies the weights into
   another layout, 1.3 GB of app memory on top of the speech model. With it
   the weights stay a mapping of the model file, which does not count
@@ -123,6 +126,32 @@ symbols but seven.
   model file copied into the container is verified by its sha256 and used.
 - A take that cannot be cleaned in time (model still loading, deadline,
   guard) gets the rule-based text, as on the Mac.
+
+**On the iPhone 17 Pro (A19 Pro, 12 GB, iOS 26.6, debug build, WAV
+self-test at speaking speed, 2026-11-17):**
+
+| Configuration                               | In front                                                                                                           | In the background (every keyboard take)                                            |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `-ngl 0`, GPU still used for large products | model ready 1.6 s, instructions cached 1.9 s, 15-word Light 1.3 s                                                  | every request fails (decode error); the take gets the rule-based text after 3-6 ms |
+| `--device none` (shipped), 2 threads        | model ready 0.5 s, instructions cached 12.5 s; 15 words and 50 words both run into their deadlines (1.75 s, 2.9 s) | the same                                                                           |
+| `--device none`, 4 threads                  | model ready 0.3 s, instructions cached 8.5 s; both run into their deadlines                                        | the same                                                                           |
+
+Memory with the speech model and the cleanup model loaded (weights
+mapped): footprint 1.45-1.59 GB, 1.8-1.9 GB left before the app's limit,
+22 self-test takes without the app being ended. With the weights copied
+(no `--no-repack`): 2.63 GB, 0.74 GB left, ended during the second take.
+
+So on this phone the model is fast enough only on the GPU, and the GPU is
+not available where dictation happens. **Cleanup therefore defaults to
+None on iPhone**; Light and Medium can be chosen and are marked
+experimental (a take that runs into its deadline is written without
+cleanup). Not measured: how long a cleanup takes on the CPU without a
+deadline, 6 threads, Medium, a 50-take soak on the phone. The Mac's
+second engine, Apple's on-device model (`fork/llm/apple.rs`), is the
+candidate for the phone: FoundationModels is in the iOS 26 SDK, runs
+outside the app's memory, and cleaned 50 words in about 1.1-1.3 s on the
+Mac (RS-08); the bridge (`crates/wb-apple-fm`) builds for macOS only so
+far.
 
 To run the Mac's cleanup eval on this engine:
 `WB_LLM_INPROCESS=1 [WB_LLM_DEVICE=cpu] WB_LLAMA_SERVER=in-process … cargo test --features llm-inprocess --lib fork::llm::eval_run -- --ignored`.

@@ -81,15 +81,20 @@ fn threads() -> usize {
     }
 }
 
-/// llama-server arguments beyond the sidecar's.
+/// llama-server arguments beyond the sidecar's, on iPhone:
 ///
-/// iPhone: `--no-repack`. On the CPU llama.cpp otherwise copies the weights
-/// into a layout its ARM kernels prefer; the copy is ordinary app memory
-/// (about 1.5 GB for this model) on top of a speech model that already
-/// holds 1.2-1.5 GB, against an app limit of about 3.4 GB on a 12 GB
-/// iPhone: iOS ended the app during the second take. Without the copy the
-/// weights stay a mapping of the model file, which iOS can drop and read
-/// back and does not count against the app.
+/// - `--no-repack`. On the CPU llama.cpp otherwise copies the weights into
+///   a layout its ARM kernels prefer; the copy is ordinary app memory (about
+///   1.3 GB for this model) on top of a speech model that already holds
+///   1.2-1.5 GB, against an app limit of about 3.4 GB on a 12 GB iPhone: iOS
+///   ended the app during the second take. Without the copy the weights
+///   stay a mapping of the model file, which iOS can drop and read back and
+///   does not count against the app.
+/// - `--device none`. With `-ngl 0` alone llama.cpp still hands large
+///   matrix products to the GPU ("op offload"). That works while the app is
+///   in front and fails the moment it is not (iOS refuses GPU work in the
+///   background): every keyboard take's cleanup ended with a decode error.
+///   Without a GPU device nothing can be offloaded.
 fn extra_args() -> Vec<String> {
     if cfg!(debug_assertions) {
         if let Ok(extra) = std::env::var("WB_LLM_EXTRA_ARGS") {
@@ -97,7 +102,9 @@ fn extra_args() -> Vec<String> {
         }
     }
     if cfg!(target_os = "ios") {
-        vec!["--no-repack".into()]
+        ["--no-repack", "--device", "none"]
+            .map(String::from)
+            .to_vec()
     } else {
         Vec::new()
     }

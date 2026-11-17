@@ -3318,7 +3318,7 @@
       }
     },
     "sync": {
-      "intro": "Keep your dictionary, snippets, settings and stats the same on your iPhone and your Mac. There is no account and no server: you send a file from one to the other.",
+      "intro": "Pair your Mac once. After that your dictionary, snippets, settings and stats stay the same on both, by themselves.",
       "fromMac": {
         "title": "From your Mac",
         "step1": "On your Mac, open Wispr Bro, go to Settings › Data and Privacy and choose Export my data.",

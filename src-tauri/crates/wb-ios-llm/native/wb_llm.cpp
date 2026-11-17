@@ -17,6 +17,9 @@
 #include "llama.h"
 #include "log.h"
 
+#include <pthread.h>
+#include <pthread/qos.h>
+
 #include <atomic>
 #include <clocale>
 #include <cstdio>
@@ -125,6 +128,9 @@ const char * wb_llm_build_info(void) {
 }
 
 wb_llm * wb_llm_start(int argc, const char * const * argv, char * err, size_t err_len) {
+    // The model's worker threads are created during the load and take this
+    // thread's class (see the task loop below for why it is set).
+    pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED, 0);
     autorelease_pool pool;
     std::lock_guard<std::mutex> lock(g_mutex);
     if (g_running) {
@@ -182,6 +188,10 @@ wb_llm * wb_llm_start(int argc, const char * const * argv, char * err, size_t er
         }
         server_context * ctx = h->ctx.get();
         h->loop = std::thread([ctx] {
+            // A person is waiting for this text. Without a class of its own
+            // the thread runs at the default one, which iOS schedules behind
+            // the foreground app's work when ours is in the background.
+            pthread_set_qos_class_self_np(QOS_CLASS_USER_INITIATED, 0);
             autorelease_pool pool;
             ctx->start_loop();
         });
