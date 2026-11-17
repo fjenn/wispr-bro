@@ -23,7 +23,71 @@ const MODEL_WAIT: Duration = Duration::from_secs(900);
 /// One feed, as the Swift audio tap sends it (~33 ms).
 const FEED_SAMPLES: usize = 528;
 
+/// `WB_IOS_SELFTEST_END_SESSION_AFTER=<seconds>`: ends the Swift session
+/// that long after launch (a listening take is finished and delivered
+/// first), and logs the session state before and after. With the Swift
+/// side's `WB_FAKE_MIC_WAV` and a `wisprbro://session/start?…&take=N` link
+/// this drives one take through the native session without a keyboard.
+pub const END_SESSION_ENV: &str = "WB_IOS_SELFTEST_END_SESSION_AFTER";
+
+fn end_session_later() {
+    let Some(seconds) = std::env::var(END_SESSION_ENV)
+        .ok()
+        .and_then(|v| v.parse::<u64>().ok())
+    else {
+        return;
+    };
+    let _ = std::thread::Builder::new()
+        .name("wb-ios-selftest-session".into())
+        .spawn(move || {
+            std::thread::sleep(Duration::from_secs(seconds));
+            log::info!(
+                "ios selftest: session before end {}",
+                super::host::session_state()
+            );
+            super::host::end_session();
+            for _ in 0..40 {
+                std::thread::sleep(Duration::from_millis(500));
+                let state = super::host::session_state();
+                if state.get("state").and_then(|s| s.as_str()) == Some("noSession") {
+                    break;
+                }
+            }
+            log::info!(
+                "ios selftest: session after end {}",
+                super::host::session_state()
+            );
+        });
+}
+
+/// `WB_IOS_SELFTEST_OPEN_URL=<url>`: handles that URL 5 s after launch as
+/// if iOS had opened the app with it (e.g. a `wisprbro://session/start` link).
+pub const OPEN_URL_ENV: &str = "WB_IOS_SELFTEST_OPEN_URL";
+
+extern "C" {
+    fn wb_ios_scene_open_url(url: *const std::ffi::c_char);
+}
+
+fn open_url_later() {
+    let Some(url) = std::env::var(OPEN_URL_ENV)
+        .ok()
+        .and_then(|url| std::ffi::CString::new(url).ok())
+    else {
+        return;
+    };
+    let _ = std::thread::Builder::new()
+        .name("wb-ios-selftest-url".into())
+        .spawn(move || {
+            std::thread::sleep(Duration::from_secs(5));
+            log::info!("ios selftest: opening the session link");
+            // SAFETY: a NUL-terminated string that outlives the call.
+            unsafe { wb_ios_scene_open_url(url.as_ptr()) };
+        });
+}
+
 pub fn start(app: &AppHandle) {
+    end_session_later();
+    open_url_later();
     let Some(list) = std::env::var_os(WAV_ENV) else {
         return;
     };

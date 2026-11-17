@@ -62,6 +62,43 @@ static void WBAdopt(UIWindow *window) {
 @interface WBSceneDelegate : UIResponder <UIWindowSceneDelegate>
 @end
 
+// One opened URL, on the main thread.
+static void WBHandleURL(NSURL *url) {
+    // A session link from the keyboard (wisprbro://…) goes to the Swift
+    // session controller, when it is in the app (looked up by name: the
+    // Rust library builds without it).
+    Class controller = NSClassFromString(@"WBSessionController");
+    SEL shared = NSSelectorFromString(@"shared");
+    SEL handle = NSSelectorFromString(@"handleOpenWithUrl:");
+    if ([controller respondsToSelector:shared]) {
+        id session = ((id (*)(id, SEL))objc_msgSend)(controller, shared);
+        if ([session respondsToSelector:handle] &&
+            ((BOOL (*)(id, SEL, NSURL *))objc_msgSend)(session, handle, url)) {
+            NSLog(@"WBScene: session link handled by the session controller");
+            return;
+        }
+    }
+    NSLog(@"WBScene: URL passed to the application delegate (scheme %@)", url.scheme);
+    id<UIApplicationDelegate> delegate = UIApplication.sharedApplication.delegate;
+    if ([delegate respondsToSelector:@selector(application:openURL:options:)]) {
+        [delegate application:UIApplication.sharedApplication openURL:url options:@{}];
+    }
+    [NSNotificationCenter.defaultCenter postNotificationName:WBOpenURLNotification object:url];
+}
+
+// The same handling for a URL given as text (the self-test: the simulator
+// asks "Open in Wispr Bro?" for a link opened with simctl).
+void wb_ios_scene_open_url(const char *text) {
+    NSString *string = text ? [NSString stringWithUTF8String:text] : nil;
+    NSURL *url = string ? [NSURL URLWithString:string] : nil;
+    if (url == nil) {
+        return;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        WBHandleURL(url);
+    });
+}
+
 @implementation WBSceneDelegate
 
 - (id<UIApplicationDelegate>)appDelegate {
@@ -70,25 +107,7 @@ static void WBAdopt(UIWindow *window) {
 
 - (void)openURLContexts:(NSSet<UIOpenURLContext *> *)contexts {
     for (UIOpenURLContext *context in contexts) {
-        NSURL *url = context.URL;
-        // A session link from the keyboard (wisprbro://…) goes to the Swift
-        // session controller, when it is in the app (looked up by name: the
-        // Rust library builds without it).
-        Class controller = NSClassFromString(@"WBSessionController");
-        SEL shared = NSSelectorFromString(@"shared");
-        SEL handle = NSSelectorFromString(@"handleOpenWithUrl:");
-        if ([controller respondsToSelector:shared]) {
-            id session = ((id (*)(id, SEL))objc_msgSend)(controller, shared);
-            if ([session respondsToSelector:handle] &&
-                ((BOOL (*)(id, SEL, NSURL *))objc_msgSend)(session, handle, url)) {
-                continue;
-            }
-        }
-        id<UIApplicationDelegate> delegate = [self appDelegate];
-        if ([delegate respondsToSelector:@selector(application:openURL:options:)]) {
-            [delegate application:UIApplication.sharedApplication openURL:url options:@{}];
-        }
-        [NSNotificationCenter.defaultCenter postNotificationName:WBOpenURLNotification object:url];
+        WBHandleURL(context.URL);
     }
 }
 
