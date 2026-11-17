@@ -3050,5 +3050,249 @@
         "done": "Done"
       }
     }
+  },
+  "ios": {
+    "close": "Close",
+    "tabs": {
+      "label": "Main",
+      "home": "Home",
+      "history": "History",
+      "dictionary": "Dictionary",
+      "snippets": "Snippets",
+      "settings": "Settings"
+    },
+    "session": {
+      "status": {
+        "noSession": "Session off",
+        "idle": "Session on",
+        "listening": "Listening",
+        "transcribing": "Writing",
+        "error": "Session stopped"
+      },
+      "offTitle": "Ready when you are",
+      "offBody": "Start a session, then dictate in any app with the Wispr Bro keyboard.",
+      "onTitle": "Dictate from any app",
+      "onBody": "Switch to the Wispr Bro keyboard and tap the mic.",
+      "onBodyEnds": "Switch to the Wispr Bro keyboard and tap the mic. Ends at {{time}} if you don't dictate.",
+      "onBodyNever": "Switch to the Wispr Bro keyboard and tap the mic. Stays on until you end it.",
+      "errorBody": "The session ended unexpectedly. Start it again to keep dictating.",
+      "start": "Start session",
+      "retry": "Start again",
+      "end": "End session",
+      "failed": "That didn't work. Try again.",
+      "timeoutLine": "Ends {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Immediately",
+          "never": "Never",
+          "minutes_one": "{{count}} minute",
+          "minutes_other": "{{count}} minutes",
+          "hours_one": "{{count}} hour",
+          "hours_other": "{{count}} hours"
+        },
+        "sentence": {
+          "immediately": "right after each dictation",
+          "never": "only when you end it",
+          "minutes_one": "after {{count}} minute without dictation",
+          "minutes_other": "after {{count}} minutes without dictation",
+          "hours_one": "after {{count}} hour without dictation",
+          "hours_other": "after {{count}} hours without dictation"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} of {{total}} done",
+      "title": "Finish setting up",
+      "body": "A few steps, then you can dictate in any app.",
+      "openSettings": "Open Settings",
+      "showMe": "Show me",
+      "failed": "That didn't work. Try again.",
+      "mic": {
+        "title": "Allow the microphone",
+        "hint": "Used only while you dictate.",
+        "denied": "Turned off. Allow it in Settings.",
+        "allow": "Allow"
+      },
+      "keyboard": {
+        "title": "Add the {{appName}} keyboard",
+        "hint": "In Settings, under Keyboards."
+      },
+      "fullAccess": {
+        "title": "Allow Full Access",
+        "hint": "Lets the keyboard reach the app. Nothing leaves this iPhone."
+      },
+      "model": {
+        "title": "Speech model",
+        "ready": "Ready",
+        "waiting": "Getting ready…",
+        "downloading": "Downloading… {{percent}}%",
+        "failed": "The download stopped.",
+        "retry": "Try again"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Add the {{appName}} keyboard",
+      "steps": {
+        "general": "Open Settings and tap General",
+        "keyboards": "Tap Keyboard, then Keyboards",
+        "add": "Tap Add New Keyboard and pick {{appName}}",
+        "fullAccess": "Tap {{appName}} and turn on Allow Full Access"
+      },
+      "drawn": {
+        "general": "General",
+        "keyboards": "Keyboards",
+        "fullAccess": "Allow Full Access"
+      },
+      "privacyTitle": "Why Full Access?",
+      "privacy": "It is only used so the keyboard can talk to the Wispr Bro app on this iPhone. What you type and say never leaves the phone."
+    },
+    "tryIt": {
+      "title": "Try it",
+      "placeholder": "Tap here and dictate…",
+      "hint": "Hold the globe key to switch to {{appName}}, then tap the mic and speak.",
+      "clear": "Clear"
+    },
+    "style": {
+      "intro": "Pick how your dictations are written, in every app."
+    },
+    "settings": {
+      "saveFailed": "Could not save that. Try again.",
+      "local": "Everything stays on this iPhone.",
+      "groups": {
+        "dictation": "Dictation",
+        "session": "Session",
+        "feedback": "Sound",
+        "app": "Wispr Bro",
+        "appearance": "Appearance"
+      },
+      "pages": {
+        "languages": "Languages",
+        "cleanup": "Cleanup",
+        "session": "End session after",
+        "privacy": "Data and Privacy",
+        "about": "About",
+        "licences": "Acknowledgements"
+      },
+      "cleanup": {
+        "soon": "Coming to iPhone",
+        "soonTitle": "Coming to iPhone",
+        "soonBody": "Cleanup is not on iPhone yet. Until then your words are written as you say them, with punctuation and capitals."
+      },
+      "session": {
+        "endAfter": "End session after",
+        "intro": "A session keeps the microphone ready so the keyboard can dictate. It ends by itself when you stop using it.",
+        "footer": "A shorter time saves battery. You can always end a session from Home.",
+        "autoReturn": "Return to my app automatically",
+        "autoReturnHint": "When the keyboard opens Wispr Bro to start a session, it takes you straight back to the app you were in."
+      },
+      "sounds": "Dictation sounds",
+      "soundsHint": "A soft sound when listening starts and stops.",
+      "theme": {
+        "system": "Automatic",
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro is free, open-source software, built on the work of many others.",
+      "own": "Wispr Bro licence",
+      "source": "Source code",
+      "builtWith": "Built with",
+      "all": "All third-party notices",
+      "footer": "Every component and its licence text is listed in the third-party notices.",
+      "loading": "Loading…",
+      "failed": "The licence text could not be loaded."
+    },
+    "onboarding": {
+      "later": "I'll do this later",
+      "welcome": {
+        "subtitle": "Tap the mic on the Wispr Bro keyboard and speak. Clean text lands in whatever app you are typing in.",
+        "privacyTitle": "Everything stays on this iPhone"
+      },
+      "microphone": {
+        "title": "Allow the microphone",
+        "subtitle": "Wispr Bro listens only while you dictate. The audio never leaves this iPhone.",
+        "allow": "Allow microphone",
+        "prompt": "iOS will ask once. Tap Allow.",
+        "granted": "Microphone allowed.",
+        "denied": "The microphone is turned off for Wispr Bro. Turn it on in Settings, then come back."
+      },
+      "keyboard": {
+        "title": "Add the {{appName}} keyboard",
+        "subtitle": "This is how you dictate in other apps. It takes a minute, once.",
+        "ready": "The keyboard is added and can reach the app. You're set."
+      },
+      "model": {
+        "title": "Getting your speech model",
+        "titleReady": "Your speech model is ready",
+        "subtitle": "One download. After that, dictation works without the internet.",
+        "starting": "Getting ready…",
+        "downloading": "Downloading…",
+        "verifying": "Checking the download…",
+        "ready": "Ready",
+        "failed": "The download stopped.",
+        "offline": "No internet connection.",
+        "noSpace": "Not enough free space. About {{mb}} MB is needed.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} of {{total}} MB",
+        "eta_one": "about {{count}} minute left",
+        "eta_other": "about {{count}} minutes left",
+        "offlineReady": "Stored on this iPhone.",
+        "background": "Continue in the background"
+      },
+      "practice": {
+        "title": "Try your first dictation",
+        "subtitle": "Say anything. A sentence about your day will do.",
+        "notReady": "You can practise once setup is finished. Skip for now and try from Home.",
+        "placeholder": "Your words appear here…",
+        "fieldLabel": "Practice text",
+        "skip": "Skip",
+        "steps": {
+          "tap": "Tap the field above",
+          "switch": "Hold the globe key and pick {{appName}}",
+          "speak": "Tap the mic and speak, then tap it again"
+        }
+      },
+      "done": {
+        "title": "You're all set",
+        "titlePending": "Almost there",
+        "subtitle": "That's all there is to it.",
+        "subtitlePending": "Home shows the steps that are still open.",
+        "finish": "Start using {{appName}}",
+        "points": {
+          "session": "Start a session in the app when you want to dictate",
+          "keyboard": "Switch to the {{appName}} keyboard in any app and tap the mic",
+          "private": "Everything stays on this iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Start a session and dictate in any app. Every dictation is kept here, on this iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Shown only on this iPhone."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Your dictation and data stay on this iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro stops its work, erases the data and starts again from the welcome screen."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Worked out on this iPhone from your latest dictation. Nothing leaves your iPhone.",
+          "footnote_other": "Worked out on this iPhone from your latest {{count, number}} dictations. Nothing leaves your iPhone."
+        }
+      }
+    }
   }
 }

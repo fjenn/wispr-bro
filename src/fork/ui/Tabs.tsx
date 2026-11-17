@@ -56,10 +56,10 @@ export function Tabs({
       onValueChange={onValueChange}
       className={`flex flex-col ${className}`}
     >
-      <div className="flex items-end gap-4 border-b border-(--wb-line)">
+      <div className="wb-tabs-bar flex items-end gap-4 border-b border-(--wb-line)">
         <RadixTabs.List
           aria-label={label}
-          className="flex min-w-0 flex-1 flex-wrap gap-6"
+          className="wb-tabs-list flex min-w-0 flex-1 flex-wrap gap-6"
         >
           {tabs.map((tab) => (
             <RadixTabs.Trigger
@@ -73,7 +73,9 @@ export function Tabs({
           ))}
         </RadixTabs.List>
         {end && (
-          <div className="flex shrink-0 items-center gap-1 pb-1.5">{end}</div>
+          <div className="wb-tabs-end flex shrink-0 items-center gap-1 pb-1.5">
+            {end}
+          </div>
         )}
       </div>
       {children}

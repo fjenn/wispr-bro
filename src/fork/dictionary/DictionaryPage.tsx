@@ -37,6 +37,7 @@ import {
 } from "../ui/icons";
 import { commands, type DictionaryEntry } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { PageHeader } from "../ui/PageHeader";
 import { navigate, useHubNav } from "../hub/nav";
 import {
@@ -356,7 +357,11 @@ export function DictionaryPage() {
     }
   };
 
-  const tabs = (["all", "mine", "suggested"] as TabId[]).map((id) => ({
+  // Wispr Bro for iPhone: words are suggested from corrections made right
+  // after a dictation, which a keyboard cannot watch; no Suggested tab.
+  const ios = isIos();
+  const tabIds: TabId[] = ios ? ["all", "mine"] : ["all", "mine", "suggested"];
+  const tabs = tabIds.map((id) => ({
     value: id,
     label: t(`dictionary.tabs.${id}`, { count: tabCounts[id] }),
   }));
@@ -506,28 +511,30 @@ export function DictionaryPage() {
           </>
         }
       >
-        <div className="mt-[25px]">
-          <Banner
-            id={BANNER_ID}
-            image={photos.dictionary.src}
-            imageLift={1.15}
-            title={t("dictionary.banner.title", { appName })}
-            body={t("dictionary.banner.lead")}
-            action={{
-              label: t("dictionary.banner.add"),
-              onClick: () => setDialog({ entry: null }),
-              testId: "wb-dictionary-banner-add",
-            }}
-            suggestionsLabel={t("dictionary.banner.suggestionsLabel")}
-            suggestions={suggestions.map((word) => ({
-              id: word,
-              label: word,
-              testId: "wb-dictionary-suggestion",
-              onClick: () => setDialog({ entry: null, draft: word }),
-            }))}
-          />
-        </div>
-        {(["all", "mine", "suggested"] as TabId[]).map((id) => (
+        {(!ios || counts.words + counts.rules === 0) && (
+          <div className="mt-[25px]">
+            <Banner
+              id={BANNER_ID}
+              image={photos.dictionary.src}
+              imageLift={1.15}
+              title={t("dictionary.banner.title", { appName })}
+              body={t("dictionary.banner.lead")}
+              action={{
+                label: t("dictionary.banner.add"),
+                onClick: () => setDialog({ entry: null }),
+                testId: "wb-dictionary-banner-add",
+              }}
+              suggestionsLabel={t("dictionary.banner.suggestionsLabel")}
+              suggestions={suggestions.map((word) => ({
+                id: word,
+                label: word,
+                testId: "wb-dictionary-suggestion",
+                onClick: () => setDialog({ entry: null, draft: word }),
+              }))}
+            />
+          </div>
+        )}
+        {tabIds.map((id) => (
           <TabPanel key={id} value={id} className="mt-6">
             {id === tab && id === "suggested" && (
               <SettingRow

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { platform } from "@tauri-apps/plugin-os";
 import App from "./App";
 import { installCompatShims } from "./lib/compat";
+import { applyIosFlag } from "./fork/ios/platform";
 import {
   applyTheme,
   getStoredTheme,
@@ -13,6 +14,9 @@ installCompatShims();
 
 // Set platform before render so CSS can scope per-platform (e.g. scrollbar styles)
 document.documentElement.dataset.platform = platform();
+// Wispr Bro for iPhone: marks the document for the phone layout (no-op on
+// every other platform).
+applyIosFlag();
 
 // Apply the last-known theme synchronously before render to avoid a flash of
 // the wrong palette, then reconcile with the persisted setting once it loads.

@@ -48,6 +48,7 @@ import {
 } from "../bindings";
 import { navigate } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { useForkSettings } from "../settings/useForkSettings";
 import { EmptyState, FOCUS_RING } from "../ui";
 import { dayKey, dayLabel, groupByDay, useToday } from "./dates";
@@ -422,6 +423,9 @@ export function HistoryList() {
     );
   }
 
+  // Wispr Bro for iPhone: History is a tab with its own large title, and
+  // there is no file picker for "Transcribe a file".
+  const ios = isIos();
   return (
     <section
       aria-labelledby="wb-history-heading"
@@ -430,7 +434,10 @@ export function HistoryList() {
       className="flex min-w-0 flex-col gap-1"
     >
       <div className="flex min-h-9 flex-wrap items-center justify-between gap-2">
-        <h2 id="wb-history-heading" className="type-card-title text-(--wb-ink)">
+        <h2
+          id="wb-history-heading"
+          className={ios ? "sr-only" : "type-card-title text-(--wb-ink)"}
+        >
           {t("history.title")}
         </h2>
         <div className="flex min-w-0 items-center gap-1">
@@ -438,16 +445,18 @@ export function HistoryList() {
             query={query}
             onQuery={(q) => useHistoryStore.getState().setQuery(q)}
           />
-          <button
-            type="button"
-            data-testid="wb-history-transcribe-file"
-            aria-label={t("history.transcribeFile")}
-            title={t("history.transcribeFile")}
-            onClick={() => void transcribeFile()}
-            className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
-          >
-            <FilePlus size={18} aria-hidden="true" />
-          </button>
+          {!ios && (
+            <button
+              type="button"
+              data-testid="wb-history-transcribe-file"
+              aria-label={t("history.transcribeFile")}
+              title={t("history.transcribeFile")}
+              onClick={() => void transcribeFile()}
+              className={`grid size-8 cursor-pointer place-items-center rounded-(--wb-radius-sm) text-(--wb-ink-3) hover:bg-(--wb-fill-hover) hover:text-(--wb-ink) ${FOCUS_RING}`}
+            >
+              <FilePlus size={18} aria-hidden="true" />
+            </button>
+          )}
         </div>
       </div>
       {query && rows.length > 0 && (

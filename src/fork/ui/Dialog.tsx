@@ -29,11 +29,25 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { IconButton } from "./Button";
 import { ArrowLeft, X } from "./icons";
 import { useMotionPresets } from "./motion";
 import { ProgressDashes } from "./Progress";
 import { usePinnedThemeProps } from "./ThemeScope";
+
+/**
+ * Wispr Bro for iPhone: dialogs are bottom sheets (`ios/ios.css`), so the
+ * panel rises from the bottom edge instead of scaling in.
+ */
+const IOS_SHEET = {
+  initial: { y: "100%" },
+  animate: {
+    y: 0,
+    transition: { type: "spring", bounce: 0, duration: 0.4 },
+  },
+  exit: { y: "100%", transition: { duration: 0.22, ease: "easeIn" } },
+} as const;
 
 const FOCUSABLE = [
   "a[href]",
@@ -199,11 +213,11 @@ export function Dialog({
           key="wb-dialog"
           {...m.dialog.scrim}
           {...pinned}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-(--wb-scrim) p-4 sm:p-6"
+          className="wb-dialog-scrim fixed inset-0 z-50 flex items-center justify-center bg-(--wb-scrim) p-4 sm:p-6"
           onMouseDown={onScrimDown}
         >
           <motion.div
-            {...m.dialog.panel}
+            {...(isIos() && !m.reduced ? IOS_SHEET : m.dialog.panel)}
             ref={panelRef}
             role="dialog"
             aria-modal="true"
@@ -211,7 +225,7 @@ export function Dialog({
             aria-describedby={description ? descriptionId : undefined}
             tabIndex={-1}
             data-testid={testId}
-            className={`flex max-h-[calc(100dvh-2rem)] w-full max-w-[560px] flex-col overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-surface) text-(--wb-ink) shadow-(--wb-elev-3) outline-none sm:max-h-[calc(100dvh-3rem)] ${className}`}
+            className={`wb-dialog-panel flex max-h-[calc(100dvh-2rem)] w-full max-w-[560px] flex-col overflow-hidden rounded-(--wb-radius-lg) bg-(--wb-surface) text-(--wb-ink) shadow-(--wb-elev-3) outline-none sm:max-h-[calc(100dvh-3rem)] ${className}`}
           >
             <div className="flex shrink-0 items-start justify-between gap-3 px-6 pt-5 pb-1">
               <div className="min-w-0">
@@ -248,7 +262,7 @@ export function Dialog({
               {children}
             </div>
             {footer && (
-              <div className="flex shrink-0 justify-end gap-2 border-t border-(--wb-line) px-6 py-4">
+              <div className="wb-dialog-footer flex shrink-0 justify-end gap-2 border-t border-(--wb-line) px-6 py-4">
                 {footer}
               </div>
             )}
@@ -325,18 +339,18 @@ export function Sheet({
           key="wb-sheet"
           {...m.sheet.scrim}
           {...pinned}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-(--wb-scrim) p-4 sm:p-8"
+          className="wb-dialog-scrim fixed inset-0 z-50 flex items-center justify-center bg-(--wb-scrim) p-4 sm:p-8"
           onMouseDown={onScrimDown}
         >
           <motion.div
-            {...m.sheet.panel}
+            {...(isIos() && !m.reduced ? IOS_SHEET : m.sheet.panel)}
             ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label={label}
             tabIndex={-1}
             data-testid={testId}
-            className={`flex w-full flex-col ${size === "lg" ? "h-[min(640px,calc(100dvh-4rem))] max-w-[940px]" : "max-h-[min(640px,calc(100dvh-4rem))] max-w-[720px]"} overflow-hidden rounded-(--wb-radius-lg) text-(--wb-ink) shadow-(--wb-elev-3) outline-none ${tone === "warm" ? "bg-(--wb-sheet)" : "bg-(--wb-surface)"} ${className}`}
+            className={`wb-dialog-panel flex w-full flex-col ${size === "lg" ? "h-[min(640px,calc(100dvh-4rem))] max-w-[940px]" : "max-h-[min(640px,calc(100dvh-4rem))] max-w-[720px]"} overflow-hidden rounded-(--wb-radius-lg) text-(--wb-ink) shadow-(--wb-elev-3) outline-none ${tone === "warm" ? "bg-(--wb-sheet)" : "bg-(--wb-surface)"} ${className}`}
           >
             <div className="grid shrink-0 grid-cols-[1fr_auto_1fr] items-center px-5 pt-5">
               <div>

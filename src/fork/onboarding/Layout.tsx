@@ -22,6 +22,8 @@ import type { ReactElement, ReactNode } from "react";
 import { Trans } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { artUrl, ForkArt, type ArtName } from "@/assets/fork/art";
+import { PhoneLayout } from "../ios/onboarding/PhoneLayout";
+import { isIos } from "../ios/platform";
 import {
   FOCUS_RING,
   ThemeScope,
@@ -96,6 +98,19 @@ export function SplitLayout({
   asideLabel?: string;
   testId?: string;
 }) {
+  // iPhone: one column, no side pane (`../ios/onboarding/PhoneLayout`).
+  if (isIos()) {
+    return (
+      <PhoneLayout
+        title={title}
+        subtitle={subtitle}
+        action={action}
+        testId={testId}
+      >
+        {children}
+      </PhoneLayout>
+    );
+  }
   return (
     <div
       className="grid h-full min-h-0 grid-cols-[minmax(0,44fr)_minmax(0,56fr)]"

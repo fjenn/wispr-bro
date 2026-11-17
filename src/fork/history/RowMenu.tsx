@@ -21,6 +21,7 @@ import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { CleanupLevel, HistoryRow } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { FOCUS_RING, Menu, type MenuGroup } from "../ui";
 
 export const LEVELS: CleanupLevel[] = ["none", "light", "medium"];
@@ -125,13 +126,18 @@ export function RowMenu({
   });
   groups.push({
     items: [
-      {
-        id: "save-audio",
-        label: noAudio ?? t("history.menu.saveAudio"),
-        icon: Download,
-        disabled: noAudio !== null,
-        onSelect: onSaveAudio,
-      },
+      // Wispr Bro for iPhone: no save panel, so no "Save audio as…".
+      ...(isIos()
+        ? []
+        : [
+            {
+              id: "save-audio",
+              label: noAudio ?? t("history.menu.saveAudio"),
+              icon: Download,
+              disabled: noAudio !== null,
+              onSelect: onSaveAudio,
+            },
+          ]),
       {
         id: "delete",
         label: t("history.menu.delete"),

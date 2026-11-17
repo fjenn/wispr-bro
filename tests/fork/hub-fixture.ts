@@ -151,9 +151,31 @@ export async function openHub(
   hub: HubState,
   options: OpenHubOptions = {},
 ): Promise<void> {
+  await page.setViewportSize(options.size ?? { width: 1040, height: 720 });
+  installHubReplies(ipc, hub, options);
+
+  await page.goto(`/${options.hash ?? ""}`, { waitUntil: "load" });
+  // The first Hub page of a run compiles every Hub module on the dev server,
+  // which under load took longer than any fixed wait (20 s flaked). Wait for
+  // the sidebar itself, with no limit of its own: the test's timeout bounds
+  // it, so a slow compile is waited out and a broken page still fails.
+  await page.waitForSelector('[data-testid="wb-sidebar"]', {
+    state: "visible",
+    timeout: 0,
+  });
+}
+
+/**
+ * The backend replies a returning user needs, without opening a page (the
+ * iPhone fixture, `ios-fixture.ts`, shares them).
+ */
+export function installHubReplies(
+  ipc: IpcMock,
+  hub: HubState,
+  options: Pick<OpenHubOptions, "handy" | "fork" | "beforeNavigate"> = {},
+): void {
   Object.assign(hub.handy, options.handy ?? {});
   Object.assign(hub.forkSettings, options.fork ?? {});
-  await page.setViewportSize(options.size ?? { width: 1040, height: 720 });
 
   ipc.handle("get_app_settings", () => hub.handy);
   ipc.handle("get_default_settings", () => handySettings());
@@ -213,16 +235,6 @@ export async function openHub(
   ipc.respond("fork_history_rows", []);
   // A spec's own backend, installed over these defaults.
   options.beforeNavigate?.();
-
-  await page.goto(`/${options.hash ?? ""}`, { waitUntil: "load" });
-  // The first Hub page of a run compiles every Hub module on the dev server,
-  // which under load took longer than any fixed wait (20 s flaked). Wait for
-  // the sidebar itself, with no limit of its own: the test's timeout bounds
-  // it, so a slow compile is waited out and a broken page still fails.
-  await page.waitForSelector('[data-testid="wb-sidebar"]', {
-    state: "visible",
-    timeout: 0,
-  });
 }
 
 /** Axe on the whole page: no serious or critical findings (R5 §5.5). */
