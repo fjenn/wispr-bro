@@ -15,6 +15,8 @@
 //!   ([`guards`]) with its word tables ([`markers`]) and the deadlines
 //!   ([`deadline`]). Handy's own post-processing chain runs only where the
 //!   fork does not own cleanup (headless CLI, plain Handy builds).
+//! - iPhone: the same llama.cpp in process ([`inprocess`], `crates/wb-ios-llm`)
+//!   behind the same supervisor, transport and client.
 //! - S-12b: Apple Foundation Models as a cleanup engine ([`apple`], bridge
 //!   in `crates/wb-apple-fm`), with RS-08's role and the same guard chain.
 
@@ -27,6 +29,8 @@ pub mod download;
 mod eval_run;
 pub mod guards;
 pub mod health;
+#[cfg(any(target_os = "ios", feature = "llm-inprocess"))]
+pub mod inprocess;
 pub mod instruct;
 pub mod leadins;
 pub mod markers;

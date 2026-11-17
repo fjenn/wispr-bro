@@ -47,8 +47,13 @@ impl Device {
     /// Where every start begins: Metal on Apple Silicon; the CPU on an Intel
     /// Mac, whose sidecar is built without Metal (`ci/llama-server/build.sh`:
     /// Metal on Intel/AMD GPUs can hang at shader compile, Handy #2340).
+    /// iPhone: the in-process engine runs on the CPU only
+    /// (`inprocess::device`).
     pub const fn initial() -> Self {
-        if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
+        if cfg!(any(
+            target_os = "ios",
+            all(target_os = "macos", target_arch = "x86_64")
+        )) {
             Device::Cpu
         } else {
             Device::Gpu

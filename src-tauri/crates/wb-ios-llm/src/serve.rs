@@ -134,6 +134,12 @@ impl Server {
         self.shared.state()
     }
 
+    /// A handle that reports the state from another thread.
+    pub fn watch(&self) -> impl Fn() -> State + Send + 'static {
+        let shared = self.shared.clone();
+        move || shared.state()
+    }
+
     /// Tensor bytes of the loaded model, once ready.
     pub fn model_bytes(&self) -> Option<u64> {
         self.shared

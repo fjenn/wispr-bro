@@ -606,13 +606,13 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-18: notifications inbox, macOS delegate (no prompt), producers.
     notify::on_ready(app);
 
-    // iOS: no `llama-server` sidecar (an app cannot start a process), so
-    // the LLM runtime stays "not ready" and every take gets the
-    // deterministic text; nothing is downloaded for it.
+    // S-10: stale sidecar kill, prewarm wiring, silent model download.
+    // iPhone: the same runtime; its server is the llama.cpp linked into the
+    // app (`llm::inprocess`).
+    llm::runtime::on_ready(app);
+    // Transforms and Command Mode are not on the phone.
     #[cfg(not(target_os = "ios"))]
     {
-        // S-10: stale sidecar kill, prewarm wiring, silent model download.
-        llm::runtime::on_ready(app);
         // OT2-H: the instruction model (on disk: verified; else on demand).
         llm::instruct::on_ready(app);
         // S-12b: WISPRBRO_SELFCHECK_APPLE (Mac test).

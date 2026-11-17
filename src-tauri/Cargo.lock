@@ -2477,6 +2477,7 @@ dependencies = [
  "wb-apple-fm",
  "wb-ios-enigo",
  "wb-ios-handy-keys",
+ "wb-ios-llm",
  "webview2-com",
  "whatlang",
  "windows 0.61.3",
@@ -7897,6 +7898,10 @@ dependencies = [
  "serde",
  "thiserror 2.0.18",
 ]
+
+[[package]]
+name = "wb-ios-llm"
+version = "0.1.0"
 
 [[package]]
 name = "web-sys"

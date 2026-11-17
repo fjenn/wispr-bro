@@ -78,6 +78,26 @@ pub fn on_ready(app: &AppHandle) {
     log::info!("ios core: ready for takes");
 }
 
+/// The self-test's takes (`selftest.rs`): our own WAV files, not the
+/// owner's words. They run the whole pipeline but leave no History row, no
+/// stats and no recording.
+static SELFTEST: AtomicBool = AtomicBool::new(false);
+/// `(transcription ms, cleanup step ms)` of the last finished take.
+static LAST_TIMING: Mutex<(u64, u64)> = Mutex::new((0, 0));
+
+pub(super) fn set_selftest(on: bool) {
+    SELFTEST.store(on, Ordering::Release);
+}
+
+pub(super) fn last_timing() -> (u64, u64) {
+    *lock(&LAST_TIMING)
+}
+
+/// The app, once it is ready.
+pub(super) fn app_handle() -> Option<&'static AppHandle> {
+    app_now()
+}
+
 fn app_now() -> Option<&'static AppHandle> {
     APP.get()
 }
@@ -397,14 +417,21 @@ fn finish_pipeline(
                 "ios core: take {id} transcribed in {:?}",
                 transcribing.elapsed()
             );
-            // No LLM runtime on the phone yet: the cleanup step reports
-            // "not ready" and returns the deterministic text with the style.
+            // The Mac's cleanup step: the level's model pass with its guards
+            // and deadline, or the deterministic text with the style when
+            // the model is off, not ready or too slow.
+            let transcribe_ms = transcribing.elapsed().as_millis() as u64;
+            let cleaning = Instant::now();
             let processed =
                 tauri::async_runtime::block_on(crate::fork::llm::post_process(app, &text, false));
+            *lock(&LAST_TIMING) = (transcribe_ms, cleaning.elapsed().as_millis() as u64);
             if is_cancelled() {
                 return Err(Failed::Cancelled);
             }
-            if wav_saved || crate::fork::keep_take(&wav_path) {
+            let selftest = SELFTEST.load(Ordering::Acquire);
+            if selftest {
+                let _ = std::fs::remove_file(&wav_path);
+            } else if wav_saved || crate::fork::keep_take(&wav_path) {
                 if let Err(error) = hm.save_entry(
                     file_name,
                     text,
@@ -438,7 +465,9 @@ fn finish_pipeline(
             log::error!("Transcription failed: {error}");
             let _ = app.emit("transcription-error", error.to_string());
             // An empty row, so the take can be retried from History.
-            if wav_saved {
+            if SELFTEST.load(Ordering::Acquire) {
+                let _ = std::fs::remove_file(&wav_path);
+            } else if wav_saved {
                 if let Err(save_error) =
                     hm.save_entry(file_name, String::new(), false, None, None, None)
                 {

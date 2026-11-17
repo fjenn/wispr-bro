@@ -32,7 +32,7 @@ use super::chat::{CancellationToken, ChatError};
 use super::download::{self, DownloadError, ProgressCounter};
 use super::memory::{self, AsrState, LoadPlanner, PlanAction};
 use super::supervisor::{
-    Config, ProcessLauncher, ServerPhase, ServerStatus, StartError, Supervisor,
+    Config, ProcessLauncher, RequestError, ServerPhase, ServerStatus, StartError, Supervisor,
 };
 
 /// Sub-folder of the app data dir: socket, PID file, verification markers.
@@ -211,7 +211,7 @@ impl LlmRuntime {
         let allowed = memory::allows(
             sup.is_running().await,
             snapshot,
-            model.resident_mib * 1024 * 1024,
+            memory::llm_resident_bytes(model.resident_mib),
         );
         if !allowed && snapshot.is_some_and(|m| m.pressure == memory::Pressure::Critical) {
             log::info!("llm: memory pressure is critical; the LLM is skipped");
@@ -252,18 +252,29 @@ pub fn register<R: Runtime>(app: &AppHandle<R>) {
         None
     };
     let llm_dir = data_dir(app).unwrap_or_default().join(LLM_DIR);
-    app.manage(LlmRuntime::new(
-        model,
-        super::process::sidecar_path(),
-        llm_dir,
-        Arc::new(ProcessLauncher),
-        true,
-    ));
+    let (sidecar, launcher) = server_launcher();
+    app.manage(LlmRuntime::new(model, sidecar, llm_dir, launcher, true));
+}
+
+/// What starts the server: the `llama-server` sidecar next to the app, or
+/// (iPhone) the same llama.cpp in this process, where the "binary" is only a
+/// marker.
+fn server_launcher() -> (Option<PathBuf>, Arc<dyn super::supervisor::Launcher>) {
+    #[cfg(any(target_os = "ios", feature = "llm-inprocess"))]
+    if super::inprocess::selected() {
+        return (
+            Some(PathBuf::from(super::inprocess::MARKER)),
+            Arc::new(super::inprocess::InProcessLauncher),
+        );
+    }
+    (super::process::sidecar_path(), Arc::new(ProcessLauncher))
 }
 
 /// `fork::on_ready`: stale-PID kill, event wiring, background download.
 pub fn on_ready<R: Runtime>(app: &AppHandle<R>) {
     let Some(rt) = runtime(app) else { return };
+    // iPhone: the server is a thread of this app; there is nothing to kill.
+    #[cfg(not(target_os = "ios"))]
     if let Some(pid) = super::process::kill_stale(&rt.llm_dir) {
         log::warn!("llm: killed a llama-server left by an earlier run (pid {pid})");
     }
@@ -469,6 +480,17 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
             log::info!("llm: not enough free memory to start the LLM; this take skips cleanup");
             return;
         }
+        // In process (iPhone): the model costs memory and its first prompt
+        // costs seconds of CPU, so it is loaded only when this take will be
+        // cleaned, and the instructions go into the prompt cache right away.
+        let prime = if in_process() {
+            let Some(request) = super::post_process::prime_request(&app) else {
+                return;
+            };
+            (!sup.is_running().await).then_some(request)
+        } else {
+            None
+        };
         let t0 = Instant::now();
         match sup.ensure_ready().await {
             Ok(_) => log::debug!("llm: prewarm ready after {:?}", t0.elapsed()),
@@ -477,9 +499,25 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
                 return;
             }
         }
-        // On the CPU (Intel) the system prompt takes seconds to read: read
-        // it now, while the user speaks, not inside the cleanup's deadline.
-        if super::process::Device::initial() == super::process::Device::Cpu {
+        if let Some(request) = prime {
+            let t1 = Instant::now();
+            let result = sup
+                .complete(&request, PRIME_TIMEOUT, &CancellationToken::new())
+                .await;
+            match result {
+                // One token of a JSON reply is always "cut off": that is the
+                // point.
+                Ok(_) | Err(RequestError::Chat(super::chat::ChatError::Truncated)) => log::info!(
+                    "llm: instructions cached {} ms after the model was ready in {} ms",
+                    t1.elapsed().as_millis(),
+                    t1.duration_since(t0).as_millis()
+                ),
+                Err(e) => log::warn!("llm: caching the instructions failed: {e}"),
+            }
+        } else if !in_process() && super::process::Device::initial() == super::process::Device::Cpu {
+            // On the CPU (Intel) the system prompt takes seconds to read:
+            // read it now, while the user speaks, not inside the cleanup's
+            // deadline.
             if let Some(request) = super::post_process::priming_request(&app) {
                 let t0 = Instant::now();
                 // One token is asked for, so a reply cut at the token limit
@@ -500,7 +538,20 @@ pub fn prewarm<R: Runtime>(app: &AppHandle<R>) {
     });
 }
 
-/// How long a key-down prompt priming may run (Intel).
+/// `true` when the server is the llama.cpp linked into the app.
+fn in_process() -> bool {
+    #[cfg(any(target_os = "ios", feature = "llm-inprocess"))]
+    {
+        super::inprocess::selected()
+    }
+    #[cfg(not(any(target_os = "ios", feature = "llm-inprocess")))]
+    {
+        false
+    }
+}
+
+/// Longest the instruction caching (iPhone) or a key-down prompt priming
+/// (Intel) may take.
 const PRIME_TIMEOUT: Duration = Duration::from_secs(30);
 
 #[cfg_attr(any(test, not(target_os = "macos")), allow(dead_code))]

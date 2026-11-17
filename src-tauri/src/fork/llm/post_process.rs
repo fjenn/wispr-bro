@@ -1179,6 +1179,11 @@ fn fork_settings<R: Runtime>(app: &AppHandle<R>) -> Option<crate::fork::settings
 
 /// The cleanup level from the fork settings (Light if they cannot be read).
 fn level<R: Runtime>(app: &AppHandle<R>) -> CleanupLevel {
+    // The iPhone self-test measures a level without changing the setting.
+    #[cfg(target_os = "ios")]
+    if let Some(level) = crate::fork::ios::selftest::level_override() {
+        return level;
+    }
     fork_settings(app)
         .map(|s| s.cleanup_level)
         .unwrap_or_default()
@@ -1341,6 +1346,34 @@ pub fn choose(
 /// can prewarm Apple's model with the same instructions (their dictionary
 /// terms and level).
 static LAST_SYSTEM: Mutex<Option<(CleanupLevel, String)>> = Mutex::new(None);
+
+/// The request that puts this level's instructions into the server's prompt
+/// cache (iPhone, where the model runs on the CPU: evaluating the ~530
+/// instruction tokens costs seconds once, then every take reuses them), or
+/// `None` when cleanup is off. One token of output; the reply is dropped.
+pub fn prime_request<R: Runtime>(app: &AppHandle<R>) -> Option<ChatRequest> {
+    let level = level(app);
+    if level == CleanupLevel::None {
+        return None;
+    }
+    let system = system_prompt(&Request {
+        text: "",
+        level,
+        language: None,
+        hint: None,
+        terms: &[],
+        keep: &[],
+        style: None,
+        context: &[],
+    });
+    Some(ChatRequest {
+        system,
+        user: prompt::cleanup_user(""),
+        max_tokens: 1,
+        response_format: Some(prompt::response_format()),
+        examples: Vec::new(),
+    })
+}
 
 /// Key-down (S-12b): prewarm Apple's model when it would clean this take
 /// ([`super::apple::ROLE`] Default, or the sidecar's model not ready), with

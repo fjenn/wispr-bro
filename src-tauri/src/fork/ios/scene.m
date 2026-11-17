@@ -25,6 +25,14 @@
 
 NSNotificationName const WBOpenURLNotification = @"WBOpenURLNotification";
 
+// 0 in front, 1 inactive, 2 in the background (fork::ios::host::app_state);
+// kept from UIKit's notifications so any thread may ask.
+static _Atomic int gAppState = 1;
+int wb_ios_app_state(void) { return gAppState; }
+
+// fork::ios::memory: unloads the cleanup model (the speech model stays).
+extern void wb_ios_memory_warning(void);
+
 static UIWindowScene *gScene;
 static NSHashTable<UIWindow *> *gWindows;
 
@@ -276,6 +284,29 @@ void wb_ios_scene_install(void) {
                 WBKeyboardChanged(note);
             }];
         }
+        NSDictionary<NSNotificationName, NSNumber *> *states = @{
+            UIApplicationDidBecomeActiveNotification : @0,
+            UIApplicationWillResignActiveNotification : @1,
+            UIApplicationDidEnterBackgroundNotification : @2,
+            UIApplicationWillEnterForegroundNotification : @1,
+        };
+        for (NSNotificationName name in states) {
+            int state = states[name].intValue;
+            [NSNotificationCenter.defaultCenter addObserverForName:name
+                                                            object:nil
+                                                             queue:nil
+                                                        usingBlock:^(__unused NSNotification *note) {
+                gAppState = state;
+            }];
+        }
+        // A memory warning: the cleanup model goes first (Rust decides).
+        [NSNotificationCenter.defaultCenter
+            addObserverForName:UIApplicationDidReceiveMemoryWarningNotification
+                        object:nil
+                         queue:nil
+                    usingBlock:^(__unused NSNotification *note) {
+            wb_ios_memory_warning();
+        }];
         // No "previous / next / done" bar over the keyboard: it is a web
         // form control, not something an iPhone app shows. The web view's
         // content view (WKContentView, looked up by name) answers nil for

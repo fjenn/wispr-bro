@@ -100,15 +100,67 @@ test.describe("ios", () => {
     );
   });
 
-  test("cleanup shows as coming to iPhone when unavailable", async ({
+  test("cleanup is not offered on an iPhone without the memory", async ({
+    page,
+    ipc,
+    hub,
+    ios,
+  }) => {
+    ios.llmState = "unsupported";
+    await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
+    await expect(page.getByTestId("wb-ios-cleanup-none")).toBeVisible();
+    await expect(page.getByTestId("fork-cleanup-level-light")).toBeDisabled();
+    await expect(page.getByTestId("wb-ios-cleanup-note")).toHaveCount(0);
+  });
+
+  test("cleanup levels can be picked once the model is there", async ({
     page,
     ipc,
     hub,
     ios,
   }) => {
     await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
-    await expect(page.getByTestId("wb-ios-cleanup-soon")).toBeVisible();
-    await expect(page.getByTestId("fork-cleanup-level-light")).toBeDisabled();
+    await expect(page.getByTestId("wb-ios-cleanup-note")).toBeVisible();
+    await expect(page.getByTestId("wb-ios-cleanup-downloading")).toHaveCount(0);
+    await page.getByTestId("fork-cleanup-level-light").click();
+    await ipc.expectCalled("fork_set_setting", {
+      update: { key: "cleanup_level", value: "light" },
+    });
+  });
+
+  test("the cleanup model's download shows its progress", async ({
+    page,
+    ipc,
+    hub,
+    ios,
+  }) => {
+    ios.llmState = "downloading";
+    ios.llmDownloaded = 318_599_024;
+    await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
+    const card = page.getByTestId("wb-ios-cleanup-downloading");
+    await expect(card).toContainText("25 %");
+    await expect(card.getByRole("progressbar")).toHaveAttribute(
+      "aria-valuenow",
+      "25",
+    );
+    // A level can be chosen while the model is on its way.
+    await expect(page.getByTestId("fork-cleanup-level-light")).toBeEnabled();
+    // The page follows the download without being reopened.
+    ios.llmState = "ready";
+    await expect(card).toHaveCount(0);
+  });
+
+  test("a failed cleanup download can be tried again", async ({
+    page,
+    ipc,
+    hub,
+    ios,
+  }) => {
+    ios.llmState = "download_failed";
+    await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
+    await page.getByTestId("wb-ios-cleanup-retry").click();
+    await ipc.expectCalled("fork_llm_retry");
+    await expect(page.getByTestId("wb-ios-cleanup-downloading")).toBeVisible();
   });
 
   test("onboarding runs from welcome to the app", async ({

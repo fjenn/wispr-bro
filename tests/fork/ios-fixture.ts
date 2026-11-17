@@ -37,8 +37,14 @@ export interface IosState {
   /** Seconds; 0 immediately, -1 never. */
   timeout: number;
   autoReturn: boolean;
-  /** `fork_llm_status().state` (cleanup): `unsupported` = not on iPhone yet. */
+  /**
+   * `fork_llm_status().state` (cleanup): `unsupported` = an iPhone without
+   * the memory for the cleanup model.
+   */
   llmState: string;
+  /** Bytes of the cleanup model's download so far and in total. */
+  llmDownloaded: number;
+  llmTotal: number;
 }
 
 export function readySpeech(
@@ -71,7 +77,9 @@ export const test = base.extend<{ ios: IosState }>({
       speech: readySpeech(),
       timeout: 300,
       autoReturn: true,
-      llmState: "unsupported",
+      llmState: "ready",
+      llmDownloaded: 0,
+      llmTotal: 1_274_396_096,
     });
   },
 });
@@ -112,11 +120,15 @@ export function installIosBackend(ipc: IpcMock, ios: IosState): void {
   ipc.handle("fork_llm_status", () => ({
     state: ios.llmState,
     model_name: null,
-    downloaded_bytes: 0,
-    total_bytes: 0,
+    downloaded_bytes: ios.llmDownloaded,
+    total_bytes: ios.llmTotal,
     server: "stopped",
     error: null,
   }));
+  ipc.handle("fork_llm_retry", () => {
+    ios.llmState = "downloading";
+    return null;
+  });
 }
 
 export interface OpenIosOptions extends Omit<OpenHubOptions, "size"> {

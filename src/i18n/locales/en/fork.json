@@ -3173,9 +3173,16 @@
         "licences": "Acknowledgements"
       },
       "cleanup": {
-        "soon": "Coming to iPhone",
-        "soonTitle": "Coming to iPhone",
-        "soonBody": "Cleanup is not on iPhone yet. Until then your words are written as you say them, with punctuation and capitals."
+        "notHere": "Not on this iPhone",
+        "notHereTitle": "Not available on this iPhone",
+        "notHereBody": "Cleanup needs an iPhone with 8 GB of memory or more. Your words are written as you say them, with punctuation and capitals.",
+        "downloading": "Downloading… {{percent}} %",
+        "downloadingTitle": "Getting the cleanup model",
+        "downloadingBody": "A one-time download of {{megabytes}} MB. Until it is ready, your words are written as you say them.",
+        "failedTitle": "The download did not finish",
+        "failedBody": "Check your connection and try again. Dictation works without it.",
+        "retry": "Try again",
+        "note": "Cleanup runs on this iPhone. It adds a short wait after you stop speaking."
       },
       "session": {
         "endAfter": "End session after",

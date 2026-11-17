@@ -85,3 +85,17 @@ pub fn open_settings() {
     // SAFETY: as above.
     unsafe { wb_ios_open_settings() }
 }
+
+extern "C" {
+    fn wb_ios_app_state() -> i32;
+}
+
+/// Where the app is: `"active"`, `"inactive"` or `"background"` (`scene.m`).
+pub fn app_state() -> &'static str {
+    // SAFETY: reads one atomic int.
+    match unsafe { wb_ios_app_state() } {
+        0 => "active",
+        2 => "background",
+        _ => "inactive",
+    }
+}

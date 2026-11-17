@@ -620,6 +620,13 @@ fn main() {
     if args.iter().any(|a| a == "--cpu") {
         config.device = Device::Cpu;
     }
+    if let Some(extra) = arg(&args, "--extra-args") {
+        // llama-server arguments appended to the sidecar's (measurements).
+        config.extra_args = extra.split_whitespace().map(str::to_owned).collect();
+    }
+    if let Some(n) = arg(&args, "--threads").and_then(|v| v.parse().ok()) {
+        config.threads = n;
+    }
     let mut report = json!({
         "llama_cpp": wb_ios_llm::build_info(),
         "model": model.file_name().map(|f| f.to_string_lossy().to_string()),

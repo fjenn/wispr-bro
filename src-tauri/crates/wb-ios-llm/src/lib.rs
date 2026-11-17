@@ -29,7 +29,7 @@ use std::time::Instant;
 
 mod memory;
 pub mod serve;
-pub use memory::{footprint_bytes, physical_memory_bytes};
+pub use memory::{available_bytes, footprint_bytes, performance_cores, physical_memory_bytes};
 
 /// The chat-completions route.
 pub const CHAT_COMPLETIONS: &str = "/v1/chat/completions";

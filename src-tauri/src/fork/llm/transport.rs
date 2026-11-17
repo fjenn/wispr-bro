@@ -76,12 +76,19 @@ pub fn socket_path_fits(path: &Path) -> bool {
 pub fn choose(llm_dir: &Path) -> std::io::Result<Endpoint> {
     let socket = llm_dir.join(SOCKET_FILE);
     if socket_path_fits(&socket) {
-        Ok(Endpoint::Unix(socket))
-    } else {
-        Ok(Endpoint::Tcp(free_loopback_port()?))
+        return Ok(Endpoint::Unix(socket));
     }
+    // iPhone: the app's data path is longer than `sockaddr_un`; the
+    // container's `tmp/` is shorter and as private. A socket has no port.
+    #[cfg(target_os = "ios")]
+    {
+        let socket = std::env::temp_dir().join(SOCKET_FILE);
+        if socket_path_fits(&socket) {
+            return Ok(Endpoint::Unix(socket));
+        }
+    }
+    Ok(Endpoint::Tcp(free_loopback_port()?))
 }
-
 /// A port that was free a moment ago. The server may still lose a bind race;
 /// the supervisor then picks a new port and retries.
 pub fn free_loopback_port() -> std::io::Result<u16> {

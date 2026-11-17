@@ -17,6 +17,7 @@ pub mod compat;
 pub mod core;
 pub mod defaults;
 pub mod host;
+pub mod memory;
 pub mod selftest;
 
 use tauri::AppHandle;

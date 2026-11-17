@@ -25,6 +25,48 @@ pub fn physical_memory_bytes() -> u64 {
     0
 }
 
+/// Performance cores (`hw.perflevel0.physicalcpu`), or every core where the
+/// system does not tell them apart.
+pub fn performance_cores() -> usize {
+    #[cfg(target_vendor = "apple")]
+    {
+        let mut value: i32 = 0;
+        let mut len = std::mem::size_of::<i32>();
+        // SAFETY: a NUL-terminated name and an out buffer of `len` bytes.
+        let rc = unsafe {
+            sysctlbyname(
+                c"hw.perflevel0.physicalcpu".as_ptr(),
+                (&mut value as *mut i32).cast(),
+                &mut len,
+                std::ptr::null_mut(),
+                0,
+            )
+        };
+        if rc == 0 && value > 0 {
+            return value as usize;
+        }
+    }
+    std::thread::available_parallelism()
+        .map(|n| n.get())
+        .unwrap_or(4)
+}
+
+/// Memory the app may still take before iOS ends it
+/// (`os_proc_available_memory`), or `None` off iOS.
+pub fn available_bytes() -> Option<u64> {
+    #[cfg(target_os = "ios")]
+    {
+        extern "C" {
+            fn os_proc_available_memory() -> usize;
+        }
+        // SAFETY: no arguments, no preconditions.
+        let n = unsafe { os_proc_available_memory() };
+        return (n > 0).then_some(n as u64);
+    }
+    #[allow(unreachable_code)]
+    None
+}
+
 /// The process's physical footprint in bytes (`phys_footprint`, what Xcode's
 /// memory gauge and jetsam use; includes Metal buffers), or `None`.
 pub fn footprint_bytes() -> Option<u64> {

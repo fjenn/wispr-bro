@@ -138,6 +138,26 @@ const WATCH_EVERY: std::time::Duration = std::time::Duration::from_millis(250);
 /// microphone answer, the keyboard being added. The Swift side keeps its
 /// state in memory, so reading it is cheap; nothing is sent while it stays
 /// the same.
+/// The Swift session's state when no session is running.
+const NO_SESSION: &str = "noSession";
+
+fn session_changed(app: &tauri::AppHandle, live: bool) {
+    use crate::fork::llm::runtime;
+    if live {
+        runtime::prewarm(app);
+        return;
+    }
+    let app = app.clone();
+    tauri::async_runtime::spawn(async move {
+        let Some(sup) = runtime::runtime(&app).and_then(|rt| rt.supervisor().cloned()) else {
+            return;
+        };
+        if sup.stop_if_idle().await {
+            log::info!("ios: the session ended; the cleanup model is unloaded");
+        }
+    });
+}
+
 pub fn watch(app: &tauri::AppHandle) {
     use tauri::Emitter;
     let app = app.clone();
@@ -146,6 +166,7 @@ pub fn watch(app: &tauri::AppHandle) {
         .spawn(move || {
             let mut last_session = String::new();
             let mut last_setup = String::new();
+            let mut session_live = false;
             loop {
                 std::thread::sleep(WATCH_EVERY);
                 let now = session();
@@ -155,6 +176,14 @@ pub fn watch(app: &tauri::AppHandle) {
                 if key != last_session {
                     last_session = key;
                     let _ = app.emit("ios-session-state", &now);
+                }
+                // The cleanup model follows the session: loaded (with its
+                // instructions cached) when a session starts, so the first
+                // take does not wait for it; released when the session ends.
+                let live = now.state != NO_SESSION;
+                if live != session_live {
+                    session_live = live;
+                    session_changed(&app, live);
                 }
                 let now = setup();
                 let key = format!(

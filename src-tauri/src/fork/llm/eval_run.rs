@@ -90,6 +90,16 @@ fn apple_label(e: &AppleEngine) -> String {
     )
 }
 
+/// The sidecar, or with `WB_LLM_INPROCESS=1` (feature `llm-inprocess`) the
+/// iPhone's in-process engine (`WB_LLAMA_SERVER` is then only a label).
+fn eval_launcher() -> Arc<dyn super::supervisor::Launcher> {
+    #[cfg(feature = "llm-inprocess")]
+    if super::inprocess::selected() {
+        return Arc::new(super::inprocess::InProcessLauncher);
+    }
+    Arc::new(ProcessLauncher)
+}
+
 fn env(k: &str) -> Option<String> {
     std::env::var(k).ok().filter(|v| !v.is_empty())
 }
@@ -148,7 +158,7 @@ async fn eval_run_through_the_shipped_path() {
             dir.path().join("llm"),
         );
         cfg.model = model.clone().map(Into::into);
-        Supervisor::new(Arc::new(ProcessLauncher), cfg)
+        Supervisor::new(eval_launcher(), cfg)
     });
     let t0 = Instant::now();
     if let Some(sup) = &sup {
