@@ -1958,7 +1958,7 @@
 				CODE_SIGN_ENTITLEMENTS = handy_iOS/handy_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 446XT9839S;
+				DEVELOPMENT_TEAM = "446XT9839S";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1993,7 +1993,7 @@
 				CODE_SIGN_ENTITLEMENTS = handy_iOS/handy_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 446XT9839S;
+				DEVELOPMENT_TEAM = "446XT9839S";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
