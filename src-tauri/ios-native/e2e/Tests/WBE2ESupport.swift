@@ -57,9 +57,11 @@ class WBE2ECase: XCTestCase {
         let deadline = Date().addingTimeInterval(timeout)
         repeat {
             for app in apps where app.state == .runningForeground || app === springboard {
-                let element = app.descendants(matching: .any).matching(
-                    NSPredicate(format: "label == %@ OR identifier == %@", label, label)
-                ).firstMatch
+                // A control first: a sheet's title often repeats its button's words.
+                let predicate = NSPredicate(format: "label == %@ OR identifier == %@", label, label)
+                let button = app.buttons.matching(predicate).firstMatch
+                if button.exists { return button }
+                let element = app.descendants(matching: .any).matching(predicate).firstMatch
                 if element.exists { return element }
             }
             usleep(200_000)

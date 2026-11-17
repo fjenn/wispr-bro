@@ -57,6 +57,51 @@ static void WBPaintWindow(UIWindow *window) {
     WBPaint(window, color);
 }
 
+static UIView *WBFindWebView(UIView *view) {
+    if ([view isKindOfClass:NSClassFromString(@"WKWebView")]) {
+        return view;
+    }
+    for (UIView *child in view.subviews) {
+        UIView *found = WBFindWebView(child);
+        if (found != nil) {
+            return found;
+        }
+    }
+    return nil;
+}
+
+// The keyboard's height over the page, told to the page before the
+// keyboard moves (`window.__wbKeyboardInset(points)`, useKeyboardInset.ts):
+// the page lays itself out above the keyboard in step with it. The web
+// view's own viewport events come late and not every time.
+static void WBKeyboardChanged(NSNotification *note) {
+    CGFloat covered = 0;
+    UIWindow *window = nil;
+    for (UIWindow *candidate in gWindows.allObjects) {
+        if (WBFindWebView(candidate) != nil) {
+            window = candidate;
+            break;
+        }
+    }
+    if (window == nil) {
+        return;
+    }
+    if (![note.name isEqualToString:UIKeyboardWillHideNotification]) {
+        NSValue *value = note.userInfo[UIKeyboardFrameEndUserInfoKey];
+        if (value != nil) {
+            CGRect frame = [window convertRect:value.CGRectValue fromWindow:nil];
+            covered = MAX(0, CGRectGetMaxY(window.bounds) - CGRectGetMinY(frame));
+        }
+    }
+    UIView *webView = WBFindWebView(window);
+    SEL evaluate = NSSelectorFromString(@"evaluateJavaScript:completionHandler:");
+    if ([webView respondsToSelector:evaluate]) {
+        NSString *script = [NSString
+            stringWithFormat:@"window.__wbKeyboardInset&&window.__wbKeyboardInset(%.0f)", covered];
+        ((void (*)(id, SEL, NSString *, id))objc_msgSend)(webView, evaluate, script, nil);
+    }
+}
+
 static void WBAdopt(UIWindow *window) {
     WBPaintWindow(window);
     if (gScene == nil || window.windowScene != nil) {
@@ -220,6 +265,16 @@ void wb_ios_scene_install(void) {
         Method ours = class_getInstanceMethod(UIWindow.class, @selector(wb_initWithFrame:));
         if (original != NULL && ours != NULL) {
             method_exchangeImplementations(original, ours);
+        }
+        for (NSNotificationName name in @[
+                 UIKeyboardWillChangeFrameNotification, UIKeyboardWillHideNotification
+             ]) {
+            [NSNotificationCenter.defaultCenter addObserverForName:name
+                                                            object:nil
+                                                             queue:NSOperationQueue.mainQueue
+                                                        usingBlock:^(NSNotification *note) {
+                WBKeyboardChanged(note);
+            }];
         }
         // No "previous / next / done" bar over the keyboard: it is a web
         // form control, not something an iPhone app shows. The web view's
