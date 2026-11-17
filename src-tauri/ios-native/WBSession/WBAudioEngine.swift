@@ -64,9 +64,21 @@ final class WBAudioEngine {
     // `WB_FAKE_MIC_WAV=/path/to.wav` (environment, implies the fake mic)
     // plays that 16 kHz mono 16-bit WAV instead of the tone, from its start
     // at every take and silence after its end, so real speech can flow
-    // session → core → text without a microphone.
-    private static let fakeWav: [Float]? = {
-        guard let path = ProcessInfo.processInfo.environment["WB_FAKE_MIC_WAV"],
+    // session → core → text without a microphone. The file is read again at
+    // every take (a test swaps it between takes), and the path is kept in
+    // the App Group defaults so a launch by the keyboard's link, which has
+    // no environment, uses the same file.
+    private static let fakeWavPath: String? = {
+        let defaults = UserDefaults(suiteName: WBBridgeConstants.appGroup)
+        let key = "wb.debug.fakeMicWav"
+        if let path = ProcessInfo.processInfo.environment["WB_FAKE_MIC_WAV"] {
+            if path.isEmpty { defaults?.removeObject(forKey: key) } else { defaults?.set(path, forKey: key) }
+            return path.isEmpty ? nil : path
+        }
+        return defaults?.string(forKey: key)
+    }()
+    private static func loadFakeWav() -> [Float]? {
+        guard let path = fakeWavPath,
               let data = FileManager.default.contents(atPath: path),
               // The samples follow the "data" chunk's 8-byte header (afconvert
               // may put a filler chunk before it).
@@ -75,8 +87,9 @@ final class WBAudioEngine {
         return stride(from: 0, to: pcm.count - 1, by: 2).map { i in
             Float(Int16(bitPattern: UInt16(pcm[i]) | UInt16(pcm[i + 1]) << 8)) / 32768
         }
-    }()
-    private static let fakeMic = ProcessInfo.processInfo.arguments.contains("--wb-fake-mic") || fakeWav != nil
+    }
+    private static let fakeMic = ProcessInfo.processInfo.arguments.contains("--wb-fake-mic") || fakeWavPath != nil
+    private var fakeWav: [Float]?
     private var fakeTimer: DispatchSourceTimer?
     private var fakeClock = 0
     private var fakeWavTake: UInt64 = 0
@@ -95,11 +108,12 @@ final class WBAudioEngine {
             }
             self.fakeClock += Self.chunk
             self.lock.lock()
-            if let wav = Self.fakeWav {
-                if self.activeTake != self.fakeWavTake {
-                    self.fakeWavTake = self.activeTake
-                    self.fakeWavOffset = 0
-                }
+            if self.activeTake != self.fakeWavTake {
+                self.fakeWavTake = self.activeTake
+                self.fakeWavOffset = 0
+                if self.activeTake != 0 { self.fakeWav = Self.loadFakeWav() }
+            }
+            if let wav = self.fakeWav {
                 for i in 0..<Self.chunk {
                     let at = self.fakeWavOffset + i
                     samples[i] = at < wav.count ? wav[at] : 0
