@@ -294,6 +294,9 @@ function parentModules(rel: string): string[] {
 export function isForkTestFile(root: string, rel: string): boolean {
   if (/^scripts\/wb-[^/]+\.test\.ts$/.test(rel)) return true;
   if (rel.startsWith("tests/fork/")) return true;
+  // iPhone native test targets (unit, UI and end-to-end XCTest bundles).
+  if (/^src-tauri\/ios-native\/(?:WBTests|WBUITests|e2e\/Tests)\//.test(rel))
+    return true;
   const m = rel.match(RUST_TEST_FILE_RE);
   if (!m) return false;
   return parentModules(rel).some((p) => {
@@ -313,6 +316,9 @@ export function forkTestSpans(rel: string, text: string): Span[] {
     .filter((x) => x.kind === "inline")
     .map((x) => x.span);
 }
+
+const PLIST_DOCTYPE_RE =
+  /^<!DOCTYPE plist PUBLIC "-\/\/Apple\/\/DTD PLIST 1\.0\/\/EN" "http:\/\/www\.apple\.com\/DTDs\/PropertyList-1\.0\.dtd">$/;
 
 const OPEN_URL_RE = /\bopen_?url\s*\(|\bopenUrl\b|\bopener::open_url\b/i;
 
@@ -376,6 +382,10 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
       const h = hit.host;
       if (fork) {
         if (hostInList(h, lists.network) || hostInList(h, lists.loopback))
+          continue;
+        // A property list's standard DOCTYPE system id: an identifier that
+        // plist parsers never fetch (same entry in ci/inert-hosts.txt).
+        if (h === "www.apple.com" && PLIST_DOCTYPE_RE.test(hit.lineText))
           continue;
         if (hostInList(h, lists.link)) {
           if (inOpenUrlContext(lines, hit.line)) continue;

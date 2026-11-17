@@ -276,6 +276,30 @@ describe("hosts guard", () => {
   });
 });
 
+describe("hosts guard: iPhone native code", () => {
+  test("covers src-tauri/ios-native; a plist DOCTYPE passes, another apple.com URL fails", () => {
+    const doctype = `<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "${"http:/"}/www.apple.com/DTDs/PropertyList-1.0.dtd">`;
+    const root = fixture({
+      "src-tauri/ios-native/App/Info.plist": `<?xml version="1.0" encoding="UTF-8"?>\n${doctype}\n<plist version="1.0"><dict/></plist>\n`,
+    });
+    expectPass(runHosts({ root }));
+    write(
+      root,
+      "src-tauri/ios-native/App/Net.swift",
+      `// SPDX-License-Identifier: GPL-3.0-or-later\nlet u = "${H}www.apple.com/x"\n`,
+    );
+    expect(rules(runHosts({ root }))).toEqual(["hosts/fork"]);
+  });
+
+  test("[test] hosts are allowed in the XCTest targets only", () => {
+    const line = `// SPDX-License-Identifier: GPL-3.0-or-later\nlet u = "${H}example.com/session/start"\n`;
+    const root = fixture({ "src-tauri/ios-native/WBTests/T.swift": line });
+    expectPass(runHosts({ root }));
+    write(root, "src-tauri/ios-native/WBShared/T.swift", line);
+    expect(rules(runHosts({ root }))).toEqual(["hosts/test-only"]);
+  });
+});
+
 describe("hosts guard: [test] hosts", () => {
   const cloud = `${H}api.openai.com/v1`;
   const forkMod = `${SPDX}#[cfg(test)]\nmod tests;\n#[cfg(test)]\n#[allow(dead_code)]\npub(crate) mod testutil;\n`;

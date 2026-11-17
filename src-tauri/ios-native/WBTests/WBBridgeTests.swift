@@ -160,7 +160,7 @@ final class WBBridgeTests: XCTestCase {
         XCTAssertNil(bare.takeID)
         XCTAssertEqual(bare.requestedAt, 50)
         XCTAssertNil(WBStartRequest(url: URL(string: "wisprbro://settings")!))
-        XCTAssertNil(WBStartRequest(url: URL(string: "https://session/start")!))
+        XCTAssertNil(WBStartRequest(url: URL(string: "https://example.com/session/start")!))
     }
 
     // MARK: Levels, settings, Full Access
