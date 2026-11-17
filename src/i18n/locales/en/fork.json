@@ -3164,40 +3164,13 @@
     },
     "style": {
       "intro": "Pick how your dictations are written, in every app."
+    },
     "settings": {
       "saveFailed": "Could not save that. Try again.",
       "local": "Everything stays on this iPhone.",
       "groups": {
         "dictation": "Dictation",
         "session": "Session",
-    },
-    "voice": {
-      "words_one": "{{count}} word",
-      "words_other": "{{count}} words"
-    },
-    "scratchpad": {
-      "emptyHelp": "Start a note, then type or dictate into it. Every note saves itself.",
-      "noResultsHelp": "Try another word.",
-      "notes": "Notes",
-      "noteMenu": "More for {{name}}",
-      "more": "More",
-      "done": "Done",
-      "share": "Share",
-      "cancel": "Cancel",
-      "deleteTitle": "Delete this note?",
-      "deleteBody": "“{{name}}” will be gone for good.",
-      "error": "That didn't work. Your text is still here; try again.",
-      "words_one": "{{count}} word",
-      "words_other": "{{count}} words",
-      "writing": "Writing…",
-      "recordFailed": "Couldn't record that. Try again.",
-      "polish": {
-        "off": "Polish uses the cleanup model, which isn't on this iPhone yet. Choose a cleanup level in Settings to download it.",
-        "downloading": "The cleanup model is still downloading. Polish works once it's here.",
-        "failed": "The cleanup model's download stopped. Start it again in Settings.",
-        "unsupported": "Polish needs the cleanup model, which isn't available on this iPhone."
-      }
-    },
         "feedback": "Sound",
         "app": "Wispr Bro",
         "appearance": "Appearance"
@@ -3235,6 +3208,33 @@
         "system": "Automatic",
         "light": "Light",
         "dark": "Dark"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} word",
+      "words_other": "{{count}} words"
+    },
+    "scratchpad": {
+      "emptyHelp": "Start a note, then type or dictate into it. Every note saves itself.",
+      "noResultsHelp": "Try another word.",
+      "notes": "Notes",
+      "noteMenu": "More for {{name}}",
+      "more": "More",
+      "done": "Done",
+      "share": "Share",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete this note?",
+      "deleteBody": "“{{name}}” will be gone for good.",
+      "error": "That didn't work. Your text is still here; try again.",
+      "words_one": "{{count}} word",
+      "words_other": "{{count}} words",
+      "writing": "Writing…",
+      "recordFailed": "Couldn't record that. Try again.",
+      "polish": {
+        "off": "Polish uses the cleanup model, which isn't on this iPhone yet. Choose a cleanup level in Settings to download it.",
+        "downloading": "The cleanup model is still downloading. Polish works once it's here.",
+        "failed": "The cleanup model's download stopped. Start it again in Settings.",
+        "unsupported": "Polish needs the cleanup model, which isn't available on this iPhone."
       }
     },
     "licences": {
