@@ -15,6 +15,7 @@
  *   ├ Return to my app ◉
  *   ├ Dictation sounds ◉
  *   ├ Appearance  ▣▣▣
+ *   ├ Sync with your Mac ›      sync
  *   ├ Data and Privacy ›        privacy
  *   └ About › Acknowledgements › about, licences
  */
@@ -47,6 +48,7 @@ import {
   Globe,
   Info,
   Palette,
+  RefreshCw,
   ScrollText,
   ShieldCheck,
   Sparkles,
@@ -56,6 +58,7 @@ import {
 } from "../ui/icons";
 import { SESSION_TIMEOUTS } from "./commands";
 import { sessionTimeoutLabel } from "./format";
+import { IosSync, useLastSynced } from "./IosSync";
 import { Licences } from "./Licences";
 import { screenFor } from "./nav";
 import {
@@ -144,6 +147,8 @@ export function IosSettings() {
       return <CleanupPage />;
     case "session":
       return <SessionPage />;
+    case "sync":
+      return <IosSync />;
     case "privacy":
       return <PrivacyPage />;
     case "about":
@@ -162,6 +167,7 @@ function SettingsRoot() {
   const setAutoReturn = useIosStore((s) => s.setAutoReturn);
   const cleanup = useCleanupStatus();
   const cleanupIs = cleanupPhase(cleanup);
+  const lastSynced = useLastSynced();
   const [version, setVersion] = useState<string | null>(null);
   useEffect(() => {
     void getVersion()
@@ -265,6 +271,13 @@ function SettingsRoot() {
         </div>
       </IosGroup>
       <IosGroup label={t("ios.settings.groups.app")}>
+        <IosNavRow
+          icon={RefreshCw}
+          label={t("ios.settings.pages.sync")}
+          value={lastSynced}
+          onClick={() => navigate("settings", "sync")}
+          testId="wb-ios-settings-sync"
+        />
         <IosNavRow
           icon={ShieldCheck}
           label={t("settingsModal.sections.privacy")}

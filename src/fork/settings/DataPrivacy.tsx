@@ -19,6 +19,7 @@ import {
 import { FORK_NAMESPACE } from "../i18n";
 import { isIos } from "../ios/platform";
 import { Button, Checkbox, FOCUS_RING, SettingGroup, SettingRow } from "../ui";
+import { MacSync } from "../sync/MacSync";
 import { PanelCard, SelectRow, ToggleRow } from "./Controls";
 import { useForkSettings } from "./useForkSettings";
 
@@ -340,6 +341,8 @@ export function DataPrivacy() {
           </SettingGroup>
         </div>
       )}
+
+      {!ios && <MacSync />}
 
       <div data-testid="wb-privacy-export">
         <SettingGroup label={t("settingsModal.privacy.export.title")}>

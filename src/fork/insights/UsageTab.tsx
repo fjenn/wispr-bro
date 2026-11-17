@@ -426,6 +426,14 @@ function WordsCard({ usage }: { usage: UsageInsights }) {
         <p>
           {t("insights.words.dictations", { count: usage.total_dictations })}
         </p>
+        {!!usage.other_devices && (
+          <p
+            className="text-[13px] leading-[18px] text-(--wb-ink-3)"
+            data-testid="wb-insights-devices"
+          >
+            {t("home.stats.allDevices", { count: usage.other_devices })}
+          </p>
+        )}
       </div>
     </Card>
   );

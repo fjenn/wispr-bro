@@ -147,6 +147,9 @@ pub struct UsageInsights {
     pub first_day: Option<String>,
     /// Local day the numbers were computed for.
     pub today: String,
+    /// How many other devices' numbers are included (sync); set by the
+    /// command.
+    pub other_devices: u32,
 }
 
 /// Speed against `typing_wpm` (the test result) or the average typist.
@@ -260,6 +263,7 @@ pub fn usage(
             .min()
             .map(|d| d.format("%Y-%m-%d").to_string()),
         today: today.format("%Y-%m-%d").to_string(),
+        other_devices: 0,
     }
 }
 

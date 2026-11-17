@@ -145,8 +145,17 @@ static void WBAdopt(UIWindow *window) {
 @interface WBSceneDelegate : UIResponder <UIWindowSceneDelegate>
 @end
 
+// Sync (fork/sync/ios.rs): a file opened in the app (AirDrop, Files).
+extern void wb_sync_file_opened(const char *path);
+
 // One opened URL, on the main thread.
 static void WBHandleURL(NSURL *url) {
+    if (url.isFileURL) {
+        // A file opened in place stays readable only while this is held.
+        [url startAccessingSecurityScopedResource];
+        wb_sync_file_opened(url.path.UTF8String);
+        return;
+    }
     // A session link from the keyboard (wisprbro://…) goes to the Swift
     // session controller, when it is in the app (looked up by name: the
     // Rust library builds without it).

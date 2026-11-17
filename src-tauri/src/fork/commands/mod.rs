@@ -28,6 +28,7 @@ pub mod settings;
 pub mod snippets;
 pub mod stats;
 pub mod style;
+pub mod sync;
 pub mod transforms;
 pub mod tutorials;
 pub mod update;

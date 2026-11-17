@@ -134,6 +134,14 @@ export function StatsRail({
           stacked={layout === "row"}
         />
       </dl>
+      {!!summary?.other_devices && (
+        <p
+          data-testid="wb-stats-devices"
+          className="mt-3 text-[12px] leading-4 text-(--wb-ink-3)"
+        >
+          {t("home.stats.allDevices", { count: summary.other_devices })}
+        </p>
+      )}
     </div>
   );
 }

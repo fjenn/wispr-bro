@@ -14,12 +14,15 @@ fn main() {
     // Also the UIKit scene life cycle the iOS 27 SDK requires (scene.m).
     println!("cargo:rerun-if-changed=src/fork/ios/swift_stubs.c");
     println!("cargo:rerun-if-changed=src/fork/ios/scene.m");
+    println!("cargo:rerun-if-changed=src/fork/sync/ios.m");
     if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("ios") {
         cc::Build::new()
             .file("src/fork/ios/swift_stubs.c")
             .compile("wb_ios_swift_stubs");
         cc::Build::new()
             .file("src/fork/ios/scene.m")
+            // Sync: the share sheet (fork/sync/ios.rs).
+            .file("src/fork/sync/ios.m")
             .flag("-fobjc-arc")
             .flag("-fmodules")
             .compile("wb_ios_scene");

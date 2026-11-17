@@ -39,6 +39,7 @@ export const SETTINGS_PAGES = [
   "languages",
   "cleanup",
   "session",
+  "sync",
   "privacy",
   "about",
   "licences",

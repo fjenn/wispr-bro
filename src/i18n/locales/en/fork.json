@@ -330,6 +330,18 @@
         "saved": "Sanitized diagnostics saved.",
         "failed": "Could not prepare diagnostics. Try again.",
         "rowTitle": "Share diagnostics"
+      },
+      "sync": {
+        "title": "Sync",
+        "rowTitle": "Sync with your iPhone",
+        "hint": "Dictionary, snippets, settings and stats as one file to AirDrop. No account, no server.",
+        "import": "Import…",
+        "export": "Export…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro sync file",
+        "exported": "Sync file saved and shown in Finder. AirDrop it to your iPhone.",
+        "last": "Last merged from {{device}}: {{when}}. History and recordings are never included.",
+        "never": "Not synced yet. History and recordings are never included."
       }
     },
     "advanced": {
@@ -1387,7 +1399,9 @@
       "wordsPerMinute": "Words per minute",
       "streak": "Day streak",
       "notEnoughSpeech": "Not enough speech yet",
-      "unavailable": "Not available yet"
+      "unavailable": "Not available yet",
+      "allDevices_one": "Includes {{count}} other device",
+      "allDevices_other": "Includes {{count}} other devices"
     },
     "voiceProfile": {
       "title": "Your voice profile",
@@ -3170,7 +3184,8 @@
         "session": "End session after",
         "privacy": "Data and Privacy",
         "about": "About",
-        "licences": "Acknowledgements"
+        "licences": "Acknowledgements",
+        "sync": "Sync with your Mac"
       },
       "cleanup": {
         "notHere": "Not on this iPhone",
@@ -3300,6 +3315,97 @@
           "footnote_other": "Worked out on this iPhone from your latest {{count, number}} dictations. Nothing leaves your iPhone."
         }
       }
+    },
+    "sync": {
+      "intro": "Keep your dictionary, snippets, settings and stats the same on your iPhone and your Mac. There is no account and no server: you send a file from one to the other.",
+      "fromMac": {
+        "title": "From your Mac",
+        "step1": "On your Mac, open Wispr Bro, go to Settings › Data and Privacy and choose Export my data.",
+        "step2": "AirDrop the file to this iPhone and open it with Wispr Bro.",
+        "step3": "Check what will change, then tap Merge.",
+        "choose": "Choose a file",
+        "reading": "Reading…",
+        "footer": "Already saved the file to Files? Choose it here. Your Mac's history and recordings are not read."
+      },
+      "toMac": {
+        "title": "To your Mac",
+        "send": "Send to Mac",
+        "csv": "Add CSV files",
+        "csvHint": "For a Mac that cannot open sync files yet. Import them on its Dictionary and Snippets pages.",
+        "footer": "AirDrop the file to your Mac and import it in Settings › Data and Privacy. History and recordings stay on this iPhone."
+      },
+      "devices": {
+        "title": "Synced",
+        "none": "Not synced yet",
+        "merged": "Merged {{when}}",
+        "words_one": "{{words}} word",
+        "words_other": "{{words}} words"
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "your Mac",
+      "iphone": "your iPhone",
+      "macName": "Your Mac",
+      "iphoneName": "Your iPhone"
+    },
+    "parts": {
+      "dictionary": "Dictionary",
+      "snippets": "Snippets",
+      "settings": "Settings",
+      "stats": "Stats"
+    },
+    "review": {
+      "title": "Merge from {{device}}",
+      "titleFile": "Import {{device}}",
+      "made": "Made {{when}}",
+      "madeWith": "Made {{when}} with Wispr Bro {{version}}",
+      "added_one": "{{count}} new",
+      "added_other": "{{count}} new",
+      "changed_one": "{{count}} changed",
+      "changed_other": "{{count}} changed",
+      "removed_one": "{{count}} removed",
+      "removed_other": "{{count}} removed",
+      "stats_one": "{{words}} words on {{count}} day",
+      "stats_other": "{{words}} words on {{count}} days",
+      "same": "Up to date",
+      "notInFile": "Not in this file",
+      "upToDate": "Everything in this file is already here.",
+      "privacy": "History and recordings are not synced. They stay on the device they were made on.",
+      "privacyExport": "This is your Mac's full export. Only its dictionary, snippets, settings and stats are read. Its history and recordings are not.",
+      "merge": "Merge",
+      "merging": "Merging…",
+      "cancel": "Cancel",
+      "done": "Done",
+      "privacyExportCopy": "This iPhone's copy of the file is deleted afterwards."
+    },
+    "result": {
+      "title": "Merged",
+      "from": "From {{device}}",
+      "merged": "Both are in step now.",
+      "nothing": "Nothing had to change."
+    },
+    "problems": {
+      "title": "This file cannot be merged",
+      "unreadable": "The file could not be read. Send it again and try once more.",
+      "not_wispr_bro": "This is not a Wispr Bro file. Choose a sync file (.wisprbro), your Mac's exported data (.zip), or a Dictionary or Snippets CSV.",
+      "too_new": "This file was made by a newer Wispr Bro. Update Wispr Bro here, then open the file again.",
+      "own_file": "This file was made on this device. Open it on your other device.",
+      "failed": "Something went wrong while reading the file. Nothing was changed."
+    },
+    "sendFailed": "Could not make the sync file.",
+    "settingNames": {
+      "cleanup_level": "Cleanup",
+      "styles": "Style",
+      "text_retention_days": "History retention",
+      "audio_retention_days": "Recording retention",
+      "typing_wpm": "Typing speed",
+      "typing_hours_per_day": "Typing time",
+      "greeting_name": "Name",
+      "spoken_languages": "Languages",
+      "audio_feedback": "Dictation sounds",
+      "audio_feedback_volume": "Sound volume"
     }
   }
 }

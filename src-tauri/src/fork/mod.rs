@@ -66,6 +66,7 @@ pub mod shortcut;
 pub mod snippets;
 pub mod startup;
 pub mod stats;
+pub mod sync;
 #[cfg(test)]
 mod testutil;
 pub mod text;
@@ -564,6 +565,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-04: session observers and recording phases for delivery.
     insert::on_ready(app);
     db::jobs::start(app);
+    // Sync: when each synced setting last changed (fork/sync/settings.rs).
+    commands::sync::observe_settings(app);
     // S-11: the dictionary rules the text pipeline applies, read per take.
     startup::init();
     install_rule_source(app);
@@ -837,6 +840,11 @@ macro_rules! fork_specta_builder {
                 commands::privacy::fork_erase_all_data::<$runtime>,
                 commands::help::fork_open_issue::<$runtime>,
                 commands::help::fork_share_sheet::<$runtime>,
+                commands::sync::fork_sync_status::<$runtime>,
+                commands::sync::fork_sync_review::<$runtime>,
+                commands::sync::fork_sync_apply::<$runtime>,
+                commands::sync::fork_sync_discard,
+                commands::sync::fork_sync_export::<$runtime>,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -869,7 +877,8 @@ macro_rules! fork_specta_builder {
                 tutorials::practice::ForkLessonShortcut,
                 shortcut::health::ForkShortcutHealthChanged,
                 shortcut::health::ForkShortcutFixRequested,
-                pill::spotlight::ForkSpotlightState
+                pill::spotlight::ForkSpotlightState,
+                commands::sync::ForkSyncFileOpened
             ])
     };
 }
@@ -984,6 +993,9 @@ impl ForkRuntime for tauri::Wry {
         // iOS: takes come from the Swift session from here on.
         #[cfg(target_os = "ios")]
         ios::on_ready(app);
+        // Sync: files opened in the app reach the page.
+        #[cfg(target_os = "ios")]
+        sync::ios::on_ready(app);
     }
 
     fn handy_keys_rebuild(app: &AppHandle<Self>) -> Result<(), String> {

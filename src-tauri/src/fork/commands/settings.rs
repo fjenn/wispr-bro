@@ -101,6 +101,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
         crate::fork::pill::settings_changed(&next);
     }
 
+    // Sync: a synced setting that changed gets its time now.
+    super::sync::observe_settings(&app);
+
     let event = ForkSettingsChanged {
         key,
         settings: next.clone(),

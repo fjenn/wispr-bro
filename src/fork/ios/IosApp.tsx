@@ -53,6 +53,7 @@ import { MotionRoot, useMotionPresets } from "../ui/motion";
 import { IosHistory } from "./IosHistory";
 import { IosHome } from "./IosHome";
 import { IosSettings } from "./IosSettings";
+import { useSyncInbox } from "./IosSync";
 import {
   IOS_TABS,
   screenFor,
@@ -113,6 +114,8 @@ export function IosApp(props: IosAppProps) {
   useForkSettings();
   useIosLive();
   useKeyboardInset();
+  // A file from AirDrop or Files opens its review on the Sync page.
+  useSyncInbox();
   useEffect(() => syncHubWithHash(), []);
 
   const tab = screen.kind === "tab" ? screen.tab : null;
