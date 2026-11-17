@@ -265,27 +265,49 @@ test.describe("ios", () => {
     await expect(body).toHaveValue("so um this is the the note");
   });
 
-  test("Polish says why it can't run when the cleanup model is not here", async ({
+  test("Polish says why it can't run while Apple Intelligence is off", async ({
     page,
     ipc,
     hub,
     ios,
   }) => {
     ios.notes = [note(7, "so um this is the the note")];
-    // Cleanup off: the model is not on the phone.
-    ios.llmState = "waiting_for_speech_model";
+    ios.appleAvailability = "not_enabled";
     await openIos(page, ipc, hub, ios, {
       hash: "#/hub/scratchpad/7",
       fork: { cleanup_level: "none" },
     });
+    const notice = page.getByTestId("wb-note-notice");
     const before = (await ipc.calls("fork_scratchpad_polish")).length;
+    // The note asks for Apple's status when it opens.
+    await expect
+      .poll(async () => (await ipc.calls("fork_llm_apple_status")).length)
+      .toBeGreaterThan(0);
     await page.getByTestId("wb-note-polish").click();
-    await expect(page.getByTestId("wb-note-notice")).toContainText(
-      "Choose a cleanup level in Settings",
-    );
+    await expect(notice).toContainText("Apple Intelligence");
+    expect(await notice.textContent()).not.toContain("download");
     expect((await ipc.calls("fork_scratchpad_polish")).length).toBe(before);
     await page.getByTestId("wb-note-notice-settings").click();
-    await expect(page.getByTestId("fork-cleanup-level-light")).toBeVisible();
+    await expect(page.getByTestId("wb-ios-cleanup-off")).toBeVisible();
+  });
+
+  test("Polish runs with cleanup at None when Apple Intelligence is on", async ({
+    page,
+    ipc,
+    hub,
+    ios,
+  }) => {
+    ios.notes = [note(7, "so um this is the the note")];
+    ios.appleAvailability = "available";
+    ios.polish = { outcome: "changed", text: "This is the note." };
+    await openIos(page, ipc, hub, ios, {
+      hash: "#/hub/scratchpad/7",
+      fork: { cleanup_level: "none" },
+    });
+    await page.getByTestId("wb-note-polish").click();
+    await expect(page.getByTestId("wb-note-body")).toHaveValue(
+      "This is the note.",
+    );
   });
 
   test("starts and ends a session", async ({ page, ipc, hub, ios }) => {

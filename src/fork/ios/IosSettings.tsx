@@ -30,11 +30,7 @@ import {
 import { useSettings } from "@/hooks/useSettings";
 import { languageList } from "@/lib/constants/languages";
 import { applyTheme, getStoredTheme } from "@/lib/utils/theme";
-import {
-  commands,
-  type AppleAvailability,
-  type CleanupLevel,
-} from "../bindings";
+import { commands, type CleanupLevel } from "../bindings";
 import { navigate, useHubNav } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
 import { About } from "../settings/About";
@@ -53,6 +49,7 @@ import {
   Undo2,
   Volume2,
 } from "../ui/icons";
+import { useCleanupPhase } from "./cleanupPhase";
 import { SESSION_TIMEOUTS } from "./commands";
 import { sessionTimeoutLabel } from "./format";
 import { IosSync, useLastSynced } from "./IosSync";
@@ -67,53 +64,6 @@ import {
   IosValueRow,
 } from "./parts";
 import { useIosStore } from "./useIos";
-
-/**
- * Whether this iPhone can clean up dictations. Apple's on-device model
- * does it (`fork_llm_apple_status`), so it needs Apple Intelligence: iOS 26
- * on an iPhone that has it, switched on. Asked again every few seconds,
- * because the person may switch it on in Settings and come back.
- *
- * - `ready`: cleanup works.
- * - `preparing`: Apple's model is still downloading; levels can be chosen.
- * - `off`: Apple Intelligence is switched off.
- * - `none`: this iPhone or iOS version has no Apple Intelligence.
- */
-type CleanupPhase = "unknown" | "ready" | "preparing" | "off" | "none";
-
-function phaseOf(availability: AppleAvailability): CleanupPhase {
-  switch (availability) {
-    case "available":
-      return "ready";
-    case "model_not_ready":
-      return "preparing";
-    case "not_enabled":
-      return "off";
-    default:
-      return "none";
-  }
-}
-
-function useCleanupPhase(): CleanupPhase {
-  const [phase, setPhase] = useState<CleanupPhase>("unknown");
-  useEffect(() => {
-    let alive = true;
-    const ask = () =>
-      commands
-        .forkLlmAppleStatus()
-        .then((status) => {
-          if (alive) setPhase(status ? phaseOf(status.availability) : "none");
-        })
-        .catch(() => alive && setPhase("none"));
-    void ask();
-    const timer = window.setInterval(() => void ask(), 3000);
-    return () => {
-      alive = false;
-      window.clearInterval(timer);
-    };
-  }, []);
-  return phase;
-}
 
 export function IosSettings() {
   const page = useHubNav((s) => s.page);

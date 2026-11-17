@@ -26,13 +26,7 @@ import {
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { copyToClipboard } from "@/components/settings/history/clipboard";
-import {
-  commands,
-  events,
-  type ForkLlmStatus,
-  type LlmState,
-  type Note,
-} from "../bindings";
+import { commands, type Note } from "../bindings";
 import { navigate } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
@@ -52,6 +46,7 @@ import {
   Trash2,
   X,
 } from "../ui/icons";
+import { useCleanupPhase, type CleanupPhase } from "./cleanupPhase";
 import { iosCommands, type IosTakePhase } from "./commands";
 import { countWords, insertAtCaret, type Caret } from "./noteText";
 
@@ -72,26 +67,22 @@ type Notice =
   | { kind: "text"; text: string; settings?: boolean };
 
 /**
- * Why Polish cannot run now, as a string key: the cleanup model is known
- * not to be here yet. Null when it can be tried.
+ * Why Polish cannot run now, as a string key. Polish on iPhone runs on
+ * Apple's on-device model, as cleanup does (`cleanupPhase`), whatever
+ * cleanup level is chosen: it is asked for, not automatic. Null when it can
+ * be tried (or the status is not known yet: the app then says why).
  */
 function polishBlock(
-  state: LlmState | null,
-  cleanupOff: boolean,
+  phase: CleanupPhase,
 ): { key: string; settings: boolean } | null {
-  switch (state) {
-    case "downloading":
-    case "verifying":
-      return { key: "ios.scratchpad.polish.downloading", settings: false };
-    case "download_failed":
-      return { key: "ios.scratchpad.polish.failed", settings: true };
-    case "waiting_for_speech_model":
-      return cleanupOff
-        ? { key: "ios.scratchpad.polish.off", settings: true }
-        : { key: "ios.scratchpad.polish.downloading", settings: false };
+  switch (phase) {
+    case "preparing":
+      return { key: "ios.scratchpad.polish.preparing", settings: false };
+    case "off":
+      return { key: "ios.scratchpad.polish.off", settings: true };
+    case "none":
+      return { key: "ios.scratchpad.polish.unsupported", settings: false };
     default:
-      // Ready, or no local model for this iPhone: the app answers (another
-      // engine may do it), and says so when nothing can.
       return null;
   }
 }
@@ -108,7 +99,7 @@ export function IosNote({ id }: { id: number }) {
   const [copied, setCopied] = useState(false);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [polishPhase, setPolishPhase] = useState<PolishPhase>("idle");
-  const [llm, setLlm] = useState<LlmState | null>(null);
+  const cleanupPhase = useCleanupPhase();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [take, setTake] = useState<{ id: string; phase: IosTakePhase } | null>(
     null,
@@ -217,28 +208,6 @@ export function IosNote({ id }: { id: number }) {
       } else flush();
     };
   }, [id, save]);
-
-  // Polish needs the cleanup model.
-  useEffect(() => {
-    let active = true;
-    let off: (() => void) | undefined;
-    const apply = (status: ForkLlmStatus) => active && setLlm(status.state);
-    void commands
-      .forkLlmStatus()
-      .then((result) => result.status === "ok" && apply(result.data))
-      .catch(() => undefined);
-    void events.forkLlmStatus
-      .listen(({ payload }) => apply(payload))
-      .then((unlisten) => {
-        if (active) off = unlisten;
-        else unlisten();
-      })
-      .catch(() => undefined);
-    return () => {
-      active = false;
-      off?.();
-    };
-  }, []);
 
   // A caret set by an inserted take, once the text is in the field.
   useLayoutEffect(() => {
@@ -363,7 +332,7 @@ export function IosNote({ id }: { id: number }) {
     }
   };
 
-  const block = polishBlock(llm, settings?.cleanup_level === "none");
+  const block = polishBlock(cleanupPhase);
   const polishing = polishPhase !== "idle";
   const polish = async () => {
     if (polishing) return;
@@ -400,9 +369,8 @@ export function IosNote({ id }: { id: number }) {
           outcome === "no_change"
             ? "scratchpad.polishNoChange"
             : outcome === "not_ready"
-              ? llm === "unsupported" || llm === "missing_runtime"
-                ? "ios.scratchpad.polish.unsupported"
-                : "ios.scratchpad.polish.downloading"
+              ? (polishBlock(cleanupPhase)?.key ??
+                "ios.scratchpad.polish.preparing")
               : "scratchpad.polishRefused",
         ),
       });
