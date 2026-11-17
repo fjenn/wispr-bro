@@ -68,6 +68,31 @@ public func wb_ios_end_session() {
     wbOnMain { WBSessionController.shared.endSession() }
 }
 
+/// A take of the app's own (a note's Record button). Returns its id.
+@_cdecl("wb_ios_app_take_start")
+public func wb_ios_app_take_start() -> UInt64 {
+    let takeID = WBTakeID.make()
+    // Before this returns, so the first question about it finds "starting".
+    WBAppTake.shared.begin(takeID)
+    wbOnMain { WBSessionController.shared.startAppTake(takeID) }
+    return takeID
+}
+
+@_cdecl("wb_ios_app_take_stop")
+public func wb_ios_app_take_stop(_ takeID: UInt64) {
+    wbOnMain { WBSessionController.shared.stopAppTake(takeID) }
+}
+
+@_cdecl("wb_ios_app_take_cancel")
+public func wb_ios_app_take_cancel(_ takeID: UInt64) {
+    wbOnMain { WBSessionController.shared.cancelAppTake(takeID) }
+}
+
+@_cdecl("wb_ios_app_take_json")
+public func wb_ios_app_take_json(_ takeID: UInt64) -> UnsafeMutablePointer<CChar>? {
+    strdup(WBAppTake.shared.json(takeID))
+}
+
 @_cdecl("wb_ios_keyboard_enabled")
 public func wb_ios_keyboard_enabled() -> Int32 {
     WBSystemState.keyboardEnabled ? 1 : 0

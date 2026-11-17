@@ -99,3 +99,46 @@ pub fn app_state() -> &'static str {
         _ => "inactive",
     }
 }
+
+extern "C" {
+    fn wb_ios_app_take_start() -> u64;
+    fn wb_ios_app_take_stop(take_id: u64);
+    fn wb_ios_app_take_cancel(take_id: u64);
+    fn wb_ios_app_take_json(take_id: u64) -> *mut c_char;
+}
+
+/// Starts a take of the app's own (a note's Record button); the session is
+/// started first when none is running. `None` without the Swift session.
+pub fn app_take_start() -> Option<u64> {
+    // SAFETY: no arguments; safe from any thread (wb_ios.h).
+    match unsafe { wb_ios_app_take_start() } {
+        0 => None,
+        id => Some(id),
+    }
+}
+
+pub fn app_take_stop(take_id: u64) {
+    // SAFETY: as above.
+    unsafe { wb_ios_app_take_stop(take_id) }
+}
+
+pub fn app_take_cancel(take_id: u64) {
+    // SAFETY: as above.
+    unsafe { wb_ios_app_take_cancel(take_id) }
+}
+
+/// Where the app's take is: `{phase, level, text, error}` (wb_ios.h).
+pub fn app_take_state(take_id: u64) -> serde_json::Value {
+    // SAFETY: a malloc'd NUL-terminated string (or null), freed with its
+    // own free function.
+    let json = unsafe {
+        let pointer = wb_ios_app_take_json(take_id);
+        if pointer.is_null() {
+            return serde_json::Value::Null;
+        }
+        let json = CStr::from_ptr(pointer).to_string_lossy().into_owned();
+        wb_ios_string_free(pointer);
+        json
+    };
+    serde_json::from_str(&json).unwrap_or(serde_json::Value::Null)
+}

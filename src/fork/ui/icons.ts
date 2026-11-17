@@ -120,6 +120,7 @@ export const SlidersHorizontal = glyph(L.SlidersHorizontal);
 export const Smile = glyph(L.Smile);
 export const Sparkles = glyph(L.Sparkles);
 export const SpellCheck = glyph(L.SpellCheck);
+export const Speech = glyph(L.Speech);
 export const Square = glyph(L.Square);
 export const SquarePen = glyph(L.SquarePen);
 export const Star = glyph(L.Star);

@@ -25,6 +25,17 @@ void wb_ios_start_session(void);
 /// Ends the session. A take that is listening is finished and delivered first.
 void wb_ios_end_session(void);
 
+/// A take started by the app itself (a note's Record button): starts the
+/// session when none is running, then the take. Returns the take's id.
+uint64_t wb_ios_app_take_start(void);
+/// Stops listening; the take is transcribed.
+void wb_ios_app_take_stop(uint64_t take_id);
+void wb_ios_app_take_cancel(uint64_t take_id);
+/// {"phase":"none|starting|listening|transcribing|done|failed|cancelled",
+///  "level":0..1,"text":string|null,"error":string|null}
+/// malloc'd; free with wb_ios_string_free.
+char *wb_ios_app_take_json(uint64_t take_id);
+
 /// 1 when the Wispr Bro keyboard is among the enabled keyboards.
 int32_t wb_ios_keyboard_enabled(void);
 /// Last value the keyboard reported: 1 on, 0 off, -1 not reported yet.

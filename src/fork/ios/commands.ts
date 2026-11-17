@@ -13,6 +13,10 @@
  *   ios_set_session_timeout  { seconds }
  *   ios_get_auto_return      → boolean
  *   ios_set_auto_return      { enabled }
+ *   ios_take_start           → take id (a take of the app's own: a note's Record)
+ *   ios_take_stop            { id }
+ *   ios_take_cancel          { id }
+ *   ios_take_state           { id } → IosTake
  *
  * With the dev override (`?platform=ios` in a desktop browser) a missing
  * command falls back to an in-memory stand-in so every screen can be
@@ -63,8 +67,37 @@ const SESSION_STATES: readonly IosSessionState[] = [
   "error",
 ];
 
+export type IosTakePhase =
+  | "none"
+  | "starting"
+  | "listening"
+  | "transcribing"
+  | "done"
+  | "failed"
+  | "cancelled";
+
+/** A take the app started itself (`ios_take_start`). */
+export interface IosTake {
+  phase: IosTakePhase;
+  /** 0…1 while listening. */
+  level: number;
+  text?: string | null;
+  error?: string | null;
+}
+
+const TAKE_PHASES: readonly IosTakePhase[] = [
+  "none",
+  "starting",
+  "listening",
+  "transcribing",
+  "done",
+  "failed",
+  "cancelled",
+];
+
 /** The stand-in backend for the dev override. */
 const dev = {
+  take: { id: 0, phase: "none" as IosTakePhase, at: 0 },
   session: { state: "noSession" } as IosSession,
   setup: {
     keyboardEnabled: false,
@@ -119,6 +152,26 @@ const isSetup = (v: unknown): v is IosSetup =>
   typeof (v as IosSetup).keyboardEnabled === "boolean" &&
   typeof (v as IosSetup).fullAccess === "boolean";
 
+const isTake = (v: unknown): v is IosTake =>
+  !!v && typeof v === "object" && TAKE_PHASES.includes((v as IosTake).phase);
+const isString = (v: unknown): v is string =>
+  typeof v === "string" && v.length > 0;
+
+/** The dev stand-in's take: listens until stopped, then "writes" for 0.7 s. */
+function devTake(id: string): IosTake {
+  if (String(dev.take.id) !== id) return { phase: "none", level: 0 };
+  const age = Date.now() - dev.take.at;
+  if (dev.take.phase === "starting" && age > 250) dev.take.phase = "listening";
+  if (dev.take.phase === "transcribing" && age > 700) dev.take.phase = "done";
+  return {
+    phase: dev.take.phase,
+    level:
+      dev.take.phase === "listening" ? 0.25 + 0.5 * Math.abs(Math.sin(age)) : 0,
+    text: dev.take.phase === "done" ? "This sentence was dictated." : null,
+    error: null,
+  };
+}
+
 const isNumber = (v: unknown): v is number =>
   typeof v === "number" && Number.isFinite(v);
 const isBoolean = (v: unknown): v is boolean => typeof v === "boolean";
@@ -156,6 +209,28 @@ export const iosCommands = {
     }),
   getAutoReturn: () =>
     call("ios_get_auto_return", undefined, () => dev.autoReturn, isBoolean),
+  takeStart: () =>
+    call(
+      "ios_take_start",
+      undefined,
+      () => {
+        dev.take = { id: dev.take.id + 1, phase: "starting", at: Date.now() };
+        return String(dev.take.id);
+      },
+      isString,
+    ),
+  takeStop: (id: string) =>
+    run("ios_take_stop", { id }, () => {
+      if (String(dev.take.id) === id && dev.take.phase !== "done") {
+        dev.take = { ...dev.take, phase: "transcribing", at: Date.now() };
+      }
+    }),
+  takeCancel: (id: string) =>
+    run("ios_take_cancel", { id }, () => {
+      if (String(dev.take.id) === id) dev.take.phase = "cancelled";
+    }),
+  takeState: (id: string) =>
+    call("ios_take_state", { id }, () => devTake(id), isTake),
   setAutoReturn: (enabled: boolean) =>
     run("ios_set_auto_return", { enabled }, () => {
       dev.autoReturn = enabled;

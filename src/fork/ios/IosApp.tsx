@@ -9,12 +9,14 @@
  *   │ page (one column, scrolls)           │
  *   │                                      │
  *   ├──────────────────────────────────────┤
- *   │ Home  History  Dictionary  Snippets ⚙│  tab bar + home indicator
+ *   │ Home  History  My Voice  Scratchpad ⚙│  tab bar + home indicator
  *   └──────────────────────────────────────┘
  *
- * The pages are the Hub's own (Dictionary, Snippets, Style, Insights,
- * History); only Home and Settings are composed for the phone. Navigation
- * is the Hub's store read as tabs (`./nav`). No window chrome, sidebar,
+ * The pages are the Hub's own (Dictionary, Snippets, Insights, History);
+ * Home, My Voice (three rows that push Dictionary, Snippets and Style),
+ * Scratchpad and Settings are composed for the phone. A note's editor covers the tab
+ * bar and puts its actions in the top bar's end slot. Navigation is the
+ * Hub's store read as tabs (`./nav`). No window chrome, sidebar,
  * shortcuts, tutorials or update status: none of them exist on iPhone.
  */
 import {
@@ -23,42 +25,46 @@ import {
   useRef,
   useState,
   type ComponentType,
+  type TouchEvent,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { getLanguageDirection } from "@/lib/utils/rtl";
-import { DictionaryPage } from "../dictionary/DictionaryPage";
 import {
   HandyAppHandlersContext,
   type HandyAppHandlers,
 } from "../hub/HandySettingsPage";
 import { navigate, syncHubWithHash, useHubNav } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
+import { DictionaryPage } from "../dictionary/DictionaryPage";
 import { InsightsPage } from "../insights/InsightsPage";
-import { useForkSettings } from "../settings/useForkSettings";
 import { SnippetsPage } from "../snippets/SnippetsPage";
-import { IosStyle } from "./IosStyle";
+import { useForkSettings } from "../settings/useForkSettings";
 import { TooltipProvider } from "../ui";
 import {
   AudioLines,
-  BookA,
   ChevronLeft,
   Clock,
+  NotebookPen,
   Settings,
-  TextQuote,
+  Speech,
   type Glyph,
 } from "../ui/icons";
 import { MotionRoot, useMotionPresets } from "../ui/motion";
 import { IosHistory } from "./IosHistory";
 import { IosHome } from "./IosHome";
+import { IosMyVoice } from "./IosMyVoice";
+import { IosStyle } from "./IosStyle";
+import { BAR_END_ID, IosNote } from "./IosNote";
+import { IosScratchpad } from "./IosScratchpad";
 import { IosSettings } from "./IosSettings";
 import { useSyncInbox } from "./IosSync";
 import {
   IOS_TABS,
   screenFor,
   screenId,
-  TAB_LOCATION,
+  tabLocation,
   type IosScreen,
   type IosTab,
 } from "./nav";
@@ -71,25 +77,37 @@ import "./ios.css";
 const TAB_ICONS: Record<IosTab, Glyph> = {
   home: AudioLines,
   history: Clock,
-  dictionary: BookA,
-  snippets: TextQuote,
+  voice: Speech,
+  scratchpad: NotebookPen,
   settings: Settings,
 };
+
+/** A back swipe starts this close to the leading edge and travels this far. */
+const EDGE_SWIPE_FROM = 24;
+const EDGE_SWIPE_DISTANCE = 72;
 
 /** Scrolled past the large title: the bar turns solid and shows the title. */
 const BAR_SOLID_AT = 30;
 
 function Page({ screen }: { screen: IosScreen }) {
   let Component: ComponentType;
-  if (screen.kind === "style") Component = IosStyle;
-  else if (screen.kind === "insights") Component = InsightsPage;
+  if (screen.kind === "voice") {
+    Component = {
+      dictionary: DictionaryPage,
+      snippets: SnippetsPage,
+      style: IosStyle,
+    }[screen.page];
+    return <Component />;
+  }
+  if (screen.kind === "note") return <IosNote key={screen.id} id={screen.id} />;
+  if (screen.kind === "insights") Component = InsightsPage;
   else if (screen.kind === "settings") Component = IosSettings;
   else {
     Component = {
       home: IosHome,
       history: IosHistory,
-      dictionary: DictionaryPage,
-      snippets: SnippetsPage,
+      voice: IosMyVoice,
+      scratchpad: IosScratchpad,
       settings: IosSettings,
     }[screen.tab];
   }
@@ -118,7 +136,7 @@ export function IosApp(props: IosAppProps) {
   useSyncInbox();
   useEffect(() => syncHubWithHash(), []);
 
-  const tab = screen.kind === "tab" ? screen.tab : null;
+  const tab: IosTab | null = screen.kind === "tab" ? screen.tab : null;
   useEffect(() => {
     if (tab) setOrigin(tab);
   }, [tab]);
@@ -129,30 +147,60 @@ export function IosApp(props: IosAppProps) {
     setSolid(false);
   }, [id, seq]);
 
-  const pushed = screen.kind !== "tab";
+  const pushed = tab === null;
+  // A note's editor is the whole screen: no tab bar under it.
+  const full = screen.kind === "note";
   const activeTab: IosTab =
-    screen.kind === "tab"
-      ? screen.tab
-      : screen.kind === "settings"
-        ? "settings"
-        : origin === "settings"
-          ? "settings"
-          : "home";
+    tab ??
+    (screen.kind === "settings"
+      ? "settings"
+      : screen.kind === "note"
+        ? "scratchpad"
+        : screen.kind === "voice"
+          ? "voice"
+          : origin === "settings"
+            ? "settings"
+            : "home");
   const backTab: IosTab = activeTab;
-  const title =
-    screen.kind === "tab"
-      ? t(`ios.tabs.${screen.tab}`)
-      : screen.kind === "settings"
-        ? t(`ios.settings.pages.${screen.page}`)
-        : t(`hub.pages.${screen.kind}.title`);
+  const title = tab
+    ? t(`ios.tabs.${tab}`)
+    : screen.kind === "settings"
+      ? t(`ios.settings.pages.${screen.page}`)
+      : screen.kind === "note"
+        ? ""
+        : screen.kind === "voice"
+          ? t(`hub.pages.${screen.page}.title`)
+          : t("hub.pages.insights.title");
 
   const go = (next: IosTab) => {
     if (next === tab) {
       mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    const to = TAB_LOCATION[next];
+    const to = tabLocation(next);
     navigate(to.page, to.section);
+  };
+
+  // A swipe in from the leading edge goes back, as a pushed page does on
+  // iPhone.
+  const swipe = useRef<{ x: number; y: number } | null>(null);
+  const rtl = getLanguageDirection(i18n.language) === "rtl";
+  const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    const fromEdge = rtl ? window.innerWidth - touch.clientX : touch.clientX;
+    swipe.current =
+      pushed && event.touches.length === 1 && fromEdge <= EDGE_SWIPE_FROM
+        ? { x: touch.clientX, y: touch.clientY }
+        : null;
+  };
+  const onTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const start = swipe.current;
+    swipe.current = null;
+    if (!start) return;
+    const touch = event.changedTouches[0];
+    const dx = (touch.clientX - start.x) * (rtl ? -1 : 1);
+    const dy = Math.abs(touch.clientY - start.y);
+    if (dx >= EDGE_SWIPE_DISTANCE && dy < dx / 2) go(backTab);
   };
 
   return (
@@ -162,8 +210,11 @@ export function IosApp(props: IosAppProps) {
           <div
             data-testid="wb-ios"
             data-screen={id}
+            data-full={full || undefined}
             dir={getLanguageDirection(i18n.language)}
             className="wb-ios-root"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
             <header
               className="wb-ios-bar"
@@ -190,6 +241,8 @@ export function IosApp(props: IosAppProps) {
                 <span className="wb-ios-bar-title" aria-hidden="true">
                   {title}
                 </span>
+                {/* A pushed page's own actions (the note editor's). */}
+                <div id={BAR_END_ID} className="wb-ios-bar-end" />
               </div>
             </header>
             <main

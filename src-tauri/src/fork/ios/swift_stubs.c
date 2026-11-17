@@ -35,3 +35,14 @@ WB_WEAK int32_t wb_ios_mic_permission(void) { return 0; }
 WB_WEAK void wb_ios_request_mic_permission(void) {}
 
 WB_WEAK void wb_ios_open_settings(void) {}
+
+WB_WEAK uint64_t wb_ios_app_take_start(void) { return 0; }
+
+WB_WEAK void wb_ios_app_take_stop(uint64_t take_id) { (void)take_id; }
+
+WB_WEAK void wb_ios_app_take_cancel(uint64_t take_id) { (void)take_id; }
+
+WB_WEAK char *wb_ios_app_take_json(uint64_t take_id) {
+    (void)take_id;
+    return strdup("{\"phase\":\"none\",\"level\":0,\"text\":null,\"error\":null}");
+}

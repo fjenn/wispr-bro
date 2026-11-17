@@ -18,6 +18,7 @@ import {
   test,
   expect,
   openIos,
+  note,
   openIosOnboarding,
   readySpeech,
   type IosState,
@@ -211,6 +212,25 @@ test.describe("ios shots", () => {
         current_streak_days: 4,
       });
       const rows = historyRows();
+      ios.notes = [
+        note(
+          1,
+          "Trip to Lisbon\nFlights on the 12th, back on the 16th. Ask Priya about the flat near the river.",
+          { pinned: true },
+        ),
+        note(
+          2,
+          "Groceries\nMilk, eggs, coffee beans, two lemons and something nice for Saturday.\n\nAlso: stamps, and a card for Sam.",
+        ),
+        note(3, "Ideas for the talk\nStart with the story about the ferry."),
+        note(4, "Call the dentist about next week", {
+          updated_at: Date.now() - 9 * 86_400_000,
+        }),
+      ];
+      ios.polish = {
+        outcome: "changed",
+        text: "Groceries\nMilk, eggs, coffee beans, two lemons, and something nice for Saturday.\n\nAlso stamps and a card for Sam.",
+      };
       await openIos(page, ipc, hub, ios, {
         handy: { theme, audio_feedback: true, spoken_languages: ["en", "nl"] },
         beforeNavigate: () => {
@@ -241,13 +261,65 @@ test.describe("ios shots", () => {
       await expect(page.getByTestId("wb-history-row").first()).toBeVisible();
       await snap(page, "history");
 
-      await page.getByTestId("wb-ios-tab-dictionary").click();
+      await page.getByTestId("wb-ios-tab-voice").click();
+      await expect(
+        page.getByTestId("wb-ios-voice-dictionary-summary"),
+      ).not.toBeEmpty();
+      await snap(page, "voice");
+      await page.getByTestId("wb-ios-voice-dictionary").click();
       await expect(page.getByTestId("wb-dictionary")).toBeVisible();
       await snap(page, "dictionary");
+      await page.getByTestId("wb-ios-back").click();
 
-      await page.getByTestId("wb-ios-tab-snippets").click();
+      await page.getByTestId("wb-ios-voice-snippets").click();
       await expect(page.getByTestId("wb-snippets")).toBeVisible();
       await snap(page, "snippets");
+      await page.getByTestId("wb-ios-back").click();
+
+      await page.getByTestId("wb-ios-voice-style").click();
+      await expect(page.getByTestId("wb-style")).toBeVisible();
+      await snap(page, "style");
+      await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 9999));
+      await snap(page, "style-scrolled");
+
+      await page.getByTestId("wb-ios-tab-scratchpad").click();
+      await expect(page.getByTestId("wb-note-1")).toBeVisible();
+      await snap(page, "scratchpad");
+      await page.getByTestId("wb-note-more-2").click();
+      await snap(page, "scratchpad-menu");
+      await page.getByTestId("wb-menu-item-delete").click();
+      await expect(page.getByTestId("wb-note-delete-sheet")).toBeVisible();
+      await snap(page, "scratchpad-delete");
+      await page.getByTestId("wb-note-delete-cancel").click();
+      await page.getByTestId("wb-scratchpad-search").fill("lemons");
+      await expect(page.getByTestId("wb-note-1")).toHaveCount(0);
+      await snap(page, "scratchpad-search");
+      await page.getByTestId("wb-scratchpad-search").fill("zzz");
+      await expect(page.getByTestId("wb-scratchpad-no-results")).toBeVisible();
+      await snap(page, "scratchpad-no-results");
+      await page.getByTestId("wb-scratchpad-search").fill("");
+      await page.getByTestId("wb-note-edit-2").click();
+      await expect(page.getByTestId("wb-note-body")).toBeVisible();
+      await snap(page, "note");
+      await page.getByTestId("wb-note-more").click();
+      await snap(page, "note-menu");
+      await page.keyboard.press("Escape");
+      await page.getByTestId("wb-note-text-size").click();
+      await page.getByTestId("wb-note-text-size").click();
+      await snap(page, "note-large-text");
+      await page.getByTestId("wb-note-record").click();
+      await expect(page.getByTestId("wb-note-record-level")).toBeVisible();
+      await snap(page, "note-recording");
+      await page.getByTestId("wb-note-record").click();
+      await expect(page.getByTestId("wb-note-record")).toHaveAttribute(
+        "data-state",
+        "idle",
+      );
+      await snap(page, "note-recorded");
+      await page.getByTestId("wb-note-polish").click();
+      await expect(page.getByTestId("wb-note-notice")).toBeVisible();
+      await snap(page, "note-polished");
+      await page.getByTestId("wb-ios-back").click();
 
       await page.getByTestId("wb-ios-tab-settings").click();
       await expect(page.getByTestId("wb-ios-settings")).toBeVisible();
@@ -269,11 +341,6 @@ test.describe("ios shots", () => {
         await snap(page, `settings-${sub}`);
         await page.getByTestId("wb-ios-back").click();
       }
-      await page.getByTestId("wb-ios-settings-style").click();
-      await expect(page.getByTestId("wb-style")).toBeVisible();
-      await snap(page, "style");
-      await page.getByTestId("wb-ios-back").click();
-
       await page.getByTestId("wb-ios-tab-home").click();
       await page.getByTestId("wb-ios-home-insights").click();
       await expect(page.getByTestId("wb-insights")).toBeVisible();
@@ -314,10 +381,20 @@ test.describe("ios shots", () => {
       await page.getByTestId("wb-ios-tab-history").click();
       await expect(page.getByTestId("wb-empty-dictation")).toBeVisible();
       await snap(page, "history-empty");
-      await page.getByTestId("wb-ios-tab-dictionary").click();
+      await page.getByTestId("wb-ios-tab-voice").click();
+      await snap(page, "voice-empty");
+      await page.getByTestId("wb-ios-voice-dictionary").click();
       await snap(page, "dictionary-empty");
-      await page.getByTestId("wb-ios-tab-snippets").click();
+      await page.getByTestId("wb-ios-back").click();
+      await page.getByTestId("wb-ios-voice-snippets").click();
       await snap(page, "snippets-empty");
+      await page.getByTestId("wb-ios-tab-scratchpad").click();
+      await expect(page.getByTestId("wb-scratchpad-empty")).toBeVisible();
+      await snap(page, "scratchpad-empty");
+      await page.getByTestId("wb-scratchpad-empty").getByRole("button").click();
+      await expect(page.getByTestId("wb-note-body")).toBeVisible();
+      await snap(page, "note-new");
+      await page.getByTestId("wb-ios-back").click();
       await page.getByTestId("wb-ios-tab-settings").click();
       await page.getByTestId("wb-ios-settings-cleanup").click();
       await snap(page, "settings-cleanup-available");
@@ -343,7 +420,8 @@ test.describe("ios shots", () => {
       await page.getByTestId("wb-dictionary-search").fill("pri");
       await snap(page, "dictionary-search");
 
-      await page.getByTestId("wb-ios-tab-snippets").click();
+      await page.getByTestId("wb-ios-tab-voice").click();
+      await page.getByTestId("wb-ios-voice-snippets").click();
       await page.getByTestId("wb-snippets-add").click();
       await expect(page.getByTestId("wb-snippet-dialog")).toBeVisible();
       await snap(page, "sheet-add-snippet");

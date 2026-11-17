@@ -12,7 +12,7 @@
  *   });
  */
 import type { Page } from "@playwright/test";
-import type { ForkSpeechSetup } from "../../src/fork/bindings";
+import type { ForkSpeechSetup, Note } from "../../src/fork/bindings";
 import type { IosSession, IosSetup } from "../../src/fork/ios/commands";
 import type { IpcMock } from "./fixtures";
 import {
@@ -45,6 +45,26 @@ export interface IosState {
   /** Bytes of the cleanup model's download so far and in total. */
   llmDownloaded: number;
   llmTotal: number;
+  /** Scratchpad notes (`fork_scratchpad_*`). */
+  notes: Note[];
+  /** What a take started with a note's Record button "hears". */
+  takeText: string;
+  /** `fork_scratchpad_polish`'s reply. */
+  polish: { outcome: string; text: string | null };
+}
+
+/** A Scratchpad note for a spec. */
+export function note(id: number, body: string, over: Partial<Note> = {}): Note {
+  const first = body.split("\n").find((line) => line.trim()) ?? "";
+  return {
+    id,
+    title: first.trim().slice(0, 80),
+    body,
+    pinned: false,
+    created_at: Date.now() - id * 3_600_000,
+    updated_at: Date.now() - id * 3_600_000,
+    ...over,
+  };
 }
 
 export function readySpeech(
@@ -80,6 +100,10 @@ export const test = base.extend<{ ios: IosState }>({
       llmState: "ready",
       llmDownloaded: 0,
       llmTotal: 1_274_396_096,
+      appleAvailability: "available",
+      notes: [],
+      takeText: "This sentence was dictated.",
+      polish: { outcome: "no_change", text: null },
     });
   },
 });
@@ -125,6 +149,85 @@ export function installIosBackend(ipc: IpcMock, ios: IosState): void {
     server: "stopped",
     error: null,
   }));
+  // Scratchpad: the Mac's store, in memory.
+  const sorted = () =>
+    [...ios.notes].sort(
+      (a, b) =>
+        Number(b.pinned) - Number(a.pinned) || b.updated_at - a.updated_at,
+    );
+  ipc.handle("fork_scratchpad_list", (args) => {
+    const query = ((args.query as string | null) ?? "").toLowerCase();
+    return sorted().filter(
+      (item) => !query || item.body.toLowerCase().includes(query),
+    );
+  });
+  ipc.handle(
+    "fork_scratchpad_get",
+    (args) => ios.notes.find((item) => item.id === args.id) ?? null,
+  );
+  ipc.handle("fork_scratchpad_new", () => {
+    const id = Math.max(0, ...ios.notes.map((item) => item.id)) + 1;
+    const created = note(id, "", {
+      created_at: Date.now(),
+      updated_at: Date.now(),
+    });
+    ios.notes.push(created);
+    return created;
+  });
+  ipc.handle("fork_scratchpad_save", (args) => {
+    const at = ios.notes.findIndex((item) => item.id === args.id);
+    if (at < 0) throw new Error("note not found");
+    ios.notes[at] = {
+      ...note(args.id as number, args.body as string),
+      pinned: ios.notes[at].pinned,
+      created_at: ios.notes[at].created_at,
+      updated_at: Date.now(),
+    };
+    return ios.notes[at];
+  });
+  ipc.handle("fork_scratchpad_set_pinned", (args) => {
+    const found = ios.notes.find((item) => item.id === args.id);
+    if (!found) throw new Error("note not found");
+    found.pinned = args.pinned as boolean;
+    return found;
+  });
+  ipc.handle("fork_scratchpad_delete", (args) => {
+    ios.notes = ios.notes.filter((item) => item.id !== args.id);
+    return null;
+  });
+  ipc.handle("fork_scratchpad_polish", () => ios.polish);
+  // A note's Record button: listens until stopped, then gives `takeText`.
+  let take = { id: 0, phase: "none" };
+  ipc.handle("ios_take_start", () => {
+    take = { id: take.id + 1, phase: "listening" };
+    return String(take.id);
+  });
+  ipc.handle("ios_take_stop", () => {
+    take.phase = "done";
+    return null;
+  });
+  ipc.handle("ios_take_cancel", () => {
+    take.phase = "cancelled";
+    return null;
+  });
+  ipc.handle("ios_take_state", (args) =>
+    String(take.id) === args.id
+      ? {
+          phase: take.phase,
+          level: take.phase === "listening" ? 0.6 : 0,
+          text: take.phase === "done" ? ios.takeText : null,
+          error: null,
+        }
+      : { phase: "none", level: 0, text: null, error: null },
+  );
+  ipc.handle("fork_llm_apple_status", () => ({
+    availability: ios.appleAvailability,
+    role: "default",
+    context_tokens: 4096,
+    requests: 0,
+    refusals: 0,
+    rate_limited: 0,
+  }));
   ipc.handle("fork_llm_retry", () => {
     ios.llmState = "downloading";
     return null;
@@ -143,7 +246,7 @@ export async function applySafeArea(page: Page): Promise<void> {
   });
 }
 
-/** Opens the iPhone app as a returning user and waits for the tab bar. */
+/** Opens the iPhone app as a returning user and waits for its shell. */
 export async function openIos(
   page: Page,
   ipc: IpcMock,
@@ -159,7 +262,8 @@ export async function openIos(
     },
   });
   await page.goto(`/${options.hash ?? ""}`, { waitUntil: "load" });
-  await page.waitForSelector('[data-testid="wb-ios-tabs"]', {
+  // The shell (a note's editor covers the tab bar).
+  await page.waitForSelector('[data-testid="wb-ios"]', {
     state: "visible",
     timeout: 0,
   });

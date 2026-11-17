@@ -128,6 +128,45 @@ fn ios_core_status() -> serde_json::Value {
     super::core::status()
 }
 
+/// `ios_take_start`: a take of the app's own, for a Scratchpad note's
+/// Record button (the Mac's is a click on the bar). The session is started
+/// first when none is running. Returns the take's id (a string: it does
+/// not fit a JavaScript number).
+#[tauri::command]
+fn ios_take_start() -> Result<String, String> {
+    host::app_take_start()
+        .map(|id| id.to_string())
+        .ok_or_else(|| "dictation is not available in this build".to_string())
+}
+
+fn take_id(id: &str) -> Result<u64, String> {
+    id.parse::<u64>()
+        .ok()
+        .filter(|id| *id != 0)
+        .ok_or_else(|| "not a take id".to_string())
+}
+
+/// `ios_take_stop`: stops listening; the take is transcribed.
+#[tauri::command]
+fn ios_take_stop(id: String) -> Result<(), String> {
+    host::app_take_stop(take_id(&id)?);
+    Ok(())
+}
+
+#[tauri::command]
+fn ios_take_cancel(id: String) -> Result<(), String> {
+    host::app_take_cancel(take_id(&id)?);
+    Ok(())
+}
+
+/// `ios_take_state`: `{phase, level, text, error}`; `phase` is `starting`,
+/// `listening` (with a live `level`), `transcribing`, `done` (with `text`),
+/// `failed` (with `error`) or `cancelled`. The page asks while a take runs.
+#[tauri::command]
+fn ios_take_state(id: String) -> Result<serde_json::Value, String> {
+    Ok(host::app_take_state(take_id(&id)?))
+}
+
 /// How often the Swift session's published state is compared with the last
 /// one the page was told about.
 const WATCH_EVERY: std::time::Duration = std::time::Duration::from_millis(250);
@@ -144,6 +183,9 @@ const NO_SESSION: &str = "noSession";
 fn session_changed(app: &tauri::AppHandle, live: bool) {
     use crate::fork::llm::runtime;
     if live {
+        // Apple's model (the phone's cleanup engine) and, in a measurement
+        // build, the local one.
+        crate::fork::llm::post_process::prewarm_apple(app);
         runtime::prewarm(app);
         return;
     }
@@ -217,5 +259,9 @@ pub fn handler<R: Runtime>() -> impl Fn(Invoke<R>) -> bool + Send + Sync + 'stat
         ios_get_auto_return,
         ios_set_auto_return,
         ios_core_status,
+        ios_take_start,
+        ios_take_stop,
+        ios_take_cancel,
+        ios_take_state,
     ]
 }

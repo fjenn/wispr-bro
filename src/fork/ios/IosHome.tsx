@@ -24,7 +24,7 @@ import { VoiceProfileBar } from "../home/VoiceProfileBar";
 import { navigate } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
 import { Button, Dialog, ProgressLine, TextArea, toast } from "../ui";
-import { ChartColumn, Check, Palette } from "../ui/icons";
+import { ChartColumn, Check } from "../ui/icons";
 import { iosCommands, type IosSession } from "./commands";
 import { sessionTimeoutLabel } from "./format";
 import { FullAccessNote, KeyboardSteps } from "./KeyboardSteps";
@@ -58,12 +58,6 @@ export function IosHome() {
       </aside>
       <TryIt />
       <IosGroup>
-        <IosNavRow
-          icon={Palette}
-          label={t("hub.pages.style.title")}
-          onClick={() => navigate("style")}
-          testId="wb-ios-home-style"
-        />
         <IosNavRow
           icon={ChartColumn}
           label={t("hub.pages.insights.title")}

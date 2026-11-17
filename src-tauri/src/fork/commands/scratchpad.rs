@@ -93,6 +93,16 @@ pub fn fork_scratchpad_open<R: ForkRuntime>(app: AppHandle<R>) -> Result<store::
 #[tauri::command]
 #[specta::specta]
 pub fn fork_scratchpad_new<R: ForkRuntime>(app: AppHandle<R>) -> Result<store::Note, ForkError> {
+    // iPhone: the note opens in the app's own page; there is no note window.
+    #[cfg(target_os = "ios")]
+    {
+        let note = db(&app)?
+            .with_conn(|conn| store::create(conn, crate::fork::context::now_ms()))
+            .map_err(internal)?;
+        crate::fork::scratchpad::changed(&app);
+        Ok(note)
+    }
+    #[cfg(not(target_os = "ios"))]
     window::open(&app, window::Open::New).map_err(ForkError::Internal)
 }
 
@@ -193,6 +203,29 @@ async fn wait_for_cleanup_model<R: tauri::Runtime>(app: &AppHandle<R>) -> bool {
     }
 }
 
+/// iPhone: the cleanup model runs in the app and is loaded only around a
+/// session, on the CPU, which takes longer than the start budget a
+/// transform gives a server. Polish loads it first (when memory allows)
+/// and waits; the transform then finds it running.
+#[cfg(target_os = "ios")]
+async fn load_cleanup_model<R: tauri::Runtime>(app: &AppHandle<R>) {
+    const LOAD_WAIT: std::time::Duration = std::time::Duration::from_secs(90);
+    let Some(rt) = crate::fork::llm::runtime::runtime(app) else {
+        return;
+    };
+    let Some(supervisor) = rt.supervisor().cloned() else {
+        return;
+    };
+    if !rt.is_ready() || !rt.memory_allows_start().await {
+        return;
+    }
+    match tokio::time::timeout(LOAD_WAIT, supervisor.ensure_ready()).await {
+        Ok(Ok(_)) => {}
+        Ok(Err(error)) => log::warn!("scratchpad: the cleanup model did not load: {error}"),
+        Err(_) => log::warn!("scratchpad: the cleanup model is still loading; Polish goes on"),
+    }
+}
+
 /// Polish is the merged S-21 engine and built-in definition, with no AX
 /// selection, paste, clipboard write, or transform-run side effects.
 #[tauri::command]
@@ -227,6 +260,8 @@ pub async fn fork_scratchpad_polish<R: ForkRuntime>(
             text: None,
         });
     }
+    #[cfg(target_os = "ios")]
+    load_cleanup_model(&app).await;
     use crate::fork::transforms::run;
     let preview = run::preview(&app, definition, &source).await;
     Ok(note_polish(preview.outcome, preview.text))

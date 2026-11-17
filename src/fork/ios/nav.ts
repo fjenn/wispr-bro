@@ -7,32 +7,45 @@
  *   tab         Hub location
  *   Home        dictation
  *   History     dictation / history   (the Mac shows History on Home)
- *   Dictionary  dictionary
- *   Snippets    snippets
+ *   My Voice    dictation / voice     (dictionary, snippets, style are pushed)
+ *   Scratchpad  scratchpad            (scratchpad / <note id> is the editor)
  *   Settings    settings              (settings / <section> is pushed)
  *
- * Style and Insights are pushed pages, opened from Home or Settings; Back
- * returns to the tab they were opened from. Pages the iPhone does not have
- * (Transforms, Scratchpad, Share) open Home.
+ * My Voice is three rows; each pushes its page, and Back (or the tab
+ * again) returns to the rows. Insights is a pushed page, opened from Home;
+ * Back returns to the tab it was opened from. A note's editor covers the tab bar. Pages the iPhone
+ * does not have (Transforms, Share) open Home.
  */
 import type { HubLocation, HubPageId } from "../hub/nav";
 
 export const IOS_TABS = [
   "home",
   "history",
-  "dictionary",
-  "snippets",
+  "voice",
+  "scratchpad",
   "settings",
 ] as const;
 export type IosTab = (typeof IOS_TABS)[number];
 
-export const TAB_LOCATION: Record<IosTab, HubLocation> = {
-  home: { page: "dictation", section: null },
-  history: { page: "dictation", section: "history" },
-  dictionary: { page: "dictionary", section: null },
-  snippets: { page: "snippets", section: null },
-  settings: { page: "settings", section: null },
-};
+/** The three pages My Voice opens, in the order of its rows. */
+export const VOICE_PAGES = ["dictionary", "snippets", "style"] as const;
+export type VoicePage = (typeof VOICE_PAGES)[number];
+
+/** Where a tab opens. */
+export function tabLocation(tab: IosTab): HubLocation {
+  switch (tab) {
+    case "home":
+      return { page: "dictation", section: null };
+    case "history":
+      return { page: "dictation", section: "history" };
+    case "voice":
+      return { page: "dictation", section: "voice" };
+    case "scratchpad":
+      return { page: "scratchpad", section: null };
+    case "settings":
+      return { page: "settings", section: null };
+  }
+}
 
 /** Settings sub-pages (`#/hub/settings/<id>`). */
 export const SETTINGS_PAGES = [
@@ -48,23 +61,40 @@ export type SettingsPageId = (typeof SETTINGS_PAGES)[number];
 
 export type IosScreen =
   | { kind: "tab"; tab: IosTab }
-  | { kind: "style" }
+  | { kind: "voice"; page: VoicePage }
+  | { kind: "note"; id: number }
   | { kind: "insights" }
   | { kind: "settings"; page: SettingsPageId };
 
-const HIDDEN: readonly HubPageId[] = ["transforms", "scratchpad", "share"];
+const HIDDEN: readonly HubPageId[] = ["transforms", "share"];
+
+/** `scratchpad / <id>`: the note to edit, or null for the list. */
+function noteId(section: string | null): number | null {
+  const id = Number(section);
+  return section && Number.isSafeInteger(id) && id > 0 ? id : null;
+}
 
 export function screenFor({ page, section }: HubLocation): IosScreen {
   if (HIDDEN.includes(page)) return { kind: "tab", tab: "home" };
   switch (page) {
     case "dictation":
-      return { kind: "tab", tab: section === "history" ? "history" : "home" };
+      return {
+        kind: "tab",
+        tab:
+          section === "history"
+            ? "history"
+            : section === "voice"
+              ? "voice"
+              : "home",
+      };
     case "dictionary":
-      return { kind: "tab", tab: "dictionary" };
     case "snippets":
-      return { kind: "tab", tab: "snippets" };
     case "style":
-      return { kind: "style" };
+      return { kind: "voice", page };
+    case "scratchpad": {
+      const id = noteId(section);
+      return id ? { kind: "note", id } : { kind: "tab", tab: "scratchpad" };
+    }
     case "insights":
       return { kind: "insights" };
     case "settings":
@@ -80,5 +110,6 @@ export function screenFor({ page, section }: HubLocation): IosScreen {
 export function screenId(screen: IosScreen): string {
   if (screen.kind === "tab") return screen.tab;
   if (screen.kind === "settings") return `settings-${screen.page}`;
+  if (screen.kind === "voice") return screen.page;
   return screen.kind;
 }

@@ -43,19 +43,20 @@ settings, i18n, and every command the Hub pages use.
 
 ## What iOS swaps
 
-| Mac                                                                                                 | iPhone                                                                                                                                                                                                                                            |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `main.rs`                                                                                           | `fork::ios::start` (`#[tauri::mobile_entry_point]`)                                                                                                                                                                                               |
-| Speech engine in a worker process                                                                   | The same engine and protocol on two threads of the app (`engine_supervisor`: `Worker::spawn` / `worker::spawn_in_process`); backends registered once for the process (`audio_toolkit/cpu_engine.rs`)                                              |
-| Recorder (cpal) → capture sink                                                                      | Swift session → `wb_take_feed` → the same capture sink (`fork/ios/core.rs`)                                                                                                                                                                       |
-| Paste / AX insertion                                                                                | `fork::insert::deliver_to_keyboard`: the text is returned to Swift, the keyboard inserts it                                                                                                                                                       |
-| `handy-keys`, `enigo`                                                                               | `crates/wb-ios-handy-keys`, `crates/wb-ios-enigo` under the same names (`extern crate … as` in `lib.rs`): compile, do nothing                                                                                                                     |
-| Tray, app menu, global-shortcut plugin                                                              | `fork/ios/stubs/` (path-swapped modules)                                                                                                                                                                                                          |
-| Window sizing, always-on-top, …                                                                     | no-ops (`fork/ios/compat.rs`)                                                                                                                                                                                                                     |
-| Updater, autostart, single instance, macOS permissions plugins                                      | not loaded                                                                                                                                                                                                                                        |
-| `llama-server` sidecar                                                                              | The same llama.cpp (b11624) and its server code linked into the app (`crates/wb-ios-llm`), started as a listener thread by `fork/llm/inprocess.rs`; supervisor, transport, client, prompt, guards and deadlines are the Mac's. Apple FM: not used |
-| Hotkeys, Flow Bar, transforms, Command Mode, Scratchpad, context awareness, auto-learn, Hub parking | not started (`fork::on_ready`)                                                                                                                                                                                                                    |
-| App-delegate life cycle (tao)                                                                       | UIKit scenes, bridged in `fork/ios/scene.m` (required by the iOS 27 SDK)                                                                                                                                                                          |
+| Mac                                                                                     | iPhone                                                                                                                                                                                                                                            |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `main.rs`                                                                               | `fork::ios::start` (`#[tauri::mobile_entry_point]`)                                                                                                                                                                                               |
+| Speech engine in a worker process                                                       | The same engine and protocol on two threads of the app (`engine_supervisor`: `Worker::spawn` / `worker::spawn_in_process`); backends registered once for the process (`audio_toolkit/cpu_engine.rs`)                                              |
+| Recorder (cpal) → capture sink                                                          | Swift session → `wb_take_feed` → the same capture sink (`fork/ios/core.rs`)                                                                                                                                                                       |
+| Paste / AX insertion                                                                    | `fork::insert::deliver_to_keyboard`: the text is returned to Swift, the keyboard inserts it                                                                                                                                                       |
+| `handy-keys`, `enigo`                                                                   | `crates/wb-ios-handy-keys`, `crates/wb-ios-enigo` under the same names (`extern crate … as` in `lib.rs`): compile, do nothing                                                                                                                     |
+| Tray, app menu, global-shortcut plugin                                                  | `fork/ios/stubs/` (path-swapped modules)                                                                                                                                                                                                          |
+| Window sizing, always-on-top, …                                                         | no-ops (`fork/ios/compat.rs`)                                                                                                                                                                                                                     |
+| Updater, autostart, single instance, macOS permissions plugins                          | not loaded                                                                                                                                                                                                                                        |
+| `llama-server` sidecar                                                                  | The same llama.cpp (b11624) and its server code linked into the app (`crates/wb-ios-llm`), started as a listener thread by `fork/llm/inprocess.rs`; supervisor, transport, client, prompt, guards and deadlines are the Mac's. Apple FM: not used |
+| Hotkeys, Flow Bar, transforms, Command Mode, context awareness, auto-learn, Hub parking | not started (`fork::on_ready`)                                                                                                                                                                                                                    |
+| Scratchpad: a floating note window, a shortcut, a bar button                            | The same notes (store, tables, `fork_scratchpad_*` commands) in a tab and a full-screen editor (`src/fork/ios/IosScratchpad.tsx`, `IosNote.tsx`); no window is ever built (`fork_scratchpad_new` only creates the note)                           |
+| App-delegate life cycle (tao)                                                           | UIKit scenes, bridged in `fork/ios/scene.m` (required by the iOS 27 SDK)                                                                                                                                                                          |
 
 ## The take API and the Swift side
 
@@ -71,9 +72,39 @@ sources; with them, the Swift definitions win. Nothing is switched.
 Commands for the page (`fork/ios/commands.rs`, called through `invoke`):
 `ios_session_state`, `ios_start_session`, `ios_end_session`,
 `ios_setup_state`, `ios_request_mic`, `ios_open_settings`,
-`ios_get|set_session_timeout`, `ios_get|set_auto_return`, `ios_core_status`.
+`ios_get|set_session_timeout`, `ios_get|set_auto_return`, `ios_core_status`,
+`ios_take_start|stop|cancel|state`.
 The two session settings live in the App Group defaults suite
 `group.com.wisprbro.ios` (`wb.session.timeoutSeconds`, `wb.session.autoReturn`).
+
+## The tabs, My Voice and Scratchpad
+
+Home · History · My Voice · Scratchpad · Settings (`src/fork/ios/nav.ts`).
+My Voice (`#/hub/dictation/voice`) is three rows: Dictionary, Snippets and
+Style, each with one line of what is there now. A row pushes its page,
+which keeps its Hub location (`#/hub/dictionary`, …); Back, a swipe in from
+the left edge or the tab again returns to the rows. Style is nowhere else.
+
+Scratchpad is the Mac's feature on the same data: a list (pinned first,
+search, a row menu to pin or delete) and a full-screen editor
+(`#/hub/scratchpad/<id>`) with 500 ms autosave, text size, Copy, Share (the
+web share sheet), a word count, Polish and Record. A note left empty is
+removed when the editor closes.
+
+- **Dictating into a note** is the Wispr Bro keyboard, as in any field.
+- **Record** is a take the app starts itself: `ios_take_start` →
+  `wb_ios_app_take_start` (`WBSessionCAPI.swift`) →
+  `WBSessionController.startAppTake`, which starts the session when none is
+  running and then the same take a keyboard command starts. Its text is
+  kept for the app (`WBAppTake`) instead of being published to the
+  keyboard; the page asks `ios_take_state` (phase, live level, text) every
+  90 ms while the take runs and puts the text at the note's caret
+  (`noteText.ts`). The session stays on afterwards, as after any take.
+- **Polish** is the Mac's command (`fork_scratchpad_polish`, the Polish
+  transform on the cleanup model). On the phone it first loads the model
+  (up to 90 s, when memory allows): a transform's own start budget is
+  2.5 s. Without the model on the phone the button says why (cleanup off,
+  still downloading, download failed, not enough memory).
 
 ## Speech runs on the CPU
 

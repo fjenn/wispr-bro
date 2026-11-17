@@ -124,6 +124,41 @@ final class WBSessionController: NSObject {
         startSession(request: nil, fromKeyboard: false)
     }
 
+    /// A take started by the app itself (a Scratchpad note's Record button):
+    /// the same take as one from the keyboard, but its text goes back to the
+    /// app (`WBAppTake`) instead of to the keyboard. Starts the session
+    /// first when none is running.
+    func startAppTake(_ takeID: UInt64) {
+        bootstrap()
+        guard WBAppTake.shared.owns(takeID) else { return }
+        switch phase {
+        case .off:
+            startSession(request: nil, fromKeyboard: false, appTake: takeID)
+        case .idle:
+            touch()
+            startTake(takeID)
+            if activeTake != takeID {
+                WBAppTake.shared.fail(takeID, errorMessage ?? "The microphone could not start. Try again.")
+            }
+            publish()
+        case .listening, .transcribing:
+            WBAppTake.shared.fail(takeID, "Another dictation is still running")
+        }
+    }
+
+    func stopAppTake(_ takeID: UInt64) {
+        guard phase == .listening, activeTake == takeID else { return }
+        finishTake()
+    }
+
+    func cancelAppTake(_ takeID: UInt64) {
+        guard activeTake == takeID else {
+            WBAppTake.shared.cancel(takeID)
+            return
+        }
+        cancelTake()
+    }
+
     /// Ends the session. A take that is listening is finished and delivered first.
     @objc func endSession() {
         switch phase {
@@ -153,7 +188,7 @@ final class WBSessionController: NSObject {
 
     // MARK: - Session
 
-    private func startSession(request: WBStartRequest?, fromKeyboard: Bool) {
+    private func startSession(request: WBStartRequest?, fromKeyboard: Bool, appTake: UInt64? = nil) {
         if let id = request?.id {
             guard id != lastRequestID else { return }
             lastRequestID = id
@@ -161,7 +196,7 @@ final class WBSessionController: NSObject {
         // A request that arrives while this app is already in front came from
         // the keyboard inside this app: there is nowhere to go back to.
         let fromKeyboard = fromKeyboard && UIApplication.shared.applicationState != .active
-        let wantedTake = request.flatMap { $0.isExpired(at: now()) ? nil : $0.takeID }
+        let wantedTake = appTake ?? request.flatMap { $0.isExpired(at: now()) ? nil : $0.takeID }
 
         if phase != .off {
             touch()
@@ -170,7 +205,10 @@ final class WBSessionController: NSObject {
             if fromKeyboard { returnToHost(request) }
             return
         }
-        guard !starting else { return }
+        guard !starting else {
+            if let appTake { WBAppTake.shared.fail(appTake, "Wispr Bro is still starting. Try again.") }
+            return
+        }
         starting = true
 
         requestMicrophone { [weak self] granted in
@@ -178,6 +216,7 @@ final class WBSessionController: NSObject {
             self.starting = false
             guard granted else {
                 self.failStart("Microphone access is off. Turn it on in Settings.")
+                if let appTake { WBAppTake.shared.fail(appTake, "Microphone access is off. Turn it on in Settings.") }
                 return
             }
             do {
@@ -185,6 +224,7 @@ final class WBSessionController: NSObject {
             } catch {
                 self.audio.shutDown()
                 self.failStart("The microphone could not start. Try again.")
+                if let appTake { WBAppTake.shared.fail(appTake, "The microphone could not start. Try again.") }
                 return
             }
             self.phase = .idle
@@ -197,6 +237,9 @@ final class WBSessionController: NSObject {
             self.bridge.beat()
             self.liveActivity.show(.ready)
             if let wantedTake { self.startTake(wantedTake) }
+            if let appTake, self.activeTake != appTake {
+                WBAppTake.shared.fail(appTake, self.errorMessage ?? "The microphone could not start. Try again.")
+            }
             self.publish()
             if fromKeyboard { self.returnToHost(request) }
         }
@@ -214,6 +257,7 @@ final class WBSessionController: NSObject {
             takeGeneration += 1
             audio.endTake()
             WBCoreClient.cancel(take)
+            WBAppTake.shared.cancel(take)
             activeTake = nil
         }
         stopLevelPump()
@@ -324,6 +368,7 @@ final class WBSessionController: NSObject {
         activeTake = takeID
         takeStartedAt = now()
         phase = .listening
+        WBAppTake.shared.set(takeID, phase: .listening)
         startLevelPump()
         liveActivity.show(.listening)
         publish()
@@ -334,6 +379,7 @@ final class WBSessionController: NSObject {
         audio.endTake()
         stopLevelPump()
         phase = .transcribing
+        WBAppTake.shared.set(takeID, phase: .transcribing)
         liveActivity.show(.transcribing)
         publish()
 
@@ -357,6 +403,24 @@ final class WBSessionController: NSObject {
         phase = .idle
         takesDone += 1
         touch()
+        if WBAppTake.shared.owns(takeID) {
+            // The app's own take: the text goes to the note, not the keyboard.
+            switch result {
+            case .text(let text):
+                let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+                if trimmed.isEmpty {
+                    WBAppTake.shared.fail(takeID, "Didn't hear anything")
+                } else {
+                    WBAppTake.shared.finish(takeID, text: trimmed)
+                }
+            case .failure(let message):
+                WBAppTake.shared.fail(takeID, message)
+            }
+            liveActivity.show(.ready)
+            publish()
+            if endAfterTake { tearDown() }
+            return
+        }
         switch result {
         case .text(let text):
             let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -381,6 +445,7 @@ final class WBSessionController: NSObject {
             stopLevelPump()
         }
         WBCoreClient.cancel(takeID)
+        WBAppTake.shared.cancel(takeID)
         activeTake = nil
         phase = .idle
         touch()
@@ -408,6 +473,7 @@ final class WBSessionController: NSObject {
         timer.setEventHandler {
             if let level = audio.popLevel() { last = level }
             channel?.write(level: last)
+            WBAppTake.shared.level = last
         }
         timer.resume()
         levelTimer = timer
@@ -620,5 +686,94 @@ final class WBSessionStateCache: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         return values
+    }
+}
+
+/// The app's own take (a note's Record button), readable from any thread
+/// (for the C API): where it is, its level while listening, and its text.
+final class WBAppTake: @unchecked Sendable {
+    enum Phase: String {
+        case none, starting, listening, transcribing, done, failed, cancelled
+    }
+
+    static let shared = WBAppTake()
+    private let lock = NSLock()
+    private var id: UInt64 = 0
+    private var phase: Phase = .none
+    private var text: String?
+    private var error: String?
+    private var currentLevel: Float = 0
+
+    var level: Float {
+        get { lock.lock(); defer { lock.unlock() }; return currentLevel }
+        set { lock.lock(); currentLevel = newValue; lock.unlock() }
+    }
+
+    func begin(_ takeID: UInt64) {
+        lock.lock()
+        id = takeID
+        phase = .starting
+        text = nil
+        error = nil
+        currentLevel = 0
+        lock.unlock()
+    }
+
+    func owns(_ takeID: UInt64) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return id == takeID && takeID != 0
+    }
+
+    /// Moves the take on; ignored for a take that is not the app's.
+    func set(_ takeID: UInt64, phase next: Phase) {
+        lock.lock()
+        if id == takeID { phase = next }
+        lock.unlock()
+    }
+
+    func finish(_ takeID: UInt64, text result: String) {
+        lock.lock()
+        if id == takeID {
+            phase = .done
+            text = result
+            currentLevel = 0
+        }
+        lock.unlock()
+    }
+
+    func fail(_ takeID: UInt64, _ message: String) {
+        lock.lock()
+        if id == takeID {
+            phase = .failed
+            error = message
+            currentLevel = 0
+        }
+        lock.unlock()
+    }
+
+    func cancel(_ takeID: UInt64) {
+        lock.lock()
+        if id == takeID, phase != .done, phase != .failed {
+            phase = .cancelled
+            currentLevel = 0
+        }
+        lock.unlock()
+    }
+
+    /// {"phase":"…","level":0…1,"text":string|null,"error":string|null}
+    func json(_ takeID: UInt64) -> String {
+        lock.lock()
+        let mine = id == takeID
+        let object: [String: Any] = [
+            "phase": (mine ? phase : .none).rawValue,
+            "level": mine && phase == .listening ? Double(currentLevel) : 0,
+            "text": (mine ? text : nil) ?? NSNull(),
+            "error": (mine ? error : nil) ?? NSNull(),
+        ]
+        lock.unlock()
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: [.sortedKeys]),
+              let json = String(data: data, encoding: .utf8) else { return "{}" }
+        return json
     }
 }

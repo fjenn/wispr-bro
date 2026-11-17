@@ -5,11 +5,10 @@
  * the same ones (Handy's and the fork's stores); only what an iPhone has
  * is listed. Not here because the phone has none: shortcuts, the bar,
  * Dock/tray/launch at login, update channel, microphone choice, per-app
- * styles, Transforms, Command Mode, Scratchpad.
+ * styles, Transforms, Command Mode. Style lives in the My Voice tab.
  *
  *   Settings                    pushed pages (#/hub/settings/<id>)
  *   ├ Languages ›               languages
- *   ├ Style ›                   (the Style page)
  *   ├ Cleanup ›                 cleanup
  *   ├ End session after ›       session
  *   ├ Return to my app ◉
@@ -47,7 +46,6 @@ import { SegmentedControl, toast } from "../ui";
 import {
   Globe,
   Info,
-  Palette,
   RefreshCw,
   ScrollText,
   ShieldCheck,
@@ -177,7 +175,6 @@ function SettingsRoot() {
 
   const languages = handy?.spoken_languages ?? [];
   const theme: Theme = handy?.theme ?? getStoredTheme();
-  const preset = settings?.styles.other;
 
   return (
     <div className="flex flex-col gap-6" data-testid="wb-ios-settings">
@@ -189,13 +186,6 @@ function SettingsRoot() {
           value={languages.length ? languageList(languages, i18n.language) : ""}
           onClick={() => navigate("settings", "languages")}
           testId="wb-ios-settings-languages"
-        />
-        <IosNavRow
-          icon={Palette}
-          label={t("hub.pages.style.title")}
-          value={preset ? t(`style.presets.${preset}.label`) : ""}
-          onClick={() => navigate("style")}
-          testId="wb-ios-settings-style"
         />
         <IosNavRow
           icon={Sparkles}
