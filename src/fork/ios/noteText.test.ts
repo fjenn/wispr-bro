@@ -40,6 +40,68 @@ assert.deepEqual(insertAtCaret("keep old text", "new", { start: 5, end: 8 }), {
 // A caret past the end is the end.
 assert.equal(insertAtCaret("a", "b", { start: 99, end: 120 }).body, "a b");
 
+// Two takes in a row into the same note: one space between the sentences.
+{
+  const first = insertAtCaret("", "And ask Sam about the spare key.", null);
+  const second = insertAtCaret(
+    first.body,
+    "Remember to book the train tickets.",
+    { start: first.caret, end: first.caret },
+  );
+  assert.equal(
+    second.body,
+    "And ask Sam about the spare key. Remember to book the train tickets.",
+  );
+  // The same without a caret (the note never had the keyboard).
+  assert.equal(
+    insertAtCaret(first.body, "Next.", null).body,
+    `${first.body} Next.`,
+  );
+}
+// After a letter, a digit or closing punctuation: a space.
+for (const before of [
+  "word",
+  "42",
+  "done.",
+  "why?",
+  "(aside)",
+  "“quoted”",
+  "50%",
+]) {
+  assert.equal(insertAtCaret(before, "Next", null).body, `${before} Next`);
+}
+// At the start, after white space or a new line, after an opener: none.
+for (const before of [
+  "",
+  "word ",
+  "line\n",
+  "tab\t",
+  "(",
+  "[",
+  "“",
+  "«",
+  "¿",
+]) {
+  assert.equal(insertAtCaret(before, "Next", null).body, `${before}Next`);
+}
+// After a symbol or a dash: none (the Mac's rule).
+for (const before of ["@", "#", "a-", "x/"]) {
+  assert.equal(insertAtCaret(before, "Next", null).body, `${before}Next`);
+}
+// A take that starts with closing punctuation attaches.
+assert.equal(insertAtCaret("Wait", "... and go", null).body, "Wait... and go");
+// The text after the caret already starts with a space: not doubled.
+assert.deepEqual(insertAtCaret("one three", "two", { start: 3, end: 3 }), {
+  body: "one two three",
+  caret: 7,
+});
+assert.equal(
+  insertAtCaret("one  three", "two", { start: 4, end: 4 }).body,
+  "one two three",
+);
+// White space around the take itself is dropped.
+assert.equal(insertAtCaret("A.", "  B.\n", null).body, "A. B.");
+
 assert.equal(countWords(""), 0);
 assert.equal(countWords("  \n "), 0);
 assert.equal(countWords("Milk, eggs and two lemons."), 5);

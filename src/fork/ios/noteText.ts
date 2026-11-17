@@ -9,13 +9,23 @@ export interface Caret {
   end: number;
 }
 
-const OPENERS = /[\s([{“‘"'«¿¡/-]$/u;
-const CLOSERS = /^[\s.,;:!?)\]}”’»]/u;
+/**
+ * The product's leading-space rule (`src-tauri/src/fork/insert/spacing.rs`
+ * `needs_leading_space`; the keyboard's `WBInsertion.swift`): a space only
+ * after a letter, a digit or a closing mark.
+ */
+const BEFORE_WANTS_SPACE = /[\p{L}\p{N}.,;:!?…%)\]}"'”’»]$/u;
+/** A take that starts with closing punctuation attaches to what is there. */
+const TAKE_ATTACHES = /^[.,;:!?…)\]}”’»]/u;
+/** What follows the caret already separates itself: white space or a closing mark. */
+const AFTER_SEPARATES = /^[\s.,;:!?…)\]}”’»]/u;
 
 /**
  * Puts `text` where the caret is (replacing a selection; at the end of the
- * note without a caret), with one space towards a word on either side:
- * what the keyboard does for a take dictated into a field. Returns the new
+ * note without a caret). One space goes in front after a letter, a digit
+ * or closing punctuation: never at the start, after white space or a new
+ * line, or after an opening bracket or quote. One space follows when a
+ * word comes right after the caret, never a second one. Returns the new
  * body and where the caret goes.
  */
 export function insertAtCaret(
@@ -27,12 +37,13 @@ export function insertAtCaret(
   const end = Math.min(Math.max(caret?.end ?? start, start), body.length);
   const before = body.slice(0, start);
   const after = body.slice(end);
-  const lead = before && !OPENERS.test(before) ? " " : "";
-  const trail = after && !CLOSERS.test(after) ? " " : "";
-  const inserted = `${lead}${text}${trail}`;
+  const take = text.trim();
+  const lead =
+    BEFORE_WANTS_SPACE.test(before) && !TAKE_ATTACHES.test(take) ? " " : "";
+  const trail = after && !AFTER_SEPARATES.test(after) ? " " : "";
   return {
-    body: `${before}${inserted}${after}`,
-    caret: before.length + lead.length + text.length,
+    body: `${before}${lead}${take}${trail}${after}`,
+    caret: before.length + lead.length + take.length,
   };
 }
 
