@@ -542,20 +542,25 @@ final class WBSessionController: NSObject {
         refreshVisibleHint()
 
         guard bridge.autoReturn else {
+            NSLog("WBReturn: automatic return is off")
             openChosenReturnApp()
             return
         }
         if let named = request?.hostBundleID, !WBHostAppObserver.isOwnBundle(named) {
+            NSLog("WBReturn: host named by the keyboard: %@", named)
             open(hostBundleID: named)
             return
         }
         WBHostAppObserver.shared.start()
+        NSLog("WBReturn: waiting for the host (observer available: %d)", WBHostAppObserver.shared.isAvailable ? 1 : 0)
         WBHostAppObserver.shared.waitForHost(since: Date().addingTimeInterval(-5), timeout: 2) { [weak self] bundle in
             MainActor.assumeIsolated {
                 guard let self, self.hint.isVisible else { return }
                 if let bundle {
+                    NSLog("WBReturn: host observed: %@", bundle)
                     self.open(hostBundleID: bundle)
                 } else {
+                    NSLog("WBReturn: no host observed; the swipe hint stays")
                     self.openChosenReturnApp()
                 }
             }
@@ -563,16 +568,23 @@ final class WBSessionController: NSObject {
     }
 
     private func open(hostBundleID: String) {
-        if let url = WBHostAppCatalog.app(bundleID: hostBundleID)?.url {
-            UIApplication.shared.open(url, options: [:]) { [weak self] opened in
+        let byBundleID = { [weak self] in
+            WBHostAppObserver.openApplication(bundleID: hostBundleID) { opened in
                 MainActor.assumeIsolated {
-                    if !opened, !WBHostAppObserver.openApplication(bundleID: hostBundleID) {
-                        self?.openChosenReturnApp()
-                    }
+                    NSLog("WBReturn: opened %@ by bundle id: %d", hostBundleID, opened ? 1 : 0)
+                    if !opened { self?.openChosenReturnApp() }
                 }
             }
-        } else if !WBHostAppObserver.openApplication(bundleID: hostBundleID) {
-            openChosenReturnApp()
+        }
+        guard let url = WBHostAppCatalog.app(bundleID: hostBundleID)?.url else {
+            byBundleID()
+            return
+        }
+        UIApplication.shared.open(url, options: [:]) { opened in
+            MainActor.assumeIsolated {
+                NSLog("WBReturn: opened %@ by its link: %d", hostBundleID, opened ? 1 : 0)
+                if !opened { byBundleID() }
+            }
         }
     }
 

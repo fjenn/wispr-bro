@@ -41,7 +41,13 @@ class WBE2ECase: XCTestCase {
     }
 
     func launchWispr(_ extra: [String: String] = [:]) {
-        wispr.launchEnvironment = ["WB_FAKE_MIC_WAV": fakeWav].merging(extra) { _, new in new }
+        var environment = ["WB_FAKE_MIC_WAV": fakeWav].merging(extra) { _, new in new }
+        // WB_APP_ENV="KEY=value,KEY2=value2": more environment for the app.
+        for pair in (env["WB_APP_ENV"] ?? "").split(separator: ",") {
+            let parts = pair.split(separator: "=", maxSplits: 1).map(String.init)
+            if parts.count == 2 { environment[parts[0]] = parts[1] }
+        }
+        wispr.launchEnvironment = environment
         wispr.launch()
     }
 
@@ -58,6 +64,11 @@ class WBE2ECase: XCTestCase {
             }
             usleep(200_000)
         } while Date() < deadline
+        // A row whose label also carries its value ("Languages English and Dutch").
+        for app in apps where app.state == .runningForeground {
+            let element = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", label + " ")).firstMatch
+            if element.exists { return element }
+        }
         return nil
     }
 

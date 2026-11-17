@@ -7,6 +7,7 @@ import XCTest
 ///   launch | launchhost | terminate | activate | activatehost | home
 ///   tap <label or identifier>        (fails the test when missing)
 ///   try <label or identifier>        (tap when present)
+///   field | fieldvalue <name>       (tap / save the text of the first text area)
 ///   tapat <x> <y>                    (normalized 0…1, in the Wispr Bro app)
 ///   wait <label>                     (up to 20 s; fails when missing)
 ///   gone <label>                     (up to 20 s; fails when still there)
@@ -43,6 +44,12 @@ final class WBScriptTests: WBE2ECase {
                 guard let element = find(arg, timeout: 8) else { XCTFail("tap: not on screen: \(arg)"); shot("fail"); continue }
                 element.tap()
             case "try": find(arg, timeout: 2)?.tap()
+            case "field":
+                // The first text area on screen (a label can also match its heading).
+                let area = front().textViews.firstMatch
+                XCTAssertTrue(area.waitForExistence(timeout: 6), "no text area on screen")
+                area.tap()
+            case "fieldvalue": note(arg, (front().textViews.firstMatch.value as? String) ?? "<none>")
             case "hold": find(arg, timeout: 4)?.press(forDuration: 1.2)
             case "tapat":
                 let xy = arg.split(separator: " ").compactMap { Double($0) }

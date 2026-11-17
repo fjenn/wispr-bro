@@ -14,6 +14,18 @@ export function useKeyboardInset(): void {
     const viewport = window.visualViewport;
     if (!viewport) return;
     const root = document.documentElement;
+    let lastCovered = 0;
+    const revealFocused = () => {
+      const field = document.activeElement;
+      if (
+        !(field instanceof HTMLElement) ||
+        !field.matches("input, textarea, [contenteditable='true']")
+      ) {
+        return;
+      }
+      field.scrollIntoView({ block: "center", behavior: "smooth" });
+      window.scrollTo(0, 0);
+    };
     const apply = () => {
       const covered = Math.max(
         0,
@@ -25,8 +37,16 @@ export function useKeyboardInset(): void {
       // above), so it stays where it is.
       if (viewport.offsetTop > 0 || window.scrollY > 0) window.scrollTo(0, 0);
       root.style.setProperty("--wb-ios-kb", `${covered}px`);
+      const wasUp = "wbKb" in root.dataset;
       if (covered > 80) root.dataset.wbKb = "";
       else delete root.dataset.wbKb;
+      // The keyboard came up, or changed height (another keyboard): bring
+      // the field being typed in back into view, inside its own scroll
+      // area, once the layout has its new bottom padding.
+      if (covered > 80 && (!wasUp || covered !== lastCovered)) {
+        requestAnimationFrame(revealFocused);
+      }
+      lastCovered = covered;
     };
     apply();
     viewport.addEventListener("resize", apply);

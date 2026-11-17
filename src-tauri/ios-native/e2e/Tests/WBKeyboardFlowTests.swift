@@ -39,12 +39,36 @@ final class WBKeyboardFlowTests: WBE2ECase {
         shot("\(shots)-inserted")
     }
 
+    /// Settings › End session after › `choice`, in the running app.
+    private func setSessionTimeout(_ choice: String) throws {
+        try need("Settings", in: [wispr], timeout: 15).tap()
+        try need("End session after", in: [wispr]).tap()
+        try need(choice, in: [wispr]).tap()
+        sleep(1)
+    }
+
+    /// The keyboard's mic with no session: Wispr Bro opens, starts the
+    /// session and the take, and the host comes back (by itself, or by the
+    /// swipe the hint asks for). Ends listening, in the host.
+    private func coldStart(shots: String) throws {
+        try need("Start Wispr Bro", in: [host, springboard]).tap()
+        sleep(3)
+        let hint = find("Stay in Wispr Bro", in: [wispr], timeout: 1)
+        note("\(shots)-return", hint == nil ? "returned to the host automatically" : "swipe-back hint")
+        if hint != nil {
+            shot("\(shots)-swipe-hint")
+            host.activate()
+            sleep(1)
+        }
+        _ = try need("Finish and insert", in: [host, springboard], timeout: 10)
+    }
+
     func testKeyboardFlow() throws {
         // A launch with the environment makes the app remember the WAV
         // microphone; then it is gone, as after a day without dictating.
         useWav("en")
         launchWispr()
-        sleep(4)
+        try setSessionTimeout("5 minutes")
         wispr.terminate()
 
         host.launch()
@@ -57,17 +81,7 @@ final class WBKeyboardFlowTests: WBE2ECase {
 
         // Cold start: the mic opens Wispr Bro, which starts the session and
         // the take and goes back to the host.
-        try need("Start Wispr Bro", in: [host, springboard]).tap()
-        sleep(2)
-        shot("flow-02-app-opened")
-        let returned = host.wait(for: .runningForeground, timeout: 12)
-        note("flow-return", returned ? "returned to the host automatically" : "stayed in Wispr Bro")
-        XCTAssertTrue(returned, "the app did not go back to the host by itself")
-        if !returned {
-            host.activate()
-            field.tap()
-        }
-        _ = try need("Finish and insert", in: [host, springboard], timeout: 10)
+        try coldStart(shots: "flow-02")
         shot("flow-03-cold-listening")
         sleep(8)
         try need("Finish and insert", in: [host, springboard]).tap()
@@ -102,11 +116,15 @@ final class WBKeyboardFlowTests: WBE2ECase {
     func testImmediateTimeout() throws {
         useWav("en")
         launchWispr()
-        try need("Settings", in: [wispr], timeout: 15).tap()
-        try need("End session after", in: [wispr]).tap()
-        try need("Immediately", in: [wispr]).tap()
-        sleep(1)
+        try setSessionTimeout("Immediately")
         shot("timeout-01-setting")
+        defer {
+            // Back to the default for the other checks.
+            wispr.activate()
+            try? setSessionTimeout("5 minutes")
+        }
+        find("Home", in: [wispr], timeout: 2)?.tap()
+        find("End session", in: [wispr], timeout: 2)?.tap()
 
         host.launch()
         XCTAssertTrue(field.waitForExistence(timeout: 10))
@@ -114,25 +132,12 @@ final class WBKeyboardFlowTests: WBE2ECase {
         field.tap()
         sleep(1)
         XCTAssertTrue(switchToWisprKeyboard(host))
-        if let start = find("Start Wispr Bro", in: [host, springboard], timeout: 2) {
-            start.tap()
-            XCTAssertTrue(host.wait(for: .runningForeground, timeout: 12), "no return to the host")
-        } else {
-            try need("Start dictating", in: [host, springboard]).tap()
-        }
-        _ = try need("Finish and insert", in: [host, springboard], timeout: 10)
+        try coldStart(shots: "timeout-02")
         sleep(8)
         try need("Finish and insert", in: [host, springboard]).tap()
         XCTAssertTrue(waitForText(expectEN), "expected “\(expectEN)” in: \(fieldText)")
         // The session is gone: the keyboard offers to start Wispr Bro again.
         XCTAssertNotNil(find("Start Wispr Bro", in: [host, springboard], timeout: 8), "the session did not end after the take")
-        shot("timeout-02-session-ended")
-
-        // Back to the default for the other checks.
-        wispr.activate()
-        try need("Settings", in: [wispr], timeout: 10).tap()
-        try? need("End session after", in: [wispr], timeout: 3).tap()
-        try need("5 minutes", in: [wispr]).tap()
-        sleep(1)
+        shot("timeout-03-session-ended")
     }
 }

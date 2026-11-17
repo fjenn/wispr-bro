@@ -42,6 +42,10 @@ final class WBAudioEngine {
 
     init() {
         installNotifications()
+        #if targetEnvironment(simulator)
+        // Read (and remember) the test microphone's file at launch.
+        _ = Self.fakeWavPath
+        #endif
     }
 
     deinit {
@@ -95,7 +99,36 @@ final class WBAudioEngine {
     private var fakeWavTake: UInt64 = 0
     private var fakeWavOffset = 0
 
+    /// A silent player: with no real microphone session the simulator would
+    /// suspend the app in the background, where the real session keeps it
+    /// running (background audio). Output only, all zeros.
+    private var fakeKeepAlive: AVAudioEngine?
+
+    private func startFakeKeepAlive() {
+        guard fakeKeepAlive == nil else { return }
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+        try? session.setActive(true)
+        let engine = AVAudioEngine()
+        let player = AVAudioPlayerNode()
+        let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
+        guard let silence = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 44_100) else { return }
+        silence.frameLength = silence.frameCapacity
+        engine.attach(player)
+        engine.connect(player, to: engine.mainMixerNode, format: format)
+        engine.mainMixerNode.outputVolume = 0
+        do {
+            try engine.start()
+            player.scheduleBuffer(silence, at: nil, options: .loops)
+            player.play()
+            fakeKeepAlive = engine
+        } catch {
+            NSLog("WBAudio: the fake microphone's keep-alive did not start: %@", "\(error)")
+        }
+    }
+
     private func startFake() {
+        startFakeKeepAlive()
         let timer = DispatchSource.makeTimerSource(queue: DispatchQueue(label: "com.wisprbro.ios.fakemic"))
         timer.schedule(deadline: .now(), repeating: .milliseconds(33))
         timer.setEventHandler { [weak self] in
@@ -168,6 +201,8 @@ final class WBAudioEngine {
         #if targetEnvironment(simulator)
         fakeTimer?.cancel()
         fakeTimer = nil
+        fakeKeepAlive?.stop()
+        fakeKeepAlive = nil
         #endif
         if tapInstalled {
             engine.inputNode.removeTap(onBus: 0)

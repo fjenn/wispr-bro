@@ -137,6 +137,9 @@ void wb_ios_scene_open_url(const char *text) {
 
 - (void)openURLContexts:(NSSet<UIOpenURLContext *> *)contexts {
     for (UIOpenURLContext *context in contexts) {
+        if (NSProcessInfo.processInfo.environment[@"WB_DEBUG_HOST_OBSERVER"] != nil) {
+            NSLog(@"WBScene: link opened by %@", context.options.sourceApplication);
+        }
         WBHandleURL(context.URL);
     }
 }

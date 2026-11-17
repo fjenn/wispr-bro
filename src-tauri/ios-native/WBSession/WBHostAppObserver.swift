@@ -76,10 +76,20 @@ final class WBHostAppObserver: NSObject {
     ) {
         // NSNull (cleared state) is an NSObject that doesn't respond, so it reads as nil.
         let state = change?[.newKey] as? NSObject
-        let sourceSelector = NSSelectorFromString("sourceBundleIdentifier")
-        let bundle = state?.responds(to: sourceSelector) == true
-            ? state?.perform(sourceSelector)?.takeUnretainedValue() as? String
-            : nil
+        // The app whose text field the keyboard is in: the state's source
+        // bundle, or its host bundle (a keyboard extension's host app).
+        var bundles: [String] = []
+        for name in ["sourceBundleIdentifier", "hostBundleIdentifier"] {
+            let selector = NSSelectorFromString(name)
+            if state?.responds(to: selector) == true,
+               let value = state?.perform(selector)?.takeUnretainedValue() as? String {
+                bundles.append(value)
+            }
+        }
+        if ProcessInfo.processInfo.environment["WB_DEBUG_HOST_OBSERVER"] != nil {
+            NSLog("WBHost: keyboard state %@ → %@", state?.description ?? "nil", bundles.joined(separator: ","))
+        }
+        let bundle = bundles.first { !$0.isEmpty && !Self.isOwnBundle($0) }
         DispatchQueue.main.async { self.record(bundle) }
     }
 
@@ -103,9 +113,13 @@ final class WBHostAppObserver: NSObject {
     // MARK: Private open route
 
     /// Opens an app by bundle id through `LSApplicationWorkspace` (private).
-    /// Used only for hosts without a known URL scheme. Returns false when any
-    /// hop is missing or the system refused.
-    static func openApplication(bundleID: String) -> Bool {
+    /// Used only for hosts without a known URL scheme. `completion` (main
+    /// queue) gets false when any hop is missing or the system refused.
+    ///
+    /// The call is synchronous and waits for this app to leave the front,
+    /// which needs the main thread: made there, it blocks the app for
+    /// seconds. It runs on a background queue.
+    static func openApplication(bundleID: String, completion: @escaping (Bool) -> Void) {
         typealias OpenFunction = @convention(c) (AnyObject, Selector, NSString) -> Bool
         let defaultSelector = NSSelectorFromString("defaultWorkspace")
         let openSelector = NSSelectorFromString("openApplicationWithBundleID:")
@@ -113,8 +127,14 @@ final class WBHostAppObserver: NSObject {
               let workspaceClass = NSClassFromString("LSApplicationWorkspace") as? NSObject.Type,
               workspaceClass.responds(to: defaultSelector),
               let workspace = workspaceClass.perform(defaultSelector)?.takeUnretainedValue() as? NSObject,
-              workspace.responds(to: openSelector) else { return false }
+              workspace.responds(to: openSelector) else {
+            completion(false)
+            return
+        }
         let open = unsafeBitCast(workspace.method(for: openSelector), to: OpenFunction.self)
-        return open(workspace, openSelector, bundleID as NSString)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let opened = open(workspace, openSelector, bundleID as NSString)
+            DispatchQueue.main.async { completion(opened) }
+        }
     }
 }

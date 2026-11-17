@@ -31,10 +31,30 @@ struct WBE2EHostApp: App {
                         .foregroundStyle(.secondary)
                         .accessibilityIdentifier("host.opened")
                 }
+                // What a keyboard that can name its host sends (iOS before
+                // 26.4): a session link carrying the host's bundle id.
+                HStack {
+                    Button("Link: Safari") { openSession(host: "com.apple.mobilesafari") }
+                        .accessibilityIdentifier("host.link.catalog")
+                    Spacer()
+                    Button("Link: this app") { openSession(host: "com.wisprbro.e2e.host") }
+                        .accessibilityIdentifier("host.link.bundle")
+                }
+                .font(.footnote)
                 Spacer()
             }
             .padding(20)
             .onOpenURL { _ in opened += 1 }
         }
+    }
+
+    private func openSession(host: String) {
+        var components = URLComponents(string: "wisprbro://session/start")!
+        components.queryItems = [
+            URLQueryItem(name: "req", value: UUID().uuidString),
+            URLQueryItem(name: "ts", value: String(format: "%.3f", Date().timeIntervalSince1970)),
+            URLQueryItem(name: "host", value: host),
+        ]
+        UIApplication.shared.open(components.url!)
     }
 }
