@@ -3397,7 +3397,6 @@
     },
     "sendFailed": "Could not make the sync file.",
     "settingNames": {
-      "cleanup_level": "Cleanup",
       "styles": "Style",
       "text_retention_days": "History retention",
       "audio_retention_days": "Recording retention",

@@ -170,8 +170,13 @@ src-tauri/ios-native/e2e/run.sh <sim> /abs/shots dark  -only-testing:WBE2ETests/
 WB_SCRIPT=/abs/walk.txt src-tauri/ios-native/e2e/run.sh <sim> /abs/shots light -only-testing:WBE2ETests/WBScriptTests
 ```
 
+The keyboard is a full typing keyboard (letters, numbers and symbols,
+`ios-native/WBShared/FullKeyboard`, keys named `wb.key.<character>`) with
+the dictation strip above the keys.
+
 `WBKeyboardFlowTests`: cold start from the keyboard, an English take
-inserted once, a warm Dutch take with one space before it, cancel, and
+inserted once, a warm Dutch take with one space before it, cancel, a
+correction typed with the letter keys after the dictated text, and
 "End session after: Immediately". `WBScriptTests` runs a small script
 (tap, type, shot, …; the commands are listed in the file) for walking
 screens. `src-tauri/ios/sim-fresh.sh <sim> <folder with huggingface/>`
@@ -250,8 +255,18 @@ platforms); its module doc has the rules.
   imported file (a Mac export holds history and recordings).
 - **Mac (this branch):** Settings › Data and Privacy › Sync with your
   iPhone: Import… and Export… of the same file, the same review.
-- **Not checked on a device yet:** AirDrop / "Open in", the document
-  picker's returned path, the share sheet.
+- **Checked in the simulator (2026-11-17):** a Mac export opened through
+  the file-URL path (`scene.m`), the review sheet, Merge (dictionary,
+  snippets, name and stats arrive; Home says "Includes 1 other device"),
+  "Send to Mac" (the share sheet shows a "Wispr Bro Sync File"), and a
+  `.wisprbro` opened by the system (`xcrun simctl openurl <sim>
+file:///…/x.wisprbro` reaches the app through the document types). A
+  synthetic Mac export for this:
+  `WB_SYNC_EXPORT_OUT=/abs/data.zip cargo test --lib fork::sync::tests::write_a_mac_export -- --ignored`,
+  copied to the container's `Documents/Inbox` and opened with
+  `WB_IOS_SELFTEST_OPEN_URL=file://…`.
+- **Not checked:** the document picker ("Choose a file"), and AirDrop /
+  "Open in" and the share sheet on a real phone.
 
 ## Next: automatic sync over the local network (not built)
 

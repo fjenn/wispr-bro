@@ -121,6 +121,20 @@ final class WBKeyboardFlowTests: WBE2ECase {
         XCTAssertEqual(fieldText, both, "a cancelled take inserts nothing")
         XCTAssertNotNil(find("Start dictating", in: [host, springboard], timeout: 4), "idle after a cancel")
 
+        // A correction typed with the letter keys under the dictation strip:
+        // delete the last character, then type a word. The text before it is
+        // what was dictated.
+        try need("wb.key.delete", in: [host, springboard], timeout: 6).tap()
+        for key in ["wb.key.space", "wb.key.o", "wb.key.k"] {
+            try need(key, in: [host, springboard], timeout: 4).tap()
+        }
+        usleep(400_000)
+        shot("flow-07b-typed-correction")
+        let typed = fieldText
+        XCTAssertTrue(typed.lowercased().hasSuffix(" ok"), "typed with the letter keys: \(typed)")
+        XCTAssertTrue(typed.hasPrefix(String(both.dropLast())), "the dictated text stays: \(typed)")
+        XCTAssertNotNil(find("Start dictating", in: [host, springboard], timeout: 4), "the dictation strip stays over the keys")
+
         // The app kept up: both takes are in History, and Home counts their words.
         wispr.activate()
         sleep(2)

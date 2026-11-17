@@ -902,6 +902,26 @@ fn mac_export(dir: &Path) -> std::path::PathBuf {
     zip
 }
 
+/// Writes the synthetic Mac export to `WB_SYNC_EXPORT_OUT` (a `.zip` path),
+/// to open in a simulator or on a phone (`docs/fork/IOS.md`, "Sync"):
+///
+/// ```text
+/// WB_SYNC_EXPORT_OUT=/abs/Wispr\ Bro\ data.zip \
+///   cargo test --lib fork::sync::tests::write_a_mac_export -- --ignored
+/// ```
+#[test]
+#[ignore = "needs WB_SYNC_EXPORT_OUT"]
+fn write_a_mac_export() {
+    let Some(out) = std::env::var_os("WB_SYNC_EXPORT_OUT") else {
+        eprintln!("set WB_SYNC_EXPORT_OUT");
+        return;
+    };
+    let _guard = EXPORT_TESTS.lock().unwrap_or_else(|p| p.into_inner());
+    let dir = tempfile::tempdir().unwrap();
+    let zip = mac_export(dir.path());
+    std::fs::copy(zip, out).unwrap();
+}
+
 /// The two export tests unpack a database to the temporary folder; one of
 /// them checks that nothing is left there.
 static EXPORT_TESTS: std::sync::Mutex<()> = std::sync::Mutex::new(());

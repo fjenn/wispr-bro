@@ -30,7 +30,7 @@ function report(over: Partial<MergeReport> = {}): MergeReport {
   return {
     dictionary: { added: 12, changed: 2, removed: 1, skipped: 0 },
     snippets: { added: 3, changed: 0, removed: 0, skipped: 0 },
-    settings: ["spoken_languages", "cleanup_level", "styles"],
+    settings: ["spoken_languages", "typing_wpm", "styles"],
     stats_days: 41,
     stats_words: 12_840,
     stats_changed: true,
@@ -141,7 +141,7 @@ test("the iPhone merges a file from the Mac after a review", async ({
     "3 new",
   );
   await expect(page.getByTestId("wb-sync-part-settings")).toContainText(
-    "Languages, Cleanup, Style",
+    "Languages, Typing speed, Style",
   );
   await expect(page.getByTestId("wb-sync-part-stats")).toContainText(
     "12,840 words on 41 days",
@@ -285,7 +285,7 @@ desktop(
       report: report({
         dictionary: { added: 4, changed: 0, removed: 0, skipped: 0 },
         snippets: none,
-        settings: ["cleanup_level"],
+        settings: ["typing_wpm"],
         stats_days: 9,
         stats_words: 1_420,
       }),
@@ -407,7 +407,7 @@ desktop.describe("sync shots (mac)", () => {
           report: report({
             dictionary: { added: 4, changed: 1, removed: 0, skipped: 0 },
             snippets: none,
-            settings: ["cleanup_level"],
+            settings: ["typing_wpm"],
             stats_days: 9,
             stats_words: 1_420,
           }),

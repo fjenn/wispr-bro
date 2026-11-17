@@ -10,7 +10,7 @@
  * Nothing is merged before `apply`. Errors come back as a problem id the
  * page has a sentence for (`sync.problems.*`).
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { open as openFileDialog } from "@tauri-apps/plugin-dialog";
 import { useSettingsStore } from "@/stores/settingsStore";
 import {
@@ -72,7 +72,13 @@ export function useSync() {
     }
   }, []);
 
+  // The file under review: the same file can be announced twice (waiting
+  // at start and by the event).
+  const reviewing = useRef<string | null>(null);
+
   const open = useCallback(async (path: string) => {
+    if (reviewing.current === path) return;
+    reviewing.current = path;
     setState({ step: "reading" });
     try {
       const result = await commands.forkSyncReview(path, ALL_PARTS);
@@ -92,12 +98,16 @@ export function useSync() {
   // A file handed over by another app (AirDrop, Files): at start and live.
   useEffect(() => {
     let alive = true;
-    void refresh().then((s) => {
-      if (alive && s?.pending_file) void open(s.pending_file);
-    });
+    const waiting = () =>
+      refresh().then((s) => {
+        if (alive && s?.pending_file) void open(s.pending_file);
+      });
+    void waiting();
     const unlisten = events.forkSyncFileOpened.listen((event) => {
       if (alive) void open(event.payload.path);
     });
+    // A file announced while the listener was still being set up.
+    void unlisten.then(waiting).catch(() => undefined);
     return () => {
       alive = false;
       void unlisten.then((f) => f()).catch(() => undefined);
@@ -145,6 +155,7 @@ export function useSync() {
   );
 
   const close = useCallback(() => {
+    reviewing.current = null;
     if (state.step === "review") {
       void commands.forkSyncDiscard(state.path).catch(() => undefined);
     }
