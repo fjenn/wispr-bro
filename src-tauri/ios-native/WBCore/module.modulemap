@@ -1,0 +1,5 @@
+// Lets Swift `import WBCore` (add this folder to SWIFT_INCLUDE_PATHS).
+module WBCore {
+    header "wb_core.h"
+    export *
+}
