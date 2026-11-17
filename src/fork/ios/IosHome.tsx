@@ -43,7 +43,7 @@ export function IosHome() {
     <div data-testid="wb-home" className="flex flex-col gap-5">
       <Greeting />
       {progress.known &&
-        (progress.done ? (
+        (progress.ready ? (
           <SessionCard session={session} />
         ) : (
           <SetupCard progress={progress} />

@@ -429,7 +429,9 @@ function KeyboardStep({
   const appName = t("rust.appName");
   const keyboard = !!setup?.keyboardEnabled;
   const fullAccess = !!setup?.fullAccess;
-  const ready = keyboard && fullAccess;
+  // Full Access is only known once the keyboard has been on screen, which
+  // happens in the practice step: an added keyboard is enough to go on.
+  const ready = keyboard && (fullAccess || setup?.fullAccessKnown === false);
 
   const openSettings = async () => {
     if (preview) return;
@@ -447,9 +449,11 @@ function KeyboardStep({
       testId="wb-ios-onboarding-keyboard"
       title={t("ios.onboarding.keyboard.title", { appName })}
       subtitle={
-        ready
+        keyboard && fullAccess
           ? t("ios.onboarding.keyboard.ready")
-          : t("ios.onboarding.keyboard.subtitle")
+          : ready
+            ? t("ios.onboarding.keyboard.added")
+            : t("ios.onboarding.keyboard.subtitle")
       }
       action={
         ready ? (
@@ -651,13 +655,13 @@ function Practice({
   // The keyboard's mic needs a running session: start one for the take.
   const started = useRef(false);
   useEffect(() => {
-    if (preview || started.current || !progress.done) return;
+    if (preview || started.current || !progress.ready) return;
     started.current = true;
     void iosCommands
       .startSession()
       .catch((e) => console.warn("onboarding: cannot start a session", e))
       .then(refresh);
-  }, [preview, progress.done, refresh]);
+  }, [preview, progress.ready, refresh]);
 
   const steps = [
     t("ios.onboarding.practice.steps.tap"),
@@ -670,7 +674,7 @@ function Practice({
       testId="wb-ios-onboarding-practice"
       title={t("ios.onboarding.practice.title")}
       subtitle={
-        progress.done
+        progress.ready
           ? t("ios.onboarding.practice.subtitle")
           : t("ios.onboarding.practice.notReady")
       }

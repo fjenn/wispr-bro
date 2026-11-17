@@ -1,27 +1,22 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /**
- * How to add the Wispr Bro keyboard, as four drawn steps (our own drawing
- * of an iOS Settings row per step; no screenshot):
+ * How to add the Wispr Bro keyboard, as three drawn steps (our own drawing
+ * of an iOS Settings row per step; no screenshot). "Open Settings" opens
+ * this app's page in Settings, which has a Keyboards row:
  *
- *   1  Settings › General            ⚙ General ›
- *   2  Keyboard › Keyboards          ⌨ Keyboards ›
- *   3  Add New Keyboard › Wispr Bro  ▪ Wispr Bro
- *   4  Wispr Bro › Allow Full Access   Allow Full Access ◉
+ *   1  Open Settings › Keyboards     ⌨ Keyboards ›
+ *   2  Wispr Bro                     ▪ Wispr Bro ◉
+ *   3  Allow Full Access               Allow Full Access ◉
  *
- * Steps 1-3 tick once iOS reports the keyboard as added, step 4 once Full
- * Access is on. Used by onboarding and by Home's setup sheet.
+ * Steps 1-2 tick once iOS reports the keyboard as added, step 3 once the
+ * keyboard has reported Full Access. Used by onboarding and by Home's
+ * setup sheet.
  */
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { BrandGlyph } from "../ui";
-import {
-  Check,
-  ChevronRight,
-  Keyboard,
-  LockKeyhole,
-  Settings,
-} from "../ui/icons";
+import { Check, ChevronRight, Keyboard, LockKeyhole } from "../ui/icons";
 
 function DrawnRow({
   tile,
@@ -73,18 +68,7 @@ export function KeyboardSteps({
   const appName = t("rust.appName");
   const steps: { text: string; done: boolean; row: ReactNode }[] = [
     {
-      text: t("ios.keyboard.steps.general"),
-      done: keyboardEnabled,
-      row: (
-        <DrawnRow
-          tile={<Settings size={16} />}
-          label={t("ios.keyboard.drawn.general")}
-          end={chevron}
-        />
-      ),
-    },
-    {
-      text: t("ios.keyboard.steps.keyboards"),
+      text: t("ios.keyboard.steps.open"),
       done: keyboardEnabled,
       row: (
         <DrawnRow
@@ -95,18 +79,18 @@ export function KeyboardSteps({
       ),
     },
     {
-      text: t("ios.keyboard.steps.add", { appName }),
+      text: t("ios.keyboard.steps.enable", { appName }),
       done: keyboardEnabled,
       row: (
         <DrawnRow
           tile={<BrandGlyph size={16} />}
           label={appName}
-          end={chevron}
+          end={drawnSwitch}
         />
       ),
     },
     {
-      text: t("ios.keyboard.steps.fullAccess", { appName }),
+      text: t("ios.keyboard.steps.fullAccess"),
       done: keyboardEnabled && fullAccess,
       row: (
         <DrawnRow
@@ -140,6 +124,11 @@ export function KeyboardSteps({
           <span className="col-start-2">{step.row}</span>
         </li>
       ))}
+      {!keyboardEnabled && (
+        <li className="ps-10 text-[13px] leading-[18px] text-(--wb-ink-3)">
+          {t("ios.keyboard.elsewhere")}
+        </li>
+      )}
     </ol>
   );
 }

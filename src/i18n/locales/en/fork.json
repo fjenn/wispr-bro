@@ -3133,18 +3133,17 @@
     "keyboard": {
       "sheetTitle": "Add the {{appName}} keyboard",
       "steps": {
-        "general": "Open Settings and tap General",
-        "keyboards": "Tap Keyboard, then Keyboards",
-        "add": "Tap Add New Keyboard and pick {{appName}}",
-        "fullAccess": "Tap {{appName}} and turn on Allow Full Access"
+        "fullAccess": "Turn on Allow Full Access",
+        "open": "Tap Open Settings, then Keyboards",
+        "enable": "Turn on {{appName}}"
       },
       "drawn": {
-        "general": "General",
         "keyboards": "Keyboards",
         "fullAccess": "Allow Full Access"
       },
       "privacyTitle": "Why Full Access?",
-      "privacy": "It is only used so the keyboard can talk to the Wispr Bro app on this iPhone. What you type and say never leaves the phone."
+      "privacy": "It is only used so the keyboard can talk to the Wispr Bro app on this iPhone. What you type and say never leaves the phone.",
+      "elsewhere": "Not there? Go to Settings, General, Keyboard, Keyboards, Add New Keyboard."
     },
     "tryIt": {
       "title": "Try it",
@@ -3220,7 +3219,8 @@
       "keyboard": {
         "title": "Add the {{appName}} keyboard",
         "subtitle": "This is how you dictate in other apps. It takes a minute, once.",
-        "ready": "The keyboard is added and can reach the app. You're set."
+        "ready": "The keyboard is added and can reach the app. You're set.",
+        "added": "The keyboard is added. Next, try it."
       },
       "model": {
         "title": "Getting your speech model",
@@ -3250,7 +3250,7 @@
         "steps": {
           "tap": "Tap the field above",
           "switch": "Hold the globe key and pick {{appName}}",
-          "speak": "Tap the mic and speak, then tap it again"
+          "speak": "Tap the mic, speak, then tap the check mark"
         }
       },
       "done": {

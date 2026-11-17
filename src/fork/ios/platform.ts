@@ -66,6 +66,8 @@ export function applyIosFlag(): void {
   const root = document.documentElement;
   root.dataset.wbIos = "";
   root.dataset.platform = "ios";
+  // The page's title is what VoiceOver calls the web view.
+  document.title = "Wispr Bro";
   const content =
     "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";
   let meta = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');

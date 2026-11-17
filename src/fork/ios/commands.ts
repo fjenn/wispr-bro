@@ -42,6 +42,12 @@ export type IosMicPermission = 0 | 1 | 2;
 export interface IosSetup {
   keyboardEnabled: boolean;
   fullAccess: boolean;
+  /**
+   * Whether the keyboard has reported Full Access at all. It can only do
+   * so once it has been on screen; until then `fullAccess` is false and
+   * means "not known", not "off".
+   */
+  fullAccessKnown?: boolean;
   micPermission: IosMicPermission;
 }
 

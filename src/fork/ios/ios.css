@@ -340,7 +340,13 @@ html[data-wb-ios] .wb-icon-btn {
 }
 
 html[data-wb-kb] .wb-ios-onboarding-actions {
-  padding-bottom: calc(var(--wb-ios-kb) + 12px);
+  padding-top: 8px;
+  padding-bottom: calc(var(--wb-ios-kb) + 8px);
+}
+
+/* Above a keyboard there is room for the main action only. */
+html[data-wb-kb] .wb-ios-onboarding-actions > :not(:first-child) {
+  display: none;
 }
 
 /* ── Home: session and setup card ──────────────────────────────────── */

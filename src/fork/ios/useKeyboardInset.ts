@@ -4,7 +4,8 @@
  * opens; it only shrinks the visual viewport. This mirrors the covered
  * height into `--wb-ios-kb` on `<html>` (sheets and the page's bottom
  * padding use it) and marks `<html data-wb-kb>` while a keyboard is up, so
- * the tab bar gets out of the way.
+ * the tab bar gets out of the way. The page itself never scrolls (its
+ * own scroll areas do).
  */
 import { useEffect } from "react";
 
@@ -18,6 +19,11 @@ export function useKeyboardInset(): void {
         0,
         Math.round(window.innerHeight - viewport.height - viewport.offsetTop),
       );
+      // iOS also scrolls the whole page up to bring the focused field
+      // into view, which pushes the top bar under the status bar. The
+      // page is laid out for the space above the keyboard (the inset
+      // above), so it stays where it is.
+      if (viewport.offsetTop > 0 || window.scrollY > 0) window.scrollTo(0, 0);
       root.style.setProperty("--wb-ios-kb", `${covered}px`);
       if (covered > 80) root.dataset.wbKb = "";
       else delete root.dataset.wbKb;

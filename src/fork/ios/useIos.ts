@@ -168,6 +168,12 @@ export interface SetupProgress {
   model: boolean;
   /** Every check passed. */
   done: boolean;
+  /**
+   * A dictation can be tried: everything is in place, or only Full Access
+   * is still unknown because the keyboard has never been on screen (the
+   * keyboard itself says so when it is off).
+   */
+  ready: boolean;
   /** Both answers are in (nothing is shown as missing before that). */
   known: boolean;
 }
@@ -186,6 +192,11 @@ export function setupProgress(
     fullAccess,
     model,
     done: mic && keyboard && fullAccess && model,
+    ready:
+      mic &&
+      keyboard &&
+      model &&
+      (fullAccess || setup?.fullAccessKnown === false),
     known: setup !== null && speech !== null,
   };
 }
