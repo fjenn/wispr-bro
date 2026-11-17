@@ -1,13 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// The Wispr Bro keyboard: a mic-first dictation surface. It never touches the
-// microphone or a model; it sends commands to the app over the App Group and
-// inserts the finished text.
+// The Wispr Bro keyboard: typing keys under a dictation strip. It never
+// touches the microphone or a model; it sends commands to the app over the
+// App Group and inserts the finished text.
 //
 // Ported from Hex (MIT, (c) 2026 Christopher Langton):
 // ios/HEXKeyboard/KeyboardViewController.swift. See ../NOTICE-hex.md.
 
 import SwiftUI
 import UIKit
+
+/// The keyboard's root view; adopting the protocol lets the keys click.
+final class WBKeyboardInputView: UIInputView, UIInputViewAudioFeedback {
+    var enableInputClicksWhenVisible: Bool { true }
+}
 
 @objc(WBKeyboardViewController)
 final class WBKeyboardViewController: UIInputViewController {
@@ -18,6 +23,14 @@ final class WBKeyboardViewController: UIInputViewController {
     private var heightConstraint: NSLayoutConstraint?
     private var lastFullAccessNote: TimeInterval = 0
     private var isVisible = false
+    private var keyboard: WBFullKeyboardView?
+    private static let takesStartedKey = "wb.keyboard.takesStarted"
+
+    override func loadView() {
+        let root = WBKeyboardInputView(frame: .zero, inputViewStyle: .keyboard)
+        root.allowsSelfSizing = true
+        view = root
+    }
 
     // MARK: Lifecycle
 
@@ -33,6 +46,8 @@ final class WBKeyboardViewController: UIInputViewController {
         super.viewWillAppear(animated)
         isVisible = true
         if leaveNumericField() { return }
+        keyboard?.prepareForField()
+        updateHeight()
         stateObserver = WBDarwinObserver(WBBridgeConstants.stateNotification) { [weak self] in
             self?.sync()
         }
@@ -53,43 +68,60 @@ final class WBKeyboardViewController: UIInputViewController {
         stateObserver = nil
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // The window's edge gestures hold touches back for a moment, which makes the
+        // keys at the screen edges (q, a, p, 123) feel late. Keys must answer at once.
+        view.window?.gestureRecognizers?.forEach { $0.delaysTouchesBegan = false }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateHeight()
+    }
+
     override func textDidChange(_ textInput: UITextInput?) {
         super.textDidChange(textInput)
         if leaveNumericField() { return }
         updateTraits()
+        keyboard?.textDidChange()
     }
 
     // MARK: Setup
 
     private func wireModel() {
-        model.inputViewController = self
+        model.showsTalkHint = UserDefaults.standard.integer(forKey: Self.takesStartedKey) < 3
         model.levelSource = { [weak self] in self?.bridge.levels?.currentLevel() ?? 0 }
         model.onMicTap = { [weak self] in self?.micTapped() }
         model.onFinishTap = { [weak self] in self?.finishTapped() }
         model.onCancelTap = { [weak self] in self?.cancelTapped() }
         model.onOpenApp = { [weak self] in self?.openApp(startingTake: false) }
-        model.onSpace = { [weak self] in self?.textDocumentProxy.insertText(" ") }
-        model.onDelete = { [weak self] in self?.textDocumentProxy.deleteBackward() }
-        model.onReturn = { [weak self] in self?.textDocumentProxy.insertText("\n") }
     }
 
     private func mountSurface() {
-        let hosting = UIHostingController(rootView: WBKeyboardSurfaceView(model: model))
-        hosting.view.backgroundColor = .clear
-        addChild(hosting)
-        hosting.view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(hosting.view)
-        let height = view.heightAnchor.constraint(equalToConstant: WBKeyboardSurfaceView.preferredHeight)
+        let target = WBDocumentProxyTarget { [weak self] in self?.textDocumentProxy }
+        let keyboard = WBFullKeyboardView(model: model, target: target)
+        keyboard.hostController = self
+        keyboard.allowsHaptics = { [weak self] in self?.hasFullAccess ?? false }
+        keyboard.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(keyboard)
+        let height = view.heightAnchor.constraint(equalToConstant: keyboard.preferredHeight)
         height.priority = UILayoutPriority(999)
         heightConstraint = height
         NSLayoutConstraint.activate([
             height,
-            hosting.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            hosting.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hosting.view.topAnchor.constraint(equalTo: view.topAnchor),
-            hosting.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            keyboard.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            keyboard.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            keyboard.topAnchor.constraint(equalTo: view.topAnchor),
+            keyboard.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-        hosting.didMove(toParent: self)
+        self.keyboard = keyboard
+    }
+
+    /// Portrait and landscape have their own fixed heights; the strip never changes them.
+    private func updateHeight() {
+        guard let keyboard, heightConstraint?.constant != keyboard.preferredHeight else { return }
+        heightConstraint?.constant = keyboard.preferredHeight
     }
 
     /// Number, phone and decimal fields need digits, not dictation.
@@ -108,16 +140,6 @@ final class WBKeyboardViewController: UIInputViewController {
         if model.needsGlobeKey != globe { model.needsGlobeKey = globe }
         // Fields that ask for a dark keyboard get one even in light mode.
         overrideUserInterfaceStyle = textDocumentProxy.keyboardAppearance == .dark ? .dark : .unspecified
-        let label: String? = switch textDocumentProxy.returnKeyType {
-        case .send: "Send"
-        case .search, .google, .yahoo: "Search"
-        case .go: "Go"
-        case .done: "Done"
-        case .next: "Next"
-        case .join: "Join"
-        default: nil
-        }
-        if model.returnLabel != label { model.returnLabel = label }
     }
 
     private var effectiveFullAccess: Bool {
@@ -151,6 +173,7 @@ final class WBKeyboardViewController: UIInputViewController {
             let text = WBInsertion.text(for: result.text, before: textDocumentProxy.documentContextBeforeInput)
             if !text.isEmpty {
                 textDocumentProxy.insertText(text)
+                keyboard?.didInsertDictation(text)
                 haptic()
             }
             model.pending = nil
@@ -172,8 +195,17 @@ final class WBKeyboardViewController: UIInputViewController {
         let takeID = WBTakeID.make()
         model.pending = .init(kind: .start, takeID: takeID, sentAt: now)
         bridge.send(.start, takeID: takeID, at: now)
+        noteTakeStarted()
         haptic()
         sync()
+    }
+
+    /// The "Tap to talk" hint goes away after the first few takes.
+    private func noteTakeStarted() {
+        let defaults = UserDefaults.standard
+        let count = defaults.integer(forKey: Self.takesStartedKey) + 1
+        defaults.set(count, forKey: Self.takesStartedKey)
+        if count >= 3, model.showsTalkHint { model.showsTalkHint = false }
     }
 
     private func finishTapped() {

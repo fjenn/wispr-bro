@@ -44,6 +44,14 @@ struct WBHarnessApp: App {
 
 private struct WBHarnessHome: View {
     @State private var text = ""
+    @State private var other = ""
+    @FocusState private var otherFocused: Bool
+    /// `--wb-field search|email|url|dark`: a second, single-line field of that kind.
+    private var fieldKind: String? {
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "--wb-field"), index + 1 < arguments.count else { return nil }
+        return arguments[index + 1]
+    }
     @State private var json: [String: Any] = [:]
     @FocusState private var focused: Bool
     private let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
@@ -77,6 +85,16 @@ private struct WBHarnessHome: View {
                         .focused($focused)
                         .font(.system(size: 17))
                         .accessibilityIdentifier("wb.try.field")
+                    if let fieldKind {
+                        Divider()
+                        TextField("A \(fieldKind) field", text: $other)
+                            .keyboardType(fieldKind == "email" ? .emailAddress : fieldKind == "url" ? .URL : .default)
+                            .submitLabel(fieldKind == "search" ? .search : fieldKind == "email" ? .send : fieldKind == "url" ? .go : .return)
+                            .textInputAutocapitalization(fieldKind == "search" || fieldKind == "dark" ? .sentences : .never)
+                            .focused($otherFocused)
+                            .font(.system(size: 17))
+                            .accessibilityIdentifier("wb.other.field")
+                    }
                 }
 
                 card {
@@ -119,6 +137,7 @@ private struct WBHarnessHome: View {
         .onAppear {
             refresh()
             if ProcessInfo.processInfo.arguments.contains("--wb-focus") { focused = true }
+            if ProcessInfo.processInfo.arguments.contains("--wb-focus-other") { otherFocused = true }
         }
     }
 
@@ -186,46 +205,125 @@ private struct WBHarnessButton: ButtonStyle {
 
 // MARK: - Keyboard preview stage
 
-/// The keyboard surface on a system-keyboard-like backdrop, under a mock
-/// message field, frozen in one state. After Hex's KeyboardPreviewHost.
+/// A text field that is only a string: previews and tests type into it.
+@MainActor
+final class WBFakeTextTarget: WBTextTarget {
+    private(set) var text: String
+    var keyboardAppearance: UIKeyboardAppearance?
+    var autocapitalizationType: UITextAutocapitalizationType? = .sentences
+    var keyboardType: UIKeyboardType? = .default
+    var returnKeyType: UIReturnKeyType? = .default
+    var enablesReturnKeyAutomatically: Bool? = false
+
+    init(text: String = "", appearance: UIKeyboardAppearance? = nil) {
+        self.text = text
+        keyboardAppearance = appearance
+    }
+
+    var documentContextBeforeInput: String? { text }
+    var hasText: Bool { !text.isEmpty }
+    func insertText(_ inserted: String) { text += inserted }
+    func deleteBackward() { if !text.isEmpty { text.removeLast() } }
+}
+
+/// The real keyboard view in the app, typing into a `WBFakeTextTarget`.
+private struct WBKeyboardPreview: UIViewRepresentable {
+    let model: WBKeyboardModel
+    let dark: Bool
+    let configure: (WBFullKeyboardView, WBFakeTextTarget) -> Void
+
+    func makeUIView(context: Context) -> WBFullKeyboardView {
+        let target = WBFakeTextTarget(text: "Meet you at the station at six. ")
+        let view = WBFullKeyboardView(model: model, target: target)
+        view.appearanceOverride = dark
+        view.drawsBackdrop = true
+        configure(view, target)
+        view.prepareForField()
+        return view
+    }
+
+    func updateUIView(_ uiView: WBFullKeyboardView, context: Context) {
+        uiView.appearanceOverride = dark
+    }
+
+}
+
+/// The keyboard under a mock message field, frozen in one state
+/// (`--wb-preview <state>`). After Hex's KeyboardPreviewHost.
 struct WBKeyboardPreviewStage: View {
     let state: String
     @StateObject private var model = WBKeyboardModel()
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.verticalSizeClass) private var vertical
 
     var body: some View {
+        let landscape = vertical == .compact
         VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Keyboard preview · \(state)")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(WBTheme.ink.opacity(0.5))
-                Text("Meet you at the station at six. I'll bring the tickets.")
-                    .font(.system(size: 17))
-                    .foregroundStyle(WBTheme.ink)
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(WBTheme.panel, in: RoundedRectangle(cornerRadius: WBTheme.r4, style: .continuous))
+            if !landscape {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Keyboard preview · \(state)")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(WBTheme.ink.opacity(0.5))
+                    Text("Meet you at the station at six. I'll bring the tickets.")
+                        .font(.system(size: 17))
+                        .foregroundStyle(WBTheme.ink)
+                        .padding(12)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(WBTheme.panel, in: RoundedRectangle(cornerRadius: WBTheme.r4, style: .continuous))
+                }
+                .padding(20)
             }
-            .padding(20)
             Spacer(minLength: 0)
-            WBKeyboardSurfaceView(model: model)
-                .frame(height: WBKeyboardSurfaceView.preferredHeight)
-                .padding(.bottom, 34)
+            preview
+                .frame(height: WBKeyLayout.height(for: landscape ? .landscape : .portrait))
+                .padding(.bottom, landscape ? 0 : 34)
                 .background(
-                    (scheme == .dark ? Color(wbHex: 0x2C2C2E) : Color(wbHex: 0xD6D8DE))
-                        .ignoresSafeArea(edges: .bottom)
+                    Color(WBKeyPalette(isDark: scheme == .dark).backdrop)
+                        .ignoresSafeArea(edges: [.bottom, .horizontal])
                 )
         }
         .background(WBTheme.chrome.ignoresSafeArea())
         .onAppear(perform: configure)
     }
 
+    private var preview: some View {
+        let state = state
+        return WBKeyboardPreview(model: model, dark: scheme == .dark) { _, target in
+            switch state {
+            case "send": target.returnKeyType = .send
+            case "search":
+                target.returnKeyType = .search
+                target.keyboardType = .webSearch
+            case "email": target.keyboardType = .emailAddress
+            case "url":
+                target.keyboardType = .URL
+                target.returnKeyType = .go
+            default: break
+            }
+        }
+        .staged { view in
+            switch state {
+            case "popup": view.debugPress("t")
+            case "accent": view.debugPress("e", alternates: true)
+            case "accent-slide": view.debugPress("o", alternates: true, slideTo: 3)
+            case "numbers": view.debugShow(.numbers)
+            case "symbols": view.debugShow(.symbols)
+            case "caps":
+                view.debugTap(.shift)
+                view.debugTap(.shift)
+            default: break
+            }
+        }
+    }
+
     private func configure() {
-        model.needsGlobeKey = true
+        model.needsGlobeKey = state == "globe"
         switch state {
         case "fullaccess": model.phase = .needsFullAccess
         case "nosession": model.phase = .noSession
-        case "idle": model.phase = .idle
+        case "talkhint":
+            model.phase = .idle
+            model.showsTalkHint = true
         case "listening-quiet":
             model.phase = .listening
             model.frozenWave = [Double](repeating: 0, count: 11)
@@ -234,11 +332,17 @@ struct WBKeyboardPreviewStage: View {
             model.frozenWave = [0.18, 0.34, 0.5, 0.74, 0.9, 1.0, 0.82, 0.66, 0.42, 0.3, 0.14]
         case "transcribing": model.phase = .transcribing
         case "error": model.phase = .error("Microphone access is off")
-        case "send":
-            model.phase = .idle
-            model.returnLabel = "Send"
-            model.needsGlobeKey = false
         default: model.phase = .idle
+        }
+    }
+}
+
+private extension WBKeyboardPreview {
+    /// Runs once the view is on screen and laid out.
+    func staged(_ stage: @escaping (WBFullKeyboardView) -> Void) -> WBKeyboardPreview {
+        WBKeyboardPreview(model: model, dark: dark) { view, target in
+            configure(view, target)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { stage(view) }
         }
     }
 }

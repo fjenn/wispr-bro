@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0386D7299F3BEF2031940700 /* WBKeyLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815379F291B8983DCFEBA57 /* WBKeyLayoutTests.swift */; };
 		0998523A954D427B6B4CC9D5 /* WBActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8611D13B3C106AC6E193AE9 /* WBActivityAttributes.swift */; };
 		0A223E709393F7C3387785C0 /* WBBrandMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26DE56B8BFDE89738367C7E /* WBBrandMark.swift */; };
 		0BA875C4CF023D868218D95C /* WBSwipeBackHint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE157002FC87A09C5A63A1D1 /* WBSwipeBackHint.swift */; };
@@ -14,32 +15,51 @@
 		1468523EED3A74F63640CA70 /* WBKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DDFAC8615A081E0D8A4960C /* WBKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1547DA384430068DBF36423E /* WBCoreClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88318EC9B8F06690FEE245E8 /* WBCoreClient.swift */; };
 		1D9DBA752D36D16BFAD36A41 /* WBAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B197010F46402F94A4AE50 /* WBAudioEngine.swift */; };
+		2A74DD33FF9F67BA82232CEF /* WBShiftState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F2CA8085733BA4039053E /* WBShiftState.swift */; };
 		2A78208D60D0EC3F7D71B28A /* WBHostAppObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262845E60BE8080A140745A /* WBHostAppObserver.swift */; };
 		2B86BD0E5E9349040E3E5BC1 /* WBHostApps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0153E2DDDB7145C5B37F0FD8 /* WBHostApps.swift */; };
+		2BA76B96848EE9A0ECE1526D /* WBKeyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCEAB80CA6653F2DDC3D6F /* WBKeyEngine.swift */; };
 		2ECD51B7DE2AD3274FF35D43 /* WBTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0654D4AAC91A6E870EE6D2BC /* WBTheme.swift */; };
 		3126CEACF531191291F1164F /* WBKeyboardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80FFF59B8F4EF6A067CEC2 /* WBKeyboardSurface.swift */; };
 		31AF09BEA721976EA4CBDD61 /* WBSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD90C12679C047338074866E /* WBSessionController.swift */; };
 		34CAFEDBCF3CEB1319BC13AF /* WBInsertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DC5EF147BDEE758E7314C1 /* WBInsertion.swift */; };
+		36506C87ACA84E2936D8890B /* WBKeyAlternates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2145D0B9B39434D9792CE603 /* WBKeyAlternates.swift */; };
 		3903506394A489D98A22D829 /* WBBrandMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26DE56B8BFDE89738367C7E /* WBBrandMark.swift */; };
+		3ABDE3167CD04DA3D0756023 /* WBKeyPlaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF242542EB6E230BC3AFF187 /* WBKeyPlaneView.swift */; };
+		458F6E98CC46EA9122588464 /* WBFullKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94C4D14D1BF900DEB6F026A /* WBFullKeyboardView.swift */; };
+		4962B6E3808BB2A90C82C65E /* WBKeyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87F75F98CBB9D3EE29E353F /* WBKeyLayout.swift */; };
 		49C653A20AB7671BC48744AA /* WBWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8923A4537115B1978C19BD58 /* WBWidgetsBundle.swift */; };
 		4C47855D3019E07D3AC653F1 /* WBSessionLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE22B2E364D9CF8742D41ECE /* WBSessionLiveActivity.swift */; };
 		5CF7F56D3812FA9495971E74 /* WBKeyboardFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA6B834B553987851ED10E /* WBKeyboardFlowUITests.swift */; };
 		6172E29CAAA65E8C0EC05804 /* WBKeyboardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80FFF59B8F4EF6A067CEC2 /* WBKeyboardSurface.swift */; };
+		66B19638B4DC296FC8F0A049 /* WBShiftState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F2CA8085733BA4039053E /* WBShiftState.swift */; };
+		6746D521E715D3F0D69E59BE /* WBKeyHoldGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD499FCD45D95E89B66A506 /* WBKeyHoldGesture.swift */; };
 		6F4ECF411BBBDFA94D4075C9 /* WBContainingAppOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E3A05963D041C53330CF55 /* WBContainingAppOpener.swift */; };
+		6FCD862AB54202AB0B21C7B0 /* WBKeyAlternates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2145D0B9B39434D9792CE603 /* WBKeyAlternates.swift */; };
+		718C7153F5E93EB7BCE7080B /* WBKeyEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCEAB80CA6653F2DDC3D6F /* WBKeyEngine.swift */; };
 		731A8C0DF9496426ACA7A03C /* WBWaveform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C8E36002076E9A7C8542E /* WBWaveform.swift */; };
 		7DB7405698F56D0A9F1281B2 /* WBSessionCAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73921121CF1BC2AC37D12A47 /* WBSessionCAPI.swift */; };
+		814A27A666FFC62A707D7F23 /* WBKeyEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C59F7CBA5753677EE5CECB /* WBKeyEngineTests.swift */; };
 		8B36A0A557C828726E7B5A53 /* WBBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C133D5CAF21FD2A36E9CD3D /* WBBridge.swift */; };
+		991E95E5B2ECAFF996DA2308 /* WBKeyPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD43856A4E078D2B3BEC6300 /* WBKeyPalette.swift */; };
+		9D5AFBE729B02D91E3CC49FB /* WBFullKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94C4D14D1BF900DEB6F026A /* WBFullKeyboardView.swift */; };
+		A22F067C9F321871F9CC946F /* WBKeyHoldGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD499FCD45D95E89B66A506 /* WBKeyHoldGesture.swift */; };
 		B31BB2EA9850560E222BE220 /* WBHostApps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0153E2DDDB7145C5B37F0FD8 /* WBHostApps.swift */; };
 		B6D9AF900740AA26B23EF7B2 /* WBTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0654D4AAC91A6E870EE6D2BC /* WBTheme.swift */; };
 		B83CCEA8510CE59C660DF53F /* WBLiveActivityCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D2C665DDBE155841FF058D /* WBLiveActivityCoordinator.swift */; };
+		B995B401B8F91A079D898998 /* WBKeyPlaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF242542EB6E230BC3AFF187 /* WBKeyPlaneView.swift */; };
+		BBC5EA3FCFF6CCE8343B6027 /* WBShiftStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D96FA17B9B8D5A2CADAC0CA /* WBShiftStateTests.swift */; };
+		C24038ACC66EA1F1A694760E /* WBKeyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87F75F98CBB9D3EE29E353F /* WBKeyLayout.swift */; };
 		CAD53EC612D7CFCFDFBA846F /* wb_core_stub.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C99D283908B6C52FB35BCBE /* wb_core_stub.c */; };
 		D66C5EE978B917E934439CD1 /* WBSessionBootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B32968205964F1588F997 /* WBSessionBootstrap.m */; };
 		DE0B2ED32B380D15D03A4BD3 /* WBWaveform.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C8E36002076E9A7C8542E /* WBWaveform.swift */; };
 		ECEB9C06496A827B3243DF00 /* WBActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8611D13B3C106AC6E193AE9 /* WBActivityAttributes.swift */; };
 		ED62DD33D15772AB21EE72CE /* WBHarnessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287647541B4FE72B3CAEBDC /* WBHarnessApp.swift */; };
+		EE51B187C50FA1C9671F4413 /* WBKeyPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD43856A4E078D2B3BEC6300 /* WBKeyPalette.swift */; };
 		F02C80B094C43516F010B251 /* WBBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C133D5CAF21FD2A36E9CD3D /* WBBridge.swift */; };
 		F0A1F26CF14CB75D9E3C4FE1 /* WBWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5AF9F43F6D7B06ABE635DF21 /* WBWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F42D61D5ABC9F650D61351F9 /* WBKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0B7A07F0B8EFDA74BEDEB0 /* WBKeyboardViewController.swift */; };
+		F6C8760201EF4EA1234F38A0 /* WBKeyHoldGestureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1F720A6214D4908C079048 /* WBKeyHoldGestureTests.swift */; };
 		F9B54D9A0FEA591389E4CA05 /* WBBridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A397983178C9D50C64D1BAFF /* WBBridgeTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,18 +114,24 @@
 		0654D4AAC91A6E870EE6D2BC /* WBTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBTheme.swift; sourceTree = "<group>"; };
 		0D4B32968205964F1588F997 /* WBSessionBootstrap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBSessionBootstrap.m; sourceTree = "<group>"; };
 		15FA6B834B553987851ED10E /* WBKeyboardFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyboardFlowUITests.swift; sourceTree = "<group>"; };
+		17BCEAB80CA6653F2DDC3D6F /* WBKeyEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyEngine.swift; sourceTree = "<group>"; };
 		1C133D5CAF21FD2A36E9CD3D /* WBBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBridge.swift; sourceTree = "<group>"; };
+		2145D0B9B39434D9792CE603 /* WBKeyAlternates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyAlternates.swift; sourceTree = "<group>"; };
+		28C59F7CBA5753677EE5CECB /* WBKeyEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyEngineTests.swift; sourceTree = "<group>"; };
 		2ED0AC6D6F093E6B5B25AD56 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		35731A10DBAC55FFA88CECE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		36D2C665DDBE155841FF058D /* WBLiveActivityCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBLiveActivityCoordinator.swift; sourceTree = "<group>"; };
+		3CD499FCD45D95E89B66A506 /* WBKeyHoldGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyHoldGesture.swift; sourceTree = "<group>"; };
 		46B197010F46402F94A4AE50 /* WBAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBAudioEngine.swift; sourceTree = "<group>"; };
 		4C99D283908B6C52FB35BCBE /* wb_core_stub.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wb_core_stub.c; sourceTree = "<group>"; };
 		4E80FFF59B8F4EF6A067CEC2 /* WBKeyboardSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyboardSurface.swift; sourceTree = "<group>"; };
 		5A0B7A07F0B8EFDA74BEDEB0 /* WBKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyboardViewController.swift; sourceTree = "<group>"; };
 		5AF9F43F6D7B06ABE635DF21 /* WBWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = WBWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D96FA17B9B8D5A2CADAC0CA /* WBShiftStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBShiftStateTests.swift; sourceTree = "<group>"; };
 		71DC5EF147BDEE758E7314C1 /* WBInsertion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBInsertion.swift; sourceTree = "<group>"; };
 		7287647541B4FE72B3CAEBDC /* WBHarnessApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBHarnessApp.swift; sourceTree = "<group>"; };
 		73921121CF1BC2AC37D12A47 /* WBSessionCAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBSessionCAPI.swift; sourceTree = "<group>"; };
+		744F2CA8085733BA4039053E /* WBShiftState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBShiftState.swift; sourceTree = "<group>"; };
 		75E3A05963D041C53330CF55 /* WBContainingAppOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBContainingAppOpener.swift; sourceTree = "<group>"; };
 		779181DC320B24AA36901ABD /* wb_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wb_ios.h; sourceTree = "<group>"; };
 		79FC8ACB0BA9C9CD77AE8684 /* WBNativeHarnessUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WBNativeHarnessUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,16 +141,22 @@
 		9DDFAC8615A081E0D8A4960C /* WBKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = WBKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A397983178C9D50C64D1BAFF /* WBBridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBridgeTests.swift; sourceTree = "<group>"; };
 		A7BCFFB07D3D64CB43E599B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A94C4D14D1BF900DEB6F026A /* WBFullKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBFullKeyboardView.swift; sourceTree = "<group>"; };
 		AC3C8E36002076E9A7C8542E /* WBWaveform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBWaveform.swift; sourceTree = "<group>"; };
+		AD43856A4E078D2B3BEC6300 /* WBKeyPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyPalette.swift; sourceTree = "<group>"; };
 		AD90C12679C047338074866E /* WBSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBSessionController.swift; sourceTree = "<group>"; };
+		B815379F291B8983DCFEBA57 /* WBKeyLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyLayoutTests.swift; sourceTree = "<group>"; };
 		BEC36B0E7899A75CDC7AC066 /* WBKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBKeyboard.entitlements; sourceTree = "<group>"; };
+		BF242542EB6E230BC3AFF187 /* WBKeyPlaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyPlaneView.swift; sourceTree = "<group>"; };
 		C352B8278F5C519F19A583ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C8611D13B3C106AC6E193AE9 /* WBActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBActivityAttributes.swift; sourceTree = "<group>"; };
 		CBE2488403C1CFC9DD505EF6 /* wb_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wb_core.h; sourceTree = "<group>"; };
 		CE157002FC87A09C5A63A1D1 /* WBSwipeBackHint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBSwipeBackHint.swift; sourceTree = "<group>"; };
 		D262845E60BE8080A140745A /* WBHostAppObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBHostAppObserver.swift; sourceTree = "<group>"; };
+		D87F75F98CBB9D3EE29E353F /* WBKeyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyLayout.swift; sourceTree = "<group>"; };
 		DB497FD221D5E7909F122416 /* WBNativeHarness.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WBNativeHarness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE22B2E364D9CF8742D41ECE /* WBSessionLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBSessionLiveActivity.swift; sourceTree = "<group>"; };
+		DF1F720A6214D4908C079048 /* WBKeyHoldGestureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBKeyHoldGestureTests.swift; sourceTree = "<group>"; };
 		E26DE56B8BFDE89738367C7E /* WBBrandMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBrandMark.swift; sourceTree = "<group>"; };
 		F4D5D2BB304EC68FA21204D8 /* WBNativeHarness.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBNativeHarness.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,6 +204,10 @@
 			isa = PBXGroup;
 			children = (
 				A397983178C9D50C64D1BAFF /* WBBridgeTests.swift */,
+				28C59F7CBA5753677EE5CECB /* WBKeyEngineTests.swift */,
+				DF1F720A6214D4908C079048 /* WBKeyHoldGestureTests.swift */,
+				B815379F291B8983DCFEBA57 /* WBKeyLayoutTests.swift */,
+				5D96FA17B9B8D5A2CADAC0CA /* WBShiftStateTests.swift */,
 			);
 			path = WBTests;
 			sourceTree = "<group>";
@@ -212,6 +248,7 @@
 				4E80FFF59B8F4EF6A067CEC2 /* WBKeyboardSurface.swift */,
 				0654D4AAC91A6E870EE6D2BC /* WBTheme.swift */,
 				AC3C8E36002076E9A7C8542E /* WBWaveform.swift */,
+				D6484810A4154E996F3D33E2 /* FullKeyboard */,
 			);
 			path = WBShared;
 			sourceTree = "<group>";
@@ -234,6 +271,21 @@
 				8923A4537115B1978C19BD58 /* WBWidgetsBundle.swift */,
 			);
 			path = WBWidgets;
+			sourceTree = "<group>";
+		};
+		D6484810A4154E996F3D33E2 /* FullKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				A94C4D14D1BF900DEB6F026A /* WBFullKeyboardView.swift */,
+				2145D0B9B39434D9792CE603 /* WBKeyAlternates.swift */,
+				17BCEAB80CA6653F2DDC3D6F /* WBKeyEngine.swift */,
+				3CD499FCD45D95E89B66A506 /* WBKeyHoldGesture.swift */,
+				D87F75F98CBB9D3EE29E353F /* WBKeyLayout.swift */,
+				AD43856A4E078D2B3BEC6300 /* WBKeyPalette.swift */,
+				BF242542EB6E230BC3AFF187 /* WBKeyPlaneView.swift */,
+				744F2CA8085733BA4039053E /* WBShiftState.swift */,
+			);
+			path = FullKeyboard;
 			sourceTree = "<group>";
 		};
 		D8E244F7A1B51A928593240E /* WBCoreStub */ = {
@@ -435,10 +487,18 @@
 			files = (
 				F02C80B094C43516F010B251 /* WBBridge.swift in Sources */,
 				6F4ECF411BBBDFA94D4075C9 /* WBContainingAppOpener.swift in Sources */,
+				458F6E98CC46EA9122588464 /* WBFullKeyboardView.swift in Sources */,
 				B31BB2EA9850560E222BE220 /* WBHostApps.swift in Sources */,
 				0C0B84EDD7B4B0F92B74E2C5 /* WBInsertion.swift in Sources */,
+				6FCD862AB54202AB0B21C7B0 /* WBKeyAlternates.swift in Sources */,
+				718C7153F5E93EB7BCE7080B /* WBKeyEngine.swift in Sources */,
+				6746D521E715D3F0D69E59BE /* WBKeyHoldGesture.swift in Sources */,
+				C24038ACC66EA1F1A694760E /* WBKeyLayout.swift in Sources */,
+				991E95E5B2ECAFF996DA2308 /* WBKeyPalette.swift in Sources */,
+				3ABDE3167CD04DA3D0756023 /* WBKeyPlaneView.swift in Sources */,
 				6172E29CAAA65E8C0EC05804 /* WBKeyboardSurface.swift in Sources */,
 				F42D61D5ABC9F650D61351F9 /* WBKeyboardViewController.swift in Sources */,
+				66B19638B4DC296FC8F0A049 /* WBShiftState.swift in Sources */,
 				B6D9AF900740AA26B23EF7B2 /* WBTheme.swift in Sources */,
 				731A8C0DF9496426ACA7A03C /* WBWaveform.swift in Sources */,
 			);
@@ -449,6 +509,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9B54D9A0FEA591389E4CA05 /* WBBridgeTests.swift in Sources */,
+				814A27A666FFC62A707D7F23 /* WBKeyEngineTests.swift in Sources */,
+				F6C8760201EF4EA1234F38A0 /* WBKeyHoldGestureTests.swift in Sources */,
+				0386D7299F3BEF2031940700 /* WBKeyLayoutTests.swift in Sources */,
+				BBC5EA3FCFF6CCE8343B6027 /* WBShiftStateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,15 +525,23 @@
 				0A223E709393F7C3387785C0 /* WBBrandMark.swift in Sources */,
 				8B36A0A557C828726E7B5A53 /* WBBridge.swift in Sources */,
 				1547DA384430068DBF36423E /* WBCoreClient.swift in Sources */,
+				9D5AFBE729B02D91E3CC49FB /* WBFullKeyboardView.swift in Sources */,
 				ED62DD33D15772AB21EE72CE /* WBHarnessApp.swift in Sources */,
 				2A78208D60D0EC3F7D71B28A /* WBHostAppObserver.swift in Sources */,
 				2B86BD0E5E9349040E3E5BC1 /* WBHostApps.swift in Sources */,
 				34CAFEDBCF3CEB1319BC13AF /* WBInsertion.swift in Sources */,
+				36506C87ACA84E2936D8890B /* WBKeyAlternates.swift in Sources */,
+				2BA76B96848EE9A0ECE1526D /* WBKeyEngine.swift in Sources */,
+				A22F067C9F321871F9CC946F /* WBKeyHoldGesture.swift in Sources */,
+				4962B6E3808BB2A90C82C65E /* WBKeyLayout.swift in Sources */,
+				EE51B187C50FA1C9671F4413 /* WBKeyPalette.swift in Sources */,
+				B995B401B8F91A079D898998 /* WBKeyPlaneView.swift in Sources */,
 				3126CEACF531191291F1164F /* WBKeyboardSurface.swift in Sources */,
 				B83CCEA8510CE59C660DF53F /* WBLiveActivityCoordinator.swift in Sources */,
 				D66C5EE978B917E934439CD1 /* WBSessionBootstrap.m in Sources */,
 				7DB7405698F56D0A9F1281B2 /* WBSessionCAPI.swift in Sources */,
 				31AF09BEA721976EA4CBDD61 /* WBSessionController.swift in Sources */,
+				2A74DD33FF9F67BA82232CEF /* WBShiftState.swift in Sources */,
 				0BA875C4CF023D868218D95C /* WBSwipeBackHint.swift in Sources */,
 				2ECD51B7DE2AD3274FF35D43 /* WBTheme.swift in Sources */,
 				DE0B2ED32B380D15D03A4BD3 /* WBWaveform.swift in Sources */,
