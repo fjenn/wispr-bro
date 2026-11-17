@@ -1,3 +1,5 @@
+#[cfg(target_os = "ios")]
+use crate::fork::ios::compat::*;
 use crate::input;
 use crate::settings;
 use crate::settings::{OverlayPosition, OverlayStyle};
@@ -67,13 +69,13 @@ const EMIT_THROTTLE_MS: u64 = 33; // ~30 FPS
 
 #[cfg(target_os = "macos")]
 const OVERLAY_TOP_OFFSET: f64 = 46.0;
-#[cfg(any(target_os = "windows", target_os = "linux"))]
+#[cfg(any(target_os = "windows", target_os = "linux", target_os = "ios"))]
 const OVERLAY_TOP_OFFSET: f64 = 4.0;
 
 #[cfg(target_os = "macos")]
 const OVERLAY_BOTTOM_OFFSET: f64 = 15.0;
 
-#[cfg(any(target_os = "windows", target_os = "linux"))]
+#[cfg(any(target_os = "windows", target_os = "linux", target_os = "ios"))]
 const OVERLAY_BOTTOM_OFFSET: f64 = 40.0;
 
 /// Configures the edge and offset of a GTK layer surface. gtk-layer-shell

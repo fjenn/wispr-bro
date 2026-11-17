@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Wispr Bro",
+  "mainBinaryName": "wispr-bro",
+  "version": "1.0.0",
+  "identifier": "com.wisprbro.ios",
+  "bundle": {
+    "externalBin": null,
+    "createUpdaterArtifacts": false,
+    "iOS": {
+      "developmentTeam": "446XT9839S",
+      "minimumSystemVersion": "17.0",
+      "bundleVersion": "1"
+    }
+  }
+}

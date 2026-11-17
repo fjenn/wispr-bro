@@ -21,6 +21,8 @@
 //!   `core:window:allow-start-dragging` and the switch
 //!   `core:window:allow-set-title-bar-style` (`capabilities/fork.json`).
 
+#[cfg(target_os = "ios")]
+use crate::fork::ios::compat::*;
 use tauri::{AppHandle, LogicalSize, Manager, Runtime, WebviewWindow, WebviewWindowBuilder};
 
 /// Where the traffic lights go, in logical points from the window's top-left

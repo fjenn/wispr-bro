@@ -1,0 +1,14 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro (iOS): swift-rs 1.0.7 (tauri's iOS build) passes `-Xswiftc -sdk`
+# and `-Xswiftc -target` to `swift build`. SwiftPM's default "swiftbuild"
+# engine (Swift 6.4, Xcode 27) appends its own macOS SDK and target after
+# them, so the Tauri Swift package is compiled against the macOS SDK and
+# fails. The native engine honours the flags. This shim goes first on PATH
+# for iOS builds only (see ios/env.sh).
+real=$(xcrun --find swift)
+if [ "$1" = "build" ]; then
+  shift
+  exec "$real" build --build-system native "$@"
+fi
+exec "$real" "$@"

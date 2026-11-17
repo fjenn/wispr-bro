@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Wispr Bro app icon for iOS: the Mac artwork (app-icon.svg) on a
+     full-bleed square, because iOS masks the corners itself and an icon
+     must have no transparency. Regenerate:
+     bunx tauri icon src-tauri/icons-fork/src/app-icon-ios.svg -o <tmp>
+     and copy <tmp>/ios/* into src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5B5BF0"/>
+      <stop offset="1" stop-color="#3A36C9"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bg)"/>
+  <g fill="#FFFFFF">
+    <rect x="236" y="382" width="72" height="260" rx="36"/>
+    <rect x="356" y="277" width="72" height="470" rx="36"/>
+    <rect x="476" y="212" width="72" height="600" rx="36"/>
+    <rect x="596" y="322" width="72" height="380" rx="36"/>
+    <rect x="716" y="402" width="72" height="220" rx="36"/>
+  </g>
+</svg>

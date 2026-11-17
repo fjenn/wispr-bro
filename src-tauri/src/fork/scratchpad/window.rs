@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! The singleton floating note window. No Handy window or hook is involved.
 
+#[cfg(target_os = "ios")]
+use crate::fork::ios::compat::*;
 use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
 
 use crate::fork::ForkRuntime;

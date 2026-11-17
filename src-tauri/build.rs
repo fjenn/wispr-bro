@@ -1,8 +1,29 @@
 fn main() {
+    // The cfg is the build host's; a cross build for the iPhone on an Apple
+    // Silicon Mac must not build the macOS bridge.
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
-    build_apple_intelligence_bridge();
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("macos") {
+        build_apple_intelligence_bridge();
+    }
 
     generate_tray_translations();
+
+    // fork (iOS): weak stand-ins for the functions the Swift session code
+    // exports (`wb_ios_*`), so the library links before those sources are in
+    // the Xcode app target; the Swift definitions replace them at link time.
+    // Also the UIKit scene life cycle the iOS 27 SDK requires (scene.m).
+    println!("cargo:rerun-if-changed=src/fork/ios/swift_stubs.c");
+    println!("cargo:rerun-if-changed=src/fork/ios/scene.m");
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("ios") {
+        cc::Build::new()
+            .file("src/fork/ios/swift_stubs.c")
+            .compile("wb_ios_swift_stubs");
+        cc::Build::new()
+            .file("src/fork/ios/scene.m")
+            .flag("-fobjc-arc")
+            .flag("-fmodules")
+            .compile("wb_ios_scene");
+    }
 
     // Linux ships transcribe-cpp as a shared libtranscribe + loadable ggml
     // backend modules (the `dynamic-backends` posture in Cargo.toml). Bake an

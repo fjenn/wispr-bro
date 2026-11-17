@@ -13,6 +13,8 @@
 //! Before onboarding is done nothing is shown: a missing permission is
 //! onboarding's job then.
 
+#[cfg(target_os = "ios")]
+use crate::fork::ios::compat::*;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, RecvTimeoutError, Sender};
 use std::sync::{Mutex, OnceLock};

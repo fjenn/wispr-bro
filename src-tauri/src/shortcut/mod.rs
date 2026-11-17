@@ -11,6 +11,7 @@
 
 mod handler;
 pub mod handy_keys;
+#[cfg_attr(target_os = "ios", path = "../fork/ios/stubs/global_shortcut.rs")]
 pub mod tauri_impl;
 
 use log::{debug, error, info, warn};

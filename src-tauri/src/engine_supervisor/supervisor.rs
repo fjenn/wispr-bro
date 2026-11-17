@@ -14,6 +14,9 @@
 //! [`Backend::Cpu`] (the user's choice, or a fallback after a GPU failure),
 //! or the host must not use the GPU at all.
 
+// fork (iOS): the process-spawning half is compiled but unused there.
+#![cfg_attr(target_os = "ios", allow(dead_code, unused_imports))]
+
 use super::protocol::{
     encode_message, read_message, DeviceInfo, DeviceSelector, LoadedInfo, Request, Response,
 };
@@ -22,10 +25,12 @@ use super::{CPU_ONLY_FLAG, LOG_LEVEL_ENV, WORKER_FLAG};
 use log::{debug, error, info, warn, Level};
 use std::collections::VecDeque;
 use std::fmt;
-use std::io::{self, BufRead, BufReader, Write};
+use std::io::{self, BufRead, BufReader, Read, Write};
 use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::path::PathBuf;
-use std::process::{Child, ChildStdin, ChildStdout, Command as ProcessCommand, ExitStatus, Stdio};
+#[cfg(not(target_os = "ios"))]
+use std::process::Child;
+use std::process::{Command as ProcessCommand, ExitStatus, Stdio};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{mpsc, Arc, Mutex, MutexGuard};
 use std::thread;
@@ -1119,6 +1124,7 @@ struct Worker {
 impl Worker {
     /// Start a worker process. A `cpu_only` worker never registers a GPU
     /// backend.
+    #[cfg(not(target_os = "ios"))]
     fn spawn(cpu_only: bool) -> io::Result<Self> {
         // Under `cargo test` the current exe is the test harness; tests point
         // this at the built app instead.
@@ -1311,6 +1317,113 @@ impl Worker {
     }
 }
 
+/// iOS: an app cannot start a process, so the "worker" is the engine on two
+/// threads of this process (`worker::spawn_in_process`), behind the same
+/// protocol over a pair of pipes. Everything above this line is unchanged;
+/// what is lost is the isolation: a native crash is the app's, and a hung
+/// engine thread cannot be killed (it is abandoned, as a killed worker is).
+#[cfg(target_os = "ios")]
+impl Worker {
+    fn spawn(cpu_only: bool) -> io::Result<Self> {
+        let (request_read, request_write) = in_process::pipe()?;
+        let (response_read, response_write) = in_process::pipe()?;
+        let done = super::worker::spawn_in_process(request_read, response_write, cpu_only)?;
+        let pid = std::process::id();
+
+        let (stdin_tx, frames) = mpsc::channel();
+        let (response_tx, responses) = mpsc::channel();
+        // No stderr pipe: the engine logs through the app's logger.
+        let (stderr_done_tx, stderr_done) = mpsc::channel();
+        let _ = stderr_done_tx.send(());
+        let worker = Worker {
+            control: Arc::new(Control {
+                pid,
+                child: Mutex::new(Child::new(done)),
+                stdin: Mutex::new(Some(stdin_tx)),
+            }),
+            responses,
+            stderr_done,
+            stderr_tail: Arc::new(Mutex::new(VecDeque::new())),
+            info: None,
+        };
+        thread::Builder::new()
+            .name("transcribe-worker-in".into())
+            .spawn(move || write_frames(request_write, frames))?;
+        thread::Builder::new()
+            .name("transcribe-worker-out".into())
+            .spawn(move || read_responses(response_read, response_tx))?;
+        debug!(
+            "Started {}in-process transcription engine",
+            if cpu_only { "CPU-only " } else { "" }
+        );
+        Ok(worker)
+    }
+}
+
+#[cfg(target_os = "ios")]
+use in_process::Child;
+
+#[cfg(target_os = "ios")]
+mod in_process {
+    use std::fs::File;
+    use std::io;
+    use std::os::fd::FromRawFd;
+    use std::os::unix::process::ExitStatusExt;
+    use std::process::ExitStatus;
+    use std::sync::mpsc;
+
+    /// `(read end, write end)` of a new pipe.
+    pub fn pipe() -> io::Result<(File, File)> {
+        let mut fds = [0 as libc::c_int; 2];
+        // SAFETY: `fds` is two ints; each fd is owned by its `File`.
+        unsafe {
+            if libc::pipe(fds.as_mut_ptr()) != 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok((File::from_raw_fd(fds[0]), File::from_raw_fd(fds[1])))
+        }
+    }
+
+    /// The engine thread, with the part of `std::process::Child` the
+    /// supervisor uses.
+    pub struct Child {
+        done: mpsc::Receiver<i32>,
+        status: Option<ExitStatus>,
+    }
+
+    impl Child {
+        pub fn new(done: mpsc::Receiver<i32>) -> Self {
+            Self { done, status: None }
+        }
+
+        /// A thread cannot be killed: the engine is abandoned and ends when
+        /// (if) its native call returns and it finds its input closed.
+        pub fn kill(&mut self) -> io::Result<()> {
+            Ok(())
+        }
+
+        pub fn try_wait(&mut self) -> io::Result<Option<ExitStatus>> {
+            if self.status.is_none() {
+                match self.done.try_recv() {
+                    Ok(code) => self.status = Some(ExitStatus::from_raw(code << 8)),
+                    Err(mpsc::TryRecvError::Disconnected) => {
+                        self.status = Some(ExitStatus::from_raw(1 << 8));
+                    }
+                    Err(mpsc::TryRecvError::Empty) => {}
+                }
+            }
+            Ok(self.status)
+        }
+
+        /// Only called after [`Child::kill`]: never blocks on a hung engine.
+        pub fn wait(&mut self) -> io::Result<ExitStatus> {
+            Ok(self
+                .try_wait()?
+                .unwrap_or_else(|| ExitStatus::from_raw(libc::SIGKILL)))
+        }
+    }
+}
+
 impl Drop for Worker {
     fn drop(&mut self) {
         self.control.close_stdin();
@@ -1403,7 +1516,7 @@ fn encode_request(request: &Request, pcm: Option<&[f32]>) -> Result<Vec<u8>, Fai
         .map_err(|e| Failure::Remote(format!("failed to encode request: {e}")))
 }
 
-fn write_frames(mut stdin: ChildStdin, frames: mpsc::Receiver<Vec<u8>>) {
+fn write_frames(mut stdin: impl Write, frames: mpsc::Receiver<Vec<u8>>) {
     // Ends when the handle closes stdin (dropping it here sends EOF) or the
     // worker is gone.
     for frame in frames {
@@ -1417,7 +1530,7 @@ fn write_frames(mut stdin: ChildStdin, frames: mpsc::Receiver<Vec<u8>>) {
     }
 }
 
-fn read_responses(stdout: ChildStdout, responses: mpsc::Sender<Response>) {
+fn read_responses(stdout: impl Read, responses: mpsc::Sender<Response>) {
     let mut stdout = BufReader::new(stdout);
     loop {
         match read_message::<Response>(&mut stdout) {

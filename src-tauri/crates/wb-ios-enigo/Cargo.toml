@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Wispr Bro (iOS): the handful of enigo 0.6 names the shared paste code uses,
+# with no input simulation behind them. An iPhone app cannot send keys to
+# other apps (the keyboard extension inserts the text). The app links this
+# under the name `enigo` on iOS (`extern crate … as enigo` in src/lib.rs);
+# desktop builds keep crates.io's enigo.
+
+[package]
+name = "wb-ios-enigo"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+publish = false
+
+[lib]
+name = "wb_ios_enigo"
+path = "src/lib.rs"

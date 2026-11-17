@@ -343,6 +343,17 @@ mod mac {
 #[cfg(target_os = "macos")]
 pub use mac::capture;
 
+/// Reading another app's selection needs the macOS accessibility API.
+#[cfg(not(target_os = "macos"))]
+pub fn capture<R: tauri::Runtime>(_app: &tauri::AppHandle<R>) -> Capture {
+    Capture {
+        target: 0,
+        app_bundle_id: None,
+        selected: None,
+        field: None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

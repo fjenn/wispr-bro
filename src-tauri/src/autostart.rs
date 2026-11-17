@@ -9,6 +9,7 @@
 //! appear under "Open at Login" with the app's name and icon.
 
 use tauri::AppHandle;
+#[cfg(not(target_os = "ios"))]
 use tauri_plugin_autostart::ManagerExt;
 
 /// Apply the user's autostart preference using the best mechanism for the
@@ -26,6 +27,16 @@ pub fn apply_autostart(app: &AppHandle, enabled: bool) {
         return;
     }
 
+    // fork (iOS): no launch at login on an iPhone.
+    #[cfg(target_os = "ios")]
+    let _ = (app, enabled);
+
+    #[cfg(not(target_os = "ios"))]
+    apply_with_plugin(app, enabled);
+}
+
+#[cfg(not(target_os = "ios"))]
+fn apply_with_plugin(app: &AppHandle, enabled: bool) {
     let manager = app.autolaunch();
     let result = if enabled {
         manager.enable()

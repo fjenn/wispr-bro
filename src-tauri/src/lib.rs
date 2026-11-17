@@ -1,3 +1,10 @@
+// fork (iOS): stand-ins for two desktop-only crates under their desktop
+// names; see crates/wb-ios-handy-keys and crates/wb-ios-enigo.
+#[cfg(target_os = "ios")]
+extern crate wb_ios_enigo as enigo;
+#[cfg(target_os = "ios")]
+extern crate wb_ios_handy_keys as handy_keys;
+
 mod actions;
 #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 mod apple_intelligence;
@@ -26,12 +33,15 @@ mod shortcut;
 mod signal_handle;
 mod system_languages;
 mod transcription_coordinator;
+#[cfg_attr(target_os = "ios", path = "fork/ios/stubs/tray.rs")]
 mod tray;
 mod tray_i18n;
 mod utils;
 
+#[cfg(target_os = "ios")]
+use crate::fork::ios::compat::*;
 pub use cli::CliArgs;
-#[cfg(debug_assertions)]
+#[cfg(all(debug_assertions, not(target_os = "ios")))]
 use specta_typescript::{BigIntExportBehavior, Typescript};
 use tauri_specta::{collect_commands, collect_events, Builder};
 pub use utils::env_flag_enabled;
@@ -44,11 +54,14 @@ use managers::transcription::TranscriptionManager;
 use managers::transcription_jobs::TranscriptionJobManager;
 use std::sync::atomic::{AtomicBool, AtomicU8, Ordering};
 use std::sync::Arc;
+#[cfg(not(target_os = "ios"))]
 use tauri::image::Image;
 pub use transcription_coordinator::TranscriptionCoordinator;
 
+#[cfg(not(target_os = "ios"))]
 use tauri::tray::TrayIconBuilder;
 use tauri::{AppHandle, Emitter, Listener, Manager};
+#[cfg(not(target_os = "ios"))]
 use tauri_plugin_autostart::MacosLauncher;
 use tauri_plugin_log::{Builder as LogBuilder, RotationStrategy, Target, TargetKind};
 
@@ -236,6 +249,15 @@ fn initialize_core_logic(app_handle: &AppHandle) {
     // by the time `setup` runs the app has already launched as a Regular
     // (Dock) app, and demoting it at runtime is unreliable (#1787).
 
+    // fork (iOS): an iPhone has no tray, launch at login or overlay window.
+    #[cfg(not(target_os = "ios"))]
+    initialize_desktop_shell(app_handle);
+}
+
+/// The tray icon and its menu, launch at login and the recording overlay
+/// window: the desktop-only end of [`initialize_core_logic`].
+#[cfg(not(target_os = "ios"))]
+fn initialize_desktop_shell(app_handle: &AppHandle) {
     // Get the current theme to set the appropriate initial icon
     let initial_theme = tray::get_current_theme(app_handle);
 
@@ -629,7 +651,8 @@ fn run_headless_transcription(app: &AppHandle, args: &CliArgs) -> i32 {
     0
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
+// fork (iOS): the mobile entry point takes no arguments; it is
+// `fork::ios::start` (which calls this).
 pub fn run(cli_args: CliArgs) {
     // Avoid ggml-metal residency-set teardown assertions when a native engine
     // outlives the Tauri shutdown sequence (#1902). This must happen before
@@ -797,7 +820,8 @@ pub fn run(cli_args: CliArgs) {
             actions::TranscriptionCompleteEvent,
         ]);
 
-    #[cfg(debug_assertions)] // <- Only export on non-release builds
+    // fork (iOS): the app's sandbox has no source tree to write into.
+    #[cfg(all(debug_assertions, not(target_os = "ios")))] // <- Only export on non-release builds
     specta_builder
         .export(
             Typescript::default().bigint(BigIntExportBehavior::Number),
@@ -874,6 +898,7 @@ pub fn run(cli_args: CliArgs) {
     // (--transcribe-file/--list-devices/--list-models) a silent no-op whenever the
     // app is already open, so skip it in headless mode and run a standalone
     // instance instead.
+    #[cfg(not(target_os = "ios"))]
     if !headless_mode {
         builder = builder.plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
             if args.iter().any(|a| a == "--toggle-transcription") {
@@ -896,23 +921,32 @@ pub fn run(cli_args: CliArgs) {
         }));
     }
 
-    #[allow(unused_mut)]
-    let mut app = builder
+    builder = builder
         .plugin(tauri_plugin_fs::init())
         .plugin(fork::init())
         .plugin(tauri_plugin_process::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_os::init())
         .plugin(system_languages::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .plugin(tauri_plugin_macos_permissions::init())
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_store::Builder::default().build())
-        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
-        .plugin(tauri_plugin_autostart::init(
-            MacosLauncher::LaunchAgent,
-            Some(vec![]),
-        ))
+        .plugin(tauri_plugin_store::Builder::default().build());
+
+    // fork (iOS): self-update, the macOS permission prompts, global shortcuts
+    // and launch at login are desktop plugins.
+    #[cfg(not(target_os = "ios"))]
+    {
+        builder = builder
+            .plugin(tauri_plugin_updater::Builder::new().build())
+            .plugin(tauri_plugin_macos_permissions::init())
+            .plugin(tauri_plugin_global_shortcut::Builder::new().build())
+            .plugin(tauri_plugin_autostart::init(
+                MacosLauncher::LaunchAgent,
+                Some(vec![]),
+            ));
+    }
+
+    #[allow(unused_mut)]
+    let mut app = builder
         .manage(cli_args.clone())
         .setup(move |app| {
             #[cfg(target_os = "windows")]
@@ -967,6 +1001,7 @@ pub fn run(cli_args: CliArgs) {
 
             // Create main window programmatically so we can set data_directory
             // for portable mode (redirects WebView2 cache to portable Data dir)
+            #[cfg(not(target_os = "ios"))]
             let mut win_builder =
                 tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::App("/".into()))
                     .title("Handy")
@@ -975,6 +1010,10 @@ pub fn run(cli_args: CliArgs) {
                     .resizable(true)
                     .maximizable(true)
                     .visible(false);
+            // fork (iOS): one window, the size of the screen.
+            #[cfg(target_os = "ios")]
+            let mut win_builder =
+                tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::App("/".into()));
             win_builder = crate::fork::hub::window_builder(win_builder);
 
             if let Some(data_dir) = portable::data_dir() {
