@@ -27,12 +27,19 @@
 //! [`Manifest`], whatever brought them. The next transport (the local
 //! network) is sketched at the end of `docs/fork/IOS.md`.
 
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+pub mod auto;
 pub mod bundle;
 pub mod csv_file;
 #[cfg(target_os = "ios")]
 pub mod ios;
 pub mod legacy;
 pub mod merge;
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+pub mod net;
+pub mod peers;
+pub mod secure;
+pub mod session;
 pub mod settings;
 pub mod store;
 #[cfg(test)]

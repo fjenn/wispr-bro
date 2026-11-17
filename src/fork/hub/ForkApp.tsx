@@ -46,6 +46,7 @@ import {
   HandyAppHandlersContext,
   type HandyAppHandlers,
 } from "./HandySettingsPage";
+import { MacPairingGate } from "../sync/PairingDialog";
 import { FeaturePopup } from "./FeaturePopup";
 import { TitleStrip } from "./Header";
 import { syncHubWithHash, useHubNav } from "./nav";
@@ -196,6 +197,9 @@ export function ForkApp(props: ForkAppProps) {
             </ErrorBoundary>
             <ErrorBoundary context="Feature popup">
               <FeaturePopup />
+            </ErrorBoundary>
+            <ErrorBoundary context="Sync pairing">
+              <MacPairingGate />
             </ErrorBoundary>
             <ErrorBoundary context="Fix shortcut">
               <FixShortcutSheet />

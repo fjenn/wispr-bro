@@ -44,6 +44,12 @@
 	<false/>
 	<key>CFBundleDisplayName</key>
 	<string>Wispr Bro</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Wispr Bro uses your local network to find your Mac and sync your dictionary, snippets, settings and stats with it. Nothing is sent to a server.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_wisprbro-sync._tcp</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

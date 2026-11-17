@@ -567,6 +567,8 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     db::jobs::start(app);
     // Sync: when each synced setting last changed (fork/sync/settings.rs).
     commands::sync::observe_settings(app);
+    // Sync: pairings and the automatic sync between the user's devices.
+    commands::sync::start_auto(app);
     // S-11: the dictionary rules the text pipeline applies, read per take.
     startup::init();
     install_rule_source(app);
@@ -845,6 +847,13 @@ macro_rules! fork_specta_builder {
                 commands::sync::fork_sync_apply::<$runtime>,
                 commands::sync::fork_sync_discard,
                 commands::sync::fork_sync_export::<$runtime>,
+                commands::sync::fork_sync_auto_status,
+                commands::sync::fork_sync_auto_enable,
+                commands::sync::fork_sync_search,
+                commands::sync::fork_sync_pair,
+                commands::sync::fork_sync_pair_code,
+                commands::sync::fork_sync_unpair,
+                commands::sync::fork_sync_now,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -878,7 +887,8 @@ macro_rules! fork_specta_builder {
                 shortcut::health::ForkShortcutHealthChanged,
                 shortcut::health::ForkShortcutFixRequested,
                 pill::spotlight::ForkSpotlightState,
-                commands::sync::ForkSyncFileOpened
+                commands::sync::ForkSyncFileOpened,
+                commands::sync::ForkSyncAutoChanged
             ])
     };
 }

@@ -16,5 +16,14 @@
        Wispr Bro.app, and the identifier stays com.wisprbro.desktop. -->
   <key>CFBundleDisplayName</key>
   <string>Wispr Bro</string>
+  <!-- Sync with the user's iPhone (fork/sync): the Mac is found and reached
+       on the local network only, and only once "Sync with your iPhone" is
+       on. macOS 15 and later ask the user with this text. -->
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>Wispr Bro uses your local network to sync your dictionary, snippets, settings and stats with your iPhone. Nothing is sent to a server.</string>
+  <key>NSBonjourServices</key>
+  <array>
+    <string>_wisprbro-sync._tcp</string>
+  </array>
 </dict>
 </plist>

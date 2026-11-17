@@ -363,6 +363,47 @@ describe("hosts guard: [test] hosts", () => {
     expect(rules(runBundleHosts({ root }))).toEqual(["hosts/bundle"]);
   });
 
+  test("[peer]: local-link networking only in fork/sync, only listed Bonjour services", () => {
+    // Built from pieces so this file does not name the APIs it bans.
+    const listener = ["nw", "listener", "create"].join("_");
+    const service = "_wisprbro-sync._tcp";
+    const root = fixture({
+      "src-tauri/src/fork/sync/net.m": `${SPDX}static const char *t = "${service}"; void f(void) { ${listener}(0); }\n`,
+      "src-tauri/Info.ios.plist": `<plist><array><string>${service}</string></array></plist>\n`,
+    });
+    expectPass(runHosts({ root }));
+
+    // The same API anywhere else in fork code fails.
+    write(
+      root,
+      "src-tauri/src/fork/llm/peer.m",
+      `${SPDX}void g(void) { ${listener}(0); }\n`,
+    );
+    const r = runHosts({ root });
+    expect(rules(r)).toEqual(["hosts/peer-api"]);
+    expect(r.violations[0]).toMatchObject({
+      file: "src-tauri/src/fork/llm/peer.m",
+    });
+    write(root, "src-tauri/src/fork/llm/peer.m", `${SPDX}\n`);
+
+    // A Bonjour service that is not listed fails, in code and in a plist.
+    write(
+      root,
+      "src-tauri/src/fork/sync/other.rs",
+      `${SPDX}const T: &str = "_other-thing._tcp";\n`,
+    );
+    expect(rules(runHosts({ root }))).toEqual(["hosts/peer-service"]);
+    write(root, "src-tauri/src/fork/sync/other.rs", `${SPDX}\n`);
+    write(
+      root,
+      "src-tauri/Info.plist",
+      `<plist><array><string>_airplay._tcp</string></array></plist>\n`,
+    );
+    const plist = runHosts({ root });
+    expect(rules(plist)).toEqual(["hosts/peer-service"]);
+    expect(plist.violations[0]).toMatchObject({ file: "src-tauri/Info.plist" });
+  });
+
   test("[test] entries need a checked category comment", () => {
     const root = fixture();
     const allowed = readFileSync(join(root, "ci/allowed-hosts.txt"), "utf8");

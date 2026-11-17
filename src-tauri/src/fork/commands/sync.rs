@@ -297,6 +297,49 @@ fn review_of(incoming: &Incoming, report: MergeReport) -> SyncReview {
     }
 }
 
+/// Merges `incoming` into this device's database; `keep` commits it,
+/// otherwise it is rolled back (a review). `None`: it is this device's own.
+fn merge_incoming<R: ForkRuntime>(
+    app: &AppHandle<R>,
+    incoming: &Incoming,
+    choices: SyncChoices,
+    keep: bool,
+) -> Result<Option<sync::merge::Outcome>, ForkError> {
+    let now = crate::fork::context::now_ms();
+    observe_settings(app);
+    db(app)?
+        .with_conn(|conn| {
+            if sync::store::self_id(conn)? == incoming.manifest.device_id {
+                return Ok(None);
+            }
+            let tx = conn.transaction()?;
+            let outcome = sync::merge::merge(&tx, incoming, choices, now)?;
+            if keep {
+                tx.commit()?;
+            }
+            Ok(Some(outcome))
+        })
+        .map_err(internal)
+}
+
+/// What a committed merge leaves to do outside the database: the settings
+/// stores, Handy's word list, and telling the pages.
+fn after_merge<R: ForkRuntime>(app: &AppHandle<R>, outcome: &sync::merge::Outcome) {
+    write_settings(app, &outcome.settings);
+    let report = &outcome.report;
+    let touched = |c: &sync::merge::SyncCounts| c.added + c.changed + c.removed > 0;
+    if touched(&report.dictionary) {
+        super::dictionary::changed(app);
+    }
+    if touched(&report.snippets) {
+        snippets::notify_changed(app);
+    }
+    if report.stats_changed {
+        let day = crate::fork::stats::local_day(crate::fork::context::now_ms());
+        let _ = (crate::fork::events::ForkStatsUpdated { day }).emit(app);
+    }
+}
+
 /// Reads the file and runs the merge; `keep` commits it, otherwise it is
 /// rolled back (the review).
 fn run<R: ForkRuntime>(
@@ -310,20 +353,7 @@ fn run<R: ForkRuntime>(
         Ok(incoming) => incoming,
         Err(problem) => return Ok((SyncReview::Problem { problem }, None)),
     };
-    observe_settings(app);
-    let outcome = db(app)?
-        .with_conn(|conn| {
-            if sync::store::self_id(conn)? == incoming.manifest.device_id {
-                return Ok(None);
-            }
-            let tx = conn.transaction()?;
-            let outcome = sync::merge::merge(&tx, &incoming, choices, now)?;
-            if keep {
-                tx.commit()?;
-            }
-            Ok(Some(outcome))
-        })
-        .map_err(internal)?;
+    let outcome = merge_incoming(app, &incoming, choices, keep)?;
     Ok(match outcome {
         None => (
             SyncReview::Problem {
@@ -364,19 +394,8 @@ pub async fn fork_sync_apply<R: ForkRuntime>(
         let Some(outcome) = outcome else {
             return Ok(review);
         };
-        write_settings(&app, &outcome.settings);
+        after_merge(&app, &outcome);
         let report = &outcome.report;
-        let touched = |c: &sync::merge::SyncCounts| c.added + c.changed + c.removed > 0;
-        if touched(&report.dictionary) {
-            super::dictionary::changed(&app);
-        }
-        if touched(&report.snippets) {
-            snippets::notify_changed(&app);
-        }
-        if report.stats_changed {
-            let day = crate::fork::stats::local_day(crate::fork::context::now_ms());
-            let _ = (crate::fork::events::ForkStatsUpdated { day }).emit(&app);
-        }
         forget_file(&path);
         log::info!(
             "sync: merged a file (dictionary +{} ~{} -{}, snippets +{} ~{} -{}, {} settings, {} stats days)",
@@ -540,6 +559,198 @@ fn present<R: ForkRuntime>(app: &AppHandle<R>, export: &SyncExport, chosen: bool
 
 #[cfg(test)]
 fn present<R: ForkRuntime>(_app: &AppHandle<R>, _export: &SyncExport, _chosen: bool) {}
+
+// ── Automatic sync (fork::sync::auto) ───────────────────────────────────
+
+/// The automatic-sync status changed; the page reads it again.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Type, tauri_specta::Event)]
+pub struct ForkSyncAutoChanged {}
+
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+mod auto {
+    use std::sync::Arc;
+
+    use super::*;
+    use crate::fork::sync::auto::{self, AutoStatus, SyncRole};
+    use crate::fork::sync::secure::Identity;
+    use crate::fork::sync::session::Host;
+    use crate::fork::sync::{Manifest, Payload, SourceKind};
+
+    /// The app as the sync engine sees it.
+    struct AppSide<R: ForkRuntime>(AppHandle<R>);
+
+    impl<R: ForkRuntime> Host for AppSide<R> {
+        fn collect(&self) -> Option<(Manifest, Payload)> {
+            observe_settings(&self.0);
+            let version = self.0.package_info().version.to_string();
+            let now = crate::fork::context::now_ms();
+            db(&self.0)
+                .ok()?
+                .with_conn(|c| sync::store::collect(c, &device_name(), &version, now))
+                .ok()
+        }
+
+        fn merge(&self, manifest: Manifest, payload: Payload) -> bool {
+            let incoming = Incoming {
+                kind: SourceKind::Bundle,
+                manifest,
+                payload,
+            };
+            match merge_incoming(&self.0, &incoming, SyncChoices::ALL, true) {
+                Ok(Some(outcome)) => {
+                    after_merge(&self.0, &outcome);
+                    true
+                }
+                Ok(None) => false,
+                Err(e) => {
+                    log::warn!("sync: could not merge the other device's state: {e}");
+                    false
+                }
+            }
+        }
+    }
+
+    impl<R: ForkRuntime> auto::App for AppSide<R> {
+        fn changed(&self) {
+            let _ = (ForkSyncAutoChanged {}).emit(&self.0);
+        }
+
+        fn attention(&self) {
+            // The code must be seen: show the Hub (the code is on a dialog
+            // there, whatever page is up).
+            #[cfg(not(target_os = "ios"))]
+            crate::fork::hub::park::show_main_then(&self.0, || {});
+        }
+
+        fn app_state(&self) -> &'static str {
+            #[cfg(target_os = "ios")]
+            {
+                crate::fork::ios::host::app_state()
+            }
+            #[cfg(not(target_os = "ios"))]
+            {
+                "active"
+            }
+        }
+    }
+
+    /// From `fork::on_ready`: starts automatic sync. It does nothing on the
+    /// network until the user turns it on (Mac) or looks for a Mac (iPhone).
+    pub fn start<R: ForkRuntime>(app: &AppHandle<R>) {
+        let Ok(data) = crate::portable::data_dir()
+            .cloned()
+            .map(Ok)
+            .unwrap_or_else(|| app.path().app_data_dir())
+        else {
+            return;
+        };
+        let Some(device_id) = db(app)
+            .ok()
+            .and_then(|db| db.with_conn(|c| sync::store::self_id(c)).ok())
+        else {
+            log::warn!("sync: automatic sync is off (the database is not available)");
+            return;
+        };
+        let mut role = if cfg!(target_os = "ios") {
+            SyncRole::Phone
+        } else {
+            SyncRole::Mac
+        };
+        // Debug builds: a Mac can play the phone in a two-Mac check.
+        if cfg!(debug_assertions) && std::env::var("WB_SYNC_ROLE").as_deref() == Ok("phone") {
+            role = SyncRole::Phone;
+        }
+        let me = Identity {
+            device_id,
+            name: device_name(),
+            platform: sync::store::platform().to_owned(),
+        };
+        auto::start(Arc::new(AppSide(app.clone())), role, me, &data);
+    }
+
+    pub fn status() -> Option<AutoStatus> {
+        auto::engine().map(|e| e.status())
+    }
+}
+
+/// From `fork::on_ready`.
+pub fn start_auto<R: ForkRuntime>(app: &AppHandle<R>) {
+    #[cfg(any(target_os = "macos", target_os = "ios"))]
+    auto::start(app);
+    #[cfg(not(any(target_os = "macos", target_os = "ios")))]
+    let _ = app;
+}
+
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+use crate::fork::sync::auto::{engine, AutoStatus};
+
+/// Automatic sync as the Sync pages show it; `None` before the app is ready.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_auto_status() -> Option<AutoStatus> {
+    auto::status()
+}
+
+/// The Mac's switch: advertise to and accept paired iPhones.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_auto_enable(on: bool) {
+    if let Some(engine) = engine() {
+        engine.set_enabled(on);
+    }
+}
+
+/// iPhone: look for Macs ("Find my Mac"), or stop looking.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_search(on: bool) {
+    if let Some(engine) = engine() {
+        engine.search(on);
+    }
+}
+
+/// iPhone: start pairing with the Mac found as `service`.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_pair(service: String) {
+    if let Some(engine) = engine() {
+        engine.pair(service);
+    }
+}
+
+/// iPhone: the code typed by the user; `None` cancels or dismisses.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_pair_code(code: Option<String>) {
+    if let Some(engine) = engine() {
+        engine.pair_code(code.filter(|c| c.len() == 6 && c.chars().all(|c| c.is_ascii_digit())));
+    }
+}
+
+/// Removes the pairing with `device_id`, on both devices when connected.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_unpair(device_id: String) {
+    if let Some(engine) = engine() {
+        engine.unpair(&device_id);
+    }
+}
+
+/// "Sync now": send this device's state at once and retry a lost Mac.
+#[cfg(any(target_os = "macos", target_os = "ios"))]
+#[tauri::command]
+#[specta::specta]
+pub fn fork_sync_now() {
+    if let Some(engine) = engine() {
+        engine.sync_now();
+    }
+}
 
 #[cfg(test)]
 mod tests {

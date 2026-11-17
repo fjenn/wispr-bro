@@ -32,6 +32,16 @@ localhost
 127.0.0.1
 [::1]
 
+[peer]
+# Not hosts: Bonjour service types the app may advertise and browse on the
+# local link, for sync between the user's own Mac and iPhone (R5 §1 #3,
+# docs/fork/IOS.md "Automatic sync"). A peer is a device on the same link
+# (same Wi-Fi, or Apple's direct link); nothing here reaches the internet,
+# and there is no server. Only src-tauri/src/fork/sync/ may use the APIs
+# that find or reach a peer; everything it sends is sealed with a key the
+# two devices made when the user paired them.
+_wisprbro-sync._tcp                  # §1 #3: Mac ↔ iPhone sync, off until the user turns it on (Mac) or looks for a Mac (iPhone)
+
 [test]
 # Allowed ONLY in fork test code (scripts/wb-guard-hosts.ts: test files
 # `scripts/wb-*.test.ts`, `tests/fork/**`, `#[cfg(test)]`-declared fork

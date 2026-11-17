@@ -1305,3 +1305,8 @@ fn the_cleanup_level_is_per_device() {
     // `merge` skips every key that is not synced, so a file from a build
     // that still sent a level changes nothing here.
 }
+
+// ── Automatic sync: pairing, sessions, the wire ─────────────────────────
+
+#[path = "wire_tests.rs"]
+mod wire;

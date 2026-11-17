@@ -257,9 +257,10 @@
         "local": "Your dictation and data stay on this Mac.",
         "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
         "network": "What uses the network",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
+        "networkIntro": "Wispr Bro uses the network only for these things:",
         "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "updates": "When update checks are on, look for app updates on GitHub (github.com).",
+        "sync": "When sync is on, your Mac and iPhone talk directly to each other over your local network. No server."
       },
       "locations": {
         "title": "Where your data lives",
@@ -333,15 +334,20 @@
       },
       "sync": {
         "title": "Sync",
-        "rowTitle": "Sync with your iPhone",
-        "hint": "Dictionary, snippets, settings and stats as one file to AirDrop. No account, no server.",
+        "rowTitle": "Sync with a file",
+        "hint": "Dictionary, snippets, settings and stats as one file to AirDrop.",
         "import": "Import…",
         "export": "Export…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
         "filter": "Wispr Bro sync file",
         "exported": "Sync file saved and shown in Finder. AirDrop it to your iPhone.",
         "last": "Last merged from {{device}}: {{when}}. History and recordings are never included.",
-        "never": "Not synced yet. History and recordings are never included."
+        "never": "Not synced yet. History and recordings are never included.",
+        "autoTitle": "Sync with your iPhone",
+        "autoHint": "Keeps dictionary, snippets, settings and stats the same on both while both apps are open.",
+        "direct": "Sync goes directly between your devices over your local network. No server. History and recordings are never synced.",
+        "howTo": "On your iPhone, open Wispr Bro, go to Settings › Sync with your Mac and tap Find my Mac.",
+        "denied": "macOS is not letting Wispr Bro find devices on your local network. Allow it in System Settings › Privacy & Security › Local Network."
       }
     },
     "advanced": {
@@ -3231,10 +3237,9 @@
       "writing": "Writing…",
       "recordFailed": "Couldn't record that. Try again.",
       "polish": {
-        "off": "Polish uses the cleanup model, which isn't on this iPhone yet. Choose a cleanup level in Settings to download it.",
-        "downloading": "The cleanup model is still downloading. Polish works once it's here.",
-        "failed": "The cleanup model's download stopped. Start it again in Settings.",
-        "unsupported": "Polish needs the cleanup model, which isn't available on this iPhone."
+        "off": "Polish uses Apple Intelligence, which is off. Turn it on in the Settings app under Apple Intelligence & Siri.",
+        "preparing": "Apple's model is still getting ready. Polish works once iOS has downloaded it.",
+        "unsupported": "Polish needs Apple Intelligence, which this iPhone doesn't have."
       }
     },
     "licences": {
@@ -3363,6 +3368,25 @@
         "merged": "Merged {{when}}",
         "words_one": "{{words}} word",
         "words_other": "{{words}} words"
+      },
+      "pair": {
+        "title": "Pair your Mac",
+        "step1": "On your Mac, open Wispr Bro, go to Settings › Data and Privacy and turn on Sync with your iPhone.",
+        "step2": "Tap Find my Mac and choose it.",
+        "step3": "Type the code your Mac shows.",
+        "find": "Find my Mac",
+        "looking": "Looking for your Mac…",
+        "stop": "Stop looking",
+        "nearby": "Macs nearby",
+        "footer": "Both devices need to be on the same Wi-Fi network, or close to each other with Wi-Fi and Bluetooth on."
+      },
+      "mac": {
+        "title": "Your Mac",
+        "footer": "Your iPhone syncs while Wispr Bro is open or a dictation session is on. Sync goes directly between your devices over your local network. No server."
+      },
+      "file": {
+        "title": "Sync with a file",
+        "hint": "Without pairing: AirDrop a file between the two."
       }
     }
   },
@@ -3428,6 +3452,53 @@
       "spoken_languages": "Languages",
       "audio_feedback": "Dictation sounds",
       "audio_feedback_volume": "Sound volume"
+    },
+    "auto": {
+      "justNow": "just now",
+      "inSync": "In sync",
+      "inSyncAgo": "In sync · last change {{when}}",
+      "connecting": "Connecting…",
+      "macAway": "Mac not found. Open Wispr Bro on your Mac.",
+      "phoneAway": "Not connected. Open Wispr Bro on your iPhone.",
+      "lastSynced": "Last synced {{when}}.",
+      "syncNow": "Sync now",
+      "unpair": "Unpair",
+      "unpairTitle": "Unpair {{device}}?",
+      "unpairBody": "The two stop syncing. Nothing is deleted on either device. You can pair again at any time.",
+      "direct": "Sync goes directly between your devices over your local network. No server.",
+      "denied": "Wispr Bro is not allowed to find devices on your local network. Allow it in Settings, then try again.",
+      "openSettings": "Open Settings",
+      "needsUpdate": "Wispr Bro on your Mac and on your iPhone are different versions. Update both to keep syncing."
+    },
+    "pairing": {
+      "showTitle": "Pair with {{device}}",
+      "showBody": "Type this code on your iPhone. It works once.",
+      "enterTitle": "Enter the code",
+      "enterBody": "{{device}} is showing a 6-digit code.",
+      "codeLabel": "Pairing code",
+      "connecting": "Reaching {{device}}…",
+      "pair": "Pair",
+      "checking": "Checking…",
+      "failedTitle": "Pairing did not work",
+      "problems": {
+        "wrong_code": "The code did not match the one on your Mac. Tap Find my Mac again to get a new code.",
+        "no_code": "Timed out: no code was entered in two minutes. Keep both apps open and start again.",
+        "busy": "Your Mac is pairing with another device. Try again in a moment.",
+        "unreachable": "Your Mac could not be reached. Keep Wispr Bro open on it with Sync with your iPhone turned on, and check that Wispr Bro is allowed under Local Network in Settings on both devices.",
+        "failed": "Pairing did not finish. Start again from Find my Mac.",
+        "dropped": "The connection to your Mac dropped before pairing finished. Keep both apps open and close together, then try again.",
+        "version": "Wispr Bro on your Mac and on your iPhone are different versions. Update both, then pair again.",
+        "update_mac": "Update Wispr Bro on your Mac: it runs an older version of sync than this iPhone. Then pair again.",
+        "update_this": "Update Wispr Bro on this iPhone: your Mac runs a newer version of sync. Then pair again.",
+        "denied": "Wispr Bro isn't allowed on your local network. Allow it in Settings › Privacy & Security › Local Network › Wispr Bro, then tap Find my Mac again."
+      },
+      "macProblems": {
+        "wrong_code": "Your iPhone typed a different code. Start again on your iPhone: tap Find my Mac and type the new code shown here.",
+        "update_phone": "Update Wispr Bro on your iPhone: it runs an older version of sync than this Mac. Then pair again.",
+        "update_this": "Update Wispr Bro on this Mac: your iPhone runs a newer version of sync. Then pair again.",
+        "version": "Wispr Bro on your Mac and on your iPhone are different versions. Update both, then pair again.",
+        "failed": "Pairing did not finish. Start again on your iPhone from Find my Mac."
+      }
     }
   }
 }

@@ -218,6 +218,7 @@ export function DataPrivacy() {
                     {!ios && (
                       <li>{t("settingsModal.privacy.promise.updates")}</li>
                     )}
+                    <li>{t("settingsModal.privacy.promise.sync")}</li>
                   </ul>
                 </div>
               </details>

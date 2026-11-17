@@ -82,6 +82,15 @@
 	</array>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
+	<!-- Sync with the user's Mac (fork/sync): the phone finds and reaches
+	     the Mac on the local network only. iOS asks with this text the
+	     first time "Find my Mac" is tapped. -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Wispr Bro uses your local network to find your Mac and sync your dictionary, snippets, settings and stats with it. Nothing is sent to a server.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_wisprbro-sync._tcp</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

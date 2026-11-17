@@ -10,6 +10,15 @@
 //              (a link the user clicks opens in the browser);
 //   [schema]   hosts allowed only as a JSON `"$schema"` value (editor hint);
 //   [loopback] local hosts, never network egress;
+//   [peer]     Bonjour service types the app may advertise and browse on the
+//              local link (sync between the user's own devices). A service
+//              type anywhere in fork code or the Info.plist overlays must be
+//              listed (`hosts/peer-service`), and the APIs that find or
+//              reach a device on the local link (Network.framework's
+//              listener/browser/connection, NetService, MultipeerConnectivity,
+//              dns_sd) may be used only under `src-tauri/src/fork/sync/`
+//              (`hosts/peer-api`). There is no host to list: a peer is a
+//              device on the same link, never an address on the internet;
 //   [test]     hosts allowed only in fork *test code* (see isForkTestFile and
 //              forkTestSpans): example names, private/loopback addresses and
 //              real hosts a test names to prove the app refuses them. Each
@@ -62,6 +71,8 @@ export interface HostLists {
   link: string[];
   schema: string[];
   loopback: string[];
+  /** Bonjour service types (`_name._tcp`), not hosts. */
+  peer: string[];
   test: string[];
   baseline: string[];
   inert: string[];
@@ -72,8 +83,49 @@ const ALLOWED_SECTIONS = new Set([
   "link",
   "schema",
   "loopback",
+  "peer",
   "test",
 ]);
+
+/** APIs that find or reach another device on the local link. */
+const PEER_API_RE =
+  /\b(?:nw_(?:listener|browser|connection)_create|NW(?:Listener|Browser|Connection)\b|NetService(?:Browser)?\b|MCSession\b|MCNearbyService\w*|DNSService(?:Register|Browse)\b)/;
+/** A Bonjour service type. */
+const BONJOUR_TYPE_RE = /_[a-z0-9][a-z0-9-]*\._(?:tcp|udp)\b/g;
+/** The only fork code that may talk to a peer. */
+const PEER_HOME_RE = /^src-tauri\/src\/fork\/sync\//;
+/** Info.plist overlays: they declare the Bonjour services the OS allows. */
+const PLIST_OVERLAYS = ["src-tauri/Info.plist", "src-tauri/Info.ios.plist"];
+
+/** The [peer] rules for one file's text. */
+function peerViolations(
+  rel: string,
+  text: string,
+  peer: string[],
+  code: boolean,
+): { line: number; rule: string; message: string }[] {
+  const out: { line: number; rule: string; message: string }[] = [];
+  text.split("\n").forEach((lineText, i) => {
+    for (const m of lineText.matchAll(BONJOUR_TYPE_RE)) {
+      if (!peer.includes(m[0].toLowerCase())) {
+        out.push({
+          line: i + 1,
+          rule: "hosts/peer-service",
+          message: `Bonjour service ${m[0]} is not in the [peer] section of ci/allowed-hosts.txt (R5 §1); a new one needs an owner-approved PR`,
+        });
+      }
+    }
+    if (code && !PEER_HOME_RE.test(rel) && PEER_API_RE.test(lineText)) {
+      out.push({
+        line: i + 1,
+        rule: "hosts/peer-api",
+        message:
+          "local-link networking (listener, browser, peer connection) is allowed only in src-tauri/src/fork/sync/ (R5 §1: sync between the user's own devices)",
+      });
+    }
+  });
+  return out;
+}
 const INERT_SECTIONS: Record<string, string> = {
   identifier: "reason:",
   proven: "proof:",
@@ -156,7 +208,7 @@ export function readHostLists(root: string): {
       problems.push({
         file: "ci/allowed-hosts.txt",
         line: e.line,
-        message: `${e.value} is outside a [network]/[link]/[schema]/[loopback]/[test] section`,
+        message: `${e.value} is outside a [network]/[link]/[schema]/[loopback]/[peer]/[test] section`,
       });
     } else if (e.section === "test") {
       const p = testEntryProblem(e);
@@ -205,6 +257,7 @@ export function readHostLists(root: string): {
       link: pick("link"),
       schema: pick("schema"),
       loopback: pick("loopback"),
+      peer: pick("peer"),
       test: pick("test"),
       baseline: values(baseline),
       inert: values(inert),
@@ -314,6 +367,11 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
       testSpans ??= forkTestSpans(f, text);
       return inSpans(index, testSpans);
     };
+    if (fork && (f.startsWith("src/") || f.startsWith("src-tauri/"))) {
+      for (const v of peerViolations(f, text, lists.peer, true)) {
+        r.violations.push({ file: f, ...v });
+      }
+    }
     for (const hit of findUrls(text)) {
       const h = hit.host;
       if (fork) {
@@ -365,6 +423,13 @@ export function runHosts(opts: { root?: string } = {}): GuardResult {
           message: `new upstream host ${h} (${hit.url}): review it, then add it to ci/upstream-hosts-baseline.txt, prove it unreachable in ci/inert-hosts.txt, or list it in R5 §1`,
         });
       }
+    }
+  }
+  for (const f of PLIST_OVERLAYS) {
+    const text = readIfExists(root, f);
+    if (text === undefined) continue;
+    for (const v of peerViolations(f, text, lists.peer, false)) {
+      r.violations.push({ file: f, ...v });
     }
   }
   r.notes.push(

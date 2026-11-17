@@ -28,6 +28,21 @@ fn main() {
             .compile("wb_ios_scene");
     }
 
+    // fork (sync): discovery and connections on the local link through
+    // Network.framework, the same file on the Mac and the iPhone
+    // (fork/sync/net.rs).
+    println!("cargo:rerun-if-changed=src/fork/sync/net.m");
+    if matches!(
+        std::env::var("CARGO_CFG_TARGET_OS").as_deref(),
+        Ok("macos") | Ok("ios")
+    ) {
+        cc::Build::new()
+            .file("src/fork/sync/net.m")
+            .flag("-fobjc-arc")
+            .compile("wb_sync_net");
+        println!("cargo:rustc-link-lib=framework=Network");
+    }
+
     // Linux ships transcribe-cpp as a shared libtranscribe + loadable ggml
     // backend modules (the `dynamic-backends` posture in Cargo.toml). Bake an
     // $ORIGIN-relative rpath into the `handy` binary so it finds libtranscribe

@@ -362,25 +362,79 @@ file:///…/x.wisprbro` reaches the app through the document types). A
 - **Not checked:** the document picker ("Choose a file"), and AirDrop /
   "Open in" and the share sheet on a real phone.
 
-## Next: automatic sync over the local network (not built)
+## Automatic sync
 
-The merge takes a manifest and a payload, whatever carried them
-(`sync::merge::merge`), so a second transport needs no new merge code:
+Pair once, then the Mac and the iPhone stay in step by themselves whenever
+both apps run on the same local network. The file route above stays for
+everything else. Shared Rust in `src-tauri/src/fork/sync/`; the merge is
+the same one (`sync::merge::merge`).
 
-1. **Find:** both apps open; the Mac advertises `_wisprbro-sync._tcp` with
-   Bonjour, the phone browses for it (`Network.framework` on both sides).
-2. **Pair once:** the Mac shows a six-digit code, typed on the phone; a
-   PAKE (SPAKE2) over it yields a long-term key each side keeps in its
-   Keychain next to the peer's device id. No code, no connection.
-3. **Talk:** a Noise-style encrypted channel on that key; each side sends
-   `store::collect`'s payload and merges the other's. Stats and tombstones
-   already make repeats harmless.
-4. **When:** on app foreground and after a change, while both are open.
-   Nothing runs in the background, and never beyond the local network.
+| Piece         | What it does                                                                                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `net.m`/`.rs` | Network.framework, one file for both platforms: the Mac advertises `_wisprbro-sync._tcp` (Bonjour, `includePeerToPeer`), the phone browses and connects; whole messages on plain TCP. It knows no keys. |
+| `secure.rs`   | Pairing (SPAKE2 on the Mac's 6-digit code → the pair's 256-bit key), session start (fresh nonces, proofs, HKDF), messages sealed with ChaCha20-Poly1305 under a counter.                                |
+| `session.rs`  | The exchange: every 2 s each side looks whether its state (`store::collect`) differs from what it last sent, sends it, and merges what arrives.                                                         |
+| `auto.rs`     | The engine: one manager thread; the Mac listens while sync is on, the phone connects to its paired Mac whenever it is found, again after a drop.                                                        |
+| `peers.rs`    | Pairings and keys in `sync-peers.json` (user-only file in the app's data folder; never in `fork.db`, which "Export my data" copies).                                                                    |
 
-It needs: a Mac release with this branch merged; on iOS
-`NSLocalNetworkUsageDescription` and `NSBonjourServices` (the system asks
-the user for local-network access); a new `[local]` section in
-`ci/allowed-hosts.txt` with a `wb-guard-hosts` rule that admits link-local
-peers only for the sync module (today the app may contact GitHub and
-Hugging Face and nothing else); and a line in the privacy text.
+- **Pairing:** the Mac's switch (Settings › Data and Privacy › Sync with
+  your iPhone) makes it findable; on the phone Settings › Sync with your Mac
+  › Find my Mac lists it; the Mac shows a code (on any Hub page), the phone
+  takes it. A wrong code pairs nobody and the code is spent. The code never
+  crosses the wire and a listener learns nothing from the pairing.
+- **Afterwards, no taps:** on connect and within a few seconds of any
+  change on either side (a word, a snippet, a setting, a take's stats),
+  both ways. "Changed" is read from the database, so nothing has to
+  announce it. A session that breaks loses nothing: the next one starts
+  from both full states and merging twice changes nothing.
+- **The iPhone syncs only while its process runs:** the app open, or a
+  dictation session on. The page says so. On return to the foreground the
+  browser is restarted.
+- **Why not TLS-PSK in Network.framework:** a listener takes one
+  pre-shared key, and the Mac serves pairing requests and several paired
+  phones on one service. The keys and the sealing are therefore in Rust,
+  above a plain connection, where they are also tested (wrong code,
+  changed, repeated, reordered and replayed messages, a cut session).
+- **Not forward secret:** a session's keys come from the pair's long-term
+  key and both nonces. Someone who later steals `sync-peers.json` and has
+  recorded the local traffic could read it. Unpair and pair again makes a
+  new key.
+- **Permissions:** `NSLocalNetworkUsageDescription` and `NSBonjourServices`
+  in `Info.ios.plist` and the Mac's `Info.plist`. iOS asks at the first
+  Find my Mac; macOS 15 and later ask when the switch is first turned on.
+- **Privacy promise:** R5 §1 #3; `ci/allowed-hosts.txt` `[peer]`; the
+  hosts guard allows local-link APIs only in `fork/sync/` and only the
+  listed Bonjour service.
+- **Check on one Mac:** `scripts/wb-sync/e2e.sh` (a Mac test-identity build
+  of this clone, `com.wisprbro.synccheck`, and the simulator app; Bonjour
+  and the connection are the real ones). Debug builds take a fixed pairing
+  code from `WB_SYNC_TEST_CODE`.
+- **Found on the first real iPhone (2026-11-17):** the Mac paired and the
+  phone said "Pairing did not work". The Mac closed the connection right
+  after its last pairing message and the close overtook it. A close now
+  goes out behind everything already sent (`net.m`), the unpair notice
+  waits for the other side to hang up, and a failure names its cause
+  (code, time-out, never reached, dropped midway, different versions).
+- **Failures name the side and the fix:** the pairing dialog says which
+  device refused and what to do: the code did not match, timed out,
+  "Allow Local Network for Wispr Bro in Settings", "Update Wispr Bro on
+  your Mac" / "on this iPhone" (a version refusal carries the refusing
+  side's protocol version, and a first message's `v` is read before the
+  rest, so a later version can change everything else and still be told
+  apart). The Mac words its own failures (`sync.pairing.macProblems`).
+- **The first Local Network question:** a connection the system holds back
+  for want of local network access (`waiting`, `kDNSServiceErr_PolicyDenied`)
+  is kept for up to 60 s instead of 10: Network.framework goes on by itself
+  once the user taps Allow, so the pairing continues. Cancel stops the wait.
+- **Logs to diagnose a failed attempt:** both sides log every step under
+  `sync:` (Bonjour state, found, a phone asked to pair, why a pairing or a
+  first message was refused, why a connection waits or failed as
+  `<state> <domain> <code>`). The Mac test build writes them to
+  `stdout.log` and `Data/logs/`; the phone's to `Library/Application Support/
+com.wisprbro.ios/logs/wispr-bro.log` in its container (`xcrun devicectl
+device copy from --domain-type appDataContainer --domain-identifier
+com.wisprbro.ios …`).
+- **Ships when** a Mac release is made from this branch: the installed Mac
+  app (1.0.0-alpha.6) has none of this.
+- **Not checked:** a real iPhone with a real Mac, the two permission
+  prompts, and the peer-to-peer link without a shared Wi-Fi network.

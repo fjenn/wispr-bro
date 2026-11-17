@@ -3,9 +3,7 @@
 // the iPhone's page, the shared review and result, a file handed over by
 // AirDrop, and the Mac's entry in Settings › Data and Privacy.
 //
-// Screenshots (light and dark) are written when WB_SYNC_SHOTS_DIR is set:
-//
-//   WB_SYNC_SHOTS_DIR=/tmp/sync-shots bun run wb:test:ui -- sync.spec
+// Automatic sync (pairing, status) and the screenshots: sync-auto.spec.ts.
 import path from "node:path";
 import type { Page } from "@playwright/test";
 import type {
@@ -123,7 +121,7 @@ test("the iPhone merges a file from the Mac after a review", async ({
   });
   await page.getByTestId("wb-ios-settings-sync").click();
   const sync = page.getByTestId("wb-ios-sync");
-  await expect(sync).toContainText("There is no account and no server");
+  await page.getByTestId("wb-ios-sync-file").click();
   await expect(sync).toContainText("Export my data");
   await expect(page.getByTestId("wb-ios-sync-devices")).toContainText(
     "Not synced yet",
@@ -225,6 +223,7 @@ test("a file with nothing new and a file that is not ours say so", async ({
     hash: "#/hub/settings/sync",
     beforeNavigate: () => installSync(ipc, same),
   });
+  await page.getByTestId("wb-ios-sync-file").click();
   ipc.respond("plugin:dialog|open", PICKED);
   await page.getByTestId("wb-ios-sync-import").click();
   await expect(page.getByTestId("wb-sync-up-to-date")).toBeVisible();
@@ -254,6 +253,7 @@ test("Send to Mac makes the file, with CSVs when asked", async ({
     hash: "#/hub/settings/sync",
     beforeNavigate: () => installSync(ipc, ready()),
   });
+  await page.getByTestId("wb-ios-sync-file").click();
   await page.getByTestId("wb-ios-sync-send").click();
   await ipc.expectCalled("fork_sync_export", { path: null, withCsv: false });
   await page.getByTestId("wb-ios-sync-csv").click();
@@ -297,7 +297,7 @@ desktop(
     );
     await openSettingsModal(page, ipc, "privacy");
     const row = page.getByTestId("wb-privacy-sync");
-    await expect(row).toContainText("Sync with your iPhone");
+    await expect(row).toContainText("Sync with a file");
     await expect(page.getByTestId("wb-privacy-sync-last")).toContainText(
       "Not synced yet",
     );
@@ -333,118 +333,3 @@ desktop(
     await expect(page.getByTestId("wb-privacy-sync")).toBeVisible();
   },
 );
-
-// ── Screenshots ─────────────────────────────────────────────────────────
-
-test.describe("sync shots", () => {
-  test.skip(!dir, "set WB_SYNC_SHOTS_DIR to write screenshots");
-  test.setTimeout(120_000);
-
-  for (const theme of ["light", "dark"] as const) {
-    test(`iphone ${theme}`, async ({ page, ipc, hub, ios }) => {
-      await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
-      Object.assign(hub.stats, {
-        total_words: 12_965,
-        total_dictations: 431,
-        words_per_minute: 142.6,
-        current_streak_days: 4,
-        other_devices: 1,
-      });
-      await openIos(page, ipc, hub, ios, {
-        hash: "#/hub/settings",
-        handy: { theme, spoken_languages: ["en", "nl"] },
-        beforeNavigate: () => installSync(ipc, ready()),
-      });
-      await snap(page, "iphone-settings", theme);
-      await page.getByTestId("wb-ios-settings-sync").click();
-      await expect(page.getByTestId("wb-ios-sync")).toBeVisible();
-      await snap(page, "iphone-sync", theme);
-      await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 9999));
-      await snap(page, "iphone-sync-scrolled", theme);
-
-      ipc.respond("plugin:dialog|open", PICKED);
-      await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 0));
-      await page.getByTestId("wb-ios-sync-import").click();
-      await expect(page.getByTestId("wb-sync-review")).toBeVisible();
-      await snap(page, "iphone-review", theme);
-      await page.getByTestId("wb-sync-merge").click();
-      await expect(page.getByTestId("wb-sync-result")).toBeVisible();
-      await snap(page, "iphone-result", theme);
-      await page.getByTestId("wb-sync-done").click();
-      await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 9999));
-      await snap(page, "iphone-synced", theme);
-
-      ipc.handle("fork_sync_review", () => ({
-        status: "problem",
-        problem: { problem: "not_wispr_bro" },
-      }));
-      await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 0));
-      await page.getByTestId("wb-ios-sync-import").click();
-      await expect(page.getByTestId("wb-sync-problem")).toBeVisible();
-      await snap(page, "iphone-problem", theme);
-      await page.getByTestId("wb-sync-done").click();
-
-      await page.getByTestId("wb-ios-tab-home").click();
-      await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 330));
-      await snap(page, "iphone-home-stats", theme);
-    });
-  }
-});
-
-desktop.describe("sync shots (mac)", () => {
-  desktop.skip(!dir, "set WB_SYNC_SHOTS_DIR to write screenshots");
-
-  for (const theme of ["light", "dark"] as const) {
-    desktop(`mac ${theme}`, async ({ page, ipc }) => {
-      await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
-      installSync(
-        ipc,
-        ready({
-          source: "bundle",
-          device_name: "iPhone",
-          platform: "ios",
-          app_version: "1.0.0-alpha.7",
-          report: report({
-            dictionary: { added: 4, changed: 1, removed: 0, skipped: 0 },
-            snippets: none,
-            settings: ["typing_wpm"],
-            stats_days: 9,
-            stats_words: 1_420,
-          }),
-        }),
-        status({
-          device_name: "Finn's MacBook Pro",
-          platform: "macos",
-          devices: [
-            {
-              ...MAC_DEVICE,
-              device_id: "abc",
-              name: "iPhone",
-              platform: "ios",
-              words: 1_300,
-            },
-          ],
-        }),
-      );
-      await openSettingsModal(page, ipc, "privacy", {
-        get_app_settings: handySettings({
-          theme,
-          post_process_providers: [],
-          post_process_provider_id: "local",
-          post_process_api_keys: {},
-          post_process_models: {},
-          post_process_prompts: [],
-        }),
-      });
-      await page.getByTestId("wb-privacy-sync").scrollIntoViewIfNeeded();
-      await snap(page, "mac-settings", theme);
-      ipc.respond(
-        "plugin:dialog|open",
-        "/Users/test/Downloads/Wispr Bro (iPhone).wisprbro",
-      );
-      await page.getByTestId("wb-privacy-sync-import").click();
-      await expect(page.getByTestId("wb-sync-review")).toBeVisible();
-      await snap(page, "mac-review", theme);
-    });
-  }
-});

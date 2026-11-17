@@ -1432,6 +1432,48 @@ async forkSyncExport(path: string | null, withCsv: boolean) : Promise<Result<Syn
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+/**
+ * Automatic sync as the Sync pages show it; `None` before the app is ready.
+ */
+async forkSyncAutoStatus() : Promise<AutoStatus | null> {
+    return await TAURI_INVOKE("fork_sync_auto_status");
+},
+/**
+ * The Mac's switch: advertise to and accept paired iPhones.
+ */
+async forkSyncAutoEnable(on: boolean) : Promise<void> {
+    await TAURI_INVOKE("fork_sync_auto_enable", { on });
+},
+/**
+ * iPhone: look for Macs ("Find my Mac"), or stop looking.
+ */
+async forkSyncSearch(on: boolean) : Promise<void> {
+    await TAURI_INVOKE("fork_sync_search", { on });
+},
+/**
+ * iPhone: start pairing with the Mac found as `service`.
+ */
+async forkSyncPair(service: string) : Promise<void> {
+    await TAURI_INVOKE("fork_sync_pair", { service });
+},
+/**
+ * iPhone: the code typed by the user; `None` cancels or dismisses.
+ */
+async forkSyncPairCode(code: string | null) : Promise<void> {
+    await TAURI_INVOKE("fork_sync_pair_code", { code });
+},
+/**
+ * Removes the pairing with `device_id`, on both devices when connected.
+ */
+async forkSyncUnpair(deviceId: string) : Promise<void> {
+    await TAURI_INVOKE("fork_sync_unpair", { deviceId });
+},
+/**
+ * "Sync now": send this device's state at once and retry a lost Mac.
+ */
+async forkSyncNow() : Promise<void> {
+    await TAURI_INVOKE("fork_sync_now");
 }
 }
 
@@ -1466,6 +1508,7 @@ forkSnippetsChanged: ForkSnippetsChanged,
 forkSpeechSetup: ForkSpeechSetup,
 forkSpotlightState: ForkSpotlightState,
 forkStatsUpdated: ForkStatsUpdated,
+forkSyncAutoChanged: ForkSyncAutoChanged,
 forkSyncFileOpened: ForkSyncFileOpened,
 forkToastsDismiss: ForkToastsDismiss,
 forkTransformViewChanges: ForkTransformViewChanges,
@@ -1499,6 +1542,7 @@ forkSnippetsChanged: "fork-snippets-changed",
 forkSpeechSetup: "fork-speech-setup",
 forkSpotlightState: "fork-spotlight-state",
 forkStatsUpdated: "fork-stats-updated",
+forkSyncAutoChanged: "fork-sync-auto-changed",
 forkSyncFileOpened: "fork-sync-file-opened",
 forkToastsDismiss: "fork-toasts-dismiss",
 forkTransformViewChanges: "fork-transform-view-changes",
@@ -1584,6 +1628,22 @@ export type AudioState = "available" |
  * Never saved (full disk) or the file is gone.
  */
 "missing"
+/**
+ * Everything the Sync pages show about automatic sync.
+ */
+export type AutoStatus = { role: SyncRole; device_name: string; 
+/**
+ * Automatic sync is on.
+ */
+enabled: boolean; devices: PairedDevice[]; 
+/**
+ * Phone: Macs on the network, while searching.
+ */
+found: FoundDevice[]; searching: boolean; pairing: SyncPairing | null; 
+/**
+ * The system refused local network access.
+ */
+network_denied: boolean }
 /**
  * Where the resting bar sits (bottom by default, top in Advanced).
  */
@@ -2590,6 +2650,10 @@ export type ForkStatsUpdated = {
  */
 day: string }
 /**
+ * The automatic-sync status changed; the page reads it again.
+ */
+export type ForkSyncAutoChanged = Record<string, never>
+/**
  * A file was opened in Wispr Bro from outside (AirDrop, Files, "Open
  * in…"). The Sync page reviews it.
  */
@@ -2703,6 +2767,18 @@ checks_enabled: boolean;
  * minisign key id downloads are verified against.
  */
 pubkey_id: string }
+/**
+ * A Mac found on the network.
+ */
+export type FoundDevice = { 
+/**
+ * What to pass to `fork_sync_pair`.
+ */
+service: string; name: string; 
+/**
+ * Already paired with this device.
+ */
+paired: boolean }
 /**
  * The whole picture (`fork_shortcut_health`, event
  * `ForkShortcutHealthChanged`).
@@ -3225,6 +3301,23 @@ completed_at_ms: number | null }
  * `fork/onboarding/state.rs` (S-29a) is only the logic over it.
  */
 export type OnboardingStatus = "not_started" | "in_progress" | "completed"
+/**
+ * A paired device.
+ */
+export type PairedDevice = { device_id: string; name: string; platform: string; paired_at: number; last_sync_at: number | null; 
+/**
+ * A session with it is up right now.
+ */
+connected: boolean; 
+/**
+ * It is on the network (the phone sees the Mac).
+ */
+found: boolean; 
+/**
+ * Its app speaks another version of sync: one of the two needs an
+ * update before they sync again.
+ */
+needs_update: boolean }
 export type PeakCard = { 
 /**
  * Local hour of day, 0-23 (the hour from `hour:00` to `hour+1:00`).
@@ -4069,9 +4162,50 @@ export type SyncExport = {
  */
 paths: string[]; words: number; snippets: number }
 /**
+ * Where a pairing stands.
+ */
+export type SyncPairing = 
+/**
+ * Phone: reaching the Mac.
+ */
+{ stage: "connecting"; device_name: string } | 
+/**
+ * Phone: the Mac shows a code; the user types it here.
+ */
+{ stage: "enter_code"; device_name: string } | 
+/**
+ * Phone: the code is being checked.
+ */
+{ stage: "checking"; device_name: string } | 
+/**
+ * Mac: show `code` to the phone's user.
+ */
+{ stage: "show_code"; device_name: string; code: string } | 
+/**
+ * It did not work: `wrong_code`, `no_code`, `busy`, `unreachable`
+ * (never connected), `denied` (no local network access on this
+ * device), `dropped` (the connection broke midway), `update_this`
+ * (this app is the older one), `update_mac` / `update_phone` (the
+ * other one is), `version` (one of the two, not known which),
+ * `failed`.
+ */
+{ stage: "failed"; device_name: string; problem: string }
+/**
  * A file, read, and what merging it does.
  */
 export type SyncReview = { status: "ready"; source: SourceKind; device_name: string; platform: string; app_version: string; created_at: number; has_settings: boolean; has_dictionary: boolean; has_snippets: boolean; has_stats: boolean; report: MergeReport } | { status: "problem"; problem: ReadProblem }
+/**
+ * Which side of the pair this device is.
+ */
+export type SyncRole = 
+/**
+ * Listens and shows the pairing code.
+ */
+"mac" | 
+/**
+ * Looks for Macs and connects.
+ */
+"phone"
 /**
  * The Sync page's data.
  */

@@ -136,6 +136,7 @@ export const TriangleAlert = glyph(L.TriangleAlert);
 export const Type = glyph(L.Type);
 export const Underline = glyph(L.Underline);
 export const Undo2 = glyph(L.Undo2);
+export const Unlink = glyph(L.Unlink);
 export const Upload = glyph(L.Upload);
 export const WandSparkles = glyph(L.WandSparkles);
 export const X = glyph(L.X);
