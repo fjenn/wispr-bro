@@ -6286,7 +6286,7 @@ SOFTWARE.
 
 Used by: handy 1.0.0-alpha.9
 
-````text
+`````text
 # Notice: code ported from OpenWhispr
 
 `WBSession/WBHostAppObserver.swift` is ported from **OpenWhispr**
@@ -6294,7 +6294,7 @@ Used by: handy 1.0.0-alpha.9
 `openwhispr-mobile/modules/app-group-storage/ios/HostAppObserver.swift`, under
 the MIT License. Modifications (c) the Wispr Bro contributors, GPL-3.0-or-later.
 
-```
+````
 MIT License
 
 Copyright (c) 2024 OpenWhispr Team
@@ -6317,6 +6317,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.```
 ````
+`````
 
 #### MIT License (MIT)
 
