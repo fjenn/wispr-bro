@@ -224,8 +224,9 @@ side. The engine is shared Rust (`src-tauri/src/fork/sync/`, both
 platforms); its module doc has the rules.
 
 - **What syncs:** dictionary (words, replacements, deletions), snippets, the
-  cross-device settings (languages, cleanup level, styles, sounds,
-  retention, greeting name, typing speed) and stats. History text and audio
+  cross-device settings (languages, styles, sounds, retention, greeting
+  name, typing speed) and stats. The cleanup level stays per device (it
+  decides whether a 1.3 GB model is downloaded and loaded). History text and audio
   never do.
 - **Files the importer reads:** a `.wisprbro` sync file (a zip of
   `manifest.json` and `sync.json`); the Mac app's "Export my data" zip, of

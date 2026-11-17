@@ -20,7 +20,7 @@ use crate::fork::context::now_ms;
 use crate::fork::db::stats::{apply, summary, Contribution};
 use crate::fork::db::{test_migrations, ForkDb};
 use crate::fork::dictionary::{self, EntryInput, EntrySource};
-use crate::fork::settings::{CleanupLevel, FakeHandyStore, ForkSettingUpdate, ForkSettingsHandle};
+use crate::fork::settings::{FakeHandyStore, ForkSettingUpdate, ForkSettingsHandle};
 use crate::fork::snippets::{self, SnippetInput, SnippetOrigin};
 use crate::settings::get_default_settings;
 
@@ -271,7 +271,7 @@ fn a_file_round_trips_and_carries_no_history() {
     mac.entry("gonna", Some("going to"), past(2));
     mac.snippet("my address", "1 Example Street\nSpringfield", past(3));
     mac.take("2026-11-08", 120, 60_000);
-    mac.setting("cleanup_level", json!("light"), past(4));
+    mac.setting("text_retention_days", json!(30), past(4));
     mac.word("Zeta", past(5));
     mac.delete_entry("Zeta");
 
@@ -293,7 +293,7 @@ fn a_file_round_trips_and_carries_no_history() {
     assert_eq!(payload.app_stats.len(), 1);
     assert_eq!(payload.tombstones.len(), 1);
     assert_eq!(payload.tombstones[0].norm, "zeta");
-    assert_eq!(payload.settings["cleanup_level"].value, json!("light"));
+    assert_eq!(payload.settings["text_retention_days"].value, json!(30));
 
     let archive = zip::ZipArchive::new(std::fs::File::open(&path).unwrap()).unwrap();
     let mut names: Vec<&str> = archive.file_names().collect();
@@ -499,14 +499,14 @@ fn two_devices_that_changed_many_things_converge() {
     mac.entry("wanna", Some("would like to"), later(1));
     mac.word("Epsilon", later(2));
     mac.snippet("sig", "Best wishes", later(3));
-    mac.setting("cleanup_level", json!("light"), later(4));
+    mac.setting("text_retention_days", json!(30), later(4));
     mac.setting("greeting_name", json!("Finn"), later(5));
     phone.delete_entry("Beta");
     phone.entry("wanna", Some("wish to"), later(6));
     phone.word("Zeta", later(7));
     phone.delete_snippet("addr");
     phone.snippet("sig", "Cheers", later(2));
-    phone.setting("cleanup_level", json!("none"), later(8));
+    phone.setting("text_retention_days", json!(90), later(8));
     phone.setting("typing_wpm", json!(55), later(9));
 
     let (from_mac, from_phone) = (mac.file(), phone.file());
@@ -598,9 +598,9 @@ fn nothing_in_a_file_is_trusted() {
             },
         ),
         (
-            "cleanup_level".to_owned(),
+            "text_retention_days".to_owned(),
             Stamped {
-                value: json!("extreme"),
+                value: json!(0),
                 updated_at: 9,
             },
         ),
@@ -705,7 +705,7 @@ fn leaving_a_part_out_leaves_it_alone() {
     mac.word("Alpha", past(1));
     mac.snippet("sig", "Best", past(1));
     mac.take("2026-11-08", 100, 60_000);
-    mac.setting("cleanup_level", json!("light"), past(2));
+    mac.setting("text_retention_days", json!(30), past(2));
     let report = phone.merge_with(
         &mac.file(),
         SyncChoices {
@@ -731,7 +731,7 @@ fn settings_merge_per_key_and_untouched_defaults_are_not_sent() {
     let mac = device("Mac");
     let phone = device("iPhone");
     let defaults = BTreeMap::from([
-        ("cleanup_level".to_owned(), json!("medium")),
+        ("text_retention_days".to_owned(), json!(60)),
         ("typing_wpm".to_owned(), Value::Null),
         ("greeting_name".to_owned(), Value::Null),
     ]);
@@ -740,7 +740,7 @@ fn settings_merge_per_key_and_untouched_defaults_are_not_sent() {
         settings::observe(
             c,
             &BTreeMap::from([
-                ("cleanup_level".to_owned(), json!("medium")),
+                ("text_retention_days".to_owned(), json!(60)),
                 ("typing_wpm".to_owned(), json!(70)),
                 ("greeting_name".to_owned(), Value::Null),
             ]),
@@ -753,16 +753,16 @@ fn settings_merge_per_key_and_untouched_defaults_are_not_sent() {
     assert_eq!(sent.keys().collect::<Vec<_>>(), ["typing_wpm"]);
 
     // The phone chose a cleanup level earlier and a typing speed later.
-    phone.setting("cleanup_level", json!("none"), past(0));
+    phone.setting("text_retention_days", json!(90), past(0));
     phone.setting("typing_wpm", json!(55), past(5));
-    mac.setting("cleanup_level", json!("light"), past(3));
+    mac.setting("text_retention_days", json!(30), past(3));
     mac.setting("greeting_name", json!("Finn"), past(4));
 
     let changes = phone.with(|c| settings::merge(c, &mac.file().payload.settings).unwrap());
     assert_eq!(
         changes,
         BTreeMap::from([
-            ("cleanup_level".to_owned(), json!("light")),
+            ("text_retention_days".to_owned(), json!(30)),
             ("greeting_name".to_owned(), json!("Finn")),
         ]),
         "the Mac's later cleanup level and its name; the phone's later typing speed stays"
@@ -813,7 +813,7 @@ fn only_cross_device_settings_are_synced() {
         assert!(settings::valid(key, value), "{key}: {value}");
     }
     assert!(settings::valid("styles", &fork["styles"]));
-    assert!(!settings::valid("cleanup_level", &json!("extreme")));
+    assert!(!settings::valid("text_retention_days", &json!(0)));
     assert!(!settings::valid("audio_feedback_volume", &json!(4.0)));
 }
 
@@ -872,7 +872,7 @@ fn mac_export(dir: &Path) -> std::path::PathBuf {
     db.close();
 
     let mut fork = serde_json::to_value(crate::fork::settings::ForkSettings::default()).unwrap();
-    fork["cleanup_level"] = json!("light");
+    fork["text_retention_days"] = json!(30);
     fork["greeting_name"] = json!("Finn");
     fork["typing_wpm"] = json!(72);
     fork["show_in_dock"] = json!(false);
@@ -954,7 +954,7 @@ fn the_shipped_macs_export_syncs_to_the_phone() {
     );
     assert_eq!(report.snippets.added, 1);
     assert_eq!((report.stats_days, report.stats_words), (2, 500));
-    assert_eq!(outcome.settings["cleanup_level"], json!("light"));
+    assert_eq!(outcome.settings["text_retention_days"], json!(30));
     assert_eq!(outcome.settings["greeting_name"], json!("Finn"));
     assert_eq!(outcome.settings["typing_wpm"], json!(72));
     assert_eq!(outcome.settings["spoken_languages"], json!(["en", "nl"]));
@@ -1121,7 +1121,7 @@ fn export_review_and_apply_through_the_commands() {
     fork_sync_status(mac_app.clone()).unwrap();
     crate::fork::commands::settings::fork_set_setting(
         mac_app.clone(),
-        ForkSettingUpdate::CleanupLevel(CleanupLevel::Light),
+        ForkSettingUpdate::TextRetentionDays(Some(30)),
     )
     .unwrap();
     crate::fork::commands::settings::fork_set_setting(
@@ -1190,7 +1190,7 @@ fn export_review_and_apply_through_the_commands() {
     assert_eq!(report.snippets.added, 1);
     assert_eq!(
         report.settings,
-        ["cleanup_level", "greeting_name", "spoken_languages"]
+        ["greeting_name", "spoken_languages", "text_retention_days"]
     );
     assert_eq!(report.stats_words, 321);
     let status = fork_sync_status(phone_app.clone()).unwrap();
@@ -1210,7 +1210,7 @@ fn export_review_and_apply_through_the_commands() {
     .unwrap();
     assert_eq!(applied, review);
     let settings = crate::fork::commands::settings::fork_get_settings(phone_app.clone()).unwrap();
-    assert_eq!(settings.cleanup_level, CleanupLevel::Light);
+    assert_eq!(settings.text_retention_days, Some(30));
     assert_eq!(settings.greeting_name.as_deref(), Some("Finn"));
     let handy = phone.state::<FakeHandyStore>().get().unwrap();
     assert_eq!(handy.spoken_languages, ["en", "nl"]);
@@ -1238,7 +1238,7 @@ fn export_review_and_apply_through_the_commands() {
     // writes are the ones the shipped Mac's import wizard reads.
     crate::fork::commands::settings::fork_set_setting(
         phone_app.clone(),
-        ForkSettingUpdate::CleanupLevel(CleanupLevel::None),
+        ForkSettingUpdate::TextRetentionDays(Some(90)),
     )
     .unwrap();
     let back = block(fork_sync_export(
@@ -1264,12 +1264,24 @@ fn export_review_and_apply_through_the_commands() {
     let SyncReview::Ready { report, .. } = on_mac else {
         panic!()
     };
-    assert_eq!(report.settings, ["cleanup_level"]);
+    assert_eq!(report.settings, ["text_retention_days"]);
     assert_eq!(report.dictionary, NOTHING);
     assert_eq!(
         crate::fork::commands::settings::fork_get_settings(mac_app)
             .unwrap()
-            .cleanup_level,
-        CleanupLevel::None
+            .text_retention_days,
+        Some(90)
     );
+}
+
+/// The cleanup level decides whether a device downloads and loads the
+/// cleanup model: a sync never carries it, in either direction.
+#[test]
+fn the_cleanup_level_is_per_device() {
+    assert!(!settings::is_synced("cleanup_level"));
+    let fork = json!({ "cleanup_level": "medium", "greeting_name": "Finn" });
+    let picked = settings::pick(&fork, None);
+    assert_eq!(picked.keys().collect::<Vec<_>>(), ["greeting_name"]);
+    // `merge` skips every key that is not synced, so a file from a build
+    // that still sent a level changes nothing here.
 }

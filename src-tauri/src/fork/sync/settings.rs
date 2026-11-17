@@ -27,8 +27,12 @@ use crate::fork::settings::{validate, ForkSettingUpdate};
 
 /// Synced keys of the fork's settings (`ForkSettings` field names; each has
 /// a `ForkSettingUpdate` variant of the same name).
+///
+/// The cleanup level is not one of them: it decides whether a device
+/// downloads and loads a 1.3 GB model, and an iPhone's answer to that is not
+/// a Mac's. Each device keeps its own; a level in a file from an older
+/// build is ignored.
 pub const FORK_KEYS: &[&str] = &[
-    "cleanup_level",
     "styles",
     "text_retention_days",
     "audio_retention_days",
