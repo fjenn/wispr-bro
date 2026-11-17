@@ -256,9 +256,10 @@
         "local": "你的聽寫內容和資料都留在這台 Mac 上。",
         "noCloud": "語音辨識、清理和歷史記錄都在本機執行。沒有帳號、遙測、雲端聽寫或雲端清理。",
         "network": "哪些功能會連網",
-        "networkIntro": "Wispr Bro 只會在以下兩種情況使用網路：",
+        "networkIntro": "Wispr Bro 只在以下情況使用網路：",
         "models": "從 Hugging Face（huggingface.co）下載語音和清理模型。",
-        "updates": "開啟更新檢查時，在 GitHub（github.com）上尋找 App 更新。"
+        "updates": "開啟更新檢查時，在 GitHub（github.com）上尋找 App 更新。",
+        "sync": "開啟同步時，你的 Mac 和 iPhone 會透過區域網路直接互相通訊，不經過伺服器。"
       },
       "locations": {
         "title": "你的資料存放位置",
@@ -329,6 +330,23 @@
         "saved": "已儲存去識別化的診斷資訊。",
         "failed": "無法準備診斷資訊。請再試一次。",
         "rowTitle": "分享診斷資訊"
+      },
+      "sync": {
+        "title": "同步",
+        "rowTitle": "透過檔案同步",
+        "hint": "將字典、文字片段、設定和統計打包成一個檔案，以便用 AirDrop 傳送。",
+        "import": "匯入…",
+        "export": "匯出…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro 同步檔案",
+        "exported": "同步檔案已儲存，並已在 Finder 中顯示。用 AirDrop 傳送到你的 iPhone。",
+        "last": "上次從 {{device}} 合併：{{when}}。歷史記錄和錄音從不包含在內。",
+        "never": "尚未同步。歷史記錄和錄音從不包含在內。",
+        "autoTitle": "與你的 iPhone 同步",
+        "autoHint": "兩個 App 都打開時，讓字典、文字片段、設定和統計在兩部裝置上保持一致。",
+        "direct": "同步透過區域網路在裝置之間直接進行，不經過伺服器。歷史記錄和錄音絕不會同步。",
+        "howTo": "在 iPhone 上打開 Wispr Bro，前往「設定」›「與你的 Mac 同步」，然後點一下「尋找我的 Mac」。",
+        "denied": "macOS 不允許 Wispr Bro 尋找區域網路上的裝置。請在「系統設定」›「隱私權與安全性」›「區域網路」中允許。"
       }
     },
     "advanced": {
@@ -1055,7 +1073,8 @@
       "wordsPerMinute": "每分鐘字詞數",
       "streak": "連續天數",
       "notEnoughSpeech": "語音資料還不夠",
-      "unavailable": "暫時無法使用"
+      "unavailable": "暫時無法使用",
+      "allDevices_other": "包括另外 {{count}} 部裝置"
     },
     "voiceProfile": {
       "title": "你的語音檔案",
@@ -2640,6 +2659,426 @@
         "copied": "已拷貝",
         "copyFailed": "無法拷貝。請選取表格後手動拷貝。",
         "done": "完成"
+      }
+    }
+  },
+  "ios": {
+    "close": "關閉",
+    "tabs": {
+      "label": "主選單",
+      "home": "首頁",
+      "history": "歷史記錄",
+      "voice": "我的聲音",
+      "scratchpad": "草稿板",
+      "settings": "設定"
+    },
+    "session": {
+      "status": {
+        "noSession": "工作階段未開始",
+        "idle": "工作階段進行中",
+        "listening": "正在聆聽",
+        "transcribing": "正在轉寫",
+        "error": "工作階段已停止"
+      },
+      "offTitle": "隨時可以開始",
+      "offBody": "開始工作階段，然後使用 Wispr Bro 鍵盤在任何 App 中聽寫。",
+      "onTitle": "在任何 App 中聽寫",
+      "onBody": "切換到 Wispr Bro 鍵盤，然後點一下麥克風。",
+      "onBodyEnds": "切換到 Wispr Bro 鍵盤，然後點一下麥克風。如果沒有聽寫，工作階段會在 {{time}} 結束。",
+      "onBodyNever": "切換到 Wispr Bro 鍵盤，然後點一下麥克風。工作階段會持續開啟，直到你結束它。",
+      "errorBody": "工作階段意外結束。請重新開始以繼續聽寫。",
+      "start": "開始工作階段",
+      "retry": "重新開始",
+      "end": "結束工作階段",
+      "failed": "操作未成功。請再試一次。",
+      "timeoutLine": "{{timeout}}結束",
+      "timeout": {
+        "label": {
+          "immediately": "立即",
+          "never": "永不",
+          "minutes_other": "{{count}} 分鐘",
+          "hours_other": "{{count}} 小時"
+        },
+        "sentence": {
+          "immediately": "在每次聽寫後立即",
+          "never": "只在你手動結束時",
+          "minutes_other": "在 {{count}} 分鐘沒有聽寫後",
+          "hours_other": "在 {{count}} 小時沒有聽寫後"
+        }
+      }
+    },
+    "setup": {
+      "count": "已完成 {{done}}/{{total}}",
+      "title": "完成設定",
+      "body": "完成幾個步驟，就能在任何 App 中聽寫。",
+      "openSettings": "打開設定",
+      "showMe": "查看方法",
+      "failed": "操作未成功。請再試一次。",
+      "mic": {
+        "title": "允許使用麥克風",
+        "hint": "只在你聽寫時使用。",
+        "denied": "已關閉。請在「設定」中允許。",
+        "allow": "允許"
+      },
+      "keyboard": {
+        "title": "加入 {{appName}} 鍵盤",
+        "hint": "在「設定」的「鍵盤」中。"
+      },
+      "fullAccess": {
+        "title": "允許完整取用",
+        "hint": "讓鍵盤可以連到 App。任何資料都不會離開這部 iPhone。"
+      },
+      "model": {
+        "title": "語音模型",
+        "ready": "已就緒",
+        "waiting": "正在準備…",
+        "downloading": "正在下載… {{percent}}%",
+        "failed": "下載已停止。",
+        "retry": "再試一次"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "加入 {{appName}} 鍵盤",
+      "steps": {
+        "open": "點一下「打開設定」，然後點一下「鍵盤」",
+        "enable": "開啟 {{appName}}",
+        "fullAccess": "開啟「允許完整取用」"
+      },
+      "drawn": {
+        "keyboards": "鍵盤",
+        "fullAccess": "允許完整取用"
+      },
+      "privacyTitle": "為什麼需要完整取用？",
+      "privacy": "這只用來讓鍵盤與這部 iPhone 上的 Wispr Bro App 通訊。你輸入和說出的內容絕不會離開這部手機。",
+      "elsewhere": "沒看到嗎？前往「設定」›「一般」›「鍵盤」›「鍵盤」›「新增鍵盤」。"
+    },
+    "tryIt": {
+      "title": "試試看",
+      "placeholder": "點一下這裡並聽寫…",
+      "hint": "按住地球鍵切換到 {{appName}}，然後點一下麥克風並說話。",
+      "clear": "清除"
+    },
+    "style": {
+      "intro": "選擇你的聽寫在所有 App 中的書寫風格。"
+    },
+    "settings": {
+      "saveFailed": "無法儲存。請再試一次。",
+      "local": "所有內容都留在這部 iPhone 上。",
+      "groups": {
+        "dictation": "聽寫",
+        "session": "工作階段",
+        "feedback": "聲音",
+        "app": "Wispr Bro",
+        "appearance": "外觀"
+      },
+      "pages": {
+        "languages": "語言",
+        "cleanup": "清理",
+        "session": "工作階段結束時間",
+        "privacy": "資料與隱私權",
+        "about": "關於",
+        "licences": "致謝",
+        "sync": "與 Mac 同步"
+      },
+      "cleanup": {
+        "notHere": "這部 iPhone 不支援",
+        "off": "Apple Intelligence 已關閉",
+        "noneTitle": "這部 iPhone 無法使用",
+        "noneBody": "清理使用 Apple Intelligence，需要搭載 iOS 26 的 iPhone 15 Pro 或後續機型。你說的話會照原樣寫出，並加上標點符號和大寫。",
+        "offTitle": "開啟 Apple Intelligence",
+        "offBody": "清理使用 Apple 的裝置端模型。請在「設定」App 的「Apple Intelligence 與 Siri」中開啟 Apple Intelligence，然後回到這裡。",
+        "preparingTitle": "Apple 的模型正在準備中",
+        "preparingBody": "iOS 仍在下載模型。在那之前，你說的話會照原樣寫出。",
+        "note": "iPhone 版為 Beta 版。清理使用這部手機上的 Apple Intelligence，任何資料都不會離開手機。它不如 Mac 上精細：會留下較多贅詞，極少數情況下還會漏掉一個字詞。"
+      },
+      "session": {
+        "endAfter": "工作階段結束時間",
+        "intro": "工作階段會讓麥克風保持就緒，以便鍵盤聽寫。停止使用後會自動結束。",
+        "footer": "時間越短越省電。你隨時可以在首頁結束工作階段。",
+        "autoReturn": "自動回到我的 App",
+        "autoReturnHint": "當鍵盤打開 Wispr Bro 以開始工作階段時，會直接帶你回到原本的 App。"
+      },
+      "sounds": "聽寫提示音",
+      "soundsHint": "開始和停止聆聽時播放輕柔的提示音。",
+      "theme": {
+        "system": "自動",
+        "light": "淺色",
+        "dark": "深色"
+      }
+    },
+    "voice": {
+      "words_other": "{{count}} 個字"
+    },
+    "scratchpad": {
+      "emptyHelp": "新增一則筆記，然後輸入或聽寫。每則筆記都會自動儲存。",
+      "noResultsHelp": "試試其他字詞。",
+      "notes": "筆記",
+      "noteMenu": "「{{name}}」的更多選項",
+      "more": "更多",
+      "done": "完成",
+      "share": "分享",
+      "cancel": "取消",
+      "deleteTitle": "要刪除這則筆記嗎？",
+      "deleteBody": "「{{name}}」將被永久刪除。",
+      "error": "操作未成功。你的文字仍在這裡，請再試一次。",
+      "words_other": "{{count}} 個字",
+      "writing": "正在轉寫…",
+      "recordFailed": "無法錄音。請再試一次。",
+      "polish": {
+        "off": "Polish 使用 Apple Intelligence，但它已關閉。請在「設定」App 的「Apple Intelligence 與 Siri」中開啟。",
+        "preparing": "Apple 的模型仍在準備中。iOS 下載完成後即可使用 Polish。",
+        "unsupported": "Polish 需要 Apple Intelligence，但這部 iPhone 不支援。"
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro 是免費的開放原始碼軟體，建立在許多人的成果之上。",
+      "own": "Wispr Bro 授權條款",
+      "source": "原始碼",
+      "builtWith": "使用的元件",
+      "all": "所有第三方聲明",
+      "footer": "所有元件及其授權條款文字都列在第三方聲明中。",
+      "loading": "正在載入…",
+      "failed": "無法載入授權條款文字。"
+    },
+    "onboarding": {
+      "later": "稍後再說",
+      "welcome": {
+        "subtitle": "點一下 Wispr Bro 鍵盤上的麥克風並說話。整潔的文字會出現在你正在輸入的 App 中。",
+        "privacyTitle": "所有內容都留在這部 iPhone 上"
+      },
+      "microphone": {
+        "title": "允許使用麥克風",
+        "subtitle": "Wispr Bro 只在你聽寫時聆聽。音訊絕不會離開這部 iPhone。",
+        "allow": "允許使用麥克風",
+        "prompt": "iOS 只會詢問一次。請點一下「允許」。",
+        "granted": "已允許使用麥克風。",
+        "denied": "Wispr Bro 的麥克風權限已關閉。請在「設定」中開啟，然後回到這裡。"
+      },
+      "keyboard": {
+        "title": "加入 {{appName}} 鍵盤",
+        "subtitle": "這樣你就能在其他 App 中聽寫。只需設定一次，大約一分鐘。",
+        "ready": "鍵盤已加入，而且可以連到 App。一切就緒。",
+        "added": "鍵盤已加入。接下來試試看。"
+      },
+      "model": {
+        "title": "正在取得語音模型",
+        "titleReady": "語音模型已就緒",
+        "subtitle": "只需下載一次。之後不用網路也能聽寫。",
+        "starting": "正在準備…",
+        "downloading": "正在下載…",
+        "verifying": "正在檢查下載內容…",
+        "ready": "已就緒",
+        "failed": "下載已停止。",
+        "offline": "沒有網際網路連線。",
+        "noSpace": "可用空間不足。大約需要 {{mb}} MB。",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} MB / {{total}} MB",
+        "eta_other": "大約還剩 {{count}} 分鐘",
+        "offlineReady": "已儲存在這部 iPhone 上。",
+        "background": "在背景繼續"
+      },
+      "practice": {
+        "title": "試試你的第一次聽寫",
+        "subtitle": "說什麼都可以。用一句話聊聊你的一天就行。",
+        "notReady": "設定完成後就能練習。現在先略過，之後可從首頁試用。",
+        "placeholder": "你說的話會顯示在這裡…",
+        "fieldLabel": "練習文字",
+        "skip": "略過",
+        "steps": {
+          "tap": "點一下上方的欄位",
+          "switch": "按住地球鍵，然後選擇 {{appName}}",
+          "speak": "點一下麥克風，說話，然後點一下勾號"
+        }
+      },
+      "done": {
+        "title": "一切就緒",
+        "titlePending": "快完成了",
+        "subtitle": "就這麼簡單。",
+        "subtitlePending": "首頁會顯示尚未完成的步驟。",
+        "finish": "開始使用 {{appName}}",
+        "points": {
+          "session": "想聽寫時，在 App 中開始工作階段",
+          "keyboard": "在任何 App 中切換到 {{appName}} 鍵盤，然後點一下麥克風",
+          "private": "所有內容都留在這部 iPhone 上"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "開始工作階段，在任何 App 中聽寫。每次聽寫都會保留在這裡，儲存在這部 iPhone 上。"
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "只會在這部 iPhone 上顯示。"
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "你的聽寫內容和資料都留在這部 iPhone 上。"
+          },
+          "delete": {
+            "relaunch": "Wispr Bro 會停止運作、清除資料，然後從歡迎畫面重新開始。"
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_other": "根據你最近 {{count, number}} 次聽寫在這部 iPhone 上計算。任何資料都不會離開你的 iPhone。"
+        }
+      }
+    },
+    "sync": {
+      "intro": "只需將 Mac 配對一次。之後，你的字典、文字片段、設定和統計會在兩部裝置上自動保持一致。",
+      "fromMac": {
+        "title": "從你的 Mac",
+        "step1": "在 Mac 上打開 Wispr Bro，前往「設定」›「資料與隱私權」，然後選擇「匯出我的資料」。",
+        "step2": "用 AirDrop 將檔案傳送到這部 iPhone，然後用 Wispr Bro 打開。",
+        "step3": "檢查將要變更的內容，然後點一下「合併」。",
+        "choose": "選擇檔案",
+        "reading": "正在讀取…",
+        "footer": "已經把檔案儲存到「檔案」中？在這裡選擇。不會讀取你 Mac 上的歷史記錄和錄音。"
+      },
+      "toMac": {
+        "title": "到你的 Mac",
+        "send": "傳送到 Mac",
+        "csv": "加入 CSV 檔案",
+        "csvHint": "適用於還無法打開同步檔案的 Mac。請在其「字典」和「文字片段」頁面中匯入。",
+        "footer": "用 AirDrop 將檔案傳送到你的 Mac，然後在「設定」›「資料與隱私權」中匯入。歷史記錄和錄音會留在這部 iPhone 上。"
+      },
+      "devices": {
+        "title": "已同步",
+        "none": "尚未同步",
+        "merged": "合併於 {{when}}",
+        "words_other": "{{words}} 個字"
+      },
+      "pair": {
+        "title": "配對你的 Mac",
+        "step1": "在 Mac 上打開 Wispr Bro，前往「設定」›「資料與隱私權」，然後開啟「與你的 iPhone 同步」。",
+        "step2": "點一下「尋找我的 Mac」並選擇它。",
+        "step3": "輸入 Mac 上顯示的代碼。",
+        "find": "尋找我的 Mac",
+        "looking": "正在尋找你的 Mac…",
+        "stop": "停止尋找",
+        "nearby": "附近的 Mac",
+        "footer": "兩部裝置需要連上同一個 Wi-Fi 網路，或開啟 Wi-Fi 和藍牙並彼此靠近。"
+      },
+      "mac": {
+        "title": "你的 Mac",
+        "footer": "Wispr Bro 打開或聽寫工作階段進行中時，你的 iPhone 會同步。同步透過區域網路在裝置之間直接進行，不經過伺服器。"
+      },
+      "file": {
+        "title": "透過檔案同步",
+        "hint": "不需配對：在兩部裝置之間用 AirDrop 傳送檔案。"
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac",
+      "iphone": "iPhone",
+      "macName": "你的 Mac",
+      "iphoneName": "你的 iPhone"
+    },
+    "parts": {
+      "dictionary": "字典",
+      "snippets": "文字片段",
+      "settings": "設定",
+      "stats": "統計"
+    },
+    "review": {
+      "title": "從 {{device}} 合併",
+      "titleFile": "匯入 {{device}}",
+      "made": "製作於 {{when}}",
+      "madeWith": "由 Wispr Bro {{version}} 製作於 {{when}}",
+      "added_other": "新增 {{count}} 項",
+      "changed_other": "變更 {{count}} 項",
+      "removed_other": "移除 {{count}} 項",
+      "stats_other": "{{count}} 天內 {{words}} 個字",
+      "same": "已是最新",
+      "notInFile": "不在這個檔案中",
+      "upToDate": "這個檔案中的所有內容都已存在。",
+      "privacy": "歷史記錄和錄音不會同步。它們會留在製作它們的裝置上。",
+      "privacyExport": "這是你 Mac 的完整匯出資料。只會讀取其中的字典、文字片段、設定和統計，不會讀取歷史記錄和錄音。",
+      "merge": "合併",
+      "merging": "正在合併…",
+      "cancel": "取消",
+      "done": "完成",
+      "privacyExportCopy": "之後會刪除這部 iPhone 上的檔案副本。"
+    },
+    "result": {
+      "title": "已合併",
+      "from": "來自 {{device}}",
+      "merged": "兩部裝置現已保持一致。",
+      "nothing": "沒有需要變更的內容。"
+    },
+    "problems": {
+      "title": "無法合併這個檔案",
+      "unreadable": "無法讀取檔案。請重新傳送後再試一次。",
+      "not_wispr_bro": "這不是 Wispr Bro 檔案。請選擇同步檔案（.wisprbro）、從 Mac 匯出的資料（.zip），或字典或文字片段 CSV 檔案。",
+      "too_new": "這個檔案由較新版本的 Wispr Bro 製作。請在這裡更新 Wispr Bro，然後再次打開檔案。",
+      "own_file": "這個檔案是在這部裝置上製作的。請在你的另一部裝置上打開。",
+      "failed": "讀取檔案時發生錯誤。未進行任何變更。"
+    },
+    "sendFailed": "無法製作同步檔案。",
+    "settingNames": {
+      "styles": "風格",
+      "text_retention_days": "歷史記錄保留時間",
+      "audio_retention_days": "錄音保留時間",
+      "typing_wpm": "打字速度",
+      "typing_hours_per_day": "打字時間",
+      "greeting_name": "名字",
+      "spoken_languages": "語言",
+      "audio_feedback": "聽寫提示音",
+      "audio_feedback_volume": "提示音音量"
+    },
+    "auto": {
+      "justNow": "剛剛",
+      "inSync": "已同步",
+      "inSyncAgo": "已同步 · 上次變更 {{when}}",
+      "connecting": "正在連線…",
+      "macAway": "找不到 Mac。請在 Mac 上打開 Wispr Bro。",
+      "phoneAway": "未連線。請在 iPhone 上打開 Wispr Bro。",
+      "lastSynced": "上次同步：{{when}}。",
+      "syncNow": "立即同步",
+      "unpair": "取消配對",
+      "unpairTitle": "要取消與 {{device}} 的配對嗎？",
+      "unpairBody": "兩部裝置將停止同步。任何一部裝置上的內容都不會被刪除。你隨時可以重新配對。",
+      "direct": "同步透過區域網路在裝置之間直接進行，不經過伺服器。",
+      "denied": "Wispr Bro 未獲允許尋找區域網路上的裝置。請在「設定」中允許，然後再試一次。",
+      "openSettings": "打開設定",
+      "needsUpdate": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。請將兩者都更新以繼續同步。"
+    },
+    "pairing": {
+      "showTitle": "與 {{device}} 配對",
+      "showBody": "在你的 iPhone 上輸入這組代碼。代碼只能使用一次。",
+      "enterTitle": "輸入代碼",
+      "enterBody": "{{device}} 上顯示了 6 位數代碼。",
+      "codeLabel": "配對代碼",
+      "connecting": "正在連線到 {{device}}…",
+      "pair": "配對",
+      "checking": "正在檢查…",
+      "failedTitle": "配對未成功",
+      "problems": {
+        "wrong_code": "代碼與 Mac 上的不符。請再點一下「尋找我的 Mac」以取得新代碼。",
+        "no_code": "已逾時：兩分鐘內未輸入代碼。請讓兩個 App 都保持打開，然後重新開始。",
+        "busy": "你的 Mac 正在與另一部裝置配對。請稍後再試一次。",
+        "unreachable": "無法連線到你的 Mac。請在 Mac 上保持 Wispr Bro 打開並開啟「與你的 iPhone 同步」，並確認兩部裝置的「設定」中都已在「區域網路」下允許 Wispr Bro。",
+        "failed": "配對未完成。請從「尋找我的 Mac」重新開始。",
+        "dropped": "配對完成前，與 Mac 的連線已中斷。請讓兩個 App 都保持打開並將裝置放在一起，然後再試一次。",
+        "version": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。請將兩者都更新，然後重新配對。",
+        "update_mac": "請更新 Mac 上的 Wispr Bro：它執行的同步版本比這部 iPhone 舊。然後重新配對。",
+        "update_this": "請更新這部 iPhone 上的 Wispr Bro：你的 Mac 執行的同步版本較新。然後重新配對。",
+        "denied": "Wispr Bro 未獲允許使用區域網路。請在「設定」›「隱私權與安全性」›「區域網路」›「Wispr Bro」中允許，然後再點一下「尋找我的 Mac」。"
+      },
+      "macProblems": {
+        "wrong_code": "你的 iPhone 輸入了不同的代碼。請在 iPhone 上重新開始：點一下「尋找我的 Mac」，然後輸入這裡顯示的新代碼。",
+        "update_phone": "請更新 iPhone 上的 Wispr Bro：它執行的同步版本比這台 Mac 舊。然後重新配對。",
+        "update_this": "請更新這台 Mac 上的 Wispr Bro：你的 iPhone 執行的同步版本較新。然後重新配對。",
+        "version": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。請將兩者都更新，然後重新配對。",
+        "failed": "配對未完成。請在 iPhone 上從「尋找我的 Mac」重新開始。"
       }
     }
   },

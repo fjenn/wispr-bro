@@ -256,9 +256,10 @@
         "local": "Bản đọc chính tả và dữ liệu của bạn ở lại trên máy Mac này.",
         "noCloud": "Nhận dạng giọng nói, dọn dẹp và Lịch sử chạy cục bộ. Không có tài khoản, đo lường từ xa, đọc chính tả trên đám mây hay dọn dẹp trên đám mây.",
         "network": "Những gì dùng mạng",
-        "networkIntro": "Wispr Bro chỉ dùng mạng cho hai việc sau:",
+        "networkIntro": "Wispr Bro chỉ dùng mạng cho những việc sau:",
         "models": "Tải về mô hình giọng nói và mô hình dọn dẹp từ Hugging Face (huggingface.co).",
-        "updates": "Khi bật kiểm tra cập nhật, tìm bản cập nhật ứng dụng trên GitHub (github.com)."
+        "updates": "Khi bật kiểm tra cập nhật, tìm bản cập nhật ứng dụng trên GitHub (github.com).",
+        "sync": "Khi bật đồng bộ hóa, Mac và iPhone của bạn giao tiếp trực tiếp với nhau qua mạng cục bộ. Không có máy chủ."
       },
       "locations": {
         "title": "Nơi lưu dữ liệu của bạn",
@@ -329,6 +330,23 @@
         "saved": "Đã lưu thông tin chẩn đoán đã làm sạch.",
         "failed": "Không thể chuẩn bị thông tin chẩn đoán. Hãy thử lại.",
         "rowTitle": "Chia sẻ chẩn đoán"
+      },
+      "sync": {
+        "title": "Đồng bộ hóa",
+        "rowTitle": "Đồng bộ hóa bằng tệp",
+        "hint": "Từ điển, đoạn văn bản, cài đặt và thống kê trong một tệp để gửi bằng AirDrop.",
+        "import": "Nhập…",
+        "export": "Xuất…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Tệp đồng bộ hóa Wispr Bro",
+        "exported": "Đã lưu tệp đồng bộ hóa và hiển thị trong Finder. Hãy gửi tệp tới iPhone bằng AirDrop.",
+        "last": "Lần hợp nhất gần nhất từ {{device}}: {{when}}. Lịch sử và bản ghi âm không bao giờ được bao gồm.",
+        "never": "Chưa đồng bộ hóa. Lịch sử và bản ghi âm không bao giờ được bao gồm.",
+        "autoTitle": "Đồng bộ hóa với iPhone",
+        "autoHint": "Giữ từ điển, đoạn văn bản, cài đặt và thống kê giống nhau trên cả hai thiết bị khi cả hai ứng dụng đang mở.",
+        "direct": "Đồng bộ hóa diễn ra trực tiếp giữa các thiết bị qua mạng cục bộ. Không có máy chủ. Lịch sử và bản ghi âm không bao giờ được đồng bộ hóa.",
+        "howTo": "Trên iPhone, mở Wispr Bro, đi tới Cài đặt › Đồng bộ hóa với Mac và chạm vào Tìm Mac của tôi.",
+        "denied": "macOS không cho phép Wispr Bro tìm thiết bị trên mạng cục bộ. Hãy cho phép trong Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Mạng cục bộ."
       }
     },
     "advanced": {
@@ -1055,7 +1073,8 @@
       "wordsPerMinute": "Từ mỗi phút",
       "streak": "Chuỗi ngày",
       "notEnoughSpeech": "Chưa đủ lời nói",
-      "unavailable": "Chưa có"
+      "unavailable": "Chưa có",
+      "allDevices_other": "Bao gồm {{count}} thiết bị khác"
     },
     "voiceProfile": {
       "title": "Hồ sơ giọng nói của bạn",
@@ -2640,6 +2659,426 @@
         "copied": "Đã sao chép",
         "copyFailed": "Không thể sao chép. Hãy chọn bảng và tự sao chép.",
         "done": "Xong"
+      }
+    }
+  },
+  "ios": {
+    "close": "Đóng",
+    "tabs": {
+      "label": "Chính",
+      "home": "Trang chủ",
+      "history": "Lịch sử",
+      "voice": "Giọng của tôi",
+      "scratchpad": "Bản nháp",
+      "settings": "Cài đặt"
+    },
+    "session": {
+      "status": {
+        "noSession": "Phiên đang tắt",
+        "idle": "Phiên đang bật",
+        "listening": "Đang nghe",
+        "transcribing": "Đang chép lời",
+        "error": "Phiên đã dừng"
+      },
+      "offTitle": "Sẵn sàng khi bạn cần",
+      "offBody": "Bắt đầu một phiên, rồi đọc chính tả trong bất kỳ ứng dụng nào bằng bàn phím Wispr Bro.",
+      "onTitle": "Đọc chính tả từ mọi ứng dụng",
+      "onBody": "Chuyển sang bàn phím Wispr Bro và chạm vào micrô.",
+      "onBodyEnds": "Chuyển sang bàn phím Wispr Bro và chạm vào micrô. Phiên kết thúc lúc {{time}} nếu bạn không đọc chính tả.",
+      "onBodyNever": "Chuyển sang bàn phím Wispr Bro và chạm vào micrô. Phiên vẫn bật cho đến khi bạn kết thúc.",
+      "errorBody": "Phiên đã kết thúc ngoài dự kiến. Hãy bắt đầu lại để tiếp tục đọc chính tả.",
+      "start": "Bắt đầu phiên",
+      "retry": "Bắt đầu lại",
+      "end": "Kết thúc phiên",
+      "failed": "Không thực hiện được. Hãy thử lại.",
+      "timeoutLine": "Kết thúc {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Ngay lập tức",
+          "never": "Không bao giờ",
+          "minutes_other": "{{count}} phút",
+          "hours_other": "{{count}} giờ"
+        },
+        "sentence": {
+          "immediately": "ngay sau mỗi lần đọc chính tả",
+          "never": "chỉ khi bạn kết thúc",
+          "minutes_other": "sau {{count}} phút không đọc chính tả",
+          "hours_other": "sau {{count}} giờ không đọc chính tả"
+        }
+      }
+    },
+    "setup": {
+      "count": "Đã xong {{done}}/{{total}}",
+      "title": "Hoàn tất thiết lập",
+      "body": "Vài bước nữa là bạn có thể đọc chính tả trong mọi ứng dụng.",
+      "openSettings": "Mở Cài đặt",
+      "showMe": "Xem cách làm",
+      "failed": "Không thực hiện được. Hãy thử lại.",
+      "mic": {
+        "title": "Cho phép micrô",
+        "hint": "Chỉ dùng khi bạn đọc chính tả.",
+        "denied": "Đang tắt. Hãy cho phép trong Cài đặt.",
+        "allow": "Cho phép"
+      },
+      "keyboard": {
+        "title": "Thêm bàn phím {{appName}}",
+        "hint": "Trong Cài đặt, mục Bàn phím."
+      },
+      "fullAccess": {
+        "title": "Cho phép Truy cập đầy đủ",
+        "hint": "Cho phép bàn phím kết nối với ứng dụng. Không có gì rời khỏi iPhone này."
+      },
+      "model": {
+        "title": "Mô hình giọng nói",
+        "ready": "Sẵn sàng",
+        "waiting": "Đang chuẩn bị…",
+        "downloading": "Đang tải về… {{percent}}%",
+        "failed": "Quá trình tải về đã dừng.",
+        "retry": "Thử lại"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Thêm bàn phím {{appName}}",
+      "steps": {
+        "open": "Chạm vào Mở Cài đặt, rồi chạm vào Bàn phím",
+        "enable": "Bật {{appName}}",
+        "fullAccess": "Bật Cho phép Truy cập đầy đủ"
+      },
+      "drawn": {
+        "keyboards": "Bàn phím",
+        "fullAccess": "Cho phép Truy cập đầy đủ"
+      },
+      "privacyTitle": "Tại sao cần Truy cập đầy đủ?",
+      "privacy": "Quyền này chỉ dùng để bàn phím có thể giao tiếp với ứng dụng Wispr Bro trên iPhone này. Những gì bạn gõ và nói không bao giờ rời khỏi điện thoại.",
+      "elsewhere": "Không thấy? Đi tới Cài đặt > Cài đặt chung > Bàn phím > Bàn phím > Thêm bàn phím mới."
+    },
+    "tryIt": {
+      "title": "Thử ngay",
+      "placeholder": "Chạm vào đây và đọc chính tả…",
+      "hint": "Giữ phím quả địa cầu để chuyển sang {{appName}}, rồi chạm vào micrô và nói.",
+      "clear": "Xóa"
+    },
+    "style": {
+      "intro": "Chọn cách viết bản đọc chính tả của bạn trong mọi ứng dụng."
+    },
+    "settings": {
+      "saveFailed": "Không thể lưu. Hãy thử lại.",
+      "local": "Mọi thứ ở lại trên iPhone này.",
+      "groups": {
+        "dictation": "Đọc chính tả",
+        "session": "Phiên",
+        "feedback": "Âm thanh",
+        "app": "Wispr Bro",
+        "appearance": "Giao diện"
+      },
+      "pages": {
+        "languages": "Ngôn ngữ",
+        "cleanup": "Dọn dẹp",
+        "session": "Kết thúc phiên sau",
+        "privacy": "Dữ liệu và Quyền riêng tư",
+        "about": "Giới thiệu",
+        "licences": "Ghi nhận",
+        "sync": "Đồng bộ hóa với Mac"
+      },
+      "cleanup": {
+        "notHere": "Không có trên iPhone này",
+        "off": "Apple Intelligence đang tắt",
+        "noneTitle": "Không khả dụng trên iPhone này",
+        "noneBody": "Dọn dẹp dùng Apple Intelligence, tính năng cần iOS 26 trên iPhone 15 Pro trở lên. Lời của bạn được viết đúng như bạn nói, có dấu câu và chữ hoa.",
+        "offTitle": "Bật Apple Intelligence",
+        "offBody": "Dọn dẹp dùng mô hình trên thiết bị của Apple. Hãy bật Apple Intelligence trong ứng dụng Cài đặt, mục Apple Intelligence & Siri, rồi quay lại.",
+        "preparingTitle": "Mô hình của Apple đang chuẩn bị",
+        "preparingBody": "iOS vẫn đang tải mô hình về. Cho đến lúc đó, lời của bạn được viết đúng như bạn nói.",
+        "note": "Bản beta trên iPhone. Dọn dẹp dùng Apple Intelligence trên điện thoại này; không có gì rời khỏi máy. Tính năng kém cẩn thận hơn trên Mac: giữ lại nhiều từ đệm hơn và đôi khi bỏ sót một từ."
+      },
+      "session": {
+        "endAfter": "Kết thúc phiên sau",
+        "intro": "Phiên giữ micrô sẵn sàng để bàn phím có thể đọc chính tả. Phiên tự kết thúc khi bạn ngừng sử dụng.",
+        "footer": "Thời gian ngắn hơn giúp tiết kiệm pin. Bạn luôn có thể kết thúc phiên từ Trang chủ.",
+        "autoReturn": "Tự động quay lại ứng dụng của tôi",
+        "autoReturnHint": "Khi bàn phím mở Wispr Bro để bắt đầu phiên, bạn sẽ được đưa thẳng về ứng dụng đang dùng."
+      },
+      "sounds": "Âm thanh đọc chính tả",
+      "soundsHint": "Một âm thanh nhẹ khi bắt đầu và dừng nghe.",
+      "theme": {
+        "system": "Tự động",
+        "light": "Sáng",
+        "dark": "Tối"
+      }
+    },
+    "voice": {
+      "words_other": "{{count}} từ"
+    },
+    "scratchpad": {
+      "emptyHelp": "Tạo ghi chú, rồi gõ hoặc đọc chính tả vào đó. Mọi ghi chú đều tự động lưu.",
+      "noResultsHelp": "Hãy thử từ khác.",
+      "notes": "Ghi chú",
+      "noteMenu": "Tùy chọn khác cho {{name}}",
+      "more": "Thêm",
+      "done": "Xong",
+      "share": "Chia sẻ",
+      "cancel": "Hủy",
+      "deleteTitle": "Xóa ghi chú này?",
+      "deleteBody": "“{{name}}” sẽ bị xóa vĩnh viễn.",
+      "error": "Không thực hiện được. Văn bản của bạn vẫn ở đây; hãy thử lại.",
+      "words_other": "{{count}} từ",
+      "writing": "Đang chép lời…",
+      "recordFailed": "Không thể ghi âm. Hãy thử lại.",
+      "polish": {
+        "off": "Polish dùng Apple Intelligence, nhưng tính năng này đang tắt. Hãy bật trong ứng dụng Cài đặt, mục Apple Intelligence & Siri.",
+        "preparing": "Mô hình của Apple vẫn đang chuẩn bị. Polish sẽ hoạt động khi iOS tải xong mô hình.",
+        "unsupported": "Polish cần Apple Intelligence, nhưng iPhone này không hỗ trợ."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro là phần mềm miễn phí, mã nguồn mở, được xây dựng dựa trên công sức của nhiều người khác.",
+      "own": "Giấy phép Wispr Bro",
+      "source": "Mã nguồn",
+      "builtWith": "Được xây dựng với",
+      "all": "Tất cả thông báo của bên thứ ba",
+      "footer": "Mọi thành phần và văn bản giấy phép của chúng đều được liệt kê trong thông báo của bên thứ ba.",
+      "loading": "Đang tải…",
+      "failed": "Không thể tải văn bản giấy phép."
+    },
+    "onboarding": {
+      "later": "Để sau",
+      "welcome": {
+        "subtitle": "Chạm vào micrô trên bàn phím Wispr Bro và nói. Văn bản gọn gàng sẽ xuất hiện trong ứng dụng bạn đang nhập.",
+        "privacyTitle": "Mọi thứ ở lại trên iPhone này"
+      },
+      "microphone": {
+        "title": "Cho phép micrô",
+        "subtitle": "Wispr Bro chỉ nghe khi bạn đọc chính tả. Âm thanh không bao giờ rời khỏi iPhone này.",
+        "allow": "Cho phép micrô",
+        "prompt": "iOS sẽ hỏi một lần. Chạm vào Cho phép.",
+        "granted": "Đã cho phép micrô.",
+        "denied": "Micrô đang tắt đối với Wispr Bro. Hãy bật trong Cài đặt, rồi quay lại."
+      },
+      "keyboard": {
+        "title": "Thêm bàn phím {{appName}}",
+        "subtitle": "Đây là cách bạn đọc chính tả trong các ứng dụng khác. Chỉ mất một phút, một lần.",
+        "ready": "Đã thêm bàn phím và bàn phím có thể kết nối với ứng dụng. Bạn đã sẵn sàng.",
+        "added": "Đã thêm bàn phím. Tiếp theo, hãy thử dùng."
+      },
+      "model": {
+        "title": "Đang tải mô hình giọng nói",
+        "titleReady": "Mô hình giọng nói đã sẵn sàng",
+        "subtitle": "Chỉ tải về một lần. Sau đó, đọc chính tả hoạt động mà không cần internet.",
+        "starting": "Đang chuẩn bị…",
+        "downloading": "Đang tải về…",
+        "verifying": "Đang kiểm tra bản tải về…",
+        "ready": "Sẵn sàng",
+        "failed": "Quá trình tải về đã dừng.",
+        "offline": "Không có kết nối internet.",
+        "noSpace": "Không đủ dung lượng trống. Cần khoảng {{mb}} MB.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}}/{{total}} MB",
+        "eta_other": "còn khoảng {{count}} phút",
+        "offlineReady": "Đã lưu trên iPhone này.",
+        "background": "Tiếp tục ở chế độ nền"
+      },
+      "practice": {
+        "title": "Thử đọc chính tả lần đầu",
+        "subtitle": "Nói bất cứ điều gì. Một câu về ngày hôm nay của bạn là đủ.",
+        "notReady": "Bạn có thể luyện tập khi thiết lập xong. Hãy bỏ qua bây giờ và thử lại từ Trang chủ.",
+        "placeholder": "Lời của bạn sẽ hiện ở đây…",
+        "fieldLabel": "Văn bản luyện tập",
+        "skip": "Bỏ qua",
+        "steps": {
+          "tap": "Chạm vào trường phía trên",
+          "switch": "Giữ phím quả địa cầu và chọn {{appName}}",
+          "speak": "Chạm vào micrô, nói, rồi chạm vào dấu kiểm"
+        }
+      },
+      "done": {
+        "title": "Bạn đã sẵn sàng",
+        "titlePending": "Sắp xong rồi",
+        "subtitle": "Chỉ đơn giản vậy thôi.",
+        "subtitlePending": "Trang chủ hiển thị các bước còn lại.",
+        "finish": "Bắt đầu dùng {{appName}}",
+        "points": {
+          "session": "Bắt đầu một phiên trong ứng dụng khi bạn muốn đọc chính tả",
+          "keyboard": "Chuyển sang bàn phím {{appName}} trong bất kỳ ứng dụng nào và chạm vào micrô",
+          "private": "Mọi thứ ở lại trên iPhone này"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Bắt đầu một phiên và đọc chính tả trong bất kỳ ứng dụng nào. Mọi bản đọc chính tả được giữ ở đây, trên iPhone này."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Chỉ hiển thị trên iPhone này."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Bản đọc chính tả và dữ liệu của bạn ở lại trên iPhone này."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro dừng công việc, xóa dữ liệu và bắt đầu lại từ màn hình chào mừng."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_other": "Được tính trên iPhone này từ {{count, number}} bản đọc chính tả gần nhất. Không có gì rời khỏi iPhone của bạn."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Ghép đôi Mac một lần. Sau đó, từ điển, đoạn văn bản, cài đặt và thống kê của bạn tự động giống nhau trên cả hai thiết bị.",
+      "fromMac": {
+        "title": "Từ Mac của bạn",
+        "step1": "Trên Mac, mở Wispr Bro, đi tới Cài đặt › Dữ liệu và Quyền riêng tư và chọn Xuất dữ liệu của tôi.",
+        "step2": "Gửi tệp tới iPhone này bằng AirDrop và mở tệp bằng Wispr Bro.",
+        "step3": "Kiểm tra những gì sẽ thay đổi, rồi chạm vào Hợp nhất.",
+        "choose": "Chọn tệp",
+        "reading": "Đang đọc…",
+        "footer": "Đã lưu tệp vào Tệp? Hãy chọn tệp ở đây. Lịch sử và bản ghi âm trên Mac của bạn không được đọc."
+      },
+      "toMac": {
+        "title": "Tới Mac của bạn",
+        "send": "Gửi tới Mac",
+        "csv": "Thêm tệp CSV",
+        "csvHint": "Dành cho Mac chưa mở được tệp đồng bộ hóa. Nhập các tệp này trên trang Từ điển và Đoạn văn bản của Mac.",
+        "footer": "Gửi tệp tới Mac bằng AirDrop và nhập tệp trong Cài đặt › Dữ liệu và Quyền riêng tư. Lịch sử và bản ghi âm ở lại trên iPhone này."
+      },
+      "devices": {
+        "title": "Đã đồng bộ hóa",
+        "none": "Chưa đồng bộ hóa",
+        "merged": "Đã hợp nhất {{when}}",
+        "words_other": "{{words}} từ"
+      },
+      "pair": {
+        "title": "Ghép đôi với Mac",
+        "step1": "Trên Mac, mở Wispr Bro, đi tới Cài đặt › Dữ liệu và Quyền riêng tư và bật Đồng bộ hóa với iPhone.",
+        "step2": "Chạm vào Tìm Mac của tôi và chọn máy Mac.",
+        "step3": "Nhập mã mà Mac hiển thị.",
+        "find": "Tìm Mac của tôi",
+        "looking": "Đang tìm Mac của bạn…",
+        "stop": "Dừng tìm",
+        "nearby": "Máy Mac ở gần",
+        "footer": "Cả hai thiết bị cần ở trên cùng một mạng Wi-Fi, hoặc ở gần nhau và đã bật Wi-Fi và Bluetooth."
+      },
+      "mac": {
+        "title": "Mac của bạn",
+        "footer": "iPhone đồng bộ hóa khi Wispr Bro đang mở hoặc khi phiên đọc chính tả đang bật. Đồng bộ hóa diễn ra trực tiếp giữa các thiết bị qua mạng cục bộ. Không có máy chủ."
+      },
+      "file": {
+        "title": "Đồng bộ hóa bằng tệp",
+        "hint": "Không cần ghép đôi: gửi một tệp giữa hai thiết bị bằng AirDrop."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac của bạn",
+      "iphone": "iPhone của bạn",
+      "macName": "Mac của bạn",
+      "iphoneName": "iPhone của bạn"
+    },
+    "parts": {
+      "dictionary": "Từ điển",
+      "snippets": "Đoạn văn bản",
+      "settings": "Cài đặt",
+      "stats": "Thống kê"
+    },
+    "review": {
+      "title": "Hợp nhất từ {{device}}",
+      "titleFile": "Nhập {{device}}",
+      "made": "Tạo {{when}}",
+      "madeWith": "Tạo {{when}} bằng Wispr Bro {{version}}",
+      "added_other": "{{count}} mục mới",
+      "changed_other": "{{count}} mục đã thay đổi",
+      "removed_other": "{{count}} mục đã xóa",
+      "stats_other": "{{words}} từ trong {{count}} ngày",
+      "same": "Đã cập nhật",
+      "notInFile": "Không có trong tệp này",
+      "upToDate": "Mọi thứ trong tệp này đều đã có ở đây.",
+      "privacy": "Lịch sử và bản ghi âm không được đồng bộ hóa. Chúng ở lại trên thiết bị đã tạo ra chúng.",
+      "privacyExport": "Đây là bản xuất đầy đủ từ Mac của bạn. Chỉ từ điển, đoạn văn bản, cài đặt và thống kê được đọc. Lịch sử và bản ghi âm thì không.",
+      "merge": "Hợp nhất",
+      "merging": "Đang hợp nhất…",
+      "cancel": "Hủy",
+      "done": "Xong",
+      "privacyExportCopy": "Bản sao của tệp trên iPhone này sẽ bị xóa sau đó."
+    },
+    "result": {
+      "title": "Đã hợp nhất",
+      "from": "Từ {{device}}",
+      "merged": "Giờ cả hai đã giống nhau.",
+      "nothing": "Không có gì cần thay đổi."
+    },
+    "problems": {
+      "title": "Không thể hợp nhất tệp này",
+      "unreadable": "Không thể đọc tệp. Hãy gửi lại và thử thêm lần nữa.",
+      "not_wispr_bro": "Đây không phải là tệp Wispr Bro. Hãy chọn tệp đồng bộ hóa (.wisprbro), dữ liệu đã xuất từ Mac (.zip) hoặc tệp CSV Từ điển hay Đoạn văn bản.",
+      "too_new": "Tệp này được tạo bởi phiên bản Wispr Bro mới hơn. Hãy cập nhật Wispr Bro ở đây, rồi mở lại tệp.",
+      "own_file": "Tệp này được tạo trên thiết bị này. Hãy mở tệp trên thiết bị còn lại.",
+      "failed": "Đã xảy ra lỗi khi đọc tệp. Không có gì bị thay đổi."
+    },
+    "sendFailed": "Không thể tạo tệp đồng bộ hóa.",
+    "settingNames": {
+      "styles": "Kiểu",
+      "text_retention_days": "Thời gian giữ lịch sử",
+      "audio_retention_days": "Thời gian giữ bản ghi âm",
+      "typing_wpm": "Tốc độ gõ",
+      "typing_hours_per_day": "Thời gian gõ",
+      "greeting_name": "Tên",
+      "spoken_languages": "Ngôn ngữ",
+      "audio_feedback": "Âm thanh đọc chính tả",
+      "audio_feedback_volume": "Âm lượng"
+    },
+    "auto": {
+      "justNow": "vừa xong",
+      "inSync": "Đã đồng bộ hóa",
+      "inSyncAgo": "Đã đồng bộ hóa · thay đổi gần nhất {{when}}",
+      "connecting": "Đang kết nối…",
+      "macAway": "Không tìm thấy Mac. Hãy mở Wispr Bro trên Mac.",
+      "phoneAway": "Chưa kết nối. Hãy mở Wispr Bro trên iPhone.",
+      "lastSynced": "Đồng bộ hóa lần cuối {{when}}.",
+      "syncNow": "Đồng bộ hóa ngay",
+      "unpair": "Hủy ghép đôi",
+      "unpairTitle": "Hủy ghép đôi {{device}}?",
+      "unpairBody": "Hai thiết bị sẽ ngừng đồng bộ hóa. Không có gì bị xóa trên thiết bị nào. Bạn có thể ghép đôi lại bất cứ lúc nào.",
+      "direct": "Đồng bộ hóa diễn ra trực tiếp giữa các thiết bị qua mạng cục bộ. Không có máy chủ.",
+      "denied": "Wispr Bro không được phép tìm thiết bị trên mạng cục bộ. Hãy cho phép trong Cài đặt, rồi thử lại.",
+      "openSettings": "Mở Cài đặt",
+      "needsUpdate": "Wispr Bro trên Mac và trên iPhone là hai phiên bản khác nhau. Hãy cập nhật cả hai để tiếp tục đồng bộ hóa."
+    },
+    "pairing": {
+      "showTitle": "Ghép đôi với {{device}}",
+      "showBody": "Nhập mã này trên iPhone. Mã chỉ dùng được một lần.",
+      "enterTitle": "Nhập mã",
+      "enterBody": "{{device}} đang hiển thị mã gồm 6 chữ số.",
+      "codeLabel": "Mã ghép đôi",
+      "connecting": "Đang kết nối với {{device}}…",
+      "pair": "Ghép đôi",
+      "checking": "Đang kiểm tra…",
+      "failedTitle": "Ghép đôi không thành công",
+      "problems": {
+        "wrong_code": "Mã không khớp với mã trên Mac. Hãy chạm lại vào Tìm Mac của tôi để nhận mã mới.",
+        "no_code": "Đã hết thời gian: không có mã nào được nhập trong hai phút. Hãy giữ cả hai ứng dụng mở và bắt đầu lại.",
+        "busy": "Mac của bạn đang ghép đôi với thiết bị khác. Hãy thử lại sau giây lát.",
+        "unreachable": "Không thể kết nối với Mac. Hãy giữ Wispr Bro mở trên Mac và bật Đồng bộ hóa với iPhone, đồng thời kiểm tra rằng Wispr Bro được cho phép trong mục Mạng cục bộ của Cài đặt trên cả hai thiết bị.",
+        "failed": "Ghép đôi chưa hoàn tất. Hãy bắt đầu lại từ Tìm Mac của tôi.",
+        "dropped": "Kết nối với Mac bị ngắt trước khi ghép đôi xong. Hãy giữ cả hai ứng dụng mở và để hai thiết bị gần nhau, rồi thử lại.",
+        "version": "Wispr Bro trên Mac và trên iPhone là hai phiên bản khác nhau. Hãy cập nhật cả hai, rồi ghép đôi lại.",
+        "update_mac": "Hãy cập nhật Wispr Bro trên Mac: Mac đang chạy phiên bản đồng bộ hóa cũ hơn iPhone này. Sau đó ghép đôi lại.",
+        "update_this": "Hãy cập nhật Wispr Bro trên iPhone này: Mac của bạn đang chạy phiên bản đồng bộ hóa mới hơn. Sau đó ghép đôi lại.",
+        "denied": "Wispr Bro không được phép dùng mạng cục bộ. Hãy cho phép trong Cài đặt › Quyền riêng tư & Bảo mật › Mạng cục bộ › Wispr Bro, rồi chạm lại vào Tìm Mac của tôi."
+      },
+      "macProblems": {
+        "wrong_code": "iPhone của bạn đã nhập một mã khác. Hãy bắt đầu lại trên iPhone: chạm vào Tìm Mac của tôi và nhập mã mới hiển thị ở đây.",
+        "update_phone": "Hãy cập nhật Wispr Bro trên iPhone: iPhone đang chạy phiên bản đồng bộ hóa cũ hơn Mac này. Sau đó ghép đôi lại.",
+        "update_this": "Hãy cập nhật Wispr Bro trên Mac này: iPhone của bạn đang chạy phiên bản đồng bộ hóa mới hơn. Sau đó ghép đôi lại.",
+        "version": "Wispr Bro trên Mac và trên iPhone là hai phiên bản khác nhau. Hãy cập nhật cả hai, rồi ghép đôi lại.",
+        "failed": "Ghép đôi chưa hoàn tất. Hãy bắt đầu lại trên iPhone từ Tìm Mac của tôi."
       }
     }
   },

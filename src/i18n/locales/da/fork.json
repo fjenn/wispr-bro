@@ -257,9 +257,10 @@
         "local": "Din diktering og dine data bliver på denne Mac.",
         "noCloud": "Talegenkendelse, oprydning og Historik kører lokalt. Der er ingen konto, ingen telemetri, ingen diktering i skyen og ingen oprydning i skyen.",
         "network": "Hvad bruger netværket",
-        "networkIntro": "Wispr Bro bruger kun netværket til disse to ting:",
+        "networkIntro": "Wispr Bro bruger kun netværket til disse ting:",
         "models": "Hente tale- og oprydningsmodeller fra Hugging Face (huggingface.co).",
-        "updates": "Søge efter appopdateringer på GitHub (github.com), når søgning efter opdateringer er slået til."
+        "updates": "Søge efter appopdateringer på GitHub (github.com), når søgning efter opdateringer er slået til.",
+        "sync": "Når sync er slået til, taler din Mac og iPhone direkte med hinanden via dit lokale netværk. Ingen server."
       },
       "locations": {
         "title": "Hvor dine data ligger",
@@ -330,6 +331,23 @@
         "saved": "Renset diagnosticering gemt.",
         "failed": "Kunne ikke klargøre diagnosticering. Prøv igen.",
         "rowTitle": "Del diagnosticering"
+      },
+      "sync": {
+        "title": "Sync",
+        "rowTitle": "Sync med en fil",
+        "hint": "Ordbog, tekststykker, indstillinger og statistik som én fil, du kan sende med AirDrop.",
+        "import": "Importér…",
+        "export": "Eksportér…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro-sync-fil",
+        "exported": "Sync-filen er gemt og vist i Finder. AirDrop den til din iPhone.",
+        "last": "Senest flettet fra {{device}}: {{when}}. Historik og optagelser er aldrig med.",
+        "never": "Ikke synkroniseret endnu. Historik og optagelser er aldrig med.",
+        "autoTitle": "Sync med din iPhone",
+        "autoHint": "Holder ordbog, tekststykker, indstillinger og statistik ens på begge, mens begge apps er åbne.",
+        "direct": "Sync går direkte mellem dine enheder via dit lokale netværk. Ingen server. Historik og optagelser synkroniseres aldrig.",
+        "howTo": "Åbn Wispr Bro på din iPhone, gå til Indstillinger › Sync med din Mac, og tryk på Find min Mac.",
+        "denied": "macOS lader ikke Wispr Bro finde enheder på dit lokale netværk. Tillad det i Systemindstillinger › Anonymitet og sikkerhed › Lokalt netværk."
       }
     },
     "advanced": {
@@ -1070,7 +1088,9 @@
       "wordsPerMinute": "Ord pr. minut",
       "streak": "Dage i træk",
       "notEnoughSpeech": "Ikke nok tale endnu",
-      "unavailable": "Ikke tilgængelig endnu"
+      "unavailable": "Ikke tilgængelig endnu",
+      "allDevices_one": "Inkluderer {{count}} anden enhed",
+      "allDevices_other": "Inkluderer {{count}} andre enheder"
     },
     "voiceProfile": {
       "title": "Din stemmeprofil",
@@ -2731,6 +2751,439 @@
         "copied": "Kopieret",
         "copyFailed": "Kunne ikke kopiere. Vælg tabellen, og kopiér den i stedet.",
         "done": "Færdig"
+      }
+    }
+  },
+  "ios": {
+    "close": "Luk",
+    "tabs": {
+      "label": "Hovedmenu",
+      "home": "Hjem",
+      "history": "Historik",
+      "voice": "Min stemme",
+      "scratchpad": "Kladdeblok",
+      "settings": "Indstillinger"
+    },
+    "session": {
+      "status": {
+        "noSession": "Session fra",
+        "idle": "Session til",
+        "listening": "Lytter",
+        "transcribing": "Skriver",
+        "error": "Session stoppet"
+      },
+      "offTitle": "Klar, når du er",
+      "offBody": "Start en session, og diktér så i en hvilken som helst app med Wispr Bro-tastaturet.",
+      "onTitle": "Diktér fra enhver app",
+      "onBody": "Skift til Wispr Bro-tastaturet, og tryk på mikrofonen.",
+      "onBodyEnds": "Skift til Wispr Bro-tastaturet, og tryk på mikrofonen. Slutter kl. {{time}}, hvis du ikke dikterer.",
+      "onBodyNever": "Skift til Wispr Bro-tastaturet, og tryk på mikrofonen. Forbliver slået til, indtil du afslutter den.",
+      "errorBody": "Sessionen sluttede uventet. Start den igen for at fortsætte med at diktere.",
+      "start": "Start session",
+      "retry": "Start igen",
+      "end": "Afslut session",
+      "failed": "Det virkede ikke. Prøv igen.",
+      "timeoutLine": "Slutter {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Med det samme",
+          "never": "Aldrig",
+          "minutes_one": "{{count}} minut",
+          "minutes_other": "{{count}} minutter",
+          "hours_one": "{{count}} time",
+          "hours_other": "{{count}} timer"
+        },
+        "sentence": {
+          "immediately": "lige efter hver diktering",
+          "never": "kun når du afslutter den",
+          "minutes_one": "efter {{count}} minut uden diktering",
+          "minutes_other": "efter {{count}} minutter uden diktering",
+          "hours_one": "efter {{count}} time uden diktering",
+          "hours_other": "efter {{count}} timer uden diktering"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} af {{total}} udført",
+      "title": "Gør opsætningen færdig",
+      "body": "Et par trin, så kan du diktere i enhver app.",
+      "openSettings": "Åbn Indstillinger",
+      "showMe": "Vis mig",
+      "failed": "Det virkede ikke. Prøv igen.",
+      "mic": {
+        "title": "Tillad mikrofonen",
+        "hint": "Bruges kun, mens du dikterer.",
+        "denied": "Slået fra. Tillad det i Indstillinger.",
+        "allow": "Tillad"
+      },
+      "keyboard": {
+        "title": "Tilføj {{appName}}-tastaturet",
+        "hint": "I Indstillinger under Tastaturer."
+      },
+      "fullAccess": {
+        "title": "Tillad fuld adgang",
+        "hint": "Lader tastaturet nå appen. Intet forlader denne iPhone."
+      },
+      "model": {
+        "title": "Talemodel",
+        "ready": "Klar",
+        "waiting": "Gør klar…",
+        "downloading": "Henter… {{percent}} %",
+        "failed": "Overførslen stoppede.",
+        "retry": "Prøv igen"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Tilføj {{appName}}-tastaturet",
+      "steps": {
+        "open": "Tryk på Åbn Indstillinger og derefter Tastaturer",
+        "enable": "Slå {{appName}} til",
+        "fullAccess": "Slå Tillad fuld adgang til"
+      },
+      "drawn": {
+        "keyboards": "Tastaturer",
+        "fullAccess": "Tillad fuld adgang"
+      },
+      "privacyTitle": "Hvorfor fuld adgang?",
+      "privacy": "Det bruges kun, så tastaturet kan tale med Wispr Bro-appen på denne iPhone. Det, du skriver og siger, forlader aldrig telefonen.",
+      "elsewhere": "Kan du ikke finde det? Gå til Indstillinger, Generelt, Tastatur, Tastaturer, Tilføj nyt tastatur."
+    },
+    "tryIt": {
+      "title": "Prøv det",
+      "placeholder": "Tryk her, og diktér…",
+      "hint": "Hold globustasten nede for at skifte til {{appName}}, tryk så på mikrofonen, og tal.",
+      "clear": "Ryd"
+    },
+    "style": {
+      "intro": "Vælg, hvordan dine dikteringer skrives, i alle apps."
+    },
+    "settings": {
+      "saveFailed": "Det kunne ikke gemmes. Prøv igen.",
+      "local": "Alt bliver på denne iPhone.",
+      "groups": {
+        "dictation": "Diktering",
+        "session": "Session",
+        "feedback": "Lyd",
+        "app": "Wispr Bro",
+        "appearance": "Udseende"
+      },
+      "pages": {
+        "languages": "Sprog",
+        "cleanup": "Oprydning",
+        "session": "Afslut session efter",
+        "privacy": "Data og anonymitet",
+        "about": "Om",
+        "licences": "Tak til",
+        "sync": "Sync med din Mac"
+      },
+      "cleanup": {
+        "notHere": "Ikke på denne iPhone",
+        "off": "Apple Intelligence er slået fra",
+        "noneTitle": "Ikke tilgængelig på denne iPhone",
+        "noneBody": "Oprydning bruger Apple Intelligence, som kræver iOS 26 på en iPhone 15 Pro eller nyere. Dine ord skrives, som du siger dem, med tegnsætning og store bogstaver.",
+        "offTitle": "Slå Apple Intelligence til",
+        "offBody": "Oprydning bruger Apples model på enheden. Slå Apple Intelligence til i appen Indstillinger under Apple Intelligence og Siri, og kom så tilbage.",
+        "preparingTitle": "Apples model er ved at blive klar",
+        "preparingBody": "iOS er stadig ved at hente den. Indtil da skrives dine ord, som du siger dem.",
+        "note": "Beta på iPhone. Oprydning bruger Apple Intelligence på denne telefon; intet forlader den. Den er mindre omhyggelig end på Mac: den efterlader flere fyldord og udelader en sjælden gang et ord."
+      },
+      "session": {
+        "endAfter": "Afslut session efter",
+        "intro": "En session holder mikrofonen klar, så tastaturet kan diktere. Den slutter af sig selv, når du holder op med at bruge den.",
+        "footer": "En kortere tid sparer batteri. Du kan altid afslutte en session fra Hjem.",
+        "autoReturn": "Vend automatisk tilbage til min app",
+        "autoReturnHint": "Når tastaturet åbner Wispr Bro for at starte en session, sender den dig direkte tilbage til den app, du var i."
+      },
+      "sounds": "Dikteringslyde",
+      "soundsHint": "En blød lyd, når lytningen starter og stopper.",
+      "theme": {
+        "system": "Automatisk",
+        "light": "Lys",
+        "dark": "Mørk"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} ord",
+      "words_other": "{{count}} ord"
+    },
+    "scratchpad": {
+      "emptyHelp": "Start en note, og skriv eller diktér i den. Alle noter gemmes automatisk.",
+      "noResultsHelp": "Prøv et andet ord.",
+      "notes": "Noter",
+      "noteMenu": "Mere til {{name}}",
+      "more": "Mere",
+      "done": "OK",
+      "share": "Del",
+      "cancel": "Annuller",
+      "deleteTitle": "Slet denne note?",
+      "deleteBody": "”{{name}}” slettes for altid.",
+      "error": "Det virkede ikke. Din tekst er her stadig; prøv igen.",
+      "words_one": "{{count}} ord",
+      "words_other": "{{count}} ord",
+      "writing": "Skriver…",
+      "recordFailed": "Det kunne ikke optages. Prøv igen.",
+      "polish": {
+        "off": "Polish bruger Apple Intelligence, som er slået fra. Slå det til i appen Indstillinger under Apple Intelligence og Siri.",
+        "preparing": "Apples model er stadig ved at blive klar. Polish virker, når iOS har hentet den.",
+        "unsupported": "Polish kræver Apple Intelligence, som denne iPhone ikke har."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro er gratis open source-software, bygget på mange andres arbejde.",
+      "own": "Wispr Bro-licens",
+      "source": "Kildekode",
+      "builtWith": "Bygget med",
+      "all": "Alle tredjepartsmeddelelser",
+      "footer": "Alle komponenter og deres licenstekster står i tredjepartsmeddelelserne.",
+      "loading": "Indlæser…",
+      "failed": "Licensteksten kunne ikke indlæses."
+    },
+    "onboarding": {
+      "later": "Det gør jeg senere",
+      "welcome": {
+        "subtitle": "Tryk på mikrofonen på Wispr Bro-tastaturet, og tal. Ren tekst lander i den app, du skriver i.",
+        "privacyTitle": "Alt bliver på denne iPhone"
+      },
+      "microphone": {
+        "title": "Tillad mikrofonen",
+        "subtitle": "Wispr Bro lytter kun, mens du dikterer. Lyden forlader aldrig denne iPhone.",
+        "allow": "Tillad mikrofon",
+        "prompt": "iOS spørger én gang. Tryk på Tillad.",
+        "granted": "Mikrofon tilladt.",
+        "denied": "Mikrofonen er slået fra for Wispr Bro. Slå den til i Indstillinger, og kom så tilbage."
+      },
+      "keyboard": {
+        "title": "Tilføj {{appName}}-tastaturet",
+        "subtitle": "Sådan dikterer du i andre apps. Det tager et minut, én gang.",
+        "ready": "Tastaturet er tilføjet og kan nå appen. Du er klar.",
+        "added": "Tastaturet er tilføjet. Prøv det nu."
+      },
+      "model": {
+        "title": "Henter din talemodel",
+        "titleReady": "Din talemodel er klar",
+        "subtitle": "Én overførsel. Derefter virker diktering uden internet.",
+        "starting": "Gør klar…",
+        "downloading": "Henter…",
+        "verifying": "Kontrollerer overførslen…",
+        "ready": "Klar",
+        "failed": "Overførslen stoppede.",
+        "offline": "Ingen internetforbindelse.",
+        "noSpace": "Ikke nok ledig plads. Der skal bruges ca. {{mb}} MB.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} af {{total}} MB",
+        "eta_one": "ca. {{count}} minut tilbage",
+        "eta_other": "ca. {{count}} minutter tilbage",
+        "offlineReady": "Gemt på denne iPhone.",
+        "background": "Fortsæt i baggrunden"
+      },
+      "practice": {
+        "title": "Prøv din første diktering",
+        "subtitle": "Sig hvad som helst. En sætning om din dag er fin.",
+        "notReady": "Du kan øve, når opsætningen er færdig. Spring over nu, og prøv fra Hjem.",
+        "placeholder": "Dine ord vises her…",
+        "fieldLabel": "Øvetekst",
+        "skip": "Spring over",
+        "steps": {
+          "tap": "Tryk på feltet ovenfor",
+          "switch": "Hold globustasten nede, og vælg {{appName}}",
+          "speak": "Tryk på mikrofonen, tal, og tryk så på fluebenet"
+        }
+      },
+      "done": {
+        "title": "Du er klar",
+        "titlePending": "Næsten færdig",
+        "subtitle": "Det er alt, der skal til.",
+        "subtitlePending": "Hjem viser de trin, der stadig mangler.",
+        "finish": "Begynd at bruge {{appName}}",
+        "points": {
+          "session": "Start en session i appen, når du vil diktere",
+          "keyboard": "Skift til {{appName}}-tastaturet i en hvilken som helst app, og tryk på mikrofonen",
+          "private": "Alt bliver på denne iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Start en session, og diktér i en hvilken som helst app. Alle dikteringer gemmes her, på denne iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Vises kun på denne iPhone."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Dine dikteringer og data bliver på denne iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro stopper sit arbejde, sletter dataene og starter forfra fra velkomstskærmen."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Beregnet på denne iPhone ud fra din seneste diktering. Intet forlader din iPhone.",
+          "footnote_other": "Beregnet på denne iPhone ud fra dine seneste {{count, number}} dikteringer. Intet forlader din iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Par din Mac én gang. Derefter holdes din ordbog, dine tekststykker, indstillinger og statistik ens på begge af sig selv.",
+      "fromMac": {
+        "title": "Fra din Mac",
+        "step1": "Åbn Wispr Bro på din Mac, gå til Indstillinger › Data og anonymitet, og vælg Eksportér mine data.",
+        "step2": "AirDrop filen til denne iPhone, og åbn den med Wispr Bro.",
+        "step3": "Tjek, hvad der ændres, og tryk så på Flet.",
+        "choose": "Vælg en fil",
+        "reading": "Læser…",
+        "footer": "Har du allerede gemt filen i Filer? Vælg den her. Din Macs historik og optagelser bliver ikke læst."
+      },
+      "toMac": {
+        "title": "Til din Mac",
+        "send": "Send til Mac",
+        "csv": "Tilføj CSV-filer",
+        "csvHint": "Til en Mac, der endnu ikke kan åbne sync-filer. Importér dem på dens sider Ordbog og Tekststykker.",
+        "footer": "AirDrop filen til din Mac, og importér den i Indstillinger › Data og anonymitet. Historik og optagelser bliver på denne iPhone."
+      },
+      "devices": {
+        "title": "Synkroniseret",
+        "none": "Ikke synkroniseret endnu",
+        "merged": "Flettet {{when}}",
+        "words_one": "{{words}} ord",
+        "words_other": "{{words}} ord"
+      },
+      "pair": {
+        "title": "Par din Mac",
+        "step1": "Åbn Wispr Bro på din Mac, gå til Indstillinger › Data og anonymitet, og slå Sync med din iPhone til.",
+        "step2": "Tryk på Find min Mac, og vælg den.",
+        "step3": "Skriv den kode, din Mac viser.",
+        "find": "Find min Mac",
+        "looking": "Leder efter din Mac…",
+        "stop": "Stop søgning",
+        "nearby": "Mac-computere i nærheden",
+        "footer": "Begge enheder skal være på samme Wi-Fi-netværk eller tæt på hinanden med Wi-Fi og Bluetooth slået til."
+      },
+      "mac": {
+        "title": "Din Mac",
+        "footer": "Din iPhone synkroniserer, mens Wispr Bro er åben, eller en dikteringssession er slået til. Sync går direkte mellem dine enheder via dit lokale netværk. Ingen server."
+      },
+      "file": {
+        "title": "Sync med en fil",
+        "hint": "Uden parring: AirDrop en fil mellem de to."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "din Mac",
+      "iphone": "din iPhone",
+      "macName": "Din Mac",
+      "iphoneName": "Din iPhone"
+    },
+    "parts": {
+      "dictionary": "Ordbog",
+      "snippets": "Tekststykker",
+      "settings": "Indstillinger",
+      "stats": "Statistik"
+    },
+    "review": {
+      "title": "Flet fra {{device}}",
+      "titleFile": "Importér {{device}}",
+      "made": "Lavet {{when}}",
+      "madeWith": "Lavet {{when}} med Wispr Bro {{version}}",
+      "added_one": "{{count}} ny",
+      "added_other": "{{count}} nye",
+      "changed_one": "{{count}} ændret",
+      "changed_other": "{{count}} ændret",
+      "removed_one": "{{count}} fjernet",
+      "removed_other": "{{count}} fjernet",
+      "stats_one": "{{words}} ord på {{count}} dag",
+      "stats_other": "{{words}} ord på {{count}} dage",
+      "same": "Opdateret",
+      "notInFile": "Ikke i denne fil",
+      "upToDate": "Alt i denne fil er her allerede.",
+      "privacy": "Historik og optagelser synkroniseres ikke. De bliver på den enhed, de blev lavet på.",
+      "privacyExport": "Dette er din Macs fulde eksport. Kun dens ordbog, tekststykker, indstillinger og statistik læses. Dens historik og optagelser gør ikke.",
+      "merge": "Flet",
+      "merging": "Fletter…",
+      "cancel": "Annuller",
+      "done": "OK",
+      "privacyExportCopy": "Denne iPhones kopi af filen slettes bagefter."
+    },
+    "result": {
+      "title": "Flettet",
+      "from": "Fra {{device}}",
+      "merged": "Begge er nu ens.",
+      "nothing": "Intet skulle ændres."
+    },
+    "problems": {
+      "title": "Denne fil kan ikke flettes",
+      "unreadable": "Filen kunne ikke læses. Send den igen, og prøv en gang til.",
+      "not_wispr_bro": "Det er ikke en Wispr Bro-fil. Vælg en sync-fil (.wisprbro), din Macs eksporterede data (.zip) eller en CSV-fil fra Ordbog eller Tekststykker.",
+      "too_new": "Denne fil er lavet af en nyere Wispr Bro. Opdater Wispr Bro her, og åbn så filen igen.",
+      "own_file": "Denne fil er lavet på denne enhed. Åbn den på din anden enhed.",
+      "failed": "Noget gik galt under læsning af filen. Intet blev ændret."
+    },
+    "sendFailed": "Sync-filen kunne ikke oprettes.",
+    "settingNames": {
+      "styles": "Stil",
+      "text_retention_days": "Opbevaring af historik",
+      "audio_retention_days": "Opbevaring af optagelser",
+      "typing_wpm": "Skrivehastighed",
+      "typing_hours_per_day": "Skrivetid",
+      "greeting_name": "Navn",
+      "spoken_languages": "Sprog",
+      "audio_feedback": "Dikteringslyde",
+      "audio_feedback_volume": "Lydstyrke"
+    },
+    "auto": {
+      "justNow": "lige nu",
+      "inSync": "Synkroniseret",
+      "inSyncAgo": "Synkroniseret · seneste ændring {{when}}",
+      "connecting": "Opretter forbindelse…",
+      "macAway": "Mac ikke fundet. Åbn Wispr Bro på din Mac.",
+      "phoneAway": "Ikke forbundet. Åbn Wispr Bro på din iPhone.",
+      "lastSynced": "Senest synkroniseret {{when}}.",
+      "syncNow": "Synkroniser nu",
+      "unpair": "Ophæv parring",
+      "unpairTitle": "Ophæv parring med {{device}}?",
+      "unpairBody": "De to holder op med at synkronisere. Intet slettes på nogen af enhederne. Du kan parre igen når som helst.",
+      "direct": "Sync går direkte mellem dine enheder via dit lokale netværk. Ingen server.",
+      "denied": "Wispr Bro har ikke tilladelse til at finde enheder på dit lokale netværk. Tillad det i Indstillinger, og prøv igen.",
+      "openSettings": "Åbn Indstillinger",
+      "needsUpdate": "Wispr Bro på din Mac og på din iPhone er forskellige versioner. Opdater begge for at fortsætte med at synkronisere."
+    },
+    "pairing": {
+      "showTitle": "Par med {{device}}",
+      "showBody": "Skriv denne kode på din iPhone. Den virker én gang.",
+      "enterTitle": "Indtast koden",
+      "enterBody": "En 6-cifret kode vises på {{device}}.",
+      "codeLabel": "Parringskode",
+      "connecting": "Kontakter {{device}}…",
+      "pair": "Par",
+      "checking": "Kontrollerer…",
+      "failedTitle": "Parringen mislykkedes",
+      "problems": {
+        "wrong_code": "Koden passede ikke med den på din Mac. Tryk på Find min Mac igen for at få en ny kode.",
+        "no_code": "Tiden løb ud: der blev ikke indtastet nogen kode inden for to minutter. Hold begge apps åbne, og start forfra.",
+        "busy": "Din Mac er ved at parre med en anden enhed. Prøv igen om lidt.",
+        "unreachable": "Din Mac kunne ikke nås. Hold Wispr Bro åben på den med Sync med din iPhone slået til, og tjek, at Wispr Bro er tilladt under Lokalt netværk i Indstillinger på begge enheder.",
+        "failed": "Parringen blev ikke færdig. Start forfra fra Find min Mac.",
+        "dropped": "Forbindelsen til din Mac blev afbrudt, før parringen var færdig. Hold begge apps åbne og enhederne tæt på hinanden, og prøv igen.",
+        "version": "Wispr Bro på din Mac og på din iPhone er forskellige versioner. Opdater begge, og par derefter igen.",
+        "update_mac": "Opdater Wispr Bro på din Mac: den kører en ældre sync-version end denne iPhone. Par derefter igen.",
+        "update_this": "Opdater Wispr Bro på denne iPhone: din Mac kører en nyere sync-version. Par derefter igen.",
+        "denied": "Wispr Bro har ikke adgang til dit lokale netværk. Tillad det i Indstillinger › Anonymitet og sikkerhed › Lokalt netværk › Wispr Bro, og tryk så på Find min Mac igen."
+      },
+      "macProblems": {
+        "wrong_code": "Din iPhone indtastede en anden kode. Start forfra på din iPhone: tryk på Find min Mac, og skriv den nye kode, der vises her.",
+        "update_phone": "Opdater Wispr Bro på din iPhone: den kører en ældre sync-version end denne Mac. Par derefter igen.",
+        "update_this": "Opdater Wispr Bro på denne Mac: din iPhone kører en nyere sync-version. Par derefter igen.",
+        "version": "Wispr Bro på din Mac og på din iPhone er forskellige versioner. Opdater begge, og par derefter igen.",
+        "failed": "Parringen blev ikke færdig. Start forfra på din iPhone fra Find min Mac."
       }
     }
   },

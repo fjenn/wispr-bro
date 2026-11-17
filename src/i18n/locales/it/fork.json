@@ -258,9 +258,10 @@
         "local": "Le tue dettature e i tuoi dati restano su questo Mac.",
         "noCloud": "Riconoscimento vocale, pulizia e Cronologia funzionano in locale. Niente account, telemetria, dettatura o pulizia nel cloud.",
         "network": "Cosa usa la rete",
-        "networkIntro": "Wispr Bro usa la rete solo per queste due cose:",
+        "networkIntro": "Wispr Bro usa la rete solo per queste cose:",
         "models": "Scaricare i modelli vocali e di pulizia da Hugging Face (huggingface.co).",
-        "updates": "Se la ricerca di aggiornamenti è attiva, cercare aggiornamenti dell’app su GitHub (github.com)."
+        "updates": "Se la ricerca di aggiornamenti è attiva, cercare aggiornamenti dell’app su GitHub (github.com).",
+        "sync": "Quando la sincronizzazione è attiva, Mac e iPhone comunicano direttamente sulla rete locale. Nessun server."
       },
       "locations": {
         "title": "Dove si trovano i tuoi dati",
@@ -331,6 +332,23 @@
         "saved": "Diagnostica anonimizzata salvata.",
         "failed": "Impossibile preparare la diagnostica. Riprova.",
         "rowTitle": "Condividi la diagnostica"
+      },
+      "sync": {
+        "title": "Sincronizzazione",
+        "rowTitle": "Sincronizza con un file",
+        "hint": "Dizionario, frammenti, impostazioni e statistiche in un unico file da inviare con AirDrop.",
+        "import": "Importa…",
+        "export": "Esporta…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "File di sincronizzazione di Wispr Bro",
+        "exported": "File di sincronizzazione salvato e mostrato nel Finder. Invialo all’iPhone con AirDrop.",
+        "last": "Ultima unione con {{device}}: {{when}}. Cronologia e registrazioni non sono mai incluse.",
+        "never": "Non ancora sincronizzato. Cronologia e registrazioni non sono mai incluse.",
+        "autoTitle": "Sincronizza con l’iPhone",
+        "autoHint": "Mantiene uguali dizionario, frammenti, impostazioni e statistiche su entrambi mentre le due app sono aperte.",
+        "direct": "La sincronizzazione avviene direttamente tra i tuoi dispositivi sulla rete locale. Nessun server. Cronologia e registrazioni non vengono mai sincronizzate.",
+        "howTo": "Sull’iPhone, apri Wispr Bro, vai in Impostazioni › Sincronizza con il Mac e tocca Trova il mio Mac.",
+        "denied": "macOS non permette a Wispr Bro di trovare dispositivi sulla rete locale. Consentilo in Impostazioni di Sistema › Privacy e sicurezza › Rete locale."
       }
     },
     "advanced": {
@@ -1085,7 +1103,10 @@
       "wordsPerMinute": "Parole al minuto",
       "streak": "Giorni di fila",
       "notEnoughSpeech": "Ancora poco parlato",
-      "unavailable": "Non ancora disponibile"
+      "unavailable": "Non ancora disponibile",
+      "allDevices_one": "Include {{count}} altro dispositivo",
+      "allDevices_many": "Include altri {{count}} di dispositivi",
+      "allDevices_other": "Include altri {{count}} dispositivi"
     },
     "voiceProfile": {
       "title": "Il tuo profilo vocale",
@@ -2822,6 +2843,452 @@
         "copied": "Copiato",
         "copyFailed": "Impossibile copiare. Seleziona la tabella e copiala manualmente.",
         "done": "Fine"
+      }
+    }
+  },
+  "ios": {
+    "close": "Chiudi",
+    "tabs": {
+      "label": "Principale",
+      "home": "Home",
+      "history": "Cronologia",
+      "voice": "La mia voce",
+      "scratchpad": "Blocco note",
+      "settings": "Impostazioni"
+    },
+    "session": {
+      "status": {
+        "noSession": "Sessione non attiva",
+        "idle": "Sessione attiva",
+        "listening": "In ascolto",
+        "transcribing": "Scrittura",
+        "error": "Sessione interrotta"
+      },
+      "offTitle": "Pronto quando vuoi",
+      "offBody": "Avvia una sessione, poi detta in qualsiasi app con la tastiera di Wispr Bro.",
+      "onTitle": "Detta da qualsiasi app",
+      "onBody": "Passa alla tastiera di Wispr Bro e tocca il microfono.",
+      "onBodyEnds": "Passa alla tastiera di Wispr Bro e tocca il microfono. Termina alle {{time}} se non detti.",
+      "onBodyNever": "Passa alla tastiera di Wispr Bro e tocca il microfono. Resta attiva finché non la termini.",
+      "errorBody": "La sessione si è chiusa in modo imprevisto. Avviala di nuovo per continuare a dettare.",
+      "start": "Avvia sessione",
+      "retry": "Ricomincia",
+      "end": "Termina sessione",
+      "failed": "Non ha funzionato. Riprova.",
+      "timeoutLine": "Termina {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Subito",
+          "never": "Mai",
+          "minutes_one": "{{count}} minuto",
+          "minutes_many": "{{count}} di minuti",
+          "minutes_other": "{{count}} minuti",
+          "hours_one": "{{count}} ora",
+          "hours_many": "{{count}} di ore",
+          "hours_other": "{{count}} ore"
+        },
+        "sentence": {
+          "immediately": "subito dopo ogni dettatura",
+          "never": "solo quando la termini",
+          "minutes_one": "dopo {{count}} minuto senza dettatura",
+          "minutes_many": "dopo {{count}} di minuti senza dettatura",
+          "minutes_other": "dopo {{count}} minuti senza dettatura",
+          "hours_one": "dopo {{count}} ora senza dettatura",
+          "hours_many": "dopo {{count}} di ore senza dettatura",
+          "hours_other": "dopo {{count}} ore senza dettatura"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} di {{total}} completati",
+      "title": "Completa la configurazione",
+      "body": "Pochi passaggi e potrai dettare in qualsiasi app.",
+      "openSettings": "Apri Impostazioni",
+      "showMe": "Mostrami come",
+      "failed": "Non ha funzionato. Riprova.",
+      "mic": {
+        "title": "Consenti il microfono",
+        "hint": "Usato solo mentre detti.",
+        "denied": "Disattivato. Consentilo in Impostazioni.",
+        "allow": "Consenti"
+      },
+      "keyboard": {
+        "title": "Aggiungi la tastiera di {{appName}}",
+        "hint": "In Impostazioni, sotto Tastiere."
+      },
+      "fullAccess": {
+        "title": "Consenti accesso completo",
+        "hint": "Permette alla tastiera di comunicare con l’app. Nulla lascia questo iPhone."
+      },
+      "model": {
+        "title": "Modello vocale",
+        "ready": "Pronto",
+        "waiting": "Preparazione…",
+        "downloading": "Download… {{percent}}%",
+        "failed": "Il download si è interrotto.",
+        "retry": "Riprova"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Aggiungi la tastiera di {{appName}}",
+      "steps": {
+        "open": "Tocca Apri Impostazioni, poi Tastiere",
+        "enable": "Attiva {{appName}}",
+        "fullAccess": "Attiva Consenti accesso completo"
+      },
+      "drawn": {
+        "keyboards": "Tastiere",
+        "fullAccess": "Consenti accesso completo"
+      },
+      "privacyTitle": "Perché l’accesso completo?",
+      "privacy": "Serve solo a far comunicare la tastiera con l’app Wispr Bro su questo iPhone. Ciò che scrivi e dici non lascia mai il telefono.",
+      "elsewhere": "Non c’è? Vai in Impostazioni, Generali, Tastiera, Tastiere, Aggiungi nuova tastiera."
+    },
+    "tryIt": {
+      "title": "Provalo",
+      "placeholder": "Tocca qui e detta…",
+      "hint": "Tieni premuto il tasto globo per passare a {{appName}}, poi tocca il microfono e parla.",
+      "clear": "Cancella"
+    },
+    "style": {
+      "intro": "Scegli come vengono scritte le tue dettature, in ogni app."
+    },
+    "settings": {
+      "saveFailed": "Impossibile salvare. Riprova.",
+      "local": "Tutto resta su questo iPhone.",
+      "groups": {
+        "dictation": "Dettatura",
+        "session": "Sessione",
+        "feedback": "Suono",
+        "app": "Wispr Bro",
+        "appearance": "Aspetto"
+      },
+      "pages": {
+        "languages": "Lingue",
+        "cleanup": "Pulizia",
+        "session": "Termina sessione dopo",
+        "privacy": "Dati e privacy",
+        "about": "Info",
+        "licences": "Riconoscimenti",
+        "sync": "Sincronizza con il Mac"
+      },
+      "cleanup": {
+        "notHere": "Non su questo iPhone",
+        "off": "Apple Intelligence è disattivato",
+        "noneTitle": "Non disponibile su questo iPhone",
+        "noneBody": "La pulizia usa Apple Intelligence, che richiede iOS 26 su iPhone 15 Pro o modelli successivi. Le tue parole vengono scritte così come le dici, con punteggiatura e maiuscole.",
+        "offTitle": "Attiva Apple Intelligence",
+        "offBody": "La pulizia usa il modello di Apple sul dispositivo. Attiva Apple Intelligence nell’app Impostazioni, in Apple Intelligence e Siri, poi torna qui.",
+        "preparingTitle": "Il modello di Apple è in preparazione",
+        "preparingBody": "iOS lo sta ancora scaricando. Fino ad allora le tue parole vengono scritte così come le dici.",
+        "note": "Beta su iPhone. La pulizia usa Apple Intelligence su questo telefono; nulla lo lascia. È meno accurata che su Mac: lascia più intercalari e, raramente, perde una parola."
+      },
+      "session": {
+        "endAfter": "Termina sessione dopo",
+        "intro": "Una sessione tiene pronto il microfono così la tastiera può dettare. Si chiude da sola quando smetti di usarla.",
+        "footer": "Un tempo più breve fa risparmiare batteria. Puoi sempre terminare una sessione dalla Home.",
+        "autoReturn": "Torna alla mia app automaticamente",
+        "autoReturnHint": "Quando la tastiera apre Wispr Bro per avviare una sessione, ti riporta subito all’app in cui eri."
+      },
+      "sounds": "Suoni di dettatura",
+      "soundsHint": "Un suono leggero quando l’ascolto inizia e finisce.",
+      "theme": {
+        "system": "Automatico",
+        "light": "Chiaro",
+        "dark": "Scuro"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} parola",
+      "words_many": "{{count}} di parole",
+      "words_other": "{{count}} parole"
+    },
+    "scratchpad": {
+      "emptyHelp": "Crea una nota, poi scrivi o detta al suo interno. Ogni nota si salva da sola.",
+      "noResultsHelp": "Prova con un’altra parola.",
+      "notes": "Note",
+      "noteMenu": "Altre opzioni per {{name}}",
+      "more": "Altro",
+      "done": "Fine",
+      "share": "Condividi",
+      "cancel": "Annulla",
+      "deleteTitle": "Eliminare questa nota?",
+      "deleteBody": "“{{name}}” verrà eliminata definitivamente.",
+      "error": "Non ha funzionato. Il testo è ancora qui; riprova.",
+      "words_one": "{{count}} parola",
+      "words_many": "{{count}} di parole",
+      "words_other": "{{count}} parole",
+      "writing": "Scrittura…",
+      "recordFailed": "Impossibile registrare. Riprova.",
+      "polish": {
+        "off": "Polish usa Apple Intelligence, che è disattivato. Attivalo nell’app Impostazioni in Apple Intelligence e Siri.",
+        "preparing": "Il modello di Apple è ancora in preparazione. Polish funzionerà quando iOS lo avrà scaricato.",
+        "unsupported": "Polish richiede Apple Intelligence, che questo iPhone non supporta."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro è software libero e open source, costruito sul lavoro di molte altre persone.",
+      "own": "Licenza di Wispr Bro",
+      "source": "Codice sorgente",
+      "builtWith": "Realizzato con",
+      "all": "Tutte le note di terze parti",
+      "footer": "Ogni componente e il testo della sua licenza sono elencati nelle note di terze parti.",
+      "loading": "Caricamento…",
+      "failed": "Impossibile caricare il testo della licenza."
+    },
+    "onboarding": {
+      "later": "Lo farò più tardi",
+      "welcome": {
+        "subtitle": "Tocca il microfono sulla tastiera di Wispr Bro e parla. Il testo pulito arriva nell’app in cui stai scrivendo.",
+        "privacyTitle": "Tutto resta su questo iPhone"
+      },
+      "microphone": {
+        "title": "Consenti il microfono",
+        "subtitle": "Wispr Bro ascolta solo mentre detti. L’audio non lascia mai questo iPhone.",
+        "allow": "Consenti microfono",
+        "prompt": "iOS lo chiederà una volta. Tocca Consenti.",
+        "granted": "Microfono consentito.",
+        "denied": "Il microfono è disattivato per Wispr Bro. Attivalo in Impostazioni, poi torna qui."
+      },
+      "keyboard": {
+        "title": "Aggiungi la tastiera di {{appName}}",
+        "subtitle": "È così che detti nelle altre app. Serve un minuto, una volta sola.",
+        "ready": "La tastiera è stata aggiunta e comunica con l’app. È tutto pronto.",
+        "added": "La tastiera è stata aggiunta. Ora provala."
+      },
+      "model": {
+        "title": "Download del modello vocale",
+        "titleReady": "Il tuo modello vocale è pronto",
+        "subtitle": "Un solo download. Dopo, la dettatura funziona senza internet.",
+        "starting": "Preparazione…",
+        "downloading": "Download in corso…",
+        "verifying": "Verifica del download…",
+        "ready": "Pronto",
+        "failed": "Il download si è interrotto.",
+        "offline": "Nessuna connessione a internet.",
+        "noSpace": "Spazio libero insufficiente. Servono circa {{mb}} MB.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} di {{total}} MB",
+        "eta_one": "circa {{count}} minuto rimanente",
+        "eta_many": "circa {{count}} di minuti rimanenti",
+        "eta_other": "circa {{count}} minuti rimanenti",
+        "offlineReady": "Salvato su questo iPhone.",
+        "background": "Continua in background"
+      },
+      "practice": {
+        "title": "Prova la tua prima dettatura",
+        "subtitle": "Di’ quello che vuoi. Basta una frase sulla tua giornata.",
+        "notReady": "Potrai esercitarti a configurazione completata. Salta per ora e prova dalla Home.",
+        "placeholder": "Le tue parole compaiono qui…",
+        "fieldLabel": "Testo di prova",
+        "skip": "Salta",
+        "steps": {
+          "tap": "Tocca il campo qui sopra",
+          "switch": "Tieni premuto il tasto globo e scegli {{appName}}",
+          "speak": "Tocca il microfono, parla, poi tocca il segno di spunta"
+        }
+      },
+      "done": {
+        "title": "È tutto pronto",
+        "titlePending": "Ci siamo quasi",
+        "subtitle": "Tutto qui.",
+        "subtitlePending": "Nella Home trovi i passaggi ancora da completare.",
+        "finish": "Inizia a usare {{appName}}",
+        "points": {
+          "session": "Avvia una sessione nell’app quando vuoi dettare",
+          "keyboard": "Passa alla tastiera di {{appName}} in qualsiasi app e tocca il microfono",
+          "private": "Tutto resta su questo iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Avvia una sessione e detta in qualsiasi app. Ogni dettatura viene conservata qui, su questo iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Mostrato solo su questo iPhone."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Le tue dettature e i tuoi dati restano su questo iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro interromperà ciò che sta facendo, cancellerà i dati e ripartirà dalla schermata di benvenuto."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Calcolato su questo iPhone in base alla tua ultima dettatura. Nulla lascia il tuo iPhone.",
+          "footnote_many": "Calcolato su questo iPhone in base alle tue ultime {{count, number}} di dettature. Nulla lascia il tuo iPhone.",
+          "footnote_other": "Calcolato su questo iPhone in base alle tue ultime {{count, number}} dettature. Nulla lascia il tuo iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Abbina il Mac una volta. Da lì in poi dizionario, frammenti, impostazioni e statistiche restano uguali su entrambi, in automatico.",
+      "fromMac": {
+        "title": "Dal Mac",
+        "step1": "Sul Mac, apri Wispr Bro, vai in Impostazioni › Dati e privacy e scegli Esporta i miei dati.",
+        "step2": "Invia il file a questo iPhone con AirDrop e aprilo con Wispr Bro.",
+        "step3": "Controlla cosa cambierà, poi tocca Unisci.",
+        "choose": "Scegli un file",
+        "reading": "Lettura…",
+        "footer": "Hai già salvato il file in File? Sceglilo qui. Cronologia e registrazioni del Mac non vengono lette."
+      },
+      "toMac": {
+        "title": "Al Mac",
+        "send": "Invia al Mac",
+        "csv": "Aggiungi file CSV",
+        "csvHint": "Per un Mac che non apre ancora i file di sincronizzazione. Importali nelle sue pagine Dizionario e Frammenti.",
+        "footer": "Invia il file al Mac con AirDrop e importalo in Impostazioni › Dati e privacy. Cronologia e registrazioni restano su questo iPhone."
+      },
+      "devices": {
+        "title": "Sincronizzati",
+        "none": "Non ancora sincronizzato",
+        "merged": "Unione: {{when}}",
+        "words_one": "{{words}} parola",
+        "words_many": "{{words}} di parole",
+        "words_other": "{{words}} parole"
+      },
+      "pair": {
+        "title": "Abbina il Mac",
+        "step1": "Sul Mac, apri Wispr Bro, vai in Impostazioni › Dati e privacy e attiva Sincronizza con l’iPhone.",
+        "step2": "Tocca Trova il mio Mac e sceglilo.",
+        "step3": "Inserisci il codice mostrato sul Mac.",
+        "find": "Trova il mio Mac",
+        "looking": "Ricerca del Mac…",
+        "stop": "Interrompi ricerca",
+        "nearby": "Mac nelle vicinanze",
+        "footer": "Entrambi i dispositivi devono essere sulla stessa rete Wi-Fi, oppure vicini con Wi-Fi e Bluetooth attivi."
+      },
+      "mac": {
+        "title": "Il tuo Mac",
+        "footer": "L’iPhone si sincronizza mentre Wispr Bro è aperto o una sessione di dettatura è attiva. La sincronizzazione avviene direttamente tra i tuoi dispositivi sulla rete locale. Nessun server."
+      },
+      "file": {
+        "title": "Sincronizza con un file",
+        "hint": "Senza abbinamento: invia un file dall’uno all’altro con AirDrop."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "il tuo Mac",
+      "iphone": "il tuo iPhone",
+      "macName": "Il tuo Mac",
+      "iphoneName": "Il tuo iPhone"
+    },
+    "parts": {
+      "dictionary": "Dizionario",
+      "snippets": "Frammenti",
+      "settings": "Impostazioni",
+      "stats": "Statistiche"
+    },
+    "review": {
+      "title": "Unisci con {{device}}",
+      "titleFile": "Importa {{device}}",
+      "made": "Creato: {{when}}",
+      "madeWith": "Creato: {{when}} con Wispr Bro {{version}}",
+      "added_one": "{{count}} nuovo",
+      "added_many": "{{count}} di nuovi",
+      "added_other": "{{count}} nuovi",
+      "changed_one": "{{count}} modificato",
+      "changed_many": "{{count}} di modificati",
+      "changed_other": "{{count}} modificati",
+      "removed_one": "{{count}} rimosso",
+      "removed_many": "{{count}} di rimossi",
+      "removed_other": "{{count}} rimossi",
+      "stats_one": "{{words}} parole in {{count}} giorno",
+      "stats_many": "{{words}} parole in {{count}} di giorni",
+      "stats_other": "{{words}} parole in {{count}} giorni",
+      "same": "Aggiornato",
+      "notInFile": "Non presente nel file",
+      "upToDate": "Tutto il contenuto di questo file è già qui.",
+      "privacy": "Cronologia e registrazioni non vengono sincronizzate. Restano sul dispositivo su cui sono state create.",
+      "privacyExport": "Questa è l’esportazione completa del Mac. Vengono letti solo dizionario, frammenti, impostazioni e statistiche, non cronologia e registrazioni.",
+      "merge": "Unisci",
+      "merging": "Unione…",
+      "cancel": "Annulla",
+      "done": "Fine",
+      "privacyExportCopy": "La copia del file su questo iPhone viene poi eliminata."
+    },
+    "result": {
+      "title": "Unione completata",
+      "from": "Origine: {{device}}",
+      "merged": "Ora sono entrambi allineati.",
+      "nothing": "Non è stato necessario cambiare nulla."
+    },
+    "problems": {
+      "title": "Impossibile unire questo file",
+      "unreadable": "Impossibile leggere il file. Invialo di nuovo e riprova.",
+      "not_wispr_bro": "Questo non è un file di Wispr Bro. Scegli un file di sincronizzazione (.wisprbro), i dati esportati dal Mac (.zip) o un CSV di Dizionario o Frammenti.",
+      "too_new": "Questo file è stato creato da una versione più recente di Wispr Bro. Aggiorna Wispr Bro qui, poi apri di nuovo il file.",
+      "own_file": "Questo file è stato creato su questo dispositivo. Aprilo sull’altro dispositivo.",
+      "failed": "Si è verificato un errore durante la lettura del file. Non è stato modificato nulla."
+    },
+    "sendFailed": "Impossibile creare il file di sincronizzazione.",
+    "settingNames": {
+      "styles": "Stile",
+      "text_retention_days": "Conservazione cronologia",
+      "audio_retention_days": "Conservazione registrazioni",
+      "typing_wpm": "Velocità di digitazione",
+      "typing_hours_per_day": "Tempo di digitazione",
+      "greeting_name": "Nome",
+      "spoken_languages": "Lingue",
+      "audio_feedback": "Suoni di dettatura",
+      "audio_feedback_volume": "Volume dei suoni"
+    },
+    "auto": {
+      "justNow": "proprio ora",
+      "inSync": "Sincronizzato",
+      "inSyncAgo": "Sincronizzato · ultima modifica {{when}}",
+      "connecting": "Connessione…",
+      "macAway": "Mac non trovato. Apri Wispr Bro sul Mac.",
+      "phoneAway": "Non connesso. Apri Wispr Bro sull’iPhone.",
+      "lastSynced": "Ultima sincronizzazione: {{when}}.",
+      "syncNow": "Sincronizza ora",
+      "unpair": "Dissocia",
+      "unpairTitle": "Dissociare {{device}}?",
+      "unpairBody": "I due dispositivi smettono di sincronizzarsi. Non viene eliminato nulla su nessuno dei due. Puoi abbinarli di nuovo in qualsiasi momento.",
+      "direct": "La sincronizzazione avviene direttamente tra i tuoi dispositivi sulla rete locale. Nessun server.",
+      "denied": "Wispr Bro non ha il permesso di trovare dispositivi sulla rete locale. Consentilo in Impostazioni, poi riprova.",
+      "openSettings": "Apri Impostazioni",
+      "needsUpdate": "Wispr Bro ha versioni diverse sul Mac e sull’iPhone. Aggiornali entrambi per continuare a sincronizzare."
+    },
+    "pairing": {
+      "showTitle": "Abbina con {{device}}",
+      "showBody": "Inserisci questo codice sull’iPhone. Funziona una sola volta.",
+      "enterTitle": "Inserisci il codice",
+      "enterBody": "{{device}} mostra un codice di 6 cifre.",
+      "codeLabel": "Codice di abbinamento",
+      "connecting": "Connessione con {{device}}…",
+      "pair": "Abbina",
+      "checking": "Verifica…",
+      "failedTitle": "Abbinamento non riuscito",
+      "problems": {
+        "wrong_code": "Il codice non corrisponde a quello sul Mac. Tocca di nuovo Trova il mio Mac per ottenere un nuovo codice.",
+        "no_code": "Tempo scaduto: nessun codice inserito in due minuti. Tieni aperte entrambe le app e ricomincia.",
+        "busy": "Il Mac si sta abbinando con un altro dispositivo. Riprova tra un momento.",
+        "unreachable": "Impossibile raggiungere il Mac. Tieni aperto Wispr Bro sul Mac con Sincronizza con l’iPhone attivo e verifica che Wispr Bro sia consentito in Rete locale nelle impostazioni di entrambi i dispositivi.",
+        "failed": "L’abbinamento non è stato completato. Ricomincia da Trova il mio Mac.",
+        "dropped": "La connessione con il Mac si è interrotta prima del termine dell’abbinamento. Tieni aperte entrambe le app e i dispositivi vicini, poi riprova.",
+        "version": "Wispr Bro ha versioni diverse sul Mac e sull’iPhone. Aggiornali entrambi, poi abbinali di nuovo.",
+        "update_mac": "Aggiorna Wispr Bro sul Mac: usa una versione della sincronizzazione meno recente di questo iPhone. Poi abbinali di nuovo.",
+        "update_this": "Aggiorna Wispr Bro su questo iPhone: il Mac usa una versione della sincronizzazione più recente. Poi abbinali di nuovo.",
+        "denied": "Wispr Bro non ha accesso alla rete locale. Consentilo in Impostazioni › Privacy e sicurezza › Rete locale › Wispr Bro, poi tocca di nuovo Trova il mio Mac."
+      },
+      "macProblems": {
+        "wrong_code": "L’iPhone ha inserito un codice diverso. Ricomincia sull’iPhone: tocca Trova il mio Mac e inserisci il nuovo codice mostrato qui.",
+        "update_phone": "Aggiorna Wispr Bro sull’iPhone: usa una versione della sincronizzazione meno recente di questo Mac. Poi abbinali di nuovo.",
+        "update_this": "Aggiorna Wispr Bro su questo Mac: l’iPhone usa una versione della sincronizzazione più recente. Poi abbinali di nuovo.",
+        "version": "Wispr Bro ha versioni diverse sul Mac e sull’iPhone. Aggiornali entrambi, poi abbinali di nuovo.",
+        "failed": "L’abbinamento non è stato completato. Ricomincia sull’iPhone da Trova il mio Mac."
       }
     }
   },

@@ -257,9 +257,10 @@
         "local": "Je dictees en gegevens blijven op deze Mac.",
         "noCloud": "Spraakherkenning, opschonen en Geschiedenis werken lokaal. Er is geen account, geen telemetrie, geen dicteren in de cloud en geen opschonen in de cloud.",
         "network": "Wat het netwerk gebruikt",
-        "networkIntro": "Wispr Bro gebruikt het netwerk alleen voor deze twee dingen:",
+        "networkIntro": "Wispr Bro gebruikt het netwerk alleen hiervoor:",
         "models": "Spraak- en opschoonmodellen downloaden van Hugging Face (huggingface.co).",
-        "updates": "Als controle op updates aanstaat, op GitHub (github.com) zoeken naar app-updates."
+        "updates": "Als controle op updates aanstaat, op GitHub (github.com) zoeken naar app-updates.",
+        "sync": "Als synchronisatie aan staat, praten je Mac en iPhone rechtstreeks met elkaar via je lokale netwerk. Geen server."
       },
       "locations": {
         "title": "Waar je gegevens staan",
@@ -330,6 +331,23 @@
         "saved": "Opgeschoonde diagnostiek bewaard.",
         "failed": "Kan diagnostiek niet voorbereiden. Probeer het opnieuw.",
         "rowTitle": "Diagnose delen"
+      },
+      "sync": {
+        "title": "Synchronisatie",
+        "rowTitle": "Synchroniseer met een bestand",
+        "hint": "Woordenboek, tekstfragmenten, instellingen en statistieken als één bestand om met AirDrop te versturen.",
+        "import": "Importeer…",
+        "export": "Exporteer…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro-synchronisatiebestand",
+        "exported": "Synchronisatiebestand bewaard en getoond in de Finder. Stuur het met AirDrop naar je iPhone.",
+        "last": "Laatst samengevoegd vanaf {{device}}: {{when}}. Geschiedenis en opnames worden nooit meegenomen.",
+        "never": "Nog niet gesynchroniseerd. Geschiedenis en opnames worden nooit meegenomen.",
+        "autoTitle": "Synchroniseer met je iPhone",
+        "autoHint": "Houdt woordenboek, tekstfragmenten, instellingen en statistieken gelijk op allebei zolang beide apps open zijn.",
+        "direct": "Synchronisatie gaat rechtstreeks tussen je apparaten via je lokale netwerk. Geen server. Geschiedenis en opnames worden nooit gesynchroniseerd.",
+        "howTo": "Open Wispr Bro op je iPhone, ga naar Instellingen › Synchroniseer met je Mac en tik op 'Zoek mijn Mac'.",
+        "denied": "macOS staat niet toe dat Wispr Bro apparaten op je lokale netwerk zoekt. Sta het toe in Systeeminstellingen › Privacy en beveiliging › Lokaal netwerk."
       }
     },
     "advanced": {
@@ -1070,7 +1088,9 @@
       "wordsPerMinute": "Woorden per minuut",
       "streak": "Dagen op rij",
       "notEnoughSpeech": "Nog niet genoeg gesproken",
-      "unavailable": "Nog niet beschikbaar"
+      "unavailable": "Nog niet beschikbaar",
+      "allDevices_one": "Inclusief {{count}} ander apparaat",
+      "allDevices_other": "Inclusief {{count}} andere apparaten"
     },
     "voiceProfile": {
       "title": "Je stemprofiel",
@@ -2731,6 +2751,439 @@
         "copied": "Gekopieerd",
         "copyFailed": "Kopiëren mislukt. Selecteer de tabel en kopieer hem zelf.",
         "done": "Gereed"
+      }
+    }
+  },
+  "ios": {
+    "close": "Sluit",
+    "tabs": {
+      "label": "Hoofdmenu",
+      "home": "Home",
+      "history": "Geschiedenis",
+      "voice": "Mijn stem",
+      "scratchpad": "Kladblok",
+      "settings": "Instellingen"
+    },
+    "session": {
+      "status": {
+        "noSession": "Sessie uit",
+        "idle": "Sessie aan",
+        "listening": "Luistert",
+        "transcribing": "Schrijft",
+        "error": "Sessie gestopt"
+      },
+      "offTitle": "Klaar wanneer jij het bent",
+      "offBody": "Start een sessie en dicteer dan in elke app met het Wispr Bro-toetsenbord.",
+      "onTitle": "Dicteer vanuit elke app",
+      "onBody": "Schakel over naar het Wispr Bro-toetsenbord en tik op de microfoon.",
+      "onBodyEnds": "Schakel over naar het Wispr Bro-toetsenbord en tik op de microfoon. Stopt om {{time}} als je niet dicteert.",
+      "onBodyNever": "Schakel over naar het Wispr Bro-toetsenbord en tik op de microfoon. Blijft aan tot je hem beëindigt.",
+      "errorBody": "De sessie is onverwacht gestopt. Start hem opnieuw om verder te dicteren.",
+      "start": "Start sessie",
+      "retry": "Start opnieuw",
+      "end": "Beëindig sessie",
+      "failed": "Dat is niet gelukt. Probeer het opnieuw.",
+      "timeoutLine": "Stopt {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Direct",
+          "never": "Nooit",
+          "minutes_one": "{{count}} minuut",
+          "minutes_other": "{{count}} minuten",
+          "hours_one": "{{count}} uur",
+          "hours_other": "{{count}} uur"
+        },
+        "sentence": {
+          "immediately": "direct na elk dictee",
+          "never": "alleen als je hem beëindigt",
+          "minutes_one": "na {{count}} minuut zonder dicteren",
+          "minutes_other": "na {{count}} minuten zonder dicteren",
+          "hours_one": "na {{count}} uur zonder dicteren",
+          "hours_other": "na {{count}} uur zonder dicteren"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} van {{total}} klaar",
+      "title": "Rond de configuratie af",
+      "body": "Een paar stappen, dan kun je in elke app dicteren.",
+      "openSettings": "Open Instellingen",
+      "showMe": "Laat zien",
+      "failed": "Dat is niet gelukt. Probeer het opnieuw.",
+      "mic": {
+        "title": "Sta de microfoon toe",
+        "hint": "Alleen gebruikt terwijl je dicteert.",
+        "denied": "Uitgeschakeld. Sta het toe in Instellingen.",
+        "allow": "Sta toe"
+      },
+      "keyboard": {
+        "title": "Voeg het {{appName}}-toetsenbord toe",
+        "hint": "In Instellingen, onder Toetsenborden."
+      },
+      "fullAccess": {
+        "title": "Sta volledige toegang toe",
+        "hint": "Hiermee kan het toetsenbord de app bereiken. Niets verlaat deze iPhone."
+      },
+      "model": {
+        "title": "Spraakmodel",
+        "ready": "Klaar",
+        "waiting": "Voorbereiden…",
+        "downloading": "Downloaden… {{percent}}%",
+        "failed": "De download is gestopt.",
+        "retry": "Probeer opnieuw"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Voeg het {{appName}}-toetsenbord toe",
+      "steps": {
+        "open": "Tik op 'Open Instellingen' en daarna op Toetsenborden",
+        "enable": "Zet {{appName}} aan",
+        "fullAccess": "Zet 'Sta volledige toegang toe' aan"
+      },
+      "drawn": {
+        "keyboards": "Toetsenborden",
+        "fullAccess": "Sta volledige toegang toe"
+      },
+      "privacyTitle": "Waarom volledige toegang?",
+      "privacy": "Het wordt alleen gebruikt zodat het toetsenbord kan praten met de Wispr Bro-app op deze iPhone. Wat je typt en zegt, verlaat de telefoon nooit.",
+      "elsewhere": "Staat het er niet bij? Ga naar Instellingen, Algemeen, Toetsenbord, Toetsenborden, Voeg nieuw toetsenbord toe."
+    },
+    "tryIt": {
+      "title": "Probeer het",
+      "placeholder": "Tik hier en dicteer…",
+      "hint": "Houd de wereldboltoets ingedrukt om over te schakelen naar {{appName}}, tik dan op de microfoon en spreek.",
+      "clear": "Wis"
+    },
+    "style": {
+      "intro": "Kies hoe je dictees worden geschreven, in elke app."
+    },
+    "settings": {
+      "saveFailed": "Kan dat niet bewaren. Probeer het opnieuw.",
+      "local": "Alles blijft op deze iPhone.",
+      "groups": {
+        "dictation": "Dicteren",
+        "session": "Sessie",
+        "feedback": "Geluid",
+        "app": "Wispr Bro",
+        "appearance": "Weergave"
+      },
+      "pages": {
+        "languages": "Talen",
+        "cleanup": "Opschonen",
+        "session": "Beëindig sessie na",
+        "privacy": "Gegevens en privacy",
+        "about": "Over",
+        "licences": "Dankbetuigingen",
+        "sync": "Synchroniseer met je Mac"
+      },
+      "cleanup": {
+        "notHere": "Niet op deze iPhone",
+        "off": "Apple Intelligence staat uit",
+        "noneTitle": "Niet beschikbaar op deze iPhone",
+        "noneBody": "Opschonen gebruikt Apple Intelligence, waarvoor iOS 26 op een iPhone 15 Pro of nieuwer nodig is. Je woorden worden geschreven zoals je ze zegt, met leestekens en hoofdletters.",
+        "offTitle": "Zet Apple Intelligence aan",
+        "offBody": "Opschonen gebruikt het model van Apple op het apparaat. Zet Apple Intelligence aan in de Instellingen-app onder 'Apple Intelligence en Siri' en kom dan terug.",
+        "preparingTitle": "Het model van Apple wordt voorbereid",
+        "preparingBody": "iOS is het nog aan het downloaden. Tot die tijd worden je woorden geschreven zoals je ze zegt.",
+        "note": "Bèta op iPhone. Opschonen gebruikt Apple Intelligence op deze telefoon; er gaat niets naar buiten. Het is minder zorgvuldig dan op de Mac: er blijven meer stopwoorden staan en heel soms valt er een woord weg."
+      },
+      "session": {
+        "endAfter": "Beëindig sessie na",
+        "intro": "Een sessie houdt de microfoon gereed zodat het toetsenbord kan dicteren. Hij stopt vanzelf als je hem niet meer gebruikt.",
+        "footer": "Een kortere tijd spaart de batterij. Je kunt een sessie altijd beëindigen vanaf Home.",
+        "autoReturn": "Ga automatisch terug naar mijn app",
+        "autoReturnHint": "Als het toetsenbord Wispr Bro opent om een sessie te starten, ga je meteen terug naar de app waarin je was."
+      },
+      "sounds": "Dicteergeluiden",
+      "soundsHint": "Een zacht geluid als het luisteren begint en stopt.",
+      "theme": {
+        "system": "Automatisch",
+        "light": "Licht",
+        "dark": "Donker"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} woord",
+      "words_other": "{{count}} woorden"
+    },
+    "scratchpad": {
+      "emptyHelp": "Begin een notitie en typ of dicteer erin. Elke notitie wordt vanzelf bewaard.",
+      "noResultsHelp": "Probeer een ander woord.",
+      "notes": "Notities",
+      "noteMenu": "Meer voor {{name}}",
+      "more": "Meer",
+      "done": "Gereed",
+      "share": "Deel",
+      "cancel": "Annuleer",
+      "deleteTitle": "Deze notitie verwijderen?",
+      "deleteBody": "‘{{name}}’ is dan voorgoed weg.",
+      "error": "Dat is niet gelukt. Je tekst staat er nog; probeer het opnieuw.",
+      "words_one": "{{count}} woord",
+      "words_other": "{{count}} woorden",
+      "writing": "Schrijven…",
+      "recordFailed": "Opnemen is niet gelukt. Probeer het opnieuw.",
+      "polish": {
+        "off": "Polish gebruikt Apple Intelligence, en dat staat uit. Zet het aan in de Instellingen-app onder 'Apple Intelligence en Siri'.",
+        "preparing": "Het model van Apple wordt nog voorbereid. Polish werkt zodra iOS het heeft gedownload.",
+        "unsupported": "Polish heeft Apple Intelligence nodig, en dat heeft deze iPhone niet."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro is gratis opensourcesoftware, gebouwd op het werk van vele anderen.",
+      "own": "Licentie van Wispr Bro",
+      "source": "Broncode",
+      "builtWith": "Gemaakt met",
+      "all": "Alle kennisgevingen van derden",
+      "footer": "Elk onderdeel en de licentietekst ervan staan in de kennisgevingen van derden.",
+      "loading": "Laden…",
+      "failed": "De licentietekst kan niet worden geladen."
+    },
+    "onboarding": {
+      "later": "Ik doe dit later",
+      "welcome": {
+        "subtitle": "Tik op de microfoon op het Wispr Bro-toetsenbord en spreek. Nette tekst komt terecht in de app waarin je typt.",
+        "privacyTitle": "Alles blijft op deze iPhone"
+      },
+      "microphone": {
+        "title": "Sta de microfoon toe",
+        "subtitle": "Wispr Bro luistert alleen terwijl je dicteert. Het geluid verlaat deze iPhone nooit.",
+        "allow": "Sta microfoon toe",
+        "prompt": "iOS vraagt het één keer. Tik op 'Sta toe'.",
+        "granted": "Microfoon toegestaan.",
+        "denied": "De microfoon staat uit voor Wispr Bro. Zet hem aan in Instellingen en kom dan terug."
+      },
+      "keyboard": {
+        "title": "Voeg het {{appName}}-toetsenbord toe",
+        "subtitle": "Zo dicteer je in andere apps. Het kost één keer een minuutje.",
+        "ready": "Het toetsenbord is toegevoegd en kan de app bereiken. Je bent klaar.",
+        "added": "Het toetsenbord is toegevoegd. Probeer het nu uit."
+      },
+      "model": {
+        "title": "Je spraakmodel wordt opgehaald",
+        "titleReady": "Je spraakmodel is klaar",
+        "subtitle": "Eén download. Daarna werkt dicteren zonder internet.",
+        "starting": "Voorbereiden…",
+        "downloading": "Downloaden…",
+        "verifying": "Download controleren…",
+        "ready": "Klaar",
+        "failed": "De download is gestopt.",
+        "offline": "Geen internetverbinding.",
+        "noSpace": "Niet genoeg vrije ruimte. Er is ongeveer {{mb}} MB nodig.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} van {{total}} MB",
+        "eta_one": "nog ongeveer {{count}} minuut",
+        "eta_other": "nog ongeveer {{count}} minuten",
+        "offlineReady": "Opgeslagen op deze iPhone.",
+        "background": "Ga verder op de achtergrond"
+      },
+      "practice": {
+        "title": "Probeer je eerste dictee",
+        "subtitle": "Zeg maar iets. Een zin over je dag is genoeg.",
+        "notReady": "Je kunt oefenen zodra de configuratie klaar is. Sla dit nu over en probeer het later vanaf Home.",
+        "placeholder": "Je woorden verschijnen hier…",
+        "fieldLabel": "Oefentekst",
+        "skip": "Sla over",
+        "steps": {
+          "tap": "Tik op het veld hierboven",
+          "switch": "Houd de wereldboltoets ingedrukt en kies {{appName}}",
+          "speak": "Tik op de microfoon, spreek en tik dan op het vinkje"
+        }
+      },
+      "done": {
+        "title": "Je bent klaar",
+        "titlePending": "Bijna klaar",
+        "subtitle": "Meer is het niet.",
+        "subtitlePending": "Op Home zie je de stappen die nog openstaan.",
+        "finish": "Begin met {{appName}}",
+        "points": {
+          "session": "Start een sessie in de app wanneer je wilt dicteren",
+          "keyboard": "Schakel in elke app over naar het {{appName}}-toetsenbord en tik op de microfoon",
+          "private": "Alles blijft op deze iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Start een sessie en dicteer in elke app. Elk dictee wordt hier bewaard, op deze iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Alleen zichtbaar op deze iPhone."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Je dictees en gegevens blijven op deze iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro stopt wat het aan het doen is, wist de gegevens en begint opnieuw bij het welkomstscherm."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Berekend op deze iPhone uit je laatste dictee. Niets verlaat je iPhone.",
+          "footnote_other": "Berekend op deze iPhone uit je laatste {{count, number}} dictees. Niets verlaat je iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Koppel je Mac één keer. Daarna blijven je woordenboek, tekstfragmenten, instellingen en statistieken vanzelf gelijk op allebei.",
+      "fromMac": {
+        "title": "Vanaf je Mac",
+        "step1": "Open Wispr Bro op je Mac, ga naar Instellingen › Gegevens en privacy en kies 'Exporteer mijn gegevens'.",
+        "step2": "Stuur het bestand met AirDrop naar deze iPhone en open het met Wispr Bro.",
+        "step3": "Bekijk wat er verandert en tik dan op 'Voeg samen'.",
+        "choose": "Kies een bestand",
+        "reading": "Lezen…",
+        "footer": "Heb je het bestand al in Bestanden bewaard? Kies het hier. De geschiedenis en opnames van je Mac worden niet gelezen."
+      },
+      "toMac": {
+        "title": "Naar je Mac",
+        "send": "Stuur naar Mac",
+        "csv": "Voeg CSV-bestanden toe",
+        "csvHint": "Voor een Mac die nog geen synchronisatiebestanden kan openen. Importeer ze op de pagina's Woordenboek en Tekstfragmenten.",
+        "footer": "Stuur het bestand met AirDrop naar je Mac en importeer het in Instellingen › Gegevens en privacy. Geschiedenis en opnames blijven op deze iPhone."
+      },
+      "devices": {
+        "title": "Gesynchroniseerd",
+        "none": "Nog niet gesynchroniseerd",
+        "merged": "Samengevoegd {{when}}",
+        "words_one": "{{words}} woord",
+        "words_other": "{{words}} woorden"
+      },
+      "pair": {
+        "title": "Koppel je Mac",
+        "step1": "Open Wispr Bro op je Mac, ga naar Instellingen › Gegevens en privacy en zet 'Synchroniseer met je iPhone' aan.",
+        "step2": "Tik op 'Zoek mijn Mac' en kies hem.",
+        "step3": "Typ de code die je Mac toont.",
+        "find": "Zoek mijn Mac",
+        "looking": "Zoeken naar je Mac…",
+        "stop": "Stop met zoeken",
+        "nearby": "Macs in de buurt",
+        "footer": "Beide apparaten moeten op hetzelfde wifinetwerk zitten, of dicht bij elkaar zijn met wifi en Bluetooth aan."
+      },
+      "mac": {
+        "title": "Je Mac",
+        "footer": "Je iPhone synchroniseert terwijl Wispr Bro open is of er een dicteersessie loopt. Synchronisatie gaat rechtstreeks tussen je apparaten via je lokale netwerk. Geen server."
+      },
+      "file": {
+        "title": "Synchroniseer met een bestand",
+        "hint": "Zonder koppelen: stuur een bestand met AirDrop tussen de twee."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "je Mac",
+      "iphone": "je iPhone",
+      "macName": "Je Mac",
+      "iphoneName": "Je iPhone"
+    },
+    "parts": {
+      "dictionary": "Woordenboek",
+      "snippets": "Tekstfragmenten",
+      "settings": "Instellingen",
+      "stats": "Statistieken"
+    },
+    "review": {
+      "title": "Voeg samen vanaf {{device}}",
+      "titleFile": "Importeer {{device}}",
+      "made": "Gemaakt {{when}}",
+      "madeWith": "Gemaakt {{when}} met Wispr Bro {{version}}",
+      "added_one": "{{count}} nieuw",
+      "added_other": "{{count}} nieuw",
+      "changed_one": "{{count}} gewijzigd",
+      "changed_other": "{{count}} gewijzigd",
+      "removed_one": "{{count}} verwijderd",
+      "removed_other": "{{count}} verwijderd",
+      "stats_one": "{{words}} woorden op {{count}} dag",
+      "stats_other": "{{words}} woorden op {{count}} dagen",
+      "same": "Up-to-date",
+      "notInFile": "Niet in dit bestand",
+      "upToDate": "Alles in dit bestand staat hier al.",
+      "privacy": "Geschiedenis en opnames worden niet gesynchroniseerd. Ze blijven op het apparaat waarop ze zijn gemaakt.",
+      "privacyExport": "Dit is de volledige export van je Mac. Alleen het woordenboek, de tekstfragmenten, instellingen en statistieken worden gelezen. De geschiedenis en opnames niet.",
+      "merge": "Voeg samen",
+      "merging": "Samenvoegen…",
+      "cancel": "Annuleer",
+      "done": "Gereed",
+      "privacyExportCopy": "De kopie van het bestand op deze iPhone wordt daarna verwijderd."
+    },
+    "result": {
+      "title": "Samengevoegd",
+      "from": "Van {{device}}",
+      "merged": "Beide zijn nu gelijk.",
+      "nothing": "Er hoefde niets te veranderen."
+    },
+    "problems": {
+      "title": "Dit bestand kan niet worden samengevoegd",
+      "unreadable": "Het bestand kan niet worden gelezen. Stuur het opnieuw en probeer het nog eens.",
+      "not_wispr_bro": "Dit is geen Wispr Bro-bestand. Kies een synchronisatiebestand (.wisprbro), de geëxporteerde gegevens van je Mac (.zip) of een CSV met woordenboek of tekstfragmenten.",
+      "too_new": "Dit bestand is gemaakt door een nieuwere Wispr Bro. Werk Wispr Bro hier bij en open het bestand opnieuw.",
+      "own_file": "Dit bestand is op dit apparaat gemaakt. Open het op je andere apparaat.",
+      "failed": "Er ging iets mis bij het lezen van het bestand. Er is niets gewijzigd."
+    },
+    "sendFailed": "Kan het synchronisatiebestand niet maken.",
+    "settingNames": {
+      "styles": "Stijl",
+      "text_retention_days": "Geschiedenis bewaren",
+      "audio_retention_days": "Opnames bewaren",
+      "typing_wpm": "Typsnelheid",
+      "typing_hours_per_day": "Typtijd",
+      "greeting_name": "Naam",
+      "spoken_languages": "Talen",
+      "audio_feedback": "Dicteergeluiden",
+      "audio_feedback_volume": "Geluidsvolume"
+    },
+    "auto": {
+      "justNow": "zojuist",
+      "inSync": "Gesynchroniseerd",
+      "inSyncAgo": "Gesynchroniseerd · laatste wijziging {{when}}",
+      "connecting": "Verbinden…",
+      "macAway": "Mac niet gevonden. Open Wispr Bro op je Mac.",
+      "phoneAway": "Niet verbonden. Open Wispr Bro op je iPhone.",
+      "lastSynced": "Laatst gesynchroniseerd: {{when}}.",
+      "syncNow": "Synchroniseer nu",
+      "unpair": "Ontkoppel",
+      "unpairTitle": "{{device}} ontkoppelen?",
+      "unpairBody": "De twee stoppen met synchroniseren. Er wordt op geen van beide apparaten iets verwijderd. Je kunt op elk moment opnieuw koppelen.",
+      "direct": "Synchronisatie gaat rechtstreeks tussen je apparaten via je lokale netwerk. Geen server.",
+      "denied": "Wispr Bro mag geen apparaten op je lokale netwerk zoeken. Sta het toe in Instellingen en probeer het opnieuw.",
+      "openSettings": "Open Instellingen",
+      "needsUpdate": "Wispr Bro op je Mac en op je iPhone hebben verschillende versies. Werk beide bij om te blijven synchroniseren."
+    },
+    "pairing": {
+      "showTitle": "Koppel met {{device}}",
+      "showBody": "Typ deze code op je iPhone. Hij werkt één keer.",
+      "enterTitle": "Voer de code in",
+      "enterBody": "Er staat een zescijferige code op {{device}}.",
+      "codeLabel": "Koppelcode",
+      "connecting": "Verbinden met {{device}}…",
+      "pair": "Koppel",
+      "checking": "Controleren…",
+      "failedTitle": "Koppelen is niet gelukt",
+      "problems": {
+        "wrong_code": "De code kwam niet overeen met die op je Mac. Tik opnieuw op 'Zoek mijn Mac' voor een nieuwe code.",
+        "no_code": "Time-out: er is binnen twee minuten geen code ingevoerd. Houd beide apps open en begin opnieuw.",
+        "busy": "Je Mac is aan het koppelen met een ander apparaat. Probeer het zo opnieuw.",
+        "unreachable": "Je Mac kan niet worden bereikt. Houd Wispr Bro daarop open met 'Synchroniseer met je iPhone' aan, en controleer op beide apparaten in Instellingen dat Wispr Bro is toegestaan onder Lokaal netwerk.",
+        "failed": "Koppelen is niet afgerond. Begin opnieuw via 'Zoek mijn Mac'.",
+        "dropped": "De verbinding met je Mac viel weg voordat het koppelen klaar was. Houd beide apps open en de apparaten dicht bij elkaar en probeer het opnieuw.",
+        "version": "Wispr Bro op je Mac en op je iPhone hebben verschillende versies. Werk beide bij en koppel dan opnieuw.",
+        "update_mac": "Werk Wispr Bro bij op je Mac: daarop draait een oudere versie van synchronisatie dan op deze iPhone. Koppel daarna opnieuw.",
+        "update_this": "Werk Wispr Bro bij op deze iPhone: je Mac draait een nieuwere versie van synchronisatie. Koppel daarna opnieuw.",
+        "denied": "Wispr Bro mag niet op je lokale netwerk. Sta het toe in Instellingen › Privacy en beveiliging › Lokaal netwerk › Wispr Bro en tik dan opnieuw op 'Zoek mijn Mac'."
+      },
+      "macProblems": {
+        "wrong_code": "Op je iPhone is een andere code getypt. Begin opnieuw op je iPhone: tik op 'Zoek mijn Mac' en typ de nieuwe code die hier staat.",
+        "update_phone": "Werk Wispr Bro bij op je iPhone: daarop draait een oudere versie van synchronisatie dan op deze Mac. Koppel daarna opnieuw.",
+        "update_this": "Werk Wispr Bro bij op deze Mac: je iPhone draait een nieuwere versie van synchronisatie. Koppel daarna opnieuw.",
+        "version": "Wispr Bro op je Mac en op je iPhone hebben verschillende versies. Werk beide bij en koppel dan opnieuw.",
+        "failed": "Koppelen is niet afgerond. Begin opnieuw op je iPhone via 'Zoek mijn Mac'."
       }
     }
   },

@@ -257,9 +257,10 @@
         "local": "Deine Diktate und Daten bleiben auf diesem Mac.",
         "noCloud": "Spracherkennung, Bereinigung und Verlauf laufen lokal. Es gibt kein Konto, keine Telemetrie, kein Cloud-Diktat und keine Cloud-Bereinigung.",
         "network": "Was das Netzwerk nutzt",
-        "networkIntro": "Wispr Bro nutzt das Netzwerk nur für diese zwei Dinge:",
+        "networkIntro": "Wispr Bro nutzt das Netzwerk nur hierfür:",
         "models": "Sprach- und Bereinigungsmodelle von Hugging Face (huggingface.co) laden.",
-        "updates": "Bei aktivierter Updateprüfung auf GitHub (github.com) nach App-Updates suchen."
+        "updates": "Bei aktivierter Updateprüfung auf GitHub (github.com) nach App-Updates suchen.",
+        "sync": "Wenn die Synchronisierung an ist, sprechen dein Mac und dein iPhone direkt über dein lokales Netzwerk miteinander. Kein Server."
       },
       "locations": {
         "title": "Wo deine Daten liegen",
@@ -330,6 +331,23 @@
         "saved": "Bereinigte Diagnosedaten gespeichert.",
         "failed": "Diagnosedaten konnten nicht vorbereitet werden. Versuch es noch einmal.",
         "rowTitle": "Diagnosedaten teilen"
+      },
+      "sync": {
+        "title": "Synchronisierung",
+        "rowTitle": "Mit einer Datei synchronisieren",
+        "hint": "Wörterbuch, Textbausteine, Einstellungen und Statistik als eine Datei für AirDrop.",
+        "import": "Importieren …",
+        "export": "Exportieren …",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro-Sync-Datei",
+        "exported": "Sync-Datei gesichert und im Finder angezeigt. Sende sie per AirDrop an dein iPhone.",
+        "last": "Zuletzt zusammengeführt von {{device}}: {{when}}. Verlauf und Aufnahmen sind nie enthalten.",
+        "never": "Noch nicht synchronisiert. Verlauf und Aufnahmen sind nie enthalten.",
+        "autoTitle": "Mit deinem iPhone synchronisieren",
+        "autoHint": "Hält Wörterbuch, Textbausteine, Einstellungen und Statistik auf beiden gleich, solange beide Apps geöffnet sind.",
+        "direct": "Die Synchronisierung läuft direkt zwischen deinen Geräten über dein lokales Netzwerk. Kein Server. Verlauf und Aufnahmen werden nie synchronisiert.",
+        "howTo": "Öffne Wispr Bro auf deinem iPhone, gehe zu Einstellungen › Mit deinem Mac synchronisieren und tippe auf „Meinen Mac suchen“.",
+        "denied": "macOS lässt Wispr Bro keine Geräte in deinem lokalen Netzwerk finden. Erlaube es in Systemeinstellungen › Datenschutz & Sicherheit › Lokales Netzwerk."
       }
     },
     "advanced": {
@@ -1070,7 +1088,9 @@
       "wordsPerMinute": "Wörter pro Minute",
       "streak": "Tage in Serie",
       "notEnoughSpeech": "Noch nicht genug gesprochen",
-      "unavailable": "Noch nicht verfügbar"
+      "unavailable": "Noch nicht verfügbar",
+      "allDevices_one": "Inklusive {{count}} weiterem Gerät",
+      "allDevices_other": "Inklusive {{count}} weiterer Geräte"
     },
     "voiceProfile": {
       "title": "Dein Stimmprofil",
@@ -2731,6 +2751,439 @@
         "copied": "Kopiert",
         "copyFailed": "Kopieren fehlgeschlagen. Markiere die Tabelle und kopiere sie selbst.",
         "done": "Fertig"
+      }
+    }
+  },
+  "ios": {
+    "close": "Schließen",
+    "tabs": {
+      "label": "Hauptmenü",
+      "home": "Home",
+      "history": "Verlauf",
+      "voice": "Meine Stimme",
+      "scratchpad": "Notizblock",
+      "settings": "Einstellungen"
+    },
+    "session": {
+      "status": {
+        "noSession": "Sitzung aus",
+        "idle": "Sitzung aktiv",
+        "listening": "Hört zu",
+        "transcribing": "Schreibt",
+        "error": "Sitzung gestoppt"
+      },
+      "offTitle": "Bereit, wenn du es bist",
+      "offBody": "Starte eine Sitzung und diktiere dann mit der Wispr Bro-Tastatur in jeder App.",
+      "onTitle": "Diktiere in jeder App",
+      "onBody": "Wechsle zur Wispr Bro-Tastatur und tippe auf das Mikrofon.",
+      "onBodyEnds": "Wechsle zur Wispr Bro-Tastatur und tippe auf das Mikrofon. Endet um {{time}}, wenn du nicht diktierst.",
+      "onBodyNever": "Wechsle zur Wispr Bro-Tastatur und tippe auf das Mikrofon. Bleibt aktiv, bis du sie beendest.",
+      "errorBody": "Die Sitzung wurde unerwartet beendet. Starte sie neu, um weiter zu diktieren.",
+      "start": "Sitzung starten",
+      "retry": "Neu starten",
+      "end": "Sitzung beenden",
+      "failed": "Das hat nicht geklappt. Versuch es erneut.",
+      "timeoutLine": "Endet {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Sofort",
+          "never": "Nie",
+          "minutes_one": "{{count}} Minute",
+          "minutes_other": "{{count}} Minuten",
+          "hours_one": "{{count}} Stunde",
+          "hours_other": "{{count}} Stunden"
+        },
+        "sentence": {
+          "immediately": "direkt nach jedem Diktat",
+          "never": "erst, wenn du sie beendest",
+          "minutes_one": "nach {{count}} Minute ohne Diktat",
+          "minutes_other": "nach {{count}} Minuten ohne Diktat",
+          "hours_one": "nach {{count}} Stunde ohne Diktat",
+          "hours_other": "nach {{count}} Stunden ohne Diktat"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} von {{total}} erledigt",
+      "title": "Einrichtung abschließen",
+      "body": "Ein paar Schritte, dann kannst du in jeder App diktieren.",
+      "openSettings": "Einstellungen öffnen",
+      "showMe": "Zeigen",
+      "failed": "Das hat nicht geklappt. Versuch es erneut.",
+      "mic": {
+        "title": "Mikrofon erlauben",
+        "hint": "Nur während du diktierst.",
+        "denied": "Ausgeschaltet. Erlaube es in den Einstellungen.",
+        "allow": "Erlauben"
+      },
+      "keyboard": {
+        "title": "{{appName}}-Tastatur hinzufügen",
+        "hint": "In den Einstellungen unter „Tastaturen“."
+      },
+      "fullAccess": {
+        "title": "Vollen Zugriff erlauben",
+        "hint": "Damit die Tastatur die App erreicht. Nichts verlässt dieses iPhone."
+      },
+      "model": {
+        "title": "Sprachmodell",
+        "ready": "Bereit",
+        "waiting": "Wird vorbereitet …",
+        "downloading": "Wird geladen … {{percent}} %",
+        "failed": "Der Download wurde unterbrochen.",
+        "retry": "Erneut versuchen"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "{{appName}}-Tastatur hinzufügen",
+      "steps": {
+        "open": "Tippe auf „Einstellungen öffnen“, dann auf „Tastaturen“",
+        "enable": "{{appName}} einschalten",
+        "fullAccess": "„Vollen Zugriff erlauben“ einschalten"
+      },
+      "drawn": {
+        "keyboards": "Tastaturen",
+        "fullAccess": "Vollen Zugriff erlauben"
+      },
+      "privacyTitle": "Warum vollen Zugriff?",
+      "privacy": "Er wird nur gebraucht, damit die Tastatur mit der Wispr Bro-App auf diesem iPhone sprechen kann. Was du tippst und sagst, verlässt nie das iPhone.",
+      "elsewhere": "Nicht da? Öffne Einstellungen › Allgemein › Tastatur › Tastaturen › Tastatur hinzufügen."
+    },
+    "tryIt": {
+      "title": "Ausprobieren",
+      "placeholder": "Hier tippen und diktieren …",
+      "hint": "Halte die Globustaste gedrückt, um zu {{appName}} zu wechseln, tippe dann auf das Mikrofon und sprich.",
+      "clear": "Löschen"
+    },
+    "style": {
+      "intro": "Wähle, wie deine Diktate geschrieben werden – in jeder App."
+    },
+    "settings": {
+      "saveFailed": "Konnte nicht gesichert werden. Versuch es erneut.",
+      "local": "Alles bleibt auf diesem iPhone.",
+      "groups": {
+        "dictation": "Diktat",
+        "session": "Sitzung",
+        "feedback": "Ton",
+        "app": "Wispr Bro",
+        "appearance": "Erscheinungsbild"
+      },
+      "pages": {
+        "languages": "Sprachen",
+        "cleanup": "Bereinigung",
+        "session": "Sitzung beenden nach",
+        "privacy": "Daten und Datenschutz",
+        "about": "Über",
+        "licences": "Danksagungen",
+        "sync": "Mit deinem Mac synchronisieren"
+      },
+      "cleanup": {
+        "notHere": "Nicht auf diesem iPhone",
+        "off": "Apple Intelligence ist aus",
+        "noneTitle": "Auf diesem iPhone nicht verfügbar",
+        "noneBody": "Die Bereinigung verwendet Apple Intelligence, das iOS 26 auf einem iPhone 15 Pro oder neuer braucht. Deine Worte werden so geschrieben, wie du sie sagst, mit Satzzeichen und Großschreibung.",
+        "offTitle": "Apple Intelligence einschalten",
+        "offBody": "Die Bereinigung verwendet das On-Device-Modell von Apple. Schalte Apple Intelligence in der App „Einstellungen“ unter „Apple Intelligence & Siri“ ein und komm dann zurück.",
+        "preparingTitle": "Das Modell von Apple wird vorbereitet",
+        "preparingBody": "iOS lädt es noch. Bis dahin werden deine Worte so geschrieben, wie du sie sagst.",
+        "note": "Beta auf dem iPhone. Die Bereinigung verwendet Apple Intelligence auf diesem iPhone; nichts verlässt es. Sie ist weniger sorgfältig als auf dem Mac: Sie lässt mehr Füllwörter stehen und lässt selten ein Wort weg."
+      },
+      "session": {
+        "endAfter": "Sitzung beenden nach",
+        "intro": "Eine Sitzung hält das Mikrofon bereit, damit die Tastatur diktieren kann. Sie endet von selbst, wenn du sie nicht mehr verwendest.",
+        "footer": "Eine kürzere Zeit spart Batterie. Unter „Home“ kannst du eine Sitzung jederzeit beenden.",
+        "autoReturn": "Automatisch zu meiner App zurück",
+        "autoReturnHint": "Wenn die Tastatur Wispr Bro öffnet, um eine Sitzung zu starten, kommst du direkt zur App zurück, in der du warst."
+      },
+      "sounds": "Diktiertöne",
+      "soundsHint": "Ein leiser Ton, wenn das Zuhören beginnt und endet.",
+      "theme": {
+        "system": "Automatisch",
+        "light": "Hell",
+        "dark": "Dunkel"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} Wort",
+      "words_other": "{{count}} Wörter"
+    },
+    "scratchpad": {
+      "emptyHelp": "Beginne eine Notiz und tippe oder diktiere hinein. Jede Notiz wird automatisch gesichert.",
+      "noResultsHelp": "Versuch es mit einem anderen Wort.",
+      "notes": "Notizen",
+      "noteMenu": "Mehr für „{{name}}“",
+      "more": "Mehr",
+      "done": "Fertig",
+      "share": "Teilen",
+      "cancel": "Abbrechen",
+      "deleteTitle": "Diese Notiz löschen?",
+      "deleteBody": "„{{name}}“ wird endgültig gelöscht.",
+      "error": "Das hat nicht geklappt. Dein Text ist noch da – versuch es erneut.",
+      "words_one": "{{count}} Wort",
+      "words_other": "{{count}} Wörter",
+      "writing": "Wird geschrieben …",
+      "recordFailed": "Aufnahme fehlgeschlagen. Versuch es erneut.",
+      "polish": {
+        "off": "Polish verwendet Apple Intelligence, das ausgeschaltet ist. Schalte es in der App „Einstellungen“ unter „Apple Intelligence & Siri“ ein.",
+        "preparing": "Das Modell von Apple wird noch vorbereitet. Polish funktioniert, sobald iOS es geladen hat.",
+        "unsupported": "Polish braucht Apple Intelligence, das dieses iPhone nicht hat."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro ist freie Open-Source-Software, aufgebaut auf der Arbeit vieler anderer.",
+      "own": "Wispr Bro-Lizenz",
+      "source": "Quellcode",
+      "builtWith": "Erstellt mit",
+      "all": "Alle Hinweise zu Drittanbietern",
+      "footer": "Jede Komponente und ihr Lizenztext stehen in den Hinweisen zu Drittanbietern.",
+      "loading": "Wird geladen …",
+      "failed": "Der Lizenztext konnte nicht geladen werden."
+    },
+    "onboarding": {
+      "later": "Später",
+      "welcome": {
+        "subtitle": "Tippe auf der Wispr Bro-Tastatur auf das Mikrofon und sprich. Sauberer Text landet in der App, in der du gerade schreibst.",
+        "privacyTitle": "Alles bleibt auf diesem iPhone"
+      },
+      "microphone": {
+        "title": "Mikrofon erlauben",
+        "subtitle": "Wispr Bro hört nur zu, während du diktierst. Die Aufnahme verlässt nie dieses iPhone.",
+        "allow": "Mikrofon erlauben",
+        "prompt": "iOS fragt einmal. Tippe auf „Erlauben“.",
+        "granted": "Mikrofon erlaubt.",
+        "denied": "Das Mikrofon ist für Wispr Bro ausgeschaltet. Schalte es in den Einstellungen ein und komm dann zurück."
+      },
+      "keyboard": {
+        "title": "{{appName}}-Tastatur hinzufügen",
+        "subtitle": "So diktierst du in anderen Apps. Das dauert einmalig eine Minute.",
+        "ready": "Die Tastatur ist hinzugefügt und erreicht die App. Alles bereit.",
+        "added": "Die Tastatur ist hinzugefügt. Probier sie jetzt aus."
+      },
+      "model": {
+        "title": "Dein Sprachmodell wird geladen",
+        "titleReady": "Dein Sprachmodell ist bereit",
+        "subtitle": "Ein einziger Download. Danach funktioniert das Diktat ohne Internet.",
+        "starting": "Wird vorbereitet …",
+        "downloading": "Wird geladen …",
+        "verifying": "Download wird geprüft …",
+        "ready": "Bereit",
+        "failed": "Der Download wurde unterbrochen.",
+        "offline": "Keine Internetverbindung.",
+        "noSpace": "Nicht genug freier Speicher. Etwa {{mb}} MB werden benötigt.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} von {{total}} MB",
+        "eta_one": "noch etwa {{count}} Minute",
+        "eta_other": "noch etwa {{count}} Minuten",
+        "offlineReady": "Auf diesem iPhone gespeichert.",
+        "background": "Im Hintergrund fortfahren"
+      },
+      "practice": {
+        "title": "Probier dein erstes Diktat",
+        "subtitle": "Sag irgendetwas. Ein Satz über deinen Tag reicht.",
+        "notReady": "Du kannst üben, sobald die Einrichtung fertig ist. Überspring es fürs Erste und probier es später unter „Home“.",
+        "placeholder": "Hier erscheinen deine Worte …",
+        "fieldLabel": "Übungstext",
+        "skip": "Überspringen",
+        "steps": {
+          "tap": "Tippe auf das Feld oben",
+          "switch": "Halte die Globustaste gedrückt und wähle {{appName}}",
+          "speak": "Tippe auf das Mikrofon, sprich und tippe dann auf das Häkchen"
+        }
+      },
+      "done": {
+        "title": "Alles bereit",
+        "titlePending": "Fast geschafft",
+        "subtitle": "Mehr ist es nicht.",
+        "subtitlePending": "Unter „Home“ siehst du die Schritte, die noch offen sind.",
+        "finish": "{{appName}} verwenden",
+        "points": {
+          "session": "Starte in der App eine Sitzung, wenn du diktieren willst",
+          "keyboard": "Wechsle in jeder App zur {{appName}}-Tastatur und tippe auf das Mikrofon",
+          "private": "Alles bleibt auf diesem iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Starte eine Sitzung und diktiere in einer beliebigen App. Jedes Diktat wird hier aufbewahrt, auf diesem iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Wird nur auf diesem iPhone angezeigt."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Deine Diktate und Daten bleiben auf diesem iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro beendet seine Arbeit, löscht die Daten und beginnt wieder beim Willkommensbildschirm."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Auf diesem iPhone aus deinem letzten Diktat berechnet. Nichts verlässt dein iPhone.",
+          "footnote_other": "Auf diesem iPhone aus deinen letzten {{count, number}} Diktaten berechnet. Nichts verlässt dein iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Kopple deinen Mac einmal. Danach bleiben Wörterbuch, Textbausteine, Einstellungen und Statistik auf beiden von selbst gleich.",
+      "fromMac": {
+        "title": "Von deinem Mac",
+        "step1": "Öffne Wispr Bro auf deinem Mac, gehe zu Einstellungen › Daten und Datenschutz und wähle „Meine Daten exportieren“.",
+        "step2": "Sende die Datei per AirDrop an dieses iPhone und öffne sie mit Wispr Bro.",
+        "step3": "Prüfe, was sich ändert, und tippe auf „Zusammenführen“.",
+        "choose": "Datei auswählen",
+        "reading": "Wird gelesen …",
+        "footer": "Datei schon in „Dateien“ gesichert? Wähle sie hier aus. Verlauf und Aufnahmen deines Mac werden nicht gelesen."
+      },
+      "toMac": {
+        "title": "An deinen Mac",
+        "send": "An Mac senden",
+        "csv": "CSV-Dateien hinzufügen",
+        "csvHint": "Für einen Mac, der noch keine Sync-Dateien öffnen kann. Importiere sie dort auf den Seiten „Wörterbuch“ und „Textbausteine“.",
+        "footer": "Sende die Datei per AirDrop an deinen Mac und importiere sie unter Einstellungen › Daten und Datenschutz. Verlauf und Aufnahmen bleiben auf diesem iPhone."
+      },
+      "devices": {
+        "title": "Synchronisiert",
+        "none": "Noch nicht synchronisiert",
+        "merged": "Zusammengeführt {{when}}",
+        "words_one": "{{words}} Wort",
+        "words_other": "{{words}} Wörter"
+      },
+      "pair": {
+        "title": "Deinen Mac koppeln",
+        "step1": "Öffne Wispr Bro auf deinem Mac, gehe zu Einstellungen › Daten und Datenschutz und schalte „Mit deinem iPhone synchronisieren“ ein.",
+        "step2": "Tippe auf „Meinen Mac suchen“ und wähle ihn aus.",
+        "step3": "Gib den Code ein, den dein Mac anzeigt.",
+        "find": "Meinen Mac suchen",
+        "looking": "Dein Mac wird gesucht …",
+        "stop": "Suche beenden",
+        "nearby": "Macs in der Nähe",
+        "footer": "Beide Geräte müssen im selben WLAN sein oder nah beieinander mit eingeschaltetem WLAN und Bluetooth."
+      },
+      "mac": {
+        "title": "Dein Mac",
+        "footer": "Dein iPhone synchronisiert, solange Wispr Bro geöffnet oder eine Diktiersitzung aktiv ist. Die Synchronisierung läuft direkt zwischen deinen Geräten über dein lokales Netzwerk. Kein Server."
+      },
+      "file": {
+        "title": "Mit einer Datei synchronisieren",
+        "hint": "Ohne Kopplung: Sende eine Datei per AirDrop zwischen den beiden."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "dein Mac",
+      "iphone": "dein iPhone",
+      "macName": "Dein Mac",
+      "iphoneName": "Dein iPhone"
+    },
+    "parts": {
+      "dictionary": "Wörterbuch",
+      "snippets": "Textbausteine",
+      "settings": "Einstellungen",
+      "stats": "Statistik"
+    },
+    "review": {
+      "title": "Von {{device}} zusammenführen",
+      "titleFile": "{{device}} importieren",
+      "made": "Erstellt {{when}}",
+      "madeWith": "Erstellt {{when}} mit Wispr Bro {{version}}",
+      "added_one": "{{count}} neu",
+      "added_other": "{{count}} neu",
+      "changed_one": "{{count}} geändert",
+      "changed_other": "{{count}} geändert",
+      "removed_one": "{{count}} entfernt",
+      "removed_other": "{{count}} entfernt",
+      "stats_one": "{{words}} Wörter an {{count}} Tag",
+      "stats_other": "{{words}} Wörter an {{count}} Tagen",
+      "same": "Aktuell",
+      "notInFile": "Nicht in dieser Datei",
+      "upToDate": "Alles in dieser Datei ist schon hier.",
+      "privacy": "Verlauf und Aufnahmen werden nicht synchronisiert. Sie bleiben auf dem Gerät, auf dem sie entstanden sind.",
+      "privacyExport": "Das ist der vollständige Export deines Mac. Nur Wörterbuch, Textbausteine, Einstellungen und Statistik werden gelesen, nicht Verlauf und Aufnahmen.",
+      "merge": "Zusammenführen",
+      "merging": "Wird zusammengeführt …",
+      "cancel": "Abbrechen",
+      "done": "Fertig",
+      "privacyExportCopy": "Die Kopie der Datei auf diesem iPhone wird danach gelöscht."
+    },
+    "result": {
+      "title": "Zusammengeführt",
+      "from": "Von {{device}}",
+      "merged": "Beide sind jetzt auf demselben Stand.",
+      "nothing": "Es musste nichts geändert werden."
+    },
+    "problems": {
+      "title": "Diese Datei kann nicht zusammengeführt werden",
+      "unreadable": "Die Datei konnte nicht gelesen werden. Sende sie noch einmal und versuch es erneut.",
+      "not_wispr_bro": "Das ist keine Wispr Bro-Datei. Wähle eine Sync-Datei (.wisprbro), die exportierten Daten deines Mac (.zip) oder eine CSV-Datei für Wörterbuch oder Textbausteine.",
+      "too_new": "Diese Datei stammt von einer neueren Version von Wispr Bro. Aktualisiere Wispr Bro hier und öffne die Datei dann erneut.",
+      "own_file": "Diese Datei wurde auf diesem Gerät erstellt. Öffne sie auf deinem anderen Gerät.",
+      "failed": "Beim Lesen der Datei ist ein Fehler aufgetreten. Es wurde nichts geändert."
+    },
+    "sendFailed": "Die Sync-Datei konnte nicht erstellt werden.",
+    "settingNames": {
+      "styles": "Stil",
+      "text_retention_days": "Verlauf aufbewahren",
+      "audio_retention_days": "Aufnahmen aufbewahren",
+      "typing_wpm": "Tippgeschwindigkeit",
+      "typing_hours_per_day": "Tippzeit",
+      "greeting_name": "Name",
+      "spoken_languages": "Sprachen",
+      "audio_feedback": "Diktiertöne",
+      "audio_feedback_volume": "Lautstärke der Töne"
+    },
+    "auto": {
+      "justNow": "gerade eben",
+      "inSync": "Synchron",
+      "inSyncAgo": "Synchron · letzte Änderung {{when}}",
+      "connecting": "Verbinden …",
+      "macAway": "Mac nicht gefunden. Öffne Wispr Bro auf deinem Mac.",
+      "phoneAway": "Nicht verbunden. Öffne Wispr Bro auf deinem iPhone.",
+      "lastSynced": "Zuletzt synchronisiert {{when}}.",
+      "syncNow": "Jetzt synchronisieren",
+      "unpair": "Entkoppeln",
+      "unpairTitle": "{{device}} entkoppeln?",
+      "unpairBody": "Die beiden synchronisieren nicht mehr. Auf keinem Gerät wird etwas gelöscht. Du kannst sie jederzeit wieder koppeln.",
+      "direct": "Die Synchronisierung läuft direkt zwischen deinen Geräten über dein lokales Netzwerk. Kein Server.",
+      "denied": "Wispr Bro darf keine Geräte in deinem lokalen Netzwerk finden. Erlaube es in den Einstellungen und versuch es dann erneut.",
+      "openSettings": "Einstellungen öffnen",
+      "needsUpdate": "Wispr Bro hat auf deinem Mac und deinem iPhone unterschiedliche Versionen. Aktualisiere beide, um weiter zu synchronisieren."
+    },
+    "pairing": {
+      "showTitle": "Mit {{device}} koppeln",
+      "showBody": "Gib diesen Code auf deinem iPhone ein. Er gilt nur einmal.",
+      "enterTitle": "Code eingeben",
+      "enterBody": "Auf {{device}} wird ein 6-stelliger Code angezeigt.",
+      "codeLabel": "Kopplungscode",
+      "connecting": "Verbindung mit {{device}} …",
+      "pair": "Koppeln",
+      "checking": "Wird geprüft …",
+      "failedTitle": "Kopplung fehlgeschlagen",
+      "problems": {
+        "wrong_code": "Der Code stimmt nicht mit dem auf deinem Mac überein. Tippe erneut auf „Meinen Mac suchen“, um einen neuen Code zu erhalten.",
+        "no_code": "Zeitüberschreitung: Innerhalb von zwei Minuten wurde kein Code eingegeben. Lass beide Apps geöffnet und beginne erneut.",
+        "busy": "Dein Mac wird gerade mit einem anderen Gerät gekoppelt. Versuch es gleich noch einmal.",
+        "unreachable": "Dein Mac war nicht erreichbar. Lass Wispr Bro dort geöffnet mit eingeschaltetem „Mit deinem iPhone synchronisieren“ und prüfe auf beiden Geräten, ob Wispr Bro in den Einstellungen unter „Lokales Netzwerk“ erlaubt ist.",
+        "failed": "Die Kopplung wurde nicht abgeschlossen. Beginne erneut mit „Meinen Mac suchen“.",
+        "dropped": "Die Verbindung zu deinem Mac ist vor Abschluss der Kopplung abgebrochen. Lass beide Apps geöffnet und die Geräte nah beieinander und versuch es dann erneut.",
+        "version": "Wispr Bro hat auf deinem Mac und deinem iPhone unterschiedliche Versionen. Aktualisiere beide und kopple dann erneut.",
+        "update_mac": "Aktualisiere Wispr Bro auf deinem Mac: Er verwendet eine ältere Sync-Version als dieses iPhone. Kopple dann erneut.",
+        "update_this": "Aktualisiere Wispr Bro auf diesem iPhone: Dein Mac verwendet eine neuere Sync-Version. Kopple dann erneut.",
+        "denied": "Wispr Bro hat keinen Zugriff auf dein lokales Netzwerk. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Lokales Netzwerk › Wispr Bro und tippe dann erneut auf „Meinen Mac suchen“."
+      },
+      "macProblems": {
+        "wrong_code": "Dein iPhone hat einen anderen Code eingegeben. Beginne auf deinem iPhone erneut: Tippe auf „Meinen Mac suchen“ und gib den neuen Code ein, der hier angezeigt wird.",
+        "update_phone": "Aktualisiere Wispr Bro auf deinem iPhone: Es verwendet eine ältere Sync-Version als dieser Mac. Kopple dann erneut.",
+        "update_this": "Aktualisiere Wispr Bro auf diesem Mac: Dein iPhone verwendet eine neuere Sync-Version. Kopple dann erneut.",
+        "version": "Wispr Bro hat auf deinem Mac und deinem iPhone unterschiedliche Versionen. Aktualisiere beide und kopple dann erneut.",
+        "failed": "Die Kopplung wurde nicht abgeschlossen. Beginne auf deinem iPhone erneut mit „Meinen Mac suchen“."
       }
     }
   },

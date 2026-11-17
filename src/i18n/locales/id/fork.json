@@ -256,9 +256,10 @@
         "local": "Dikte dan data Anda tetap di Mac ini.",
         "noCloud": "Pengenalan ucapan, pembersihan, dan Riwayat berjalan secara lokal. Tidak ada akun, telemetri, dikte cloud, atau pembersihan cloud.",
         "network": "Apa yang menggunakan jaringan",
-        "networkIntro": "Wispr Bro hanya menggunakan jaringan untuk dua hal ini:",
+        "networkIntro": "Wispr Bro hanya menggunakan jaringan untuk hal-hal berikut:",
         "models": "Mengunduh model ucapan dan model pembersihan dari Hugging Face (huggingface.co).",
-        "updates": "Saat pemeriksaan pembaruan aktif, mencari pembaruan app di GitHub (github.com)."
+        "updates": "Saat pemeriksaan pembaruan aktif, mencari pembaruan app di GitHub (github.com).",
+        "sync": "Saat sinkronisasi aktif, Mac dan iPhone Anda terhubung langsung satu sama lain melalui jaringan lokal. Tanpa server."
       },
       "locations": {
         "title": "Tempat data Anda disimpan",
@@ -329,6 +330,23 @@
         "saved": "Diagnostik yang sudah dibersihkan telah disimpan.",
         "failed": "Tidak dapat menyiapkan diagnostik. Coba lagi.",
         "rowTitle": "Bagikan diagnostik"
+      },
+      "sync": {
+        "title": "Sinkronisasi",
+        "rowTitle": "Sinkronkan dengan file",
+        "hint": "Kamus, cuplikan, pengaturan, dan statistik sebagai satu file untuk dikirim lewat AirDrop.",
+        "import": "Impor…",
+        "export": "Ekspor…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "File sinkronisasi Wispr Bro",
+        "exported": "File sinkronisasi disimpan dan ditampilkan di Finder. Kirim lewat AirDrop ke iPhone Anda.",
+        "last": "Terakhir digabungkan dari {{device}}: {{when}}. Riwayat dan rekaman tidak pernah disertakan.",
+        "never": "Belum disinkronkan. Riwayat dan rekaman tidak pernah disertakan.",
+        "autoTitle": "Sinkronkan dengan iPhone Anda",
+        "autoHint": "Menjaga kamus, cuplikan, pengaturan, dan statistik tetap sama di keduanya selama kedua app terbuka.",
+        "direct": "Sinkronisasi berjalan langsung antarperangkat Anda melalui jaringan lokal. Tanpa server. Riwayat dan rekaman tidak pernah disinkronkan.",
+        "howTo": "Di iPhone Anda, buka Wispr Bro, buka Pengaturan › Sinkronkan dengan Mac Anda, lalu ketuk Cari Mac saya.",
+        "denied": "macOS tidak mengizinkan Wispr Bro menemukan perangkat di jaringan lokal Anda. Izinkan di Pengaturan Sistem › Privasi & Keamanan › Jaringan Lokal."
       }
     },
     "advanced": {
@@ -1055,7 +1073,8 @@
       "wordsPerMinute": "Kata per menit",
       "streak": "Hari berturut-turut",
       "notEnoughSpeech": "Ucapan belum cukup",
-      "unavailable": "Belum tersedia"
+      "unavailable": "Belum tersedia",
+      "allDevices_other": "Termasuk {{count}} perangkat lain"
     },
     "voiceProfile": {
       "title": "Profil suara Anda",
@@ -2640,6 +2659,426 @@
         "copied": "Disalin",
         "copyFailed": "Tidak dapat menyalin. Pilih tabelnya dan salin secara manual.",
         "done": "Selesai"
+      }
+    }
+  },
+  "ios": {
+    "close": "Tutup",
+    "tabs": {
+      "label": "Utama",
+      "home": "Beranda",
+      "history": "Riwayat",
+      "voice": "Suara Saya",
+      "scratchpad": "Coretan",
+      "settings": "Pengaturan"
+    },
+    "session": {
+      "status": {
+        "noSession": "Sesi mati",
+        "idle": "Sesi aktif",
+        "listening": "Mendengarkan",
+        "transcribing": "Menulis",
+        "error": "Sesi berhenti"
+      },
+      "offTitle": "Siap kapan pun Anda siap",
+      "offBody": "Mulai sesi, lalu dikte di app apa pun dengan papan ketik Wispr Bro.",
+      "onTitle": "Dikte dari app mana pun",
+      "onBody": "Beralih ke papan ketik Wispr Bro dan ketuk mikrofon.",
+      "onBodyEnds": "Beralih ke papan ketik Wispr Bro dan ketuk mikrofon. Berakhir pukul {{time}} jika Anda tidak mendikte.",
+      "onBodyNever": "Beralih ke papan ketik Wispr Bro dan ketuk mikrofon. Tetap aktif sampai Anda mengakhirinya.",
+      "errorBody": "Sesi berakhir secara tak terduga. Mulai lagi untuk terus mendikte.",
+      "start": "Mulai sesi",
+      "retry": "Mulai lagi",
+      "end": "Akhiri sesi",
+      "failed": "Gagal. Coba lagi.",
+      "timeoutLine": "Berakhir {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Segera",
+          "never": "Tidak pernah",
+          "minutes_other": "{{count}} menit",
+          "hours_other": "{{count}} jam"
+        },
+        "sentence": {
+          "immediately": "tepat setelah setiap dikte",
+          "never": "hanya saat Anda mengakhirinya",
+          "minutes_other": "setelah {{count}} menit tanpa dikte",
+          "hours_other": "setelah {{count}} jam tanpa dikte"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} dari {{total}} selesai",
+      "title": "Selesaikan penyiapan",
+      "body": "Beberapa langkah, lalu Anda dapat mendikte di app apa pun.",
+      "openSettings": "Buka Pengaturan",
+      "showMe": "Tunjukkan",
+      "failed": "Gagal. Coba lagi.",
+      "mic": {
+        "title": "Izinkan mikrofon",
+        "hint": "Hanya digunakan saat Anda mendikte.",
+        "denied": "Dimatikan. Izinkan di Pengaturan.",
+        "allow": "Izinkan"
+      },
+      "keyboard": {
+        "title": "Tambahkan papan ketik {{appName}}",
+        "hint": "Di Pengaturan, pada Papan Ketik."
+      },
+      "fullAccess": {
+        "title": "Izinkan Akses Penuh",
+        "hint": "Agar papan ketik dapat terhubung ke app. Tidak ada yang keluar dari iPhone ini."
+      },
+      "model": {
+        "title": "Model ucapan",
+        "ready": "Siap",
+        "waiting": "Menyiapkan…",
+        "downloading": "Mengunduh… {{percent}}%",
+        "failed": "Unduhan terhenti.",
+        "retry": "Coba lagi"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Tambahkan papan ketik {{appName}}",
+      "steps": {
+        "open": "Ketuk Buka Pengaturan, lalu Papan Ketik",
+        "enable": "Nyalakan {{appName}}",
+        "fullAccess": "Nyalakan Izinkan Akses Penuh"
+      },
+      "drawn": {
+        "keyboards": "Papan Ketik",
+        "fullAccess": "Izinkan Akses Penuh"
+      },
+      "privacyTitle": "Mengapa Akses Penuh?",
+      "privacy": "Akses ini hanya digunakan agar papan ketik dapat terhubung ke app Wispr Bro di iPhone ini. Apa yang Anda ketik dan ucapkan tidak pernah keluar dari iPhone.",
+      "elsewhere": "Tidak ada? Buka Pengaturan, Umum, Papan Ketik, Papan Ketik, Tambah Papan Ketik Baru."
+    },
+    "tryIt": {
+      "title": "Coba",
+      "placeholder": "Ketuk di sini dan dikte…",
+      "hint": "Tahan tombol bola dunia untuk beralih ke {{appName}}, lalu ketuk mikrofon dan bicaralah.",
+      "clear": "Hapus"
+    },
+    "style": {
+      "intro": "Pilih cara dikte Anda ditulis, di setiap app."
+    },
+    "settings": {
+      "saveFailed": "Tidak dapat menyimpan. Coba lagi.",
+      "local": "Semuanya tetap di iPhone ini.",
+      "groups": {
+        "dictation": "Dikte",
+        "session": "Sesi",
+        "feedback": "Suara",
+        "app": "Wispr Bro",
+        "appearance": "Tampilan"
+      },
+      "pages": {
+        "languages": "Bahasa",
+        "cleanup": "Pembersihan",
+        "session": "Akhiri sesi setelah",
+        "privacy": "Data dan Privasi",
+        "about": "Tentang",
+        "licences": "Pengakuan",
+        "sync": "Sinkronkan dengan Mac Anda"
+      },
+      "cleanup": {
+        "notHere": "Tidak ada di iPhone ini",
+        "off": "Apple Intelligence mati",
+        "noneTitle": "Tidak tersedia di iPhone ini",
+        "noneBody": "Pembersihan menggunakan Apple Intelligence, yang memerlukan iOS 26 di iPhone 15 Pro atau yang lebih baru. Kata-kata Anda ditulis seperti yang Anda ucapkan, dengan tanda baca dan huruf kapital.",
+        "offTitle": "Nyalakan Apple Intelligence",
+        "offBody": "Pembersihan menggunakan model Apple di perangkat. Nyalakan Apple Intelligence di app Pengaturan, pada Apple Intelligence & Siri, lalu kembali ke sini.",
+        "preparingTitle": "Model Apple sedang disiapkan",
+        "preparingBody": "iOS masih mengunduhnya. Sampai saat itu, kata-kata Anda ditulis seperti yang Anda ucapkan.",
+        "note": "Beta di iPhone. Pembersihan menggunakan Apple Intelligence di ponsel ini; tidak ada yang keluar dari ponsel. Hasilnya kurang cermat dibandingkan di Mac: lebih banyak kata pengisi yang tersisa dan, sesekali, satu kata hilang."
+      },
+      "session": {
+        "endAfter": "Akhiri sesi setelah",
+        "intro": "Sesi menjaga mikrofon tetap siap agar papan ketik dapat mendikte. Sesi berakhir sendiri saat Anda berhenti menggunakannya.",
+        "footer": "Waktu yang lebih singkat menghemat baterai. Anda selalu dapat mengakhiri sesi dari Beranda.",
+        "autoReturn": "Kembali ke app saya secara otomatis",
+        "autoReturnHint": "Saat papan ketik membuka Wispr Bro untuk memulai sesi, Anda langsung dibawa kembali ke app sebelumnya."
+      },
+      "sounds": "Suara dikte",
+      "soundsHint": "Suara lembut saat mendengarkan dimulai dan berhenti.",
+      "theme": {
+        "system": "Otomatis",
+        "light": "Terang",
+        "dark": "Gelap"
+      }
+    },
+    "voice": {
+      "words_other": "{{count}} kata"
+    },
+    "scratchpad": {
+      "emptyHelp": "Buat catatan, lalu ketik atau dikte ke dalamnya. Setiap catatan tersimpan otomatis.",
+      "noResultsHelp": "Coba kata lain.",
+      "notes": "Catatan",
+      "noteMenu": "Lainnya untuk {{name}}",
+      "more": "Lainnya",
+      "done": "Selesai",
+      "share": "Bagikan",
+      "cancel": "Batal",
+      "deleteTitle": "Hapus catatan ini?",
+      "deleteBody": "“{{name}}” akan dihapus selamanya.",
+      "error": "Gagal. Teks Anda masih ada di sini; coba lagi.",
+      "words_other": "{{count}} kata",
+      "writing": "Menulis…",
+      "recordFailed": "Tidak dapat merekam. Coba lagi.",
+      "polish": {
+        "off": "Polish menggunakan Apple Intelligence, yang sedang mati. Nyalakan di app Pengaturan pada Apple Intelligence & Siri.",
+        "preparing": "Model Apple masih disiapkan. Polish berfungsi setelah iOS selesai mengunduhnya.",
+        "unsupported": "Polish memerlukan Apple Intelligence, yang tidak tersedia di iPhone ini."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro adalah perangkat lunak gratis dan open source, dibangun di atas karya banyak orang lain.",
+      "own": "Lisensi Wispr Bro",
+      "source": "Kode sumber",
+      "builtWith": "Dibuat dengan",
+      "all": "Semua pemberitahuan pihak ketiga",
+      "footer": "Setiap komponen dan teks lisensinya tercantum dalam pemberitahuan pihak ketiga.",
+      "loading": "Memuat…",
+      "failed": "Teks lisensi tidak dapat dimuat."
+    },
+    "onboarding": {
+      "later": "Nanti saja",
+      "welcome": {
+        "subtitle": "Ketuk mikrofon di papan ketik Wispr Bro dan bicaralah. Teks yang rapi muncul di app mana pun tempat Anda mengetik.",
+        "privacyTitle": "Semuanya tetap di iPhone ini"
+      },
+      "microphone": {
+        "title": "Izinkan mikrofon",
+        "subtitle": "Wispr Bro hanya mendengarkan saat Anda mendikte. Audio tidak pernah keluar dari iPhone ini.",
+        "allow": "Izinkan mikrofon",
+        "prompt": "iOS akan bertanya sekali. Ketuk Izinkan.",
+        "granted": "Mikrofon diizinkan.",
+        "denied": "Mikrofon dimatikan untuk Wispr Bro. Nyalakan di Pengaturan, lalu kembali ke sini."
+      },
+      "keyboard": {
+        "title": "Tambahkan papan ketik {{appName}}",
+        "subtitle": "Dengan cara ini Anda mendikte di app lain. Cukup sekali, hanya satu menit.",
+        "ready": "Papan ketik sudah ditambahkan dan dapat terhubung ke app. Semua siap.",
+        "added": "Papan ketik sudah ditambahkan. Selanjutnya, cobalah."
+      },
+      "model": {
+        "title": "Mengunduh model ucapan Anda",
+        "titleReady": "Model ucapan Anda sudah siap",
+        "subtitle": "Satu kali unduh. Setelah itu, dikte berfungsi tanpa internet.",
+        "starting": "Menyiapkan…",
+        "downloading": "Mengunduh…",
+        "verifying": "Memeriksa unduhan…",
+        "ready": "Siap",
+        "failed": "Unduhan terhenti.",
+        "offline": "Tidak ada koneksi internet.",
+        "noSpace": "Ruang kosong tidak cukup. Diperlukan sekitar {{mb}} MB.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} dari {{total}} MB",
+        "eta_other": "sekitar {{count}} menit lagi",
+        "offlineReady": "Tersimpan di iPhone ini.",
+        "background": "Lanjutkan di latar belakang"
+      },
+      "practice": {
+        "title": "Coba dikte pertama Anda",
+        "subtitle": "Ucapkan apa saja. Satu kalimat tentang hari Anda sudah cukup.",
+        "notReady": "Anda dapat berlatih setelah penyiapan selesai. Lewati dulu dan coba dari Beranda.",
+        "placeholder": "Kata-kata Anda muncul di sini…",
+        "fieldLabel": "Teks latihan",
+        "skip": "Lewati",
+        "steps": {
+          "tap": "Ketuk kolom di atas",
+          "switch": "Tahan tombol bola dunia dan pilih {{appName}}",
+          "speak": "Ketuk mikrofon, bicara, lalu ketuk tanda centang"
+        }
+      },
+      "done": {
+        "title": "Semua siap",
+        "titlePending": "Hampir selesai",
+        "subtitle": "Hanya itu saja.",
+        "subtitlePending": "Beranda menampilkan langkah yang belum selesai.",
+        "finish": "Mulai gunakan {{appName}}",
+        "points": {
+          "session": "Mulai sesi di app saat Anda ingin mendikte",
+          "keyboard": "Beralih ke papan ketik {{appName}} di app apa pun dan ketuk mikrofon",
+          "private": "Semuanya tetap di iPhone ini"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Mulai sesi dan dikte di app apa pun. Setiap dikte disimpan di sini, di iPhone ini."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Hanya ditampilkan di iPhone ini."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Dikte dan data Anda tetap di iPhone ini."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro menghentikan pekerjaannya, menghapus data, dan memulai lagi dari layar sambutan."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_other": "Dihitung di iPhone ini dari {{count, number}} dikte terakhir Anda. Tidak ada yang keluar dari iPhone Anda."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Pasangkan Mac Anda sekali. Setelah itu, kamus, cuplikan, pengaturan, dan statistik Anda tetap sama di keduanya secara otomatis.",
+      "fromMac": {
+        "title": "Dari Mac Anda",
+        "step1": "Di Mac Anda, buka Wispr Bro, buka Pengaturan › Data dan Privasi, lalu pilih Ekspor data saya.",
+        "step2": "Kirim file lewat AirDrop ke iPhone ini dan buka dengan Wispr Bro.",
+        "step3": "Periksa apa yang akan berubah, lalu ketuk Gabungkan.",
+        "choose": "Pilih file",
+        "reading": "Membaca…",
+        "footer": "Sudah menyimpan file ke Files? Pilih di sini. Riwayat dan rekaman Mac Anda tidak dibaca."
+      },
+      "toMac": {
+        "title": "Ke Mac Anda",
+        "send": "Kirim ke Mac",
+        "csv": "Tambahkan file CSV",
+        "csvHint": "Untuk Mac yang belum dapat membuka file sinkronisasi. Impor file tersebut di halaman Kamus dan Cuplikan.",
+        "footer": "Kirim file lewat AirDrop ke Mac Anda dan impor di Pengaturan › Data dan Privasi. Riwayat dan rekaman tetap di iPhone ini."
+      },
+      "devices": {
+        "title": "Disinkronkan",
+        "none": "Belum disinkronkan",
+        "merged": "Digabungkan {{when}}",
+        "words_other": "{{words}} kata"
+      },
+      "pair": {
+        "title": "Pasangkan Mac Anda",
+        "step1": "Di Mac Anda, buka Wispr Bro, buka Pengaturan › Data dan Privasi, lalu nyalakan Sinkronkan dengan iPhone Anda.",
+        "step2": "Ketuk Cari Mac saya dan pilih Mac Anda.",
+        "step3": "Ketik kode yang ditampilkan Mac Anda.",
+        "find": "Cari Mac saya",
+        "looking": "Mencari Mac Anda…",
+        "stop": "Berhenti mencari",
+        "nearby": "Mac di sekitar",
+        "footer": "Kedua perangkat harus berada di jaringan Wi-Fi yang sama, atau berdekatan dengan Wi-Fi dan Bluetooth menyala."
+      },
+      "mac": {
+        "title": "Mac Anda",
+        "footer": "iPhone Anda menyinkronkan selama Wispr Bro terbuka atau sesi dikte aktif. Sinkronisasi berjalan langsung antarperangkat Anda melalui jaringan lokal. Tanpa server."
+      },
+      "file": {
+        "title": "Sinkronkan dengan file",
+        "hint": "Tanpa memasangkan: kirim file lewat AirDrop di antara keduanya."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac Anda",
+      "iphone": "iPhone Anda",
+      "macName": "Mac Anda",
+      "iphoneName": "iPhone Anda"
+    },
+    "parts": {
+      "dictionary": "Kamus",
+      "snippets": "Cuplikan",
+      "settings": "Pengaturan",
+      "stats": "Statistik"
+    },
+    "review": {
+      "title": "Gabungkan dari {{device}}",
+      "titleFile": "Impor {{device}}",
+      "made": "Dibuat {{when}}",
+      "madeWith": "Dibuat {{when}} dengan Wispr Bro {{version}}",
+      "added_other": "{{count}} baru",
+      "changed_other": "{{count}} diubah",
+      "removed_other": "{{count}} dihapus",
+      "stats_other": "{{words}} kata dalam {{count}} hari",
+      "same": "Terbaru",
+      "notInFile": "Tidak ada di file ini",
+      "upToDate": "Semua isi file ini sudah ada di sini.",
+      "privacy": "Riwayat dan rekaman tidak disinkronkan. Keduanya tetap di perangkat tempat dibuat.",
+      "privacyExport": "Ini adalah ekspor lengkap Mac Anda. Hanya kamus, cuplikan, pengaturan, dan statistiknya yang dibaca. Riwayat dan rekamannya tidak.",
+      "merge": "Gabungkan",
+      "merging": "Menggabungkan…",
+      "cancel": "Batal",
+      "done": "Selesai",
+      "privacyExportCopy": "Salinan file di iPhone ini dihapus setelahnya."
+    },
+    "result": {
+      "title": "Digabungkan",
+      "from": "Dari {{device}}",
+      "merged": "Keduanya kini sudah selaras.",
+      "nothing": "Tidak ada yang perlu diubah."
+    },
+    "problems": {
+      "title": "File ini tidak dapat digabungkan",
+      "unreadable": "File tidak dapat dibaca. Kirim lagi dan coba sekali lagi.",
+      "not_wispr_bro": "Ini bukan file Wispr Bro. Pilih file sinkronisasi (.wisprbro), data ekspor Mac Anda (.zip), atau CSV Kamus atau Cuplikan.",
+      "too_new": "File ini dibuat oleh Wispr Bro versi yang lebih baru. Perbarui Wispr Bro di sini, lalu buka file lagi.",
+      "own_file": "File ini dibuat di perangkat ini. Buka di perangkat Anda yang lain.",
+      "failed": "Terjadi kesalahan saat membaca file. Tidak ada yang diubah."
+    },
+    "sendFailed": "Tidak dapat membuat file sinkronisasi.",
+    "settingNames": {
+      "styles": "Gaya",
+      "text_retention_days": "Penyimpanan riwayat",
+      "audio_retention_days": "Penyimpanan rekaman",
+      "typing_wpm": "Kecepatan mengetik",
+      "typing_hours_per_day": "Waktu mengetik",
+      "greeting_name": "Nama",
+      "spoken_languages": "Bahasa",
+      "audio_feedback": "Suara dikte",
+      "audio_feedback_volume": "Volume suara"
+    },
+    "auto": {
+      "justNow": "baru saja",
+      "inSync": "Tersinkron",
+      "inSyncAgo": "Tersinkron · perubahan terakhir {{when}}",
+      "connecting": "Menghubungkan…",
+      "macAway": "Mac tidak ditemukan. Buka Wispr Bro di Mac Anda.",
+      "phoneAway": "Tidak terhubung. Buka Wispr Bro di iPhone Anda.",
+      "lastSynced": "Terakhir disinkronkan {{when}}.",
+      "syncNow": "Sinkronkan sekarang",
+      "unpair": "Lepas pasangan",
+      "unpairTitle": "Lepas pasangan {{device}}?",
+      "unpairBody": "Keduanya berhenti menyinkronkan. Tidak ada yang dihapus di perangkat mana pun. Anda dapat memasangkan lagi kapan saja.",
+      "direct": "Sinkronisasi berjalan langsung antarperangkat Anda melalui jaringan lokal. Tanpa server.",
+      "denied": "Wispr Bro tidak diizinkan menemukan perangkat di jaringan lokal Anda. Izinkan di Pengaturan, lalu coba lagi.",
+      "openSettings": "Buka Pengaturan",
+      "needsUpdate": "Wispr Bro di Mac dan di iPhone Anda berbeda versi. Perbarui keduanya agar tetap tersinkron."
+    },
+    "pairing": {
+      "showTitle": "Pasangkan dengan {{device}}",
+      "showBody": "Ketik kode ini di iPhone Anda. Kode hanya berlaku sekali.",
+      "enterTitle": "Masukkan kode",
+      "enterBody": "{{device}} menampilkan kode 6 digit.",
+      "codeLabel": "Kode pemasangan",
+      "connecting": "Menghubungi {{device}}…",
+      "pair": "Pasangkan",
+      "checking": "Memeriksa…",
+      "failedTitle": "Pemasangan gagal",
+      "problems": {
+        "wrong_code": "Kode tidak cocok dengan kode di Mac Anda. Ketuk Cari Mac saya lagi untuk mendapatkan kode baru.",
+        "no_code": "Waktu habis: tidak ada kode yang dimasukkan dalam dua menit. Biarkan kedua app tetap terbuka dan mulai lagi.",
+        "busy": "Mac Anda sedang dipasangkan dengan perangkat lain. Coba lagi sebentar lagi.",
+        "unreachable": "Mac Anda tidak dapat dihubungi. Biarkan Wispr Bro terbuka di Mac dengan Sinkronkan dengan iPhone Anda menyala, dan pastikan Wispr Bro diizinkan pada Jaringan Lokal di Pengaturan kedua perangkat.",
+        "failed": "Pemasangan tidak selesai. Mulai lagi dari Cari Mac saya.",
+        "dropped": "Koneksi ke Mac Anda terputus sebelum pemasangan selesai. Biarkan kedua app tetap terbuka dan perangkat berdekatan, lalu coba lagi.",
+        "version": "Wispr Bro di Mac dan di iPhone Anda berbeda versi. Perbarui keduanya, lalu pasangkan lagi.",
+        "update_mac": "Perbarui Wispr Bro di Mac Anda: versi sinkronisasinya lebih lama daripada iPhone ini. Lalu pasangkan lagi.",
+        "update_this": "Perbarui Wispr Bro di iPhone ini: Mac Anda menjalankan versi sinkronisasi yang lebih baru. Lalu pasangkan lagi.",
+        "denied": "Wispr Bro tidak diizinkan di jaringan lokal Anda. Izinkan di Pengaturan › Privasi & Keamanan › Jaringan Lokal › Wispr Bro, lalu ketuk Cari Mac saya lagi."
+      },
+      "macProblems": {
+        "wrong_code": "iPhone Anda mengetik kode yang berbeda. Mulai lagi di iPhone Anda: ketuk Cari Mac saya dan ketik kode baru yang ditampilkan di sini.",
+        "update_phone": "Perbarui Wispr Bro di iPhone Anda: versi sinkronisasinya lebih lama daripada Mac ini. Lalu pasangkan lagi.",
+        "update_this": "Perbarui Wispr Bro di Mac ini: iPhone Anda menjalankan versi sinkronisasi yang lebih baru. Lalu pasangkan lagi.",
+        "version": "Wispr Bro di Mac dan di iPhone Anda berbeda versi. Perbarui keduanya, lalu pasangkan lagi.",
+        "failed": "Pemasangan tidak selesai. Mulai lagi di iPhone Anda dari Cari Mac saya."
       }
     }
   },

@@ -256,9 +256,10 @@
         "local": "받아쓰기와 데이터는 이 Mac에만 남습니다.",
         "noCloud": "음성 인식, 정리 및 기록은 모두 로컬에서 실행됩니다. 계정, 원격 측정, 클라우드 받아쓰기, 클라우드 정리가 없습니다.",
         "network": "네트워크를 사용하는 기능",
-        "networkIntro": "Wispr Bro는 다음 두 가지에만 네트워크를 사용합니다.",
+        "networkIntro": "Wispr Bro는 다음 경우에만 네트워크를 사용합니다.",
         "models": "Hugging Face(huggingface.co)에서 음성 및 정리 모델 다운로드",
-        "updates": "업데이트 확인이 켜져 있을 때 GitHub(github.com)에서 앱 업데이트 확인"
+        "updates": "업데이트 확인이 켜져 있을 때 GitHub(github.com)에서 앱 업데이트 확인",
+        "sync": "동기화가 켜져 있으면 Mac과 iPhone이 로컬 네트워크를 통해 서로 직접 통신합니다. 서버를 거치지 않습니다."
       },
       "locations": {
         "title": "데이터 저장 위치",
@@ -329,6 +330,23 @@
         "saved": "민감 정보를 제거한 진단 정보를 저장했습니다.",
         "failed": "진단 정보를 준비할 수 없습니다. 다시 시도하세요.",
         "rowTitle": "진단 정보 공유"
+      },
+      "sync": {
+        "title": "동기화",
+        "rowTitle": "파일로 동기화",
+        "hint": "사전, 스니펫, 설정, 통계를 하나의 파일로 만들어 AirDrop합니다.",
+        "import": "가져오기…",
+        "export": "내보내기…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro 동기화 파일",
+        "exported": "동기화 파일을 저장하고 Finder에 표시했습니다. iPhone으로 AirDrop하세요.",
+        "last": "{{device}}에서 마지막으로 병합: {{when}}. 기록과 녹음은 포함되지 않습니다.",
+        "never": "아직 동기화되지 않았습니다. 기록과 녹음은 포함되지 않습니다.",
+        "autoTitle": "iPhone과 동기화",
+        "autoHint": "두 앱이 모두 열려 있는 동안 사전, 스니펫, 설정, 통계를 두 기기에서 똑같이 유지합니다.",
+        "direct": "동기화는 로컬 네트워크를 통해 기기 간에 직접 이루어지며 서버를 거치지 않습니다. 기록과 녹음은 절대 동기화되지 않습니다.",
+        "howTo": "iPhone에서 Wispr Bro를 열고 설정 › Mac과 동기화로 이동한 다음 내 Mac 찾기를 탭하세요.",
+        "denied": "macOS가 Wispr Bro의 로컬 네트워크 기기 검색을 허용하지 않고 있습니다. 시스템 설정 › 개인정보 보호 및 보안 › 로컬 네트워크에서 허용하세요."
       }
     },
     "advanced": {
@@ -1055,7 +1073,8 @@
       "wordsPerMinute": "분당 단어 수",
       "streak": "연속 사용일",
       "notEnoughSpeech": "아직 음성이 충분하지 않음",
-      "unavailable": "아직 사용할 수 없음"
+      "unavailable": "아직 사용할 수 없음",
+      "allDevices_other": "다른 기기 {{count}}대 포함"
     },
     "voiceProfile": {
       "title": "음성 프로필",
@@ -2640,6 +2659,426 @@
         "copied": "복사됨",
         "copyFailed": "복사할 수 없습니다. 표를 선택하여 직접 복사하세요.",
         "done": "완료"
+      }
+    }
+  },
+  "ios": {
+    "close": "닫기",
+    "tabs": {
+      "label": "기본",
+      "home": "홈",
+      "history": "기록",
+      "voice": "내 목소리",
+      "scratchpad": "스크래치패드",
+      "settings": "설정"
+    },
+    "session": {
+      "status": {
+        "noSession": "세션 꺼짐",
+        "idle": "세션 켜짐",
+        "listening": "듣는 중",
+        "transcribing": "받아쓰는 중",
+        "error": "세션 중단됨"
+      },
+      "offTitle": "언제든 시작할 수 있습니다",
+      "offBody": "세션을 시작한 다음 Wispr Bro 키보드로 아무 앱에서나 받아쓰기하세요.",
+      "onTitle": "아무 앱에서나 받아쓰기",
+      "onBody": "Wispr Bro 키보드로 전환하고 마이크를 탭하세요.",
+      "onBodyEnds": "Wispr Bro 키보드로 전환하고 마이크를 탭하세요. 받아쓰기하지 않으면 {{time}}에 종료됩니다.",
+      "onBodyNever": "Wispr Bro 키보드로 전환하고 마이크를 탭하세요. 직접 종료할 때까지 켜져 있습니다.",
+      "errorBody": "세션이 예기치 않게 종료되었습니다. 계속 받아쓰기하려면 세션을 다시 시작하세요.",
+      "start": "세션 시작",
+      "retry": "다시 시작",
+      "end": "세션 종료",
+      "failed": "작업을 완료하지 못했습니다. 다시 시도하세요.",
+      "timeoutLine": "{{timeout}} 종료",
+      "timeout": {
+        "label": {
+          "immediately": "즉시",
+          "never": "안 함",
+          "minutes_other": "{{count}}분",
+          "hours_other": "{{count}}시간"
+        },
+        "sentence": {
+          "immediately": "받아쓰기가 끝날 때마다 바로",
+          "never": "직접 종료할 때만",
+          "minutes_other": "{{count}}분 동안 받아쓰기하지 않으면",
+          "hours_other": "{{count}}시간 동안 받아쓰기하지 않으면"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{total}}개 중 {{done}}개 완료",
+      "title": "설정 마치기",
+      "body": "몇 단계만 거치면 아무 앱에서나 받아쓰기할 수 있습니다.",
+      "openSettings": "설정 열기",
+      "showMe": "방법 보기",
+      "failed": "작업을 완료하지 못했습니다. 다시 시도하세요.",
+      "mic": {
+        "title": "마이크 허용",
+        "hint": "받아쓰기하는 동안에만 사용됩니다.",
+        "denied": "꺼져 있습니다. 설정에서 허용하세요.",
+        "allow": "허용"
+      },
+      "keyboard": {
+        "title": "{{appName}} 키보드 추가",
+        "hint": "설정의 키보드에서 추가합니다."
+      },
+      "fullAccess": {
+        "title": "전체 접근 허용",
+        "hint": "키보드가 앱과 연결할 수 있게 합니다. 어떤 데이터도 이 iPhone 밖으로 나가지 않습니다."
+      },
+      "model": {
+        "title": "음성 모델",
+        "ready": "준비됨",
+        "waiting": "준비 중…",
+        "downloading": "다운로드 중… {{percent}}%",
+        "failed": "다운로드가 중단되었습니다.",
+        "retry": "다시 시도"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "{{appName}} 키보드 추가",
+      "steps": {
+        "open": "설정 열기를 탭한 다음 키보드 탭하기",
+        "enable": "{{appName}} 켜기",
+        "fullAccess": "전체 접근 허용 켜기"
+      },
+      "drawn": {
+        "keyboards": "키보드",
+        "fullAccess": "전체 접근 허용"
+      },
+      "privacyTitle": "전체 접근이 필요한 이유",
+      "privacy": "키보드가 이 iPhone의 Wispr Bro 앱과 통신하는 데만 사용됩니다. 입력하거나 말한 내용은 절대 iPhone 밖으로 나가지 않습니다.",
+      "elsewhere": "보이지 않나요? 설정 > 일반 > 키보드 > 키보드 > 새로운 키보드 추가로 이동하세요."
+    },
+    "tryIt": {
+      "title": "사용해 보기",
+      "placeholder": "여기를 탭하고 받아쓰기하세요…",
+      "hint": "지구본 키를 길게 눌러 {{appName}}(으)로 전환한 다음 마이크를 탭하고 말하세요.",
+      "clear": "지우기"
+    },
+    "style": {
+      "intro": "모든 앱에서 받아쓰기를 어떤 스타일로 작성할지 선택하세요."
+    },
+    "settings": {
+      "saveFailed": "저장할 수 없습니다. 다시 시도하세요.",
+      "local": "모든 데이터는 이 iPhone에만 남습니다.",
+      "groups": {
+        "dictation": "받아쓰기",
+        "session": "세션",
+        "feedback": "사운드",
+        "app": "Wispr Bro",
+        "appearance": "화면 모드"
+      },
+      "pages": {
+        "languages": "언어",
+        "cleanup": "정리",
+        "session": "세션 종료 시점",
+        "privacy": "데이터 및 개인정보 보호",
+        "about": "정보",
+        "licences": "감사의 말",
+        "sync": "Mac과 동기화"
+      },
+      "cleanup": {
+        "notHere": "이 iPhone에서는 지원 안 됨",
+        "off": "Apple Intelligence가 꺼져 있음",
+        "noneTitle": "이 iPhone에서는 사용할 수 없음",
+        "noneBody": "정리에는 Apple Intelligence가 사용되며, iPhone 15 Pro 이상과 iOS 26이 필요합니다. 말한 내용이 문장 부호와 대문자를 포함해 그대로 입력됩니다.",
+        "offTitle": "Apple Intelligence 켜기",
+        "offBody": "정리에는 Apple의 온디바이스 모델이 사용됩니다. 설정 앱의 Apple Intelligence 및 Siri에서 Apple Intelligence를 켠 다음 다시 돌아오세요.",
+        "preparingTitle": "Apple 모델을 준비하는 중",
+        "preparingBody": "iOS가 아직 모델을 다운로드하고 있습니다. 그때까지는 말한 내용이 그대로 입력됩니다.",
+        "note": "iPhone에서는 베타입니다. 정리는 이 iPhone의 Apple Intelligence를 사용하며 어떤 데이터도 밖으로 나가지 않습니다. Mac보다 덜 정교해서 군더더기 말이 더 많이 남고, 드물게 단어가 빠질 수 있습니다."
+      },
+      "session": {
+        "endAfter": "세션 종료 시점",
+        "intro": "세션은 키보드로 받아쓰기할 수 있도록 마이크를 대기 상태로 유지합니다. 사용하지 않으면 자동으로 종료됩니다.",
+        "footer": "시간이 짧을수록 배터리가 절약됩니다. 세션은 언제든 홈에서 종료할 수 있습니다.",
+        "autoReturn": "사용하던 앱으로 자동 복귀",
+        "autoReturnHint": "키보드가 세션을 시작하려고 Wispr Bro를 열면, 사용하던 앱으로 바로 돌아갑니다."
+      },
+      "sounds": "받아쓰기 사운드",
+      "soundsHint": "듣기를 시작하고 멈출 때 부드러운 소리가 납니다.",
+      "theme": {
+        "system": "자동",
+        "light": "라이트",
+        "dark": "다크"
+      }
+    },
+    "voice": {
+      "words_other": "{{count}}단어"
+    },
+    "scratchpad": {
+      "emptyHelp": "메모를 만든 다음 입력하거나 받아쓰기하세요. 모든 메모는 자동으로 저장됩니다.",
+      "noResultsHelp": "다른 단어로 검색해 보세요.",
+      "notes": "메모",
+      "noteMenu": "{{name}} 추가 옵션",
+      "more": "더 보기",
+      "done": "완료",
+      "share": "공유",
+      "cancel": "취소",
+      "deleteTitle": "이 메모를 삭제하겠습니까?",
+      "deleteBody": "‘{{name}}’이(가) 영구적으로 삭제됩니다.",
+      "error": "작업을 완료하지 못했습니다. 텍스트는 그대로 있으니 다시 시도하세요.",
+      "words_other": "{{count}}단어",
+      "writing": "받아쓰는 중…",
+      "recordFailed": "녹음할 수 없습니다. 다시 시도하세요.",
+      "polish": {
+        "off": "Polish는 Apple Intelligence를 사용하지만 현재 꺼져 있습니다. 설정 앱의 Apple Intelligence 및 Siri에서 켜세요.",
+        "preparing": "Apple 모델이 아직 준비 중입니다. iOS가 모델을 다운로드하면 Polish를 사용할 수 있습니다.",
+        "unsupported": "Polish에는 Apple Intelligence가 필요하지만 이 iPhone에서는 지원되지 않습니다."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro는 많은 사람의 작업을 바탕으로 만든 무료 오픈 소스 소프트웨어입니다.",
+      "own": "Wispr Bro 라이선스",
+      "source": "소스 코드",
+      "builtWith": "사용된 구성 요소",
+      "all": "모든 타사 고지 사항",
+      "footer": "모든 구성 요소와 라이선스 텍스트는 타사 고지 사항에 나와 있습니다.",
+      "loading": "불러오는 중…",
+      "failed": "라이선스 텍스트를 불러올 수 없습니다."
+    },
+    "onboarding": {
+      "later": "나중에 하기",
+      "welcome": {
+        "subtitle": "Wispr Bro 키보드에서 마이크를 탭하고 말하세요. 입력 중인 앱에 깔끔한 텍스트가 입력됩니다.",
+        "privacyTitle": "모든 데이터는 이 iPhone에만 남습니다"
+      },
+      "microphone": {
+        "title": "마이크 허용",
+        "subtitle": "Wispr Bro는 받아쓰기하는 동안에만 듣습니다. 오디오는 절대 이 iPhone 밖으로 나가지 않습니다.",
+        "allow": "마이크 허용",
+        "prompt": "iOS가 한 번 묻습니다. 허용을 탭하세요.",
+        "granted": "마이크가 허용되었습니다.",
+        "denied": "Wispr Bro의 마이크가 꺼져 있습니다. 설정에서 켠 다음 다시 돌아오세요."
+      },
+      "keyboard": {
+        "title": "{{appName}} 키보드 추가",
+        "subtitle": "다른 앱에서 받아쓰기하는 방법입니다. 처음 한 번, 1분이면 됩니다.",
+        "ready": "키보드가 추가되었고 앱과 연결할 수 있습니다. 준비되었습니다.",
+        "added": "키보드가 추가되었습니다. 이제 사용해 보세요."
+      },
+      "model": {
+        "title": "음성 모델을 받는 중",
+        "titleReady": "음성 모델이 준비되었습니다",
+        "subtitle": "한 번만 다운로드하면 이후에는 인터넷 없이 받아쓰기할 수 있습니다.",
+        "starting": "준비 중…",
+        "downloading": "다운로드 중…",
+        "verifying": "다운로드 확인 중…",
+        "ready": "준비됨",
+        "failed": "다운로드가 중단되었습니다.",
+        "offline": "인터넷에 연결되어 있지 않습니다.",
+        "noSpace": "여유 공간이 부족합니다. 약 {{mb}}MB가 필요합니다.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}}/{{total}}MB",
+        "eta_other": "약 {{count}}분 남음",
+        "offlineReady": "이 iPhone에 저장되었습니다.",
+        "background": "백그라운드에서 계속하기"
+      },
+      "practice": {
+        "title": "첫 받아쓰기 해 보기",
+        "subtitle": "아무 말이나 해 보세요. 오늘 하루에 관한 한 문장이면 충분합니다.",
+        "notReady": "설정이 끝나면 연습할 수 있습니다. 지금은 건너뛰고 나중에 홈에서 사용해 보세요.",
+        "placeholder": "말한 내용이 여기에 표시됩니다…",
+        "fieldLabel": "연습용 텍스트",
+        "skip": "건너뛰기",
+        "steps": {
+          "tap": "위의 입력란을 탭하세요",
+          "switch": "지구본 키를 길게 누르고 {{appName}}을(를) 선택하세요",
+          "speak": "마이크를 탭하고 말한 다음 체크 표시를 탭하세요"
+        }
+      },
+      "done": {
+        "title": "모두 준비되었습니다",
+        "titlePending": "거의 다 되었습니다",
+        "subtitle": "이게 전부입니다.",
+        "subtitlePending": "남은 단계는 홈에 표시됩니다.",
+        "finish": "{{appName}} 사용 시작하기",
+        "points": {
+          "session": "받아쓰기하려면 앱에서 세션을 시작하세요",
+          "keyboard": "아무 앱에서나 {{appName}} 키보드로 전환하고 마이크를 탭하세요",
+          "private": "모든 데이터는 이 iPhone에만 남습니다"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "세션을 시작하고 아무 앱에서나 받아쓰기하세요. 모든 받아쓰기는 이 iPhone의 여기에 보관됩니다."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "이 iPhone에서만 표시됩니다."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "받아쓰기와 데이터는 이 iPhone에만 남습니다."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro가 작업을 중단하고 데이터를 지운 다음, 시작 화면부터 다시 시작합니다."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_other": "최근 받아쓰기 {{count, number}}회를 바탕으로 이 iPhone에서 계산했습니다. 어떤 데이터도 iPhone 밖으로 나가지 않습니다."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Mac과 한 번만 페어링하세요. 그러면 사전, 스니펫, 설정, 통계가 두 기기에서 자동으로 똑같이 유지됩니다.",
+      "fromMac": {
+        "title": "Mac에서",
+        "step1": "Mac에서 Wispr Bro를 열고 설정 › 데이터 및 개인정보 보호로 이동한 다음 내 데이터 내보내기를 선택합니다.",
+        "step2": "파일을 이 iPhone으로 AirDrop한 다음 Wispr Bro로 엽니다.",
+        "step3": "변경될 내용을 확인한 다음 병합을 탭합니다.",
+        "choose": "파일 선택",
+        "reading": "읽는 중…",
+        "footer": "파일을 이미 파일 앱에 저장했나요? 여기에서 선택하세요. Mac의 기록과 녹음은 읽지 않습니다."
+      },
+      "toMac": {
+        "title": "Mac으로",
+        "send": "Mac으로 보내기",
+        "csv": "CSV 파일 추가",
+        "csvHint": "아직 동기화 파일을 열 수 없는 Mac용입니다. Mac의 사전 및 스니펫 페이지에서 가져오세요.",
+        "footer": "파일을 Mac으로 AirDrop한 다음 설정 › 데이터 및 개인정보 보호에서 가져오세요. 기록과 녹음은 이 iPhone에 남습니다."
+      },
+      "devices": {
+        "title": "동기화됨",
+        "none": "아직 동기화되지 않음",
+        "merged": "병합: {{when}}",
+        "words_other": "{{words}}단어"
+      },
+      "pair": {
+        "title": "Mac과 페어링",
+        "step1": "Mac에서 Wispr Bro를 열고 설정 › 데이터 및 개인정보 보호로 이동한 다음 iPhone과 동기화를 켭니다.",
+        "step2": "내 Mac 찾기를 탭하고 Mac을 선택합니다.",
+        "step3": "Mac에 표시된 코드를 입력합니다.",
+        "find": "내 Mac 찾기",
+        "looking": "Mac을 찾는 중…",
+        "stop": "찾기 중단",
+        "nearby": "근처의 Mac",
+        "footer": "두 기기가 같은 Wi-Fi 네트워크에 있거나, Wi-Fi와 Bluetooth를 켠 상태로 서로 가까이 있어야 합니다."
+      },
+      "mac": {
+        "title": "내 Mac",
+        "footer": "iPhone은 Wispr Bro가 열려 있거나 받아쓰기 세션이 켜져 있을 때 동기화됩니다. 동기화는 로컬 네트워크를 통해 기기 간에 직접 이루어지며 서버를 거치지 않습니다."
+      },
+      "file": {
+        "title": "파일로 동기화",
+        "hint": "페어링 없이: 두 기기 간에 파일을 AirDrop으로 보냅니다."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac",
+      "iphone": "iPhone",
+      "macName": "내 Mac",
+      "iphoneName": "내 iPhone"
+    },
+    "parts": {
+      "dictionary": "사전",
+      "snippets": "스니펫",
+      "settings": "설정",
+      "stats": "통계"
+    },
+    "review": {
+      "title": "{{device}}에서 병합",
+      "titleFile": "{{device}} 가져오기",
+      "made": "생성: {{when}}",
+      "madeWith": "생성: {{when}}, Wispr Bro {{version}}",
+      "added_other": "{{count}}개 추가",
+      "changed_other": "{{count}}개 변경",
+      "removed_other": "{{count}}개 제거",
+      "stats_other": "{{count}}일 동안 {{words}}단어",
+      "same": "최신 상태",
+      "notInFile": "이 파일에 없음",
+      "upToDate": "이 파일의 모든 내용이 이미 반영되어 있습니다.",
+      "privacy": "기록과 녹음은 동기화되지 않습니다. 만들어진 기기에 그대로 남습니다.",
+      "privacyExport": "Mac에서 내보낸 전체 데이터입니다. 사전, 스니펫, 설정, 통계만 읽으며 기록과 녹음은 읽지 않습니다.",
+      "merge": "병합",
+      "merging": "병합 중…",
+      "cancel": "취소",
+      "done": "완료",
+      "privacyExportCopy": "이 iPhone에 있는 파일 사본은 나중에 삭제됩니다."
+    },
+    "result": {
+      "title": "병합됨",
+      "from": "{{device}}에서",
+      "merged": "이제 두 기기가 같은 상태입니다.",
+      "nothing": "변경할 내용이 없었습니다."
+    },
+    "problems": {
+      "title": "이 파일은 병합할 수 없습니다",
+      "unreadable": "파일을 읽을 수 없습니다. 파일을 다시 보낸 다음 한 번 더 시도하세요.",
+      "not_wispr_bro": "Wispr Bro 파일이 아닙니다. 동기화 파일(.wisprbro), Mac에서 내보낸 데이터(.zip) 또는 사전이나 스니펫 CSV를 선택하세요.",
+      "too_new": "이 파일은 더 최신 버전의 Wispr Bro로 만들어졌습니다. 이 기기의 Wispr Bro를 업데이트한 다음 파일을 다시 여세요.",
+      "own_file": "이 파일은 이 기기에서 만들어졌습니다. 다른 기기에서 여세요.",
+      "failed": "파일을 읽는 중에 문제가 발생했습니다. 아무것도 변경되지 않았습니다."
+    },
+    "sendFailed": "동기화 파일을 만들 수 없습니다.",
+    "settingNames": {
+      "styles": "스타일",
+      "text_retention_days": "기록 보관 기간",
+      "audio_retention_days": "녹음 보관 기간",
+      "typing_wpm": "타이핑 속도",
+      "typing_hours_per_day": "타이핑 시간",
+      "greeting_name": "이름",
+      "spoken_languages": "언어",
+      "audio_feedback": "받아쓰기 사운드",
+      "audio_feedback_volume": "사운드 음량"
+    },
+    "auto": {
+      "justNow": "방금",
+      "inSync": "동기화됨",
+      "inSyncAgo": "동기화됨 · 마지막 변경 {{when}}",
+      "connecting": "연결 중…",
+      "macAway": "Mac을 찾을 수 없습니다. Mac에서 Wispr Bro를 여세요.",
+      "phoneAway": "연결되지 않았습니다. iPhone에서 Wispr Bro를 여세요.",
+      "lastSynced": "마지막 동기화: {{when}}.",
+      "syncNow": "지금 동기화",
+      "unpair": "페어링 해제",
+      "unpairTitle": "{{device}}의 페어링을 해제하겠습니까?",
+      "unpairBody": "두 기기의 동기화가 중단됩니다. 어느 기기에서도 삭제되는 것은 없습니다. 언제든 다시 페어링할 수 있습니다.",
+      "direct": "동기화는 로컬 네트워크를 통해 기기 간에 직접 이루어지며 서버를 거치지 않습니다.",
+      "denied": "Wispr Bro에 로컬 네트워크의 기기를 찾을 권한이 없습니다. 설정에서 허용한 다음 다시 시도하세요.",
+      "openSettings": "설정 열기",
+      "needsUpdate": "Mac과 iPhone의 Wispr Bro 버전이 다릅니다. 계속 동기화하려면 둘 다 업데이트하세요."
+    },
+    "pairing": {
+      "showTitle": "{{device}}와(과) 페어링",
+      "showBody": "iPhone에 이 코드를 입력하세요. 한 번만 사용할 수 있습니다.",
+      "enterTitle": "코드 입력",
+      "enterBody": "{{device}}에 6자리 코드가 표시되어 있습니다.",
+      "codeLabel": "페어링 코드",
+      "connecting": "{{device}}에 연결하는 중…",
+      "pair": "페어링",
+      "checking": "확인 중…",
+      "failedTitle": "페어링하지 못했습니다",
+      "problems": {
+        "wrong_code": "코드가 Mac에 표시된 코드와 일치하지 않습니다. 내 Mac 찾기를 다시 탭하여 새 코드를 받으세요.",
+        "no_code": "시간이 초과되었습니다. 2분 안에 코드가 입력되지 않았습니다. 두 앱을 모두 열어 둔 상태로 다시 시작하세요.",
+        "busy": "Mac이 다른 기기와 페어링하고 있습니다. 잠시 후 다시 시도하세요.",
+        "unreachable": "Mac에 연결할 수 없습니다. Mac에서 Wispr Bro를 열어 두고 iPhone과 동기화를 켠 다음, 두 기기의 설정에서 로컬 네트워크에 Wispr Bro가 허용되어 있는지 확인하세요.",
+        "failed": "페어링이 완료되지 않았습니다. 내 Mac 찾기에서 다시 시작하세요.",
+        "dropped": "페어링이 끝나기 전에 Mac과의 연결이 끊어졌습니다. 두 앱을 모두 연 상태로 기기를 가까이 둔 다음 다시 시도하세요.",
+        "version": "Mac과 iPhone의 Wispr Bro 버전이 다릅니다. 둘 다 업데이트한 다음 다시 페어링하세요.",
+        "update_mac": "Mac의 Wispr Bro를 업데이트하세요. 이 iPhone보다 이전 버전의 동기화를 사용하고 있습니다. 그런 다음 다시 페어링하세요.",
+        "update_this": "이 iPhone의 Wispr Bro를 업데이트하세요. Mac이 더 최신 버전의 동기화를 사용하고 있습니다. 그런 다음 다시 페어링하세요.",
+        "denied": "Wispr Bro에 로컬 네트워크 사용 권한이 없습니다. 설정 › 개인정보 보호 및 보안 › 로컬 네트워크 › Wispr Bro에서 허용한 다음 내 Mac 찾기를 다시 탭하세요."
+      },
+      "macProblems": {
+        "wrong_code": "iPhone에서 다른 코드를 입력했습니다. iPhone에서 다시 시작하세요. 내 Mac 찾기를 탭하고 여기에 표시된 새 코드를 입력하면 됩니다.",
+        "update_phone": "iPhone의 Wispr Bro를 업데이트하세요. 이 Mac보다 이전 버전의 동기화를 사용하고 있습니다. 그런 다음 다시 페어링하세요.",
+        "update_this": "이 Mac의 Wispr Bro를 업데이트하세요. iPhone이 더 최신 버전의 동기화를 사용하고 있습니다. 그런 다음 다시 페어링하세요.",
+        "version": "Mac과 iPhone의 Wispr Bro 버전이 다릅니다. 둘 다 업데이트한 다음 다시 페어링하세요.",
+        "failed": "페어링이 완료되지 않았습니다. iPhone의 내 Mac 찾기에서 다시 시작하세요."
       }
     }
   },
