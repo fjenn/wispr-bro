@@ -55,5 +55,6 @@ fn start() {
 /// started: takes may run from here on.
 pub fn on_ready(app: &AppHandle) {
     core::on_ready(app);
+    commands::watch(app);
     selftest::start(app);
 }

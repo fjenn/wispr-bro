@@ -366,6 +366,9 @@ fn finish_pipeline(
     };
     let transcribing = Instant::now();
     let was_ready = crate::fork::models::setup::is_ready();
+    // A take can also be queued while a starter model is ready (its
+    // language needs the full model, which is still on its way).
+    let queued_before = crate::fork::models::setup::status().queued_takes;
     let transcription = crate::fork::models::setup::transcribe_take(app, &tm, &file_name, samples);
     let wav_saved = match wav_writer.map(|writer| writer.join()) {
         Ok(Ok(Ok(()))) => match crate::audio_toolkit::verify_wav_file(&wav_path, sample_count) {
@@ -420,7 +423,9 @@ fn finish_pipeline(
                     sample_count,
                     stop_time,
                 );
-                return if was_ready {
+                let queued =
+                    crate::fork::models::setup::status().queued_takes > queued_before;
+                return if was_ready && !queued {
                     Ok(String::new())
                 } else {
                     Err(Failed::Queued)
@@ -572,7 +577,7 @@ pub extern "C" fn wb_take_finish(take_id: u64) -> *mut c_char {
             Err(Failed::Queued) => serde_json::json!({
                 "ok": false,
                 "text": "",
-                "error": "The speech model is not ready yet. The recording is saved and will appear in History.",
+                "error": "Still setting up. This dictation is saved and will appear in History.",
                 "queued": true,
             }),
             Err(Failed::Error(error)) => {

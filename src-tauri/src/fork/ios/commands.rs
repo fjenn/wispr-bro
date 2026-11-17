@@ -27,6 +27,10 @@ pub struct IosSession {
 
 #[tauri::command]
 fn ios_session_state() -> IosSession {
+    session()
+}
+
+fn session() -> IosSession {
     let native = host::session_state();
     IosSession {
         state: native
@@ -71,6 +75,10 @@ pub struct IosSetup {
 
 #[tauri::command]
 fn ios_setup_state() -> IosSetup {
+    setup()
+}
+
+fn setup() -> IosSetup {
     let full_access = host::full_access();
     IosSetup {
         keyboard_enabled: host::keyboard_enabled(),
@@ -118,6 +126,50 @@ fn ios_set_auto_return(enabled: bool) -> Result<(), String> {
 #[tauri::command]
 fn ios_core_status() -> serde_json::Value {
     super::core::status()
+}
+
+/// How often the Swift session's published state is compared with the last
+/// one the page was told about.
+const WATCH_EVERY: std::time::Duration = std::time::Duration::from_millis(250);
+
+/// Tells the page at once when the session or the setup state changes
+/// (`ios-session-state`, `ios-setup-state`, the payloads of the two
+/// commands): a take started from the keyboard, the session's end, the
+/// microphone answer, the keyboard being added. The Swift side keeps its
+/// state in memory, so reading it is cheap; nothing is sent while it stays
+/// the same.
+pub fn watch(app: &tauri::AppHandle) {
+    use tauri::Emitter;
+    let app = app.clone();
+    let spawned = std::thread::Builder::new()
+        .name("wb-ios-state".into())
+        .spawn(move || {
+            let mut last_session = String::new();
+            let mut last_setup = String::new();
+            loop {
+                std::thread::sleep(WATCH_EVERY);
+                let now = session();
+                // `native` carries values that are not the page's concern
+                // and would make every comparison differ for no reason.
+                let key = format!("{}|{:?}|{:?}", now.state, now.message, now.ends_at);
+                if key != last_session {
+                    last_session = key;
+                    let _ = app.emit("ios-session-state", &now);
+                }
+                let now = setup();
+                let key = format!(
+                    "{}|{}|{}|{}",
+                    now.keyboard_enabled, now.full_access, now.full_access_known, now.mic_permission
+                );
+                if key != last_setup {
+                    last_setup = key;
+                    let _ = app.emit("ios-setup-state", &now);
+                }
+            }
+        });
+    if let Err(e) = spawned {
+        log::warn!("ios: the state watcher did not start: {e}");
+    }
 }
 
 pub fn handler<R: Runtime>() -> impl Fn(Invoke<R>) -> bool + Send + Sync + 'static {
