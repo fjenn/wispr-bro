@@ -119,16 +119,20 @@ pub struct StatsSummary {
     pub active_days: u32,
     pub fixes_dictionary: u64,
     pub fixes_llm: u64,
+    /// How many other devices' numbers are included (sync). 0: these are
+    /// this device's own.
+    pub other_devices: u32,
 }
 
-/// The summary as of local day `today`.
+/// The summary as of local day `today`: this device plus the snapshots of
+/// the user's other devices (`all_daily_stats`, migration 0010).
 pub fn summary(conn: &Connection, today: NaiveDate) -> Result<StatsSummary, DbError> {
     let (words, dictations, speech_ms, timed, fd, fl): (i64, i64, i64, i64, i64, i64) = conn
         .query_row(
             "SELECT COALESCE(SUM(words), 0), COALESCE(SUM(dictations), 0),
                     COALESCE(SUM(speech_ms), 0), COALESCE(SUM(timed_words), 0),
                     COALESCE(SUM(fixes_dictionary), 0), COALESCE(SUM(fixes_llm), 0)
-             FROM daily_stats",
+             FROM all_daily_stats",
             [],
             |r| {
                 Ok((
@@ -144,13 +148,13 @@ pub fn summary(conn: &Connection, today: NaiveDate) -> Result<StatsSummary, DbEr
     let today_key = today.format("%Y-%m-%d").to_string();
     let (today_words, today_dictations): (i64, i64) = conn
         .query_row(
-            "SELECT words, dictations FROM daily_stats WHERE day = ?1",
+            "SELECT words, dictations FROM all_daily_stats WHERE day = ?1",
             [&today_key],
             |r| Ok((r.get(0)?, r.get(1)?)),
         )
         .optional()?
         .unwrap_or((0, 0));
-    let mut stmt = conn.prepare_cached("SELECT day FROM daily_stats WHERE dictations > 0")?;
+    let mut stmt = conn.prepare_cached("SELECT day FROM all_daily_stats WHERE dictations > 0")?;
     let days: Vec<String> = stmt
         .query_map([], |r| r.get(0))?
         .collect::<Result<_, _>>()?;
@@ -169,6 +173,7 @@ pub fn summary(conn: &Connection, today: NaiveDate) -> Result<StatsSummary, DbEr
         active_days: u32::try_from(active.len()).unwrap_or(u32::MAX),
         fixes_dictionary: u(fd),
         fixes_llm: u(fl),
+        other_devices: crate::fork::sync::store::other_device_count(conn)?,
     })
 }
 

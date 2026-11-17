@@ -34,6 +34,8 @@
 //! `WB_DEBUG_PARK_AFTER_S` (debug builds) sets the delay in seconds, `off`
 //! disables parking (Mac test S-38: before/after RSS on one build).
 
+#[cfg(target_os = "ios")]
+use crate::fork::ios::compat::*;
 use std::collections::HashMap;
 use std::sync::Mutex;
 use std::time::Duration;

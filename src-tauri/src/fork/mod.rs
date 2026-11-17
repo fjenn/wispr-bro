@@ -31,6 +31,7 @@
 //! right after Handy's closure returns, so [`on_ready`] can rely on Handy's
 //! managers being in state.
 
+#[cfg_attr(target_os = "ios", path = "ios/stubs/app_menu.rs")]
 pub mod app_menu;
 pub mod audio;
 pub mod ax;
@@ -46,6 +47,8 @@ pub mod export;
 pub mod hub;
 pub mod i18n;
 pub mod insert;
+#[cfg(target_os = "ios")]
+pub mod ios;
 pub mod llm;
 pub mod models;
 pub mod net;
@@ -63,10 +66,12 @@ pub mod shortcut;
 pub mod snippets;
 pub mod startup;
 pub mod stats;
+pub mod sync;
 #[cfg(test)]
 mod testutil;
 pub mod text;
 pub mod transforms;
+#[cfg_attr(target_os = "ios", path = "ios/stubs/fork_tray.rs")]
 pub mod tray;
 pub mod tutorials;
 pub mod update;
@@ -351,8 +356,12 @@ pub fn is_product_build() -> bool {
 
 /// The product identifier or a test identity.
 pub fn is_product_identity(id: &str) -> bool {
-    id == PRODUCT_IDENTIFIER || is_test_identity(id)
+    id == PRODUCT_IDENTIFIER || id == IOS_IDENTIFIER || is_test_identity(id)
 }
+
+/// The iPhone app's bundle identifier (`tauri.fork.ios.conf.json`): the
+/// same product, with its own app data in the iOS sandbox.
+pub const IOS_IDENTIFIER: &str = "com.wisprbro.ios";
 
 /// A test identity for real-Mac checks (`com.wisprbro.<slice>check`, e.g.
 /// `com.wisprbro.s07acheck`, S-07a): the product build with its own app
@@ -376,7 +385,7 @@ pub fn app_log_dir<R: Runtime>(app: &AppHandle<R>) -> Option<std::path::PathBuf>
 
 /// Tauri's macOS `app_log_dir()` for our identifier: `~/Library/Logs/<id>`.
 fn early_log_dir(home: Option<&std::path::Path>) -> Option<std::path::PathBuf> {
-    cfg!(target_os = "macos")
+    cfg!(any(target_os = "macos", target_os = "ios"))
         .then(|| home.map(|h| h.join("Library/Logs").join(compiled_identifier())))?
 }
 
@@ -556,6 +565,10 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-04: session observers and recording phases for delivery.
     insert::on_ready(app);
     db::jobs::start(app);
+    // Sync: when each synced setting last changed (fork/sync/settings.rs).
+    commands::sync::observe_settings(app);
+    // Sync: pairings and the automatic sync between the user's devices.
+    commands::sync::start_auto(app);
     // S-11: the dictionary rules the text pipeline applies, read per take.
     startup::init();
     install_rule_source(app);
@@ -565,6 +578,7 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     // S-19a: the Style page's app rules, cached for the take path.
     commands::style::on_ready(app);
     // S-36: set-up editors keep their AX tree built while in front.
+    #[cfg(not(target_os = "ios"))]
     if let Some(s) = app
         .try_state::<settings::ForkSettingsHandle>()
         .and_then(|h| h.get(app).ok())
@@ -572,6 +586,7 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         context::ide::sync_warm(&s);
     }
     // S-34: auto-learn hears Return, keypad Enter and Tab from the fork tap.
+    #[cfg(not(target_os = "ios"))]
     dictionary::learn::on_ready();
     // S-16: Handy's custom words and the dictionary's words (one-time
     // migration, then the mirror), off the main thread.
@@ -582,7 +597,9 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         });
     }
 
-    // S-13: Hub window size and title bar.
+    // S-13: Hub window size and title bar. iOS: one full-screen window that
+    // is never sized or parked.
+    #[cfg(not(target_os = "ios"))]
     hub::on_ready(app);
     // S-26a: localized app menus, tray contents and live menu counts.
     app_menu::on_ready(app);
@@ -595,11 +612,17 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
     notify::on_ready(app);
 
     // S-10: stale sidecar kill, prewarm wiring, silent model download.
+    // iPhone: the same runtime; its server is the llama.cpp linked into the
+    // app (`llm::inprocess`).
     llm::runtime::on_ready(app);
-    // OT2-H: the instruction model (on disk: verified; else on demand).
-    llm::instruct::on_ready(app);
-    // S-12b: WISPRBRO_SELFCHECK_APPLE (Mac test).
-    llm::apple::selfcheck(app);
+    // Transforms and Command Mode are not on the phone.
+    #[cfg(not(target_os = "ios"))]
+    {
+        // OT2-H: the instruction model (on disk: verified; else on demand).
+        llm::instruct::on_ready(app);
+        // S-12b: WISPRBRO_SELFCHECK_APPLE (Mac test).
+        llm::apple::selfcheck(app);
+    }
 
     // F-08 / DEC-39: report (without the path) whether `early_init` put the
     // Hugging Face cache under the app data dir.
@@ -621,6 +644,12 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
         // S-07a: the speech model check and the first-run download, before
         // the hotkeys, so the first press already knows.
         R::models_start(app);
+    }
+    // iOS: the Swift session owns the microphone and the keyboard extension
+    // starts takes (`fork::ios::core`, opened by `models_start`); no
+    // hotkeys, bar, transforms or note window.
+    #[cfg(not(target_os = "ios"))]
+    if is_product_build() {
         // S-08: the wireless-default rule, the device watch, saved takes.
         audio::on_ready(app);
         audio::enable_prepared(app);
@@ -655,8 +684,12 @@ pub fn on_ready<R: ForkRuntime>(app: &AppHandle<R>) {
             if hidden { "hidden" } else { "shown" }
         );
     }
-    update::scheduler::start(app);
-    update::start_selftest(app);
+    // iOS: the App Store updates the app; the updater plugin is not loaded.
+    #[cfg(not(target_os = "ios"))]
+    {
+        update::scheduler::start(app);
+        update::start_selftest(app);
+    }
 }
 
 /// Builds the fork's tauri-specta builder for one concrete runtime.
@@ -809,6 +842,18 @@ macro_rules! fork_specta_builder {
                 commands::privacy::fork_erase_all_data::<$runtime>,
                 commands::help::fork_open_issue::<$runtime>,
                 commands::help::fork_share_sheet::<$runtime>,
+                commands::sync::fork_sync_status::<$runtime>,
+                commands::sync::fork_sync_review::<$runtime>,
+                commands::sync::fork_sync_apply::<$runtime>,
+                commands::sync::fork_sync_discard,
+                commands::sync::fork_sync_export::<$runtime>,
+                commands::sync::fork_sync_auto_status,
+                commands::sync::fork_sync_auto_enable,
+                commands::sync::fork_sync_search,
+                commands::sync::fork_sync_pair,
+                commands::sync::fork_sync_pair_code,
+                commands::sync::fork_sync_unpair,
+                commands::sync::fork_sync_now,
             ])
             .events(tauri_specta::collect_events![
                 events::ForkPingEvent,
@@ -841,7 +886,9 @@ macro_rules! fork_specta_builder {
                 tutorials::practice::ForkLessonShortcut,
                 shortcut::health::ForkShortcutHealthChanged,
                 shortcut::health::ForkShortcutFixRequested,
-                pill::spotlight::ForkSpotlightState
+                pill::spotlight::ForkSpotlightState,
+                commands::sync::ForkSyncFileOpened,
+                commands::sync::ForkSyncAutoChanged
             ])
     };
 }
@@ -953,6 +1000,12 @@ pub struct SecureInputInfo {
 impl ForkRuntime for tauri::Wry {
     fn models_start(app: &AppHandle<Self>) {
         models::setup::start(app);
+        // iOS: takes come from the Swift session from here on.
+        #[cfg(target_os = "ios")]
+        ios::on_ready(app);
+        // Sync: files opened in the app reach the page.
+        #[cfg(target_os = "ios")]
+        sync::ios::on_ready(app);
     }
 
     fn handy_keys_rebuild(app: &AppHandle<Self>) -> Result<(), String> {
@@ -1243,13 +1296,22 @@ where
     let fork_builder = specta_builder::<R>();
 
     // Tests check the file instead of rewriting it (`bindings_are_current`).
-    #[cfg(all(debug_assertions, not(test)))] // <- Only export on non-release builds
+    // iOS: the app's sandbox has no source tree to write into.
+    #[cfg(all(debug_assertions, not(test), not(target_os = "ios")))]
+    // <- Only export on non-release builds
     fork_builder
         .export(bindings_language(), FORK_BINDINGS_PATH)
         .expect("Failed to export fork typescript bindings");
 
     let fork = fork_builder.invoke_handler();
+    #[cfg(target_os = "ios")]
+    let ios = ios::commands::handler::<R>();
     move |invoke: Invoke<R>| {
+        // The iPhone-only commands (`ios_*`; session, setup, its settings).
+        #[cfg(target_os = "ios")]
+        if invoke.message.command().starts_with(ios::commands::PREFIX) {
+            return ios(invoke);
+        }
         if is_fork_command(invoke.message.command()) {
             fork(invoke)
         } else {
@@ -1418,10 +1480,11 @@ mod identity_tests {
             assert!(!url.contains("cjpais") && !url.contains("Handy"), "{url}");
         }
 
-        // Handy's file is untouched for identity (overlay only).
+        // Handy's file keeps its identifier (identity comes from the overlay
+        // only); its product name says Wispr Bro since alpha.8 (c188fdac).
         let base = read_json("tauri.conf.json");
         assert_eq!(base["identifier"], "com.pais.handy");
-        assert_eq!(base["productName"], "Handy");
+        assert_eq!(base["productName"], "Wispr Bro");
     }
 
     #[test]

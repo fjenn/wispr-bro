@@ -182,7 +182,7 @@ pub fn send_paste_ctrl_v(enigo: &mut Enigo, hold_ms: u64) -> Result<(), String> 
     let (modifier_key, v_key_code) = (Key::Meta, macos::command_v_key());
     #[cfg(target_os = "windows")]
     let (modifier_key, v_key_code) = (Key::Control, Key::Other(0x56)); // VK_V
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "ios"))]
     let (modifier_key, v_key_code) = (Key::Control, Key::Unicode('v'));
 
     // Press modifier + V
@@ -211,7 +211,7 @@ pub fn send_paste_ctrl_shift_v(enigo: &mut Enigo, hold_ms: u64) -> Result<(), St
     let (modifier_key, v_key_code) = (Key::Meta, macos::command_v_key());
     #[cfg(target_os = "windows")]
     let (modifier_key, v_key_code) = (Key::Control, Key::Other(0x56)); // VK_V
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "ios"))]
     let (modifier_key, v_key_code) = (Key::Control, Key::Unicode('v'));
 
     // Press Ctrl/Cmd + Shift + V

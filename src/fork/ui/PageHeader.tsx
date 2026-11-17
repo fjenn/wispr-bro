@@ -19,7 +19,7 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <div className="flex min-h-9 items-center justify-between gap-4">
+    <div className="wb-page-header flex min-h-9 items-center justify-between gap-4">
       <div className="flex min-w-0 items-center gap-2.5">
         <h1
           data-testid="wb-page-title"
@@ -29,7 +29,11 @@ export function PageHeader({
         </h1>
         {tag}
       </div>
-      {children && <div className="flex items-center gap-2">{children}</div>}
+      {children && (
+        <div className="wb-page-actions flex items-center gap-2">
+          {children}
+        </div>
+      )}
     </div>
   );
 }

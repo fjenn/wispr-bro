@@ -102,7 +102,10 @@ pub enum Cpu {
 impl Cpu {
     /// The CPU this binary runs on.
     pub fn current() -> Self {
-        if cfg!(all(target_os = "macos", target_arch = "aarch64")) {
+        if cfg!(all(
+            any(target_os = "macos", target_os = "ios"),
+            target_arch = "aarch64"
+        )) {
             Cpu::AppleSilicon
         } else if cfg!(all(target_os = "macos", target_arch = "x86_64")) {
             Cpu::Intel
@@ -120,7 +123,18 @@ impl Cpu {
 /// R5 §5.1 says to use the next smaller model for that tier; that is a
 /// change to this function only.
 pub fn select(physical_ram_bytes: u64, cpu: Cpu) -> Option<&'static LlmModel> {
-    const MIN_RAM: u64 = 8 * 1024 * 1024 * 1024;
+    // iPhone: no local model. Apple's on-device model cleans there
+    // (`apple::ROLE`); Muesli in the app (`inprocess`) misses its deadlines
+    // on the phone's CPU, so nobody downloads 1.3 GB for it. A debug build
+    // with `WB_IOS_LOCAL_LLM=1` still runs it, for measurements.
+    if cfg!(target_os = "ios")
+        && !(cfg!(debug_assertions) && std::env::var("WB_IOS_LOCAL_LLM").is_ok_and(|v| v == "1"))
+    {
+        return None;
+    }
+    // iPhones have 6, 8 or 12 GB and report somewhat less than the nominal
+    // size: the model is for the 8 GB phones and up.
+    const MIN_RAM: u64 = if cfg!(target_os = "ios") { 7 } else { 8 } * 1024 * 1024 * 1024;
     match cpu {
         Cpu::AppleSilicon | Cpu::Intel if physical_ram_bytes >= MIN_RAM - 64 * 1024 * 1024 => {
             Some(&MUESLI_2B_V12)

@@ -28,23 +28,38 @@ fn main() {
 
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap_or_default();
     let target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap_or_default();
-    if target_os != "macos" || target_arch != "aarch64" {
-        return stub("not macOS on Apple Silicon");
-    }
+    // iPhone (fork): the same bridge; Apple's model is the phone's cleanup
+    // engine (iOS 26 and later, checked at run time).
+    let target = env::var("TARGET").unwrap_or_default();
+    let (sdk_name, swift_target, swift_libs) = match (target_os.as_str(), target.as_str()) {
+        ("macos", _) if target_arch == "aarch64" => ("macosx", "arm64-apple-macosx11.0", "macosx"),
+        ("ios", "aarch64-apple-ios") => ("iphoneos", "arm64-apple-ios17.0", "iphoneos"),
+        ("ios", "aarch64-apple-ios-sim") => (
+            "iphonesimulator",
+            "arm64-apple-ios17.0-simulator",
+            "iphonesimulator",
+        ),
+        _ => return stub("not Apple Silicon macOS or iOS"),
+    };
     if env::var("WB_APPLE_FM_STUB").as_deref() == Ok("1") {
         return stub("WB_APPLE_FM_STUB=1");
     }
-    let Some(sdk) = env::var("SDKROOT")
-        .ok()
-        .or_else(|| run("xcrun", &["--sdk", "macosx", "--show-sdk-path"]))
-    else {
-        return stub("no macOS SDK");
+    // On iOS the SDK is asked for by name: Xcode's SDKROOT is the app's,
+    // which is right, but a plain `cargo check` may carry the Mac's.
+    let sdk = if target_os == "macos" {
+        env::var("SDKROOT").ok()
+    } else {
+        None
+    }
+    .or_else(|| run("xcrun", &["--sdk", sdk_name, "--show-sdk-path"]));
+    let Some(sdk) = sdk else {
+        return stub("no SDK");
     };
     if !Path::new(&sdk)
         .join("System/Library/Frameworks/FoundationModels.framework")
         .exists()
     {
-        return stub("the SDK has no FoundationModels (needs the macOS 26 SDK)");
+        return stub("the SDK has no FoundationModels (needs the macOS / iOS 26 SDK)");
     }
     // The CLT `swiftc` has no FoundationModelsMacros plugin (`@Generable`).
     if env::var("SWIFTC").is_err()
@@ -72,7 +87,7 @@ fn main() {
                 "-module-name",
                 "WbAppleFm",
                 "-target",
-                "arm64-apple-macosx11.0",
+                swift_target,
                 "-sdk",
                 &sdk,
                 "-O",
@@ -101,7 +116,7 @@ fn main() {
     let toolchain_swift = Path::new(&swiftc)
         .parent()
         .and_then(Path::parent)
-        .map(|root| root.join("lib/swift/macosx"))
+        .map(|root| root.join("lib/swift").join(swift_libs))
         .expect("swift toolchain lib dir");
     println!("cargo:rustc-link-search=native={}", out.display());
     println!("cargo:rustc-link-lib=static=wb_apple_fm");

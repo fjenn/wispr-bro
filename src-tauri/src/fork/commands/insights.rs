@@ -41,22 +41,20 @@ fn typing_wpm<R: tauri::Runtime>(app: &AppHandle<R>) -> Option<u32> {
 #[specta::specta]
 pub fn fork_insights_usage<R: ForkRuntime>(app: AppHandle<R>) -> Result<UsageInsights, ForkError> {
     let today = chrono::Local::now().date_naive();
-    let (totals, days, cats) = db(&app)?
+    let (totals, days, cats, other_devices) = db(&app)?
         .with_conn(|c| {
             Ok((
                 insights::totals(c)?,
                 insights::days(c)?,
                 insights::categories(c)?,
+                crate::fork::sync::store::other_device_count(c)?,
             ))
         })
         .map_err(internal)?;
-    Ok(crate::fork::stats::insights::usage(
-        &totals,
-        &days,
-        &cats,
-        typing_wpm(&app),
-        today,
-    ))
+    let mut usage =
+        crate::fork::stats::insights::usage(&totals, &days, &cats, typing_wpm(&app), today);
+    usage.other_devices = other_devices;
+    Ok(usage)
 }
 
 /// The Voice tab: locked below 1,700 words, else the four cards. The rows

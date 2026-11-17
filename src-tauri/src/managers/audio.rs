@@ -352,7 +352,7 @@ pub fn create_smoothed_detector(
     ))
 }
 
-fn create_capture_vad(
+pub(crate) fn create_capture_vad(
     backend: VadBackend,
     app_handle: &tauri::AppHandle,
 ) -> Result<CaptureVad, anyhow::Error> {

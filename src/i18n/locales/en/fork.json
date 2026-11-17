@@ -257,9 +257,10 @@
         "local": "Your dictation and data stay on this Mac.",
         "noCloud": "Speech recognition, cleanup, and History run locally. There is no account, telemetry, cloud dictation, or cloud cleanup.",
         "network": "What uses the network",
-        "networkIntro": "Wispr Bro uses the network only for these two things:",
+        "networkIntro": "Wispr Bro uses the network only for these things:",
         "models": "Download speech and cleanup models from Hugging Face (huggingface.co).",
-        "updates": "When update checks are on, look for app updates on GitHub (github.com)."
+        "updates": "When update checks are on, look for app updates on GitHub (github.com).",
+        "sync": "When sync is on, your Mac and iPhone talk directly to each other over your local network. No server."
       },
       "locations": {
         "title": "Where your data lives",
@@ -330,6 +331,23 @@
         "saved": "Sanitized diagnostics saved.",
         "failed": "Could not prepare diagnostics. Try again.",
         "rowTitle": "Share diagnostics"
+      },
+      "sync": {
+        "title": "Sync",
+        "rowTitle": "Sync with a file",
+        "hint": "Dictionary, snippets, settings and stats as one file to AirDrop.",
+        "import": "Import…",
+        "export": "Export…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro sync file",
+        "exported": "Sync file saved and shown in Finder. AirDrop it to your iPhone.",
+        "last": "Last merged from {{device}}: {{when}}. History and recordings are never included.",
+        "never": "Not synced yet. History and recordings are never included.",
+        "autoTitle": "Sync with your iPhone",
+        "autoHint": "Keeps dictionary, snippets, settings and stats the same on both while both apps are open.",
+        "direct": "Sync goes directly between your devices over your local network. No server. History and recordings are never synced.",
+        "howTo": "On your iPhone, open Wispr Bro, go to Settings › Sync with your Mac and tap Find my Mac.",
+        "denied": "macOS is not letting Wispr Bro find devices on your local network. Allow it in System Settings › Privacy & Security › Local Network."
       }
     },
     "advanced": {
@@ -1387,7 +1405,9 @@
       "wordsPerMinute": "Words per minute",
       "streak": "Day streak",
       "notEnoughSpeech": "Not enough speech yet",
-      "unavailable": "Not available yet"
+      "unavailable": "Not available yet",
+      "allDevices_one": "Includes {{count}} other device",
+      "allDevices_other": "Includes {{count}} other devices"
     },
     "voiceProfile": {
       "title": "Your voice profile",
@@ -3048,6 +3068,439 @@
         "copied": "Copied",
         "copyFailed": "Could not copy. Select the table and copy it instead.",
         "done": "Done"
+      }
+    }
+  },
+  "ios": {
+    "close": "Close",
+    "tabs": {
+      "label": "Main",
+      "home": "Home",
+      "history": "History",
+      "voice": "My Voice",
+      "scratchpad": "Scratchpad",
+      "settings": "Settings"
+    },
+    "session": {
+      "status": {
+        "noSession": "Session off",
+        "idle": "Session on",
+        "listening": "Listening",
+        "transcribing": "Writing",
+        "error": "Session stopped"
+      },
+      "offTitle": "Ready when you are",
+      "offBody": "Start a session, then dictate in any app with the Wispr Bro keyboard.",
+      "onTitle": "Dictate from any app",
+      "onBody": "Switch to the Wispr Bro keyboard and tap the mic.",
+      "onBodyEnds": "Switch to the Wispr Bro keyboard and tap the mic. Ends at {{time}} if you don't dictate.",
+      "onBodyNever": "Switch to the Wispr Bro keyboard and tap the mic. Stays on until you end it.",
+      "errorBody": "The session ended unexpectedly. Start it again to keep dictating.",
+      "start": "Start session",
+      "retry": "Start again",
+      "end": "End session",
+      "failed": "That didn't work. Try again.",
+      "timeoutLine": "Ends {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Immediately",
+          "never": "Never",
+          "minutes_one": "{{count}} minute",
+          "minutes_other": "{{count}} minutes",
+          "hours_one": "{{count}} hour",
+          "hours_other": "{{count}} hours"
+        },
+        "sentence": {
+          "immediately": "right after each dictation",
+          "never": "only when you end it",
+          "minutes_one": "after {{count}} minute without dictation",
+          "minutes_other": "after {{count}} minutes without dictation",
+          "hours_one": "after {{count}} hour without dictation",
+          "hours_other": "after {{count}} hours without dictation"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} of {{total}} done",
+      "title": "Finish setting up",
+      "body": "A few steps, then you can dictate in any app.",
+      "openSettings": "Open Settings",
+      "showMe": "Show me",
+      "failed": "That didn't work. Try again.",
+      "mic": {
+        "title": "Allow the microphone",
+        "hint": "Used only while you dictate.",
+        "denied": "Turned off. Allow it in Settings.",
+        "allow": "Allow"
+      },
+      "keyboard": {
+        "title": "Add the {{appName}} keyboard",
+        "hint": "In Settings, under Keyboards."
+      },
+      "fullAccess": {
+        "title": "Allow Full Access",
+        "hint": "Lets the keyboard reach the app. Nothing leaves this iPhone."
+      },
+      "model": {
+        "title": "Speech model",
+        "ready": "Ready",
+        "waiting": "Getting ready…",
+        "downloading": "Downloading… {{percent}}%",
+        "failed": "The download stopped.",
+        "retry": "Try again"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Add the {{appName}} keyboard",
+      "steps": {
+        "open": "Tap Open Settings, then Keyboards",
+        "enable": "Turn on {{appName}}",
+        "fullAccess": "Turn on Allow Full Access"
+      },
+      "drawn": {
+        "keyboards": "Keyboards",
+        "fullAccess": "Allow Full Access"
+      },
+      "privacyTitle": "Why Full Access?",
+      "privacy": "It is only used so the keyboard can talk to the Wispr Bro app on this iPhone. What you type and say never leaves the phone.",
+      "elsewhere": "Not there? Go to Settings, General, Keyboard, Keyboards, Add New Keyboard."
+    },
+    "tryIt": {
+      "title": "Try it",
+      "placeholder": "Tap here and dictate…",
+      "hint": "Hold the globe key to switch to {{appName}}, then tap the mic and speak.",
+      "clear": "Clear"
+    },
+    "style": {
+      "intro": "Pick how your dictations are written, in every app."
+    },
+    "settings": {
+      "saveFailed": "Could not save that. Try again.",
+      "local": "Everything stays on this iPhone.",
+      "groups": {
+        "dictation": "Dictation",
+        "session": "Session",
+        "feedback": "Sound",
+        "app": "Wispr Bro",
+        "appearance": "Appearance"
+      },
+      "pages": {
+        "languages": "Languages",
+        "cleanup": "Cleanup",
+        "session": "End session after",
+        "privacy": "Data and Privacy",
+        "about": "About",
+        "licences": "Acknowledgements",
+        "sync": "Sync with your Mac"
+      },
+      "cleanup": {
+        "notHere": "Not on this iPhone",
+        "off": "Apple Intelligence is off",
+        "noneTitle": "Not available on this iPhone",
+        "noneBody": "Cleanup uses Apple Intelligence, which needs iOS 26 on an iPhone 15 Pro or later. Your words are written as you say them, with punctuation and capitals.",
+        "offTitle": "Turn on Apple Intelligence",
+        "offBody": "Cleanup uses Apple's on-device model. Turn on Apple Intelligence in the Settings app, under Apple Intelligence & Siri, then come back.",
+        "preparingTitle": "Apple's model is getting ready",
+        "preparingBody": "iOS is still downloading it. Until then your words are written as you say them.",
+        "note": "Beta on iPhone. Cleanup uses Apple Intelligence on this phone; nothing leaves it. It is less careful than on the Mac: it leaves more filler words in and, rarely, drops a word."
+      },
+      "session": {
+        "endAfter": "End session after",
+        "intro": "A session keeps the microphone ready so the keyboard can dictate. It ends by itself when you stop using it.",
+        "footer": "A shorter time saves battery. You can always end a session from Home.",
+        "autoReturn": "Return to my app automatically",
+        "autoReturnHint": "When the keyboard opens Wispr Bro to start a session, it takes you straight back to the app you were in."
+      },
+      "sounds": "Dictation sounds",
+      "soundsHint": "A soft sound when listening starts and stops.",
+      "theme": {
+        "system": "Automatic",
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} word",
+      "words_other": "{{count}} words"
+    },
+    "scratchpad": {
+      "emptyHelp": "Start a note, then type or dictate into it. Every note saves itself.",
+      "noResultsHelp": "Try another word.",
+      "notes": "Notes",
+      "noteMenu": "More for {{name}}",
+      "more": "More",
+      "done": "Done",
+      "share": "Share",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete this note?",
+      "deleteBody": "“{{name}}” will be gone for good.",
+      "error": "That didn't work. Your text is still here; try again.",
+      "words_one": "{{count}} word",
+      "words_other": "{{count}} words",
+      "writing": "Writing…",
+      "recordFailed": "Couldn't record that. Try again.",
+      "polish": {
+        "off": "Polish uses Apple Intelligence, which is off. Turn it on in the Settings app under Apple Intelligence & Siri.",
+        "preparing": "Apple's model is still getting ready. Polish works once iOS has downloaded it.",
+        "unsupported": "Polish needs Apple Intelligence, which this iPhone doesn't have."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro is free, open-source software, built on the work of many others.",
+      "own": "Wispr Bro licence",
+      "source": "Source code",
+      "builtWith": "Built with",
+      "all": "All third-party notices",
+      "footer": "Every component and its licence text is listed in the third-party notices.",
+      "loading": "Loading…",
+      "failed": "The licence text could not be loaded."
+    },
+    "onboarding": {
+      "later": "I'll do this later",
+      "welcome": {
+        "subtitle": "Tap the mic on the Wispr Bro keyboard and speak. Clean text lands in whatever app you are typing in.",
+        "privacyTitle": "Everything stays on this iPhone"
+      },
+      "microphone": {
+        "title": "Allow the microphone",
+        "subtitle": "Wispr Bro listens only while you dictate. The audio never leaves this iPhone.",
+        "allow": "Allow microphone",
+        "prompt": "iOS will ask once. Tap Allow.",
+        "granted": "Microphone allowed.",
+        "denied": "The microphone is turned off for Wispr Bro. Turn it on in Settings, then come back."
+      },
+      "keyboard": {
+        "title": "Add the {{appName}} keyboard",
+        "subtitle": "This is how you dictate in other apps. It takes a minute, once.",
+        "ready": "The keyboard is added and can reach the app. You're set.",
+        "added": "The keyboard is added. Next, try it."
+      },
+      "model": {
+        "title": "Getting your speech model",
+        "titleReady": "Your speech model is ready",
+        "subtitle": "One download. After that, dictation works without the internet.",
+        "starting": "Getting ready…",
+        "downloading": "Downloading…",
+        "verifying": "Checking the download…",
+        "ready": "Ready",
+        "failed": "The download stopped.",
+        "offline": "No internet connection.",
+        "noSpace": "Not enough free space. About {{mb}} MB is needed.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} of {{total}} MB",
+        "eta_one": "about {{count}} minute left",
+        "eta_other": "about {{count}} minutes left",
+        "offlineReady": "Stored on this iPhone.",
+        "background": "Continue in the background"
+      },
+      "practice": {
+        "title": "Try your first dictation",
+        "subtitle": "Say anything. A sentence about your day will do.",
+        "notReady": "You can practise once setup is finished. Skip for now and try from Home.",
+        "placeholder": "Your words appear here…",
+        "fieldLabel": "Practice text",
+        "skip": "Skip",
+        "steps": {
+          "tap": "Tap the field above",
+          "switch": "Hold the globe key and pick {{appName}}",
+          "speak": "Tap the mic, speak, then tap the check mark"
+        }
+      },
+      "done": {
+        "title": "You're all set",
+        "titlePending": "Almost there",
+        "subtitle": "That's all there is to it.",
+        "subtitlePending": "Home shows the steps that are still open.",
+        "finish": "Start using {{appName}}",
+        "points": {
+          "session": "Start a session in the app when you want to dictate",
+          "keyboard": "Switch to the {{appName}} keyboard in any app and tap the mic",
+          "private": "Everything stays on this iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Start a session and dictate in any app. Every dictation is kept here, on this iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Shown only on this iPhone."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Your dictation and data stay on this iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro stops its work, erases the data and starts again from the welcome screen."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Worked out on this iPhone from your latest dictation. Nothing leaves your iPhone.",
+          "footnote_other": "Worked out on this iPhone from your latest {{count, number}} dictations. Nothing leaves your iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Pair your Mac once. After that your dictionary, snippets, settings and stats stay the same on both, by themselves.",
+      "fromMac": {
+        "title": "From your Mac",
+        "step1": "On your Mac, open Wispr Bro, go to Settings › Data and Privacy and choose Export my data.",
+        "step2": "AirDrop the file to this iPhone and open it with Wispr Bro.",
+        "step3": "Check what will change, then tap Merge.",
+        "choose": "Choose a file",
+        "reading": "Reading…",
+        "footer": "Already saved the file to Files? Choose it here. Your Mac's history and recordings are not read."
+      },
+      "toMac": {
+        "title": "To your Mac",
+        "send": "Send to Mac",
+        "csv": "Add CSV files",
+        "csvHint": "For a Mac that cannot open sync files yet. Import them on its Dictionary and Snippets pages.",
+        "footer": "AirDrop the file to your Mac and import it in Settings › Data and Privacy. History and recordings stay on this iPhone."
+      },
+      "devices": {
+        "title": "Synced",
+        "none": "Not synced yet",
+        "merged": "Merged {{when}}",
+        "words_one": "{{words}} word",
+        "words_other": "{{words}} words"
+      },
+      "pair": {
+        "title": "Pair your Mac",
+        "step1": "On your Mac, open Wispr Bro, go to Settings › Data and Privacy and turn on Sync with your iPhone.",
+        "step2": "Tap Find my Mac and choose it.",
+        "step3": "Type the code your Mac shows.",
+        "find": "Find my Mac",
+        "looking": "Looking for your Mac…",
+        "stop": "Stop looking",
+        "nearby": "Macs nearby",
+        "footer": "Both devices need to be on the same Wi-Fi network, or close to each other with Wi-Fi and Bluetooth on."
+      },
+      "mac": {
+        "title": "Your Mac",
+        "footer": "Your iPhone syncs while Wispr Bro is open or a dictation session is on. Sync goes directly between your devices over your local network. No server."
+      },
+      "file": {
+        "title": "Sync with a file",
+        "hint": "Without pairing: AirDrop a file between the two."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "your Mac",
+      "iphone": "your iPhone",
+      "macName": "Your Mac",
+      "iphoneName": "Your iPhone"
+    },
+    "parts": {
+      "dictionary": "Dictionary",
+      "snippets": "Snippets",
+      "settings": "Settings",
+      "stats": "Stats"
+    },
+    "review": {
+      "title": "Merge from {{device}}",
+      "titleFile": "Import {{device}}",
+      "made": "Made {{when}}",
+      "madeWith": "Made {{when}} with Wispr Bro {{version}}",
+      "added_one": "{{count}} new",
+      "added_other": "{{count}} new",
+      "changed_one": "{{count}} changed",
+      "changed_other": "{{count}} changed",
+      "removed_one": "{{count}} removed",
+      "removed_other": "{{count}} removed",
+      "stats_one": "{{words}} words on {{count}} day",
+      "stats_other": "{{words}} words on {{count}} days",
+      "same": "Up to date",
+      "notInFile": "Not in this file",
+      "upToDate": "Everything in this file is already here.",
+      "privacy": "History and recordings are not synced. They stay on the device they were made on.",
+      "privacyExport": "This is your Mac's full export. Only its dictionary, snippets, settings and stats are read. Its history and recordings are not.",
+      "merge": "Merge",
+      "merging": "Merging…",
+      "cancel": "Cancel",
+      "done": "Done",
+      "privacyExportCopy": "This iPhone's copy of the file is deleted afterwards."
+    },
+    "result": {
+      "title": "Merged",
+      "from": "From {{device}}",
+      "merged": "Both are in step now.",
+      "nothing": "Nothing had to change."
+    },
+    "problems": {
+      "title": "This file cannot be merged",
+      "unreadable": "The file could not be read. Send it again and try once more.",
+      "not_wispr_bro": "This is not a Wispr Bro file. Choose a sync file (.wisprbro), your Mac's exported data (.zip), or a Dictionary or Snippets CSV.",
+      "too_new": "This file was made by a newer Wispr Bro. Update Wispr Bro here, then open the file again.",
+      "own_file": "This file was made on this device. Open it on your other device.",
+      "failed": "Something went wrong while reading the file. Nothing was changed."
+    },
+    "sendFailed": "Could not make the sync file.",
+    "settingNames": {
+      "styles": "Style",
+      "text_retention_days": "History retention",
+      "audio_retention_days": "Recording retention",
+      "typing_wpm": "Typing speed",
+      "typing_hours_per_day": "Typing time",
+      "greeting_name": "Name",
+      "spoken_languages": "Languages",
+      "audio_feedback": "Dictation sounds",
+      "audio_feedback_volume": "Sound volume"
+    },
+    "auto": {
+      "justNow": "just now",
+      "inSync": "In sync",
+      "inSyncAgo": "In sync · last change {{when}}",
+      "connecting": "Connecting…",
+      "macAway": "Mac not found. Open Wispr Bro on your Mac.",
+      "phoneAway": "Not connected. Open Wispr Bro on your iPhone.",
+      "lastSynced": "Last synced {{when}}.",
+      "syncNow": "Sync now",
+      "unpair": "Unpair",
+      "unpairTitle": "Unpair {{device}}?",
+      "unpairBody": "The two stop syncing. Nothing is deleted on either device. You can pair again at any time.",
+      "direct": "Sync goes directly between your devices over your local network. No server.",
+      "denied": "Wispr Bro is not allowed to find devices on your local network. Allow it in Settings, then try again.",
+      "openSettings": "Open Settings",
+      "needsUpdate": "Wispr Bro on your Mac and on your iPhone are different versions. Update both to keep syncing."
+    },
+    "pairing": {
+      "showTitle": "Pair with {{device}}",
+      "showBody": "Type this code on your iPhone. It works once.",
+      "enterTitle": "Enter the code",
+      "enterBody": "{{device}} is showing a 6-digit code.",
+      "codeLabel": "Pairing code",
+      "connecting": "Reaching {{device}}…",
+      "pair": "Pair",
+      "checking": "Checking…",
+      "failedTitle": "Pairing did not work",
+      "problems": {
+        "wrong_code": "The code did not match the one on your Mac. Tap Find my Mac again to get a new code.",
+        "no_code": "Timed out: no code was entered in two minutes. Keep both apps open and start again.",
+        "busy": "Your Mac is pairing with another device. Try again in a moment.",
+        "unreachable": "Your Mac could not be reached. Keep Wispr Bro open on it with Sync with your iPhone turned on, and check that Wispr Bro is allowed under Local Network in Settings on both devices.",
+        "failed": "Pairing did not finish. Start again from Find my Mac.",
+        "dropped": "The connection to your Mac dropped before pairing finished. Keep both apps open and close together, then try again.",
+        "version": "Wispr Bro on your Mac and on your iPhone are different versions. Update both, then pair again.",
+        "update_mac": "Update Wispr Bro on your Mac: it runs an older version of sync than this iPhone. Then pair again.",
+        "update_this": "Update Wispr Bro on this iPhone: your Mac runs a newer version of sync. Then pair again.",
+        "denied": "Wispr Bro isn't allowed on your local network. Allow it in Settings › Privacy & Security › Local Network › Wispr Bro, then tap Find my Mac again."
+      },
+      "macProblems": {
+        "wrong_code": "Your iPhone typed a different code. Start again on your iPhone: tap Find my Mac and type the new code shown here.",
+        "update_phone": "Update Wispr Bro on your iPhone: it runs an older version of sync than this Mac. Then pair again.",
+        "update_this": "Update Wispr Bro on this Mac: your iPhone runs a newer version of sync. Then pair again.",
+        "version": "Wispr Bro on your Mac and on your iPhone are different versions. Update both, then pair again.",
+        "failed": "Pairing did not finish. Start again on your iPhone from Find my Mac."
       }
     }
   }

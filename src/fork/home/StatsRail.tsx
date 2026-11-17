@@ -17,6 +17,8 @@ import type { StatsStatus } from "./useStatsSummary";
 export interface StatsRailProps {
   summary: StatsSummary | null;
   status: StatsStatus;
+  /** `row`: always three across (the phone); default follows the width. */
+  layout?: "auto" | "row";
 }
 
 /** A number in the UI language's grouping ("12,345", "12.345", "12 345"). */
@@ -35,21 +37,34 @@ function Stat({
   label,
   value,
   missing,
+  stacked = false,
 }: {
   testId: string;
   label: string;
   value: string | null;
   /** Read instead of the dash when `value` is null. */
   missing: string;
+  /** Number over label, the label free to wrap (three across on a phone). */
+  stacked?: boolean;
 }) {
   // The number reads first on screen ("12,840 Total words"), the label
   // first for screen readers (term, then definition).
   return (
     <div
       data-testid={testId}
-      className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"
+      className={
+        stacked
+          ? "flex min-w-0 flex-col gap-0.5"
+          : "flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"
+      }
     >
-      <dt className="order-2 min-w-0 truncate text-[15px] leading-5 text-(--wb-ink-2)">
+      <dt
+        className={
+          stacked
+            ? "order-2 min-w-0 text-[13px] leading-[17px] text-(--wb-ink-2)"
+            : "order-2 min-w-0 truncate text-[15px] leading-5 text-(--wb-ink-2)"
+        }
+      >
         {label}
       </dt>
       <dd
@@ -67,7 +82,11 @@ function Stat({
   );
 }
 
-export function StatsRail({ summary, status }: StatsRailProps) {
+export function StatsRail({
+  summary,
+  status,
+  layout = "auto",
+}: StatsRailProps) {
   const { t, i18n } = useTranslation(FORK_NAMESPACE);
   const language = i18n.language;
   const unavailable = t("home.stats.unavailable");
@@ -78,14 +97,21 @@ export function StatsRail({ summary, status }: StatsRailProps) {
       data-testid="wb-stats-rail"
       data-status={status}
       aria-busy={status === "loading"}
-      className="px-6 pt-6 pb-5"
+      className={layout === "row" ? "px-5 pt-5 pb-4" : "px-6 pt-6 pb-5"}
     >
-      <dl className="grid grid-cols-1 gap-3 @min-[520px]:grid-cols-3 @min-[680px]:grid-cols-1">
+      <dl
+        className={
+          layout === "row"
+            ? "grid grid-cols-3 gap-3"
+            : "grid grid-cols-1 gap-3 @min-[520px]:grid-cols-3 @min-[680px]:grid-cols-1"
+        }
+      >
         <Stat
           testId="wb-stat-words"
           label={t("home.stats.totalWords")}
           value={summary ? formatCount(summary.total_words, language) : null}
           missing={unavailable}
+          stacked={layout === "row"}
         />
         <Stat
           testId="wb-stat-wpm"
@@ -96,6 +122,7 @@ export function StatsRail({ summary, status }: StatsRailProps) {
               : null
           }
           missing={summary ? t("home.stats.notEnoughSpeech") : unavailable}
+          stacked={layout === "row"}
         />
         <Stat
           testId="wb-stat-streak"
@@ -104,8 +131,17 @@ export function StatsRail({ summary, status }: StatsRailProps) {
             summary ? formatCount(summary.current_streak_days, language) : null
           }
           missing={unavailable}
+          stacked={layout === "row"}
         />
       </dl>
+      {!!summary?.other_devices && (
+        <p
+          data-testid="wb-stats-devices"
+          className="mt-3 text-[12px] leading-4 text-(--wb-ink-3)"
+        >
+          {t("home.stats.allDevices", { count: summary.other_devices })}
+        </p>
+      )}
     </div>
   );
 }

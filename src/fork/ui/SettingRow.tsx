@@ -61,14 +61,14 @@ export function SettingRow({
       data-disabled={disabled || undefined}
       className={`flex min-h-16 flex-col gap-3 rounded-(--wb-radius-sm) border border-(--wb-line) px-5 py-4 text-(--wb-ink) ${tone === "tint" ? "bg-(--wb-surface-tint)" : "bg-(--wb-surface)"} ${className}`}
     >
-      <div className="flex items-center gap-4">
+      <div className="wb-setting-main flex items-center gap-4">
         {icon && (
           <span aria-hidden="true" className="shrink-0 text-(--wb-ink-2)">
             {icon}
           </span>
         )}
         <div
-          className={`flex min-w-0 flex-1 flex-col gap-0.5 ${disabled ? "opacity-75" : ""}`}
+          className={`wb-setting-text flex min-w-0 flex-1 flex-col gap-0.5 ${disabled ? "opacity-75" : ""}`}
         >
           <span id={titleId} className="text-[15px] leading-5 font-medium">
             {title}
@@ -83,7 +83,7 @@ export function SettingRow({
           )}
         </div>
         {control !== undefined && (
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="wb-setting-control flex shrink-0 items-center gap-2">
             {typeof control === "function" ? control(ids) : control}
           </div>
         )}

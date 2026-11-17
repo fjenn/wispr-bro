@@ -1,0 +1,154 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro for iPhone: a standalone harness for the native Swift parts.
+# `xcodegen generate` → WBNativeHarness.xcodeproj
+# After Hex's ios/project.yml (MIT, see NOTICE-hex.md).
+name: WBNativeHarness
+options:
+  minimumXcodeGenVersion: 2.40.0
+  bundleIdPrefix: com.wisprbro
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    DEVELOPMENT_TEAM: 446XT9839S
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: 1
+    GENERATE_INFOPLIST_FILE: NO
+    TARGETED_DEVICE_FAMILY: "1"
+targets:
+  # The containing app. In the Tauri project the app target gets
+  # WBShared + WBSession + WBActivity (+ WBCore's module map, and the Rust
+  # library instead of WBCoreStub).
+  WBNativeHarness:
+    type: application
+    platform: iOS
+    sources:
+      - Harness
+      - WBShared
+      - WBSession
+      - WBActivity
+      - WBCoreStub
+      - path: WBCore
+        buildPhase: none
+    dependencies:
+      - target: WBKeyboard
+        embed: true
+      - target: WBWidgets
+        embed: true
+    info:
+      path: Harness/Info.plist
+      properties:
+        CFBundleDisplayName: Wispr Bro
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Editor
+            CFBundleURLName: com.wisprbro.ios.session
+            CFBundleURLSchemes:
+              - wisprbro
+        NSMicrophoneUsageDescription: Wispr Bro listens only while you dictate and turns your words into text on this iPhone.
+        NSSupportsLiveActivities: true
+        ITSAppUsesNonExemptEncryption: false
+        UIBackgroundModes:
+          - audio
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    entitlements:
+      path: Harness/WBNativeHarness.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.wisprbro.ios
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios
+        PRODUCT_NAME: WBNativeHarness
+        SWIFT_INCLUDE_PATHS: $(SRCROOT)/WBCore
+    scheme:
+      gatherCoverageData: false
+      testTargets:
+        - WBNativeHarnessTests
+        - WBNativeHarnessUITests
+  WBKeyboard:
+    type: app-extension
+    platform: iOS
+    sources:
+      - WBKeyboard
+      - WBShared
+    info:
+      path: WBKeyboard/Info.plist
+      properties:
+        CFBundleDisplayName: Wispr Bro
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionAttributes:
+            IsASCIICapable: true
+            PrefersRightToLeft: false
+            PrimaryLanguage: mul
+            RequestsOpenAccess: true
+          NSExtensionPointIdentifier: com.apple.keyboard-service
+          NSExtensionPrincipalClass: WBKeyboardViewController
+    entitlements:
+      path: WBKeyboard/WBKeyboard.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.wisprbro.ios
+    settings:
+      base:
+        APPLICATION_EXTENSION_API_ONLY: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios.keyboard
+        PRODUCT_NAME: WBKeyboard
+        SKIP_INSTALL: YES
+  WBWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - WBWidgets
+      - WBActivity
+    info:
+      path: WBWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Wispr Bro
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        APPLICATION_EXTENSION_API_ONLY: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios.widgets
+        PRODUCT_NAME: WBWidgets
+        SKIP_INSTALL: YES
+  WBNativeHarnessTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - WBTests
+    dependencies:
+      - target: WBNativeHarness
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios.tests
+        BUNDLE_LOADER: $(TEST_HOST)
+        SWIFT_INCLUDE_PATHS: $(SRCROOT)/WBCore
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/WBNativeHarness.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WBNativeHarness
+  # Drives the real keyboard in the simulator (needs the keyboard enabled there).
+  WBNativeHarnessUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - WBUITests
+    dependencies:
+      - target: WBNativeHarness
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios.uitests
+        TEST_TARGET_NAME: WBNativeHarness

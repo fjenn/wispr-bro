@@ -152,6 +152,24 @@ pub fn deliver_as(
     (result, Some(outcome))
 }
 
+/// iOS: the take's final text, for the keyboard extension to insert (an app
+/// cannot paste into another app). The same text stages and the same
+/// History bookkeeping as [`deliver_as`]'s unverified paste; the take is
+/// recorded as inserted without a check, because the keyboard inserts it
+/// after this returns.
+#[cfg(target_os = "ios")]
+pub fn deliver_to_keyboard(text: String, app: &AppHandle) -> String {
+    // No Return key from the app: the keyboard has its own setting.
+    let _ = crate::fork::context::app_rules::take_armed(&text);
+    let text = delivery_text(text, Kind::Take);
+    let take = next_take();
+    discard_target();
+    crate::fork::db::entry_meta::on_paste_outcome(app, &text, Some(PasteOutcome::Unverified));
+    crate::fork::recovery::on_take_delivered();
+    log::info!("insert: take {take} handed to the keyboard");
+    text
+}
+
 /// The text a delivery inserts, decided before where it goes: a paste, the
 /// clipboard ("Copied to clipboard") and the card all carry this same text.
 /// S-11: the text stages after the LLM (R5 §4.10 stages 9 and 12, then the

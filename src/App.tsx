@@ -40,6 +40,9 @@ import { deleteRetiredModel } from "@/lib/models/retired";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 import { ForkApp } from "@/fork/hub/ForkApp";
 import { useNotificationPageOpen } from "@/fork/hub/NotificationsPanel";
+import { IosApp } from "@/fork/ios/IosApp";
+import { IosOnboarding } from "@/fork/ios/onboarding/IosOnboarding";
+import { isIos } from "@/fork/ios/platform";
 
 // flow is first-run onboarding; the rest are single screens for returning users.
 type OnboardingStep =
@@ -118,6 +121,8 @@ function App() {
   useEffect(() => {
     if (onboardingStep === "done" && !hasCompletedPostOnboardingInit.current) {
       hasCompletedPostOnboardingInit.current = true;
+      // iPhone has no global shortcuts, synthetic input or device list.
+      if (isIos()) return;
       Promise.all([
         commands.initializeEnigo(),
         commands.initializeShortcuts(),
@@ -350,9 +355,15 @@ function App() {
   // its position in the tree doesn't affect layout. Without this, errors during
   // onboarding (e.g. a model download failing because blob.handy.computer is
   // unreachable) are silently swallowed and the wizard just appears to "blink".
+  const ios = isIos();
   const toaster = (
     <Toaster
       theme="system"
+      position={ios ? "top-center" : undefined}
+      offset={ios ? "calc(env(safe-area-inset-top, 0px) + 8px)" : undefined}
+      mobileOffset={
+        ios ? { top: "calc(env(safe-area-inset-top, 0px) + 8px)" } : undefined
+      }
       toastOptions={{
         unstyled: true,
         classNames: {
@@ -376,7 +387,19 @@ function App() {
   // stable wrapper around this node, so crossing between onboarding steps and
   // the main app never remounts it (which would drop any in-flight toast).
   let content: ReactNode;
-  if (onboardingPreview) {
+  if (ios && onboardingStep === "flow") {
+    // Wispr Bro for iPhone: its own steps (keyboard, session) in the same
+    // frame; see src/fork/ios/onboarding.
+    content = <IosOnboarding onComplete={() => setOnboardingStep("done")} />;
+  } else if (ios && onboardingStep === "done") {
+    content = (
+      <IosApp
+        onPreviewOnboarding={setOnboardingPreview}
+        onRunOnboarding={runOnboarding}
+        onRunModelMigration={runModelMigration}
+      />
+    );
+  } else if (onboardingPreview) {
     // Previews render in the same top-level slot as real onboarding, inert:
     // no prompts, downloads or setting writes.
     content = (

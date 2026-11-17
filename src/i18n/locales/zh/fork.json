@@ -256,9 +256,10 @@
         "local": "你的听写内容和数据都留在这台 Mac 上。",
         "noCloud": "语音识别、清理和历史记录都在本机运行。没有账户、遥测、云端听写或云端清理。",
         "network": "哪些功能会联网",
-        "networkIntro": "Wispr Bro 只会在以下两种情况使用网络：",
+        "networkIntro": "Wispr Bro 只在以下情况下使用网络：",
         "models": "从 Hugging Face（huggingface.co）下载语音和清理模型。",
-        "updates": "打开更新检查时，在 GitHub（github.com）上查找 App 更新。"
+        "updates": "打开更新检查时，在 GitHub（github.com）上查找 App 更新。",
+        "sync": "打开同步后，你的 Mac 和 iPhone 通过本地网络直接相互通信，不经过服务器。"
       },
       "locations": {
         "title": "你的数据存放位置",
@@ -329,6 +330,23 @@
         "saved": "已保存脱敏后的诊断信息。",
         "failed": "无法准备诊断信息。请再试一次。",
         "rowTitle": "共享诊断信息"
+      },
+      "sync": {
+        "title": "同步",
+        "rowTitle": "通过文件同步",
+        "hint": "将词典、文本片段、设置和统计打包成一个文件，以便隔空投送。",
+        "import": "导入…",
+        "export": "导出…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro 同步文件",
+        "exported": "同步文件已存储，并已在访达中显示。将它隔空投送到你的 iPhone。",
+        "last": "上次从 {{device}} 合并：{{when}}。历史记录和录音从不包括在内。",
+        "never": "尚未同步。历史记录和录音从不包括在内。",
+        "autoTitle": "与你的 iPhone 同步",
+        "autoHint": "两个 App 都打开时，让词典、文本片段、设置和统计在两台设备上保持一致。",
+        "direct": "同步通过本地网络在设备之间直接进行，不经过服务器。历史记录和录音绝不会同步。",
+        "howTo": "在 iPhone 上打开 Wispr Bro，前往“设置” › “与你的 Mac 同步”，然后轻点“查找我的 Mac”。",
+        "denied": "macOS 不允许 Wispr Bro 查找本地网络上的设备。请在“系统设置” › “隐私与安全性” › “本地网络”中允许。"
       }
     },
     "advanced": {
@@ -1055,7 +1073,8 @@
       "wordsPerMinute": "每分钟词数",
       "streak": "连续天数",
       "notEnoughSpeech": "语音数据还不够",
-      "unavailable": "暂不可用"
+      "unavailable": "暂不可用",
+      "allDevices_other": "包括另外 {{count}} 台设备"
     },
     "voiceProfile": {
       "title": "你的语音档案",
@@ -2640,6 +2659,426 @@
         "copied": "已拷贝",
         "copyFailed": "无法拷贝。请选择表格后手动拷贝。",
         "done": "完成"
+      }
+    }
+  },
+  "ios": {
+    "close": "关闭",
+    "tabs": {
+      "label": "主菜单",
+      "home": "主页",
+      "history": "历史记录",
+      "voice": "我的声音",
+      "scratchpad": "草稿板",
+      "settings": "设置"
+    },
+    "session": {
+      "status": {
+        "noSession": "会话未开始",
+        "idle": "会话进行中",
+        "listening": "正在聆听",
+        "transcribing": "正在转写",
+        "error": "会话已停止"
+      },
+      "offTitle": "随时可以开始",
+      "offBody": "开始一个会话，然后使用 Wispr Bro 键盘在任意 App 中听写。",
+      "onTitle": "在任意 App 中听写",
+      "onBody": "切换到 Wispr Bro 键盘，然后轻点麦克风。",
+      "onBodyEnds": "切换到 Wispr Bro 键盘，然后轻点麦克风。如果没有听写，会话将在 {{time}} 结束。",
+      "onBodyNever": "切换到 Wispr Bro 键盘，然后轻点麦克风。会话会一直保持，直到你结束它。",
+      "errorBody": "会话意外结束。请重新开始以继续听写。",
+      "start": "开始会话",
+      "retry": "重新开始",
+      "end": "结束会话",
+      "failed": "操作未成功。请重试。",
+      "timeoutLine": "{{timeout}}结束",
+      "timeout": {
+        "label": {
+          "immediately": "立即",
+          "never": "永不",
+          "minutes_other": "{{count}} 分钟",
+          "hours_other": "{{count}} 小时"
+        },
+        "sentence": {
+          "immediately": "在每次听写后立即",
+          "never": "仅在你手动结束时",
+          "minutes_other": "在 {{count}} 分钟没有听写后",
+          "hours_other": "在 {{count}} 小时没有听写后"
+        }
+      }
+    },
+    "setup": {
+      "count": "已完成 {{done}}/{{total}}",
+      "title": "完成设置",
+      "body": "完成几个步骤，即可在任意 App 中听写。",
+      "openSettings": "打开设置",
+      "showMe": "查看方法",
+      "failed": "操作未成功。请重试。",
+      "mic": {
+        "title": "允许使用麦克风",
+        "hint": "仅在你听写时使用。",
+        "denied": "已关闭。请在“设置”中允许。",
+        "allow": "允许"
+      },
+      "keyboard": {
+        "title": "添加 {{appName}} 键盘",
+        "hint": "在“设置”的“键盘”中。"
+      },
+      "fullAccess": {
+        "title": "允许完全访问",
+        "hint": "让键盘可以连接 App。任何数据都不会离开这台 iPhone。"
+      },
+      "model": {
+        "title": "语音模型",
+        "ready": "已就绪",
+        "waiting": "正在准备…",
+        "downloading": "正在下载… {{percent}}%",
+        "failed": "下载已停止。",
+        "retry": "重试"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "添加 {{appName}} 键盘",
+      "steps": {
+        "open": "轻点“打开设置”，然后轻点“键盘”",
+        "enable": "打开 {{appName}}",
+        "fullAccess": "打开“允许完全访问”"
+      },
+      "drawn": {
+        "keyboards": "键盘",
+        "fullAccess": "允许完全访问"
+      },
+      "privacyTitle": "为什么需要完全访问？",
+      "privacy": "这只用于让键盘与这台 iPhone 上的 Wispr Bro App 通信。你输入和说出的内容绝不会离开这台手机。",
+      "elsewhere": "没有看到？前往“设置” › “通用” › “键盘” › “键盘” › “添加新键盘”。"
+    },
+    "tryIt": {
+      "title": "试一试",
+      "placeholder": "轻点这里并听写…",
+      "hint": "按住地球仪键切换到 {{appName}}，然后轻点麦克风并说话。",
+      "clear": "清除"
+    },
+    "style": {
+      "intro": "选择你的听写在所有 App 中的书写风格。"
+    },
+    "settings": {
+      "saveFailed": "无法存储。请重试。",
+      "local": "所有内容都留在这台 iPhone 上。",
+      "groups": {
+        "dictation": "听写",
+        "session": "会话",
+        "feedback": "声音",
+        "app": "Wispr Bro",
+        "appearance": "外观"
+      },
+      "pages": {
+        "languages": "语言",
+        "cleanup": "清理",
+        "session": "会话结束时间",
+        "privacy": "数据与隐私",
+        "about": "关于",
+        "licences": "致谢",
+        "sync": "与 Mac 同步"
+      },
+      "cleanup": {
+        "notHere": "这台 iPhone 不支持",
+        "off": "Apple Intelligence 已关闭",
+        "noneTitle": "在这台 iPhone 上不可用",
+        "noneBody": "清理使用 Apple Intelligence，需要搭载 iOS 26 的 iPhone 15 Pro 或更新机型。你的话会按原样写出，并带有标点和大写。",
+        "offTitle": "打开 Apple Intelligence",
+        "offBody": "清理使用 Apple 的设备端模型。请在“设置” App 的“Apple Intelligence 与 Siri”中打开 Apple Intelligence，然后返回这里。",
+        "preparingTitle": "Apple 的模型正在准备中",
+        "preparingBody": "iOS 仍在下载模型。在此之前，你的话会按原样写出。",
+        "note": "iPhone 版为测试版。清理使用这台手机上的 Apple Intelligence，任何数据都不会离开手机。它不如 Mac 上精细：会保留更多口头禅，极少数情况下还会漏掉一个词。"
+      },
+      "session": {
+        "endAfter": "会话结束时间",
+        "intro": "会话会让麦克风保持就绪，以便键盘听写。停止使用后，会话会自动结束。",
+        "footer": "时间越短越省电。你随时可以在主页结束会话。",
+        "autoReturn": "自动返回我的 App",
+        "autoReturnHint": "当键盘打开 Wispr Bro 以开始会话时，会直接带你回到之前所在的 App。"
+      },
+      "sounds": "听写提示音",
+      "soundsHint": "开始和停止聆听时播放轻柔的提示音。",
+      "theme": {
+        "system": "自动",
+        "light": "浅色",
+        "dark": "深色"
+      }
+    },
+    "voice": {
+      "words_other": "{{count}} 个词"
+    },
+    "scratchpad": {
+      "emptyHelp": "新建一条笔记，然后输入或听写。每条笔记都会自动存储。",
+      "noResultsHelp": "试试其他字词。",
+      "notes": "笔记",
+      "noteMenu": "“{{name}}”的更多操作",
+      "more": "更多",
+      "done": "完成",
+      "share": "共享",
+      "cancel": "取消",
+      "deleteTitle": "要删除这条笔记吗？",
+      "deleteBody": "“{{name}}”将被永久删除。",
+      "error": "操作未成功。你的文本仍在这里，请重试。",
+      "words_other": "{{count}} 个词",
+      "writing": "正在转写…",
+      "recordFailed": "无法录音。请重试。",
+      "polish": {
+        "off": "Polish 使用 Apple Intelligence，但它已关闭。请在“设置” App 的“Apple Intelligence 与 Siri”中打开。",
+        "preparing": "Apple 的模型仍在准备中。iOS 下载完成后即可使用 Polish。",
+        "unsupported": "Polish 需要 Apple Intelligence，但这台 iPhone 不支持。"
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro 是免费的开源软件，建立在许多人的成果之上。",
+      "own": "Wispr Bro 许可证",
+      "source": "源代码",
+      "builtWith": "构建所用组件",
+      "all": "所有第三方声明",
+      "footer": "所有组件及其许可证文本都列在第三方声明中。",
+      "loading": "正在载入…",
+      "failed": "无法载入许可证文本。"
+    },
+    "onboarding": {
+      "later": "稍后再说",
+      "welcome": {
+        "subtitle": "轻点 Wispr Bro 键盘上的麦克风并说话。整洁的文本会出现在你正在输入的 App 中。",
+        "privacyTitle": "所有内容都留在这台 iPhone 上"
+      },
+      "microphone": {
+        "title": "允许使用麦克风",
+        "subtitle": "Wispr Bro 只在你听写时聆听。音频绝不会离开这台 iPhone。",
+        "allow": "允许使用麦克风",
+        "prompt": "iOS 只会询问一次。请轻点“允许”。",
+        "granted": "已允许使用麦克风。",
+        "denied": "Wispr Bro 的麦克风权限已关闭。请在“设置”中打开，然后返回这里。"
+      },
+      "keyboard": {
+        "title": "添加 {{appName}} 键盘",
+        "subtitle": "这样你就能在其他 App 中听写。只需设置一次，大约一分钟。",
+        "ready": "键盘已添加，并且可以连接 App。一切就绪。",
+        "added": "键盘已添加。接下来试一试。"
+      },
+      "model": {
+        "title": "正在获取语音模型",
+        "titleReady": "语音模型已就绪",
+        "subtitle": "只需下载一次。之后无需联网即可听写。",
+        "starting": "正在准备…",
+        "downloading": "正在下载…",
+        "verifying": "正在检查下载…",
+        "ready": "已就绪",
+        "failed": "下载已停止。",
+        "offline": "没有互联网连接。",
+        "noSpace": "可用空间不足。大约需要 {{mb}} MB。",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} MB / {{total}} MB",
+        "eta_other": "大约还剩 {{count}} 分钟",
+        "offlineReady": "已存储在这台 iPhone 上。",
+        "background": "在后台继续"
+      },
+      "practice": {
+        "title": "试试你的第一次听写",
+        "subtitle": "说什么都可以。比如用一句话聊聊你的一天。",
+        "notReady": "设置完成后即可练习。现在先跳过，之后可从主页试用。",
+        "placeholder": "你说的话会显示在这里…",
+        "fieldLabel": "练习文本",
+        "skip": "跳过",
+        "steps": {
+          "tap": "轻点上方的文本框",
+          "switch": "按住地球仪键，然后选择 {{appName}}",
+          "speak": "轻点麦克风，说话，然后轻点勾号"
+        }
+      },
+      "done": {
+        "title": "一切就绪",
+        "titlePending": "快完成了",
+        "subtitle": "就这么简单。",
+        "subtitlePending": "主页会显示尚未完成的步骤。",
+        "finish": "开始使用 {{appName}}",
+        "points": {
+          "session": "想听写时，在 App 中开始一个会话",
+          "keyboard": "在任意 App 中切换到 {{appName}} 键盘，然后轻点麦克风",
+          "private": "所有内容都留在这台 iPhone 上"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "开始一个会话，在任意 App 中听写。每次听写都会保留在这里，存储在这台 iPhone 上。"
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "仅在这台 iPhone 上显示。"
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "你的听写内容和数据都留在这台 iPhone 上。"
+          },
+          "delete": {
+            "relaunch": "Wispr Bro 会停止运行、清除数据，然后从欢迎界面重新开始。"
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_other": "根据你最近 {{count, number}} 次听写在这台 iPhone 上计算得出。任何数据都不会离开你的 iPhone。"
+        }
+      }
+    },
+    "sync": {
+      "intro": "只需将 Mac 配对一次。之后，你的词典、文本片段、设置和统计会在两台设备上自动保持一致。",
+      "fromMac": {
+        "title": "从你的 Mac",
+        "step1": "在 Mac 上打开 Wispr Bro，前往“设置” › “数据与隐私”，然后选择“导出我的数据”。",
+        "step2": "将文件隔空投送到这台 iPhone，然后用 Wispr Bro 打开。",
+        "step3": "检查将要更改的内容，然后轻点“合并”。",
+        "choose": "选取文件",
+        "reading": "正在读取…",
+        "footer": "已经把文件存储到“文件”中？在这里选取。不会读取你 Mac 上的历史记录和录音。"
+      },
+      "toMac": {
+        "title": "到你的 Mac",
+        "send": "发送到 Mac",
+        "csv": "添加 CSV 文件",
+        "csvHint": "适用于尚无法打开同步文件的 Mac。请在其“词典”和“文本片段”页面中导入。",
+        "footer": "将文件隔空投送到你的 Mac，然后在“设置” › “数据与隐私”中导入。历史记录和录音会留在这台 iPhone 上。"
+      },
+      "devices": {
+        "title": "已同步",
+        "none": "尚未同步",
+        "merged": "合并于 {{when}}",
+        "words_other": "{{words}} 个词"
+      },
+      "pair": {
+        "title": "配对你的 Mac",
+        "step1": "在 Mac 上打开 Wispr Bro，前往“设置” › “数据与隐私”，然后打开“与你的 iPhone 同步”。",
+        "step2": "轻点“查找我的 Mac”并选择它。",
+        "step3": "输入 Mac 上显示的代码。",
+        "find": "查找我的 Mac",
+        "looking": "正在查找你的 Mac…",
+        "stop": "停止查找",
+        "nearby": "附近的 Mac",
+        "footer": "两台设备需要连接同一个 Wi-Fi 网络，或者打开 Wi-Fi 和蓝牙并彼此靠近。"
+      },
+      "mac": {
+        "title": "你的 Mac",
+        "footer": "Wispr Bro 打开或听写会话进行中时，你的 iPhone 会进行同步。同步通过本地网络在设备之间直接进行，不经过服务器。"
+      },
+      "file": {
+        "title": "通过文件同步",
+        "hint": "无需配对：在两台设备之间隔空投送一个文件。"
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac",
+      "iphone": "iPhone",
+      "macName": "你的 Mac",
+      "iphoneName": "你的 iPhone"
+    },
+    "parts": {
+      "dictionary": "词典",
+      "snippets": "文本片段",
+      "settings": "设置",
+      "stats": "统计"
+    },
+    "review": {
+      "title": "从 {{device}} 合并",
+      "titleFile": "导入 {{device}}",
+      "made": "创建于 {{when}}",
+      "madeWith": "由 Wispr Bro {{version}} 创建于 {{when}}",
+      "added_other": "新增 {{count}} 项",
+      "changed_other": "更改 {{count}} 项",
+      "removed_other": "移除 {{count}} 项",
+      "stats_other": "{{count}} 天内 {{words}} 个词",
+      "same": "已是最新",
+      "notInFile": "不在此文件中",
+      "upToDate": "此文件中的所有内容都已存在。",
+      "privacy": "历史记录和录音不会同步。它们会留在创建它们的设备上。",
+      "privacyExport": "这是你 Mac 的完整导出。只会读取其中的词典、文本片段、设置和统计，不会读取历史记录和录音。",
+      "merge": "合并",
+      "merging": "正在合并…",
+      "cancel": "取消",
+      "done": "完成",
+      "privacyExportCopy": "之后会删除这台 iPhone 上的文件副本。"
+    },
+    "result": {
+      "title": "已合并",
+      "from": "来自 {{device}}",
+      "merged": "两台设备现已保持一致。",
+      "nothing": "没有需要更改的内容。"
+    },
+    "problems": {
+      "title": "无法合并此文件",
+      "unreadable": "无法读取文件。请重新发送后再试一次。",
+      "not_wispr_bro": "这不是 Wispr Bro 文件。请选择同步文件（.wisprbro）、从 Mac 导出的数据（.zip），或者词典或文本片段 CSV 文件。",
+      "too_new": "此文件由较新版本的 Wispr Bro 创建。请在这里更新 Wispr Bro，然后再次打开文件。",
+      "own_file": "此文件是在这台设备上创建的。请在你的另一台设备上打开它。",
+      "failed": "读取文件时出错。未进行任何更改。"
+    },
+    "sendFailed": "无法创建同步文件。",
+    "settingNames": {
+      "styles": "风格",
+      "text_retention_days": "历史记录保留时间",
+      "audio_retention_days": "录音保留时间",
+      "typing_wpm": "打字速度",
+      "typing_hours_per_day": "打字时间",
+      "greeting_name": "名字",
+      "spoken_languages": "语言",
+      "audio_feedback": "听写提示音",
+      "audio_feedback_volume": "提示音音量"
+    },
+    "auto": {
+      "justNow": "刚刚",
+      "inSync": "已同步",
+      "inSyncAgo": "已同步 · 上次更改 {{when}}",
+      "connecting": "正在连接…",
+      "macAway": "未找到 Mac。请在 Mac 上打开 Wispr Bro。",
+      "phoneAway": "未连接。请在 iPhone 上打开 Wispr Bro。",
+      "lastSynced": "上次同步：{{when}}。",
+      "syncNow": "立即同步",
+      "unpair": "取消配对",
+      "unpairTitle": "要取消与 {{device}} 的配对吗？",
+      "unpairBody": "两台设备将停止同步。任何一台设备上的内容都不会被删除。你可以随时重新配对。",
+      "direct": "同步通过本地网络在设备之间直接进行，不经过服务器。",
+      "denied": "Wispr Bro 未被允许查找本地网络上的设备。请在“设置”中允许，然后重试。",
+      "openSettings": "打开设置",
+      "needsUpdate": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。请将两者都更新以继续同步。"
+    },
+    "pairing": {
+      "showTitle": "与 {{device}} 配对",
+      "showBody": "在你的 iPhone 上输入此代码。代码仅可使用一次。",
+      "enterTitle": "输入代码",
+      "enterBody": "{{device}} 上显示了一个 6 位数代码。",
+      "codeLabel": "配对代码",
+      "connecting": "正在连接 {{device}}…",
+      "pair": "配对",
+      "checking": "正在检查…",
+      "failedTitle": "配对未成功",
+      "problems": {
+        "wrong_code": "代码与 Mac 上的不一致。请再次轻点“查找我的 Mac”以获取新代码。",
+        "no_code": "已超时：两分钟内未输入代码。请让两个 App 都保持打开，然后重新开始。",
+        "busy": "你的 Mac 正在与另一台设备配对。请稍后重试。",
+        "unreachable": "无法连接你的 Mac。请在 Mac 上保持 Wispr Bro 打开并打开“与你的 iPhone 同步”，并确认两台设备的“设置”中都已在“本地网络”下允许 Wispr Bro。",
+        "failed": "配对未完成。请从“查找我的 Mac”重新开始。",
+        "dropped": "配对完成前，与 Mac 的连接已断开。请让两个 App 都保持打开并将设备放在一起，然后重试。",
+        "version": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。请将两者都更新，然后重新配对。",
+        "update_mac": "请更新 Mac 上的 Wispr Bro：它运行的同步版本比这台 iPhone 旧。然后重新配对。",
+        "update_this": "请更新这台 iPhone 上的 Wispr Bro：你的 Mac 运行的同步版本较新。然后重新配对。",
+        "denied": "Wispr Bro 未被允许使用本地网络。请在“设置” › “隐私与安全性” › “本地网络” › “Wispr Bro”中允许，然后再次轻点“查找我的 Mac”。"
+      },
+      "macProblems": {
+        "wrong_code": "你的 iPhone 输入的代码不同。请在 iPhone 上重新开始：轻点“查找我的 Mac”，然后输入这里显示的新代码。",
+        "update_phone": "请更新 iPhone 上的 Wispr Bro：它运行的同步版本比这台 Mac 旧。然后重新配对。",
+        "update_this": "请更新这台 Mac 上的 Wispr Bro：你的 iPhone 运行的同步版本较新。然后重新配对。",
+        "version": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。请将两者都更新，然后重新配对。",
+        "failed": "配对未完成。请在 iPhone 上从“查找我的 Mac”重新开始。"
       }
     }
   },

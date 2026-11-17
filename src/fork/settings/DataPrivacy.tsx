@@ -17,7 +17,9 @@ import {
   type ForkDataLocations,
 } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { Button, Checkbox, FOCUS_RING, SettingGroup, SettingRow } from "../ui";
+import { MacSync } from "../sync/MacSync";
 import { PanelCard, SelectRow, ToggleRow } from "./Controls";
 import { useForkSettings } from "./useForkSettings";
 
@@ -178,6 +180,9 @@ export function DataPrivacy() {
   };
 
   if (!settings) return null;
+  // Wispr Bro for iPhone: no Finder, save panels, per-app context or
+  // updater; the promise, retention and Delete all stay.
+  const ios = isIos();
 
   return (
     <div className="flex flex-col gap-8" data-testid="wb-settings-privacy">
@@ -210,7 +215,10 @@ export function DataPrivacy() {
                   <p>{t("settingsModal.privacy.promise.networkIntro")}</p>
                   <ul className="list-disc space-y-1 ps-5">
                     <li>{t("settingsModal.privacy.promise.models")}</li>
-                    <li>{t("settingsModal.privacy.promise.updates")}</li>
+                    {!ios && (
+                      <li>{t("settingsModal.privacy.promise.updates")}</li>
+                    )}
+                    <li>{t("settingsModal.privacy.promise.sync")}</li>
                   </ul>
                 </div>
               </details>
@@ -219,37 +227,39 @@ export function DataPrivacy() {
         </PanelCard>
       </div>
 
-      <div data-testid="wb-privacy-locations">
-        <SettingGroup label={t("settingsModal.privacy.locations.title")}>
-          {LOCATION_KINDS.map((kind) => (
-            <SettingRow
-              key={kind}
-              title={t(`settingsModal.privacy.locations.${kind}`)}
-              description={
-                <span
-                  className="font-(family-name:--wb-font-mono) text-[12px] break-all"
-                  dir="ltr"
-                  data-testid={`wb-privacy-path-${kind}`}
-                >
-                  {locations?.[kind] ??
-                    t("settingsModal.privacy.locations.loading")}
-                </span>
-              }
-              control={
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => void showLocation(kind)}
-                  data-testid={`wb-privacy-show-${kind}`}
-                >
-                  <FolderOpen size={14} />
-                  {t("settingsModal.privacy.locations.show")}
-                </Button>
-              }
-            />
-          ))}
-        </SettingGroup>
-      </div>
+      {!ios && (
+        <div data-testid="wb-privacy-locations">
+          <SettingGroup label={t("settingsModal.privacy.locations.title")}>
+            {LOCATION_KINDS.map((kind) => (
+              <SettingRow
+                key={kind}
+                title={t(`settingsModal.privacy.locations.${kind}`)}
+                description={
+                  <span
+                    className="font-(family-name:--wb-font-mono) text-[12px] break-all"
+                    dir="ltr"
+                    data-testid={`wb-privacy-path-${kind}`}
+                  >
+                    {locations?.[kind] ??
+                      t("settingsModal.privacy.locations.loading")}
+                  </span>
+                }
+                control={
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void showLocation(kind)}
+                    data-testid={`wb-privacy-show-${kind}`}
+                  >
+                    <FolderOpen size={14} />
+                    {t("settingsModal.privacy.locations.show")}
+                  </Button>
+                }
+              />
+            ))}
+          </SettingGroup>
+        </div>
+      )}
 
       <div data-testid="wb-privacy-retention">
         <SettingGroup label={t("settingsModal.privacy.retention.title")}>
@@ -296,60 +306,66 @@ export function DataPrivacy() {
         </SettingGroup>
       </div>
 
-      <div data-testid="wb-privacy-choices">
-        <SettingGroup label={t("settingsModal.privacy.choices.title")}>
-          <ToggleRow
-            label={t("settingsModal.privacy.choices.context")}
-            hint={t("settingsModal.privacy.choices.contextHint")}
-            checked={settings.context_awareness}
-            disabled={!!pending.context_awareness}
-            onChange={(checked) =>
-              void setSetting("context_awareness", checked)
-            }
-            testId="wb-privacy-context"
-          />
-          <ToggleRow
-            label={t("settingsModal.privacy.choices.learn")}
-            hint={t("settingsModal.privacy.choices.learnHint")}
-            checked={settings.auto_learn_enabled}
-            disabled={!!pending.auto_learn_enabled}
-            onChange={(checked) =>
-              void setSetting("auto_learn_enabled", checked)
-            }
-            testId="wb-privacy-learn"
-          />
-          <ToggleRow
-            label={t("settingsModal.privacy.choices.updates")}
-            hint={t("settingsModal.privacy.choices.updatesHint")}
-            checked={settings.update_checks_enabled}
-            disabled={!!pending.update_checks_enabled}
-            onChange={(checked) =>
-              void setSetting("update_checks_enabled", checked)
-            }
-            testId="wb-privacy-updates"
-          />
-        </SettingGroup>
-      </div>
+      {!ios && (
+        <div data-testid="wb-privacy-choices">
+          <SettingGroup label={t("settingsModal.privacy.choices.title")}>
+            <ToggleRow
+              label={t("settingsModal.privacy.choices.context")}
+              hint={t("settingsModal.privacy.choices.contextHint")}
+              checked={settings.context_awareness}
+              disabled={!!pending.context_awareness}
+              onChange={(checked) =>
+                void setSetting("context_awareness", checked)
+              }
+              testId="wb-privacy-context"
+            />
+            <ToggleRow
+              label={t("settingsModal.privacy.choices.learn")}
+              hint={t("settingsModal.privacy.choices.learnHint")}
+              checked={settings.auto_learn_enabled}
+              disabled={!!pending.auto_learn_enabled}
+              onChange={(checked) =>
+                void setSetting("auto_learn_enabled", checked)
+              }
+              testId="wb-privacy-learn"
+            />
+            <ToggleRow
+              label={t("settingsModal.privacy.choices.updates")}
+              hint={t("settingsModal.privacy.choices.updatesHint")}
+              checked={settings.update_checks_enabled}
+              disabled={!!pending.update_checks_enabled}
+              onChange={(checked) =>
+                void setSetting("update_checks_enabled", checked)
+              }
+              testId="wb-privacy-updates"
+            />
+          </SettingGroup>
+        </div>
+      )}
+
+      {!ios && <MacSync />}
 
       <div data-testid="wb-privacy-export">
         <SettingGroup label={t("settingsModal.privacy.export.title")}>
-          <SettingRow
-            title={t("settingsModal.privacy.export.button")}
-            description={t("settingsModal.privacy.export.hint")}
-            control={
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => void exportData()}
-                disabled={busy !== null}
-                aria-busy={busy === "export"}
-                data-testid="wb-privacy-export-button"
-              >
-                <Download size={14} />
-                {t("settingsModal.privacy.export.button")}
-              </Button>
-            }
-          />
+          {!ios && (
+            <SettingRow
+              title={t("settingsModal.privacy.export.button")}
+              description={t("settingsModal.privacy.export.hint")}
+              control={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void exportData()}
+                  disabled={busy !== null}
+                  aria-busy={busy === "export"}
+                  data-testid="wb-privacy-export-button"
+                >
+                  <Download size={14} />
+                  {t("settingsModal.privacy.export.button")}
+                </Button>
+              }
+            />
+          )}
           <SettingRow
             title={t("settingsModal.privacy.delete.button")}
             description={t("settingsModal.privacy.delete.short")}
@@ -373,42 +389,44 @@ export function DataPrivacy() {
         </SettingGroup>
       </div>
 
-      <div data-testid="wb-privacy-diagnostics">
-        <SettingGroup label={t("settingsModal.privacy.diagnostics.title")}>
-          <SettingRow
-            title={t("settingsModal.privacy.diagnostics.rowTitle")}
-            description={t("settingsModal.privacy.diagnostics.hint")}
-            control={
-              <>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => void copyDiagnostics()}
-                  disabled={busy !== null}
-                  data-testid="wb-privacy-copy-diagnostics"
-                >
-                  <Copy size={14} />
-                  {t("settingsModal.privacy.diagnostics.copy")}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => void saveDiagnostics()}
-                  disabled={busy !== null}
-                  data-testid="wb-privacy-save-diagnostics"
-                >
-                  <Save size={14} />
-                  {t("settingsModal.privacy.diagnostics.save")}
-                </Button>
-              </>
-            }
-          >
-            <p className="type-small text-(--wb-ink-2)">
-              {t("settingsModal.privacy.diagnostics.sanitized")}
-            </p>
-          </SettingRow>
-        </SettingGroup>
-      </div>
+      {!ios && (
+        <div data-testid="wb-privacy-diagnostics">
+          <SettingGroup label={t("settingsModal.privacy.diagnostics.title")}>
+            <SettingRow
+              title={t("settingsModal.privacy.diagnostics.rowTitle")}
+              description={t("settingsModal.privacy.diagnostics.hint")}
+              control={
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void copyDiagnostics()}
+                    disabled={busy !== null}
+                    data-testid="wb-privacy-copy-diagnostics"
+                  >
+                    <Copy size={14} />
+                    {t("settingsModal.privacy.diagnostics.copy")}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void saveDiagnostics()}
+                    disabled={busy !== null}
+                    data-testid="wb-privacy-save-diagnostics"
+                  >
+                    <Save size={14} />
+                    {t("settingsModal.privacy.diagnostics.save")}
+                  </Button>
+                </>
+              }
+            >
+              <p className="type-small text-(--wb-ink-2)">
+                {t("settingsModal.privacy.diagnostics.sanitized")}
+              </p>
+            </SettingRow>
+          </SettingGroup>
+        </div>
+      )}
 
       <dialog
         ref={deleteDialog}

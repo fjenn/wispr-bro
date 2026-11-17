@@ -15,13 +15,14 @@ fn u(v: i64) -> u64 {
     u64::try_from(v).unwrap_or(0)
 }
 
-/// Lifetime sums of `daily_stats`.
+/// Lifetime sums of `all_daily_stats` (this device and, after a sync, the
+/// user's other devices).
 pub fn totals(conn: &Connection) -> Result<Totals, DbError> {
     Ok(conn.query_row(
         "SELECT COALESCE(SUM(words), 0), COALESCE(SUM(dictations), 0),
                 COALESCE(SUM(speech_ms), 0), COALESCE(SUM(timed_words), 0),
                 COALESCE(SUM(fixes_dictionary), 0), COALESCE(SUM(fixes_llm), 0)
-         FROM daily_stats",
+         FROM all_daily_stats",
         [],
         |r| {
             Ok(Totals {
@@ -39,7 +40,7 @@ pub fn totals(conn: &Connection) -> Result<Totals, DbError> {
 /// Every `daily_stats` day (malformed days skipped).
 pub fn days(conn: &Connection) -> Result<Vec<DayTotals>, DbError> {
     let mut stmt =
-        conn.prepare_cached("SELECT day, words, dictations FROM daily_stats ORDER BY day")?;
+        conn.prepare_cached("SELECT day, words, dictations FROM all_daily_stats ORDER BY day")?;
     let rows = stmt.query_map([], |r| {
         Ok((
             r.get::<_, String>(0)?,
@@ -65,7 +66,7 @@ pub fn days(conn: &Connection) -> Result<Vec<DayTotals>, DbError> {
 pub fn categories(conn: &Connection) -> Result<Vec<CategoryTotals>, DbError> {
     let mut stmt = conn.prepare_cached(
         "SELECT usage_category, SUM(words), SUM(dictations)
-         FROM daily_app_stats GROUP BY usage_category",
+         FROM all_daily_app_stats GROUP BY usage_category",
     )?;
     let rows = stmt.query_map([], |r| {
         Ok((

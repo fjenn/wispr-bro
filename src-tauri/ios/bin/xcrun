@@ -1,0 +1,29 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Wispr Bro (iOS): `tauri ios build --target aarch64-sim` refuses to build
+# unless a simulator runtime with exactly the simulator SDK's version is
+# installed (Xcode 27.2's SDK next to an iOS 27.0 runtime: "Xcode Simulator
+# SDK 27.2 is not installed"). Xcode itself builds with the newer SDK and
+# runs on the older runtime, so for that one query the newest installed iOS
+# runtime is also listed under the SDK's version. Nothing is downloaded and
+# every other xcrun call passes through. First on PATH for iOS builds only
+# (see ../env.sh).
+if [ "$1" = "simctl" ] && [ "$2" = "list" ] && [ "$3" = "runtimes" ] && [ "$4" = "--json" ]; then
+  sdk=$(/usr/bin/xcrun --sdk iphonesimulator --show-sdk-version 2>/dev/null)
+  /usr/bin/xcrun "$@" | SDK_VERSION="$sdk" /usr/bin/python3 -c '
+import json, os, sys
+data = json.load(sys.stdin)
+sdk = os.environ.get("SDK_VERSION", "")
+runtimes = data.get("runtimes", [])
+ios = [r for r in runtimes if r.get("platform", "iOS") == "iOS" and r.get("isAvailable")]
+if sdk and ios and not any(r.get("version") == sdk for r in ios):
+    newest = max(ios, key=lambda r: [int(p) for p in r.get("version", "0").split(".") if p.isdigit()])
+    alias = dict(newest)
+    alias["version"] = sdk
+    alias["name"] = "iOS " + sdk
+    runtimes.append(alias)
+json.dump(data, sys.stdout)
+'
+  exit $?
+fi
+exec /usr/bin/xcrun "$@"

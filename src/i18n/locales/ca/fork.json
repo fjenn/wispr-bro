@@ -258,9 +258,10 @@
         "local": "El teu dictat i les teves dades no surten d'aquest Mac.",
         "noCloud": "El reconeixement de veu, la neteja i l'Historial funcionen localment. No hi ha compte, ni telemetria, ni dictat ni neteja al núvol.",
         "network": "Què fa servir la xarxa",
-        "networkIntro": "Wispr Bro utilitza la xarxa només per a aquestes dues coses:",
+        "networkIntro": "Wispr Bro només fa servir la xarxa per a aquestes coses:",
         "models": "Baixar models de veu i de neteja de Hugging Face (huggingface.co).",
-        "updates": "Quan la comprovació d'actualitzacions està activada, cercar actualitzacions de l'app a GitHub (github.com)."
+        "updates": "Quan la comprovació d'actualitzacions està activada, cercar actualitzacions de l'app a GitHub (github.com).",
+        "sync": "Quan la sincronització està activada, el Mac i l’iPhone es comuniquen directament per la xarxa local. Sense servidor."
       },
       "locations": {
         "title": "On es desen les teves dades",
@@ -331,6 +332,23 @@
         "saved": "S'han desat els diagnòstics anonimitzats.",
         "failed": "No s'han pogut preparar els diagnòstics. Torna-ho a provar.",
         "rowTitle": "Comparteix diagnòstics"
+      },
+      "sync": {
+        "title": "Sincronització",
+        "rowTitle": "Sincronitza amb un fitxer",
+        "hint": "Diccionari, fragments, configuració i estadístiques en un sol fitxer per enviar per AirDrop.",
+        "import": "Importa…",
+        "export": "Exporta…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Fitxer de sincronització de Wispr Bro",
+        "exported": "Fitxer de sincronització desat i mostrat al Finder. Envia’l a l’iPhone per AirDrop.",
+        "last": "Última combinació amb {{device}}: {{when}}. L’historial i les gravacions no s’inclouen mai.",
+        "never": "Encara no sincronitzat. L’historial i les gravacions no s’inclouen mai.",
+        "autoTitle": "Sincronitza amb l’iPhone",
+        "autoHint": "Manté el diccionari, els fragments, la configuració i les estadístiques iguals als dos dispositius mentre les dues apps són obertes.",
+        "direct": "La sincronització va directament entre els teus dispositius per la xarxa local. Sense servidor. L’historial i les gravacions no se sincronitzen mai.",
+        "howTo": "A l’iPhone, obre Wispr Bro, ves a Configuració › Sincronitza amb el Mac i toca Cerca el meu Mac.",
+        "denied": "El macOS no deixa que Wispr Bro cerqui dispositius a la xarxa local. Permet-ho a Configuració del Sistema › Privacitat i seguretat › Xarxa local."
       }
     },
     "advanced": {
@@ -1085,7 +1103,10 @@
       "wordsPerMinute": "Paraules per minut",
       "streak": "Ratxa de dies",
       "notEnoughSpeech": "Encara no hi ha prou dictat",
-      "unavailable": "Encara no està disponible"
+      "unavailable": "Encara no està disponible",
+      "allDevices_one": "Inclou {{count}} dispositiu més",
+      "allDevices_many": "Inclou {{count}} de dispositius més",
+      "allDevices_other": "Inclou {{count}} dispositius més"
     },
     "voiceProfile": {
       "title": "El teu perfil de veu",
@@ -2822,6 +2843,452 @@
         "copied": "Copiat",
         "copyFailed": "No s'ha pogut copiar. Selecciona la taula i copia-la manualment.",
         "done": "Fet"
+      }
+    }
+  },
+  "ios": {
+    "close": "Tanca",
+    "tabs": {
+      "label": "Principal",
+      "home": "Inici",
+      "history": "Historial",
+      "voice": "La meva veu",
+      "scratchpad": "Esborrany",
+      "settings": "Configuració"
+    },
+    "session": {
+      "status": {
+        "noSession": "Sessió inactiva",
+        "idle": "Sessió activa",
+        "listening": "Escoltant",
+        "transcribing": "Escrivint",
+        "error": "Sessió aturada"
+      },
+      "offTitle": "A punt quan tu vulguis",
+      "offBody": "Inicia una sessió i dicta en qualsevol app amb el teclat de Wispr Bro.",
+      "onTitle": "Dicta des de qualsevol app",
+      "onBody": "Canvia al teclat de Wispr Bro i toca el micròfon.",
+      "onBodyEnds": "Canvia al teclat de Wispr Bro i toca el micròfon. S’acaba a les {{time}} si no dictes.",
+      "onBodyNever": "Canvia al teclat de Wispr Bro i toca el micròfon. Es manté activa fins que la finalitzis.",
+      "errorBody": "La sessió ha acabat inesperadament. Torna-la a iniciar per continuar dictant.",
+      "start": "Inicia la sessió",
+      "retry": "Torna a començar",
+      "end": "Finalitza la sessió",
+      "failed": "No ha funcionat. Torna-ho a provar.",
+      "timeoutLine": "S’acaba {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Immediatament",
+          "never": "Mai",
+          "minutes_one": "{{count}} minut",
+          "minutes_many": "{{count}} de minuts",
+          "minutes_other": "{{count}} minuts",
+          "hours_one": "{{count}} hora",
+          "hours_many": "{{count}} d’hores",
+          "hours_other": "{{count}} hores"
+        },
+        "sentence": {
+          "immediately": "just després de cada dictat",
+          "never": "només quan la finalitzis",
+          "minutes_one": "després de {{count}} minut sense dictar",
+          "minutes_many": "després de {{count}} de minuts sense dictar",
+          "minutes_other": "després de {{count}} minuts sense dictar",
+          "hours_one": "després de {{count}} hora sense dictar",
+          "hours_many": "després de {{count}} d’hores sense dictar",
+          "hours_other": "després de {{count}} hores sense dictar"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} de {{total}} fets",
+      "title": "Acaba la configuració",
+      "body": "Uns quants passos i podràs dictar en qualsevol app.",
+      "openSettings": "Obre Configuració",
+      "showMe": "Mostra-m’ho",
+      "failed": "No ha funcionat. Torna-ho a provar.",
+      "mic": {
+        "title": "Permet el micròfon",
+        "hint": "Només s’utilitza mentre dictes.",
+        "denied": "Desactivat. Permet-lo a Configuració.",
+        "allow": "Permet"
+      },
+      "keyboard": {
+        "title": "Afegeix el teclat del {{appName}}",
+        "hint": "A Configuració, a Teclats."
+      },
+      "fullAccess": {
+        "title": "Permet l’accés complet",
+        "hint": "Permet que el teclat es comuniqui amb l’app. No surt res d’aquest iPhone."
+      },
+      "model": {
+        "title": "Model de veu",
+        "ready": "A punt",
+        "waiting": "Preparant…",
+        "downloading": "Baixant… {{percent}} %",
+        "failed": "La baixada s’ha aturat.",
+        "retry": "Torna-ho a provar"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Afegeix el teclat del {{appName}}",
+      "steps": {
+        "open": "Toca Obre Configuració i després Teclats",
+        "enable": "Activa {{appName}}",
+        "fullAccess": "Activa Permet l’accés complet"
+      },
+      "drawn": {
+        "keyboards": "Teclats",
+        "fullAccess": "Permet l’accés complet"
+      },
+      "privacyTitle": "Per què l’accés complet?",
+      "privacy": "Només serveix perquè el teclat es pugui comunicar amb l’app Wispr Bro en aquest iPhone. El que escrius i dius no surt mai del telèfon.",
+      "elsewhere": "No hi és? Ves a Configuració, General, Teclat, Teclats, Afegeix un teclat nou."
+    },
+    "tryIt": {
+      "title": "Prova-ho",
+      "placeholder": "Toca aquí i dicta…",
+      "hint": "Mantén premuda la tecla del globus per canviar a {{appName}}, toca el micròfon i parla.",
+      "clear": "Esborra"
+    },
+    "style": {
+      "intro": "Tria com s’escriuen els teus dictats, en totes les apps."
+    },
+    "settings": {
+      "saveFailed": "No s’ha pogut desar. Torna-ho a provar.",
+      "local": "Tot es queda en aquest iPhone.",
+      "groups": {
+        "dictation": "Dictat",
+        "session": "Sessió",
+        "feedback": "So",
+        "app": "Wispr Bro",
+        "appearance": "Aparença"
+      },
+      "pages": {
+        "languages": "Idiomes",
+        "cleanup": "Neteja",
+        "session": "Finalitza la sessió després de",
+        "privacy": "Dades i privacitat",
+        "about": "Informació",
+        "licences": "Reconeixements",
+        "sync": "Sincronitza amb el Mac"
+      },
+      "cleanup": {
+        "notHere": "No disponible en aquest iPhone",
+        "off": "Apple Intelligence està desactivada",
+        "noneTitle": "No disponible en aquest iPhone",
+        "noneBody": "La neteja fa servir Apple Intelligence, que necessita l’iOS 26 en un iPhone 15 Pro o posterior. Les teves paraules s’escriuen tal com les dius, amb puntuació i majúscules.",
+        "offTitle": "Activa Apple Intelligence",
+        "offBody": "La neteja fa servir el model d’Apple al dispositiu. Activa Apple Intelligence a l’app Configuració, a Apple Intelligence i Siri, i torna aquí.",
+        "preparingTitle": "El model d’Apple s’està preparant",
+        "preparingBody": "L’iOS encara l’està baixant. Mentrestant, les teves paraules s’escriuen tal com les dius.",
+        "note": "Beta a l’iPhone. La neteja fa servir Apple Intelligence en aquest telèfon; no en surt res. És menys acurada que al Mac: deixa més crosses i, rarament, s’empassa una paraula."
+      },
+      "session": {
+        "endAfter": "Finalitza la sessió després de",
+        "intro": "Una sessió manté el micròfon a punt perquè el teclat pugui dictar. S’acaba sola quan deixes de fer-la servir.",
+        "footer": "Un temps més curt estalvia bateria. Sempre pots finalitzar una sessió des d’Inici.",
+        "autoReturn": "Torna a la meva app automàticament",
+        "autoReturnHint": "Quan el teclat obre Wispr Bro per iniciar una sessió, et torna directament a l’app on eres."
+      },
+      "sounds": "Sons de dictat",
+      "soundsHint": "Un so suau quan l’escolta comença i s’acaba.",
+      "theme": {
+        "system": "Automàtic",
+        "light": "Clar",
+        "dark": "Fosc"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} paraula",
+      "words_many": "{{count}} de paraules",
+      "words_other": "{{count}} paraules"
+    },
+    "scratchpad": {
+      "emptyHelp": "Crea una nota i escriu-hi o dicta-hi. Cada nota es desa sola.",
+      "noResultsHelp": "Prova amb una altra paraula.",
+      "notes": "Notes",
+      "noteMenu": "Més opcions per a {{name}}",
+      "more": "Més",
+      "done": "Fet",
+      "share": "Comparteix",
+      "cancel": "Cancel·la",
+      "deleteTitle": "Vols eliminar aquesta nota?",
+      "deleteBody": "“{{name}}” s’eliminarà per sempre.",
+      "error": "No ha funcionat. El teu text encara és aquí; torna-ho a provar.",
+      "words_one": "{{count}} paraula",
+      "words_many": "{{count}} de paraules",
+      "words_other": "{{count}} paraules",
+      "writing": "Escrivint…",
+      "recordFailed": "No s’ha pogut gravar. Torna-ho a provar.",
+      "polish": {
+        "off": "Polish fa servir Apple Intelligence, que està desactivada. Activa-la a l’app Configuració, a Apple Intelligence i Siri.",
+        "preparing": "El model d’Apple encara s’està preparant. Polish funcionarà quan l’iOS l’hagi baixat.",
+        "unsupported": "Polish necessita Apple Intelligence, que aquest iPhone no té."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro és programari lliure i de codi obert, creat sobre la feina de moltes altres persones.",
+      "own": "Llicència de Wispr Bro",
+      "source": "Codi font",
+      "builtWith": "Creat amb",
+      "all": "Tots els avisos de tercers",
+      "footer": "Cada component i el text de la seva llicència figuren als avisos de tercers.",
+      "loading": "Carregant…",
+      "failed": "No s’ha pogut carregar el text de la llicència."
+    },
+    "onboarding": {
+      "later": "Ho faré més tard",
+      "welcome": {
+        "subtitle": "Toca el micròfon del teclat de Wispr Bro i parla. El text net apareix a l’app on estiguis escrivint.",
+        "privacyTitle": "Tot es queda en aquest iPhone"
+      },
+      "microphone": {
+        "title": "Permet el micròfon",
+        "subtitle": "Wispr Bro només escolta mentre dictes. L’àudio no surt mai d’aquest iPhone.",
+        "allow": "Permet el micròfon",
+        "prompt": "L’iOS t’ho preguntarà una vegada. Toca Permet.",
+        "granted": "Micròfon permès.",
+        "denied": "El micròfon està desactivat per a Wispr Bro. Activa’l a Configuració i torna aquí."
+      },
+      "keyboard": {
+        "title": "Afegeix el teclat del {{appName}}",
+        "subtitle": "Així dictes en altres apps. Només cal un minut i una sola vegada.",
+        "ready": "El teclat està afegit i es pot comunicar amb l’app. Tot a punt.",
+        "added": "El teclat ja està afegit. Ara, prova’l."
+      },
+      "model": {
+        "title": "Baixant el teu model de veu",
+        "titleReady": "El teu model de veu està a punt",
+        "subtitle": "Una sola baixada. Després, el dictat funciona sense internet.",
+        "starting": "Preparant…",
+        "downloading": "Baixant…",
+        "verifying": "Comprovant la baixada…",
+        "ready": "A punt",
+        "failed": "La baixada s’ha aturat.",
+        "offline": "No hi ha connexió a internet.",
+        "noSpace": "No hi ha prou espai lliure. Calen uns {{mb}} MB.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} de {{total}} MB",
+        "eta_one": "falta {{count}} minut aprox.",
+        "eta_many": "falten uns {{count}} de minuts",
+        "eta_other": "falten uns {{count}} minuts",
+        "offlineReady": "Desat en aquest iPhone.",
+        "background": "Continua en segon pla"
+      },
+      "practice": {
+        "title": "Prova el teu primer dictat",
+        "subtitle": "Digues el que vulguis. N’hi ha prou amb una frase sobre el teu dia.",
+        "notReady": "Podràs practicar quan acabi la configuració. Omet-ho de moment i prova-ho des d’Inici.",
+        "placeholder": "Les teves paraules apareixen aquí…",
+        "fieldLabel": "Text de pràctica",
+        "skip": "Omet",
+        "steps": {
+          "tap": "Toca el camp de dalt",
+          "switch": "Mantén premuda la tecla del globus i tria {{appName}}",
+          "speak": "Toca el micròfon, parla i després toca la marca de verificació"
+        }
+      },
+      "done": {
+        "title": "Ja està tot a punt",
+        "titlePending": "Gairebé ja hi som",
+        "subtitle": "Això és tot.",
+        "subtitlePending": "A Inici veuràs els passos que encara falten.",
+        "finish": "Comença a fer servir {{appName}}",
+        "points": {
+          "session": "Inicia una sessió a l’app quan vulguis dictar",
+          "keyboard": "Canvia al teclat del {{appName}} en qualsevol app i toca el micròfon",
+          "private": "Tot es queda en aquest iPhone"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Inicia una sessió i dicta en qualsevol app. Tots els dictats es conserven aquí, en aquest iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Només es mostra en aquest iPhone."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "El teu dictat i les teves dades no surten d’aquest iPhone."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro aturarà el que estigui fent, esborrarà les dades i tornarà a començar des de la pantalla de benvinguda."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Calculat en aquest iPhone a partir del teu últim dictat. No surt res del teu iPhone.",
+          "footnote_many": "Calculat en aquest iPhone a partir dels teus últims {{count, number}} de dictats. No surt res del teu iPhone.",
+          "footnote_other": "Calculat en aquest iPhone a partir dels teus últims {{count, number}} dictats. No surt res del teu iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Vincula el Mac una sola vegada. A partir d’aquí, el diccionari, els fragments, la configuració i les estadístiques es mantenen iguals als dos dispositius, sense fer res.",
+      "fromMac": {
+        "title": "Des del Mac",
+        "step1": "Al Mac, obre Wispr Bro, ves a Configuració › Dades i privacitat i tria Exportar les meves dades.",
+        "step2": "Envia el fitxer a aquest iPhone per AirDrop i obre’l amb Wispr Bro.",
+        "step3": "Revisa què canviarà i toca Combina.",
+        "choose": "Tria un fitxer",
+        "reading": "Llegint…",
+        "footer": "Ja has desat el fitxer a Fitxers? Tria’l aquí. No es llegeixen l’historial ni les gravacions del Mac."
+      },
+      "toMac": {
+        "title": "Al Mac",
+        "send": "Envia al Mac",
+        "csv": "Afegeix fitxers CSV",
+        "csvHint": "Per a un Mac que encara no pot obrir fitxers de sincronització. Importa’ls a les seves pàgines Diccionari i Fragments.",
+        "footer": "Envia el fitxer al Mac per AirDrop i importa’l a Configuració › Dades i privacitat. L’historial i les gravacions es queden en aquest iPhone."
+      },
+      "devices": {
+        "title": "Sincronitzats",
+        "none": "Encara no sincronitzat",
+        "merged": "Combinat: {{when}}",
+        "words_one": "{{words}} paraula",
+        "words_many": "{{words}} de paraules",
+        "words_other": "{{words}} paraules"
+      },
+      "pair": {
+        "title": "Vincula el Mac",
+        "step1": "Al Mac, obre Wispr Bro, ves a Configuració › Dades i privacitat i activa Sincronitza amb l’iPhone.",
+        "step2": "Toca Cerca el meu Mac i tria’l.",
+        "step3": "Escriu el codi que mostra el Mac.",
+        "find": "Cerca el meu Mac",
+        "looking": "Cercant el Mac…",
+        "stop": "Deixa de cercar",
+        "nearby": "Macs a prop",
+        "footer": "Els dos dispositius han d’estar a la mateixa xarxa Wi-Fi, o a prop l’un de l’altre amb la Wi-Fi i el Bluetooth activats."
+      },
+      "mac": {
+        "title": "El teu Mac",
+        "footer": "L’iPhone se sincronitza mentre Wispr Bro és obert o hi ha una sessió de dictat activa. La sincronització va directament entre els teus dispositius per la xarxa local. Sense servidor."
+      },
+      "file": {
+        "title": "Sincronitza amb un fitxer",
+        "hint": "Sense vincular: envia un fitxer de l’un a l’altre per AirDrop."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "el teu Mac",
+      "iphone": "el teu iPhone",
+      "macName": "El teu Mac",
+      "iphoneName": "El teu iPhone"
+    },
+    "parts": {
+      "dictionary": "Diccionari",
+      "snippets": "Fragments",
+      "settings": "Configuració",
+      "stats": "Estadístiques"
+    },
+    "review": {
+      "title": "Combina amb {{device}}",
+      "titleFile": "Importa {{device}}",
+      "made": "Creat: {{when}}",
+      "madeWith": "Creat: {{when}} amb Wispr Bro {{version}}",
+      "added_one": "{{count}} nou",
+      "added_many": "{{count}} nous",
+      "added_other": "{{count}} nous",
+      "changed_one": "{{count}} canviat",
+      "changed_many": "{{count}} canviats",
+      "changed_other": "{{count}} canviats",
+      "removed_one": "{{count}} eliminat",
+      "removed_many": "{{count}} eliminats",
+      "removed_other": "{{count}} eliminats",
+      "stats_one": "{{words}} paraules en {{count}} dia",
+      "stats_many": "{{words}} paraules en {{count}} de dies",
+      "stats_other": "{{words}} paraules en {{count}} dies",
+      "same": "Al dia",
+      "notInFile": "No és en aquest fitxer",
+      "upToDate": "Tot el que hi ha en aquest fitxer ja és aquí.",
+      "privacy": "L’historial i les gravacions no se sincronitzen. Es queden al dispositiu on es van crear.",
+      "privacyExport": "Aquesta és l’exportació completa del Mac. Només se’n llegeixen el diccionari, els fragments, la configuració i les estadístiques. L’historial i les gravacions, no.",
+      "merge": "Combina",
+      "merging": "Combinant…",
+      "cancel": "Cancel·la",
+      "done": "Fet",
+      "privacyExportCopy": "Després s’elimina la còpia del fitxer d’aquest iPhone."
+    },
+    "result": {
+      "title": "Combinat",
+      "from": "Origen: {{device}}",
+      "merged": "Ara tots dos estan al dia.",
+      "nothing": "No ha calgut canviar res."
+    },
+    "problems": {
+      "title": "Aquest fitxer no es pot combinar",
+      "unreadable": "No s’ha pogut llegir el fitxer. Torna’l a enviar i prova-ho un altre cop.",
+      "not_wispr_bro": "Aquest no és un fitxer de Wispr Bro. Tria un fitxer de sincronització (.wisprbro), les dades exportades del Mac (.zip) o un CSV de Diccionari o de Fragments.",
+      "too_new": "Aquest fitxer s’ha creat amb una versió més nova de Wispr Bro. Actualitza Wispr Bro aquí i torna a obrir el fitxer.",
+      "own_file": "Aquest fitxer s’ha creat en aquest dispositiu. Obre’l a l’altre dispositiu.",
+      "failed": "S’ha produït un error en llegir el fitxer. No s’ha canviat res."
+    },
+    "sendFailed": "No s’ha pogut crear el fitxer de sincronització.",
+    "settingNames": {
+      "styles": "Estil",
+      "text_retention_days": "Conservació de l’historial",
+      "audio_retention_days": "Conservació de gravacions",
+      "typing_wpm": "Velocitat d’escriptura",
+      "typing_hours_per_day": "Temps d’escriptura",
+      "greeting_name": "Nom",
+      "spoken_languages": "Idiomes",
+      "audio_feedback": "Sons de dictat",
+      "audio_feedback_volume": "Volum del so"
+    },
+    "auto": {
+      "justNow": "ara mateix",
+      "inSync": "Sincronitzat",
+      "inSyncAgo": "Sincronitzat · últim canvi {{when}}",
+      "connecting": "Connectant…",
+      "macAway": "No es troba el Mac. Obre Wispr Bro al Mac.",
+      "phoneAway": "Sense connexió. Obre Wispr Bro a l’iPhone.",
+      "lastSynced": "Última sincronització: {{when}}.",
+      "syncNow": "Sincronitza ara",
+      "unpair": "Desvincula",
+      "unpairTitle": "Vols desvincular {{device}}?",
+      "unpairBody": "Deixaran de sincronitzar-se. No s’elimina res de cap dispositiu. Pots tornar-los a vincular en qualsevol moment.",
+      "direct": "La sincronització va directament entre els teus dispositius per la xarxa local. Sense servidor.",
+      "denied": "Wispr Bro no té permís per cercar dispositius a la xarxa local. Permet-ho a Configuració i torna-ho a provar.",
+      "openSettings": "Obre Configuració",
+      "needsUpdate": "Wispr Bro té versions diferents al Mac i a l’iPhone. Actualitza’ls tots dos per continuar sincronitzant."
+    },
+    "pairing": {
+      "showTitle": "Vincula amb {{device}}",
+      "showBody": "Escriu aquest codi a l’iPhone. Només funciona una vegada.",
+      "enterTitle": "Introdueix el codi",
+      "enterBody": "{{device}} mostra un codi de 6 xifres.",
+      "codeLabel": "Codi de vinculació",
+      "connecting": "Connectant amb {{device}}…",
+      "pair": "Vincula",
+      "checking": "Comprovant…",
+      "failedTitle": "No s’ha pogut vincular",
+      "problems": {
+        "wrong_code": "El codi no coincideix amb el del Mac. Torna a tocar Cerca el meu Mac per obtenir un codi nou.",
+        "no_code": "Temps esgotat: no s’ha introduït cap codi en dos minuts. Mantén les dues apps obertes i torna a començar.",
+        "busy": "El Mac s’està vinculant amb un altre dispositiu. Torna-ho a provar d’aquí a un moment.",
+        "unreachable": "No s’ha pogut connectar amb el Mac. Mantén-hi Wispr Bro obert amb Sincronitza amb l’iPhone activat i comprova que Wispr Bro té permís a Xarxa local a la configuració dels dos dispositius.",
+        "failed": "La vinculació no s’ha acabat. Torna a començar des de Cerca el meu Mac.",
+        "dropped": "La connexió amb el Mac s’ha perdut abans d’acabar la vinculació. Mantén les dues apps obertes i els dispositius a prop, i torna-ho a provar.",
+        "version": "Wispr Bro té versions diferents al Mac i a l’iPhone. Actualitza’ls tots dos i torna’ls a vincular.",
+        "update_mac": "Actualitza Wispr Bro al Mac: fa servir una versió de sincronització més antiga que aquest iPhone. Després, torna’ls a vincular.",
+        "update_this": "Actualitza Wispr Bro en aquest iPhone: el Mac fa servir una versió de sincronització més nova. Després, torna’ls a vincular.",
+        "denied": "Wispr Bro no té permís a la xarxa local. Permet-ho a Configuració › Privacitat i seguretat › Xarxa local › Wispr Bro i torna a tocar Cerca el meu Mac."
+      },
+      "macProblems": {
+        "wrong_code": "L’iPhone ha introduït un codi diferent. Torna a començar a l’iPhone: toca Cerca el meu Mac i escriu el codi nou que es mostra aquí.",
+        "update_phone": "Actualitza Wispr Bro a l’iPhone: fa servir una versió de sincronització més antiga que aquest Mac. Després, torna’ls a vincular.",
+        "update_this": "Actualitza Wispr Bro en aquest Mac: l’iPhone fa servir una versió de sincronització més nova. Després, torna’ls a vincular.",
+        "version": "Wispr Bro té versions diferents al Mac i a l’iPhone. Actualitza’ls tots dos i torna’ls a vincular.",
+        "failed": "La vinculació no s’ha acabat. Torna a començar a l’iPhone des de Cerca el meu Mac."
       }
     }
   },

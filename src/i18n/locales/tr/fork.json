@@ -257,9 +257,10 @@
         "local": "Dikteleriniz ve verileriniz bu Mac’te kalır.",
         "noCloud": "Konuşma tanıma, temizleme ve Geçmiş yerel olarak çalışır. Hesap, telemetri, bulutta dikte veya bulutta temizleme yoktur.",
         "network": "Ağı ne kullanıyor",
-        "networkIntro": "Wispr Bro ağı yalnızca şu iki şey için kullanır:",
+        "networkIntro": "Wispr Bro ağı yalnızca şunlar için kullanır:",
         "models": "Konuşma ve temizleme modellerini Hugging Face’ten (huggingface.co) indirmek.",
-        "updates": "Güncelleme denetimleri açıkken GitHub’da (github.com) uygulama güncellemelerini aramak."
+        "updates": "Güncelleme denetimleri açıkken GitHub’da (github.com) uygulama güncellemelerini aramak.",
+        "sync": "Eşzamanlama açıkken Mac’iniz ve iPhone’unuz yerel ağınız üzerinden doğrudan birbiriyle iletişim kurar. Sunucu yok."
       },
       "locations": {
         "title": "Verilerinizin konumu",
@@ -330,6 +331,23 @@
         "saved": "Arındırılmış tanılama verileri kaydedildi.",
         "failed": "Tanılama verileri hazırlanamadı. Yeniden deneyin.",
         "rowTitle": "Tanılama verilerini paylaş"
+      },
+      "sync": {
+        "title": "Eşzamanlama",
+        "rowTitle": "Dosyayla eşzamanla",
+        "hint": "Sözlük, metin parçaları, ayarlar ve istatistikler, AirDrop ile gönderilecek tek bir dosyada.",
+        "import": "İçe aktar…",
+        "export": "Dışa aktar…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Wispr Bro eşzamanlama dosyası",
+        "exported": "Eşzamanlama dosyası kaydedildi ve Finder’da gösterildi. AirDrop ile iPhone’unuza gönderin.",
+        "last": "Son birleştirme ({{device}}): {{when}}. Geçmiş ve kayıtlar asla dahil edilmez.",
+        "never": "Henüz eşzamanlanmadı. Geçmiş ve kayıtlar asla dahil edilmez.",
+        "autoTitle": "iPhone’unuzla eşzamanla",
+        "autoHint": "Her iki uygulama da açıkken sözlüğü, metin parçalarını, ayarları ve istatistikleri her ikisinde aynı tutar.",
+        "direct": "Eşzamanlama, yerel ağınız üzerinden doğrudan aygıtlarınız arasında yapılır. Sunucu yok. Geçmiş ve kayıtlar asla eşzamanlanmaz.",
+        "howTo": "iPhone’unuzda Wispr Bro’yu açın, Ayarlar › Mac’inizle eşzamanla’ya gidin ve Mac’imi bul’a dokunun.",
+        "denied": "macOS, Wispr Bro’nun yerel ağınızdaki aygıtları bulmasına izin vermiyor. Sistem Ayarları › Gizlilik ve Güvenlik › Yerel Ağ’da izin verin."
       }
     },
     "advanced": {
@@ -1070,7 +1088,9 @@
       "wordsPerMinute": "Dakikada kelime",
       "streak": "Günlük seri",
       "notEnoughSpeech": "Henüz yeterli konuşma yok",
-      "unavailable": "Henüz yok"
+      "unavailable": "Henüz yok",
+      "allDevices_one": "{{count}} diğer aygıt dahil",
+      "allDevices_other": "{{count}} diğer aygıt dahil"
     },
     "voiceProfile": {
       "title": "Ses profiliniz",
@@ -2731,6 +2751,439 @@
         "copied": "Kopyalandı",
         "copyFailed": "Kopyalanamadı. Tabloyu seçip kendiniz kopyalayın.",
         "done": "Bitti"
+      }
+    }
+  },
+  "ios": {
+    "close": "Kapat",
+    "tabs": {
+      "label": "Ana",
+      "home": "Ana Sayfa",
+      "history": "Geçmiş",
+      "voice": "Sesim",
+      "scratchpad": "Karalama",
+      "settings": "Ayarlar"
+    },
+    "session": {
+      "status": {
+        "noSession": "Oturum kapalı",
+        "idle": "Oturum açık",
+        "listening": "Dinleniyor",
+        "transcribing": "Yazılıyor",
+        "error": "Oturum durdu"
+      },
+      "offTitle": "Siz hazır olduğunuzda hazır",
+      "offBody": "Bir oturum başlatın, sonra Wispr Bro klavyesiyle herhangi bir uygulamada dikte edin.",
+      "onTitle": "Her uygulamadan dikte edin",
+      "onBody": "Wispr Bro klavyesine geçin ve mikrofona dokunun.",
+      "onBodyEnds": "Wispr Bro klavyesine geçin ve mikrofona dokunun. Dikte etmezseniz {{time}} saatinde sona erer.",
+      "onBodyNever": "Wispr Bro klavyesine geçin ve mikrofona dokunun. Siz bitirene kadar açık kalır.",
+      "errorBody": "Oturum beklenmedik şekilde sona erdi. Dikte etmeye devam etmek için yeniden başlatın.",
+      "start": "Oturumu başlat",
+      "retry": "Yeniden başlat",
+      "end": "Oturumu bitir",
+      "failed": "Bu işe yaramadı. Yeniden deneyin.",
+      "timeoutLine": "Bitiş: {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Hemen",
+          "never": "Hiçbir zaman",
+          "minutes_one": "{{count}} dakika",
+          "minutes_other": "{{count}} dakika",
+          "hours_one": "{{count}} saat",
+          "hours_other": "{{count}} saat"
+        },
+        "sentence": {
+          "immediately": "her dikteden hemen sonra",
+          "never": "yalnızca siz bitirdiğinizde",
+          "minutes_one": "dikte olmadan {{count}} dakika sonra",
+          "minutes_other": "dikte olmadan {{count}} dakika sonra",
+          "hours_one": "dikte olmadan {{count}} saat sonra",
+          "hours_other": "dikte olmadan {{count}} saat sonra"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} / {{total}} tamamlandı",
+      "title": "Kurulumu tamamlayın",
+      "body": "Birkaç adım, ardından herhangi bir uygulamada dikte edebilirsiniz.",
+      "openSettings": "Ayarlar’ı Aç",
+      "showMe": "Göster",
+      "failed": "Bu işe yaramadı. Yeniden deneyin.",
+      "mic": {
+        "title": "Mikrofona izin verin",
+        "hint": "Yalnızca dikte ederken kullanılır.",
+        "denied": "Kapalı. Ayarlar’da izin verin.",
+        "allow": "İzin Ver"
+      },
+      "keyboard": {
+        "title": "{{appName}} klavyesini ekleyin",
+        "hint": "Ayarlar’da, Klavyeler altında."
+      },
+      "fullAccess": {
+        "title": "Tam Erişime izin verin",
+        "hint": "Klavyenin uygulamaya ulaşmasını sağlar. Hiçbir şey bu iPhone’dan çıkmaz."
+      },
+      "model": {
+        "title": "Konuşma modeli",
+        "ready": "Hazır",
+        "waiting": "Hazırlanıyor…",
+        "downloading": "İndiriliyor… %{{percent}}",
+        "failed": "İndirme durdu.",
+        "retry": "Yeniden Dene"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "{{appName}} klavyesini ekleyin",
+      "steps": {
+        "open": "Ayarlar’ı Aç’a, ardından Klavyeler’e dokunun",
+        "enable": "{{appName}} seçeneğini açın",
+        "fullAccess": "Tam Erişime İzin Ver’i açın"
+      },
+      "drawn": {
+        "keyboards": "Klavyeler",
+        "fullAccess": "Tam Erişime İzin Ver"
+      },
+      "privacyTitle": "Neden Tam Erişim?",
+      "privacy": "Yalnızca klavyenin bu iPhone’daki Wispr Bro uygulamasıyla iletişim kurabilmesi için kullanılır. Yazdıklarınız ve söyledikleriniz telefondan asla çıkmaz.",
+      "elsewhere": "Görmüyor musunuz? Ayarlar › Genel › Klavye › Klavyeler › Yeni Klavye Ekle’ye gidin."
+    },
+    "tryIt": {
+      "title": "Deneyin",
+      "placeholder": "Buraya dokunun ve dikte edin…",
+      "hint": "{{appName}} klavyesine geçmek için küre tuşunu basılı tutun, ardından mikrofona dokunup konuşun.",
+      "clear": "Temizle"
+    },
+    "style": {
+      "intro": "Diktelerinizin her uygulamada nasıl yazılacağını seçin."
+    },
+    "settings": {
+      "saveFailed": "Kaydedilemedi. Yeniden deneyin.",
+      "local": "Her şey bu iPhone’da kalır.",
+      "groups": {
+        "dictation": "Dikte",
+        "session": "Oturum",
+        "feedback": "Ses",
+        "app": "Wispr Bro",
+        "appearance": "Görünüm"
+      },
+      "pages": {
+        "languages": "Diller",
+        "cleanup": "Temizleme",
+        "session": "Oturumu bitirme süresi",
+        "privacy": "Veriler ve Gizlilik",
+        "about": "Hakkında",
+        "licences": "Teşekkürler",
+        "sync": "Mac’inizle eşzamanla"
+      },
+      "cleanup": {
+        "notHere": "Bu iPhone’da yok",
+        "off": "Apple Intelligence kapalı",
+        "noneTitle": "Bu iPhone’da kullanılamıyor",
+        "noneBody": "Temizleme, iPhone 15 Pro veya daha yeni bir modelde iOS 26 gerektiren Apple Intelligence’ı kullanır. Sözleriniz, noktalama ve büyük harflerle söylediğiniz gibi yazılır.",
+        "offTitle": "Apple Intelligence’ı açın",
+        "offBody": "Temizleme, Apple’ın aygıt üzerindeki modelini kullanır. Ayarlar uygulamasında Apple Intelligence ve Siri bölümünden Apple Intelligence’ı açın, sonra geri gelin.",
+        "preparingTitle": "Apple’ın modeli hazırlanıyor",
+        "preparingBody": "iOS hâlâ onu indiriyor. O zamana kadar sözleriniz söylediğiniz gibi yazılır.",
+        "note": "iPhone’da beta. Temizleme bu telefondaki Apple Intelligence’ı kullanır; hiçbir şey telefondan çıkmaz. Mac’tekinden daha az titizdir: daha fazla dolgu sözcüğü bırakır ve nadiren bir sözcüğü atlar."
+      },
+      "session": {
+        "endAfter": "Oturumu bitirme süresi",
+        "intro": "Oturum, klavyenin dikte edebilmesi için mikrofonu hazır tutar. Kullanmayı bıraktığınızda kendiliğinden sona erer.",
+        "footer": "Daha kısa bir süre pil tasarrufu sağlar. Bir oturumu her zaman Ana Sayfa’dan bitirebilirsiniz.",
+        "autoReturn": "Uygulamama otomatik olarak dön",
+        "autoReturnHint": "Klavye bir oturum başlatmak için Wispr Bro’yu açtığında sizi doğrudan bulunduğunuz uygulamaya geri götürür."
+      },
+      "sounds": "Dikte sesleri",
+      "soundsHint": "Dinleme başladığında ve durduğunda yumuşak bir ses.",
+      "theme": {
+        "system": "Otomatik",
+        "light": "Açık",
+        "dark": "Koyu"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} kelime",
+      "words_other": "{{count}} kelime"
+    },
+    "scratchpad": {
+      "emptyHelp": "Bir not başlatın, sonra içine yazın veya dikte edin. Her not kendiliğinden kaydedilir.",
+      "noResultsHelp": "Başka bir sözcük deneyin.",
+      "notes": "Notlar",
+      "noteMenu": "{{name}} için diğer",
+      "more": "Diğer",
+      "done": "Bitti",
+      "share": "Paylaş",
+      "cancel": "Vazgeç",
+      "deleteTitle": "Bu not silinsin mi?",
+      "deleteBody": "“{{name}}” kalıcı olarak silinecek.",
+      "error": "Bu işe yaramadı. Metniniz hâlâ burada; yeniden deneyin.",
+      "words_one": "{{count}} kelime",
+      "words_other": "{{count}} kelime",
+      "writing": "Yazılıyor…",
+      "recordFailed": "Kaydedilemedi. Yeniden deneyin.",
+      "polish": {
+        "off": "Polish, kapalı olan Apple Intelligence’ı kullanır. Ayarlar uygulamasında Apple Intelligence ve Siri bölümünden açın.",
+        "preparing": "Apple’ın modeli hâlâ hazırlanıyor. iOS onu indirdiğinde Polish çalışır.",
+        "unsupported": "Polish, bu iPhone’da bulunmayan Apple Intelligence’ı gerektirir."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro, birçok kişinin emeği üzerine kurulmuş ücretsiz ve açık kaynaklı bir yazılımdır.",
+      "own": "Wispr Bro lisansı",
+      "source": "Kaynak kodu",
+      "builtWith": "Kullanılan bileşenler",
+      "all": "Tüm üçüncü taraf bildirimleri",
+      "footer": "Her bileşen ve lisans metni üçüncü taraf bildirimlerinde listelenir.",
+      "loading": "Yükleniyor…",
+      "failed": "Lisans metni yüklenemedi."
+    },
+    "onboarding": {
+      "later": "Bunu daha sonra yapacağım",
+      "welcome": {
+        "subtitle": "Wispr Bro klavyesindeki mikrofona dokunup konuşun. Temiz metin, yazdığınız uygulamaya yerleşir.",
+        "privacyTitle": "Her şey bu iPhone’da kalır"
+      },
+      "microphone": {
+        "title": "Mikrofona izin verin",
+        "subtitle": "Wispr Bro yalnızca siz dikte ederken dinler. Ses bu iPhone’dan asla çıkmaz.",
+        "allow": "Mikrofona izin ver",
+        "prompt": "iOS bir kez soracak. İzin Ver’e dokunun.",
+        "granted": "Mikrofona izin verildi.",
+        "denied": "Mikrofon Wispr Bro için kapalı. Ayarlar’da açın, sonra geri gelin."
+      },
+      "keyboard": {
+        "title": "{{appName}} klavyesini ekleyin",
+        "subtitle": "Diğer uygulamalarda bu şekilde dikte edersiniz. Bir kez, bir dakika sürer.",
+        "ready": "Klavye eklendi ve uygulamaya ulaşabiliyor. Hazırsınız.",
+        "added": "Klavye eklendi. Şimdi deneyin."
+      },
+      "model": {
+        "title": "Konuşma modeliniz indiriliyor",
+        "titleReady": "Konuşma modeliniz hazır",
+        "subtitle": "Tek bir indirme. Ardından dikte internet olmadan çalışır.",
+        "starting": "Hazırlanıyor…",
+        "downloading": "İndiriliyor…",
+        "verifying": "İndirme denetleniyor…",
+        "ready": "Hazır",
+        "failed": "İndirme durdu.",
+        "offline": "İnternet bağlantısı yok.",
+        "noSpace": "Yeterli boş alan yok. Yaklaşık {{mb}} MB gerekiyor.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} / {{total}} MB",
+        "eta_one": "yaklaşık {{count}} dakika kaldı",
+        "eta_other": "yaklaşık {{count}} dakika kaldı",
+        "offlineReady": "Bu iPhone’da saklanıyor.",
+        "background": "Arka planda devam et"
+      },
+      "practice": {
+        "title": "İlk diktenizi deneyin",
+        "subtitle": "Herhangi bir şey söyleyin. Gününüzle ilgili bir cümle yeterli.",
+        "notReady": "Kurulum bittiğinde alıştırma yapabilirsiniz. Şimdilik atlayın ve Ana Sayfa’dan deneyin.",
+        "placeholder": "Sözleriniz burada görünür…",
+        "fieldLabel": "Alıştırma metni",
+        "skip": "Atla",
+        "steps": {
+          "tap": "Yukarıdaki alana dokunun",
+          "switch": "Küre tuşunu basılı tutun ve {{appName}} seçin",
+          "speak": "Mikrofona dokunun, konuşun, ardından onay işaretine dokunun"
+        }
+      },
+      "done": {
+        "title": "Her şey hazır",
+        "titlePending": "Neredeyse tamam",
+        "subtitle": "Hepsi bu kadar.",
+        "subtitlePending": "Kalan adımlar Ana Sayfa’da gösterilir.",
+        "finish": "{{appName}} kullanmaya başlayın",
+        "points": {
+          "session": "Dikte etmek istediğinizde uygulamada bir oturum başlatın",
+          "keyboard": "Herhangi bir uygulamada {{appName}} klavyesine geçin ve mikrofona dokunun",
+          "private": "Her şey bu iPhone’da kalır"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Bir oturum başlatın ve herhangi bir uygulamada dikte edin. Her dikte burada, bu iPhone’da saklanır."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Yalnızca bu iPhone’da gösterilir."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Dikteleriniz ve verileriniz bu iPhone’da kalır."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro çalışmasını durdurur, verileri siler ve karşılama ekranından yeniden başlar."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Son diktenizden bu iPhone’da hesaplandı. Hiçbir veri iPhone’unuzdan çıkmaz.",
+          "footnote_other": "Son {{count, number}} diktenizden bu iPhone’da hesaplandı. Hiçbir veri iPhone’unuzdan çıkmaz."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Mac’inizi bir kez eşleştirin. Ardından sözlüğünüz, metin parçalarınız, ayarlarınız ve istatistikleriniz her ikisinde de kendiliğinden aynı kalır.",
+      "fromMac": {
+        "title": "Mac’inizden",
+        "step1": "Mac’inizde Wispr Bro’yu açın, Ayarlar › Veriler ve Gizlilik’e gidin ve Verilerimi dışa aktar’ı seçin.",
+        "step2": "Dosyayı AirDrop ile bu iPhone’a gönderin ve Wispr Bro ile açın.",
+        "step3": "Nelerin değişeceğini kontrol edin, ardından Birleştir’e dokunun.",
+        "choose": "Dosya seç",
+        "reading": "Okunuyor…",
+        "footer": "Dosyayı zaten Dosyalar’a kaydettiniz mi? Buradan seçin. Mac’inizin geçmişi ve kayıtları okunmaz."
+      },
+      "toMac": {
+        "title": "Mac’inize",
+        "send": "Mac’e gönder",
+        "csv": "CSV dosyaları ekle",
+        "csvHint": "Henüz eşzamanlama dosyalarını açamayan bir Mac için. Bunları Sözlük ve Metin parçaları sayfalarında içe aktarın.",
+        "footer": "Dosyayı AirDrop ile Mac’inize gönderin ve Ayarlar › Veriler ve Gizlilik’te içe aktarın. Geçmiş ve kayıtlar bu iPhone’da kalır."
+      },
+      "devices": {
+        "title": "Eşzamanlanan",
+        "none": "Henüz eşzamanlanmadı",
+        "merged": "Birleştirildi: {{when}}",
+        "words_one": "{{words}} kelime",
+        "words_other": "{{words}} kelime"
+      },
+      "pair": {
+        "title": "Mac’inizi eşleştirin",
+        "step1": "Mac’inizde Wispr Bro’yu açın, Ayarlar › Veriler ve Gizlilik’e gidin ve iPhone’unuzla eşzamanla’yı açın.",
+        "step2": "Mac’imi bul’a dokunun ve Mac’inizi seçin.",
+        "step3": "Mac’inizin gösterdiği kodu yazın.",
+        "find": "Mac’imi bul",
+        "looking": "Mac’iniz aranıyor…",
+        "stop": "Aramayı durdur",
+        "nearby": "Yakındaki Mac’ler",
+        "footer": "Her iki aygıt da aynı Wi-Fi ağında olmalı veya Wi-Fi ve Bluetooth açık olarak birbirine yakın olmalıdır."
+      },
+      "mac": {
+        "title": "Mac’iniz",
+        "footer": "iPhone’unuz, Wispr Bro açıkken veya bir dikte oturumu açıkken eşzamanlanır. Eşzamanlama, yerel ağınız üzerinden doğrudan aygıtlarınız arasında yapılır. Sunucu yok."
+      },
+      "file": {
+        "title": "Dosyayla eşzamanla",
+        "hint": "Eşleştirmeden: ikisi arasında AirDrop ile bir dosya gönderin."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac",
+      "iphone": "iPhone",
+      "macName": "Mac’iniz",
+      "iphoneName": "iPhone’unuz"
+    },
+    "parts": {
+      "dictionary": "Sözlük",
+      "snippets": "Metin parçaları",
+      "settings": "Ayarlar",
+      "stats": "İstatistikler"
+    },
+    "review": {
+      "title": "Birleştir: {{device}}",
+      "titleFile": "İçe aktar: {{device}}",
+      "made": "Oluşturulma: {{when}}",
+      "madeWith": "Oluşturulma: {{when}}, Wispr Bro {{version}}",
+      "added_one": "{{count}} yeni",
+      "added_other": "{{count}} yeni",
+      "changed_one": "{{count}} değişti",
+      "changed_other": "{{count}} değişti",
+      "removed_one": "{{count}} kaldırıldı",
+      "removed_other": "{{count}} kaldırıldı",
+      "stats_one": "{{count}} günde {{words}} kelime",
+      "stats_other": "{{count}} günde {{words}} kelime",
+      "same": "Güncel",
+      "notInFile": "Bu dosyada yok",
+      "upToDate": "Bu dosyadaki her şey zaten burada.",
+      "privacy": "Geçmiş ve kayıtlar eşzamanlanmaz. Oluşturuldukları aygıtta kalırlar.",
+      "privacyExport": "Bu, Mac’inizin tam dışa aktarımıdır. Yalnızca sözlüğü, metin parçaları, ayarları ve istatistikleri okunur. Geçmişi ve kayıtları okunmaz.",
+      "merge": "Birleştir",
+      "merging": "Birleştiriliyor…",
+      "cancel": "Vazgeç",
+      "done": "Bitti",
+      "privacyExportCopy": "Dosyanın bu iPhone’daki kopyası daha sonra silinir."
+    },
+    "result": {
+      "title": "Birleştirildi",
+      "from": "Kaynak: {{device}}",
+      "merged": "İkisi artık aynı.",
+      "nothing": "Hiçbir şeyin değişmesi gerekmedi."
+    },
+    "problems": {
+      "title": "Bu dosya birleştirilemez",
+      "unreadable": "Dosya okunamadı. Yeniden gönderin ve bir kez daha deneyin.",
+      "not_wispr_bro": "Bu bir Wispr Bro dosyası değil. Bir eşzamanlama dosyası (.wisprbro), Mac’inizden dışa aktarılan veriler (.zip) veya bir Sözlük ya da Metin parçaları CSV dosyası seçin.",
+      "too_new": "Bu dosya daha yeni bir Wispr Bro ile oluşturuldu. Burada Wispr Bro’yu güncelleyin, ardından dosyayı yeniden açın.",
+      "own_file": "Bu dosya bu aygıtta oluşturuldu. Diğer aygıtınızda açın.",
+      "failed": "Dosya okunurken bir sorun oluştu. Hiçbir şey değiştirilmedi."
+    },
+    "sendFailed": "Eşzamanlama dosyası oluşturulamadı.",
+    "settingNames": {
+      "styles": "Stil",
+      "text_retention_days": "Geçmişin saklanması",
+      "audio_retention_days": "Kayıtların saklanması",
+      "typing_wpm": "Yazma hızı",
+      "typing_hours_per_day": "Yazma süresi",
+      "greeting_name": "Ad",
+      "spoken_languages": "Diller",
+      "audio_feedback": "Dikte sesleri",
+      "audio_feedback_volume": "Ses düzeyi"
+    },
+    "auto": {
+      "justNow": "az önce",
+      "inSync": "Eşzamanlı",
+      "inSyncAgo": "Eşzamanlı · son değişiklik {{when}}",
+      "connecting": "Bağlanıyor…",
+      "macAway": "Mac bulunamadı. Mac’inizde Wispr Bro’yu açın.",
+      "phoneAway": "Bağlı değil. iPhone’unuzda Wispr Bro’yu açın.",
+      "lastSynced": "Son eşzamanlama: {{when}}.",
+      "syncNow": "Şimdi eşzamanla",
+      "unpair": "Eşleştirmeyi kaldır",
+      "unpairTitle": "{{device}} ile eşleştirme kaldırılsın mı?",
+      "unpairBody": "İkisi eşzamanlamayı bırakır. Hiçbir aygıtta hiçbir şey silinmez. İstediğiniz zaman yeniden eşleştirebilirsiniz.",
+      "direct": "Eşzamanlama, yerel ağınız üzerinden doğrudan aygıtlarınız arasında yapılır. Sunucu yok.",
+      "denied": "Wispr Bro’nun yerel ağınızdaki aygıtları bulmasına izin verilmiyor. Ayarlar’da izin verin, sonra yeniden deneyin.",
+      "openSettings": "Ayarlar’ı Aç",
+      "needsUpdate": "Mac’inizdeki ve iPhone’unuzdaki Wispr Bro sürümleri farklı. Eşzamanlamaya devam etmek için ikisini de güncelleyin."
+    },
+    "pairing": {
+      "showTitle": "{{device}} ile eşleştir",
+      "showBody": "Bu kodu iPhone’unuza yazın. Yalnızca bir kez çalışır.",
+      "enterTitle": "Kodu girin",
+      "enterBody": "{{device}} 6 haneli bir kod gösteriyor.",
+      "codeLabel": "Eşleştirme kodu",
+      "connecting": "Bağlanılıyor: {{device}}…",
+      "pair": "Eşleştir",
+      "checking": "Denetleniyor…",
+      "failedTitle": "Eşleştirme başarısız oldu",
+      "problems": {
+        "wrong_code": "Kod, Mac’inizdekiyle eşleşmedi. Yeni bir kod almak için yeniden Mac’imi bul’a dokunun.",
+        "no_code": "Süre doldu: iki dakika içinde kod girilmedi. Her iki uygulamayı açık tutun ve yeniden başlayın.",
+        "busy": "Mac’iniz başka bir aygıtla eşleşiyor. Biraz sonra yeniden deneyin.",
+        "unreachable": "Mac’inize ulaşılamadı. Wispr Bro’yu Mac’inizde iPhone’unuzla eşzamanla açık olarak çalışır durumda tutun ve her iki aygıtta da Ayarlar’daki Yerel Ağ altında Wispr Bro’ya izin verildiğini denetleyin.",
+        "failed": "Eşleştirme tamamlanmadı. Mac’imi bul’dan yeniden başlayın.",
+        "dropped": "Eşleştirme tamamlanmadan Mac’inizle bağlantı koptu. Her iki uygulamayı açık ve aygıtları birbirine yakın tutun, sonra yeniden deneyin.",
+        "version": "Mac’inizdeki ve iPhone’unuzdaki Wispr Bro sürümleri farklı. İkisini de güncelleyin, ardından yeniden eşleştirin.",
+        "update_mac": "Mac’inizdeki Wispr Bro’yu güncelleyin: bu iPhone’dan daha eski bir eşzamanlama sürümü kullanıyor. Ardından yeniden eşleştirin.",
+        "update_this": "Bu iPhone’daki Wispr Bro’yu güncelleyin: Mac’iniz daha yeni bir eşzamanlama sürümü kullanıyor. Ardından yeniden eşleştirin.",
+        "denied": "Wispr Bro’nun yerel ağınıza erişimine izin verilmiyor. Ayarlar › Gizlilik ve Güvenlik › Yerel Ağ › Wispr Bro’da izin verin, ardından yeniden Mac’imi bul’a dokunun."
+      },
+      "macProblems": {
+        "wrong_code": "iPhone’unuza farklı bir kod yazıldı. iPhone’unuzda yeniden başlayın: Mac’imi bul’a dokunun ve burada gösterilen yeni kodu yazın.",
+        "update_phone": "iPhone’unuzdaki Wispr Bro’yu güncelleyin: bu Mac’ten daha eski bir eşzamanlama sürümü kullanıyor. Ardından yeniden eşleştirin.",
+        "update_this": "Bu Mac’teki Wispr Bro’yu güncelleyin: iPhone’unuz daha yeni bir eşzamanlama sürümü kullanıyor. Ardından yeniden eşleştirin.",
+        "version": "Mac’inizdeki ve iPhone’unuzdaki Wispr Bro sürümleri farklı. İkisini de güncelleyin, ardından yeniden eşleştirin.",
+        "failed": "Eşleştirme tamamlanmadı. iPhone’unuzda Mac’imi bul’dan yeniden başlayın."
       }
     }
   },

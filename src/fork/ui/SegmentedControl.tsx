@@ -68,7 +68,7 @@ export function SegmentedControl<V extends string>({
       aria-label={label}
       data-testid={testId}
       onKeyDown={onKeyDown}
-      className={`inline-flex rounded-(--wb-radius-sm) bg-(--wb-secondary) p-0.5 ${className}`}
+      className={`wb-segmented inline-flex rounded-(--wb-radius-sm) bg-(--wb-secondary) p-0.5 ${className}`}
     >
       {options.map((option, i) => {
         const selected = option.value === value;

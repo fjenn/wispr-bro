@@ -51,7 +51,7 @@ pub struct TranscriptionCompleteEvent {
     pub wait_seconds: f64,
 }
 
-fn emit_transcription_complete(
+pub(crate) fn emit_transcription_complete(
     app: &AppHandle,
     outcome: TranscriptionOutcome,
     sample_count: usize,
@@ -69,7 +69,7 @@ fn emit_transcription_complete(
 }
 
 /// Nothing to type: `Silent` if the microphone sent only zeros, else `Empty`.
-fn empty_outcome(input_silent: bool) -> TranscriptionOutcome {
+pub(crate) fn empty_outcome(input_silent: bool) -> TranscriptionOutcome {
     if input_silent {
         TranscriptionOutcome::Silent
     } else {

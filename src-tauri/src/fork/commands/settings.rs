@@ -57,6 +57,7 @@ pub fn fork_set_setting<R: ForkRuntime>(
     }
     if key == "cleanup_level" {
         mirror_to_handy(&app, &next, "filler_word_removal_enabled");
+        crate::fork::llm::runtime::on_cleanup_level_changed(&app);
     }
     if key == "transforms_enabled" {
         crate::fork::transforms::sync_registration(&app, next.transforms_enabled);
@@ -100,6 +101,9 @@ pub fn fork_set_setting<R: ForkRuntime>(
     if key.starts_with("bar_") || key == "scratchpad_on_bar" {
         crate::fork::pill::settings_changed(&next);
     }
+
+    // Sync: a synced setting that changed gets its time now.
+    super::sync::observe_settings(&app);
 
     let event = ForkSettingsChanged {
         key,

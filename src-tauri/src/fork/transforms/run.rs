@@ -179,7 +179,14 @@ pub(crate) fn instruction_max_tokens(text: &str) -> u32 {
 
 /// The deadline of one transform request (scaled with the text).
 pub fn budget(source: &str) -> Duration {
-    crate::fork::llm::deadline::transform(source)
+    let budget = crate::fork::llm::deadline::transform(source);
+    // iPhone: the model runs on the CPU, and a transform's prompt is not
+    // the one in the prompt cache. The only transform there is a note's
+    // Polish, started by a tap with a spinner beside it: it gets the time
+    // the CPU needs instead of the Mac's 2.8 s.
+    #[cfg(target_os = "ios")]
+    let budget = (budget * 6).clamp(Duration::from_secs(20), Duration::from_secs(120));
+    budget
 }
 
 /// The deadline for `guard`: custom transforms run on the slower

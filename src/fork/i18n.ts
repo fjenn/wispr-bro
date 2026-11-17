@@ -12,6 +12,7 @@
  * `fork` namespace, so Handy's `translation.json` files are never edited.
  */
 import type { i18n as I18n } from "i18next";
+import { isIos } from "./ios/platform";
 
 export const FORK_NAMESPACE = "fork";
 
@@ -38,6 +39,17 @@ export function registerForkI18n(i18n: I18n): void {
     i18n.addResourceBundle(lng, FORK_NAMESPACE, strings, true, true);
     if (overrides && Object.keys(overrides).length > 0) {
       i18n.addResourceBundle(lng, "translation", overrides, true, true);
+    }
+  }
+  // Wispr Bro for iPhone: `ios.overrides` (English) replaces the few shared
+  // strings that name the Mac or a key ("on this Mac", "Hold fn"), in every
+  // locale, so no screen describes a Mac on a phone.
+  if (isIos()) {
+    const ios = (forkResources.en?.ios ?? {}) as { overrides?: ForkResource };
+    if (ios.overrides) {
+      for (const lng of Object.keys(forkResources)) {
+        i18n.addResourceBundle(lng, FORK_NAMESPACE, ios.overrides, true, true);
+      }
     }
   }
 }

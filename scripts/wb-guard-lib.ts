@@ -223,6 +223,8 @@ export function matchesAny(path: string, globs: string[]): boolean {
 export const FORK_PATHS: string[] = [
   "src-tauri/src/fork/**",
   "src-tauri/crates/wb-*/**",
+  "src-tauri/ios/**", // iPhone build scripts (docs/fork/IOS.md)
+  "src-tauri/ios-native/**", // iPhone native targets (keyboard, session)
   "src/fork/**",
   "scripts/wb-*",
   "scripts/wb-*/**",
@@ -261,6 +263,8 @@ export function isForkPath(rel: string): boolean {
 export const FORK_CODE_PATHS: string[] = [
   "src-tauri/src/fork/**",
   "src-tauri/crates/wb-*/**",
+  "src-tauri/ios/**",
+  "src-tauri/ios-native/**",
   "src/fork/**",
   "src/assets/fork/**",
   "scripts/wb-*",

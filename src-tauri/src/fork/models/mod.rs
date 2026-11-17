@@ -37,7 +37,8 @@ pub const HF_HOME_DIR: &str = "huggingface";
 /// runs before Tauri resolves paths. `None` off macOS (S-07a decides the
 /// Windows/Linux layout).
 pub fn hf_home_for(home: &Path, identifier: &str) -> Option<PathBuf> {
-    if cfg!(target_os = "macos") {
+    // iOS: the same layout inside the app's sandbox (`home` is its container).
+    if cfg!(any(target_os = "macos", target_os = "ios")) {
         Some(
             home.join("Library/Application Support")
                 .join(identifier)

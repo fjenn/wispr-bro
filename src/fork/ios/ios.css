@@ -1,0 +1,920 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+/*
+ * Wispr Bro for iPhone. Everything here is scoped to `html[data-wb-ios]`
+ * (set by `platform.ts` before the first render), so the Mac app never
+ * sees it. Colours, radii and type come from `../styles/tokens.css`.
+ *
+ * 1. Document: no page zoom or rubber-banding, no selection on chrome,
+ *    no tap flash, 16 px fields (smaller ones make iOS zoom).
+ * 2. The shell: status-bar strip, scrolling page, tab bar, safe areas.
+ * 3. Touch sizing for the shared primitives (44 pt targets).
+ * 4. Dialogs as bottom sheets; menus and selects sized for a thumb.
+ * 5. Phone layouts of the shared pages.
+ * 6. My Voice (three rows that open Dictionary, Snippets, Style) and
+ *    Scratchpad.
+ */
+
+/* ── 1. Document ───────────────────────────────────────────────────── */
+
+html[data-wb-ios] {
+  --wb-ios-gutter: 20px;
+  --wb-ios-tabbar: 54px;
+  --wb-ios-bar: 44px;
+  --wb-ios-kb: 0px;
+  --wb-ios-top: env(safe-area-inset-top, 0px);
+  --wb-ios-bottom: env(safe-area-inset-bottom, 0px);
+  /* Shared layout tokens, at phone size. */
+  --wb-page-pad-x: var(--wb-ios-gutter);
+  --wb-control-h: 44px;
+  --wb-control-h-lg: 50px;
+  --wb-control-h-sm: 36px;
+  /* Slightly rounder than the Mac: cards and controls are bigger here. */
+  --wb-radius-sm: 10px;
+  --wb-radius-md: 14px;
+  height: 100%;
+  overflow: hidden;
+  background: var(--wb-panel);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+html[data-wb-ios] body {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--wb-panel);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html[data-wb-ios] #root {
+  height: 100%;
+}
+
+html[data-wb-ios] :is(input, textarea, select, [contenteditable="true"]) {
+  font-size: 16px !important;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Dictated text is the user's: it can be selected and copied. */
+html[data-wb-ios] [data-wb-selectable] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+html[data-wb-ios] ::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── 2. Shell ──────────────────────────────────────────────────────── */
+
+/* Fixed to the viewport itself: a library that restyles <body> while a
+   menu or select is open (scroll locking) must not move the shell. */
+.wb-ios-root {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--wb-panel);
+  color: var(--wb-ink);
+  cursor: default;
+  font-family: var(--wb-font-ui);
+}
+
+.wb-ios-bar {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 30;
+  padding-top: var(--wb-ios-top);
+  border-bottom: 1px solid transparent;
+  pointer-events: none;
+  transition:
+    background-color var(--wb-dur-fast) linear,
+    border-color var(--wb-dur-fast) linear;
+}
+
+.wb-ios-bar[data-solid] {
+  border-bottom-color: var(--wb-line);
+  background: color-mix(in srgb, var(--wb-panel) 84%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+.wb-ios-bar-row {
+  position: relative;
+  display: flex;
+  height: var(--wb-ios-bar);
+  align-items: center;
+  justify-content: center;
+  padding-inline: 8px;
+}
+
+.wb-ios-bar-title {
+  max-width: 56%;
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--wb-dur-fast) linear,
+    transform var(--wb-dur-base) var(--wb-ease-out);
+}
+
+.wb-ios-bar[data-solid] .wb-ios-bar-title {
+  opacity: 1;
+  transform: none;
+}
+
+.wb-ios-back {
+  position: absolute;
+  inset-inline-start: 4px;
+  top: 0;
+  display: inline-flex;
+  height: var(--wb-ios-bar);
+  min-width: 44px;
+  align-items: center;
+  gap: 1px;
+  padding-inline: 4px 10px;
+  color: var(--wb-ink);
+  font-size: 17px;
+  line-height: 22px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.wb-ios-back:active {
+  opacity: 0.5;
+}
+
+/* The end of the top bar: a pushed page's own actions (the note editor
+   portals its buttons here). */
+.wb-ios-bar-end {
+  position: absolute;
+  inset-inline-end: 6px;
+  top: 0;
+  display: flex;
+  height: var(--wb-ios-bar);
+  align-items: center;
+  gap: 2px;
+  pointer-events: auto;
+}
+
+.wb-ios-bar-end:empty {
+  display: none;
+}
+
+.wb-ios-bar-done {
+  display: inline-flex;
+  height: var(--wb-ios-bar);
+  min-width: 44px;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 8px;
+  color: var(--wb-accent);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.wb-ios-bar-done:active {
+  opacity: 0.5;
+}
+
+.wb-ios-scroll {
+  min-height: 0;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: calc(var(--wb-ios-top) + 10px);
+  scroll-padding-top: calc(var(--wb-ios-top) + var(--wb-ios-bar) + 12px);
+  scroll-padding-bottom: 24px;
+}
+
+.wb-ios-scroll[data-pushed] {
+  padding-top: calc(var(--wb-ios-top) + var(--wb-ios-bar) + 2px);
+}
+
+.wb-ios-page {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 var(--wb-ios-gutter) 32px;
+}
+
+html[data-wb-kb] .wb-ios-page {
+  padding-bottom: calc(var(--wb-ios-kb) + 24px);
+}
+
+.wb-ios-tabs {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 0 4px var(--wb-ios-bottom);
+  border-top: 1px solid var(--wb-line);
+  background: var(--wb-chrome);
+}
+
+html[data-wb-kb] .wb-ios-tabs,
+.wb-ios-root[data-full] .wb-ios-tabs {
+  display: none;
+}
+
+.wb-ios-tab {
+  display: flex;
+  height: var(--wb-ios-tabbar);
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--wb-ink-3);
+  cursor: pointer;
+  transition: color var(--wb-dur-fast) linear;
+}
+
+.wb-ios-tab span {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 13px;
+  letter-spacing: 0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-ios-tab[aria-current="page"] {
+  color: var(--wb-accent);
+}
+
+.wb-ios-tab:active {
+  opacity: 0.6;
+}
+
+/* Large titles: the Mac's page title, one step up. */
+html[data-wb-ios] .wb-ios-page [data-testid="wb-page-title"],
+.wb-ios-title {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+}
+
+/* ── 3. Touch sizing ───────────────────────────────────────────────── */
+
+html[data-wb-ios] .wb-btn {
+  min-height: 44px;
+  border-radius: var(--wb-radius-md);
+  padding-inline: 18px;
+  font-size: 16px;
+}
+
+html[data-wb-ios] .wb-btn-sm {
+  min-height: 36px;
+  border-radius: 10px;
+  padding-inline: 14px;
+  font-size: 15px;
+}
+
+html[data-wb-ios] .wb-btn-lg {
+  min-height: 52px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+html[data-wb-ios] .wb-icon-btn {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+/* Grouped list (the iOS Settings pattern). */
+.wb-ios-group {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-lg);
+  background: var(--wb-surface-tint);
+}
+
+.wb-ios-row {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 16px;
+  color: var(--wb-ink);
+  font-size: 16px;
+  line-height: 22px;
+  text-align: start;
+}
+
+.wb-ios-row + .wb-ios-row::before {
+  position: absolute;
+  inset-inline: 16px 0;
+  top: 0;
+  height: 1px;
+  background: var(--wb-line-2);
+  content: "";
+}
+
+.wb-ios-row-press {
+  cursor: pointer;
+  transition: background-color var(--wb-dur-instant) linear;
+}
+
+.wb-ios-row-press:active {
+  background: var(--wb-fill-press);
+}
+
+/* ── Onboarding ────────────────────────────────────────────────────── */
+
+.wb-ios-onboarding {
+  padding-top: var(--wb-ios-top);
+}
+
+.wb-ios-onboarding-bar {
+  display: flex;
+  height: var(--wb-ios-bar);
+  flex-shrink: 0;
+  align-items: center;
+  padding-inline: 8px;
+}
+
+.wb-ios-onboarding-scroll {
+  min-height: 0;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wb-ios-onboarding-actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 24px calc(max(var(--wb-ios-bottom), 16px) + var(--wb-ios-kb));
+}
+
+html[data-wb-kb] .wb-ios-onboarding-actions {
+  padding-top: 8px;
+  padding-bottom: calc(var(--wb-ios-kb) + 8px);
+}
+
+/* Above a keyboard there is room for the main action only. */
+html[data-wb-kb] .wb-ios-onboarding-actions > :not(:first-child) {
+  display: none;
+}
+
+/* ── Home: session and setup card ──────────────────────────────────── */
+
+.wb-ios-session {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-xl);
+  background: var(--wb-surface-tint);
+}
+
+.wb-ios-session-on {
+  border-color: transparent;
+  background: var(--wb-accent-soft);
+}
+
+.wb-ios-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: currentColor;
+}
+
+.wb-ios-dot-live {
+  animation: wb-ios-pulse 1.1s var(--wb-ease-in-out) infinite;
+}
+
+@keyframes wb-ios-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wb-ios-dot-live {
+    animation: none;
+  }
+}
+
+/* A quiet text button with a 44 pt target. */
+.wb-ios-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding-inline: 8px;
+  color: var(--wb-ink-2);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.wb-ios-link:active {
+  opacity: 0.5;
+}
+
+.wb-ios-languages {
+  overflow: hidden;
+  border: 1px solid var(--wb-line-2);
+  border-radius: var(--wb-radius-lg);
+  background: var(--wb-surface);
+}
+
+/* The status-bar strip always covers what scrolls under it. */
+.wb-ios-bar::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--wb-ios-top);
+  background: var(--wb-panel);
+  content: "";
+}
+
+.wb-ios-bar[data-solid]::before {
+  background: transparent;
+}
+
+/* ── 4. Dialogs as bottom sheets ───────────────────────────────────── */
+
+html[data-wb-ios] .wb-dialog-scrim {
+  align-items: flex-end;
+  padding: 0;
+  padding-top: calc(var(--wb-ios-top) + 12px);
+  padding-bottom: var(--wb-ios-kb);
+}
+
+html[data-wb-ios] .wb-dialog-panel {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  max-height: 100%;
+  border-radius: 20px 20px 0 0;
+  padding-bottom: var(--wb-ios-bottom);
+}
+
+html[data-wb-kb] .wb-dialog-panel {
+  padding-bottom: 0;
+}
+
+/* A grabber, the sheet's cue. */
+html[data-wb-ios] .wb-dialog-panel::before {
+  width: 36px;
+  height: 5px;
+  flex-shrink: 0;
+  align-self: center;
+  margin-top: 8px;
+  margin-bottom: -6px;
+  border-radius: 9999px;
+  background: var(--wb-line-strong);
+  opacity: 0.45;
+  content: "";
+}
+
+/* Sheet actions: full width, stacked the iOS way (primary on top). */
+html[data-wb-ios] .wb-dialog-footer {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  border-top: 0;
+  padding-top: 8px;
+}
+
+html[data-wb-ios] .wb-dialog-footer .wb-btn {
+  min-height: 50px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* Native <dialog> modals (Delete all): the same sheet. */
+html[data-wb-ios] dialog.wb-modal {
+  width: 100%;
+  max-width: none;
+  margin: auto 0 0;
+  border-radius: 20px 20px 0 0;
+  padding-bottom: calc(24px + var(--wb-ios-bottom) + var(--wb-ios-kb));
+}
+
+/* Menus, selects and popovers: thumb-sized rows. */
+html[data-wb-ios]
+  :is(
+    [role="menuitem"],
+    [role="menuitemcheckbox"],
+    [role="menuitemradio"],
+    [role="option"]
+  ) {
+  min-height: 44px;
+  font-size: 16px;
+}
+
+/* ── 5. Phone layouts of the shared pages ──────────────────────────── */
+
+/* Page header: the title, with compact pill actions beside it. */
+html[data-wb-ios] .wb-page-header {
+  min-height: 40px;
+  gap: 12px;
+}
+
+html[data-wb-ios] .wb-page-actions .wb-btn {
+  min-height: 36px;
+  border-radius: 9999px;
+  padding-inline: 16px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Desktop-only actions: CSV import/export (file panels), manual refresh,
+   Save as image, the typing test. */
+html[data-wb-ios]
+  :is(
+    [data-testid="wb-dictionary-import"],
+    [data-testid="wb-dictionary-export"],
+    [data-testid="wb-dictionary-refresh"],
+    [data-testid="wb-snippets-import"],
+    [data-testid="wb-snippets-export"],
+    [data-testid="wb-snippets-refresh"],
+    [data-testid="wb-insights-save"],
+    [data-testid="wb-insights-typing-test"]
+  ) {
+  display: none;
+}
+
+html[data-wb-ios]
+  :is(
+    [data-testid="wb-dictionary"],
+    [data-testid="wb-snippets"],
+    [data-testid="wb-insights"]
+  ) {
+  gap: 16px;
+}
+
+/* Tabs: one line that scrolls sideways; an open search takes a line. */
+html[data-wb-ios] .wb-tabs-bar {
+  flex-wrap: wrap;
+  gap: 0 8px;
+}
+
+html[data-wb-ios] .wb-tabs-list {
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+html[data-wb-ios] .wb-tabs-list > * {
+  flex-shrink: 0;
+  min-height: 44px;
+}
+
+html[data-wb-ios] .wb-tabs-end {
+  min-height: 44px;
+  padding-bottom: 2px;
+}
+
+html[data-wb-ios] .wb-tabs-end:has(input) {
+  order: -1;
+  flex-basis: 100%;
+}
+
+html[data-wb-ios] .wb-tabs-end:has(input) > :first-child {
+  width: auto;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Setting rows: a wide control (a select, a labelled button) drops under
+   its text; a switch stays beside it. */
+html[data-wb-ios] .wb-setting-main {
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+html[data-wb-ios] .wb-setting-text {
+  flex: 1 1 190px;
+}
+
+html[data-wb-ios] .wb-setting-control {
+  flex-wrap: wrap;
+}
+
+html[data-wb-ios] .wb-setting-control:has([role="combobox"]) {
+  flex: 1 1 100%;
+}
+
+html[data-wb-ios] .wb-setting-control [role="combobox"] {
+  width: 100%;
+}
+
+/* Segmented control inside a group: fills it, equal segments. */
+html[data-wb-ios] .wb-ios-group .wb-segmented {
+  display: flex;
+  border-radius: 10px;
+}
+
+html[data-wb-ios] .wb-ios-group .wb-segmented > button {
+  min-height: 36px;
+  flex: 1;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+/* History: time and actions on one line, the words below at full width. */
+html[data-wb-ios] [data-testid="wb-history-row"] {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  padding: 8px 8px 14px 16px;
+}
+
+html[data-wb-ios] [data-testid="wb-history-row"] > :first-child {
+  width: auto;
+  flex: 1;
+}
+
+html[data-wb-ios] [data-testid="wb-history-row"] > :nth-child(2) {
+  order: 3;
+  flex-basis: 100%;
+  padding-inline-end: 8px;
+}
+
+html[data-wb-ios] [data-testid="wb-history-actions"] {
+  position: static;
+  order: 2;
+  padding: 0;
+  background: none;
+  opacity: 1;
+}
+
+html[data-wb-ios] [data-testid="wb-history-actions"] button {
+  width: 40px;
+  height: 40px;
+}
+
+html[data-wb-ios] [data-testid="wb-history-text"] {
+  font-size: 16px;
+  line-height: 23px;
+}
+
+/* History's search sits on the title's line; open, it takes its own. */
+html[data-wb-ios] [data-testid="wb-ios-history"] {
+  position: relative;
+}
+
+html[data-wb-ios] [data-testid="wb-history"] > :first-child {
+  position: absolute;
+  inset-inline-end: -6px;
+  top: 0;
+  min-height: 40px;
+}
+
+html[data-wb-ios] [data-testid="wb-history"] > :first-child button {
+  width: 40px;
+  height: 40px;
+}
+
+html[data-wb-ios]
+  [data-testid="wb-history"]
+  > :first-child:has([role="search"]) {
+  position: static;
+  margin-top: 8px;
+}
+
+html[data-wb-ios] [data-testid="wb-history"] [role="search"] {
+  height: 44px;
+  flex: 1;
+  border-radius: var(--wb-radius-md);
+}
+
+html[data-wb-ios] [data-testid="wb-history"] [role="search"] input {
+  width: auto;
+  flex: 1;
+}
+
+html[data-wb-ios]
+  [data-testid="wb-history"]
+  > :first-child:has([role="search"])
+  > div {
+  flex: 1;
+}
+
+/* Style: the Mac's cards, as tall as their sample. */
+html[data-wb-ios] .wb-ios-presets > label {
+  min-height: 0;
+  padding: 16px;
+}
+
+html[data-wb-ios] .wb-ios-presets > label > span:last-child {
+  margin-top: 12px;
+}
+
+html[data-wb-ios] .wb-ios-presets > label > span:first-of-type {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* Dictionary and Snippets rows: long pairs wrap as whole parts. */
+html[data-wb-ios]
+  [data-testid="wb-dictionary-entry"]
+  > :first-child
+  > :first-child {
+  flex-wrap: wrap;
+  row-gap: 0;
+  font-size: 16px;
+}
+
+html[data-wb-ios] [data-testid="wb-dictionary-replacement-text"] {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+html[data-wb-ios]
+  :is([data-testid="wb-dictionary-entry"], [data-testid="wb-snippet-entry"])
+  button {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+/* ── 6. My Voice and Scratchpad ────────────────────────────────────── */
+
+/* A compact pill beside a large title, and in the note's tool row. */
+html[data-wb-ios] .wb-btn.wb-ios-pill {
+  min-height: 36px;
+  border-radius: 9999px;
+  padding-inline: 14px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* My Voice: three rows, each opens its page. */
+.wb-ios-voice-row {
+  display: flex;
+  width: 100%;
+  min-height: 76px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 14px 14px 16px;
+  border: 1px solid var(--wb-line);
+  border-radius: var(--wb-radius-lg);
+  background: var(--wb-surface-tint);
+  cursor: pointer;
+  transition: background-color var(--wb-dur-instant) linear;
+}
+
+.wb-ios-voice-row:active {
+  background: var(--wb-fill-press);
+}
+
+.wb-ios-voice-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--wb-accent-soft);
+  color: var(--wb-accent);
+}
+
+/* Search: a full-width field under the title (the iOS list pattern). */
+html[data-wb-ios] .wb-ios-search {
+  width: 100%;
+}
+
+html[data-wb-ios] .wb-ios-search input {
+  height: 40px;
+  border-color: transparent;
+  border-radius: 12px;
+  background: var(--wb-secondary);
+}
+
+/* Scratchpad list: title over a line of date and preview, a menu at the
+   end. */
+.wb-ios-note-row {
+  min-height: 68px;
+  gap: 4px;
+}
+
+.wb-ios-note-open {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-self: stretch;
+  justify-content: center;
+  gap: 2px;
+  padding-block: 12px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.wb-ios-note-open:active {
+  opacity: 0.55;
+}
+
+/* The note editor: the screen between the top bar and its tool row. The
+   text area scrolls; the page does not. */
+.wb-ios-scroll[data-page="note"] {
+  overflow: hidden;
+}
+
+.wb-ios-scroll[data-page="note"] .wb-ios-page {
+  height: 100%;
+  min-height: 0;
+  gap: 0;
+  padding: 0;
+}
+
+.wb-ios-note {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+}
+
+html[data-wb-ios] textarea.wb-ios-note-body {
+  min-height: 0;
+  width: 100%;
+  flex: 1;
+  resize: none;
+  padding: 6px var(--wb-ios-gutter) 20px;
+  border: 0;
+  background: transparent;
+  color: var(--wb-ink);
+  font-size: var(--wb-note-size, 17px) !important;
+  line-height: 1.5;
+  outline: none;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+textarea.wb-ios-note-body::placeholder {
+  color: var(--wb-ink-3);
+}
+
+.wb-ios-note-notice {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  margin: 0 12px 8px;
+  padding: 10px 10px 10px 14px;
+  border-radius: var(--wb-radius-md);
+  background: var(--wb-secondary);
+  color: var(--wb-ink);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.wb-ios-note-tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px calc(var(--wb-ios-bottom) + 8px) var(--wb-ios-gutter);
+  border-top: 1px solid var(--wb-line);
+  background: var(--wb-panel);
+}
+
+html[data-wb-kb] .wb-ios-note-tools {
+  padding-bottom: calc(var(--wb-ios-kb) + 8px);
+}
+
+html[data-wb-ios] .wb-ios-note-record[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--wb-accent-soft);
+  color: var(--wb-accent);
+}

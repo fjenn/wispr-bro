@@ -5,6 +5,9 @@
 //! A dedicated thread reads stdin so the parent's writes never block, and
 //! the worker exits the moment the parent goes away, even if hung.
 
+// fork (iOS): the process half (stdin/stdout, flags) is unused there.
+#![cfg_attr(target_os = "ios", allow(dead_code, unused_imports))]
+
 use super::protocol::{
     read_message, write_message, DeviceInfo, DeviceSelector, LoadedInfo, Request, Response,
 };
@@ -58,16 +61,20 @@ pub fn run() -> i32 {
         return 2;
     }
 
+    let cpu_only = std::env::args_os().any(|arg| arg == CPU_ONLY_FLAG);
+    serve(protocol_out, requests, cpu_only)
+}
+
+/// Serves `requests` until their sender is gone, answering on
+/// `protocol_out`. The worker process's main loop; on iOS, where an app
+/// cannot start a process, the body of the in-process engine thread
+/// ([`spawn_in_process`]).
+fn serve(protocol_out: impl Write, requests: mpsc::Receiver<Incoming>, cpu_only: bool) -> i32 {
     transcribe_cpp::init_logging();
     // Registering a GPU backend runs its driver code, so this is where a
     // broken driver crashes or hangs, before the hello is answered.
-    let cpu_only = std::env::args_os().any(|arg| arg == CPU_ONLY_FLAG);
     inject_fault("init", !cpu_only);
-    let init = if cpu_only {
-        transcribe_cpp::init_backends_with(None::<&Path>, BackendMask::CPU)
-    } else {
-        transcribe_cpp::init_backends_default()
-    };
+    let init = init_backends(cpu_only);
     // Init only fails when no compute device registered at all, which no
     // other worker could fix either: the hello reports it.
     let init_error = init
@@ -103,6 +110,13 @@ pub fn run() -> i32 {
             } => {
                 // Free any previous model first to avoid holding two at once.
                 session = None;
+                // iOS: one process, so backends are registered once for
+                // all engines; a CPU-only engine asks for the CPU itself.
+                let backend = if cfg!(target_os = "ios") && cpu_only {
+                    Backend::Cpu
+                } else {
+                    backend
+                };
                 match load(&path, backend, device) {
                     Ok(loaded) => {
                         let info = loaded.1.clone();
@@ -156,6 +170,55 @@ pub fn run() -> i32 {
     }
     // Unreachable in practice: the reader exits the process on EOF.
     0
+}
+
+#[cfg(not(target_os = "ios"))]
+fn init_backends(cpu_only: bool) -> Result<(), transcribe_cpp::Error> {
+    if cpu_only {
+        transcribe_cpp::init_backends_with(None::<&Path>, BackendMask::CPU)
+    } else {
+        transcribe_cpp::init_backends_default()
+    }
+}
+
+/// iOS: every engine shares the app's process (and the VAD's), so the
+/// backends are registered once, all of them (see the `Request::Load` arm
+/// for CPU-only).
+#[cfg(target_os = "ios")]
+fn init_backends(_cpu_only: bool) -> Result<(), String> {
+    crate::audio_toolkit::cpu_engine::init_all_backends()
+}
+
+/// iOS: the engine as two threads of the app instead of a child process (an
+/// iPhone app cannot start one). Same protocol, over the pipes `input` and
+/// `output`; the engine thread ends, and frees its model, when `input`
+/// closes. The returned channel carries its exit code. A native crash here
+/// takes the app down, and a hung engine cannot be killed.
+#[cfg(target_os = "ios")]
+pub(super) fn spawn_in_process(
+    input: File,
+    output: File,
+    cpu_only: bool,
+) -> io::Result<mpsc::Receiver<i32>> {
+    let (requests_tx, requests) = mpsc::channel();
+    thread::Builder::new()
+        .name("transcribe-engine-in".into())
+        .spawn(move || {
+            let mut input = BufReader::new(input);
+            while let Ok(Some((request, pcm))) = read_message::<Request>(&mut input) {
+                if requests_tx.send(Incoming { request, pcm }).is_err() {
+                    break;
+                }
+            }
+        })?;
+    let (done_tx, done) = mpsc::channel();
+    thread::Builder::new()
+        .name("transcribe-engine".into())
+        .spawn(move || {
+            let code = serve(output, requests, cpu_only);
+            let _ = done_tx.send(code);
+        })?;
+    Ok(done)
 }
 
 /// The stdin reader. Forwards requests to the main loop, and ends the

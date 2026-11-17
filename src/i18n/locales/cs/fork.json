@@ -259,9 +259,10 @@
         "local": "Vaše diktáty a data zůstávají na tomto Macu.",
         "noCloud": "Rozpoznávání řeči, vyčištění i Historie běží lokálně. Žádný účet, telemetrie, diktování ani vyčištění v cloudu.",
         "network": "Co používá síť",
-        "networkIntro": "Wispr Bro používá síť jen pro tyto dvě věci:",
+        "networkIntro": "Wispr Bro používá síť jen k těmto věcem:",
         "models": "Stažení modelů řeči a vyčištění z Hugging Face (huggingface.co).",
-        "updates": "Hledání aktualizací aplikace na GitHubu (github.com), když je kontrola aktualizací zapnutá."
+        "updates": "Hledání aktualizací aplikace na GitHubu (github.com), když je kontrola aktualizací zapnutá.",
+        "sync": "Když je synchronizace zapnutá, Mac a iPhone spolu komunikují přímo přes místní síť. Bez serveru."
       },
       "locations": {
         "title": "Kde jsou vaše data",
@@ -332,6 +333,23 @@
         "saved": "Anonymizovaná diagnostika byla uložena.",
         "failed": "Diagnostiku nelze připravit. Zkuste to znovu.",
         "rowTitle": "Sdílet diagnostiku"
+      },
+      "sync": {
+        "title": "Synchronizace",
+        "rowTitle": "Synchronizace souborem",
+        "hint": "Slovník, úryvky, nastavení a statistiky v jednom souboru k poslání přes AirDrop.",
+        "import": "Importovat…",
+        "export": "Exportovat…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Soubor synchronizace Wispr Bro",
+        "exported": "Soubor synchronizace byl uložen a zobrazen ve Finderu. Pošlete ho přes AirDrop do iPhonu.",
+        "last": "Naposledy sloučeno ze zařízení {{device}}: {{when}}. Historie a nahrávky nejsou nikdy zahrnuty.",
+        "never": "Zatím nesynchronizováno. Historie a nahrávky nejsou nikdy zahrnuty.",
+        "autoTitle": "Synchronizace s iPhonem",
+        "autoHint": "Slovník, úryvky, nastavení a statistiky zůstávají na obou zařízeních stejné, dokud jsou obě aplikace otevřené.",
+        "direct": "Synchronizace probíhá přímo mezi zařízeními přes místní síť. Bez serveru. Historie a nahrávky se nikdy nesynchronizují.",
+        "howTo": "Na iPhonu otevřete Wispr Bro, přejděte do Nastavení › Synchronizace s Macem a klepněte na Najít můj Mac.",
+        "denied": "macOS nedovoluje Wispr Bro hledat zařízení v místní síti. Povolte to v Nastavení systému › Soukromí a zabezpečení › Místní síť."
       }
     },
     "advanced": {
@@ -1100,7 +1118,11 @@
       "wordsPerMinute": "Slov za minutu",
       "streak": "Dní v řadě",
       "notEnoughSpeech": "Zatím málo řeči",
-      "unavailable": "Zatím není k dispozici"
+      "unavailable": "Zatím není k dispozici",
+      "allDevices_one": "Včetně {{count}} dalšího zařízení",
+      "allDevices_few": "Včetně {{count}} dalších zařízení",
+      "allDevices_many": "Včetně {{count}} dalšího zařízení",
+      "allDevices_other": "Včetně {{count}} dalších zařízení"
     },
     "voiceProfile": {
       "title": "Váš hlasový profil",
@@ -2913,6 +2935,465 @@
         "copied": "Zkopírováno",
         "copyFailed": "Kopírování se nezdařilo. Vyberte tabulku a zkopírujte ji ručně.",
         "done": "Hotovo"
+      }
+    }
+  },
+  "ios": {
+    "close": "Zavřít",
+    "tabs": {
+      "label": "Hlavní",
+      "home": "Domů",
+      "history": "Historie",
+      "voice": "Můj hlas",
+      "scratchpad": "Poznámkový blok",
+      "settings": "Nastavení"
+    },
+    "session": {
+      "status": {
+        "noSession": "Relace vypnutá",
+        "idle": "Relace zapnutá",
+        "listening": "Poslouchám",
+        "transcribing": "Přepisuje se",
+        "error": "Relace zastavena"
+      },
+      "offTitle": "Připraveno, až budete chtít",
+      "offBody": "Spusťte relaci a pak diktujte v libovolné aplikaci pomocí klávesnice Wispr Bro.",
+      "onTitle": "Diktujte v libovolné aplikaci",
+      "onBody": "Přepněte na klávesnici Wispr Bro a klepněte na mikrofon.",
+      "onBodyEnds": "Přepněte na klávesnici Wispr Bro a klepněte na mikrofon. Pokud nebudete diktovat, relace skončí v {{time}}.",
+      "onBodyNever": "Přepněte na klávesnici Wispr Bro a klepněte na mikrofon. Relace poběží, dokud ji neukončíte.",
+      "errorBody": "Relace nečekaně skončila. Spusťte ji znovu a diktujte dál.",
+      "start": "Spustit relaci",
+      "retry": "Spustit znovu",
+      "end": "Ukončit relaci",
+      "failed": "To nevyšlo. Zkuste to znovu.",
+      "timeoutLine": "Skončí {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Okamžitě",
+          "never": "Nikdy",
+          "minutes_one": "{{count}} minuta",
+          "minutes_few": "{{count}} minuty",
+          "minutes_many": "{{count}} minuty",
+          "minutes_other": "{{count}} minut",
+          "hours_one": "{{count}} hodina",
+          "hours_few": "{{count}} hodiny",
+          "hours_many": "{{count}} hodiny",
+          "hours_other": "{{count}} hodin"
+        },
+        "sentence": {
+          "immediately": "hned po každém diktování",
+          "never": "až když ji ukončíte",
+          "minutes_one": "po {{count}} minutě bez diktování",
+          "minutes_few": "po {{count}} minutách bez diktování",
+          "minutes_many": "po {{count}} minuty bez diktování",
+          "minutes_other": "po {{count}} minutách bez diktování",
+          "hours_one": "po {{count}} hodině bez diktování",
+          "hours_few": "po {{count}} hodinách bez diktování",
+          "hours_many": "po {{count}} hodiny bez diktování",
+          "hours_other": "po {{count}} hodinách bez diktování"
+        }
+      }
+    },
+    "setup": {
+      "count": "Hotovo {{done}} z {{total}}",
+      "title": "Dokončete nastavení",
+      "body": "Pár kroků a pak můžete diktovat v libovolné aplikaci.",
+      "openSettings": "Otevřít Nastavení",
+      "showMe": "Ukázat",
+      "failed": "To nevyšlo. Zkuste to znovu.",
+      "mic": {
+        "title": "Povolte mikrofon",
+        "hint": "Používá se jen při diktování.",
+        "denied": "Vypnuto. Povolte ho v Nastavení.",
+        "allow": "Povolit"
+      },
+      "keyboard": {
+        "title": "Přidejte klávesnici {{appName}}",
+        "hint": "V Nastavení, v části Klávesnice."
+      },
+      "fullAccess": {
+        "title": "Povolte plný přístup",
+        "hint": "Umožní klávesnici komunikovat s aplikací. Nic neopustí tento iPhone."
+      },
+      "model": {
+        "title": "Model řeči",
+        "ready": "Připraveno",
+        "waiting": "Připravuje se…",
+        "downloading": "Stahování… {{percent}} %",
+        "failed": "Stahování se zastavilo.",
+        "retry": "Zkusit znovu"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Přidejte klávesnici {{appName}}",
+      "steps": {
+        "open": "Klepněte na Otevřít Nastavení a pak na Klávesnice",
+        "enable": "Zapněte {{appName}}",
+        "fullAccess": "Zapněte Povolit plný přístup"
+      },
+      "drawn": {
+        "keyboards": "Klávesnice",
+        "fullAccess": "Povolit plný přístup"
+      },
+      "privacyTitle": "Proč plný přístup?",
+      "privacy": "Slouží jen k tomu, aby klávesnice mohla komunikovat s aplikací Wispr Bro na tomto iPhonu. Co napíšete a řeknete, nikdy neopustí telefon.",
+      "elsewhere": "Nevidíte ji? Otevřete Nastavení › Obecné › Klávesnice › Klávesnice › Přidat novou klávesnici."
+    },
+    "tryIt": {
+      "title": "Vyzkoušet",
+      "placeholder": "Klepněte sem a diktujte…",
+      "hint": "Podržením klávesy se zeměkoulí přepněte na {{appName}}, pak klepněte na mikrofon a mluvte.",
+      "clear": "Vymazat"
+    },
+    "style": {
+      "intro": "Vyberte, jak se mají vaše diktáty psát, ve všech aplikacích."
+    },
+    "settings": {
+      "saveFailed": "Nepodařilo se uložit. Zkuste to znovu.",
+      "local": "Vše zůstává na tomto iPhonu.",
+      "groups": {
+        "dictation": "Diktování",
+        "session": "Relace",
+        "feedback": "Zvuk",
+        "app": "Wispr Bro",
+        "appearance": "Vzhled"
+      },
+      "pages": {
+        "languages": "Jazyky",
+        "cleanup": "Vyčištění",
+        "session": "Ukončit relaci po",
+        "privacy": "Data a soukromí",
+        "about": "O aplikaci",
+        "licences": "Poděkování",
+        "sync": "Synchronizace s Macem"
+      },
+      "cleanup": {
+        "notHere": "Není na tomto iPhonu",
+        "off": "Apple Intelligence je vypnutá",
+        "noneTitle": "Na tomto iPhonu není k dispozici",
+        "noneBody": "Vyčištění používá Apple Intelligence, která vyžaduje iOS 26 na iPhonu 15 Pro nebo novějším. Vaše slova se zapíšou tak, jak je vyslovíte, s interpunkcí a velkými písmeny.",
+        "offTitle": "Zapněte Apple Intelligence",
+        "offBody": "Vyčištění používá model Applu přímo v zařízení. Zapněte Apple Intelligence v aplikaci Nastavení v části Apple Intelligence a Siri a vraťte se.",
+        "preparingTitle": "Model Applu se připravuje",
+        "preparingBody": "iOS ho ještě stahuje. Do té doby se vaše slova zapisují tak, jak je vyslovíte.",
+        "note": "Na iPhonu ve verzi beta. Vyčištění používá Apple Intelligence v tomto telefonu, nic ho neopustí. Je méně pečlivé než na Macu: nechává víc výplňových slov a výjimečně vynechá slovo."
+      },
+      "session": {
+        "endAfter": "Ukončit relaci po",
+        "intro": "Relace drží mikrofon připravený, aby klávesnice mohla diktovat. Skončí sama, když ji přestanete používat.",
+        "footer": "Kratší doba šetří baterii. Relaci můžete vždy ukončit na Domů.",
+        "autoReturn": "Automaticky se vrátit do aplikace",
+        "autoReturnHint": "Když klávesnice otevře Wispr Bro kvůli spuštění relace, vrátí vás rovnou do aplikace, ve které jste byli."
+      },
+      "sounds": "Zvuky diktování",
+      "soundsHint": "Jemný zvuk, když poslech začne a skončí.",
+      "theme": {
+        "system": "Automaticky",
+        "light": "Světlý",
+        "dark": "Tmavý"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} slovo",
+      "words_few": "{{count}} slova",
+      "words_many": "{{count}} slova",
+      "words_other": "{{count}} slov"
+    },
+    "scratchpad": {
+      "emptyHelp": "Založte poznámku a pište nebo diktujte do ní. Každá poznámka se ukládá sama.",
+      "noResultsHelp": "Zkuste jiné slovo.",
+      "notes": "Poznámky",
+      "noteMenu": "Více pro {{name}}",
+      "more": "Více",
+      "done": "Hotovo",
+      "share": "Sdílet",
+      "cancel": "Zrušit",
+      "deleteTitle": "Smazat tuto poznámku?",
+      "deleteBody": "Poznámka „{{name}}“ bude nenávratně smazána.",
+      "error": "To nevyšlo. Váš text tu zůstal, zkuste to znovu.",
+      "words_one": "{{count}} slovo",
+      "words_few": "{{count}} slova",
+      "words_many": "{{count}} slova",
+      "words_other": "{{count}} slov",
+      "writing": "Přepisuje se…",
+      "recordFailed": "Nahrávání se nepodařilo. Zkuste to znovu.",
+      "polish": {
+        "off": "Polish používá Apple Intelligence, která je vypnutá. Zapněte ji v aplikaci Nastavení v části Apple Intelligence a Siri.",
+        "preparing": "Model Applu se ještě připravuje. Polish začne fungovat, až ho iOS stáhne.",
+        "unsupported": "Polish vyžaduje Apple Intelligence, kterou tento iPhone nemá."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro je bezplatný software s otevřeným zdrojovým kódem, postavený na práci mnoha dalších lidí.",
+      "own": "Licence Wispr Bro",
+      "source": "Zdrojový kód",
+      "builtWith": "Vytvořeno pomocí",
+      "all": "Všechna oznámení třetích stran",
+      "footer": "Všechny komponenty a texty jejich licencí jsou uvedeny v oznámeních třetích stran.",
+      "loading": "Načítání…",
+      "failed": "Text licence se nepodařilo načíst."
+    },
+    "onboarding": {
+      "later": "Udělám to později",
+      "welcome": {
+        "subtitle": "Klepněte na mikrofon na klávesnici Wispr Bro a mluvte. Čistý text se objeví v aplikaci, ve které právě píšete.",
+        "privacyTitle": "Vše zůstává na tomto iPhonu"
+      },
+      "microphone": {
+        "title": "Povolte mikrofon",
+        "subtitle": "Wispr Bro poslouchá, jen když diktujete. Zvuk nikdy neopustí tento iPhone.",
+        "allow": "Povolit mikrofon",
+        "prompt": "iOS se zeptá jen jednou. Klepněte na Povolit.",
+        "granted": "Mikrofon je povolený.",
+        "denied": "Mikrofon je pro Wispr Bro vypnutý. Zapněte ho v Nastavení a vraťte se."
+      },
+      "keyboard": {
+        "title": "Přidejte klávesnici {{appName}}",
+        "subtitle": "Takto budete diktovat v jiných aplikacích. Zabere to minutu, jen jednou.",
+        "ready": "Klávesnice je přidaná a může komunikovat s aplikací. Hotovo.",
+        "added": "Klávesnice je přidaná. Teď ji vyzkoušejte."
+      },
+      "model": {
+        "title": "Stahuje se model řeči",
+        "titleReady": "Model řeči je připravený",
+        "subtitle": "Jedno stažení. Potom diktování funguje i bez internetu.",
+        "starting": "Připravuje se…",
+        "downloading": "Stahování…",
+        "verifying": "Kontroluje se stažený soubor…",
+        "ready": "Připraveno",
+        "failed": "Stahování se zastavilo.",
+        "offline": "Žádné připojení k internetu.",
+        "noSpace": "Nedostatek volného místa. Je potřeba asi {{mb}} MB.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} z {{total}} MB",
+        "eta_one": "zbývá asi {{count}} minuta",
+        "eta_few": "zbývají asi {{count}} minuty",
+        "eta_many": "zbývá asi {{count}} minuty",
+        "eta_other": "zbývá asi {{count}} minut",
+        "offlineReady": "Uloženo na tomto iPhonu.",
+        "background": "Pokračovat na pozadí"
+      },
+      "practice": {
+        "title": "Vyzkoušejte první diktování",
+        "subtitle": "Řekněte cokoli. Stačí věta o vašem dni.",
+        "notReady": "Vyzkoušet si to můžete po dokončení nastavení. Teď krok přeskočte a zkuste to později na Domů.",
+        "placeholder": "Tady se objeví vaše slova…",
+        "fieldLabel": "Text na vyzkoušení",
+        "skip": "Přeskočit",
+        "steps": {
+          "tap": "Klepněte do pole výše",
+          "switch": "Podržte klávesu se zeměkoulí a vyberte {{appName}}",
+          "speak": "Klepněte na mikrofon, mluvte a pak klepněte na zatržítko"
+        }
+      },
+      "done": {
+        "title": "Vše je připraveno",
+        "titlePending": "Skoro hotovo",
+        "subtitle": "To je celé.",
+        "subtitlePending": "Zbývající kroky najdete na Domů.",
+        "finish": "Začít používat {{appName}}",
+        "points": {
+          "session": "Když chcete diktovat, spusťte v aplikaci relaci",
+          "keyboard": "V libovolné aplikaci přepněte na klávesnici {{appName}} a klepněte na mikrofon",
+          "private": "Vše zůstává na tomto iPhonu"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Spusťte relaci a diktujte v libovolné aplikaci. Každý diktát se uloží sem, na tento iPhone."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Zobrazuje se jen na tomto iPhonu."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Vaše diktáty a data zůstávají na tomto iPhonu."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro ukončí svou práci, vymaže data a začne znovu od uvítací obrazovky."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Spočítáno na tomto iPhonu z vašeho posledního diktování. Nic neopustí váš iPhone.",
+          "footnote_few": "Spočítáno na tomto iPhonu z vašich posledních {{count, number}} diktování. Nic neopustí váš iPhone.",
+          "footnote_many": "Spočítáno na tomto iPhonu z vašich posledních {{count, number}} diktování. Nic neopustí váš iPhone.",
+          "footnote_other": "Spočítáno na tomto iPhonu z vašich posledních {{count, number}} diktování. Nic neopustí váš iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Jednou spárujte svůj Mac. Potom zůstanou slovník, úryvky, nastavení a statistiky na obou zařízeních samy stejné.",
+      "fromMac": {
+        "title": "Z Macu",
+        "step1": "Na Macu otevřete Wispr Bro, přejděte do Nastavení › Data a soukromí a zvolte Exportovat moje data.",
+        "step2": "Pošlete soubor přes AirDrop do tohoto iPhonu a otevřete ho ve Wispr Bro.",
+        "step3": "Zkontrolujte, co se změní, a klepněte na Sloučit.",
+        "choose": "Vybrat soubor",
+        "reading": "Načítání…",
+        "footer": "Už jste soubor uložili do Souborů? Vyberte ho tady. Historie a nahrávky z Macu se nečtou."
+      },
+      "toMac": {
+        "title": "Do Macu",
+        "send": "Poslat do Macu",
+        "csv": "Přidat soubory CSV",
+        "csvHint": "Pro Mac, který ještě neumí otevřít soubory synchronizace. Importujte je na stránkách Slovník a Úryvky.",
+        "footer": "Pošlete soubor přes AirDrop do Macu a importujte ho v Nastavení › Data a soukromí. Historie a nahrávky zůstanou na tomto iPhonu."
+      },
+      "devices": {
+        "title": "Synchronizováno",
+        "none": "Zatím nesynchronizováno",
+        "merged": "Sloučeno {{when}}",
+        "words_one": "{{words}} slovo",
+        "words_few": "{{words}} slova",
+        "words_many": "{{words}} slova",
+        "words_other": "{{words}} slov"
+      },
+      "pair": {
+        "title": "Spárujte svůj Mac",
+        "step1": "Na Macu otevřete Wispr Bro, přejděte do Nastavení › Data a soukromí a zapněte Synchronizace s iPhonem.",
+        "step2": "Klepněte na Najít můj Mac a vyberte ho.",
+        "step3": "Zadejte kód, který zobrazí Mac.",
+        "find": "Najít můj Mac",
+        "looking": "Hledá se váš Mac…",
+        "stop": "Přestat hledat",
+        "nearby": "Macy v okolí",
+        "footer": "Obě zařízení musí být ve stejné síti Wi-Fi, nebo blízko sebe se zapnutou Wi-Fi a Bluetooth."
+      },
+      "mac": {
+        "title": "Váš Mac",
+        "footer": "iPhone se synchronizuje, když je Wispr Bro otevřený nebo běží relace diktování. Synchronizace probíhá přímo mezi zařízeními přes místní síť. Bez serveru."
+      },
+      "file": {
+        "title": "Synchronizace souborem",
+        "hint": "Bez spárování: pošlete soubor mezi zařízeními přes AirDrop."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "Mac",
+      "iphone": "iPhone",
+      "macName": "Váš Mac",
+      "iphoneName": "Váš iPhone"
+    },
+    "parts": {
+      "dictionary": "Slovník",
+      "snippets": "Úryvky",
+      "settings": "Nastavení",
+      "stats": "Statistiky"
+    },
+    "review": {
+      "title": "Sloučit ze zařízení {{device}}",
+      "titleFile": "Importovat {{device}}",
+      "made": "Vytvořeno {{when}}",
+      "madeWith": "Vytvořeno {{when}} ve Wispr Bro {{version}}",
+      "added_one": "nové: {{count}}",
+      "added_few": "nové: {{count}}",
+      "added_many": "nové: {{count}}",
+      "added_other": "nové: {{count}}",
+      "changed_one": "změněné: {{count}}",
+      "changed_few": "změněné: {{count}}",
+      "changed_many": "změněné: {{count}}",
+      "changed_other": "změněné: {{count}}",
+      "removed_one": "odstraněné: {{count}}",
+      "removed_few": "odstraněné: {{count}}",
+      "removed_many": "odstraněné: {{count}}",
+      "removed_other": "odstraněné: {{count}}",
+      "stats_one": "Slov: {{words}} za {{count}} den",
+      "stats_few": "Slov: {{words}} za {{count}} dny",
+      "stats_many": "Slov: {{words}} za {{count}} dne",
+      "stats_other": "Slov: {{words}} za {{count}} dní",
+      "same": "Aktuální",
+      "notInFile": "Není v tomto souboru",
+      "upToDate": "Vše z tohoto souboru už tu je.",
+      "privacy": "Historie a nahrávky se nesynchronizují. Zůstávají na zařízení, kde vznikly.",
+      "privacyExport": "Toto je úplný export z vašeho Macu. Čtou se z něj jen slovník, úryvky, nastavení a statistiky. Historie a nahrávky ne.",
+      "merge": "Sloučit",
+      "merging": "Slučování…",
+      "cancel": "Zrušit",
+      "done": "Hotovo",
+      "privacyExportCopy": "Kopie souboru v tomto iPhonu se potom smaže."
+    },
+    "result": {
+      "title": "Sloučeno",
+      "from": "Zdroj: {{device}}",
+      "merged": "Obě strany jsou teď v souladu.",
+      "nothing": "Nebylo potřeba nic měnit."
+    },
+    "problems": {
+      "title": "Tento soubor nelze sloučit",
+      "unreadable": "Soubor se nepodařilo přečíst. Pošlete ho znovu a zkuste to ještě jednou.",
+      "not_wispr_bro": "Toto není soubor Wispr Bro. Vyberte soubor synchronizace (.wisprbro), exportovaná data z Macu (.zip) nebo soubor CSV se slovníkem či úryvky.",
+      "too_new": "Tento soubor vytvořila novější verze Wispr Bro. Aktualizujte Wispr Bro zde a otevřete soubor znovu.",
+      "own_file": "Tento soubor vznikl na tomto zařízení. Otevřete ho na druhém zařízení.",
+      "failed": "Při čtení souboru se něco pokazilo. Nic nebylo změněno."
+    },
+    "sendFailed": "Soubor synchronizace se nepodařilo vytvořit.",
+    "settingNames": {
+      "styles": "Styl",
+      "text_retention_days": "Uchovávání Historie",
+      "audio_retention_days": "Uchovávání nahrávek",
+      "typing_wpm": "Rychlost psaní",
+      "typing_hours_per_day": "Čas psaní",
+      "greeting_name": "Jméno",
+      "spoken_languages": "Jazyky",
+      "audio_feedback": "Zvuky diktování",
+      "audio_feedback_volume": "Hlasitost zvuků"
+    },
+    "auto": {
+      "justNow": "právě teď",
+      "inSync": "Synchronizováno",
+      "inSyncAgo": "Synchronizováno · poslední změna {{when}}",
+      "connecting": "Připojování…",
+      "macAway": "Mac nebyl nalezen. Otevřete Wispr Bro na Macu.",
+      "phoneAway": "Nepřipojeno. Otevřete Wispr Bro na iPhonu.",
+      "lastSynced": "Naposledy synchronizováno {{when}}.",
+      "syncNow": "Synchronizovat",
+      "unpair": "Zrušit spárování",
+      "unpairTitle": "Zrušit spárování se zařízením {{device}}?",
+      "unpairBody": "Zařízení se přestanou synchronizovat. Na žádném z nich se nic nesmaže. Znovu je můžete spárovat kdykoli.",
+      "direct": "Synchronizace probíhá přímo mezi zařízeními přes místní síť. Bez serveru.",
+      "denied": "Wispr Bro nemá povoleno hledat zařízení v místní síti. Povolte to v Nastavení a zkuste to znovu.",
+      "openSettings": "Otevřít Nastavení",
+      "needsUpdate": "Wispr Bro na Macu a na iPhonu má různé verze. Aktualizujte obě, aby synchronizace pokračovala."
+    },
+    "pairing": {
+      "showTitle": "Spárovat se zařízením {{device}}",
+      "showBody": "Zadejte tento kód na iPhonu. Platí jen jednou.",
+      "enterTitle": "Zadejte kód",
+      "enterBody": "Zařízení {{device}} zobrazuje šestimístný kód.",
+      "codeLabel": "Párovací kód",
+      "connecting": "Připojování k zařízení {{device}}…",
+      "pair": "Spárovat",
+      "checking": "Kontrola…",
+      "failedTitle": "Spárování se nepodařilo",
+      "problems": {
+        "wrong_code": "Kód nesouhlasí s kódem na Macu. Klepněte znovu na Najít můj Mac a získejte nový kód.",
+        "no_code": "Čas vypršel: během dvou minut nebyl zadán žádný kód. Nechte obě aplikace otevřené a začněte znovu.",
+        "busy": "Mac se právě páruje s jiným zařízením. Zkuste to za chvíli znovu.",
+        "unreachable": "Mac není dostupný. Nechte na něm Wispr Bro otevřený se zapnutou Synchronizací s iPhonem a zkontrolujte, že má Wispr Bro na obou zařízeních v Nastavení povolenou Místní síť.",
+        "failed": "Spárování nebylo dokončeno. Začněte znovu tlačítkem Najít můj Mac.",
+        "dropped": "Spojení s Macem se přerušilo před dokončením spárování. Nechte obě aplikace otevřené a zařízení blízko sebe a zkuste to znovu.",
+        "version": "Wispr Bro na Macu a na iPhonu má různé verze. Aktualizujte obě a spárujte znovu.",
+        "update_mac": "Aktualizujte Wispr Bro na Macu: má starší verzi synchronizace než tento iPhone. Potom spárujte znovu.",
+        "update_this": "Aktualizujte Wispr Bro na tomto iPhonu: Mac má novější verzi synchronizace. Potom spárujte znovu.",
+        "denied": "Wispr Bro nemá povolenou místní síť. Povolte ji v Nastavení › Soukromí a zabezpečení › Místní síť › Wispr Bro a pak znovu klepněte na Najít můj Mac."
+      },
+      "macProblems": {
+        "wrong_code": "Na iPhonu byl zadán jiný kód. Začněte znovu na iPhonu: klepněte na Najít můj Mac a zadejte nový kód zobrazený zde.",
+        "update_phone": "Aktualizujte Wispr Bro na iPhonu: má starší verzi synchronizace než tento Mac. Potom spárujte znovu.",
+        "update_this": "Aktualizujte Wispr Bro na tomto Macu: iPhone má novější verzi synchronizace. Potom spárujte znovu.",
+        "version": "Wispr Bro na Macu a na iPhonu má různé verze. Aktualizujte obě a spárujte znovu.",
+        "failed": "Spárování nebylo dokončeno. Začněte znovu na iPhonu tlačítkem Najít můj Mac."
       }
     }
   },

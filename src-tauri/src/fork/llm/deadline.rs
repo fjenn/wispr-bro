@@ -124,6 +124,14 @@ pub fn instruct(text: &str) -> Duration {
 
 /// Deadline of a whole take of `text` with `words` words.
 pub fn take(text: &str, words: u32) -> Duration {
+    // The forced request deadline (debug builds) must fit in the take's.
+    #[cfg(debug_assertions)]
+    if let Some(ms) = std::env::var(FORCE_ENV)
+        .ok()
+        .and_then(|v| v.parse::<u64>().ok())
+    {
+        return Duration::from_millis(ms.saturating_mul(8));
+    }
     let blocks = u32::max(1, words.div_ceil(200));
     let cap = REQUEST_CAP.saturating_mul(blocks).min(TAKE_CAP);
     for_this_mac(formula(text).min(cap))

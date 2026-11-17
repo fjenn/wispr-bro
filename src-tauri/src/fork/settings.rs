@@ -397,12 +397,24 @@ pub struct ForkSettings {
     pub applied_first_run_defaults: Vec<String>,
 }
 
+/// Cleanup on a new iPhone install (`docs/fork/IOS.md` "Cleanup").
+pub const IOS_DEFAULT_CLEANUP: CleanupLevel = CleanupLevel::None;
+
+/// Recorded in `applied_first_run_defaults` once the iPhone default was
+/// written. Builds before cleanup existed on iPhone stored the Mac's default
+/// (Medium) without it doing anything; nobody chose it.
+const IOS_CLEANUP_DEFAULT_KEY: &str = "ios_cleanup_level";
+
 impl Default for ForkSettings {
     fn default() -> Self {
         Self {
             schema_version: CURRENT_SCHEMA_VERSION,
             hotkeys: default_hotkeys(),
-            cleanup_level: CleanupLevel::Medium,
+            cleanup_level: if cfg!(target_os = "ios") {
+                IOS_DEFAULT_CLEANUP
+            } else {
+                CleanupLevel::Medium
+            },
             styles: StyleSettings::default(),
             context_awareness: true,
             transforms_enabled: false,
@@ -1424,6 +1436,17 @@ pub(crate) fn apply_product_settings(
     fork: &mut ForkSettings,
 ) -> ProductReport {
     let mut report = ProductReport::default();
+    if cfg!(target_os = "ios")
+        && !fork
+            .applied_first_run_defaults
+            .iter()
+            .any(|k| k == IOS_CLEANUP_DEFAULT_KEY)
+    {
+        fork.cleanup_level = IOS_DEFAULT_CLEANUP;
+        fork.applied_first_run_defaults
+            .push(IOS_CLEANUP_DEFAULT_KEY.to_owned());
+        report.first_run.push(IOS_CLEANUP_DEFAULT_KEY);
+    }
     for entry in FIRST_RUN_DEFAULTS {
         if fork
             .applied_first_run_defaults

@@ -28,6 +28,14 @@ tailwindcss.com             # reason: `/*! tailwindcss … | https://tailwindcss
 reactjs.org                 # reason: React's production error-decoder link inside thrown error messages
 www.i18next.com             # reason: i18next deprecation-warning text (console only)
 bit.ly                      # reason: Immer's minified-error message text ("Full error at: …")
+# Wispr Bro for iPhone: Settings › Acknowledgements shows the licence texts
+# in LICENSES/ (src/fork/ios/Licences.tsx); their URLs are plain text in a <pre>.
+scripts.sil.org             # reason: URL inside the SIL Open Font License text (LICENSES/OFL-1.1-*.txt), shown as plain text
+www.adobe.com               # reason: URL inside the Noto Sans CJK licence text (LICENSES/OFL-1.1-NotoSansCJK.txt), shown as plain text
+unlicense.org               # reason: URL inside the Unlicense text (LICENSES/Unlicense-*.txt), shown as plain text
+www.apache.org              # reason: URL inside the Apache License 2.0 text (LICENSES/Apache-2.0-*.txt), shown as plain text
+www.opensource.org          # reason: URL inside the xxHash BSD licence text (LICENSES/BSD-2-Clause-xxHash.txt), shown as plain text
+www.xxhash.com              # reason: URL inside the xxHash BSD licence text (LICENSES/BSD-2-Clause-xxHash.txt), shown as plain text
 redux.js.org                # reason: Redux's minified-error message text inside thrown errors (Recharts' state store, S-25 Insights chart chunk)
 redux-toolkit.js.org        # reason: Redux Toolkit's minified-error message text inside thrown errors (Recharts, S-25)
 

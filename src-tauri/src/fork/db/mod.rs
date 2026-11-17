@@ -102,6 +102,8 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M>> = std::sync::LazyLock::new(|| {
         M::up(include_str!("migrations/0008_app_rules.sql")),
         // S-21: Polish and Prompt Engineer (the tables date from 0001).
         M::up(include_str!("migrations/0009_transforms.sql")),
+        // Sync: devices, their stats snapshots, tombstones, setting times.
+        M::up(include_str!("migrations/0010_sync.sql")),
     ]
 });
 

@@ -16,6 +16,7 @@ import { commands } from "../bindings";
 import { HANDY_URL, LICENSE_URL, REPO_URL } from "../hub/links";
 import { UpdatePanel } from "../hub/UpdateStatus";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { Button, SettingGroup, SettingRow } from "../ui";
 import { HandyRow, PanelCard } from "./Controls";
 
@@ -32,6 +33,9 @@ export function About() {
       .then(setVersion)
       .catch(() => setVersion(null));
   }, []);
+  // Wispr Bro for iPhone: the App Store updates the app, and reports go
+  // through GitHub in the browser, so neither panel is shown.
+  const ios = isIos();
   return (
     <div className="flex flex-col gap-8" data-testid="wb-settings-about">
       <PanelCard>
@@ -73,41 +77,45 @@ export function About() {
           </div>
         </div>
       </PanelCard>
-      <SettingGroup label={t("settingsModal.about.updatesTitle")}>
-        <PanelCard>
-          <UpdatePanel />
-        </PanelCard>
-        <HandyRow>
-          <ShowWhatsNewOnUpdate descriptionMode="inline" grouped />
-        </HandyRow>
-      </SettingGroup>
-      <div data-testid="wb-about-support">
-        <SettingRow
-          title={t("settingsModal.about.supportTitle")}
-          control={
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => void commands.forkOpenIssue("problem")}
-                data-testid="wb-about-report"
-              >
-                <Bug size={14} />
-                {t("hub.help.reportProblem")}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => void commands.forkOpenIssue("feedback")}
-                data-testid="wb-about-feedback"
-              >
-                <MessageSquareText size={14} />
-                {t("hub.help.sendFeedback")}
-              </Button>
-            </>
-          }
-        />
-      </div>
+      {!ios && (
+        <>
+          <SettingGroup label={t("settingsModal.about.updatesTitle")}>
+            <PanelCard>
+              <UpdatePanel />
+            </PanelCard>
+            <HandyRow>
+              <ShowWhatsNewOnUpdate descriptionMode="inline" grouped />
+            </HandyRow>
+          </SettingGroup>
+          <div data-testid="wb-about-support">
+            <SettingRow
+              title={t("settingsModal.about.supportTitle")}
+              control={
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void commands.forkOpenIssue("problem")}
+                    data-testid="wb-about-report"
+                  >
+                    <Bug size={14} />
+                    {t("hub.help.reportProblem")}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void commands.forkOpenIssue("feedback")}
+                    data-testid="wb-about-feedback"
+                  >
+                    <MessageSquareText size={14} />
+                    {t("hub.help.sendFeedback")}
+                  </Button>
+                </>
+              }
+            />
+          </div>
+        </>
+      )}
       <div data-testid="wb-about-credit">
         <SettingRow
           title={t("settingsModal.about.creditLink")}

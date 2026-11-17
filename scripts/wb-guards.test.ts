@@ -276,6 +276,30 @@ describe("hosts guard", () => {
   });
 });
 
+describe("hosts guard: iPhone native code", () => {
+  test("covers src-tauri/ios-native; a plist DOCTYPE passes, another apple.com URL fails", () => {
+    const doctype = `<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "${"http:/"}/www.apple.com/DTDs/PropertyList-1.0.dtd">`;
+    const root = fixture({
+      "src-tauri/ios-native/App/Info.plist": `<?xml version="1.0" encoding="UTF-8"?>\n${doctype}\n<plist version="1.0"><dict/></plist>\n`,
+    });
+    expectPass(runHosts({ root }));
+    write(
+      root,
+      "src-tauri/ios-native/App/Net.swift",
+      `// SPDX-License-Identifier: GPL-3.0-or-later\nlet u = "${H}www.apple.com/x"\n`,
+    );
+    expect(rules(runHosts({ root }))).toEqual(["hosts/fork"]);
+  });
+
+  test("[test] hosts are allowed in the XCTest targets only", () => {
+    const line = `// SPDX-License-Identifier: GPL-3.0-or-later\nlet u = "${H}example.com/session/start"\n`;
+    const root = fixture({ "src-tauri/ios-native/WBTests/T.swift": line });
+    expectPass(runHosts({ root }));
+    write(root, "src-tauri/ios-native/WBShared/T.swift", line);
+    expect(rules(runHosts({ root }))).toEqual(["hosts/test-only"]);
+  });
+});
+
 describe("hosts guard: [test] hosts", () => {
   const cloud = `${H}api.openai.com/v1`;
   const forkMod = `${SPDX}#[cfg(test)]\nmod tests;\n#[cfg(test)]\n#[allow(dead_code)]\npub(crate) mod testutil;\n`;
@@ -361,6 +385,47 @@ describe("hosts guard: [test] hosts", () => {
     });
     expect(rules(runHosts({ root }))).toEqual(["hosts/upstream"]);
     expect(rules(runBundleHosts({ root }))).toEqual(["hosts/bundle"]);
+  });
+
+  test("[peer]: local-link networking only in fork/sync, only listed Bonjour services", () => {
+    // Built from pieces so this file does not name the APIs it bans.
+    const listener = ["nw", "listener", "create"].join("_");
+    const service = "_wisprbro-sync._tcp";
+    const root = fixture({
+      "src-tauri/src/fork/sync/net.m": `${SPDX}static const char *t = "${service}"; void f(void) { ${listener}(0); }\n`,
+      "src-tauri/Info.ios.plist": `<plist><array><string>${service}</string></array></plist>\n`,
+    });
+    expectPass(runHosts({ root }));
+
+    // The same API anywhere else in fork code fails.
+    write(
+      root,
+      "src-tauri/src/fork/llm/peer.m",
+      `${SPDX}void g(void) { ${listener}(0); }\n`,
+    );
+    const r = runHosts({ root });
+    expect(rules(r)).toEqual(["hosts/peer-api"]);
+    expect(r.violations[0]).toMatchObject({
+      file: "src-tauri/src/fork/llm/peer.m",
+    });
+    write(root, "src-tauri/src/fork/llm/peer.m", `${SPDX}\n`);
+
+    // A Bonjour service that is not listed fails, in code and in a plist.
+    write(
+      root,
+      "src-tauri/src/fork/sync/other.rs",
+      `${SPDX}const T: &str = "_other-thing._tcp";\n`,
+    );
+    expect(rules(runHosts({ root }))).toEqual(["hosts/peer-service"]);
+    write(root, "src-tauri/src/fork/sync/other.rs", `${SPDX}\n`);
+    write(
+      root,
+      "src-tauri/Info.plist",
+      `<plist><array><string>_airplay._tcp</string></array></plist>\n`,
+    );
+    const plist = runHosts({ root });
+    expect(rules(plist)).toEqual(["hosts/peer-service"]);
+    expect(plist.violations[0]).toMatchObject({ file: "src-tauri/Info.plist" });
   });
 
   test("[test] entries need a checked category comment", () => {

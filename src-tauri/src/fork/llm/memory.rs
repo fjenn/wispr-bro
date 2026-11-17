@@ -27,7 +27,50 @@
 //! override ([`simulated_physical_bytes`]).
 
 /// Headroom kept free beside the LLM (R5 §4.5).
+#[cfg(not(target_os = "ios"))]
 pub const HEADROOM_BYTES: u64 = 1536 * 1024 * 1024;
+/// iPhone: "available" is what this app may still take before iOS ends it
+/// (`os_proc_available_memory`), not the machine's free memory, so the
+/// margin is only what a take's transcription can still add.
+#[cfg(target_os = "ios")]
+pub const HEADROOM_BYTES: u64 = 768 * 1024 * 1024;
+
+/// What the cleanup model adds to the app's footprint on an iPhone while it
+/// is loaded (CPU, `-c 4096`, weights mapped from the file: `--no-repack`),
+/// in MiB, rounded up from the iPhone 17 Pro's figure (`docs/fork/IOS.md`).
+pub const IOS_RESIDENT_MIB: u64 = 600;
+
+/// The LLM's memory for the rule: the catalog's figure for the sidecar on
+/// the Mac, the in-process figure on iPhone.
+pub fn llm_resident_bytes(catalog_mib: u64) -> u64 {
+    let mib = if cfg!(target_os = "ios") {
+        IOS_RESIDENT_MIB
+    } else {
+        catalog_mib
+    };
+    mib * 1024 * 1024
+}
+
+/// iPhone: the time of the last memory warning (UIKit's
+/// `didReceiveMemoryWarning`; `fork::ios::memory`). Pressure reads as
+/// critical for [`WARNING_HOLD`] after it.
+static LAST_WARNING: std::sync::Mutex<Option<std::time::Instant>> = std::sync::Mutex::new(None);
+
+/// How long a memory warning keeps the LLM off.
+pub const WARNING_HOLD: std::time::Duration = std::time::Duration::from_secs(60);
+
+/// Records a memory warning from the system.
+pub fn note_warning() {
+    *LAST_WARNING.lock().unwrap_or_else(|p| p.into_inner()) = Some(std::time::Instant::now());
+}
+
+/// `true` within [`WARNING_HOLD`] of a memory warning.
+pub fn warned_recently() -> bool {
+    LAST_WARNING
+        .lock()
+        .unwrap_or_else(|p| p.into_inner())
+        .is_some_and(|t| t.elapsed() < WARNING_HOLD)
+}
 
 /// macOS's memory pressure level.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -235,7 +278,26 @@ fn read() -> Option<MemorySnapshot> {
     })
 }
 
-#[cfg(not(target_os = "macos"))]
+/// iPhone: the phone's memory, what this app may still take before iOS ends
+/// it, and critical pressure for a while after a memory warning.
+#[cfg(target_os = "ios")]
+fn read() -> Option<MemorySnapshot> {
+    let physical = wb_ios_llm::physical_memory_bytes();
+    if physical == 0 {
+        return None;
+    }
+    Some(MemorySnapshot {
+        physical_bytes: physical,
+        available_bytes: wb_ios_llm::available_bytes().unwrap_or(physical),
+        pressure: if warned_recently() {
+            Pressure::Critical
+        } else {
+            Pressure::Normal
+        },
+    })
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "ios")))]
 fn read() -> Option<MemorySnapshot> {
     None
 }
@@ -330,6 +392,14 @@ pub fn asr_state_from_event(event_type: &str) -> Option<AsrState> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_memory_warning_reads_as_recent_and_the_mac_uses_the_catalog_figure() {
+        note_warning();
+        assert!(warned_recently());
+        // Off iPhone the rule uses the sidecar's measured size.
+        assert_eq!(llm_resident_bytes(2_100), 2_100 * 1024 * 1024);
+    }
 
     const GB: u64 = 1024 * 1024 * 1024;
 

@@ -257,9 +257,10 @@
         "local": "Din diktering och dina data stannar på den här datorn.",
         "noCloud": "Taligenkänning, rensning och Historik körs lokalt. Det finns inget konto, ingen telemetri, ingen diktering i molnet och ingen rensning i molnet.",
         "network": "Vad som använder nätverket",
-        "networkIntro": "Wispr Bro använder bara nätverket till de här två sakerna:",
+        "networkIntro": "Wispr Bro använder nätverket bara till följande:",
         "models": "Hämta tal- och rensningsmodeller från Hugging Face (huggingface.co).",
-        "updates": "Söka efter appuppdateringar på GitHub (github.com) när uppdateringskontroller är på."
+        "updates": "Söka efter appuppdateringar på GitHub (github.com) när uppdateringskontroller är på.",
+        "sync": "När synkning är på pratar din Mac och iPhone direkt med varandra via ditt lokala nätverk. Ingen server."
       },
       "locations": {
         "title": "Var dina data finns",
@@ -330,6 +331,23 @@
         "saved": "Rensad diagnostik har sparats.",
         "failed": "Det gick inte att förbereda diagnostiken. Försök igen.",
         "rowTitle": "Dela diagnostik"
+      },
+      "sync": {
+        "title": "Synkning",
+        "rowTitle": "Synka med en fil",
+        "hint": "Ordlista, textstycken, inställningar och statistik som en fil att skicka med AirDrop.",
+        "import": "Importera…",
+        "export": "Exportera…",
+        "fileName": "Wispr Bro ({{device}}).wisprbro",
+        "filter": "Synkfil för Wispr Bro",
+        "exported": "Synkfilen har sparats och visas i Finder. Skicka den till din iPhone med AirDrop.",
+        "last": "Senast sammanfogat från {{device}}: {{when}}. Historik och inspelningar ingår aldrig.",
+        "never": "Inte synkat än. Historik och inspelningar ingår aldrig.",
+        "autoTitle": "Synka med din iPhone",
+        "autoHint": "Håller ordlista, textstycken, inställningar och statistik likadana på båda medan båda apparna är öppna.",
+        "direct": "Synkningen går direkt mellan dina enheter via ditt lokala nätverk. Ingen server. Historik och inspelningar synkas aldrig.",
+        "howTo": "Öppna Wispr Bro på din iPhone, gå till Inställningar › Synka med din Mac och tryck på Hitta min Mac.",
+        "denied": "macOS låter inte Wispr Bro hitta enheter på ditt lokala nätverk. Tillåt det i Systeminställningar › Integritet och säkerhet › Lokalt nätverk."
       }
     },
     "advanced": {
@@ -515,7 +533,7 @@
       "actionFailed": "Det fungerade inte. Försök igen.",
       "copied": "Senaste dikteringen har kopierats",
       "nothingToCopy": "Ingen diktering att kopiera än",
-      "justNow": "Jag precis"
+      "justNow": "Nyss"
     },
     "help": {
       "title": "Hjälp",
@@ -1070,7 +1088,9 @@
       "wordsPerMinute": "Ord per minut",
       "streak": "Dagar i rad",
       "notEnoughSpeech": "Inte tillräckligt med tal än",
-      "unavailable": "Inte tillgängligt än"
+      "unavailable": "Inte tillgängligt än",
+      "allDevices_one": "Inklusive {{count}} annan enhet",
+      "allDevices_other": "Inklusive {{count}} andra enheter"
     },
     "voiceProfile": {
       "title": "Din röstprofil",
@@ -2731,6 +2751,439 @@
         "copied": "Kopierad",
         "copyFailed": "Det gick inte att kopiera. Markera tabellen och kopiera den själv.",
         "done": "Klar"
+      }
+    }
+  },
+  "ios": {
+    "close": "Stäng",
+    "tabs": {
+      "label": "Huvudmeny",
+      "home": "Hem",
+      "history": "Historik",
+      "voice": "Min röst",
+      "scratchpad": "Kladdblock",
+      "settings": "Inställningar"
+    },
+    "session": {
+      "status": {
+        "noSession": "Session av",
+        "idle": "Session på",
+        "listening": "Lyssnar",
+        "transcribing": "Skriver",
+        "error": "Sessionen stoppades"
+      },
+      "offTitle": "Redo när du är det",
+      "offBody": "Starta en session och diktera sedan i valfri app med Wispr Bro-tangentbordet.",
+      "onTitle": "Diktera i vilken app som helst",
+      "onBody": "Byt till Wispr Bro-tangentbordet och tryck på mikrofonen.",
+      "onBodyEnds": "Byt till Wispr Bro-tangentbordet och tryck på mikrofonen. Avslutas {{time}} om du inte dikterar.",
+      "onBodyNever": "Byt till Wispr Bro-tangentbordet och tryck på mikrofonen. Förblir på tills du avslutar den.",
+      "errorBody": "Sessionen avslutades oväntat. Starta den igen för att fortsätta diktera.",
+      "start": "Starta session",
+      "retry": "Starta igen",
+      "end": "Avsluta session",
+      "failed": "Det fungerade inte. Försök igen.",
+      "timeoutLine": "Avslutas {{timeout}}",
+      "timeout": {
+        "label": {
+          "immediately": "Direkt",
+          "never": "Aldrig",
+          "minutes_one": "{{count}} minut",
+          "minutes_other": "{{count}} minuter",
+          "hours_one": "{{count}} timme",
+          "hours_other": "{{count}} timmar"
+        },
+        "sentence": {
+          "immediately": "direkt efter varje diktering",
+          "never": "först när du avslutar den",
+          "minutes_one": "efter {{count}} minut utan diktering",
+          "minutes_other": "efter {{count}} minuter utan diktering",
+          "hours_one": "efter {{count}} timme utan diktering",
+          "hours_other": "efter {{count}} timmar utan diktering"
+        }
+      }
+    },
+    "setup": {
+      "count": "{{done}} av {{total}} klara",
+      "title": "Slutför konfigureringen",
+      "body": "Några steg, sedan kan du diktera i valfri app.",
+      "openSettings": "Öppna Inställningar",
+      "showMe": "Visa",
+      "failed": "Det fungerade inte. Försök igen.",
+      "mic": {
+        "title": "Tillåt mikrofonen",
+        "hint": "Används bara medan du dikterar.",
+        "denied": "Avstängd. Tillåt den i Inställningar.",
+        "allow": "Tillåt"
+      },
+      "keyboard": {
+        "title": "Lägg till tangentbordet {{appName}}",
+        "hint": "I Inställningar, under Tangentbord."
+      },
+      "fullAccess": {
+        "title": "Tillåt fullständig åtkomst",
+        "hint": "Låter tangentbordet nå appen. Inget lämnar den här iPhonen."
+      },
+      "model": {
+        "title": "Talmodell",
+        "ready": "Klar",
+        "waiting": "Förbereder…",
+        "downloading": "Hämtar… {{percent}} %",
+        "failed": "Hämtningen avbröts.",
+        "retry": "Försök igen"
+      }
+    },
+    "keyboard": {
+      "sheetTitle": "Lägg till tangentbordet {{appName}}",
+      "steps": {
+        "open": "Tryck på Öppna Inställningar och sedan på Tangentbord",
+        "enable": "Slå på {{appName}}",
+        "fullAccess": "Slå på Tillåt fullständig åtkomst"
+      },
+      "drawn": {
+        "keyboards": "Tangentbord",
+        "fullAccess": "Tillåt fullständig åtkomst"
+      },
+      "privacyTitle": "Varför fullständig åtkomst?",
+      "privacy": "Den används bara för att tangentbordet ska kunna prata med Wispr Bro-appen på den här iPhonen. Det du skriver och säger lämnar aldrig telefonen.",
+      "elsewhere": "Syns det inte? Öppna Inställningar, Allmänt, Tangentbord, Tangentbord, Lägg till nytt tangentbord."
+    },
+    "tryIt": {
+      "title": "Prova",
+      "placeholder": "Tryck här och diktera…",
+      "hint": "Håll ned jordglobstangenten för att byta till {{appName}}, tryck sedan på mikrofonen och prata.",
+      "clear": "Rensa"
+    },
+    "style": {
+      "intro": "Välj hur dina dikteringar skrivs, i alla appar."
+    },
+    "settings": {
+      "saveFailed": "Det gick inte att spara. Försök igen.",
+      "local": "Allt stannar på den här iPhonen.",
+      "groups": {
+        "dictation": "Diktering",
+        "session": "Session",
+        "feedback": "Ljud",
+        "app": "Wispr Bro",
+        "appearance": "Utseende"
+      },
+      "pages": {
+        "languages": "Språk",
+        "cleanup": "Rensning",
+        "session": "Avsluta session efter",
+        "privacy": "Data och integritet",
+        "about": "Om",
+        "licences": "Erkännanden",
+        "sync": "Synka med din Mac"
+      },
+      "cleanup": {
+        "notHere": "Inte på den här iPhonen",
+        "off": "Apple Intelligence är avstängt",
+        "noneTitle": "Inte tillgängligt på den här iPhonen",
+        "noneBody": "Rensning använder Apple Intelligence, som kräver iOS 26 på en iPhone 15 Pro eller senare. Dina ord skrivs som du säger dem, med skiljetecken och versaler.",
+        "offTitle": "Slå på Apple Intelligence",
+        "offBody": "Rensning använder Apples modell på enheten. Slå på Apple Intelligence i appen Inställningar under Apple Intelligence och Siri och kom sedan tillbaka.",
+        "preparingTitle": "Apples modell förbereds",
+        "preparingBody": "iOS hämtar den fortfarande. Tills dess skrivs dina ord som du säger dem.",
+        "note": "Beta på iPhone. Rensning använder Apple Intelligence på den här telefonen, inget lämnar den. Den är mindre noggrann än på Mac: den lämnar kvar fler utfyllnadsord och tappar i sällsynta fall ett ord."
+      },
+      "session": {
+        "endAfter": "Avsluta session efter",
+        "intro": "En session håller mikrofonen redo så att tangentbordet kan diktera. Den avslutas av sig själv när du slutar använda den.",
+        "footer": "En kortare tid sparar batteri. Du kan alltid avsluta en session från Hem.",
+        "autoReturn": "Gå tillbaka till min app automatiskt",
+        "autoReturnHint": "När tangentbordet öppnar Wispr Bro för att starta en session kommer du direkt tillbaka till appen du var i."
+      },
+      "sounds": "Dikteringsljud",
+      "soundsHint": "Ett mjukt ljud när lyssnandet startar och slutar.",
+      "theme": {
+        "system": "Automatiskt",
+        "light": "Ljust",
+        "dark": "Mörkt"
+      }
+    },
+    "voice": {
+      "words_one": "{{count}} ord",
+      "words_other": "{{count}} ord"
+    },
+    "scratchpad": {
+      "emptyHelp": "Skapa en anteckning och skriv eller diktera i den. Varje anteckning sparas automatiskt.",
+      "noResultsHelp": "Prova ett annat ord.",
+      "notes": "Anteckningar",
+      "noteMenu": "Mer för {{name}}",
+      "more": "Mer",
+      "done": "Klar",
+      "share": "Dela",
+      "cancel": "Avbryt",
+      "deleteTitle": "Radera anteckningen?",
+      "deleteBody": "”{{name}}” försvinner för gott.",
+      "error": "Det fungerade inte. Texten finns kvar, försök igen.",
+      "words_one": "{{count}} ord",
+      "words_other": "{{count}} ord",
+      "writing": "Skriver…",
+      "recordFailed": "Det gick inte att spela in. Försök igen.",
+      "polish": {
+        "off": "Polish använder Apple Intelligence, som är avstängt. Slå på det i appen Inställningar under Apple Intelligence och Siri.",
+        "preparing": "Apples modell förbereds fortfarande. Polish fungerar när iOS har hämtat den.",
+        "unsupported": "Polish kräver Apple Intelligence, som den här iPhonen inte har."
+      }
+    },
+    "licences": {
+      "intro": "Wispr Bro är fri programvara med öppen källkod, byggd på många andras arbete.",
+      "own": "Licens för Wispr Bro",
+      "source": "Källkod",
+      "builtWith": "Byggd med",
+      "all": "Alla meddelanden från tredje part",
+      "footer": "Alla komponenter och deras licenstexter finns i meddelandena från tredje part.",
+      "loading": "Läser in…",
+      "failed": "Licenstexten kunde inte läsas in."
+    },
+    "onboarding": {
+      "later": "Jag gör det senare",
+      "welcome": {
+        "subtitle": "Tryck på mikrofonen på Wispr Bro-tangentbordet och prata. Ren text hamnar i den app du skriver i.",
+        "privacyTitle": "Allt stannar på den här iPhonen"
+      },
+      "microphone": {
+        "title": "Tillåt mikrofonen",
+        "subtitle": "Wispr Bro lyssnar bara medan du dikterar. Ljudet lämnar aldrig den här iPhonen.",
+        "allow": "Tillåt mikrofonen",
+        "prompt": "iOS frågar en gång. Tryck på Tillåt.",
+        "granted": "Mikrofonen är tillåten.",
+        "denied": "Mikrofonen är avstängd för Wispr Bro. Slå på den i Inställningar och kom sedan tillbaka."
+      },
+      "keyboard": {
+        "title": "Lägg till tangentbordet {{appName}}",
+        "subtitle": "Så dikterar du i andra appar. Det tar en minut, en gång.",
+        "ready": "Tangentbordet är tillagt och når appen. Du är klar.",
+        "added": "Tangentbordet är tillagt. Prova det nu."
+      },
+      "model": {
+        "title": "Hämtar din talmodell",
+        "titleReady": "Din talmodell är klar",
+        "subtitle": "En enda hämtning. Sedan fungerar diktering utan internet.",
+        "starting": "Förbereder…",
+        "downloading": "Hämtar…",
+        "verifying": "Kontrollerar hämtningen…",
+        "ready": "Klar",
+        "failed": "Hämtningen avbröts.",
+        "offline": "Ingen internetanslutning.",
+        "noSpace": "Inte tillräckligt med ledigt utrymme. Cirka {{mb}} MB behövs.",
+        "percent": "{{percent}}%",
+        "bytes": "{{done}} av {{total}} MB",
+        "eta_one": "cirka {{count}} minut kvar",
+        "eta_other": "cirka {{count}} minuter kvar",
+        "offlineReady": "Sparad på den här iPhonen.",
+        "background": "Fortsätt i bakgrunden"
+      },
+      "practice": {
+        "title": "Prova din första diktering",
+        "subtitle": "Säg vad som helst. En mening om din dag räcker.",
+        "notReady": "Du kan öva när konfigureringen är klar. Hoppa över nu och prova från Hem.",
+        "placeholder": "Dina ord visas här…",
+        "fieldLabel": "Övningstext",
+        "skip": "Hoppa över",
+        "steps": {
+          "tap": "Tryck på fältet ovan",
+          "switch": "Håll ned jordglobstangenten och välj {{appName}}",
+          "speak": "Tryck på mikrofonen, prata och tryck sedan på bocken"
+        }
+      },
+      "done": {
+        "title": "Allt är klart",
+        "titlePending": "Nästan klart",
+        "subtitle": "Mer än så är det inte.",
+        "subtitlePending": "Hem visar de steg som återstår.",
+        "finish": "Börja använda {{appName}}",
+        "points": {
+          "session": "Starta en session i appen när du vill diktera",
+          "keyboard": "Byt till tangentbordet {{appName}} i valfri app och tryck på mikrofonen",
+          "private": "Allt stannar på den här iPhonen"
+        }
+      }
+    },
+    "overrides": {
+      "history": {
+        "empty": {
+          "body": "Starta en session och diktera i valfri app. Varje diktering sparas här, på den här iPhonen."
+        }
+      },
+      "home": {
+        "nameEditor": {
+          "hint": "Visas bara på den här iPhonen."
+        }
+      },
+      "settingsModal": {
+        "privacy": {
+          "promise": {
+            "local": "Dina dikteringar och data stannar på den här iPhonen."
+          },
+          "delete": {
+            "relaunch": "Wispr Bro avbryter det som pågår, raderar data och börjar om från välkomstskärmen."
+          }
+        }
+      },
+      "insights": {
+        "voice": {
+          "footnote_one": "Beräknat på den här iPhonen utifrån din senaste diktering. Inget lämnar din iPhone.",
+          "footnote_other": "Beräknat på den här iPhonen utifrån dina senaste {{count, number}} dikteringar. Inget lämnar din iPhone."
+        }
+      }
+    },
+    "sync": {
+      "intro": "Parkoppla din Mac en gång. Sedan hålls din ordlista, dina textstycken, inställningar och statistik likadana på båda, av sig själva.",
+      "fromMac": {
+        "title": "Från din Mac",
+        "step1": "Öppna Wispr Bro på din Mac, gå till Inställningar › Data och integritet och välj Exportera mina data.",
+        "step2": "Skicka filen till den här iPhonen med AirDrop och öppna den med Wispr Bro.",
+        "step3": "Kontrollera vad som ändras och tryck sedan på Sammanfoga.",
+        "choose": "Välj en fil",
+        "reading": "Läser…",
+        "footer": "Har du redan sparat filen i Filer? Välj den här. Historiken och inspelningarna från din Mac läses inte."
+      },
+      "toMac": {
+        "title": "Till din Mac",
+        "send": "Skicka till Mac",
+        "csv": "Lägg till CSV-filer",
+        "csvHint": "För en Mac som inte kan öppna synkfiler än. Importera dem på sidorna Ordlista och Textstycken.",
+        "footer": "Skicka filen till din Mac med AirDrop och importera den i Inställningar › Data och integritet. Historik och inspelningar stannar på den här iPhonen."
+      },
+      "devices": {
+        "title": "Synkade",
+        "none": "Inte synkat än",
+        "merged": "Sammanfogat {{when}}",
+        "words_one": "{{words}} ord",
+        "words_other": "{{words}} ord"
+      },
+      "pair": {
+        "title": "Parkoppla din Mac",
+        "step1": "Öppna Wispr Bro på din Mac, gå till Inställningar › Data och integritet och slå på Synka med din iPhone.",
+        "step2": "Tryck på Hitta min Mac och välj den.",
+        "step3": "Skriv koden som din Mac visar.",
+        "find": "Hitta min Mac",
+        "looking": "Letar efter din Mac…",
+        "stop": "Sluta leta",
+        "nearby": "Mac-datorer i närheten",
+        "footer": "Båda enheterna måste vara på samma wifinätverk, eller nära varandra med wifi och Bluetooth på."
+      },
+      "mac": {
+        "title": "Din Mac",
+        "footer": "Din iPhone synkar medan Wispr Bro är öppet eller en dikteringssession pågår. Synkningen går direkt mellan dina enheter via ditt lokala nätverk. Ingen server."
+      },
+      "file": {
+        "title": "Synka med en fil",
+        "hint": "Utan parkoppling: skicka en fil mellan dem med AirDrop."
+      }
+    }
+  },
+  "sync": {
+    "devices": {
+      "mac": "din Mac",
+      "iphone": "din iPhone",
+      "macName": "Din Mac",
+      "iphoneName": "Din iPhone"
+    },
+    "parts": {
+      "dictionary": "Ordlista",
+      "snippets": "Textstycken",
+      "settings": "Inställningar",
+      "stats": "Statistik"
+    },
+    "review": {
+      "title": "Sammanfoga från {{device}}",
+      "titleFile": "Importera {{device}}",
+      "made": "Skapad {{when}}",
+      "madeWith": "Skapad {{when}} med Wispr Bro {{version}}",
+      "added_one": "{{count}} ny",
+      "added_other": "{{count}} nya",
+      "changed_one": "{{count}} ändrad",
+      "changed_other": "{{count}} ändrade",
+      "removed_one": "{{count}} borttagen",
+      "removed_other": "{{count}} borttagna",
+      "stats_one": "{{words}} ord på {{count}} dag",
+      "stats_other": "{{words}} ord på {{count}} dagar",
+      "same": "Uppdaterat",
+      "notInFile": "Inte i den här filen",
+      "upToDate": "Allt i den här filen finns redan här.",
+      "privacy": "Historik och inspelningar synkas inte. De stannar på enheten där de gjordes.",
+      "privacyExport": "Det här är den fullständiga exporten från din Mac. Bara dess ordlista, textstycken, inställningar och statistik läses. Inte dess historik och inspelningar.",
+      "merge": "Sammanfoga",
+      "merging": "Sammanfogar…",
+      "cancel": "Avbryt",
+      "done": "Klar",
+      "privacyExportCopy": "Den här iPhonens kopia av filen raderas efteråt."
+    },
+    "result": {
+      "title": "Sammanfogat",
+      "from": "Från {{device}}",
+      "merged": "Nu är båda i takt.",
+      "nothing": "Inget behövde ändras."
+    },
+    "problems": {
+      "title": "Filen kan inte sammanfogas",
+      "unreadable": "Det gick inte att läsa filen. Skicka den igen och försök en gång till.",
+      "not_wispr_bro": "Det här är inte en Wispr Bro-fil. Välj en synkfil (.wisprbro), exporterade data från din Mac (.zip) eller en CSV-fil för Ordlista eller Textstycken.",
+      "too_new": "Filen skapades av en nyare version av Wispr Bro. Uppdatera Wispr Bro här och öppna filen igen.",
+      "own_file": "Den här filen skapades på den här enheten. Öppna den på din andra enhet.",
+      "failed": "Något gick fel när filen lästes. Inget ändrades."
+    },
+    "sendFailed": "Det gick inte att skapa synkfilen.",
+    "settingNames": {
+      "styles": "Stil",
+      "text_retention_days": "Spara historik",
+      "audio_retention_days": "Spara inspelningar",
+      "typing_wpm": "Skrivhastighet",
+      "typing_hours_per_day": "Skrivtid",
+      "greeting_name": "Namn",
+      "spoken_languages": "Språk",
+      "audio_feedback": "Dikteringsljud",
+      "audio_feedback_volume": "Ljudvolym"
+    },
+    "auto": {
+      "justNow": "nyss",
+      "inSync": "Synkad",
+      "inSyncAgo": "Synkad · senaste ändring {{when}}",
+      "connecting": "Ansluter…",
+      "macAway": "Ingen Mac hittades. Öppna Wispr Bro på din Mac.",
+      "phoneAway": "Inte ansluten. Öppna Wispr Bro på din iPhone.",
+      "lastSynced": "Senast synkad {{when}}.",
+      "syncNow": "Synka nu",
+      "unpair": "Koppla från",
+      "unpairTitle": "Koppla från {{device}}?",
+      "unpairBody": "De två slutar synka. Inget raderas på någon av enheterna. Du kan parkoppla igen när som helst.",
+      "direct": "Synkningen går direkt mellan dina enheter via ditt lokala nätverk. Ingen server.",
+      "denied": "Wispr Bro får inte hitta enheter på ditt lokala nätverk. Tillåt det i Inställningar och försök igen.",
+      "openSettings": "Öppna Inställningar",
+      "needsUpdate": "Wispr Bro på din Mac och på din iPhone har olika versioner. Uppdatera båda för att fortsätta synka."
+    },
+    "pairing": {
+      "showTitle": "Parkoppla med {{device}}",
+      "showBody": "Skriv den här koden på din iPhone. Den fungerar en gång.",
+      "enterTitle": "Ange koden",
+      "enterBody": "En sexsiffrig kod visas på {{device}}.",
+      "codeLabel": "Parkopplingskod",
+      "connecting": "Ansluter till {{device}}…",
+      "pair": "Parkoppla",
+      "checking": "Kontrollerar…",
+      "failedTitle": "Parkopplingen misslyckades",
+      "problems": {
+        "wrong_code": "Koden stämde inte med den på din Mac. Tryck på Hitta min Mac igen för att få en ny kod.",
+        "no_code": "Tiden gick ut: ingen kod angavs inom två minuter. Håll båda apparna öppna och börja om.",
+        "busy": "Din Mac parkopplar med en annan enhet. Försök igen om en stund.",
+        "unreachable": "Det gick inte att nå din Mac. Håll Wispr Bro öppet där med Synka med din iPhone påslaget, och kontrollera att Wispr Bro är tillåtet under Lokalt nätverk i Inställningar på båda enheterna.",
+        "failed": "Parkopplingen slutfördes inte. Börja om från Hitta min Mac.",
+        "dropped": "Anslutningen till din Mac bröts innan parkopplingen var klar. Håll båda apparna öppna och enheterna nära varandra och försök igen.",
+        "version": "Wispr Bro på din Mac och på din iPhone har olika versioner. Uppdatera båda och parkoppla sedan igen.",
+        "update_mac": "Uppdatera Wispr Bro på din Mac: den har en äldre version av synkningen än den här iPhonen. Parkoppla sedan igen.",
+        "update_this": "Uppdatera Wispr Bro på den här iPhonen: din Mac har en nyare version av synkningen. Parkoppla sedan igen.",
+        "denied": "Wispr Bro får inte använda ditt lokala nätverk. Tillåt det i Inställningar › Integritet och säkerhet › Lokalt nätverk › Wispr Bro och tryck sedan på Hitta min Mac igen."
+      },
+      "macProblems": {
+        "wrong_code": "Din iPhone skrev en annan kod. Börja om på din iPhone: tryck på Hitta min Mac och skriv den nya koden som visas här.",
+        "update_phone": "Uppdatera Wispr Bro på din iPhone: den har en äldre version av synkningen än den här datorn. Parkoppla sedan igen.",
+        "update_this": "Uppdatera Wispr Bro på den här datorn: din iPhone har en nyare version av synkningen. Parkoppla sedan igen.",
+        "version": "Wispr Bro på din Mac och på din iPhone har olika versioner. Uppdatera båda och parkoppla sedan igen.",
+        "failed": "Parkopplingen slutfördes inte. Börja om på din iPhone från Hitta min Mac."
       }
     }
   },

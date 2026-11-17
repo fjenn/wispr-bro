@@ -67,7 +67,7 @@ export function buttonClass(
   size: ButtonSize = "md",
   extra = "",
 ): string {
-  return `inline-flex shrink-0 cursor-pointer items-center justify-center rounded-(--wb-radius-sm) font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity] duration-(--wb-dur-fast) select-none disabled:cursor-default disabled:opacity-60 ${FOCUS_RING} ${SIZES[size]} ${VARIANTS[variant]} ${extra}`;
+  return `wb-btn wb-btn-${size} inline-flex shrink-0 cursor-pointer items-center justify-center rounded-(--wb-radius-sm) font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity] duration-(--wb-dur-fast) select-none disabled:cursor-default disabled:opacity-60 ${FOCUS_RING} ${SIZES[size]} ${VARIANTS[variant]} ${extra}`;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -156,7 +156,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         type={type}
         disabled={disabled}
         {...(disabled ? {} : m.press)}
-        className={`inline-grid shrink-0 cursor-pointer place-items-center transition-[color,background-color] duration-(--wb-dur-fast) disabled:cursor-default disabled:opacity-50 ${round ? "rounded-full" : "rounded-(--wb-radius-sm)"} ${ICON_SIZES[size]} ${ICON_VARIANTS[variant]} ${FOCUS_RING} ${className}`}
+        className={`wb-icon-btn inline-grid shrink-0 cursor-pointer place-items-center transition-[color,background-color] duration-(--wb-dur-fast) disabled:cursor-default disabled:opacity-50 ${round ? "rounded-full" : "rounded-(--wb-radius-sm)"} ${ICON_SIZES[size]} ${ICON_VARIANTS[variant]} ${FOCUS_RING} ${className}`}
         {...(rest as HTMLMotionProps<"button">)}
       />
     );

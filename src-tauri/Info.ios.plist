@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Wispr Bro for iPhone: merged into gen/apple/handy_iOS/Info.plist by the
+     tauri CLI on every `tauri ios build|dev`. -->
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Wispr Bro</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Wispr Bro turns your speech into text on this iPhone. Audio never leaves it.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.wisprbro.ios.session</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wisprbro</string>
+			</array>
+		</dict>
+	</array>
+	<!-- Sync: Wispr Bro opens its own sync files, the Mac app's "Export my
+	     data" zip and the Dictionary / Snippets CSVs (AirDrop, Files, "Open
+	     in…"). iOS copies the file into the app's Inbox first. -->
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.wisprbro.sync</string>
+			<key>UTTypeDescription</key>
+			<string>Wispr Bro Sync File</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>wisprbro</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Wispr Bro Sync File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.wisprbro.sync</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Wispr Bro Export</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.zip-archive</string>
+				<string>public.comma-separated-values-text</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
+	<!-- Sync with the user's Mac (fork/sync): the phone finds and reaches
+	     the Mac on the local network only. iOS asks with this text the
+	     first time "Find my Mac" is tapped. -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Wispr Bro uses your local network to find your Mac and sync your dictionary, snippets, settings and stats with it. Nothing is sent to a server.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_wisprbro-sync._tcp</string>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default</string>
+					<key>UISceneDelegateClassName</key>
+					<string>WBSceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+</dict>
+</plist>

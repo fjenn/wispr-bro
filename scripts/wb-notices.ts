@@ -90,6 +90,17 @@ export interface NativeEntry {
  */
 export const NATIVE: NativeEntry[] = [
   {
+    crate: "handy",
+    how: "`cc` in the app's own build script: Wispr Bro's Objective-C/C sources (sync over the local network through Network.framework; on iPhone also the scene life cycle, share sheet and Swift stand-ins)",
+    components: [
+      {
+        name: "Wispr Bro (src-tauri/src/fork/sync/net.m, src-tauri/src/fork/sync/ios.m, src-tauri/src/fork/ios/)",
+        licence: "GPL-3.0-or-later",
+        copyright: "Copyright (c) 2026 Wispr Bro contributors",
+      },
+    ],
+  },
+  {
     crate: "transcribe-cpp-sys",
     how: "CMake build, statically linked (speech recognition engine)",
     components: [

@@ -42,6 +42,7 @@ import {
   SearchToggle,
   SortMenu,
 } from "../ui";
+import { isIos } from "../ios/platform";
 import { SnippetDialog } from "./SnippetDialog";
 import { SnippetsImportWizard } from "./ImportWizard";
 import {
@@ -305,14 +306,14 @@ export function SnippetsPage() {
           {counts.uses > 0 &&
             ` · ${t("snippets.counts.uses", { count: counts.uses })}`}
         </h2>
-        <div className="flex items-end gap-4 border-b border-(--wb-line)">
+        <div className="wb-tabs-bar flex items-end gap-4 border-b border-(--wb-line)">
           <span
             className="-mb-px border-b-2 border-(--wb-ink) pt-1 pb-3 text-[16px] font-medium text-(--wb-ink)"
             aria-hidden="true"
           >
             {t("snippets.tabs.all")}
           </span>
-          <div className="ms-auto flex shrink-0 items-center gap-1 pb-1.5">
+          <div className="wb-tabs-end ms-auto flex shrink-0 items-center gap-1 pb-1.5">
             <SearchToggle
               value={query}
               onChange={setQuery}
@@ -353,30 +354,32 @@ export function SnippetsPage() {
           </div>
         </div>
 
-        <Banner
-          id={BANNER_ID}
-          image={photos.snippets.src}
-          title={t("snippets.banner.title")}
-          body={t("snippets.banner.lead", { appName })}
-          pairsLabel={t("snippets.banner.examplesLabel")}
-          pairs={([1, 2, 3] as const).map((n) => {
-            const trigger = t(`snippets.banner.cue${n}`);
-            const body = t(`snippets.banner.text${n}`);
-            return {
-              id: String(n),
-              cue: trigger,
-              text: body,
-              testId: "wb-snippets-example",
-              onClick: () =>
-                setDialog({ snippet: null, draft: { trigger, body } }),
-            };
-          })}
-          action={{
-            label: t("snippets.banner.add"),
-            onClick: () => setDialog({ snippet: null }),
-            testId: "wb-snippets-banner-add",
-          }}
-        />
+        {(!isIos() || counts.snippets === 0) && (
+          <Banner
+            id={BANNER_ID}
+            image={photos.snippets.src}
+            title={t("snippets.banner.title")}
+            body={t("snippets.banner.lead", { appName })}
+            pairsLabel={t("snippets.banner.examplesLabel")}
+            pairs={([1, 2, 3] as const).map((n) => {
+              const trigger = t(`snippets.banner.cue${n}`);
+              const body = t(`snippets.banner.text${n}`);
+              return {
+                id: String(n),
+                cue: trigger,
+                text: body,
+                testId: "wb-snippets-example",
+                onClick: () =>
+                  setDialog({ snippet: null, draft: { trigger, body } }),
+              };
+            })}
+            action={{
+              label: t("snippets.banner.add"),
+              onClick: () => setDialog({ snippet: null }),
+              testId: "wb-snippets-banner-add",
+            }}
+          />
+        )}
         {visible.length > 0 ? (
           <>
             <p

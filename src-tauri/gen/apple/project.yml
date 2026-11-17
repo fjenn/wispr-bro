@@ -1,0 +1,177 @@
+name: handy
+options:
+  bundleIdPrefix: com.wisprbro.ios
+  deploymentTarget:
+    iOS: 17.0
+fileGroups: [../../src]
+configs:
+  debug: debug
+  release: release
+settingGroups:
+  app:
+    base:
+      PRODUCT_NAME: Wispr Bro
+      PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios
+      DEVELOPMENT_TEAM: 446XT9839S
+targetTemplates:
+  app:
+    type: application
+    sources:
+      - path: Sources
+    scheme:
+      environmentVariables:
+        RUST_BACKTRACE: full
+        RUST_LOG: info
+    settings:
+      groups: [app]
+targets:
+  handy_iOS:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: Assets.xcassets
+      # Wispr Bro: listed, never copied (libapp.a is linked, not a resource;
+      # the template shipped all ~1 GB of it inside the app).
+      - path: Externals
+        buildPhase: none
+      - path: handy_iOS
+      - path: assets
+        buildPhase: resources
+        type: folder
+      - path: LaunchScreen.storyboard
+      # Wispr Bro: the native session code (microphone, Live Activity,
+      # keyboard bridge) from src-tauri/ios-native, in the app's process next
+      # to the Rust library. WBCore is only the C header + module map of the
+      # Rust take API (no WBCoreStub: libapp.a implements it).
+      - path: ../../ios-native/WBShared
+        group: Native
+      - path: ../../ios-native/WBSession
+        group: Native
+      - path: ../../ios-native/WBActivity
+        group: Native
+      - path: ../../ios-native/WBCore
+        group: Native
+        buildPhase: none
+    info:
+      path: handy_iOS/Info.plist
+      properties:
+        LSRequiresIPhoneOS: true
+        UILaunchStoryboardName: LaunchScreen
+        UIRequiredDeviceCapabilities: [arm64, metal]
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        CFBundleShortVersionString: 1.0.0
+        CFBundleVersion: "1"
+    # Wispr Bro: the App Group the keyboard and the app talk through. The
+    # properties are listed here because xcodegen rewrites the file from
+    # them (an entry without properties becomes an empty file).
+    entitlements:
+      path: handy_iOS/handy_iOS.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.wisprbro.ios
+    scheme:
+      environmentVariables:
+        RUST_BACKTRACE: full
+        RUST_LOG: info
+    settings:
+      base:
+        ENABLE_BITCODE: false
+        ARCHS: [arm64]
+        VALID_ARCHS: arm64 
+        LIBRARY_SEARCH_PATHS[arch=x86_64]: $(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)
+        LIBRARY_SEARCH_PATHS[arch=arm64]: $(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: true
+        EXCLUDED_ARCHS[sdk=iphoneos*]: x86_64
+        SWIFT_VERSION: "5.0"
+        SWIFT_INCLUDE_PATHS: $(SRCROOT)/../../ios-native/WBCore
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1"
+      groups: [app]
+    dependencies:
+      - framework: libapp.a
+        embed: false
+      - target: WBKeyboard
+        embed: true
+      - target: WBWidgets
+        embed: true
+      # Wispr Bro: ggml (transcribe-cpp) uses vDSP and BLAS.
+      - sdk: Accelerate.framework
+      - sdk: CoreGraphics.framework
+      # Apple's on-device model, the phone's cleanup engine (iOS 26 and
+      # later; the app still starts on iOS 17-25).
+      - sdk: FoundationModels.framework
+        weak: true
+      - sdk: Metal.framework
+      - sdk: MetalKit.framework
+      - sdk: QuartzCore.framework
+      - sdk: Security.framework
+      - sdk: UIKit.framework
+      - sdk: WebKit.framework
+    preBuildScripts:
+      # Wispr Bro: src-tauri/ios/bin/swift first on PATH (see that file).
+      - script: export PATH="${SRCROOT}/../../ios/bin:${PATH}"; bun tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths "${FRAMEWORK_SEARCH_PATHS:?}" --header-search-paths "${HEADER_SEARCH_PATHS:?}" --gcc-preprocessor-definitions "${GCC_PREPROCESSOR_DEFINITIONS:-}" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}
+        name: Build Rust Code
+        basedOnDependencyAnalysis: false
+        outputFiles:
+          - $(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a
+          - $(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a
+  # Wispr Bro: the keyboard and the Live Activity extensions, as in
+  # src-tauri/ios-native/project.yml (the standalone harness). Their
+  # Info.plist and entitlements files are used as they are (INFOPLIST_FILE /
+  # CODE_SIGN_ENTITLEMENTS, so xcodegen never rewrites files in ios-native).
+  WBKeyboard:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ../../ios-native/WBKeyboard
+        group: Native
+      - path: ../../ios-native/WBShared
+        group: Native
+    settings:
+      base:
+        APPLICATION_EXTENSION_API_ONLY: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios.keyboard
+        PRODUCT_NAME: WBKeyboard
+        DEVELOPMENT_TEAM: 446XT9839S
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ../../ios-native/WBKeyboard/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ../../ios-native/WBKeyboard/WBKeyboard.entitlements
+        TARGETED_DEVICE_FAMILY: "1"
+        SKIP_INSTALL: YES
+        ARCHS: [arm64]
+  WBWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ../../ios-native/WBWidgets
+        group: Native
+      - path: ../../ios-native/WBActivity
+        group: Native
+    settings:
+      base:
+        APPLICATION_EXTENSION_API_ONLY: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.wisprbro.ios.widgets
+        PRODUCT_NAME: WBWidgets
+        DEVELOPMENT_TEAM: 446XT9839S
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ../../ios-native/WBWidgets/Info.plist
+        TARGETED_DEVICE_FAMILY: "1"
+        SKIP_INSTALL: YES
+        ARCHS: [arm64]

@@ -300,8 +300,11 @@ fn handy_hooks_are_in_place_and_the_overlay_is_never_built() {
     assert!(overlay.contains(
         "pub fn hide_recording_overlay(app_handle: &AppHandle) {\n    crate::fork::pill::on_overlay_hide(app_handle);"
     ));
-    // One levels hook (S-01's), which feeds the bar too.
-    assert_eq!(overlay.matches("crate::fork::").count(), 4);
+    // One levels hook (S-01's), which feeds the bar too. The fifth mention
+    // is the iPhone build's import of its window no-ops (`fork/ios/compat`),
+    // not a hook.
+    assert!(overlay.contains("#[cfg(target_os = \"ios\")]\nuse crate::fork::ios::compat::*;"));
+    assert_eq!(overlay.matches("crate::fork::").count(), 5);
     assert!(include_str!("../audio/mod.rs").contains("crate::fork::pill::on_levels(app, levels);"));
     // `cargo test` builds without the identity overlay: Handy's own overlay
     // stays; product builds replace it.

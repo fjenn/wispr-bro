@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) handy-computer (handy-keys 0.3.4, https://github.com/handy-computer/handy-keys).
+#
+# Modified by Wispr Bro contributors, 2026-11-17: the platform-independent
+# part of handy-keys 0.3.4 (types, manager, listener front end) without the
+# macOS/Windows/Linux backends, for the iPhone build only. The app links it
+# under the name `handy_keys` on iOS (`extern crate … as handy_keys` in
+# src/lib.rs), so the shared shortcut code compiles unchanged; a listener can
+# never be created there. Desktop builds keep crates.io's handy-keys.
+
+[package]
+name = "wb-ios-handy-keys"
+version = "0.3.4"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[lib]
+name = "wb_ios_handy_keys"
+path = "src/lib.rs"
+
+[dependencies]
+bitflags = { version = "2", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"

@@ -54,7 +54,14 @@ use super::process::{self, Device, OutputTail, SpawnSpec};
 use super::transport::{self, Endpoint, Transport};
 
 /// R5 §4.5: the supervisor stops the sidecar after 120 s without a request.
+#[cfg(not(target_os = "ios"))]
 pub const IDLE_TIMEOUT: Duration = Duration::from_secs(120);
+/// iPhone: the model stays for the length of a dictation session (it is
+/// unloaded when the session ends, `fork::ios::commands`, and on a memory
+/// warning). Loading is cheap there, but putting the instructions back into
+/// the prompt cache costs seconds of CPU.
+#[cfg(target_os = "ios")]
+pub const IDLE_TIMEOUT: Duration = Duration::from_secs(900);
 /// Longest wait for `/health` after spawn (a cold model load on an 8 GB Mac
 /// with a cold disk cache takes seconds; a hang must not block forever).
 pub const HEALTH_TIMEOUT: Duration = Duration::from_secs(60);
@@ -165,7 +172,13 @@ impl Default for ServerStatus {
     fn default() -> Self {
         Self {
             phase: ServerPhase::Stopped,
-            device: Device::Gpu.as_str().into(),
+            device: if cfg!(target_os = "ios") {
+                Device::Cpu
+            } else {
+                Device::Gpu
+            }
+            .as_str()
+            .into(),
             transport: None,
             ready_ms: None,
             restarts: 0,
