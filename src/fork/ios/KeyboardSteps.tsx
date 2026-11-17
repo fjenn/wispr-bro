@@ -15,7 +15,13 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { FORK_NAMESPACE } from "../i18n";
 import { BrandGlyph } from "../ui";
-import { Check, ChevronRight, Keyboard, Settings } from "../ui/icons";
+import {
+  Check,
+  ChevronRight,
+  Keyboard,
+  LockKeyhole,
+  Settings,
+} from "../ui/icons";
 
 function DrawnRow({
   tile,
@@ -29,7 +35,7 @@ function DrawnRow({
   return (
     <span
       aria-hidden="true"
-      className="flex h-11 items-center gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3 text-[15px] leading-5 text-(--wb-ink) shadow-(--wb-elev-1)"
+      className="flex h-10 items-center gap-3 rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface) px-3 text-[15px] leading-5 text-(--wb-ink) shadow-(--wb-elev-1)"
     >
       {tile && (
         <span className="grid size-7 shrink-0 place-items-center rounded-[7px] bg-(--wb-secondary) text-(--wb-ink-2)">
@@ -111,7 +117,7 @@ export function KeyboardSteps({
     },
   ];
   return (
-    <ol className="flex flex-col gap-4" data-testid="wb-ios-keyboard-steps">
+    <ol className="flex flex-col gap-3" data-testid="wb-ios-keyboard-steps">
       {steps.map((step, index) => (
         <li
           key={step.text}
@@ -139,8 +145,28 @@ export function KeyboardSteps({
 }
 
 /** Why Full Access is asked for, in two honest lines. */
-export function FullAccessNote() {
+export function FullAccessNote({ compact = false }: { compact?: boolean }) {
   const { t } = useTranslation(FORK_NAMESPACE);
+  if (compact) {
+    return (
+      <p
+        className="flex items-start gap-2 text-[13px] leading-[18px] text-(--wb-ink-2)"
+        data-testid="wb-ios-full-access-note"
+      >
+        <LockKeyhole
+          size={16}
+          aria-hidden="true"
+          className="mt-px shrink-0 text-(--wb-ink-3)"
+        />
+        <span>
+          <strong className="font-semibold text-(--wb-ink)">
+            {t("ios.keyboard.privacyTitle")}
+          </strong>{" "}
+          {t("ios.keyboard.privacy")}
+        </span>
+      </p>
+    );
+  }
   return (
     <div
       className="rounded-(--wb-radius-md) border border-(--wb-line) bg-(--wb-surface-tint) p-4"

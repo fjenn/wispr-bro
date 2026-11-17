@@ -72,10 +72,12 @@ html[data-wb-ios] ::-webkit-scrollbar {
 
 /* ── 2. Shell ──────────────────────────────────────────────────────── */
 
+/* Fixed to the viewport itself: a library that restyles <body> while a
+   menu or select is open (scroll locking) must not move the shell. */
 .wb-ios-root {
-  position: relative;
+  position: fixed;
+  inset: 0;
   display: flex;
-  height: 100%;
   flex-direction: column;
   overflow: hidden;
   background: var(--wb-panel);

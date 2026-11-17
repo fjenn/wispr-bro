@@ -487,9 +487,9 @@ function KeyboardStep({
         )
       }
     >
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4">
         <KeyboardSteps keyboardEnabled={keyboard} fullAccess={fullAccess} />
-        <FullAccessNote />
+        <FullAccessNote compact />
       </div>
     </PhoneLayout>
   );

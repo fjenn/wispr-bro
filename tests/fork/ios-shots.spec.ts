@@ -20,6 +20,7 @@ import {
   openIos,
   openIosOnboarding,
   readySpeech,
+  type IosState,
 } from "./ios-fixture";
 
 const dir = process.env.WB_IOS_SHOTS_DIR;
@@ -276,6 +277,7 @@ test.describe("ios shots", () => {
       await page.getByTestId("wb-ios-tab-home").click();
       await page.getByTestId("wb-ios-home-insights").click();
       await expect(page.getByTestId("wb-insights")).toBeVisible();
+      await page.mouse.move(2, 2);
       await snap(page, "insights");
       await page.getByTestId("wb-main").evaluate((el) => el.scrollTo(0, 600));
       await snap(page, "insights-scrolled");
@@ -320,6 +322,117 @@ test.describe("ios shots", () => {
       await page.getByTestId("wb-ios-settings-cleanup").click();
       await snap(page, "settings-cleanup-available");
     });
+
+    test(`sheets and menus ${theme}`, async ({ page, ipc, hub, ios }) => {
+      await settle(page);
+      const rows = historyRows();
+      await openIos(page, ipc, hub, ios, {
+        handy: { theme },
+        hash: "#/hub/dictionary",
+        beforeNavigate: () => {
+          installHistory(ipc, rows);
+          installDictionary(ipc);
+          installSnippets(ipc);
+        },
+      });
+      await page.getByTestId("wb-dictionary-add").click();
+      await expect(page.getByTestId("wb-dictionary-dialog")).toBeVisible();
+      await snap(page, "sheet-add-word");
+      await page.keyboard.press("Escape");
+      await page.getByTestId("wb-dictionary-search-open").click();
+      await page.getByTestId("wb-dictionary-search").fill("pri");
+      await snap(page, "dictionary-search");
+
+      await page.getByTestId("wb-ios-tab-snippets").click();
+      await page.getByTestId("wb-snippets-add").click();
+      await expect(page.getByTestId("wb-snippet-dialog")).toBeVisible();
+      await snap(page, "sheet-add-snippet");
+      await page.keyboard.press("Escape");
+      await page.getByTestId("wb-snippets-sort").click();
+      await snap(page, "menu-sort");
+      await page.keyboard.press("Escape");
+
+      await page.getByTestId("wb-ios-tab-history").click();
+      await expect(page.getByTestId("wb-history-row").first()).toBeVisible();
+      await page
+        .getByTestId("wb-history-row")
+        .first()
+        .getByRole("button", { name: /more/i })
+        .click();
+      await snap(page, "menu-history-row");
+      await page.keyboard.press("Escape");
+      await page.getByTestId("wb-history-search-open").click();
+      await page.getByTestId("wb-history-search").fill("proposal");
+      await snap(page, "history-search");
+      await page.getByTestId("wb-history-search-close").click();
+      await page.getByTestId("wb-history-flag").first().click();
+      await snap(page, "sheet-flag");
+      await page.keyboard.press("Escape");
+
+      await page.getByTestId("wb-ios-tab-settings").click();
+      await page.getByTestId("wb-ios-settings-privacy").click();
+      await page.getByTestId("wb-privacy-delete-button").click();
+      await expect(page.getByTestId("wb-delete-dialog")).toBeVisible();
+      await snap(page, "sheet-delete-all");
+      await page.getByTestId("wb-delete-cancel").click();
+      await page.getByTestId("wb-privacy-text-retention").click();
+      await snap(page, "select-retention");
+      await page.keyboard.press("Escape");
+      await page.getByTestId("wb-ios-back").click();
+      await page.getByTestId("wb-ios-settings-licences").click();
+      await page.getByText("llama.cpp").click();
+      await expect(page.getByTestId("wb-ios-licence-text")).toContainText(
+        "Permission",
+      );
+      await snap(page, "sheet-licence");
+      await page.keyboard.press("Escape");
+
+      await page.getByTestId("wb-ios-tab-home").click();
+      await page.getByTestId("wb-greeting-edit").click();
+      await snap(page, "home-name-editor");
+    });
+
+    const STATES: Record<string, (ios: IosState) => void> = {
+      "microphone-granted": () => undefined,
+      "microphone-denied": (ios) => {
+        ios.setup = { ...ios.setup, micPermission: 1 };
+      },
+      "keyboard-added": (ios) => {
+        ios.setup = { ...ios.setup, fullAccess: false };
+      },
+      "keyboard-ready": () => undefined,
+      "model-ready": () => undefined,
+      "model-failed": (ios) => {
+        ios.speech = readySpeech({
+          phase: "failed",
+          percent: 12,
+          problem: "offline",
+        });
+      },
+      "done-pending": (ios) => {
+        ios.setup = { ...ios.setup, keyboardEnabled: false, fullAccess: false };
+      },
+    };
+    for (const [name, arrange] of Object.entries(STATES)) {
+      test(`onboarding state ${name} ${theme}`, async ({
+        page,
+        ipc,
+        hub,
+        ios,
+      }) => {
+        await settle(page);
+        arrange(ios);
+        const step = name.split("-")[0];
+        await openIosOnboarding(page, ipc, hub, ios, step, {
+          handy: { theme },
+        });
+        await expect(page.getByTestId("wb-onboarding")).toHaveAttribute(
+          "data-step",
+          step,
+        );
+        await snap(page, `onboarding-${name}`);
+      });
+    }
 
     for (const step of [
       "welcome",
