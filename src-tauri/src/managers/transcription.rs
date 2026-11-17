@@ -1886,7 +1886,11 @@ pub struct GpuDeviceOption {
 }
 
 fn transcribe_gpu_disabled_for_host() -> bool {
-    crate::utils::is_windows_x64_emulated_on_arm64()
+    // Wispr Bro (iOS): iOS refuses GPU work from an app in the background
+    // (Metal: "Insufficient Permission (to submit GPU work from
+    // background)"), and a take dictated from the keyboard always runs
+    // there. The decode then returns nothing, without an error.
+    crate::utils::is_windows_x64_emulated_on_arm64() || cfg!(target_os = "ios")
 }
 
 fn effective_transcribe_accelerator(

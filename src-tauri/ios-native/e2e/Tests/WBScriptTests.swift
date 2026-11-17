@@ -8,6 +8,7 @@ import XCTest
 ///   tap <label or identifier>        (fails the test when missing)
 ///   try <label or identifier>        (tap when present)
 ///   field | fieldvalue <name>       (tap / save the text of the first text area)
+///   pressat <x> <y>                  (long press, normalized, on the screen)
 ///   tapat <x> <y>                    (normalized 0…1, in the Wispr Bro app)
 ///   wait <label>                     (up to 20 s; fails when missing)
 ///   gone <label>                     (up to 20 s; fails when still there)
@@ -54,6 +55,10 @@ final class WBScriptTests: WBE2ECase {
             case "tapat":
                 let xy = arg.split(separator: " ").compactMap { Double($0) }
                 front().coordinate(withNormalizedOffset: CGVector(dx: xy[0], dy: xy[1])).tap()
+            case "pressat":
+                // A long press on the screen (the Dynamic Island, say).
+                let xy = arg.split(separator: " ").compactMap { Double($0) }
+                springboard.coordinate(withNormalizedOffset: CGVector(dx: xy[0], dy: xy[1])).press(forDuration: 1.2)
             case "wait": XCTAssertNotNil(find(arg, timeout: 20), "wait: never appeared: \(arg)")
             case "gone":
                 let deadline = Date().addingTimeInterval(20)
