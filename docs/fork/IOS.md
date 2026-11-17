@@ -434,7 +434,7 @@ the same one (`sync::merge::merge`).
 com.wisprbro.ios/logs/wispr-bro.log` in its container (`xcrun devicectl
 device copy from --domain-type appDataContainer --domain-identifier
 com.wisprbro.ios …`).
-- **Ships when** a Mac release is made from this branch: the installed Mac
-  app (1.0.0-alpha.6) has none of this.
+- **Ships in** the Mac app from 1.0.0-alpha.9 on (installed Macs get it
+  through the updater); earlier Mac versions have none of this.
 - **Not checked:** a real iPhone with a real Mac, the two permission
   prompts, and the peer-to-peer link without a shared Wi-Fi network.
