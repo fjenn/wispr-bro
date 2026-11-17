@@ -43,19 +43,19 @@ settings, i18n, and every command the Hub pages use.
 
 ## What iOS swaps
 
-| Mac | iPhone |
-| --- | --- |
-| `main.rs` | `fork::ios::start` (`#[tauri::mobile_entry_point]`) |
-| Speech engine in a worker process | The same engine and protocol on two threads of the app (`engine_supervisor`: `Worker::spawn` / `worker::spawn_in_process`); backends registered once for the process (`audio_toolkit/cpu_engine.rs`) |
-| Recorder (cpal) → capture sink | Swift session → `wb_take_feed` → the same capture sink (`fork/ios/core.rs`) |
-| Paste / AX insertion | `fork::insert::deliver_to_keyboard`: the text is returned to Swift, the keyboard inserts it |
-| `handy-keys`, `enigo` | `crates/wb-ios-handy-keys`, `crates/wb-ios-enigo` under the same names (`extern crate … as` in `lib.rs`): compile, do nothing |
-| Tray, app menu, global-shortcut plugin | `fork/ios/stubs/` (path-swapped modules) |
-| Window sizing, always-on-top, … | no-ops (`fork/ios/compat.rs`) |
-| Updater, autostart, single instance, macOS permissions plugins | not loaded |
-| `llama-server` sidecar, Apple FM | not started: `fork_llm_status` is `unsupported`, cleanup reports `not_ready`, takes get the deterministic text and style |
-| Hotkeys, Flow Bar, transforms, Command Mode, Scratchpad, context awareness, auto-learn, Hub parking | not started (`fork::on_ready`) |
-| App-delegate life cycle (tao) | UIKit scenes, bridged in `fork/ios/scene.m` (required by the iOS 27 SDK) |
+| Mac                                                                                                 | iPhone                                                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `main.rs`                                                                                           | `fork::ios::start` (`#[tauri::mobile_entry_point]`)                                                                                                                                                  |
+| Speech engine in a worker process                                                                   | The same engine and protocol on two threads of the app (`engine_supervisor`: `Worker::spawn` / `worker::spawn_in_process`); backends registered once for the process (`audio_toolkit/cpu_engine.rs`) |
+| Recorder (cpal) → capture sink                                                                      | Swift session → `wb_take_feed` → the same capture sink (`fork/ios/core.rs`)                                                                                                                          |
+| Paste / AX insertion                                                                                | `fork::insert::deliver_to_keyboard`: the text is returned to Swift, the keyboard inserts it                                                                                                          |
+| `handy-keys`, `enigo`                                                                               | `crates/wb-ios-handy-keys`, `crates/wb-ios-enigo` under the same names (`extern crate … as` in `lib.rs`): compile, do nothing                                                                        |
+| Tray, app menu, global-shortcut plugin                                                              | `fork/ios/stubs/` (path-swapped modules)                                                                                                                                                             |
+| Window sizing, always-on-top, …                                                                     | no-ops (`fork/ios/compat.rs`)                                                                                                                                                                        |
+| Updater, autostart, single instance, macOS permissions plugins                                      | not loaded                                                                                                                                                                                           |
+| `llama-server` sidecar, Apple FM                                                                    | not started: `fork_llm_status` is `unsupported`, cleanup reports `not_ready`, takes get the deterministic text and style                                                                             |
+| Hotkeys, Flow Bar, transforms, Command Mode, Scratchpad, context awareness, auto-learn, Hub parking | not started (`fork::on_ready`)                                                                                                                                                                       |
+| App-delegate life cycle (tao)                                                                       | UIKit scenes, bridged in `fork/ios/scene.m` (required by the iOS 27 SDK)                                                                                                                             |
 
 ## The take API and the Swift side
 
@@ -74,6 +74,18 @@ Commands for the page (`fork/ios/commands.rs`, called through `invoke`):
 `ios_get|set_session_timeout`, `ios_get|set_auto_return`, `ios_core_status`.
 The two session settings live in the App Group defaults suite
 `group.com.wisprbro.ios` (`wb.session.timeoutSeconds`, `wb.session.autoReturn`).
+
+## Speech runs on the CPU
+
+iOS refuses GPU work from an app in the background (Metal:
+`kIOGPUCommandBufferCallbackErrorBackgroundExecutionNotPermitted`), and a
+take dictated from the keyboard always runs there: the Metal decode came
+back empty, without an error. `transcribe_gpu_disabled_for_host()` is
+therefore true on iOS. iPhone 17 Pro (A19 Pro), parakeet-tdt-0.6b-v3 Q8_0,
+debug build, WAV self-test: a 10 s take in 0.9-1.2 s (1.5-1.7 s with the
+model load), a 56 s take in 6.5-8.7 s, a 7.5 s Dutch take in 0.8-1.0 s,
+peak memory 1.35-1.49 GB; the same with the app in the background behind a
+live session. (Metal, in front only: 0.25-0.33 s, 1.7-2.5 s, 1.04 GB.)
 
 ## What the page gets from the app
 

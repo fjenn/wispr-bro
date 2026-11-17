@@ -39,6 +39,14 @@ final class WBKeyboardFlowTests: WBE2ECase {
         shot("\(shots)-inserted")
     }
 
+    /// Home's "Total words", in the running app (Home must be showing):
+    /// the number is the text right after its caption in the page.
+    private func totalWords() -> Int? {
+        let labels = wispr.staticTexts.allElementsBoundByIndex.map(\.label)
+        guard let at = labels.firstIndex(of: "Total words"), at + 1 < labels.count else { return nil }
+        return Int(labels[at + 1].filter(\.isNumber))
+    }
+
     /// Settings › End session after › `choice`, in the running app.
     private func setSessionTimeout(_ choice: String) throws {
         try need("Settings", in: [wispr], timeout: 15).tap()
@@ -68,6 +76,8 @@ final class WBKeyboardFlowTests: WBE2ECase {
         // microphone; then it is gone, as after a day without dictating.
         useWav("en")
         launchWispr()
+        _ = try need("Total words", in: [wispr], timeout: 15)
+        let wordsBefore = totalWords()
         try setSessionTimeout("5 minutes")
         wispr.terminate()
 
@@ -110,6 +120,27 @@ final class WBKeyboardFlowTests: WBE2ECase {
         shot("flow-07-cancelled")
         XCTAssertEqual(fieldText, both, "a cancelled take inserts nothing")
         XCTAssertNotNil(find("Start dictating", in: [host, springboard], timeout: 4), "idle after a cancel")
+
+        // The app kept up: both takes are in History, and Home counts their words.
+        wispr.activate()
+        sleep(2)
+        try need("History", in: [wispr], timeout: 10).tap()
+        for words in [expectEN, expectNL] {
+            let row = wispr.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] %@", words)).firstMatch
+            XCTAssertTrue(row.waitForExistence(timeout: 8), "not in History: \(words)")
+        }
+        shot("flow-08-history")
+        try need("Home", in: [wispr]).tap()
+        _ = try need("Total words", in: [wispr], timeout: 8)
+        sleep(1)
+        let wordsAfter = totalWords()
+        shot("flow-09-home-stats")
+        note("flow-words", "total words \(wordsBefore ?? -1) → \(wordsAfter ?? -1)")
+        if let wordsBefore, let wordsAfter {
+            XCTAssertGreaterThanOrEqual(wordsAfter - wordsBefore, 45, "Home's word count did not grow by the two takes")
+        } else {
+            XCTFail("Home's word count could not be read")
+        }
     }
 
     /// "End session after: Immediately": the session ends right after a take.

@@ -423,8 +423,7 @@ fn finish_pipeline(
                     sample_count,
                     stop_time,
                 );
-                let queued =
-                    crate::fork::models::setup::status().queued_takes > queued_before;
+                let queued = crate::fork::models::setup::status().queued_takes > queued_before;
                 return if was_ready && !queued {
                     Ok(String::new())
                 } else {

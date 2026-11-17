@@ -159,7 +159,10 @@ pub fn watch(app: &tauri::AppHandle) {
                 let now = setup();
                 let key = format!(
                     "{}|{}|{}|{}",
-                    now.keyboard_enabled, now.full_access, now.full_access_known, now.mic_permission
+                    now.keyboard_enabled,
+                    now.full_access,
+                    now.full_access_known,
+                    now.mic_permission
                 );
                 if key != last_setup {
                     last_setup = key;
