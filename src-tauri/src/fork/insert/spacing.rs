@@ -319,13 +319,11 @@ fn needs_leading_space(before: &str, text: &str) -> bool {
         return false;
     }
     let last_token = before.rsplit(is_space).next().unwrap_or("");
-    if (last_token.contains("://") || last_token.contains('@'))
+    // Not inside a URL or an e-mail address being continued.
+    let continues_address = (last_token.contains("://") || last_token.contains('@'))
         && !text.chars().any(is_space)
-        && matches!(last, '.' | '/' | ':' | '?' | '=' | '&' | '#')
-    {
-        return false;
-    }
-    true
+        && matches!(last, '.' | '/' | ':' | '?' | '=' | '&' | '#');
+    !continues_address
 }
 
 #[cfg(test)]
