@@ -28,7 +28,37 @@ NSNotificationName const WBOpenURLNotification = @"WBOpenURLNotification";
 static UIWindowScene *gScene;
 static NSHashTable<UIWindow *> *gWindows;
 
+// The app's background (the launch screen's colour, light and dark), so
+// nothing white shows between the launch screen and the page's first paint.
+static UIColor *WBBackground(void) {
+    UIColor *named = [UIColor colorNamed:@"LaunchBackground"];
+    return named ?: UIColor.systemBackgroundColor;
+}
+
+static void WBPaint(UIView *view, UIColor *color) {
+    if ([view isKindOfClass:NSClassFromString(@"WKWebView")]) {
+        view.opaque = NO;
+        view.backgroundColor = color;
+        UIScrollView *scroll = [view valueForKey:@"scrollView"];
+        if ([scroll isKindOfClass:UIScrollView.class]) {
+            scroll.backgroundColor = color;
+        }
+        return;
+    }
+    for (UIView *child in view.subviews) {
+        WBPaint(child, color);
+    }
+}
+
+static void WBPaintWindow(UIWindow *window) {
+    UIColor *color = WBBackground();
+    window.backgroundColor = color;
+    window.rootViewController.view.backgroundColor = color;
+    WBPaint(window, color);
+}
+
 static void WBAdopt(UIWindow *window) {
+    WBPaintWindow(window);
     if (gScene == nil || window.windowScene != nil) {
         return;
     }
@@ -121,6 +151,15 @@ void wb_ios_scene_open_url(const char *text) {
     for (UIWindow *window in gWindows.allObjects) {
         WBAdopt(window);
     }
+    // The web view is added to the window a little after the window is made.
+    for (NSNumber *delay in @[@0.0, @0.05, @0.2, @0.6]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay.doubleValue * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+            for (UIWindow *window in gWindows.allObjects) {
+                WBPaintWindow(window);
+            }
+        });
+    }
     if (connectionOptions.URLContexts.count > 0) {
         NSSet<UIOpenURLContext *> *contexts = connectionOptions.URLContexts;
         // After launch finished, so every observer is in place.
@@ -178,6 +217,20 @@ void wb_ios_scene_install(void) {
         Method ours = class_getInstanceMethod(UIWindow.class, @selector(wb_initWithFrame:));
         if (original != NULL && ours != NULL) {
             method_exchangeImplementations(original, ours);
+        }
+        // No "previous / next / done" bar over the keyboard: it is a web
+        // form control, not something an iPhone app shows. The web view's
+        // content view (WKContentView, looked up by name) answers nil for
+        // its input accessory view. Every hop is checked; when one is
+        // missing the bar simply stays.
+        Class content = NSClassFromString(@"WKContentView");
+        Method accessory = content != Nil
+            ? class_getInstanceMethod(content, @selector(inputAccessoryView))
+            : NULL;
+        if (accessory != NULL) {
+            method_setImplementation(accessory, imp_implementationWithBlock(^id(id view) {
+                return nil;
+            }));
         }
     });
 }
