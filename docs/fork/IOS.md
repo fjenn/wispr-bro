@@ -21,7 +21,9 @@ xcrun simctl launch <sim> com.wisprbro.ios
   `Info.ios.plist` is merged into the app's Info.plist on every build
   (microphone text, background audio, Live Activities, `wisprbro://`, the
   scene manifest). Entitlements: `gen/apple/handy_iOS/handy_iOS.entitlements`
-  (App Group `group.com.wisprbro.ios`).
+  (App Group `group.com.wisprbro.ios`), written by xcodegen from the
+  `entitlements.properties` in `project.yml`: change them there. Without
+  the group the keyboard and the app cannot see each other.
 - The Xcode project is generated: edit `src-tauri/gen/apple/project.yml`, then
   `cd src-tauri/gen/apple && xcodegen generate`. The app target compiles the
   Swift session code from `src-tauri/ios-native/` (`WBShared`, `WBSession`,
@@ -72,6 +74,56 @@ Commands for the page (`fork/ios/commands.rs`, called through `invoke`):
 `ios_get|set_session_timeout`, `ios_get|set_auto_return`, `ios_core_status`.
 The two session settings live in the App Group defaults suite
 `group.com.wisprbro.ios` (`wb.session.timeoutSeconds`, `wb.session.autoReturn`).
+
+## What the page gets from the app
+
+- `ios-session-state` / `ios-setup-state` events whenever the Swift session's
+  state or the setup checks change (`commands.rs::watch`, compared every
+  250 ms); the page also asks on mount and when it comes to the front.
+- `window.__wbKeyboardInset(points)` from UIKit's keyboard notifications
+  (`scene.m`), before the keyboard moves: sheets and pages lay themselves
+  out above the keyboard in step with it (`useKeyboardInset.ts`).
+- `scene.m` also removes the web form bar over the keyboard and paints the
+  window and the web view in the launch screen's colour
+  (`Assets.xcassets/LaunchBackground`, light and dark).
+
+## Back to the app the user was typing in
+
+After the keyboard opened Wispr Bro (`WBSessionController.returnToHost`):
+
+1. the keyboard named its host (iOS before 26.4), or UIKit's remote keyboard
+   state gave it (`WBHostAppObserver`): the host is opened by its link when
+   it is in `WBHostAppCatalog`, else by bundle id (`LSApplicationWorkspace`,
+   private, on a background queue: on the main thread it blocks the app);
+2. otherwise the swipe-back hint stays up.
+
+On the iOS 27.0 simulator the keyboard state arrives without a source or
+host bundle, so a cold start from the real keyboard ends on the hint; both
+"named host" routes work (`WBReturnTests`). Not yet checked on a phone.
+
+## End-to-end checks in a simulator
+
+`src-tauri/ios-native/e2e/` (xcodegen project, `run.sh`): a tiny host app
+(`com.wisprbro.e2e.host`) and XCUITests that drive the host, the real
+keyboard and the installed app, with speech from WAV files
+(`WB_FAKE_MIC_WAV`, simulator only; the file is read again at every take).
+
+```bash
+bun run wb:ios:sim && xcrun simctl install <sim> "src-tauri/gen/apple/build/arm64-sim/Wispr Bro.app"
+# once per simulator: finish onboarding and add the keyboard in Settings
+# (General › Keyboard › Keyboards › Add New Keyboard › Wispr Bro).
+export WB_WAV_DIR=/abs/wavs            # en.wav, nl.wav: `say -o x.aiff …; afconvert -f WAVE -d LEI16@16000 -c 1 x.aiff x.wav`
+src-tauri/ios-native/e2e/run.sh <sim> /abs/shots light -only-testing:WBE2ETests/WBKeyboardFlowTests
+src-tauri/ios-native/e2e/run.sh <sim> /abs/shots dark  -only-testing:WBE2ETests/WBReturnTests
+WB_SCRIPT=/abs/walk.txt src-tauri/ios-native/e2e/run.sh <sim> /abs/shots light -only-testing:WBE2ETests/WBScriptTests
+```
+
+`WBKeyboardFlowTests`: cold start from the keyboard, an English take
+inserted once, a warm Dutch take with one space before it, cancel, and
+"End session after: Immediately". `WBScriptTests` runs a small script
+(tap, type, shot, …; the commands are listed in the file) for walking
+screens. `src-tauri/ios/sim-fresh.sh <sim> <folder with huggingface/>`
+gives a first launch without a model download.
 
 ## Check without a microphone
 
