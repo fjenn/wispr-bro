@@ -32,9 +32,8 @@ import { languageList } from "@/lib/constants/languages";
 import { applyTheme, getStoredTheme } from "@/lib/utils/theme";
 import {
   commands,
-  events,
+  type AppleAvailability,
   type CleanupLevel,
-  type ForkLlmStatus,
 } from "../bindings";
 import { navigate, useHubNav } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
@@ -70,67 +69,50 @@ import {
 import { useIosStore } from "./useIos";
 
 /**
- * The cleanup model on this iPhone, live (`fork_llm_status` and its event):
- * `null` until the first answer. `unsupported` (an iPhone with less than
- * 8 GB) and `missing_runtime` mean there is no cleanup here.
+ * Whether this iPhone can clean up dictations. Apple's on-device model
+ * does it (`fork_llm_apple_status`), so it needs Apple Intelligence: iOS 26
+ * on an iPhone that has it, switched on. Asked again every few seconds,
+ * because the person may switch it on in Settings and come back.
+ *
+ * - `ready`: cleanup works.
+ * - `preparing`: Apple's model is still downloading; levels can be chosen.
+ * - `off`: Apple Intelligence is switched off.
+ * - `none`: this iPhone or iOS version has no Apple Intelligence.
  */
-function useCleanupStatus(): ForkLlmStatus | null {
-  const [status, setStatus] = useState<ForkLlmStatus | null>(null);
-  const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    let alive = true;
-    const unlisten = events.forkLlmStatus.listen((e) => {
-      if (alive) setStatus(e.payload);
-    });
-    const ask = () =>
-      commands
-        .forkLlmStatus()
-        .then((result) => {
-          if (!alive) return;
-          if (result.status === "ok") setStatus(result.data);
-          else setFailed(true);
-        })
-        .catch(() => alive && setFailed(true));
-    void ask();
-    // The download's bytes move without an event of their own.
-    const timer = window.setInterval(() => void ask(), 1000);
-    return () => {
-      alive = false;
-      window.clearInterval(timer);
-      void unlisten.then((f) => f()).catch(() => undefined);
-    };
-  }, []);
-  return status ?? (failed ? UNAVAILABLE : null);
-}
+type CleanupPhase = "unknown" | "ready" | "preparing" | "off" | "none";
 
-/** What the page shows when the status cannot be read at all. */
-const UNAVAILABLE = { state: "unsupported" } as ForkLlmStatus;
-
-type CleanupPhase = "unknown" | "none" | "downloading" | "failed" | "ready";
-
-function cleanupPhase(status: ForkLlmStatus | null): CleanupPhase {
-  switch (status?.state) {
-    case undefined:
-      return "unknown";
-    case "unsupported":
-    case "missing_runtime":
-      return "none";
-    case "download_failed":
-      return "failed";
-    case "ready":
+function phaseOf(availability: AppleAvailability): CleanupPhase {
+  switch (availability) {
+    case "available":
       return "ready";
+    case "model_not_ready":
+      return "preparing";
+    case "not_enabled":
+      return "off";
     default:
-      return "downloading";
+      return "none";
   }
 }
 
-function downloadPercent(status: ForkLlmStatus | null): number {
-  if (!status || !status.total_bytes) return 0;
-  if (status.state === "verifying") return 100;
-  return Math.min(
-    100,
-    Math.floor((status.downloaded_bytes / status.total_bytes) * 100),
-  );
+function useCleanupPhase(): CleanupPhase {
+  const [phase, setPhase] = useState<CleanupPhase>("unknown");
+  useEffect(() => {
+    let alive = true;
+    const ask = () =>
+      commands
+        .forkLlmAppleStatus()
+        .then((status) => {
+          if (alive) setPhase(status ? phaseOf(status.availability) : "none");
+        })
+        .catch(() => alive && setPhase("none"));
+    void ask();
+    const timer = window.setInterval(() => void ask(), 3000);
+    return () => {
+      alive = false;
+      window.clearInterval(timer);
+    };
+  }, []);
+  return phase;
 }
 
 export function IosSettings() {
@@ -163,8 +145,7 @@ function SettingsRoot() {
   const timeout = useIosStore((s) => s.timeout);
   const autoReturn = useIosStore((s) => s.autoReturn);
   const setAutoReturn = useIosStore((s) => s.setAutoReturn);
-  const cleanup = useCleanupStatus();
-  const cleanupIs = cleanupPhase(cleanup);
+  const cleanupIs = useCleanupPhase();
   const lastSynced = useLastSynced();
   const [version, setVersion] = useState<string | null>(null);
   useEffect(() => {
@@ -195,11 +176,8 @@ function SettingsRoot() {
               ? ""
               : cleanupIs === "none"
                 ? t("ios.settings.cleanup.notHere")
-                : cleanupIs === "downloading" &&
-                    settings?.cleanup_level !== "none"
-                  ? t("ios.settings.cleanup.downloading", {
-                      percent: downloadPercent(cleanup),
-                    })
+                : cleanupIs === "off"
+                  ? t("ios.settings.cleanup.off")
                   : settings
                     ? t(`settings.cleanup.levels.${settings.cleanup_level}`)
                     : ""
@@ -361,100 +339,32 @@ function LanguagesPage() {
 function CleanupPage() {
   const { t } = useTranslation(FORK_NAMESPACE);
   const { settings, pending, setSetting } = useForkSettings();
-  const status = useCleanupStatus();
-  const phase = cleanupPhase(status);
-  const off = phase === "none";
-  // The model is fetched once a level other than None is chosen.
-  const fetching =
-    phase === "downloading" && settings?.cleanup_level !== "none";
-  const notFetched = phase === "downloading" && !fetching;
-  const percent = downloadPercent(status);
-  const megabytes = Math.round((status?.total_bytes ?? 0) / 1_000_000);
-  const [retrying, setRetrying] = useState(false);
-  const retry = () => {
-    setRetrying(true);
-    void commands
-      .forkLlmRetry()
-      .catch(() => undefined)
-      .finally(() => setRetrying(false));
-  };
+  const phase = useCleanupPhase();
+  const unavailable = phase === "none" || phase === "off";
   return (
     <div className="flex flex-col gap-4" data-testid="wb-ios-cleanup">
       <IosTitle>{t("ios.settings.pages.cleanup")}</IosTitle>
       <p className="text-[15px] leading-[21px] text-(--wb-ink-2)">
         {t("style.cleanup.description")}
       </p>
-      {off && (
+      {(unavailable || phase === "preparing") && (
         <div
           role="status"
-          data-testid="wb-ios-cleanup-none"
+          data-testid={`wb-ios-cleanup-${phase}`}
           className="rounded-(--wb-radius-lg) bg-(--wb-accent-soft) p-4"
         >
           <p className="type-card-title text-(--wb-ink)">
-            {t("ios.settings.cleanup.notHereTitle")}
+            {t(`ios.settings.cleanup.${phase}Title`)}
           </p>
           <p className="mt-1 text-[15px] leading-[21px] text-(--wb-ink-2)">
-            {t("ios.settings.cleanup.notHereBody")}
+            {t(`ios.settings.cleanup.${phase}Body`)}
           </p>
-        </div>
-      )}
-      {fetching && (
-        <div
-          role="status"
-          data-testid="wb-ios-cleanup-downloading"
-          className="rounded-(--wb-radius-lg) bg-(--wb-accent-soft) p-4"
-        >
-          <p className="type-card-title text-(--wb-ink)">
-            {t("ios.settings.cleanup.downloadingTitle")}
-          </p>
-          <p className="mt-1 text-[15px] leading-[21px] text-(--wb-ink-2)">
-            {t("ios.settings.cleanup.downloadingBody", { megabytes })}
-          </p>
-          <div
-            role="progressbar"
-            aria-label={t("ios.settings.cleanup.downloadingTitle")}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={percent}
-            className="mt-3 h-1.5 overflow-hidden rounded-full bg-(--wb-line)"
-          >
-            <div
-              className="h-full rounded-full bg-(--wb-accent)"
-              style={{ width: `${percent}%` }}
-            />
-          </div>
-          <p className="mt-2 text-[13px] leading-[18px] text-(--wb-ink-2) tabular-nums">
-            {t("ios.settings.cleanup.downloading", { percent })}
-          </p>
-        </div>
-      )}
-      {phase === "failed" && (
-        <div
-          role="alert"
-          data-testid="wb-ios-cleanup-failed"
-          className="rounded-(--wb-radius-lg) bg-(--wb-accent-soft) p-4"
-        >
-          <p className="type-card-title text-(--wb-ink)">
-            {t("ios.settings.cleanup.failedTitle")}
-          </p>
-          <p className="mt-1 text-[15px] leading-[21px] text-(--wb-ink-2)">
-            {t("ios.settings.cleanup.failedBody")}
-          </p>
-          <button
-            type="button"
-            className="wb-ios-link mt-2"
-            disabled={retrying}
-            onClick={retry}
-            data-testid="wb-ios-cleanup-retry"
-          >
-            {t("ios.settings.cleanup.retry")}
-          </button>
         </div>
       )}
       <div
         role="radiogroup"
         aria-label={t("cleanup.picker.legend")}
-        aria-disabled={off || undefined}
+        aria-disabled={unavailable || undefined}
         className="wb-ios-group"
         data-testid="fork-cleanup"
       >
@@ -463,9 +373,12 @@ function CleanupPage() {
             key={level}
             label={t(`cleanup.levels.${level}.label`)}
             hint={t(`style.cleanup.levels.${level}`)}
-            checked={!off && settings?.cleanup_level === level}
+            checked={!unavailable && settings?.cleanup_level === level}
             disabled={
-              off || phase === "unknown" || !settings || !!pending.cleanup_level
+              unavailable ||
+              phase === "unknown" ||
+              !settings ||
+              !!pending.cleanup_level
             }
             onSelect={() =>
               void setSetting("cleanup_level", level as CleanupLevel)
@@ -474,14 +387,12 @@ function CleanupPage() {
           />
         ))}
       </div>
-      {!off && (
+      {!unavailable && (
         <p
           className="px-1 text-[13px] leading-[18px] text-(--wb-ink-2)"
           data-testid="wb-ios-cleanup-note"
         >
-          {notFetched
-            ? t("ios.settings.cleanup.downloadFirst", { megabytes })
-            : t("ios.settings.cleanup.note")}
+          {t("ios.settings.cleanup.note")}
         </p>
       )}
     </div>

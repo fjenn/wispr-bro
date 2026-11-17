@@ -123,6 +123,15 @@ impl Cpu {
 /// R5 §5.1 says to use the next smaller model for that tier; that is a
 /// change to this function only.
 pub fn select(physical_ram_bytes: u64, cpu: Cpu) -> Option<&'static LlmModel> {
+    // iPhone: no local model. Apple's on-device model cleans there
+    // (`apple::ROLE`); Muesli in the app (`inprocess`) misses its deadlines
+    // on the phone's CPU, so nobody downloads 1.3 GB for it. A debug build
+    // with `WB_IOS_LOCAL_LLM=1` still runs it, for measurements.
+    if cfg!(target_os = "ios")
+        && !(cfg!(debug_assertions) && std::env::var("WB_IOS_LOCAL_LLM").is_ok_and(|v| v == "1"))
+    {
+        return None;
+    }
     // iPhones have 6, 8 or 12 GB and report somewhat less than the nominal
     // size: the model is for the 8 GB phones and up.
     const MIN_RAM: u64 = if cfg!(target_os = "ios") { 7 } else { 8 } * 1024 * 1024 * 1024;

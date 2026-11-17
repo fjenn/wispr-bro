@@ -338,88 +338,66 @@ test.describe("ios", () => {
     );
   });
 
-  test("cleanup is not offered on an iPhone without the memory", async ({
+  test("cleanup is not offered on an iPhone without Apple Intelligence", async ({
     page,
     ipc,
     hub,
     ios,
   }) => {
-    ios.llmState = "unsupported";
+    ios.appleAvailability = "device_not_eligible";
     await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
     await expect(page.getByTestId("wb-ios-cleanup-none")).toBeVisible();
     await expect(page.getByTestId("fork-cleanup-level-light")).toBeDisabled();
     await expect(page.getByTestId("wb-ios-cleanup-note")).toHaveCount(0);
   });
 
-  test("cleanup levels can be picked once the model is there", async ({
+  test("cleanup levels can be picked with Apple Intelligence on", async ({
     page,
     ipc,
     hub,
     ios,
   }) => {
     await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
-    await expect(page.getByTestId("wb-ios-cleanup-note")).toBeVisible();
-    await expect(page.getByTestId("wb-ios-cleanup-downloading")).toHaveCount(0);
+    await expect(page.getByTestId("wb-ios-cleanup-note")).toContainText(
+      "Apple Intelligence",
+    );
+    await expect(page.getByTestId("wb-ios-cleanup-off")).toHaveCount(0);
     await page.getByTestId("fork-cleanup-level-light").click();
     await ipc.expectCalled("fork_set_setting", {
       update: { key: "cleanup_level", value: "light" },
     });
   });
 
-  test("the cleanup model's download shows its progress", async ({
+  test("with Apple Intelligence off the page says how to turn it on, and follows", async ({
     page,
     ipc,
     hub,
     ios,
   }) => {
-    ios.llmState = "downloading";
-    ios.llmDownloaded = 318_599_024;
-    await openIos(page, ipc, hub, ios, {
-      hash: "#/hub/settings/cleanup",
-      fork: { cleanup_level: "light" },
-    });
-    const card = page.getByTestId("wb-ios-cleanup-downloading");
-    await expect(card).toContainText("25 %");
-    await expect(card.getByRole("progressbar")).toHaveAttribute(
-      "aria-valuenow",
-      "25",
-    );
-    // A level can be chosen while the model is on its way.
-    await expect(page.getByTestId("fork-cleanup-level-light")).toBeEnabled();
-    // The page follows the download without being reopened.
-    ios.llmState = "ready";
-    await expect(card).toHaveCount(0);
-  });
-
-  test("with cleanup off nothing is downloaded, and the page says so", async ({
-    page,
-    ipc,
-    hub,
-    ios,
-  }) => {
-    ios.llmState = "waiting_for_speech_model";
-    await openIos(page, ipc, hub, ios, {
-      hash: "#/hub/settings/cleanup",
-      fork: { cleanup_level: "none" },
-    });
-    await expect(page.getByTestId("wb-ios-cleanup-downloading")).toHaveCount(0);
-    await expect(page.getByTestId("wb-ios-cleanup-note")).toContainText(
-      "1274 MB",
-    );
-    await expect(page.getByTestId("fork-cleanup-level-light")).toBeEnabled();
-  });
-
-  test("a failed cleanup download can be tried again", async ({
-    page,
-    ipc,
-    hub,
-    ios,
-  }) => {
-    ios.llmState = "download_failed";
+    ios.appleAvailability = "not_enabled";
     await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
-    await page.getByTestId("wb-ios-cleanup-retry").click();
-    await ipc.expectCalled("fork_llm_retry");
-    await expect(page.getByTestId("wb-ios-cleanup-downloading")).toBeVisible();
+    await expect(page.getByTestId("wb-ios-cleanup-off")).toContainText(
+      "Apple Intelligence & Siri",
+    );
+    await expect(page.getByTestId("fork-cleanup-level-medium")).toBeDisabled();
+    // Switched on in the Settings app: the page notices by itself.
+    ios.appleAvailability = "available";
+    await expect(page.getByTestId("wb-ios-cleanup-off")).toHaveCount(0, {
+      timeout: 8000,
+    });
+    await expect(page.getByTestId("fork-cleanup-level-medium")).toBeEnabled();
+  });
+
+  test("while Apple's model downloads a level can already be chosen", async ({
+    page,
+    ipc,
+    hub,
+    ios,
+  }) => {
+    ios.appleAvailability = "model_not_ready";
+    await openIos(page, ipc, hub, ios, { hash: "#/hub/settings/cleanup" });
+    await expect(page.getByTestId("wb-ios-cleanup-preparing")).toBeVisible();
+    await expect(page.getByTestId("fork-cleanup-level-light")).toBeEnabled();
   });
 
   test("onboarding runs from welcome to the app", async ({

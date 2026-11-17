@@ -40,8 +40,20 @@ pub enum AppleRole {
 }
 
 /// RS-08: Apple's model missed the quality gates against Muesli (see the
-/// spike report), so it only stands in while the local model is not ready.
-pub const ROLE: AppleRole = AppleRole::Fallback;
+/// spike report), so on the Mac it only stands in while the local model is
+/// not ready.
+///
+/// iPhone: Apple's model is the only engine that can clean a keyboard take.
+/// Muesli cannot: iOS refuses GPU work from the background, where those
+/// takes run, and on the phone's CPU a take runs into its deadline
+/// (`docs/fork/IOS.md`). Apple's model runs in a system process, outside
+/// the app's memory. It is below the Mac's quality gates there too, so
+/// cleanup is off by default on iPhone and a level is an opt-in.
+pub const ROLE: AppleRole = if cfg!(target_os = "ios") {
+    AppleRole::Default
+} else {
+    AppleRole::Fallback
+};
 
 /// Guardrails for cleanup (RS-08 compared both).
 pub const GUARDRAILS: Guardrails = Guardrails::PermissiveContentTransformations;

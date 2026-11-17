@@ -2447,9 +2447,6 @@
       "openSettings": "Open System Settings",
       "prompt": "The macOS prompt",
       "pane": "In System Settings",
-      "stuck": "Switched on but still not working?",
-      "reset": "Reset and ask again",
-      "resetFailed": "Couldn't reset it. Remove Wispr Bro in System Settings, then allow it again.",
       "microphone": {
         "title": "Microphone",
         "why": "So Wispr Bro can hear you while you dictate.",
@@ -3071,9 +3068,9 @@
       "label": "Main",
       "home": "Home",
       "history": "History",
-      "settings": "Settings",
       "voice": "My Voice",
-      "scratchpad": "Scratchpad"
+      "scratchpad": "Scratchpad",
+      "settings": "Settings"
     },
     "session": {
       "status": {
@@ -3147,9 +3144,9 @@
     "keyboard": {
       "sheetTitle": "Add the {{appName}} keyboard",
       "steps": {
-        "fullAccess": "Turn on Allow Full Access",
         "open": "Tap Open Settings, then Keyboards",
-        "enable": "Turn on {{appName}}"
+        "enable": "Turn on {{appName}}",
+        "fullAccess": "Turn on Allow Full Access"
       },
       "drawn": {
         "keyboards": "Keyboards",
@@ -3167,43 +3164,43 @@
     },
     "style": {
       "intro": "Pick how your dictations are written, in every app."
-    },
     "settings": {
       "saveFailed": "Could not save that. Try again.",
       "local": "Everything stays on this iPhone.",
       "groups": {
         "dictation": "Dictation",
         "session": "Session",
+    },
+    "voice": {
+      "words_one": "{{count}} word",
+      "words_other": "{{count}} words"
+    },
+    "scratchpad": {
+      "emptyHelp": "Start a note, then type or dictate into it. Every note saves itself.",
+      "noResultsHelp": "Try another word.",
+      "notes": "Notes",
+      "noteMenu": "More for {{name}}",
+      "more": "More",
+      "done": "Done",
+      "share": "Share",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete this note?",
+      "deleteBody": "“{{name}}” will be gone for good.",
+      "error": "That didn't work. Your text is still here; try again.",
+      "words_one": "{{count}} word",
+      "words_other": "{{count}} words",
+      "writing": "Writing…",
+      "recordFailed": "Couldn't record that. Try again.",
+      "polish": {
+        "off": "Polish uses the cleanup model, which isn't on this iPhone yet. Choose a cleanup level in Settings to download it.",
+        "downloading": "The cleanup model is still downloading. Polish works once it's here.",
+        "failed": "The cleanup model's download stopped. Start it again in Settings.",
+        "unsupported": "Polish needs the cleanup model, which isn't available on this iPhone."
+      }
+    },
         "feedback": "Sound",
         "app": "Wispr Bro",
-        "appearance": "Appearance",
-        "voice": {
-          "words_one": "{{count}} word",
-          "words_other": "{{count}} words"
-        },
-        "scratchpad": {
-          "emptyHelp": "Start a note, then type or dictate into it. Every note saves itself.",
-          "noResultsHelp": "Try another word.",
-          "notes": "Notes",
-          "noteMenu": "More for {{name}}",
-          "more": "More",
-          "done": "Done",
-          "share": "Share",
-          "cancel": "Cancel",
-          "deleteTitle": "Delete this note?",
-          "deleteBody": "“{{name}}” will be gone for good.",
-          "error": "That didn't work. Your text is still here; try again.",
-          "words_one": "{{count}} word",
-          "words_other": "{{count}} words",
-          "writing": "Writing…",
-          "recordFailed": "Couldn't record that. Try again.",
-          "polish": {
-            "off": "Polish uses the cleanup model, which isn't on this iPhone yet. Choose a cleanup level in Settings to download it.",
-            "downloading": "The cleanup model is still downloading. Polish works once it's here.",
-            "failed": "The cleanup model's download stopped. Start it again in Settings.",
-            "unsupported": "Polish needs the cleanup model, which isn't available on this iPhone."
-          }
-        }
+        "appearance": "Appearance"
       },
       "pages": {
         "languages": "Languages",
@@ -3216,16 +3213,14 @@
       },
       "cleanup": {
         "notHere": "Not on this iPhone",
-        "notHereTitle": "Not available on this iPhone",
-        "notHereBody": "Cleanup needs an iPhone with 8 GB of memory or more. Your words are written as you say them, with punctuation and capitals.",
-        "downloading": "Downloading… {{percent}} %",
-        "downloadingTitle": "Getting the cleanup model",
-        "downloadingBody": "A one-time download of {{megabytes}} MB. Until it is ready, your words are written as you say them.",
-        "failedTitle": "The download did not finish",
-        "failedBody": "Check your connection and try again. Dictation works without it.",
-        "retry": "Try again",
-        "note": "Cleanup runs on this iPhone. It adds a short wait after you stop speaking.",
-        "downloadFirst": "Light and Medium need a one-time download of {{megabytes}} MB."
+        "off": "Apple Intelligence is off",
+        "noneTitle": "Not available on this iPhone",
+        "noneBody": "Cleanup uses Apple Intelligence, which needs iOS 26 on an iPhone 15 Pro or later. Your words are written as you say them, with punctuation and capitals.",
+        "offTitle": "Turn on Apple Intelligence",
+        "offBody": "Cleanup uses Apple's on-device model. Turn on Apple Intelligence in the Settings app, under Apple Intelligence & Siri, then come back.",
+        "preparingTitle": "Apple's model is getting ready",
+        "preparingBody": "iOS is still downloading it. Until then your words are written as you say them.",
+        "note": "Beta on iPhone. Cleanup uses Apple Intelligence on this phone; nothing leaves it. It is less careful than on the Mac: it leaves more filler words in and, rarely, drops a word."
       },
       "session": {
         "endAfter": "End session after",

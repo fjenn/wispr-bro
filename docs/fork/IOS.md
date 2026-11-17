@@ -120,6 +120,11 @@ live session. (Metal, in front only: 0.25-0.33 s, 1.7-2.5 s, 1.04 GB.)
 
 ## Cleanup runs in the app
 
+In short: on iPhone cleanup is off by default and, when a level is chosen,
+runs on Apple's on-device model (the last subsection). The in-process
+Muesli engine described first is built into the app but not used on a
+phone; the measurements below say why.
+
 An app cannot start `llama-server`, so the cleanup model runs in the app's
 own process: `crates/wb-ios-llm` is the sidecar's llama.cpp with its server
 request code, and `fork/llm/inprocess.rs` (`InProcessLauncher`) answers the
@@ -172,17 +177,46 @@ mapped): footprint 1.45-1.59 GB, 1.8-1.9 GB left before the app's limit,
 22 self-test takes without the app being ended. With the weights copied
 (no `--no-repack`): 2.63 GB, 0.74 GB left, ended during the second take.
 
-So on this phone the model is fast enough only on the GPU, and the GPU is
-not available where dictation happens. **Cleanup therefore defaults to
-None on iPhone**; Light and Medium can be chosen and are marked
-experimental (a take that runs into its deadline is written without
-cleanup). Not measured: how long a cleanup takes on the CPU without a
-deadline, 6 threads, Medium, a 50-take soak on the phone. The Mac's
-second engine, Apple's on-device model (`fork/llm/apple.rs`), is the
-candidate for the phone: FoundationModels is in the iOS 26 SDK, runs
-outside the app's memory, and cleaned 50 words in about 1.1-1.3 s on the
-Mac (RS-08); the bridge (`crates/wb-apple-fm`) builds for macOS only so
-far.
+So on this phone Muesli is fast enough only on the GPU, and the GPU is not
+available where dictation happens. With 4 or 6 threads a 15-word take was
+cleaned in 1.5-1.6 s in the background (3 of 3); a 50-word take never made
+its 2.9 s deadline. **The iPhone build therefore has no local model**
+(`catalog::select` returns none there; a debug build with
+`WB_IOS_LOCAL_LLM=1` still runs it for measurements).
+
+### Apple's on-device model is the iPhone's engine (opt-in)
+
+`crates/wb-apple-fm` builds for iOS (FoundationModels, weak-linked; iOS 26
+and Apple Intelligence are checked at run time) and `apple::ROLE` is
+`Default` on iPhone: the same prompt, guards, deadlines and fail-open as
+the Mac's fallback engine. Settings › Cleanup follows
+`fork_llm_apple_status`: not available on this iPhone / Apple Intelligence
+is off / Apple's model is still downloading / ready.
+
+The Mac's eval through the shipped path on Apple's model (macOS 26.6,
+2026-11-17, 272 items, language mode `owner`), next to Muesli:
+
+|                                         | Damage raw → after guards | Answers raw → after | Filler removal | Guard catch          | p50 / p95     |
+| --------------------------------------- | ------------------------- | ------------------- | -------------- | -------------------- | ------------- |
+| Muesli, Light (the Mac)                 | → 0.0 %                   | → 0.0 %             | 95.1 %         | 100 %                | 104 / 160 ms  |
+| Apple, Light, plain reply               | 8.8 % → 0.7 %             | 5.1 % → 0.0 %       | 91.1 %         | 92.0 %               | 494 / 598 ms  |
+| Apple, Light, guided `{text}`           | 14.0 % → 1.8 %            | 6.8 % → 0.0 %       | 92.7 %         | 86.8 %               | 660 / 783 ms  |
+| Apple, Light, plus rules written for it | 9.9 % → 0.7 %             | 5.1 % → 0.0 %       | 91.9 %         | 92.6 %               | 597 / 705 ms  |
+| Apple, Medium                           | → 1.5 %                   | → 0.0 %             | 92.7 %         | 86.7 % (gate failed) | 649 / 1243 ms |
+
+Apple's model answers dictated questions and drops content far more often
+than Muesli; the guards catch most of it, not all (2 of 272 takes inserted
+with a word lost). Guided generation and an extra block of rules for this
+model did not change that, so neither is shipped. It does not meet the
+Mac's bar (damage 0.0 %, guard catch 100 %, filler about 95 %), so
+**cleanup stays None by default on iPhone**; Light and Medium are an
+opt-in and the page says what to expect.
+
+On the iPhone 17 Pro, app in front: Apple's model available (context 4096),
+15 words in 0.8-1.0 s, 50 words in 1.4 s, no rate limit, footprint
+unchanged (1.17-1.24 GB, the speech model). **Not measured: the same with
+the app in the background (every keyboard take), and a 50-take run for
+rate limits**; the phone locked before the app could be put behind another.
 
 To run the Mac's cleanup eval on this engine:
 `WB_LLM_INPROCESS=1 [WB_LLM_DEVICE=cpu] WB_LLAMA_SERVER=in-process … cargo test --features llm-inprocess --lib fork::llm::eval_run -- --ignored`.

@@ -110,13 +110,13 @@ private final class Box: @unchecked Sendable {
 
 #if canImport(FoundationModels)
 
-@available(macOS 26.0, *)
+@available(macOS 26.0, iOS 26.0, *)
 @Generable
 private struct CleanedText {
     let text: String
 }
 
-@available(macOS 26.0, *)
+@available(macOS 26.0, iOS 26.0, *)
 private func model(permissive: Bool) -> SystemLanguageModel {
     SystemLanguageModel(
         useCase: .general,
@@ -126,7 +126,7 @@ private func model(permissive: Bool) -> SystemLanguageModel {
 
 // MARK: - Prewarm (TypeWhisper)
 
-@available(macOS 26.0, *)
+@available(macOS 26.0, iOS 26.0, *)
 private final class Prewarmed: @unchecked Sendable {
     private let lock = NSLock()
     private var session: LanguageModelSession?
@@ -150,7 +150,7 @@ private final class Prewarmed: @unchecked Sendable {
     }
 }
 
-@available(macOS 26.0, *)
+@available(macOS 26.0, iOS 26.0, *)
 private let prewarmed = Prewarmed()
 
 private func sessionKey(_ instructions: String, _ permissive: Bool) -> String {
@@ -159,7 +159,7 @@ private func sessionKey(_ instructions: String, _ permissive: Bool) -> String {
 
 // MARK: - Errors (MacParakeet's mapping)
 
-@available(macOS 26.0, *)
+@available(macOS 26.0, iOS 26.0, *)
 private func failureCode(_ error: Error) -> Int32 {
     if error is CancellationError {
         return codeCancelled
@@ -187,7 +187,7 @@ private func failureCode(_ error: Error) -> Int32 {
         }
     }
     #if compiler(>=6.4)
-    if #available(macOS 27.0, *) {
+    if #available(macOS 27.0, iOS 27.0, *) {
         if let e = error as? LanguageModelError {
             switch e {
             case .contextSizeExceeded:
@@ -211,7 +211,7 @@ private func failureCode(_ error: Error) -> Int32 {
     return codeOther
 }
 
-@available(macOS 26.0, *)
+@available(macOS 26.0, iOS 26.0, *)
 private func generate(
     instructions: String,
     prompt: String,
@@ -248,7 +248,7 @@ private func generate(
 
 private func availabilityCode() -> Int32 {
     #if canImport(FoundationModels)
-    guard #available(macOS 26.0, *) else { return 4 }
+    guard #available(macOS 26.0, iOS 26.0, *) else { return 4 }
     switch SystemLanguageModel.default.availability {
     case .available:
         return 0
@@ -279,7 +279,7 @@ public func wbAppleFmAvailability() -> Int32 {
 @_cdecl("wb_apple_fm_context_size")
 public func wbAppleFmContextSize() -> Int {
     #if canImport(FoundationModels)
-    guard #available(macOS 26.0, *) else { return 0 }
+    guard #available(macOS 26.0, iOS 26.0, *) else { return 0 }
     return SystemLanguageModel.default.contextSize
     #else
     return 0
@@ -290,7 +290,7 @@ public func wbAppleFmContextSize() -> Int {
 @_cdecl("wb_apple_fm_supports_language")
 public func wbAppleFmSupportsLanguage(_ code: UnsafePointer<CChar>?) -> Int32 {
     #if canImport(FoundationModels)
-    guard #available(macOS 26.0, *), let code else { return 0 }
+    guard #available(macOS 26.0, iOS 26.0, *), let code else { return 0 }
     let wanted = Locale.Language(identifier: String(cString: code))
     let ok = SystemLanguageModel.default.supportedLanguages.contains {
         $0.languageCode == wanted.languageCode
@@ -307,7 +307,7 @@ public func wbAppleFmSupportsLanguage(_ code: UnsafePointer<CChar>?) -> Int32 {
 @_cdecl("wb_apple_fm_prewarm")
 public func wbAppleFmPrewarm(_ instructions: UnsafePointer<CChar>?, _ permissive: Bool) {
     #if canImport(FoundationModels)
-    guard #available(macOS 26.0, *), let instructions, availabilityCode() == 0 else { return }
+    guard #available(macOS 26.0, iOS 26.0, *), let instructions, availabilityCode() == 0 else { return }
     let text = String(cString: instructions)
     let session = LanguageModelSession(model: model(permissive: permissive), instructions: text)
     session.prewarm()
@@ -341,7 +341,7 @@ public func wbAppleFmComplete(
         return nil
     }
     #if canImport(FoundationModels)
-    guard #available(macOS 26.0, *), let instructions, let prompt else {
+    guard #available(macOS 26.0, iOS 26.0, *), let instructions, let prompt else {
         return fail(codeUnavailable)
     }
     guard availabilityCode() == 0 else { return fail(codeUnavailable) }

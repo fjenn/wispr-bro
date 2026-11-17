@@ -106,6 +106,10 @@ targets:
       # Wispr Bro: ggml (transcribe-cpp) uses vDSP and BLAS.
       - sdk: Accelerate.framework
       - sdk: CoreGraphics.framework
+      # Apple's on-device model, the phone's cleanup engine (iOS 26 and
+      # later; the app still starts on iOS 17-25).
+      - sdk: FoundationModels.framework
+        weak: true
       - sdk: Metal.framework
       - sdk: MetalKit.framework
       - sdk: QuartzCore.framework

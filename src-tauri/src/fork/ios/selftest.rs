@@ -335,6 +335,7 @@ fn one(file: &str, round: usize, take_id: u64, realtime: bool) -> serde_json::Va
         "footprint_mb": wb_ios_llm::footprint_bytes().map(|b| b / MB),
         "available_mb": wb_ios_llm::available_bytes().map(|b| b / MB),
         "app_state": super::host::app_state(),
+        "apple": crate::fork::llm::apple::status(),
         "transcribe_ms": transcribe_ms,
         "cleanup_step_ms": cleanup_step_ms,
         "cleanup": cleanup.map(|c| serde_json::json!({
