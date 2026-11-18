@@ -335,7 +335,7 @@
       "sync": {
         "title": "Sync",
         "rowTitle": "Sync with a file",
-        "hint": "Dictionary, snippets, settings and stats as one file to AirDrop.",
+        "hint": "Dictionary, snippets, notes, settings and stats as one file to AirDrop.",
         "import": "Import…",
         "export": "Export…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -344,7 +344,7 @@
         "last": "Last merged from {{device}}: {{when}}. History and recordings are never included.",
         "never": "Not synced yet. History and recordings are never included.",
         "autoTitle": "Sync with your iPhone",
-        "autoHint": "Keeps dictionary, snippets, settings and stats the same on both while both apps are open.",
+        "autoHint": "Keeps dictionary, snippets, notes, settings and stats the same on both while both apps are open.",
         "direct": "Sync goes directly between your devices over your local network. No server. History and recordings are never synced.",
         "howTo": "On your iPhone, open Wispr Bro, go to Settings › Sync with your Mac and tap Find my Mac.",
         "denied": "macOS is not letting Wispr Bro find devices on your local network. Allow it in System Settings › Privacy & Security › Local Network."
@@ -3348,7 +3348,7 @@
       }
     },
     "sync": {
-      "intro": "Pair your Mac once. After that your dictionary, snippets, settings and stats stay the same on both, by themselves.",
+      "intro": "Pair your Mac once. After that your dictionary, snippets, notes, settings and stats stay the same on both, by themselves.",
       "fromMac": {
         "title": "From your Mac",
         "step1": "On your Mac, open Wispr Bro, go to Settings › Data and Privacy and choose Export my data.",
@@ -3404,7 +3404,8 @@
       "dictionary": "Dictionary",
       "snippets": "Snippets",
       "settings": "Settings",
-      "stats": "Stats"
+      "stats": "Stats",
+      "notes": "Notes"
     },
     "review": {
       "title": "Merge from {{device}}",
@@ -3471,7 +3472,8 @@
       "direct": "Sync goes directly between your devices over your local network. No server.",
       "denied": "Wispr Bro is not allowed to find devices on your local network. Allow it in Settings, then try again.",
       "openSettings": "Open Settings",
-      "needsUpdate": "Wispr Bro on your Mac and on your iPhone are different versions. Update both to keep syncing."
+      "needsUpdate": "Wispr Bro on your Mac and on your iPhone are different versions. Update both to keep syncing.",
+      "notesNeedUpdate": "Update Wispr Bro on your {{device}} to sync notes."
     },
     "pairing": {
       "showTitle": "Pair with {{device}}",

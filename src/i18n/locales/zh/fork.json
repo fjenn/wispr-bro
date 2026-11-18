@@ -334,7 +334,7 @@
       "sync": {
         "title": "同步",
         "rowTitle": "通过文件同步",
-        "hint": "将词典、文本片段、设置和统计打包成一个文件，以便隔空投送。",
+        "hint": "词典、文本片段、笔记、设置和统计信息打包成一个文件，通过 AirDrop 发送。",
         "import": "导入…",
         "export": "导出…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -343,7 +343,7 @@
         "last": "上次从 {{device}} 合并：{{when}}。历史记录和录音从不包括在内。",
         "never": "尚未同步。历史记录和录音从不包括在内。",
         "autoTitle": "与你的 iPhone 同步",
-        "autoHint": "两个 App 都打开时，让词典、文本片段、设置和统计在两台设备上保持一致。",
+        "autoHint": "两个应用都打开时，让词典、文本片段、笔记、设置和统计信息在两台设备上保持一致。",
         "direct": "同步通过本地网络在设备之间直接进行，不经过服务器。历史记录和录音绝不会同步。",
         "howTo": "在 iPhone 上打开 Wispr Bro，前往“设置” › “与你的 Mac 同步”，然后轻点“查找我的 Mac”。",
         "denied": "macOS 不允许 Wispr Bro 查找本地网络上的设备。请在“系统设置” › “隐私与安全性” › “本地网络”中允许。"
@@ -2931,7 +2931,7 @@
       }
     },
     "sync": {
-      "intro": "只需将 Mac 配对一次。之后，你的词典、文本片段、设置和统计会在两台设备上自动保持一致。",
+      "intro": "只需将你的 Mac 配对一次。之后，词典、文本片段、笔记、设置和统计信息会在两台设备上自动保持一致。",
       "fromMac": {
         "title": "从你的 Mac",
         "step1": "在 Mac 上打开 Wispr Bro，前往“设置” › “数据与隐私”，然后选择“导出我的数据”。",
@@ -2986,7 +2986,8 @@
       "dictionary": "词典",
       "snippets": "文本片段",
       "settings": "设置",
-      "stats": "统计"
+      "stats": "统计",
+      "notes": "笔记"
     },
     "review": {
       "title": "从 {{device}} 合并",
@@ -3049,7 +3050,8 @@
       "direct": "同步通过本地网络在设备之间直接进行，不经过服务器。",
       "denied": "Wispr Bro 未被允许查找本地网络上的设备。请在“设置”中允许，然后重试。",
       "openSettings": "打开设置",
-      "needsUpdate": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。请将两者都更新以继续同步。"
+      "needsUpdate": "你 Mac 上和 iPhone 上的 Wispr Bro 版本不同。请将两者都更新以继续同步。",
+      "notesNeedUpdate": "请更新你的 {{device}} 上的 Wispr Bro 以同步笔记。"
     },
     "pairing": {
       "showTitle": "与 {{device}} 配对",

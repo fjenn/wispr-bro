@@ -713,6 +713,7 @@ fn leaving_a_part_out_leaves_it_alone() {
             dictionary: true,
             snippets: false,
             stats: false,
+            notes: false,
         },
     );
     assert_eq!(report.dictionary.added, 1);

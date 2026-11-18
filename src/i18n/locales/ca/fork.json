@@ -336,7 +336,7 @@
       "sync": {
         "title": "Sincronització",
         "rowTitle": "Sincronitza amb un fitxer",
-        "hint": "Diccionari, fragments, configuració i estadístiques en un sol fitxer per enviar per AirDrop.",
+        "hint": "Diccionari, fragments, notes, configuració i estadístiques en un sol fitxer per enviar per AirDrop.",
         "import": "Importa…",
         "export": "Exporta…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -345,7 +345,7 @@
         "last": "Última combinació amb {{device}}: {{when}}. L’historial i les gravacions no s’inclouen mai.",
         "never": "Encara no sincronitzat. L’historial i les gravacions no s’inclouen mai.",
         "autoTitle": "Sincronitza amb l’iPhone",
-        "autoHint": "Manté el diccionari, els fragments, la configuració i les estadístiques iguals als dos dispositius mentre les dues apps són obertes.",
+        "autoHint": "Manté el diccionari, els fragments, les notes, la configuració i les estadístiques iguals als dos dispositius mentre les dues apps estan obertes.",
         "direct": "La sincronització va directament entre els teus dispositius per la xarxa local. Sense servidor. L’historial i les gravacions no se sincronitzen mai.",
         "howTo": "A l’iPhone, obre Wispr Bro, ves a Configuració › Sincronitza amb el Mac i toca Cerca el meu Mac.",
         "denied": "El macOS no deixa que Wispr Bro cerqui dispositius a la xarxa local. Permet-ho a Configuració del Sistema › Privacitat i seguretat › Xarxa local."
@@ -3131,7 +3131,7 @@
       }
     },
     "sync": {
-      "intro": "Vincula el Mac una sola vegada. A partir d’aquí, el diccionari, els fragments, la configuració i les estadístiques es mantenen iguals als dos dispositius, sense fer res.",
+      "intro": "Vincula el teu Mac una vegada. Després, el diccionari, els fragments, les notes, la configuració i les estadístiques es mantenen iguals als dos, sols.",
       "fromMac": {
         "title": "Des del Mac",
         "step1": "Al Mac, obre Wispr Bro, ves a Configuració › Dades i privacitat i tria Exportar les meves dades.",
@@ -3188,7 +3188,8 @@
       "dictionary": "Diccionari",
       "snippets": "Fragments",
       "settings": "Configuració",
-      "stats": "Estadístiques"
+      "stats": "Estadístiques",
+      "notes": "Notes"
     },
     "review": {
       "title": "Combina amb {{device}}",
@@ -3259,7 +3260,8 @@
       "direct": "La sincronització va directament entre els teus dispositius per la xarxa local. Sense servidor.",
       "denied": "Wispr Bro no té permís per cercar dispositius a la xarxa local. Permet-ho a Configuració i torna-ho a provar.",
       "openSettings": "Obre Configuració",
-      "needsUpdate": "Wispr Bro té versions diferents al Mac i a l’iPhone. Actualitza’ls tots dos per continuar sincronitzant."
+      "needsUpdate": "Wispr Bro té versions diferents al Mac i a l’iPhone. Actualitza’ls tots dos per continuar sincronitzant.",
+      "notesNeedUpdate": "Actualitza el Wispr Bro del teu {{device}} per sincronitzar les notes."
     },
     "pairing": {
       "showTitle": "Vincula amb {{device}}",

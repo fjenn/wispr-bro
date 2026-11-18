@@ -336,7 +336,7 @@
       "sync": {
         "title": "Sincronización",
         "rowTitle": "Sincronizar con un archivo",
-        "hint": "Diccionario, fragmentos, ajustes y estadísticas en un solo archivo para enviar por AirDrop.",
+        "hint": "Diccionario, fragmentos, notas, ajustes y estadísticas en un solo archivo para AirDrop.",
         "import": "Importar…",
         "export": "Exportar…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -345,7 +345,7 @@
         "last": "Última combinación desde {{device}}: {{when}}. El historial y las grabaciones nunca se incluyen.",
         "never": "Aún no sincronizado. El historial y las grabaciones nunca se incluyen.",
         "autoTitle": "Sincronizar con tu iPhone",
-        "autoHint": "Mantiene el diccionario, los fragmentos, los ajustes y las estadísticas iguales en ambos mientras las dos apps están abiertas.",
+        "autoHint": "Mantiene el diccionario, los fragmentos, las notas, los ajustes y las estadísticas iguales en ambos mientras las dos apps están abiertas.",
         "direct": "La sincronización va directamente entre tus dispositivos por tu red local. Sin servidor. El historial y las grabaciones nunca se sincronizan.",
         "howTo": "En tu iPhone, abre Wispr Bro, ve a Ajustes › Sincronizar con tu Mac y toca Buscar mi Mac.",
         "denied": "macOS no deja que Wispr Bro busque dispositivos en tu red local. Permítelo en Ajustes del Sistema › Privacidad y seguridad › Red local."
@@ -3131,7 +3131,7 @@
       }
     },
     "sync": {
-      "intro": "Enlaza tu Mac una vez. A partir de ahí, tu diccionario, fragmentos, ajustes y estadísticas se mantienen iguales en ambos, sin hacer nada.",
+      "intro": "Vincula tu Mac una vez. Después, tu diccionario, fragmentos, notas, ajustes y estadísticas se mantienen iguales en ambos, por sí solos.",
       "fromMac": {
         "title": "Desde tu Mac",
         "step1": "En tu Mac, abre Wispr Bro, ve a Ajustes › Datos y privacidad y elige Exportar mis datos.",
@@ -3188,7 +3188,8 @@
       "dictionary": "Diccionario",
       "snippets": "Fragmentos",
       "settings": "Ajustes",
-      "stats": "Estadísticas"
+      "stats": "Estadísticas",
+      "notes": "Notas"
     },
     "review": {
       "title": "Combinar desde {{device}}",
@@ -3259,7 +3260,8 @@
       "direct": "La sincronización va directamente entre tus dispositivos por tu red local. Sin servidor.",
       "denied": "Wispr Bro no tiene permiso para buscar dispositivos en tu red local. Permítelo en Ajustes y vuelve a intentarlo.",
       "openSettings": "Abrir Ajustes",
-      "needsUpdate": "Wispr Bro tiene versiones distintas en tu Mac y en tu iPhone. Actualiza ambos para seguir sincronizando."
+      "needsUpdate": "Wispr Bro tiene versiones distintas en tu Mac y en tu iPhone. Actualiza ambos para seguir sincronizando.",
+      "notesNeedUpdate": "Actualiza Wispr Bro en tu {{device}} para sincronizar las notas."
     },
     "pairing": {
       "showTitle": "Enlazar con {{device}}",

@@ -26,7 +26,7 @@ import {
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { copyToClipboard } from "@/components/settings/history/clipboard";
-import { commands, type Note } from "../bindings";
+import { commands, events, type Note } from "../bindings";
 import { navigate } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
 import { useForkSettings } from "../settings/useForkSettings";
@@ -46,6 +46,7 @@ import {
   Trash2,
   X,
 } from "../ui/icons";
+import { mapCaret, TYPING_PAUSE_MS } from "../scratchpad/liveNote";
 import { useCleanupPhase, type CleanupPhase } from "./cleanupPhase";
 import { iosCommands, type IosTakePhase } from "./commands";
 import { countWords, insertAtCaret, type Caret } from "./noteText";
@@ -118,6 +119,10 @@ export function IosNote({ id }: { id: number }) {
   const deleted = useRef(false);
   const loaded = useRef(false);
   const takeRef = useRef<string | null>(null);
+  // Sync: the version the editor's text is from, and the last keystroke.
+  const baseRef = useRef<number | null>(null);
+  const lastKeyRef = useRef(0);
+  const retryRef = useRef<number | undefined>(undefined);
   bodyRef.current = body;
   savedRef.current = savedBody;
   takeRef.current = take?.id ?? null;
@@ -142,6 +147,7 @@ export function IosNote({ id }: { id: number }) {
           return;
         }
         setNote(result.data);
+        baseRef.current = result.data.version;
         setBody(result.data.body);
         setSavedBody(result.data.body);
         savedRef.current = result.data.body;
@@ -164,12 +170,13 @@ export function IosNote({ id }: { id: number }) {
       const sequence = ++saveSequence.current;
       setSaveState("saving");
       const result = await commands
-        .forkScratchpadSave(id, value)
+        .forkScratchpadSave(id, value, baseRef.current)
         .catch(() => null);
       if (!result || result.status === "error") {
         if (sequence === saveSequence.current) setSaveState("error");
         return false;
       }
+      baseRef.current = result.data.version;
       savedRef.current = value;
       setSavedBody(value);
       setNote(result.data);
@@ -208,6 +215,66 @@ export function IosNote({ id }: { id: number }) {
       } else flush();
     };
   }, [id, save]);
+
+  // The Mac changed this note (sync): its text comes in place once the user
+  // pauses (no keystroke for a moment, nothing unsaved, no take running),
+  // the caret staying with its words. Typing over a changed note keeps
+  // the other text as a note of its own (`save_from`).
+  const refreshOpen = useCallback(async () => {
+    window.clearTimeout(retryRef.current);
+    if (deleted.current || !loaded.current) return;
+    const result = await commands.forkScratchpadGet(id).catch(() => null);
+    if (!result || result.status !== "ok" || !result.data) return;
+    const next = result.data;
+    if (next.version === baseRef.current) return;
+    if (next.body === bodyRef.current) {
+      baseRef.current = next.version;
+      setNote(next);
+      return;
+    }
+    const typing = Date.now() - lastKeyRef.current < TYPING_PAUSE_MS;
+    if (typing || takeRef.current || bodyRef.current !== savedRef.current) {
+      retryRef.current = window.setTimeout(
+        () => void refreshOpen(),
+        TYPING_PAUSE_MS,
+      );
+      return;
+    }
+    const field = editorRef.current;
+    const focusedNow = field !== null && document.activeElement === field;
+    const before = bodyRef.current;
+    const caret = caretRef.current;
+    baseRef.current = next.version;
+    bodyRef.current = next.body;
+    savedRef.current = next.body;
+    if (caret) {
+      caretRef.current = {
+        start: mapCaret(before, next.body, caret.start),
+        end: mapCaret(before, next.body, caret.end),
+      };
+    }
+    if (focusedNow && caretRef.current)
+      pendingCaret.current = caretRef.current.end;
+    setNote(next);
+    setBody(next.body);
+    setSavedBody(next.body);
+  }, [id]);
+  useEffect(() => {
+    let active = true;
+    let off: (() => void) | undefined;
+    void events.forkScratchpadChanged
+      .listen(() => void refreshOpen())
+      .then((unlisten) => {
+        if (active) off = unlisten;
+        else unlisten();
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+      off?.();
+      window.clearTimeout(retryRef.current);
+    };
+  }, [refreshOpen]);
 
   // A caret set by an inserted take, once the text is in the field.
   useLayoutEffect(() => {
@@ -518,6 +585,7 @@ export function IosNote({ id }: { id: number }) {
           aria-label={t("scratchpad.noteBody")}
           value={body}
           onChange={(event) => {
+            lastKeyRef.current = Date.now();
             setBody(event.currentTarget.value);
             rememberCaret();
           }}

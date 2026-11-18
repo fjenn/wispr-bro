@@ -335,7 +335,7 @@
       "sync": {
         "title": "Sync",
         "rowTitle": "Sync med en fil",
-        "hint": "Ordbog, tekststykker, indstillinger og statistik som én fil, du kan sende med AirDrop.",
+        "hint": "Ordbog, tekststykker, noter, indstillinger og statistik som én fil til AirDrop.",
         "import": "Importér…",
         "export": "Eksportér…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -344,7 +344,7 @@
         "last": "Senest flettet fra {{device}}: {{when}}. Historik og optagelser er aldrig med.",
         "never": "Ikke synkroniseret endnu. Historik og optagelser er aldrig med.",
         "autoTitle": "Sync med din iPhone",
-        "autoHint": "Holder ordbog, tekststykker, indstillinger og statistik ens på begge, mens begge apps er åbne.",
+        "autoHint": "Holder ordbog, tekststykker, noter, indstillinger og statistik ens på begge, mens begge apps er åbne.",
         "direct": "Sync går direkte mellem dine enheder via dit lokale netværk. Ingen server. Historik og optagelser synkroniseres aldrig.",
         "howTo": "Åbn Wispr Bro på din iPhone, gå til Indstillinger › Sync med din Mac, og tryk på Find min Mac.",
         "denied": "macOS lader ikke Wispr Bro finde enheder på dit lokale netværk. Tillad det i Systemindstillinger › Anonymitet og sikkerhed › Lokalt netværk."
@@ -3031,7 +3031,7 @@
       }
     },
     "sync": {
-      "intro": "Par din Mac én gang. Derefter holdes din ordbog, dine tekststykker, indstillinger og statistik ens på begge af sig selv.",
+      "intro": "Par din Mac én gang. Derefter forbliver din ordbog, dine tekststykker, noter, indstillinger og statistik ens på begge af sig selv.",
       "fromMac": {
         "title": "Fra din Mac",
         "step1": "Åbn Wispr Bro på din Mac, gå til Indstillinger › Data og anonymitet, og vælg Eksportér mine data.",
@@ -3087,7 +3087,8 @@
       "dictionary": "Ordbog",
       "snippets": "Tekststykker",
       "settings": "Indstillinger",
-      "stats": "Statistik"
+      "stats": "Statistik",
+      "notes": "Noter"
     },
     "review": {
       "title": "Flet fra {{device}}",
@@ -3154,7 +3155,8 @@
       "direct": "Sync går direkte mellem dine enheder via dit lokale netværk. Ingen server.",
       "denied": "Wispr Bro har ikke tilladelse til at finde enheder på dit lokale netværk. Tillad det i Indstillinger, og prøv igen.",
       "openSettings": "Åbn Indstillinger",
-      "needsUpdate": "Wispr Bro på din Mac og på din iPhone er forskellige versioner. Opdater begge for at fortsætte med at synkronisere."
+      "needsUpdate": "Wispr Bro på din Mac og på din iPhone er forskellige versioner. Opdater begge for at fortsætte med at synkronisere.",
+      "notesNeedUpdate": "Opdater Wispr Bro på din {{device}} for at synkronisere noter."
     },
     "pairing": {
       "showTitle": "Par med {{device}}",

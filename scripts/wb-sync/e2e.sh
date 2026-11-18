@@ -20,6 +20,18 @@
 #   e2e.sh wait-word <fork.db> <word> [seconds]   until the word is (not) there:
 #   e2e.sh wait-gone <fork.db> <word> [seconds]
 #   e2e.sh sim-db <sim udid>               path of the simulator app's fork.db
+#   e2e.sh pair-seed <mac Data dir> <sim data dir>
+#       pairs the two by writing both pairing files with one fresh key (no
+#       code on any screen; the phone dials only this Mac's id, so it can
+#       never reach another Wispr Bro on the network, the owner's included)
+#   e2e.sh note-new <fork.db> <body>        a Scratchpad note, as the store writes it
+#   e2e.sh note-edit <fork.db> <old body> <new body>
+#   e2e.sh note-pin <fork.db> <body> <0|1>
+#   e2e.sh note-del <fork.db> <body>
+#   e2e.sh notes <fork.db>                  live notes: sync id|title|pinned|body
+#   e2e.sh wait-note <fork.db> <body> [seconds]   until a live note has this
+#   e2e.sh wait-note-gone <fork.db> <body> [seconds]  body (or none has)
+#   e2e.sh wait-pin <fork.db> <body> <0|1> [seconds]
 #
 # The phone's side of the pairing is done on its screen (the e2e script
 # runner, `ios-native/e2e/run.sh … WBScriptTests`, or by hand): Settings ›
@@ -34,6 +46,8 @@ cmd=${1:?command}; shift
 
 sql() { sqlite3 -cmd ".timeout 5000" "$@"; }
 now_ms() { python3 -I -c 'import time; print(int(time.time()*1000))'; }
+# A value as an SQL string literal.
+q() { printf "'%s'" "$(printf '%s' "$1" | sed "s/'/''/g")"; }
 
 case "$cmd" in
 mac-setup)
@@ -153,6 +167,65 @@ wait-word | wait-gone)
       echo "$cmd $word: after $(($(date +%s) - start)) s"; exit 0
     fi
     [ $(($(date +%s) - start)) -ge "$limit" ] && { echo "$cmd $word: NOT within $limit s" >&2; exit 1; }
+    sleep 1
+  done
+  ;;
+pair-seed)
+  mac=${1:?mac Data dir}; phone=${2:?sim data dir}
+  python3 -I - "$mac" "$phone" <<'PY'
+import base64, json, os, sqlite3, sys, time
+mac, phone = sys.argv[1], sys.argv[2]
+def me(db):
+    c = sqlite3.connect(db)
+    return c.execute("SELECT device_id FROM sync_devices WHERE is_self = 1").fetchone()[0]
+mac_id, phone_id = me(f"{mac}/fork.db"), me(f"{phone}/fork.db")
+key = base64.b64encode(os.urandom(32)).decode()
+now = int(time.time() * 1000)
+def peer(i, name, platform):
+    return {"device_id": i, "name": name, "platform": platform, "key": key, "paired_at": now, "last_sync_at": None}
+json.dump({"enabled": True, "peers": [peer(phone_id, "iPhone", "ios")]}, open(f"{mac}/sync-peers.json", "w"))
+json.dump({"enabled": True, "peers": [peer(mac_id, "Sync check Mac", "macos")]}, open(f"{phone}/sync-peers.json", "w"))
+print(f"paired: mac {mac_id[:8]} phone {phone_id[:8]}")
+PY
+  ;;
+note-new)
+  db=${1:?db}; body=${2:?body}; t=$(now_ms)
+  title=$(printf '%s' "$body" | head -1)
+  sql "$db" "INSERT INTO notes (title, body, created_at, updated_at) VALUES ($(q "$title"), $(q "$body"), $t, $t);
+             INSERT INTO notes_fts (rowid, title, body) VALUES (last_insert_rowid(), $(q "$title"), $(q "$body"));"
+  ;;
+note-edit)
+  db=${1:?db}; old=${2:?old body}; body=${3:?new body}; t=$(now_ms)
+  title=$(printf '%s' "$body" | head -1)
+  sql "$db" "UPDATE notes SET title = $(q "$title"), body = $(q "$body"), updated_at = $t
+             WHERE body = $(q "$old") AND deleted_at IS NULL;
+             SELECT changes();" | grep -qx 1 || { echo "note-edit: no note '$old'" >&2; exit 1; }
+  ;;
+note-pin)
+  sql "${1:?db}" "UPDATE notes SET pinned = ${3:?0|1} WHERE body = $(q "$2") AND deleted_at IS NULL;"
+  ;;
+note-del)
+  db=${1:?db}; body=${2:?body}; t=$(now_ms)
+  sql "$db" "UPDATE notes SET deleted_at = $t WHERE body = $(q "$body") AND deleted_at IS NULL;"
+  ;;
+notes)
+  sql "${1:?db}" "SELECT sync_id, title, pinned, replace(body, char(10), '\\n') FROM notes
+                  WHERE deleted_at IS NULL ORDER BY sync_id;"
+  ;;
+wait-note | wait-note-gone | wait-pin)
+  db=${1:?db}; body=${2:?body}
+  if [ "$cmd" = wait-pin ]; then pin=${3:?0|1}; limit=${4:-30}; else limit=${3:-30}; fi
+  start=$(date +%s)
+  while :; do
+    if [ "$cmd" = wait-pin ]; then
+      n=$(sql "$db" "SELECT COUNT(*) FROM notes WHERE deleted_at IS NULL AND body = $(q "$body") AND pinned = $pin;")
+      want=1
+    else
+      n=$(sql "$db" "SELECT COUNT(*) FROM notes WHERE deleted_at IS NULL AND body = $(q "$body");")
+      want=$([ "$cmd" = wait-note ] && echo 1 || echo 0)
+    fi
+    if [ "$n" = "$want" ]; then echo "$cmd '$body': after $(($(date +%s) - start)) s"; exit 0; fi
+    [ $(($(date +%s) - start)) -ge "$limit" ] && { echo "$cmd '$body': NOT within $limit s" >&2; exit 1; }
     sleep 1
   done
   ;;

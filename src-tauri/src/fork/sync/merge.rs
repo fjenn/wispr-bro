@@ -36,6 +36,7 @@ pub struct SyncChoices {
     pub dictionary: bool,
     pub snippets: bool,
     pub stats: bool,
+    pub notes: bool,
 }
 
 impl SyncChoices {
@@ -44,6 +45,7 @@ impl SyncChoices {
         dictionary: true,
         snippets: true,
         stats: true,
+        notes: true,
     };
 }
 
@@ -62,6 +64,8 @@ pub struct SyncCounts {
 pub struct MergeReport {
     pub dictionary: SyncCounts,
     pub snippets: SyncCounts,
+    /// Scratchpad notes; a conflict copy counts as added.
+    pub notes: SyncCounts,
     /// The settings whose value changes here.
     pub settings: Vec<String>,
     /// Days and words in the other device's stats.
@@ -511,6 +515,10 @@ pub fn merge(
             merge_stats(conn, incoming, &mut outcome.report)?;
         }
         store::remember_device(conn, &incoming.manifest, now_ms)?;
+    }
+    // After the device is known: a conflict copy is titled with its name.
+    if choices.notes {
+        outcome.report.notes = super::notes::merge(conn, &incoming.payload)?;
     }
     Ok(outcome)
 }

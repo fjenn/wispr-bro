@@ -336,7 +336,7 @@
       "sync": {
         "title": "Synchronisation",
         "rowTitle": "Synchroniser avec un fichier",
-        "hint": "Dictionnaire, fragments, réglages et statistiques en un seul fichier à envoyer par AirDrop.",
+        "hint": "Dictionnaire, fragments, notes, réglages et statistiques dans un même fichier pour AirDrop.",
         "import": "Importer…",
         "export": "Exporter…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -345,7 +345,7 @@
         "last": "Dernière fusion depuis {{device}} : {{when}}. L’historique et les enregistrements ne sont jamais inclus.",
         "never": "Pas encore synchronisé. L’historique et les enregistrements ne sont jamais inclus.",
         "autoTitle": "Synchroniser avec votre iPhone",
-        "autoHint": "Garde le dictionnaire, les fragments, les réglages et les statistiques identiques sur les deux tant que les deux apps sont ouvertes.",
+        "autoHint": "Garde le dictionnaire, les fragments, les notes, les réglages et les statistiques identiques sur les deux appareils tant que les deux applications sont ouvertes.",
         "direct": "La synchronisation passe directement entre vos appareils, sur votre réseau local. Aucun serveur. L’historique et les enregistrements ne sont jamais synchronisés.",
         "howTo": "Sur votre iPhone, ouvrez Wispr Bro, allez dans Réglages › Synchroniser avec votre Mac et touchez Trouver mon Mac.",
         "denied": "macOS n’autorise pas Wispr Bro à trouver des appareils sur votre réseau local. Autorisez-le dans Réglages Système › Confidentialité et sécurité › Réseau local."
@@ -3131,7 +3131,7 @@
       }
     },
     "sync": {
-      "intro": "Jumelez votre Mac une fois. Ensuite, votre dictionnaire, vos fragments, vos réglages et vos statistiques restent identiques sur les deux, automatiquement.",
+      "intro": "Associez votre Mac une fois. Ensuite, votre dictionnaire, vos fragments, vos notes, vos réglages et vos statistiques restent identiques sur les deux appareils, tout seuls.",
       "fromMac": {
         "title": "Depuis votre Mac",
         "step1": "Sur votre Mac, ouvrez Wispr Bro, allez dans Réglages › Données et confidentialité et choisissez Exporter mes données.",
@@ -3188,7 +3188,8 @@
       "dictionary": "Dictionnaire",
       "snippets": "Fragments",
       "settings": "Réglages",
-      "stats": "Statistiques"
+      "stats": "Statistiques",
+      "notes": "Notes"
     },
     "review": {
       "title": "Fusionner depuis {{device}}",
@@ -3259,7 +3260,8 @@
       "direct": "La synchronisation passe directement entre vos appareils, sur votre réseau local. Aucun serveur.",
       "denied": "Wispr Bro n’est pas autorisé à trouver des appareils sur votre réseau local. Autorisez-le dans Réglages, puis réessayez.",
       "openSettings": "Ouvrir Réglages",
-      "needsUpdate": "Wispr Bro n’a pas la même version sur votre Mac et sur votre iPhone. Mettez les deux à jour pour continuer à synchroniser."
+      "needsUpdate": "Wispr Bro n’a pas la même version sur votre Mac et sur votre iPhone. Mettez les deux à jour pour continuer à synchroniser.",
+      "notesNeedUpdate": "Mettez à jour Wispr Bro sur votre {{device}} pour synchroniser les notes."
     },
     "pairing": {
       "showTitle": "Jumeler avec {{device}}",

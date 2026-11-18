@@ -335,7 +335,7 @@
       "sync": {
         "title": "Synchronisatie",
         "rowTitle": "Synchroniseer met een bestand",
-        "hint": "Woordenboek, tekstfragmenten, instellingen en statistieken als één bestand om met AirDrop te versturen.",
+        "hint": "Woordenboek, tekstfragmenten, notities, instellingen en statistieken als één bestand voor AirDrop.",
         "import": "Importeer…",
         "export": "Exporteer…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -344,7 +344,7 @@
         "last": "Laatst samengevoegd vanaf {{device}}: {{when}}. Geschiedenis en opnames worden nooit meegenomen.",
         "never": "Nog niet gesynchroniseerd. Geschiedenis en opnames worden nooit meegenomen.",
         "autoTitle": "Synchroniseer met je iPhone",
-        "autoHint": "Houdt woordenboek, tekstfragmenten, instellingen en statistieken gelijk op allebei zolang beide apps open zijn.",
+        "autoHint": "Houdt woordenboek, tekstfragmenten, notities, instellingen en statistieken gelijk op beide zolang beide apps open zijn.",
         "direct": "Synchronisatie gaat rechtstreeks tussen je apparaten via je lokale netwerk. Geen server. Geschiedenis en opnames worden nooit gesynchroniseerd.",
         "howTo": "Open Wispr Bro op je iPhone, ga naar Instellingen › Synchroniseer met je Mac en tik op 'Zoek mijn Mac'.",
         "denied": "macOS staat niet toe dat Wispr Bro apparaten op je lokale netwerk zoekt. Sta het toe in Systeeminstellingen › Privacy en beveiliging › Lokaal netwerk."
@@ -3031,7 +3031,7 @@
       }
     },
     "sync": {
-      "intro": "Koppel je Mac één keer. Daarna blijven je woordenboek, tekstfragmenten, instellingen en statistieken vanzelf gelijk op allebei.",
+      "intro": "Koppel je Mac één keer. Daarna blijven je woordenboek, tekstfragmenten, notities, instellingen en statistieken vanzelf gelijk op beide.",
       "fromMac": {
         "title": "Vanaf je Mac",
         "step1": "Open Wispr Bro op je Mac, ga naar Instellingen › Gegevens en privacy en kies 'Exporteer mijn gegevens'.",
@@ -3087,7 +3087,8 @@
       "dictionary": "Woordenboek",
       "snippets": "Tekstfragmenten",
       "settings": "Instellingen",
-      "stats": "Statistieken"
+      "stats": "Statistieken",
+      "notes": "Notities"
     },
     "review": {
       "title": "Voeg samen vanaf {{device}}",
@@ -3154,7 +3155,8 @@
       "direct": "Synchronisatie gaat rechtstreeks tussen je apparaten via je lokale netwerk. Geen server.",
       "denied": "Wispr Bro mag geen apparaten op je lokale netwerk zoeken. Sta het toe in Instellingen en probeer het opnieuw.",
       "openSettings": "Open Instellingen",
-      "needsUpdate": "Wispr Bro op je Mac en op je iPhone hebben verschillende versies. Werk beide bij om te blijven synchroniseren."
+      "needsUpdate": "Wispr Bro op je Mac en op je iPhone hebben verschillende versies. Werk beide bij om te blijven synchroniseren.",
+      "notesNeedUpdate": "Werk Wispr Bro bij op je {{device}} om notities te synchroniseren."
     },
     "pairing": {
       "showTitle": "Koppel met {{device}}",

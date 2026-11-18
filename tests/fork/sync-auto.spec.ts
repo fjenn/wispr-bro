@@ -46,6 +46,7 @@ function paired(over: Partial<PairedDevice> = {}): PairedDevice {
     connected: true,
     found: true,
     needs_update: false,
+    notes_need_update: false,
     ...over,
   };
 }
@@ -181,6 +182,7 @@ test("a paired iPhone says when the Mac is away; Sync now and Unpair", async ({
   await expect(page.getByTestId("wb-ios-sync-state")).toHaveText(
     "Mac not found. Open Wispr Bro on your Mac. Last synced 3 hours ago.",
   );
+  await expect(page.getByTestId("wb-ios-sync-notes-update")).toHaveCount(0);
   await page.getByTestId("wb-ios-sync-now").click();
   await ipc.expectCalled("fork_sync_now");
   await page.getByTestId("wb-ios-sync-unpair").click();
@@ -191,6 +193,29 @@ test("a paired iPhone says when the Mac is away; Sync now and Unpair", async ({
   await ipc.expectCalled("fork_sync_unpair", {
     deviceId: "ab12cd34ef567890ab12cd34ef567890",
   });
+});
+
+test("a Mac whose app is from before notes synced is named", async ({
+  page,
+  ipc,
+  hub,
+  ios,
+}) => {
+  await openIos(page, ipc, hub, ios, {
+    hash: "#/hub/settings/sync",
+    beforeNavigate: () => {
+      installAuto(
+        ipc,
+        phone({
+          enabled: true,
+          devices: [paired({ notes_need_update: true })],
+        }),
+      );
+    },
+  });
+  await expect(page.getByTestId("wb-ios-sync-notes-update")).toHaveText(
+    "Update Wispr Bro on your Finns MacBook Pro to sync notes.",
+  );
 });
 
 test("local network access refused: the page says how to allow it", async ({
@@ -311,6 +336,27 @@ desktop(
     const device = page.getByTestId("wb-privacy-sync-device");
     await expect(device).toContainText("iPhone");
     await expect(device).toContainText("In sync · last change just now");
+    await expect(page.getByTestId("wb-privacy-sync-notes-update")).toHaveCount(
+      0,
+    );
+    // An iPhone app from before notes synced: everything else syncs.
+    await auto.set(
+      mac({
+        enabled: true,
+        devices: [
+          paired({
+            device_id: "ff00ff00ff00ff00",
+            name: "iPhone",
+            platform: "ios",
+            last_sync_at: Date.now() - 30_000,
+            notes_need_update: true,
+          }),
+        ],
+      }),
+    );
+    await expect(page.getByTestId("wb-privacy-sync-notes-update")).toHaveText(
+      "Update Wispr Bro on your iPhone to sync notes.",
+    );
     await page.getByTestId("wb-privacy-sync-unpair").click();
     await page.getByTestId("wb-unpair-confirm").click();
     await ipc.expectCalled("fork_sync_unpair", {

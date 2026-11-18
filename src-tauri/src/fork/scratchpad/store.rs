@@ -18,6 +18,9 @@ pub struct Note {
     pub pinned: bool,
     pub created_at: i64,
     pub updated_at: i64,
+    /// When its title, body or pin last changed, here or on another device
+    /// (sync). An editor passes it back to [`save_from`].
+    pub version: i64,
 }
 
 fn from_row(row: &rusqlite::Row<'_>) -> rusqlite::Result<Note> {
@@ -28,11 +31,12 @@ fn from_row(row: &rusqlite::Row<'_>) -> rusqlite::Result<Note> {
         pinned: row.get(3)?,
         created_at: row.get(4)?,
         updated_at: row.get(5)?,
+        version: row.get(6)?,
     })
 }
 
-const COLUMNS: &str =
-    "notes.id, notes.title, notes.body, notes.pinned, notes.created_at, notes.updated_at";
+const COLUMNS: &str = "notes.id, notes.title, notes.body, notes.pinned, notes.created_at, \
+     notes.updated_at, notes.changed_at";
 
 pub fn title_for(body: &str) -> String {
     body.lines()
@@ -93,17 +97,52 @@ pub fn create(conn: &mut Connection, now: i64) -> Result<Note, DbError> {
 /// Saves the complete body and its FTS row in one transaction. An unchanged
 /// body is a no-op, so a debounce retry does not move a note within Recents.
 pub fn save(conn: &mut Connection, id: i64, body: &str, now: i64) -> Result<Option<Note>, DbError> {
-    if get(conn, id)?.is_none() {
-        return Ok(None);
-    }
+    save_from(conn, id, body, now, None)
+}
+
+/// [`save`] from an editor that opened the note at `base` (its
+/// [`Note::version`]). When a sync changed the note since, the typed text
+/// still wins (the user is writing it now), and the synced text is kept as
+/// a note of its own, "<title> (from <device>)"; when a sync deleted it,
+/// the typed text brings it back. Nothing typed is lost.
+pub fn save_from(
+    conn: &mut Connection,
+    id: i64,
+    body: &str,
+    now: i64,
+    base: Option<i64>,
+) -> Result<Option<Note>, DbError> {
+    let deleted: Option<(bool, String)> = conn
+        .query_row(
+            "SELECT deleted_at IS NOT NULL, body FROM notes WHERE id = ?1",
+            [id],
+            |r| Ok((r.get(0)?, r.get(1)?)),
+        )
+        .optional()?;
+    let restore = match deleted {
+        None => return Ok(None),
+        Some((true, stored)) if base.is_some() && stored != body => true,
+        Some((true, _)) => return Ok(None),
+        Some((false, _)) => false,
+    };
     let title = title_for(body);
     let tx = conn.transaction()?;
+    if restore {
+        tx.execute("UPDATE notes SET deleted_at = NULL WHERE id = ?1", [id])?;
+    } else if let Some(base) = base {
+        let me = crate::fork::sync::store::self_id(&tx)?;
+        if let Some(synced) = crate::fork::sync::notes::by_rowid(&tx, id)? {
+            if synced.changed_at != base && synced.changed_by != me && synced.body != body {
+                crate::fork::sync::notes::conflict_copy(&tx, &synced.id, &synced)?;
+            }
+        }
+    }
     let changed = tx.execute(
         "UPDATE notes SET title = ?2, body = ?3, updated_at = ?4
          WHERE id = ?1 AND deleted_at IS NULL AND (title != ?2 OR body != ?3)",
         params![id, title, body, now],
     )?;
-    if changed > 0 {
+    if changed > 0 || restore {
         tx.execute("DELETE FROM notes_fts WHERE rowid = ?1", [id])?;
         tx.execute(
             "INSERT INTO notes_fts (rowid, title, body) VALUES (?1, ?2, ?3)",
@@ -185,11 +224,14 @@ pub fn list(conn: &Connection, query: Option<&str>) -> Result<Vec<Note>, DbError
 mod tests {
     use super::*;
 
-    fn connection() -> Connection {
-        let conn = Connection::open_in_memory().unwrap();
-        conn.execute_batch(include_str!("../db/migrations/0001_init.sql"))
-            .unwrap();
-        conn
+    /// A migrated database (the notes' sync columns come from 0011).
+    fn connection() -> (tempfile::TempDir, Connection) {
+        let dir = tempfile::tempdir().unwrap();
+        let db = crate::fork::db::ForkDb::in_dir(dir.path());
+        db.open_now().unwrap();
+        db.close();
+        let conn = crate::fork::db::open_connection(db.path()).unwrap();
+        (dir, conn)
     }
 
     #[test]
@@ -222,7 +264,7 @@ mod tests {
 
     #[test]
     fn search_pin_delete_and_noop_save_follow_the_recents_contract() {
-        let mut conn = connection();
+        let (_dir, mut conn) = connection();
         let first = create(&mut conn, 1).unwrap();
         let second = create(&mut conn, 2).unwrap();
         save(&mut conn, first.id, "alpha café", 3).unwrap();

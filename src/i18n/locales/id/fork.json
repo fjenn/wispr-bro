@@ -334,7 +334,7 @@
       "sync": {
         "title": "Sinkronisasi",
         "rowTitle": "Sinkronkan dengan file",
-        "hint": "Kamus, cuplikan, pengaturan, dan statistik sebagai satu file untuk dikirim lewat AirDrop.",
+        "hint": "Kamus, cuplikan, catatan, pengaturan, dan statistik dalam satu file untuk AirDrop.",
         "import": "Impor…",
         "export": "Ekspor…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -343,7 +343,7 @@
         "last": "Terakhir digabungkan dari {{device}}: {{when}}. Riwayat dan rekaman tidak pernah disertakan.",
         "never": "Belum disinkronkan. Riwayat dan rekaman tidak pernah disertakan.",
         "autoTitle": "Sinkronkan dengan iPhone Anda",
-        "autoHint": "Menjaga kamus, cuplikan, pengaturan, dan statistik tetap sama di keduanya selama kedua app terbuka.",
+        "autoHint": "Menjaga kamus, cuplikan, catatan, pengaturan, dan statistik tetap sama di keduanya selama kedua aplikasi terbuka.",
         "direct": "Sinkronisasi berjalan langsung antarperangkat Anda melalui jaringan lokal. Tanpa server. Riwayat dan rekaman tidak pernah disinkronkan.",
         "howTo": "Di iPhone Anda, buka Wispr Bro, buka Pengaturan › Sinkronkan dengan Mac Anda, lalu ketuk Cari Mac saya.",
         "denied": "macOS tidak mengizinkan Wispr Bro menemukan perangkat di jaringan lokal Anda. Izinkan di Pengaturan Sistem › Privasi & Keamanan › Jaringan Lokal."
@@ -2931,7 +2931,7 @@
       }
     },
     "sync": {
-      "intro": "Pasangkan Mac Anda sekali. Setelah itu, kamus, cuplikan, pengaturan, dan statistik Anda tetap sama di keduanya secara otomatis.",
+      "intro": "Pasangkan Mac Anda sekali. Setelah itu kamus, cuplikan, catatan, pengaturan, dan statistik tetap sama di keduanya dengan sendirinya.",
       "fromMac": {
         "title": "Dari Mac Anda",
         "step1": "Di Mac Anda, buka Wispr Bro, buka Pengaturan › Data dan Privasi, lalu pilih Ekspor data saya.",
@@ -2986,7 +2986,8 @@
       "dictionary": "Kamus",
       "snippets": "Cuplikan",
       "settings": "Pengaturan",
-      "stats": "Statistik"
+      "stats": "Statistik",
+      "notes": "Catatan"
     },
     "review": {
       "title": "Gabungkan dari {{device}}",
@@ -3049,7 +3050,8 @@
       "direct": "Sinkronisasi berjalan langsung antarperangkat Anda melalui jaringan lokal. Tanpa server.",
       "denied": "Wispr Bro tidak diizinkan menemukan perangkat di jaringan lokal Anda. Izinkan di Pengaturan, lalu coba lagi.",
       "openSettings": "Buka Pengaturan",
-      "needsUpdate": "Wispr Bro di Mac dan di iPhone Anda berbeda versi. Perbarui keduanya agar tetap tersinkron."
+      "needsUpdate": "Wispr Bro di Mac dan di iPhone Anda berbeda versi. Perbarui keduanya agar tetap tersinkron.",
+      "notesNeedUpdate": "Perbarui Wispr Bro di {{device}} Anda untuk menyinkronkan catatan."
     },
     "pairing": {
       "showTitle": "Pasangkan dengan {{device}}",

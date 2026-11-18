@@ -8,6 +8,7 @@
  *   ┌───────────────────────────────────────────────┐
  *   │ Dictionary   12 new, 2 changed, 1 removed   ◉ │
  *   │ Snippets     3 new                          ◉ │
+ *   │ Notes        2 new, 1 changed               ◉ │
  *   │ Settings     Languages, Cleanup             ◉ │
  *   │ Stats        12,840 words on 41 days        ◉ │
  *   └───────────────────────────────────────────────┘
@@ -28,6 +29,7 @@ import {
   BookA,
   ChartColumn,
   CheckCircle2,
+  NotebookPen,
   SlidersHorizontal,
   TextQuote,
   TriangleAlert,
@@ -42,10 +44,17 @@ import {
 } from "./useSync";
 
 type Part = keyof SyncChoices;
-const PARTS: readonly Part[] = ["dictionary", "snippets", "settings", "stats"];
+const PARTS: readonly Part[] = [
+  "dictionary",
+  "snippets",
+  "notes",
+  "settings",
+  "stats",
+];
 const ICONS: Record<Part, Glyph> = {
   dictionary: BookA,
   snippets: TextQuote,
+  notes: NotebookPen,
   settings: SlidersHorizontal,
   stats: ChartColumn,
 };
@@ -82,6 +91,7 @@ function partHas(review: ReadyReview, part: Part): boolean {
     snippets: review.has_snippets,
     settings: review.has_settings,
     stats: review.has_stats,
+    notes: review.has_notes,
   }[part];
 }
 

@@ -436,5 +436,22 @@ device copy from --domain-type appDataContainer --domain-identifier
 com.wisprbro.ios …`).
 - **Ships in** the Mac app from 1.0.0-alpha.9 on (installed Macs get it
   through the updater); earlier Mac versions have none of this.
+- **Scratchpad notes sync (protocol minor 1):** each note has a sync id and
+  a version (`changed_at`, `changed_by`, `base_at`; migration 0011, old
+  notes backfilled), deletions leave tombstones from triggers
+  (`sync_note_tombstones`). A note merges whole (`fork/sync/notes.rs`): the
+  version that contains the other wins; when both devices edited it since
+  they last agreed, the newer stays and the other becomes a note titled
+  "<title> (from <device>)", with an id derived from the losing version so
+  both devices make the same copy. An open note takes the other device's
+  text in place once the user pauses (1.5 s, nothing unsaved), keeping the
+  caret with its words; a save typed over a changed note keeps the other
+  text as its own note (`store::save_from`). The minor version rides in each
+  state's manifest: an older app ignores notes, and the newer side shows
+  "Update Wispr Bro on your … to sync notes". The `.wisprbro` file carries
+  notes too. Checked with `scripts/wb-sync/e2e.sh` (`pair-seed`, `note-*`)
+  on a synccheck Mac build and the simulator: create, edit, pin, delete
+  both ways in ≤ 3 s, a concurrent edit made the same copy on both, and the
+  phone's open note updated in place without moving the caret.
 - **Not checked:** a real iPhone with a real Mac, the two permission
   prompts, and the peer-to-peer link without a shared Wi-Fi network.

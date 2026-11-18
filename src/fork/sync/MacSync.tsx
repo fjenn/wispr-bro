@@ -19,7 +19,7 @@ import { Download, Smartphone, Upload } from "../ui/icons";
 import { ToggleRow } from "../settings/Controls";
 import { UnpairDialog } from "./PairingDialog";
 import { deviceLabel, SyncReviewDialog } from "./SyncReviewDialog";
-import { deviceLine, useAutoSync } from "./useAutoSync";
+import { deviceLine, notesLine, useAutoSync } from "./useAutoSync";
 import { formatWhen, useSync } from "./useSync";
 
 export function MacSync() {
@@ -82,6 +82,11 @@ export function MacSync() {
               )}
               {auto.status.devices.map((device) => {
                 const line = deviceLine(t, device, i18n.language, "mac");
+                const notes = notesLine(
+                  t,
+                  device,
+                  deviceLabel(t, device, "row"),
+                );
                 return (
                   <div
                     key={device.device_id}
@@ -119,6 +124,14 @@ export function MacSync() {
                                   : "–",
                             })}
                       </span>
+                      {notes && (
+                        <span
+                          className="text-[13px] leading-[18px] text-(--wb-ink-2)"
+                          data-testid="wb-privacy-sync-notes-update"
+                        >
+                          {notes}
+                        </span>
+                      )}
                     </span>
                     <Button
                       variant="ghost"

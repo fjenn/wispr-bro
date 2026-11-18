@@ -335,7 +335,7 @@
       "sync": {
         "title": "Eşzamanlama",
         "rowTitle": "Dosyayla eşzamanla",
-        "hint": "Sözlük, metin parçaları, ayarlar ve istatistikler, AirDrop ile gönderilecek tek bir dosyada.",
+        "hint": "Sözlük, metin parçaları, notlar, ayarlar ve istatistikler AirDrop için tek bir dosyada.",
         "import": "İçe aktar…",
         "export": "Dışa aktar…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -344,7 +344,7 @@
         "last": "Son birleştirme ({{device}}): {{when}}. Geçmiş ve kayıtlar asla dahil edilmez.",
         "never": "Henüz eşzamanlanmadı. Geçmiş ve kayıtlar asla dahil edilmez.",
         "autoTitle": "iPhone’unuzla eşzamanla",
-        "autoHint": "Her iki uygulama da açıkken sözlüğü, metin parçalarını, ayarları ve istatistikleri her ikisinde aynı tutar.",
+        "autoHint": "İki uygulama da açıkken sözlüğü, metin parçalarını, notları, ayarları ve istatistikleri iki cihazda aynı tutar.",
         "direct": "Eşzamanlama, yerel ağınız üzerinden doğrudan aygıtlarınız arasında yapılır. Sunucu yok. Geçmiş ve kayıtlar asla eşzamanlanmaz.",
         "howTo": "iPhone’unuzda Wispr Bro’yu açın, Ayarlar › Mac’inizle eşzamanla’ya gidin ve Mac’imi bul’a dokunun.",
         "denied": "macOS, Wispr Bro’nun yerel ağınızdaki aygıtları bulmasına izin vermiyor. Sistem Ayarları › Gizlilik ve Güvenlik › Yerel Ağ’da izin verin."
@@ -3031,7 +3031,7 @@
       }
     },
     "sync": {
-      "intro": "Mac’inizi bir kez eşleştirin. Ardından sözlüğünüz, metin parçalarınız, ayarlarınız ve istatistikleriniz her ikisinde de kendiliğinden aynı kalır.",
+      "intro": "Mac'inizi bir kez eşleştirin. Sonrasında sözlük, metin parçaları, notlar, ayarlar ve istatistikler iki cihazda kendiliğinden aynı kalır.",
       "fromMac": {
         "title": "Mac’inizden",
         "step1": "Mac’inizde Wispr Bro’yu açın, Ayarlar › Veriler ve Gizlilik’e gidin ve Verilerimi dışa aktar’ı seçin.",
@@ -3087,7 +3087,8 @@
       "dictionary": "Sözlük",
       "snippets": "Metin parçaları",
       "settings": "Ayarlar",
-      "stats": "İstatistikler"
+      "stats": "İstatistikler",
+      "notes": "Notlar"
     },
     "review": {
       "title": "Birleştir: {{device}}",
@@ -3154,7 +3155,8 @@
       "direct": "Eşzamanlama, yerel ağınız üzerinden doğrudan aygıtlarınız arasında yapılır. Sunucu yok.",
       "denied": "Wispr Bro’nun yerel ağınızdaki aygıtları bulmasına izin verilmiyor. Ayarlar’da izin verin, sonra yeniden deneyin.",
       "openSettings": "Ayarlar’ı Aç",
-      "needsUpdate": "Mac’inizdeki ve iPhone’unuzdaki Wispr Bro sürümleri farklı. Eşzamanlamaya devam etmek için ikisini de güncelleyin."
+      "needsUpdate": "Mac’inizdeki ve iPhone’unuzdaki Wispr Bro sürümleri farklı. Eşzamanlamaya devam etmek için ikisini de güncelleyin.",
+      "notesNeedUpdate": "Notları eşzamanlamak için {{device}} üzerindeki Wispr Bro'yu güncelleyin."
     },
     "pairing": {
       "showTitle": "{{device}} ile eşleştir",

@@ -18,8 +18,10 @@
 //! | Snippets   | folded trigger      | the same                                          |
 //! | Settings   | setting name        | newest change wins, per setting ([`settings`])    |
 //! | Stats      | device id + day     | each device's days are kept as that device's snapshot and replaced whole, so totals add up and never double |
+//! | Notes      | note sync id        | the version that contains the other wins; both edited: the newer stays, the other becomes a copy ([`notes`]) |
 //!
-//! History text and audio are never in a `.wisprbro` file. The Mac's
+//! History text and audio are never in a `.wisprbro` file (notes are: they
+//! are what the user writes to keep). The Mac's
 //! "Export my data" zip does contain them; [`legacy`] reads only its
 //! database snapshot and the two settings files.
 //!
@@ -37,6 +39,9 @@ pub mod legacy;
 pub mod merge;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 pub mod net;
+pub mod notes;
+#[cfg(test)]
+mod notes_tests;
 pub mod peers;
 pub mod secure;
 pub mod session;
@@ -72,6 +77,11 @@ pub struct Manifest {
     pub app_version: String,
     /// Unix ms.
     pub created_at: i64,
+    /// The sync protocol's minor version of the app that made it
+    /// ([`secure::MINOR`]); 0 for an app from before notes synced, whose
+    /// state carries no notes.
+    #[serde(default)]
+    pub minor: u32,
 }
 
 /// A setting's value and when it last changed (Unix ms).
@@ -140,6 +150,34 @@ pub struct AppDayStats {
     pub dictations: i64,
 }
 
+/// A Scratchpad note: its sync id, its synced fields and its version
+/// ([`notes`]).
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NoteItem {
+    pub id: String,
+    pub title: String,
+    pub body: String,
+    #[serde(default)]
+    pub pinned: bool,
+    pub created_at: i64,
+    pub updated_at: i64,
+    pub changed_at: i64,
+    pub changed_by: String,
+    #[serde(default)]
+    pub base_at: i64,
+}
+
+/// A deleted note: its id, when, and the version that was deleted.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NoteTombstone {
+    pub id: String,
+    pub deleted_at: i64,
+    pub changed_at: i64,
+    pub changed_by: String,
+    #[serde(default)]
+    pub base_at: i64,
+}
+
 /// Everything a file carries.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct Payload {
@@ -155,6 +193,12 @@ pub struct Payload {
     pub stats: Vec<DayStats>,
     #[serde(default)]
     pub app_stats: Vec<AppDayStats>,
+    /// Scratchpad notes (protocol minor 1). An older app ignores them.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<NoteItem>,
+    /// Deleted notes. Not in `tombstones`, whose kinds an older app checks.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub note_tombstones: Vec<NoteTombstone>,
 }
 
 /// What kind of file was read.

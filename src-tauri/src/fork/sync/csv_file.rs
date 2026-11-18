@@ -74,6 +74,7 @@ pub fn read(path: &Path, now_ms: i64) -> Result<Incoming, ReadProblem> {
             platform: String::new(),
             app_version: String::new(),
             created_at: now_ms,
+            minor: 0,
         },
         payload,
     })

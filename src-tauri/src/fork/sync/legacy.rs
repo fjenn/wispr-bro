@@ -122,6 +122,7 @@ pub fn read<R: Read + Seek>(archive: &mut zip::ZipArchive<R>) -> Result<Incoming
                 .unwrap_or_default()
                 .to_owned(),
             created_at,
+            minor: 0,
         },
         payload: Payload {
             settings,
@@ -130,6 +131,7 @@ pub fn read<R: Read + Seek>(archive: &mut zip::ZipArchive<R>) -> Result<Incoming
             tombstones: Vec::new(),
             stats,
             app_stats,
+            ..Payload::default()
         },
     })
 }
