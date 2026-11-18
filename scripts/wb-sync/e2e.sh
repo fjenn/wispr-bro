@@ -46,6 +46,8 @@ cmd=${1:?command}; shift
 
 sql() { sqlite3 -cmd ".timeout 5000" "$@"; }
 now_ms() { python3 -I -c 'import time; print(int(time.time()*1000))'; }
+# A value as an SQL string literal.
+q() { printf "'%s'" "$(printf '%s' "$1" | sed "s/'/''/g")"; }
 
 case "$cmd" in
 mac-setup)
@@ -189,22 +191,22 @@ PY
 note-new)
   db=${1:?db}; body=${2:?body}; t=$(now_ms)
   title=$(printf '%s' "$body" | head -1)
-  sql "$db" "INSERT INTO notes (title, body, created_at, updated_at) VALUES ('${title//\'/\'\'}', '${body//\'/\'\'}', $t, $t);
-             INSERT INTO notes_fts (rowid, title, body) VALUES (last_insert_rowid(), '${title//\'/\'\'}', '${body//\'/\'\'}');"
+  sql "$db" "INSERT INTO notes (title, body, created_at, updated_at) VALUES ($(q "$title"), $(q "$body"), $t, $t);
+             INSERT INTO notes_fts (rowid, title, body) VALUES (last_insert_rowid(), $(q "$title"), $(q "$body"));"
   ;;
 note-edit)
   db=${1:?db}; old=${2:?old body}; body=${3:?new body}; t=$(now_ms)
   title=$(printf '%s' "$body" | head -1)
-  sql "$db" "UPDATE notes SET title = '${title//\'/\'\'}', body = '${body//\'/\'\'}', updated_at = $t
-             WHERE body = '${old//\'/\'\'}' AND deleted_at IS NULL;
+  sql "$db" "UPDATE notes SET title = $(q "$title"), body = $(q "$body"), updated_at = $t
+             WHERE body = $(q "$old") AND deleted_at IS NULL;
              SELECT changes();" | grep -qx 1 || { echo "note-edit: no note '$old'" >&2; exit 1; }
   ;;
 note-pin)
-  sql "${1:?db}" "UPDATE notes SET pinned = ${3:?0|1} WHERE body = '${2//\'/\'\'}' AND deleted_at IS NULL;"
+  sql "${1:?db}" "UPDATE notes SET pinned = ${3:?0|1} WHERE body = $(q "$2") AND deleted_at IS NULL;"
   ;;
 note-del)
   db=${1:?db}; body=${2:?body}; t=$(now_ms)
-  sql "$db" "UPDATE notes SET deleted_at = $t WHERE body = '${body//\'/\'\'}' AND deleted_at IS NULL;"
+  sql "$db" "UPDATE notes SET deleted_at = $t WHERE body = $(q "$body") AND deleted_at IS NULL;"
   ;;
 notes)
   sql "${1:?db}" "SELECT sync_id, title, pinned, replace(body, char(10), '\\n') FROM notes
@@ -216,10 +218,10 @@ wait-note | wait-note-gone | wait-pin)
   start=$(date +%s)
   while :; do
     if [ "$cmd" = wait-pin ]; then
-      n=$(sql "$db" "SELECT COUNT(*) FROM notes WHERE deleted_at IS NULL AND body = '${body//\'/\'\'}' AND pinned = $pin;")
+      n=$(sql "$db" "SELECT COUNT(*) FROM notes WHERE deleted_at IS NULL AND body = $(q "$body") AND pinned = $pin;")
       want=1
     else
-      n=$(sql "$db" "SELECT COUNT(*) FROM notes WHERE deleted_at IS NULL AND body = '${body//\'/\'\'}';")
+      n=$(sql "$db" "SELECT COUNT(*) FROM notes WHERE deleted_at IS NULL AND body = $(q "$body");")
       want=$([ "$cmd" = wait-note ] && echo 1 || echo 0)
     fi
     if [ "$n" = "$want" ]; then echo "$cmd '$body': after $(($(date +%s) - start)) s"; exit 0; fi
