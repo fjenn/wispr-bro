@@ -127,3 +127,18 @@ export function deviceLine(
     text: ago ? `${away} ${t("sync.auto.lastSynced", { when: ago })}` : away,
   };
 }
+
+/**
+ * "Update Wispr Bro on your iPhone to sync notes": the paired device syncs
+ * everything else, but its app is from before notes synced. `null` when
+ * notes sync.
+ */
+export function notesLine(
+  t: TFunction<"fork">,
+  device: PairedDevice,
+  name: string,
+): string | null {
+  return device.notes_need_update
+    ? t("sync.auto.notesNeedUpdate", { device: name })
+    : null;
+}

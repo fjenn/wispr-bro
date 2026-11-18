@@ -37,6 +37,7 @@ import {
 } from "../ui";
 import { useForkSettings } from "../settings/useForkSettings";
 import { NoteTabs } from "./NoteTabs";
+import { mapCaret, TYPING_PAUSE_MS } from "./liveNote";
 
 const AUTOSAVE_MS = 500;
 /** Same list as `SCRATCHPAD_TEXT_SIZES` in `src-tauri/src/fork/settings.rs`. */
@@ -106,6 +107,9 @@ export function NoteWindow() {
   const savedBodyRef = useRef(savedBody);
   const selectedRef = useRef(selectedId);
   const saveSequence = useRef(0);
+  // Sync: the version the editor's text is from, and the last keystroke.
+  const baseRef = useRef<number | null>(null);
+  const lastKeyRef = useRef(0);
   const searchRef = useRef<HTMLInputElement>(null);
   bodyRef.current = body;
   savedBodyRef.current = savedBody;
@@ -139,6 +143,7 @@ export function NoteWindow() {
       const pending = await commands.forkScratchpadSave(
         previousId,
         bodyRef.current,
+        baseRef.current,
       );
       if (pending.status === "error") {
         setError(true);
@@ -152,6 +157,7 @@ export function NoteWindow() {
     }
     const note = result.data;
     saveSequence.current += 1;
+    baseRef.current = note.version;
     setSelectedId(id);
     setNotes((current) => [note, ...current.filter((item) => item.id !== id)]);
     setBody(note.body);
@@ -168,6 +174,53 @@ export function NoteWindow() {
     void loadNotes();
   }, [openNote, loadNotes]);
 
+  // Another device changed the open note (sync): take its text in place
+  // once the user pauses, keeping the caret with its words. Unsaved typing
+  // is saved first; a save over a changed note keeps the other text as a
+  // note of its own (`save_from`), so nothing is lost.
+  const retryRef = useRef<number | undefined>(undefined);
+  const refreshOpen = useCallback(async () => {
+    window.clearTimeout(retryRef.current);
+    const id = selectedRef.current;
+    if (!id) return;
+    const result = await commands.forkScratchpadGet(id);
+    if (result.status !== "ok" || !result.data) return;
+    const note = result.data;
+    if (selectedRef.current !== id || note.version === baseRef.current) return;
+    if (note.body === bodyRef.current) {
+      baseRef.current = note.version;
+      return;
+    }
+    const typing = Date.now() - lastKeyRef.current < TYPING_PAUSE_MS;
+    if (typing || bodyRef.current !== savedBodyRef.current) {
+      retryRef.current = window.setTimeout(
+        () => void refreshOpen(),
+        TYPING_PAUSE_MS,
+      );
+      return;
+    }
+    const editor = editorRef.current;
+    const focused = editor !== null && document.activeElement === editor;
+    const before = bodyRef.current;
+    const start = editor
+      ? mapCaret(before, note.body, editor.selectionStart)
+      : 0;
+    const end = editor ? mapCaret(before, note.body, editor.selectionEnd) : 0;
+    baseRef.current = note.version;
+    bodyRef.current = note.body;
+    savedBodyRef.current = note.body;
+    setBody(note.body);
+    setSavedBody(note.body);
+    setNotes((current) =>
+      current.map((item) => (item.id === id ? note : item)),
+    );
+    if (focused)
+      window.requestAnimationFrame(() =>
+        editorRef.current?.setSelectionRange(start, end),
+      );
+  }, []);
+  useEffect(() => () => window.clearTimeout(retryRef.current), []);
+
   useEffect(() => {
     let active = true;
     let offOpen: (() => void) | undefined;
@@ -179,7 +232,10 @@ export function NoteWindow() {
         else off();
       });
     void events.forkScratchpadChanged
-      .listen(() => void loadNotes(query))
+      .listen(() => {
+        void loadNotes(query);
+        void refreshOpen();
+      })
       .then((off) => {
         if (active) offChanged = off;
         else off();
@@ -189,18 +245,23 @@ export function NoteWindow() {
       offOpen?.();
       offChanged?.();
     };
-  }, [openNote, loadNotes, query]);
+  }, [openNote, loadNotes, refreshOpen, query]);
 
   const save = useCallback(async (value: string) => {
     const id = selectedRef.current;
     if (!id || value === savedBodyRef.current) return true;
     const sequence = ++saveSequence.current;
     setSaveState("saving");
-    const result = await commands.forkScratchpadSave(id, value);
+    const result = await commands.forkScratchpadSave(
+      id,
+      value,
+      baseRef.current,
+    );
     if (result.status === "error") {
       if (sequence === saveSequence.current) setSaveState("error");
       return false;
     }
+    if (selectedRef.current === id) baseRef.current = result.data.version;
     setSavedBody(value);
     savedBodyRef.current = value;
     setNotes((current) =>
@@ -570,7 +631,10 @@ export function NoteWindow() {
               dir="auto"
               aria-label={t("scratchpad.noteBody")}
               value={body}
-              onChange={(event) => setBody(event.currentTarget.value)}
+              onChange={(event) => {
+                lastKeyRef.current = Date.now();
+                setBody(event.currentTarget.value);
+              }}
               placeholder={t("scratchpad.notePlaceholder")}
               autoFocus
               spellCheck

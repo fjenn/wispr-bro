@@ -82,6 +82,9 @@ pub struct PairedDevice {
     /// Its app speaks another version of sync: one of the two needs an
     /// update before they sync again.
     pub needs_update: bool,
+    /// Its app syncs everything but Scratchpad notes (protocol minor 0):
+    /// "Update Wispr Bro on your … to sync notes".
+    pub notes_need_update: bool,
 }
 
 /// Where a pairing stands.
@@ -149,6 +152,8 @@ struct State {
     outdated: BTreeSet<String>,
     /// In-memory sync times (the file is written less often).
     synced: BTreeMap<String, i64>,
+    /// The protocol minor version each peer's last state said it speaks.
+    minor: HashMap<String, u32>,
 }
 
 /// The running engine.
@@ -264,6 +269,10 @@ impl Engine {
                 connected: state.sessions.contains_key(&p.device_id),
                 found: found_ids.iter().any(|id| p.device_id.starts_with(id)),
                 needs_update: state.outdated.contains(&p.device_id),
+                notes_need_update: state
+                    .minor
+                    .get(&p.device_id)
+                    .is_some_and(|m| *m < secure::MINOR),
             })
             .collect();
         let found = state
@@ -756,6 +765,13 @@ impl Host for Tracking<'_> {
     }
 
     fn merge(&self, manifest: super::Manifest, payload: super::Payload) -> bool {
+        let (peer, minor) = (manifest.device_id.clone(), manifest.minor);
+        if self.0.state().minor.insert(peer, minor) != Some(minor) {
+            if minor < secure::MINOR {
+                log::info!("sync: the other device's app does not sync notes yet");
+            }
+            self.0.app.changed();
+        }
         self.0.app.merge(manifest, payload)
     }
 

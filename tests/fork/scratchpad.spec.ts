@@ -23,6 +23,7 @@ const note = (id: number, body: string, updatedAt = id): Note => ({
   pinned: false,
   created_at: id,
   updated_at: updatedAt,
+  version: updatedAt,
 });
 
 class FakeNotes {
@@ -30,8 +31,9 @@ class FakeNotes {
     nextId = 3;
   }
   notes = [note(1, "alpha café", 10), note(2, "beta launch", 20)];
-  saves: { id: number; body: string }[] = [];
+  saves: { id: number; body: string; base?: number | null }[] = [];
   expanded = false;
+  bases: (number | null)[] = [];
 
   install(ipc: IpcMock, hub?: HubState) {
     const sorted = () =>
@@ -53,6 +55,7 @@ class FakeNotes {
       const id = Number(args.id);
       const body = String(args.body);
       this.saves.push({ id, body });
+      this.bases.push((args.base as number | null) ?? null);
       const current = this.notes.find((item) => item.id === id);
       if (!current) throw new Error("missing fake note");
       Object.assign(current, note(id, body, 30 + this.saves.length), {
@@ -484,4 +487,38 @@ test("Record starts and stops a take without taking focus from the note", async 
   await expect
     .poll(async () => (await ipc.calls("fork_scratchpad_record")).length)
     .toBe(3);
+});
+
+// Sync: another device changed the open note.
+test("a note another device changed updates in place, never under typing", async ({
+  page,
+  ipc,
+}) => {
+  const fake = new FakeNotes();
+  await openWindow(page, ipc, fake);
+  const editor = page.getByTestId("wb-note-body");
+  await expect(editor).toHaveValue("beta launch");
+  await editor.focus();
+  await editor.evaluate((el: HTMLTextAreaElement) =>
+    el.setSelectionRange(4, 4),
+  );
+  await ipc.waitForListener("fork-scratchpad-changed");
+  // Not typing: the new text comes in place, the caret stays with "beta".
+  Object.assign(fake.notes[1], note(2, "Intro: beta launch", 100));
+  await ipc.emit("fork-scratchpad-changed", { revision: 1 });
+  await expect(editor).toHaveValue("Intro: beta launch");
+  await expect
+    .poll(() => editor.evaluate((el: HTMLTextAreaElement) => el.selectionStart))
+    .toBe(11);
+  expect(fake.saves).toEqual([]);
+  // Typing: the field is left alone; the save says which version it was
+  // typed over (the store keeps the other text as a note of its own).
+  await page.keyboard.type("!");
+  Object.assign(fake.notes[1], note(2, "changed elsewhere", 200));
+  await ipc.emit("fork-scratchpad-changed", { revision: 2 });
+  await page.waitForTimeout(200);
+  await expect(editor).toHaveValue("Intro: beta! launch");
+  await expect.poll(() => fake.saves.length, { timeout: 2000 }).toBe(1);
+  expect(fake.bases).toEqual([100]);
+  await expect(editor).toHaveValue("Intro: beta! launch");
 });

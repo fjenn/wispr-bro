@@ -335,7 +335,7 @@
       "sync": {
         "title": "Synkning",
         "rowTitle": "Synka med en fil",
-        "hint": "Ordlista, textstycken, inställningar och statistik som en fil att skicka med AirDrop.",
+        "hint": "Ordlista, textstycken, anteckningar, inställningar och statistik som en fil att skicka med AirDrop.",
         "import": "Importera…",
         "export": "Exportera…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -344,7 +344,7 @@
         "last": "Senast sammanfogat från {{device}}: {{when}}. Historik och inspelningar ingår aldrig.",
         "never": "Inte synkat än. Historik och inspelningar ingår aldrig.",
         "autoTitle": "Synka med din iPhone",
-        "autoHint": "Håller ordlista, textstycken, inställningar och statistik likadana på båda medan båda apparna är öppna.",
+        "autoHint": "Håller ordlista, textstycken, anteckningar, inställningar och statistik likadana på båda medan båda apparna är öppna.",
         "direct": "Synkningen går direkt mellan dina enheter via ditt lokala nätverk. Ingen server. Historik och inspelningar synkas aldrig.",
         "howTo": "Öppna Wispr Bro på din iPhone, gå till Inställningar › Synka med din Mac och tryck på Hitta min Mac.",
         "denied": "macOS låter inte Wispr Bro hitta enheter på ditt lokala nätverk. Tillåt det i Systeminställningar › Integritet och säkerhet › Lokalt nätverk."
@@ -3031,7 +3031,7 @@
       }
     },
     "sync": {
-      "intro": "Parkoppla din Mac en gång. Sedan hålls din ordlista, dina textstycken, inställningar och statistik likadana på båda, av sig själva.",
+      "intro": "Parkoppla din Mac en gång. Därefter förblir ordlista, textstycken, anteckningar, inställningar och statistik likadana på båda av sig själva.",
       "fromMac": {
         "title": "Från din Mac",
         "step1": "Öppna Wispr Bro på din Mac, gå till Inställningar › Data och integritet och välj Exportera mina data.",
@@ -3087,7 +3087,8 @@
       "dictionary": "Ordlista",
       "snippets": "Textstycken",
       "settings": "Inställningar",
-      "stats": "Statistik"
+      "stats": "Statistik",
+      "notes": "Anteckningar"
     },
     "review": {
       "title": "Sammanfoga från {{device}}",
@@ -3154,7 +3155,8 @@
       "direct": "Synkningen går direkt mellan dina enheter via ditt lokala nätverk. Ingen server.",
       "denied": "Wispr Bro får inte hitta enheter på ditt lokala nätverk. Tillåt det i Inställningar och försök igen.",
       "openSettings": "Öppna Inställningar",
-      "needsUpdate": "Wispr Bro på din Mac och på din iPhone har olika versioner. Uppdatera båda för att fortsätta synka."
+      "needsUpdate": "Wispr Bro på din Mac och på din iPhone har olika versioner. Uppdatera båda för att fortsätta synka.",
+      "notesNeedUpdate": "Uppdatera Wispr Bro på din {{device}} för att synka anteckningar."
     },
     "pairing": {
       "showTitle": "Parkoppla med {{device}}",

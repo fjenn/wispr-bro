@@ -104,7 +104,9 @@ fn historical_chains() -> Vec<(&'static str, Vec<M>)> {
                 m(APP_RULES),
             ],
         ),
-        ("0061289c S-21", MIGRATIONS.to_vec()),
+        ("0061289c S-21", test_migrations(9)),
+        ("2084b2b1 1.0.0-alpha.9", test_migrations(10)),
+        ("note sync", MIGRATIONS.to_vec()),
     ]
 }
 
@@ -258,8 +260,15 @@ fn assert_repaired_with(path: &Path, label: &str, full: bool) {
             |r| r.get(0),
         )?;
         assert_eq!(kept, "kept", "{label}");
-        let note: String = conn.query_row("SELECT body FROM notes", [], |r| r.get(0))?;
+        let (note, sync_id): (String, String) =
+            conn.query_row("SELECT body, sync_id FROM notes", [], |r| {
+                Ok((r.get(0)?, r.get(1)?))
+            })?;
         assert_eq!(note, "note kept", "{label}");
+        assert!(
+            crate::fork::sync::notes::valid_id(&sync_id),
+            "{label}: {sync_id}"
+        );
         if full {
             exercise_every_table(conn)?;
         }
@@ -633,4 +642,81 @@ fn migrates_a_copy_of_a_real_database() {
     })
     .unwrap();
     eprintln!("migrated copy at {}", path.display());
+}
+
+/// 1.0.0-alpha.9 (v10) → note sync (v11): every note, deleted ones too,
+/// gets its own sync id and this device's version; nothing is tombstoned;
+/// notes written afterwards get ids from the trigger; a reopen keeps them.
+#[test]
+fn an_alpha9_database_gives_every_note_a_sync_id() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join(DB_FILE_NAME);
+    let old = ForkDb::with_migrations(&path, test_migrations(10));
+    let me: String = old
+        .with_conn(|c| {
+            c.execute_batch(
+                "INSERT INTO notes (title, body, created_at, updated_at) VALUES ('a', 'a', 1, 5);
+                 INSERT INTO notes (title, body, created_at, updated_at) VALUES ('b', 'b', 2, 6);
+                 INSERT INTO notes (title, body, created_at, updated_at, deleted_at)
+                 VALUES ('c', 'c', 3, 7, 8);",
+            )?;
+            Ok(c.query_row(
+                "SELECT device_id FROM sync_devices WHERE is_self = 1",
+                [],
+                |r| r.get(0),
+            )?)
+        })
+        .unwrap();
+    old.close();
+
+    let read = |db: &ForkDb| -> Vec<(String, i64, i64, String)> {
+        db.with_conn(|c| {
+            let mut stmt = c.prepare(
+                "SELECT sync_id, updated_at, changed_at, changed_by FROM notes ORDER BY id",
+            )?;
+            let rows = stmt
+                .query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?)))?
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(rows)
+        })
+        .unwrap()
+    };
+    let db = ForkDb::new(&path);
+    let rows = read(&db);
+    db.with_conn(|c| {
+        assert_eq!(user_version(c)?, 11);
+        let gone: i64 = c.query_row("SELECT COUNT(*) FROM sync_note_tombstones", [], |r| {
+            r.get(0)
+        })?;
+        assert_eq!(gone, 0);
+        Ok(())
+    })
+    .unwrap();
+    assert_eq!(rows.len(), 3);
+    let ids: std::collections::BTreeSet<_> = rows.iter().map(|r| r.0.clone()).collect();
+    assert_eq!(ids.len(), 3, "ids are distinct");
+    for (id, updated_at, changed_at, by) in &rows {
+        assert!(crate::fork::sync::notes::valid_id(id), "{id}");
+        assert_eq!(changed_at, updated_at);
+        assert_eq!(by, &me);
+    }
+    // A note written now gets an id of its own.
+    let fresh = db
+        .with_conn(|c| crate::fork::scratchpad::store::create(c, 9))
+        .unwrap();
+    let new_id: String = db
+        .with_conn(|c| {
+            Ok(
+                c.query_row("SELECT sync_id FROM notes WHERE id = ?1", [fresh.id], |r| {
+                    r.get(0)
+                })?,
+            )
+        })
+        .unwrap();
+    assert!(crate::fork::sync::notes::valid_id(&new_id));
+    assert!(!ids.contains(&new_id));
+    db.close();
+    // Reopening changes nothing.
+    let again = ForkDb::new(&path);
+    assert_eq!(read(&again)[..3], rows[..]);
 }

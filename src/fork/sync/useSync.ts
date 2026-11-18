@@ -41,6 +41,7 @@ export const ALL_PARTS: SyncChoices = {
   dictionary: true,
   snippets: true,
   stats: true,
+  notes: true,
 };
 
 /** Whether a report changes anything here. */
@@ -50,6 +51,7 @@ export function changesAnything(report: MergeReport): boolean {
   return (
     moved(report.dictionary) ||
     moved(report.snippets) ||
+    moved(report.notes) ||
     report.settings.length > 0 ||
     report.stats_changed
   );

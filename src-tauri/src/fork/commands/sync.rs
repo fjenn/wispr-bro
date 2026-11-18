@@ -273,6 +273,7 @@ pub enum SyncReview {
         has_dictionary: bool,
         has_snippets: bool,
         has_stats: bool,
+        has_notes: bool,
         report: MergeReport,
     },
     Problem {
@@ -293,6 +294,7 @@ fn review_of(incoming: &Incoming, report: MergeReport) -> SyncReview {
             || p.tombstones.iter().any(|t| t.kind != "snippet"),
         has_snippets: !p.snippets.is_empty() || p.tombstones.iter().any(|t| t.kind == "snippet"),
         has_stats: !p.stats.is_empty(),
+        has_notes: !p.notes.is_empty() || !p.note_tombstones.is_empty(),
         report,
     }
 }
@@ -333,6 +335,9 @@ fn after_merge<R: ForkRuntime>(app: &AppHandle<R>, outcome: &sync::merge::Outcom
     }
     if touched(&report.snippets) {
         snippets::notify_changed(app);
+    }
+    if touched(&report.notes) {
+        crate::fork::scratchpad::changed(app);
     }
     if report.stats_changed {
         let day = crate::fork::stats::local_day(crate::fork::context::now_ms());
@@ -398,13 +403,16 @@ pub async fn fork_sync_apply<R: ForkRuntime>(
         let report = &outcome.report;
         forget_file(&path);
         log::info!(
-            "sync: merged a file (dictionary +{} ~{} -{}, snippets +{} ~{} -{}, {} settings, {} stats days)",
+            "sync: merged a file (dictionary +{} ~{} -{}, snippets +{} ~{} -{}, notes +{} ~{} -{}, {} settings, {} stats days)",
             report.dictionary.added,
             report.dictionary.changed,
             report.dictionary.removed,
             report.snippets.added,
             report.snippets.changed,
             report.snippets.removed,
+            report.notes.added,
+            report.notes.changed,
+            report.notes.removed,
             report.settings.len(),
             report.stats_days
         );

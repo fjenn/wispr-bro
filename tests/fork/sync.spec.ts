@@ -28,6 +28,7 @@ function report(over: Partial<MergeReport> = {}): MergeReport {
   return {
     dictionary: { added: 12, changed: 2, removed: 1, skipped: 0 },
     snippets: { added: 3, changed: 0, removed: 0, skipped: 0 },
+    notes: { added: 0, changed: 0, removed: 0, skipped: 0 },
     settings: ["spoken_languages", "typing_wpm", "styles"],
     stats_days: 41,
     stats_words: 12_840,
@@ -48,6 +49,7 @@ function ready(over: Partial<Extract<SyncReview, { status: "ready" }>> = {}) {
     has_dictionary: true,
     has_snippets: true,
     has_stats: true,
+    has_notes: false,
     report: report(),
     ...over,
   } as SyncReview;
@@ -147,7 +149,13 @@ test("the iPhone merges a file from the Mac after a review", async ({
   await expect(review).toContainText("Its history and recordings are not");
   await ipc.expectCalled("fork_sync_review", {
     path: PICKED,
-    choices: { settings: true, dictionary: true, snippets: true, stats: true },
+    choices: {
+      settings: true,
+      dictionary: true,
+      snippets: true,
+      stats: true,
+      notes: true,
+    },
   });
 
   // Leave the settings as they are on this phone.
@@ -155,7 +163,13 @@ test("the iPhone merges a file from the Mac after a review", async ({
   await page.getByTestId("wb-sync-merge").click();
   await ipc.expectCalled("fork_sync_apply", {
     path: PICKED,
-    choices: { settings: false, dictionary: true, snippets: true, stats: true },
+    choices: {
+      settings: false,
+      dictionary: true,
+      snippets: true,
+      stats: true,
+      notes: true,
+    },
   });
   await expect(page.getByTestId("wb-sync-result")).toContainText(
     "Both are in step now.",
@@ -241,6 +255,44 @@ test("a file with nothing new and a file that is not ours say so", async ({
   );
   await page.getByTestId("wb-sync-done").click();
   await expect(page.getByTestId("wb-sync-review")).toBeHidden();
+});
+
+test("a sync file's notes are a part of the review, with their own switch", async ({
+  page,
+  ipc,
+  hub,
+  ios,
+}) => {
+  const withNotes = ready({
+    source: "bundle",
+    device_name: "Studio",
+    has_notes: true,
+    report: report({
+      notes: { added: 2, changed: 1, removed: 0, skipped: 0 },
+    }),
+  });
+  await openIos(page, ipc, hub, ios, {
+    hash: "#/hub/settings/sync",
+    beforeNavigate: () => installSync(ipc, withNotes),
+  });
+  await page.getByTestId("wb-ios-sync-file").click();
+  ipc.respond("plugin:dialog|open", PICKED);
+  await page.getByTestId("wb-ios-sync-import").click();
+  const row = page.getByTestId("wb-sync-part-notes");
+  await expect(row).toContainText("Notes");
+  await expect(row).toContainText("2 new, 1 changed");
+  await page.getByTestId("wb-sync-switch-notes").click();
+  await page.getByTestId("wb-sync-merge").click();
+  await ipc.expectCalled("fork_sync_apply", {
+    path: PICKED,
+    choices: {
+      settings: true,
+      dictionary: true,
+      snippets: true,
+      stats: true,
+      notes: false,
+    },
+  });
 });
 
 test("Send to Mac makes the file, with CSVs when asked", async ({

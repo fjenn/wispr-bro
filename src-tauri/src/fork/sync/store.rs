@@ -198,6 +198,13 @@ pub fn collect(
     now_ms: i64,
 ) -> Result<(Manifest, Payload), DbError> {
     let (stats, app_stats) = stats(conn)?;
+    // This device's own name, for the title of a note conflict copy.
+    conn.execute(
+        "UPDATE sync_devices SET name = ?1, platform = ?2
+         WHERE is_self = 1 AND (name <> ?1 OR platform <> ?2)",
+        params![device_name, platform()],
+    )?;
+    let (notes, note_tombstones) = super::notes::collect(conn)?;
     let manifest = Manifest {
         format: FORMAT.to_owned(),
         version: FORMAT_VERSION,
@@ -206,6 +213,7 @@ pub fn collect(
         platform: platform().to_owned(),
         app_version: app_version.to_owned(),
         created_at: now_ms,
+        minor: super::secure::MINOR,
     };
     let payload = Payload {
         settings: super::settings::chosen(conn)?,
@@ -214,6 +222,8 @@ pub fn collect(
         tombstones: tombstones(conn)?,
         stats,
         app_stats,
+        notes,
+        note_tombstones,
     };
     Ok((manifest, payload))
 }

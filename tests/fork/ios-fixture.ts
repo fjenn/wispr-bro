@@ -63,6 +63,7 @@ export function note(id: number, body: string, over: Partial<Note> = {}): Note {
     pinned: false,
     created_at: Date.now() - id * 3_600_000,
     updated_at: Date.now() - id * 3_600_000,
+    version: Date.now() - id * 3_600_000,
     ...over,
   };
 }
@@ -182,6 +183,7 @@ export function installIosBackend(ipc: IpcMock, ios: IosState): void {
       pinned: ios.notes[at].pinned,
       created_at: ios.notes[at].created_at,
       updated_at: Date.now(),
+      version: Date.now(),
     };
     return ios.notes[at];
   });

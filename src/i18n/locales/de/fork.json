@@ -335,7 +335,7 @@
       "sync": {
         "title": "Synchronisierung",
         "rowTitle": "Mit einer Datei synchronisieren",
-        "hint": "Wörterbuch, Textbausteine, Einstellungen und Statistik als eine Datei für AirDrop.",
+        "hint": "Wörterbuch, Textbausteine, Notizen, Einstellungen und Statistik als eine Datei für AirDrop.",
         "import": "Importieren …",
         "export": "Exportieren …",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -344,7 +344,7 @@
         "last": "Zuletzt zusammengeführt von {{device}}: {{when}}. Verlauf und Aufnahmen sind nie enthalten.",
         "never": "Noch nicht synchronisiert. Verlauf und Aufnahmen sind nie enthalten.",
         "autoTitle": "Mit deinem iPhone synchronisieren",
-        "autoHint": "Hält Wörterbuch, Textbausteine, Einstellungen und Statistik auf beiden gleich, solange beide Apps geöffnet sind.",
+        "autoHint": "Hält Wörterbuch, Textbausteine, Notizen, Einstellungen und Statistik auf beiden Geräten gleich, solange beide Apps offen sind.",
         "direct": "Die Synchronisierung läuft direkt zwischen deinen Geräten über dein lokales Netzwerk. Kein Server. Verlauf und Aufnahmen werden nie synchronisiert.",
         "howTo": "Öffne Wispr Bro auf deinem iPhone, gehe zu Einstellungen › Mit deinem Mac synchronisieren und tippe auf „Meinen Mac suchen“.",
         "denied": "macOS lässt Wispr Bro keine Geräte in deinem lokalen Netzwerk finden. Erlaube es in Systemeinstellungen › Datenschutz & Sicherheit › Lokales Netzwerk."
@@ -3031,7 +3031,7 @@
       }
     },
     "sync": {
-      "intro": "Kopple deinen Mac einmal. Danach bleiben Wörterbuch, Textbausteine, Einstellungen und Statistik auf beiden von selbst gleich.",
+      "intro": "Verbinde deinen Mac einmal. Danach bleiben Wörterbuch, Textbausteine, Notizen, Einstellungen und Statistik auf beiden Geräten von selbst gleich.",
       "fromMac": {
         "title": "Von deinem Mac",
         "step1": "Öffne Wispr Bro auf deinem Mac, gehe zu Einstellungen › Daten und Datenschutz und wähle „Meine Daten exportieren“.",
@@ -3087,7 +3087,8 @@
       "dictionary": "Wörterbuch",
       "snippets": "Textbausteine",
       "settings": "Einstellungen",
-      "stats": "Statistik"
+      "stats": "Statistik",
+      "notes": "Notizen"
     },
     "review": {
       "title": "Von {{device}} zusammenführen",
@@ -3154,7 +3155,8 @@
       "direct": "Die Synchronisierung läuft direkt zwischen deinen Geräten über dein lokales Netzwerk. Kein Server.",
       "denied": "Wispr Bro darf keine Geräte in deinem lokalen Netzwerk finden. Erlaube es in den Einstellungen und versuch es dann erneut.",
       "openSettings": "Einstellungen öffnen",
-      "needsUpdate": "Wispr Bro hat auf deinem Mac und deinem iPhone unterschiedliche Versionen. Aktualisiere beide, um weiter zu synchronisieren."
+      "needsUpdate": "Wispr Bro hat auf deinem Mac und deinem iPhone unterschiedliche Versionen. Aktualisiere beide, um weiter zu synchronisieren.",
+      "notesNeedUpdate": "Aktualisiere Wispr Bro auf deinem {{device}}, damit Notizen synchronisiert werden."
     },
     "pairing": {
       "showTitle": "Mit {{device}} koppeln",

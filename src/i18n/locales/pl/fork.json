@@ -337,7 +337,7 @@
       "sync": {
         "title": "Synchronizacja",
         "rowTitle": "Synchronizacja przez plik",
-        "hint": "Słownik, fragmenty tekstu, ustawienia i statystyki w jednym pliku do przesłania przez AirDrop.",
+        "hint": "Słownik, fragmenty tekstu, notatki, ustawienia i statystyki w jednym pliku do AirDrop.",
         "import": "Importuj…",
         "export": "Eksportuj…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -346,7 +346,7 @@
         "last": "Ostatnie scalenie z urządzenia {{device}}: {{when}}. Historia i nagrania nigdy nie są uwzględniane.",
         "never": "Jeszcze nie zsynchronizowano. Historia i nagrania nigdy nie są uwzględniane.",
         "autoTitle": "Synchronizuj z iPhone’em",
-        "autoHint": "Utrzymuje słownik, fragmenty tekstu, ustawienia i statystyki takie same na obu urządzeniach, gdy obie aplikacje są otwarte.",
+        "autoHint": "Utrzymuje słownik, fragmenty tekstu, notatki, ustawienia i statystyki takie same na obu urządzeniach, gdy obie aplikacje są otwarte.",
         "direct": "Synchronizacja odbywa się bezpośrednio między Twoimi urządzeniami w sieci lokalnej. Bez serwera. Historia i nagrania nigdy nie są synchronizowane.",
         "howTo": "Na iPhonie otwórz Wispr Bro, przejdź do Ustawienia › Synchronizacja z Makiem i stuknij Znajdź mojego Maca.",
         "denied": "macOS nie pozwala Wispr Bro wyszukiwać urządzeń w sieci lokalnej. Zezwól na to w Ustawieniach systemowych › Prywatność i ochrona › Sieć lokalna."
@@ -3231,7 +3231,7 @@
       }
     },
     "sync": {
-      "intro": "Sparuj Maca raz. Od tej pory słownik, fragmenty tekstu, ustawienia i statystyki same pozostają takie same na obu urządzeniach.",
+      "intro": "Sparuj Maca raz. Potem słownik, fragmenty tekstu, notatki, ustawienia i statystyki same pozostają takie same na obu urządzeniach.",
       "fromMac": {
         "title": "Z Maca",
         "step1": "Na Macu otwórz Wispr Bro, przejdź do Ustawienia › Dane i prywatność i wybierz Eksportuj moje dane.",
@@ -3289,7 +3289,8 @@
       "dictionary": "Słownik",
       "snippets": "Fragmenty tekstu",
       "settings": "Ustawienia",
-      "stats": "Statystyki"
+      "stats": "Statystyki",
+      "notes": "Notatki"
     },
     "review": {
       "title": "Scal z urządzenia {{device}}",
@@ -3364,7 +3365,8 @@
       "direct": "Synchronizacja odbywa się bezpośrednio między Twoimi urządzeniami w sieci lokalnej. Bez serwera.",
       "denied": "Wispr Bro nie ma pozwolenia na wyszukiwanie urządzeń w sieci lokalnej. Zezwól na to w Ustawieniach i spróbuj ponownie.",
       "openSettings": "Otwórz Ustawienia",
-      "needsUpdate": "Wispr Bro na Macu i na iPhonie to różne wersje. Uaktualnij oba, by dalej synchronizować."
+      "needsUpdate": "Wispr Bro na Macu i na iPhonie to różne wersje. Uaktualnij oba, by dalej synchronizować.",
+      "notesNeedUpdate": "Zaktualizuj Wispr Bro na urządzeniu {{device}}, aby synchronizować notatki."
     },
     "pairing": {
       "showTitle": "Parowanie z urządzeniem {{device}}",

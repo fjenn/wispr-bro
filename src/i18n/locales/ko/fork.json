@@ -334,7 +334,7 @@
       "sync": {
         "title": "동기화",
         "rowTitle": "파일로 동기화",
-        "hint": "사전, 스니펫, 설정, 통계를 하나의 파일로 만들어 AirDrop합니다.",
+        "hint": "사전, 스니펫, 메모, 설정, 통계를 AirDrop용 파일 하나로 만듭니다.",
         "import": "가져오기…",
         "export": "내보내기…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -343,7 +343,7 @@
         "last": "{{device}}에서 마지막으로 병합: {{when}}. 기록과 녹음은 포함되지 않습니다.",
         "never": "아직 동기화되지 않았습니다. 기록과 녹음은 포함되지 않습니다.",
         "autoTitle": "iPhone과 동기화",
-        "autoHint": "두 앱이 모두 열려 있는 동안 사전, 스니펫, 설정, 통계를 두 기기에서 똑같이 유지합니다.",
+        "autoHint": "두 앱이 모두 열려 있는 동안 사전, 스니펫, 메모, 설정, 통계를 양쪽에서 똑같이 유지합니다.",
         "direct": "동기화는 로컬 네트워크를 통해 기기 간에 직접 이루어지며 서버를 거치지 않습니다. 기록과 녹음은 절대 동기화되지 않습니다.",
         "howTo": "iPhone에서 Wispr Bro를 열고 설정 › Mac과 동기화로 이동한 다음 내 Mac 찾기를 탭하세요.",
         "denied": "macOS가 Wispr Bro의 로컬 네트워크 기기 검색을 허용하지 않고 있습니다. 시스템 설정 › 개인정보 보호 및 보안 › 로컬 네트워크에서 허용하세요."
@@ -2931,7 +2931,7 @@
       }
     },
     "sync": {
-      "intro": "Mac과 한 번만 페어링하세요. 그러면 사전, 스니펫, 설정, 통계가 두 기기에서 자동으로 똑같이 유지됩니다.",
+      "intro": "Mac을 한 번 페어링하세요. 그 후에는 사전, 스니펫, 메모, 설정, 통계가 양쪽에서 저절로 똑같이 유지됩니다.",
       "fromMac": {
         "title": "Mac에서",
         "step1": "Mac에서 Wispr Bro를 열고 설정 › 데이터 및 개인정보 보호로 이동한 다음 내 데이터 내보내기를 선택합니다.",
@@ -2986,7 +2986,8 @@
       "dictionary": "사전",
       "snippets": "스니펫",
       "settings": "설정",
-      "stats": "통계"
+      "stats": "통계",
+      "notes": "메모"
     },
     "review": {
       "title": "{{device}}에서 병합",
@@ -3049,7 +3050,8 @@
       "direct": "동기화는 로컬 네트워크를 통해 기기 간에 직접 이루어지며 서버를 거치지 않습니다.",
       "denied": "Wispr Bro에 로컬 네트워크의 기기를 찾을 권한이 없습니다. 설정에서 허용한 다음 다시 시도하세요.",
       "openSettings": "설정 열기",
-      "needsUpdate": "Mac과 iPhone의 Wispr Bro 버전이 다릅니다. 계속 동기화하려면 둘 다 업데이트하세요."
+      "needsUpdate": "Mac과 iPhone의 Wispr Bro 버전이 다릅니다. 계속 동기화하려면 둘 다 업데이트하세요.",
+      "notesNeedUpdate": "메모를 동기화하려면 {{device}}의 Wispr Bro를 업데이트하세요."
     },
     "pairing": {
       "showTitle": "{{device}}와(과) 페어링",

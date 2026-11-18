@@ -22,6 +22,7 @@ const note = (id: number, body: string, at: number, pinned = false): Note => ({
   pinned,
   created_at: at,
   updated_at: at,
+  version: at,
 });
 
 const NOTES = [

@@ -1156,9 +1156,9 @@ async forkScratchpadGet(id: number) : Promise<Result<Note | null, ForkError>> {
     else return { status: "error", error: e  as any };
 }
 },
-async forkScratchpadSave(id: number, body: string) : Promise<Result<Note, ForkError>> {
+async forkScratchpadSave(id: number, body: string, base: number | null) : Promise<Result<Note, ForkError>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_save", { id, body }) };
+    return { status: "ok", data: await TAURI_INVOKE("fork_scratchpad_save", { id, body, base }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -3102,6 +3102,10 @@ export type MachineSummary = { chip: Chip; ram_gb: number; free_disk_gb: number 
  */
 export type MergeReport = { dictionary: SyncCounts; snippets: SyncCounts; 
 /**
+ * Scratchpad notes; a conflict copy counts as added.
+ */
+notes: SyncCounts; 
+/**
  * The settings whose value changes here.
  */
 settings: string[]; 
@@ -3121,7 +3125,12 @@ export type MicEntryKind =
  * "Auto-detect (system setting)".
  */
 "auto" | "device"
-export type Note = { id: number; title: string; body: string; pinned: boolean; created_at: number; updated_at: number }
+export type Note = { id: number; title: string; body: string; pinned: boolean; created_at: number; updated_at: number; 
+/**
+ * When its title, body or pin last changed, here or on another device
+ * (sync). An editor passes it back to [`save_from`].
+ */
+version: number }
 export type NotePolish = { outcome: NotePolishOutcome; text: string | null }
 /**
  * What Polish did to a note (rc9: every outcome is shown in the note).
@@ -3317,7 +3326,12 @@ found: boolean;
  * Its app speaks another version of sync: one of the two needs an
  * update before they sync again.
  */
-needs_update: boolean }
+needs_update: boolean; 
+/**
+ * Its app syncs everything but Scratchpad notes (protocol minor 0):
+ * "Update Wispr Bro on your … to sync notes".
+ */
+notes_need_update: boolean }
 export type PeakCard = { 
 /**
  * Local hour of day, 0-23 (the hour from `hour:00` to `hour+1:00`).
@@ -4132,7 +4146,7 @@ recent: boolean }
 /**
  * Which parts of a file to take.
  */
-export type SyncChoices = { settings: boolean; dictionary: boolean; snippets: boolean; stats: boolean }
+export type SyncChoices = { settings: boolean; dictionary: boolean; snippets: boolean; stats: boolean; notes: boolean }
 /**
  * What happened to one list.
  */
@@ -4193,7 +4207,7 @@ export type SyncPairing =
 /**
  * A file, read, and what merging it does.
  */
-export type SyncReview = { status: "ready"; source: SourceKind; device_name: string; platform: string; app_version: string; created_at: number; has_settings: boolean; has_dictionary: boolean; has_snippets: boolean; has_stats: boolean; report: MergeReport } | { status: "problem"; problem: ReadProblem }
+export type SyncReview = { status: "ready"; source: SourceKind; device_name: string; platform: string; app_version: string; created_at: number; has_settings: boolean; has_dictionary: boolean; has_snippets: boolean; has_stats: boolean; has_notes: boolean; report: MergeReport } | { status: "problem"; problem: ReadProblem }
 /**
  * Which side of the pair this device is.
  */

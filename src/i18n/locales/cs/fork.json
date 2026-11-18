@@ -337,7 +337,7 @@
       "sync": {
         "title": "Synchronizace",
         "rowTitle": "Synchronizace souborem",
-        "hint": "Slovník, úryvky, nastavení a statistiky v jednom souboru k poslání přes AirDrop.",
+        "hint": "Slovník, úryvky, poznámky, nastavení a statistiky jako jeden soubor pro AirDrop.",
         "import": "Importovat…",
         "export": "Exportovat…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -346,7 +346,7 @@
         "last": "Naposledy sloučeno ze zařízení {{device}}: {{when}}. Historie a nahrávky nejsou nikdy zahrnuty.",
         "never": "Zatím nesynchronizováno. Historie a nahrávky nejsou nikdy zahrnuty.",
         "autoTitle": "Synchronizace s iPhonem",
-        "autoHint": "Slovník, úryvky, nastavení a statistiky zůstávají na obou zařízeních stejné, dokud jsou obě aplikace otevřené.",
+        "autoHint": "Udržuje slovník, úryvky, poznámky, nastavení a statistiky stejné na obou zařízeních, dokud jsou obě aplikace otevřené.",
         "direct": "Synchronizace probíhá přímo mezi zařízeními přes místní síť. Bez serveru. Historie a nahrávky se nikdy nesynchronizují.",
         "howTo": "Na iPhonu otevřete Wispr Bro, přejděte do Nastavení › Synchronizace s Macem a klepněte na Najít můj Mac.",
         "denied": "macOS nedovoluje Wispr Bro hledat zařízení v místní síti. Povolte to v Nastavení systému › Soukromí a zabezpečení › Místní síť."
@@ -3231,7 +3231,7 @@
       }
     },
     "sync": {
-      "intro": "Jednou spárujte svůj Mac. Potom zůstanou slovník, úryvky, nastavení a statistiky na obou zařízeních samy stejné.",
+      "intro": "Spárujte svůj Mac jednou. Pak zůstanou slovník, úryvky, poznámky, nastavení a statistiky na obou zařízeních stejné samy od sebe.",
       "fromMac": {
         "title": "Z Macu",
         "step1": "Na Macu otevřete Wispr Bro, přejděte do Nastavení › Data a soukromí a zvolte Exportovat moje data.",
@@ -3289,7 +3289,8 @@
       "dictionary": "Slovník",
       "snippets": "Úryvky",
       "settings": "Nastavení",
-      "stats": "Statistiky"
+      "stats": "Statistiky",
+      "notes": "Poznámky"
     },
     "review": {
       "title": "Sloučit ze zařízení {{device}}",
@@ -3364,7 +3365,8 @@
       "direct": "Synchronizace probíhá přímo mezi zařízeními přes místní síť. Bez serveru.",
       "denied": "Wispr Bro nemá povoleno hledat zařízení v místní síti. Povolte to v Nastavení a zkuste to znovu.",
       "openSettings": "Otevřít Nastavení",
-      "needsUpdate": "Wispr Bro na Macu a na iPhonu má různé verze. Aktualizujte obě, aby synchronizace pokračovala."
+      "needsUpdate": "Wispr Bro na Macu a na iPhonu má různé verze. Aktualizujte obě, aby synchronizace pokračovala.",
+      "notesNeedUpdate": "Aktualizujte Wispr Bro na svém zařízení {{device}}, aby se synchronizovaly poznámky."
     },
     "pairing": {
       "showTitle": "Spárovat se zařízením {{device}}",

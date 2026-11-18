@@ -44,6 +44,7 @@ pub fn fork_scratchpad_save<R: ForkRuntime>(
     app: AppHandle<R>,
     id: i64,
     body: String,
+    base: Option<i64>,
 ) -> Result<store::Note, ForkError> {
     if !store::valid_body(&body) {
         return Err(ForkError::InvalidSetting(format!(
@@ -52,7 +53,7 @@ pub fn fork_scratchpad_save<R: ForkRuntime>(
         )));
     }
     let note = db(&app)?
-        .with_conn(|conn| store::save(conn, id, &body, crate::fork::context::now_ms()))
+        .with_conn(|conn| store::save_from(conn, id, &body, crate::fork::context::now_ms(), base))
         .map_err(internal)?
         .ok_or_else(|| ForkError::InvalidSetting("note not found or deleted".into()))?;
     crate::fork::scratchpad::changed(&app);

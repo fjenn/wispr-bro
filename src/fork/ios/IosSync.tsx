@@ -31,7 +31,12 @@ import { navigate } from "../hub/nav";
 import { FORK_NAMESPACE } from "../i18n";
 import { PairingDialog, UnpairDialog } from "../sync/PairingDialog";
 import { deviceLabel, SyncReviewDialog } from "../sync/SyncReviewDialog";
-import { deviceLine, useAutoSync, type AutoSync } from "../sync/useAutoSync";
+import {
+  deviceLine,
+  notesLine,
+  useAutoSync,
+  type AutoSync,
+} from "../sync/useAutoSync";
 import { formatWhen, useSync, type Sync } from "../sync/useSync";
 import { Button, toast } from "../ui";
 import {
@@ -215,6 +220,7 @@ function PairedMac({ auto }: { auto: AutoSync }) {
     <>
       {status.devices.map((device) => {
         const line = deviceLine(t, device, i18n.language, "phone");
+        const notes = notesLine(t, device, deviceLabel(t, device, "row"));
         return (
           <IosGroup
             key={device.device_id}
@@ -250,6 +256,14 @@ function PairedMac({ auto }: { auto: AutoSync }) {
                   />
                   {line.text}
                 </span>
+                {notes && (
+                  <span
+                    data-testid="wb-ios-sync-notes-update"
+                    className="text-[13px] leading-[18px] text-(--wb-ink-2)"
+                  >
+                    {notes}
+                  </span>
+                )}
               </span>
             </div>
             <button

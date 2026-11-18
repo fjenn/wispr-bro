@@ -45,6 +45,11 @@ use spake2::{Ed25519Group, Identity as SpakeIdentity, Password, Spake2};
 
 /// Protocol version; a peer with another one is refused.
 pub const VERSION: u32 = 1;
+/// Protocol minor version: what a state may carry beyond version 1's, told
+/// in each state's manifest ([`super::Manifest::minor`]). A peer with an
+/// older minor syncs as before and skips what it cannot read (serde
+/// ignores unknown fields). 1: Scratchpad notes.
+pub const MINOR: u32 = 1;
 /// The pair's long-term key.
 pub type PairKey = [u8; 32];
 

@@ -334,7 +334,7 @@
       "sync": {
         "title": "Đồng bộ hóa",
         "rowTitle": "Đồng bộ hóa bằng tệp",
-        "hint": "Từ điển, đoạn văn bản, cài đặt và thống kê trong một tệp để gửi bằng AirDrop.",
+        "hint": "Từ điển, đoạn văn bản, ghi chú, cài đặt và thống kê trong một tệp để gửi qua AirDrop.",
         "import": "Nhập…",
         "export": "Xuất…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -343,7 +343,7 @@
         "last": "Lần hợp nhất gần nhất từ {{device}}: {{when}}. Lịch sử và bản ghi âm không bao giờ được bao gồm.",
         "never": "Chưa đồng bộ hóa. Lịch sử và bản ghi âm không bao giờ được bao gồm.",
         "autoTitle": "Đồng bộ hóa với iPhone",
-        "autoHint": "Giữ từ điển, đoạn văn bản, cài đặt và thống kê giống nhau trên cả hai thiết bị khi cả hai ứng dụng đang mở.",
+        "autoHint": "Giữ từ điển, đoạn văn bản, ghi chú, cài đặt và thống kê giống nhau trên cả hai khi cả hai ứng dụng đang mở.",
         "direct": "Đồng bộ hóa diễn ra trực tiếp giữa các thiết bị qua mạng cục bộ. Không có máy chủ. Lịch sử và bản ghi âm không bao giờ được đồng bộ hóa.",
         "howTo": "Trên iPhone, mở Wispr Bro, đi tới Cài đặt › Đồng bộ hóa với Mac và chạm vào Tìm Mac của tôi.",
         "denied": "macOS không cho phép Wispr Bro tìm thiết bị trên mạng cục bộ. Hãy cho phép trong Cài đặt hệ thống › Quyền riêng tư & Bảo mật › Mạng cục bộ."
@@ -2931,7 +2931,7 @@
       }
     },
     "sync": {
-      "intro": "Ghép đôi Mac một lần. Sau đó, từ điển, đoạn văn bản, cài đặt và thống kê của bạn tự động giống nhau trên cả hai thiết bị.",
+      "intro": "Ghép đôi Mac của bạn một lần. Sau đó từ điển, đoạn văn bản, ghi chú, cài đặt và thống kê tự giữ giống nhau trên cả hai.",
       "fromMac": {
         "title": "Từ Mac của bạn",
         "step1": "Trên Mac, mở Wispr Bro, đi tới Cài đặt › Dữ liệu và Quyền riêng tư và chọn Xuất dữ liệu của tôi.",
@@ -2986,7 +2986,8 @@
       "dictionary": "Từ điển",
       "snippets": "Đoạn văn bản",
       "settings": "Cài đặt",
-      "stats": "Thống kê"
+      "stats": "Thống kê",
+      "notes": "Ghi chú"
     },
     "review": {
       "title": "Hợp nhất từ {{device}}",
@@ -3049,7 +3050,8 @@
       "direct": "Đồng bộ hóa diễn ra trực tiếp giữa các thiết bị qua mạng cục bộ. Không có máy chủ.",
       "denied": "Wispr Bro không được phép tìm thiết bị trên mạng cục bộ. Hãy cho phép trong Cài đặt, rồi thử lại.",
       "openSettings": "Mở Cài đặt",
-      "needsUpdate": "Wispr Bro trên Mac và trên iPhone là hai phiên bản khác nhau. Hãy cập nhật cả hai để tiếp tục đồng bộ hóa."
+      "needsUpdate": "Wispr Bro trên Mac và trên iPhone là hai phiên bản khác nhau. Hãy cập nhật cả hai để tiếp tục đồng bộ hóa.",
+      "notesNeedUpdate": "Hãy cập nhật Wispr Bro trên {{device}} của bạn để đồng bộ ghi chú."
     },
     "pairing": {
       "showTitle": "Ghép đôi với {{device}}",

@@ -336,7 +336,7 @@
       "sync": {
         "title": "Sincronização",
         "rowTitle": "Sincronizar com um arquivo",
-        "hint": "Dicionário, trechos, ajustes e estatísticas em um único arquivo para enviar por AirDrop.",
+        "hint": "Dicionário, trechos, notas, ajustes e estatísticas em um único arquivo para AirDrop.",
         "import": "Importar…",
         "export": "Exportar…",
         "fileName": "Wispr Bro ({{device}}).wisprbro",
@@ -345,7 +345,7 @@
         "last": "Última mesclagem com {{device}}: {{when}}. O histórico e as gravações nunca são incluídos.",
         "never": "Ainda não sincronizado. O histórico e as gravações nunca são incluídos.",
         "autoTitle": "Sincronizar com seu iPhone",
-        "autoHint": "Mantém dicionário, trechos, ajustes e estatísticas iguais nos dois enquanto os dois apps estão abertos.",
+        "autoHint": "Mantém dicionário, trechos, notas, ajustes e estatísticas iguais nos dois enquanto os dois apps estiverem abertos.",
         "direct": "A sincronização acontece diretamente entre seus dispositivos pela rede local. Sem servidor. O histórico e as gravações nunca são sincronizados.",
         "howTo": "No iPhone, abra o Wispr Bro, vá em Ajustes › Sincronizar com seu Mac e toque em Encontrar meu Mac.",
         "denied": "O macOS não está deixando o Wispr Bro encontrar dispositivos na rede local. Permita em Ajustes do Sistema › Privacidade e Segurança › Rede Local."
@@ -3131,7 +3131,7 @@
       }
     },
     "sync": {
-      "intro": "Emparelhe seu Mac uma vez. Depois disso, seu dicionário, trechos, ajustes e estatísticas ficam iguais nos dois, automaticamente.",
+      "intro": "Emparelhe seu Mac uma vez. Depois disso, seu dicionário, trechos, notas, ajustes e estatísticas ficam iguais nos dois, sozinhos.",
       "fromMac": {
         "title": "Do seu Mac",
         "step1": "No Mac, abra o Wispr Bro, vá em Ajustes › Dados e privacidade e escolha Exportar meus dados.",
@@ -3188,7 +3188,8 @@
       "dictionary": "Dicionário",
       "snippets": "Trechos",
       "settings": "Ajustes",
-      "stats": "Estatísticas"
+      "stats": "Estatísticas",
+      "notes": "Notas"
     },
     "review": {
       "title": "Mesclar com {{device}}",
@@ -3259,7 +3260,8 @@
       "direct": "A sincronização acontece diretamente entre seus dispositivos pela rede local. Sem servidor.",
       "denied": "O Wispr Bro não tem permissão para encontrar dispositivos na rede local. Permita em Ajustes e tente novamente.",
       "openSettings": "Abrir Ajustes",
-      "needsUpdate": "O Wispr Bro do seu Mac e o do seu iPhone estão em versões diferentes. Atualize os dois para continuar sincronizando."
+      "needsUpdate": "O Wispr Bro do seu Mac e o do seu iPhone estão em versões diferentes. Atualize os dois para continuar sincronizando.",
+      "notesNeedUpdate": "Atualize o Wispr Bro no seu {{device}} para sincronizar as notas."
     },
     "pairing": {
       "showTitle": "Emparelhar com {{device}}",

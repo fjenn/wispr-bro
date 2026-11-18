@@ -104,6 +104,8 @@ static MIGRATIONS: std::sync::LazyLock<Vec<M>> = std::sync::LazyLock::new(|| {
         M::up(include_str!("migrations/0009_transforms.sql")),
         // Sync: devices, their stats snapshots, tombstones, setting times.
         M::up(include_str!("migrations/0010_sync.sql")),
+        // Sync: Scratchpad notes get a sync id, a version and tombstones.
+        M::up(include_str!("migrations/0011_note_sync.sql")),
     ]
 });
 
