@@ -1,0 +1,11 @@
+:root{--bg:#fbf9f6;--fg:#1d1b19;--muted:#6b655e;--line:#e7e1d9;--accent:#3b5bdb}
+@media (prefers-color-scheme:dark){:root{--bg:#141312;--fg:#efebe6;--muted:#a39c94;--line:#2b2826;--accent:#8ea2ff}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 Figtree,system-ui,-apple-system,sans-serif}
+main{max-width:680px;margin:0 auto;padding:48px 20px 80px}
+h1{font-family:"EB Garamond",Georgia,serif;font-weight:500;font-size:40px;line-height:1.15;margin:0 0 8px}
+h2{font-size:19px;margin:32px 0 6px}
+p,li{color:var(--fg)} .muted{color:var(--muted);font-size:15px}
+a{color:var(--accent)} nav{display:flex;gap:18px;font-size:15px;margin-bottom:40px}
+nav a{text-decoration:none;color:var(--muted)} nav a.brand{color:var(--fg);font-weight:600;margin-right:auto}
+footer{border-top:1px solid var(--line);margin-top:48px;padding-top:16px}
