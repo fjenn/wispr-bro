@@ -315,6 +315,44 @@ test.describe("history", () => {
     await expectNoSeriousAxeFindings(page);
   });
 
+  test("clicking a row copies it; controls and selections do not", async ({
+    page,
+    ipc,
+    hub,
+  }) => {
+    await recordClipboard(page);
+    const h = new FakeHistory();
+    h.add(
+      row({
+        created_at: local("2026-10-31T09:00:00+01:00"),
+        text: "Lunch at noon.",
+        copy_text: "Lunch at noon, see you.",
+      }),
+    );
+    await open(page, ipc, hub, h);
+    const r = rowById(page, 1);
+    await r.getByTestId("wb-history-text").click();
+    await expect.poll(() => copied(page)).toEqual(["Lunch at noon, see you."]);
+    await expect(r.getByTestId("wb-history-copy")).toHaveAccessibleName(
+      "Copied",
+    );
+    // The time column is part of the card too.
+    await r.click({ position: { x: 20, y: 20 } });
+    await expect.poll(() => copied(page)).toHaveLength(2);
+
+    // The ⋮ menu is a control: no copy.
+    await r.getByTestId("wb-history-more").click();
+    await page.keyboard.press("Escape");
+    // Selecting words by dragging is not a click-to-copy.
+    const box = (await r.getByTestId("wb-history-text").boundingBox())!;
+    await page.mouse.move(box.x + 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 60, box.y + box.height / 2, { steps: 5 });
+    await page.mouse.up();
+    await page.waitForTimeout(300);
+    expect(await copied(page)).toHaveLength(2);
+  });
+
   test("copy uses the shown variant; Undo and Redo AI edit never paste", async ({
     page,
     ipc,

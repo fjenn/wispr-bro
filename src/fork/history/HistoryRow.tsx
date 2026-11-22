@@ -4,6 +4,10 @@
  * lines with "Show more"), tags for file and practice takes, and the
  * actions play, copy, flag and ⋮.
  *
+ * A click on the row itself (not on a button, link, the player or a text
+ * selection) copies the shown text, like the Copy button (desktop only;
+ * iPhone keeps taps for scrolling and the buttons).
+ *
  * The actions show on hover and whenever focus is inside the row
  * (`focus-within`), so a keyboard user tabbing in sees them; they are
  * always in the tab order. Play opens Handy's `AudioPlayer` under the row
@@ -26,6 +30,7 @@ import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import type { ActiveJobStatus } from "@/stores/transcriptionJobsStore";
 import type { CleanupLevel, HistoryRow as Row } from "../bindings";
 import { FORK_NAMESPACE } from "../i18n";
+import { isIos } from "../ios/platform";
 import { timeLabel } from "./dates";
 import { ACTION_BUTTON, RowMenu, audioReason } from "./RowMenu";
 import { WaitingRow } from "./WaitingRow";
@@ -111,6 +116,26 @@ export function HistoryRow({
     }
   };
 
+  const rowCopy = !isIos() && hasText && !busy;
+
+  /** A click on the row's card copies it, unless it landed on a control,
+   * in a portalled menu, or ended a text selection. */
+  const onRowClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!rowCopy || e.button !== 0) return;
+    const target = e.target as Element | null;
+    if (!target || !e.currentTarget.contains(target)) return;
+    if (
+      target.closest(
+        "button, a, input, select, textarea, audio, [role=menu], [role=menuitem], [role=slider], [data-no-row-copy]",
+      )
+    )
+      return;
+    const selection = window.getSelection();
+    if (selection && !selection.isCollapsed && selection.toString().trim())
+      return;
+    void copy();
+  };
+
   let body: React.ReactNode;
   if (job) {
     body =
@@ -140,7 +165,8 @@ export function HistoryRow({
       data-variant={row.variant}
       role="group"
       aria-label={t("history.rowLabel", { time })}
-      className="group relative flex min-h-(--wb-row-h) gap-4 px-4 py-3.5 transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) focus-within:bg-(--wb-surface-tint)"
+      onClick={onRowClick}
+      className={`group relative flex min-h-(--wb-row-h) gap-4 px-4 py-3.5 transition-colors duration-(--wb-dur-fast) hover:bg-(--wb-surface-tint) focus-within:bg-(--wb-surface-tint) ${rowCopy ? "cursor-pointer" : ""}`}
     >
       <div className="w-[76px] shrink-0 text-[13px] leading-[22px] text-(--wb-ink-3) tabular-nums">
         {time}
@@ -202,7 +228,7 @@ export function HistoryRow({
             busy
               ? "text-(--wb-ink-2) motion-safe:animate-pulse"
               : hasText
-                ? "cursor-text text-(--wb-ink) select-text"
+                ? `${rowCopy ? "cursor-pointer" : "cursor-text"} text-(--wb-ink) select-text`
                 : "text-(--wb-ink-3) italic"
           }`}
           style={
@@ -230,11 +256,13 @@ export function HistoryRow({
           </button>
         )}
         {audioSrc && (
-          <AudioPlayer
-            src={audioSrc}
-            autoPlay
-            className="mt-1 w-full max-w-md"
-          />
+          <div data-no-row-copy>
+            <AudioPlayer
+              src={audioSrc}
+              autoPlay
+              className="mt-1 w-full max-w-md"
+            />
+          </div>
         )}
       </div>
       <div
