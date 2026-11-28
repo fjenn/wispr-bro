@@ -19,6 +19,7 @@ import {
   actionIds,
   canAddBinding,
   defaultHotkeys,
+  handsFreeActivation,
   MAX_BINDINGS,
   maxBindings,
   nextBindingActivation,
@@ -146,11 +147,23 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
       <div className="flex flex-col gap-3">
         {more.map((id) => {
           const definition = actionDefinition(id);
-          const bindings = settings.hotkeys[id] ?? [];
-          const activations: HotkeyActivation[] =
-            id === "hands_free"
-              ? ["double_tap", "press"]
-              : [definition.activation];
+          const handsFree = id === "hands_free";
+          // Hands-free: the keys decide the activation (issue #4), so it is
+          // shown, not chosen.
+          const bindings = (settings.hotkeys[id] ?? []).map((binding) =>
+            handsFree
+              ? {
+                  ...binding,
+                  activation: handsFreeActivation(
+                    binding.chord,
+                    binding.activation,
+                  ),
+                }
+              : binding,
+          );
+          const activations: HotkeyActivation[] = [definition.activation];
+          const activationOf = (chord: string, current: HotkeyActivation) =>
+            handsFree ? handsFreeActivation(chord, current) : current;
           const adding =
             capture?.action === id && capture.index === bindings.length;
           const name = actionName(id);
@@ -193,7 +206,10 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                       actionId={id}
                       binding={binding}
                       index={index}
-                      activations={activations}
+                      activations={
+                        handsFree ? [binding.activation] : activations
+                      }
+                      showActivation={handsFree}
                       status={status}
                       actionName={actionName}
                       capturing={
@@ -205,7 +221,15 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                         setCapture(null);
                         if (!chord) return;
                         const next = bindings.map((current, candidate) =>
-                          candidate === index ? { ...current, chord } : current,
+                          candidate === index
+                            ? {
+                                chord,
+                                activation: activationOf(
+                                  chord,
+                                  current.activation,
+                                ),
+                              }
+                            : current,
                         );
                         void save(id, next);
                       }}
@@ -248,7 +272,10 @@ export function HotkeysPanel({ onDone }: { onDone: () => void }) {
                           ...bindings,
                           {
                             chord,
-                            activation: nextBindingActivation(id, bindings),
+                            activation: activationOf(
+                              chord,
+                              nextBindingActivation(id, bindings),
+                            ),
                           },
                         ]);
                       }}

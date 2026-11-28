@@ -100,6 +100,21 @@ export function defaultHotkeys(): Record<string, HotkeyBinding[]> {
   ]);
 }
 
+/**
+ * The activation a hands-free binding runs on (issue #4; the same rule as
+ * `hands_free_activation` in `src-tauri/src/fork/settings.rs`). The engine
+ * knows a press only on key+Space, so a press of anything else is the
+ * double-tap; a press of the dictation key alone is not offered (holding it
+ * is push to talk). Everything else stays as it is.
+ */
+export function handsFreeActivation(
+  chord: string,
+  current: HotkeyActivation,
+): HotkeyActivation {
+  const spaced = chord.toLowerCase().replace(/\s+/g, "").endsWith("+space");
+  return current === "press" && !spaced ? "double_tap" : current;
+}
+
 export function nextBindingActivation(
   actionId: string,
   bindings: HotkeyBinding[],

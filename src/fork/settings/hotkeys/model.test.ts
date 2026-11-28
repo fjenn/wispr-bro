@@ -6,6 +6,7 @@ import {
   canAddBinding,
   chordLabel,
   defaultHotkeys,
+  handsFreeActivation,
   HOTKEY_ACTIONS,
   MAX_BINDINGS,
   maxBindings,
@@ -109,3 +110,13 @@ assert.equal(
   ),
   "paste_last",
 );
+
+// Issue #4: "Press" is not offered for the dictation key on its own; a
+// stored one shows (and saves) as the double-tap. Nothing else changes.
+assert.equal(handsFreeActivation("fn", "press"), "double_tap");
+assert.equal(handsFreeActivation("fn", "double_tap"), "double_tap");
+assert.equal(handsFreeActivation("fn+space", "press"), "press");
+assert.equal(handsFreeActivation("Ctrl+Option+Space", "press"), "press");
+assert.equal(handsFreeActivation("ctrl+option", "press"), "double_tap");
+// ⌥Space as the dictation key: its double-tap stays a double-tap.
+assert.equal(handsFreeActivation("option+space", "double_tap"), "double_tap");

@@ -1346,3 +1346,71 @@ fn a_stored_light_cleanup_and_learning_off_are_kept() {
     assert_eq!(s.cleanup_level, CleanupLevel::Medium);
     assert!(s.auto_learn_enabled);
 }
+
+// --- hands-free activation (issue #4) ----------------------------------------
+
+#[test]
+fn a_press_on_the_trigger_alone_is_saved_as_its_double_tap() {
+    use HotkeyActivation::*;
+    let mut settings = ForkSettings::default();
+    apply_update(
+        &mut settings,
+        ForkSettingUpdate::Hotkey {
+            action: hotkey_actions::HANDS_FREE.into(),
+            bindings: vec![
+                HotkeyBinding::new("fn", Press),
+                HotkeyBinding::new("fn+space", Press),
+            ],
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        settings.hotkeys[hotkey_actions::HANDS_FREE],
+        vec![
+            HotkeyBinding::new("fn", DoubleTap),
+            HotkeyBinding::new("fn+space", Press),
+        ]
+    );
+}
+
+#[test]
+fn a_stored_press_on_the_trigger_alone_loads_as_its_double_tap() {
+    use HotkeyActivation::*;
+    let mut stored = ForkSettings::default();
+    stored.hotkeys.insert(
+        hotkey_actions::HANDS_FREE.into(),
+        vec![
+            HotkeyBinding::new("fn", Press),
+            HotkeyBinding::new("fn+space", Press),
+        ],
+    );
+    let (loaded, status) = decode_stored(Some(&serde_json::to_value(&stored).unwrap()));
+    assert_eq!(status, LoadStatus::Loaded);
+    assert_eq!(
+        loaded.hotkeys[hotkey_actions::HANDS_FREE],
+        vec![
+            HotkeyBinding::new("fn", DoubleTap),
+            HotkeyBinding::new("fn+space", Press),
+        ]
+    );
+}
+
+#[test]
+fn hands_free_bindings_that_already_work_are_left_alone() {
+    use HotkeyActivation::*;
+    // ⌥Space as the dictation key: its double-tap ends in +space.
+    let mut keyed = vec![HotkeyBinding::new("option+space", DoubleTap)];
+    fit_hands_free(&mut keyed);
+    assert_eq!(keyed, vec![HotkeyBinding::new("option+space", DoubleTap)]);
+    // A press that turns into a copy of the double-tap is dropped.
+    let mut twice = vec![
+        HotkeyBinding::new("fn", DoubleTap),
+        HotkeyBinding::new("fn", Press),
+    ];
+    fit_hands_free(&mut twice);
+    assert_eq!(twice, vec![HotkeyBinding::new("fn", DoubleTap)]);
+    let defaults = default_hotkeys();
+    let mut fitted = defaults[hotkey_actions::HANDS_FREE].clone();
+    fit_hands_free(&mut fitted);
+    assert_eq!(fitted, defaults[hotkey_actions::HANDS_FREE]);
+}

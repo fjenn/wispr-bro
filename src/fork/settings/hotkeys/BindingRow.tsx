@@ -26,6 +26,8 @@ interface BindingRowProps {
   captureBusy: boolean;
   status: HotkeyStatus | null;
   activations: HotkeyActivation[];
+  /** Name the one activation in front of the keys (hands-free, issue #4). */
+  showActivation?: boolean;
   /**
    * The shown name of an action id (custom transforms by their name); by
    * default the translated built-in name.
@@ -45,6 +47,7 @@ export function BindingRow({
   captureBusy,
   status,
   activations,
+  showActivation,
   actionName,
   onCapture,
   onCaptured,
@@ -87,6 +90,14 @@ export function BindingRow({
             testId={`wb-hotkey-${actionId}-${index}-activation`}
             className="shrink-0 text-(--wb-ink-2)"
           />
+        )}
+        {showActivation && activations.length === 1 && binding.chord && (
+          <span
+            className="shrink-0 ps-1.5 pe-1 text-[13px] text-(--wb-ink-2)"
+            data-testid={`wb-hotkey-${actionId}-${index}-activation`}
+          >
+            {t(`settingsModal.hotkeys.activations.${activations[0]}`)}
+          </span>
         )}
         <kbd
           className={`flex min-w-0 flex-1 items-center px-1.5 font-(family-name:--wb-font-ui) text-[14px] ${binding.chord && !capturing ? "" : "text-(--wb-ink-2)"}`}
