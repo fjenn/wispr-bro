@@ -132,6 +132,40 @@ pub mod hotkey_actions {
     pub const UNDO_CANCEL: &str = "undo_cancel";
 }
 
+/// The activation a hands-free binding runs on. The shortcut engine
+/// (`compile` in `shortcut/bindings.rs`) knows a press only on
+/// `<trigger>+space`; Settings also offered "Press" for the trigger alone,
+/// which the engine dropped (issue #4). That one becomes the double-tap;
+/// anything else stays as stored (⌥Space as the dictation key is a
+/// double-tap that ends in `+space`).
+pub fn hands_free_activation(chord: &str, current: HotkeyActivation) -> HotkeyActivation {
+    let chord: String = chord
+        .chars()
+        .filter(|c| !c.is_whitespace())
+        .collect::<String>()
+        .to_lowercase();
+    if current == HotkeyActivation::Press && !chord.ends_with("+space") {
+        HotkeyActivation::DoubleTap
+    } else {
+        current
+    }
+}
+
+/// Gives every hands-free binding the activation it runs on, and
+/// drops a binding that this turns into a copy of an earlier one.
+pub fn fit_hands_free(bindings: &mut Vec<HotkeyBinding>) {
+    for b in bindings.iter_mut() {
+        b.activation = hands_free_activation(&b.chord, b.activation);
+    }
+    let mut kept: Vec<HotkeyBinding> = Vec::with_capacity(bindings.len());
+    for b in bindings.drain(..) {
+        if !kept.contains(&b) {
+            kept.push(b);
+        }
+    }
+    *bindings = kept;
+}
+
 /// Default bindings (DEC-09): hold fn to talk; double-tap fn or fn+Space for
 /// hands-free; Esc cancels; ⌃⌘V pastes the last take and ⌃⌘C copies it
 /// (S-06). Press Enter and Undo are unset (no entry = unset for them).
@@ -690,7 +724,13 @@ pub fn apply_update(settings: &mut ForkSettings, update: ForkSettingUpdate) -> R
     validate(&update)?;
     use ForkSettingUpdate as U;
     match update {
-        U::Hotkey { action, bindings } => {
+        U::Hotkey {
+            action,
+            mut bindings,
+        } => {
+            if action == hotkey_actions::HANDS_FREE {
+                fit_hands_free(&mut bindings);
+            }
             settings.hotkeys.insert(action, bindings);
         }
         U::CleanupLevel(v) => settings.cleanup_level = v,
@@ -735,6 +775,10 @@ fn sanitize(settings: &mut ForkSettings) -> Vec<String> {
     let defaults = ForkSettings::default();
     let mut reset = Vec::new();
     let mut bad_actions = Vec::new();
+    // A stored "Press" on the trigger alone (issue #4) becomes its double-tap.
+    if let Some(bindings) = settings.hotkeys.get_mut(hotkey_actions::HANDS_FREE) {
+        fit_hands_free(bindings);
+    }
     for (action, bindings) in &settings.hotkeys {
         if validate_bindings(action, bindings).is_err() {
             bad_actions.push(action.clone());
