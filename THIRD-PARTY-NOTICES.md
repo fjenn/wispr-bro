@@ -635,7 +635,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## C/C++ compiled into Rust crates
 
-### handy 1.0.0-alpha.10
+### handy 1.0.0-alpha.11
 
 `cc` in the app's own build script: Wispr Bro's Objective-C/C sources (sync over the local network through Network.framework; on iPhone also the scene life cycle, share sheet and Swift stand-ins)
 
@@ -1287,7 +1287,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 | global-hotkey | 0.8.0 | Apache-2.0 OR MIT | https://github.com/tauri-apps/global-hotkey |
 | h2 | 0.4.13 | MIT | https://github.com/hyperium/h2 |
 | half | 2.7.1 | MIT OR Apache-2.0 | https://github.com/VoidStarKat/half-rs |
-| handy | 1.0.0-alpha.10 | MIT |  |
+| handy | 1.0.0-alpha.11 | MIT |  |
 | handy-cpal | 0.18.2 | Apache-2.0 | https://github.com/handy-computer/cpal |
 | handy-keys | 0.3.4 | MIT | https://github.com/handy-computer/handy-keys |
 | handy-recorder | 0.1.0 | MIT | https://github.com/handy-computer/handy-recorder |
@@ -6284,7 +6284,7 @@ SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: handy 1.0.0-alpha.10
+Used by: handy 1.0.0-alpha.11
 
 `````text
 # Notice: code ported from OpenWhispr
@@ -6321,7 +6321,7 @@ SOFTWARE.```
 
 #### MIT License (MIT)
 
-Used by: handy 1.0.0-alpha.10
+Used by: handy 1.0.0-alpha.11
 
 ```text
 MIT License
@@ -6349,7 +6349,7 @@ SOFTWARE.
 
 #### MIT License (MIT)
 
-Used by: handy 1.0.0-alpha.10, handy-keys 0.3.4, handy-recorder 0.1.0
+Used by: handy 1.0.0-alpha.11, handy-keys 0.3.4, handy-recorder 0.1.0
 
 ```text
 MIT License
